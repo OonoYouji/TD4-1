@@ -45,7 +45,7 @@
                 }
             ],
             "guid": "1d9ec6292e550cf2c7b90213b3e7002b",
-            "id": 1,
+            "id": 4,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -94,7 +94,7 @@
                 }
             ],
             "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "id": 2,
+            "id": 5,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -151,12 +151,341 @@
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "radius": 1.0,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 3,
+            "id": 6,
             "name": "Player",
             "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "4b2170a76e7d0236367c96751813e016",
+            "id": 11,
+            "name": "Background",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/plane.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "aa7af0136ac79da640be7510c63c00f0",
+            "id": 10,
+            "name": "Field",
+            "parent": 11,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 27.062217712402344
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 14.0,
+                        "y": 4.0,
+                        "z": 2.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "size": {
+                        "x": 28.0,
+                        "y": 8.0,
+                        "z": 4.0
+                    },
+                    "state": "Static",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
+            "id": 9,
+            "name": "Wall",
+            "parent": 11,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.795562744140625,
+                        "y": 0.0,
+                        "z": -21.717073440551758
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 14.0,
+                        "y": 4.0,
+                        "z": 2.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "size": {
+                        "x": 28.0,
+                        "y": 8.0,
+                        "z": 4.0
+                    },
+                    "state": "Static",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
+            "id": 8,
+            "name": "Wall_1",
+            "parent": 11,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 32.127498626708984,
+                        "y": -7.4569275057001505e-06,
+                        "z": -0.026893138885498047
+                    },
+                    "rotate": {
+                        "w": 0.7160019278526306,
+                        "x": 0.0,
+                        "y": 0.6980983018875122,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 14.000031471252441,
+                        "y": 4.000014781951904,
+                        "z": 2.0000054836273193
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "size": {
+                        "x": 28.0,
+                        "y": 8.0,
+                        "z": 4.0
+                    },
+                    "state": "Static",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "b7478db776da961a761d0059a62fc4a8",
+            "id": 7,
+            "name": "Wall_2",
+            "parent": 11,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -32.60081100463867,
+                        "y": 0.0,
+                        "z": 0.14931297302246094
+                    },
+                    "rotate": {
+                        "w": 0.7095591425895691,
+                        "x": 0.0,
+                        "y": -0.7046458721160889,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 14.000025749206543,
+                        "y": 4.000010967254639,
+                        "z": 2.000000238418579
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "size": {
+                        "x": 28.0,
+                        "y": 8.0,
+                        "z": 4.0
+                    },
+                    "state": "Static",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "2d208766f2b718939769f6857bb262a3",
+            "id": 1,
+            "name": "Wall_3",
+            "parent": 11,
             "prefabName": ""
         }
     ]
