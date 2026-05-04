@@ -22,6 +22,7 @@
 #include "Engine/Editor/Math/ImGuiMath.h"
 #include "Engine/Editor/Math/ImGuiSelection.h"
 #include "Engine/Editor/Commands/ImGuiCommand/FocusEntityCommand.h"
+#include "Engine/Editor/Math/AssetPayload.h"
 
 namespace Editor {
 
@@ -59,8 +60,8 @@ void HierarchyWindow::PrefabDragAndDrop() {
 	if(ImGui::BeginDragDropTarget()) {
 		if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
 			if(payload->Data) {
-				const char* droppedPath = static_cast<const char*>(payload->Data);
-				std::string path = std::string(droppedPath);
+				Editor::AssetPayload* assetPayload = *static_cast<Editor::AssetPayload**>(payload->Data);
+				const std::string path = assetPayload->filePath;
 
 				if(path.find(".prefab") != std::string::npos) {
 					// filesystemを使って安全かつシンプルにファイル名を抽出
