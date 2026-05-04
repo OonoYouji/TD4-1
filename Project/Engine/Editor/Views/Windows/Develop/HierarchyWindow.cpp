@@ -254,7 +254,18 @@ void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 	bool nodeOpen = ImGui::TreeNodeEx((void*)entity, flags, "");
 
 	HandleEntityDragDrop(entity);
-	DrawEntityContextMenu(entity, isSelected);
+
+	// コンテキストメニューで削除されたかどうかをチェック
+	if(DrawEntityContextMenu(entity, isSelected)) {
+		// 削除された場合はImGuiのスタックを戻して、即座に関数を抜ける
+		ImGui::PopID();
+
+		// ★修正箇所：子を持たない（Leaf）の場合は TreePop を呼んではいけない
+		if(hasChildren && nodeOpen) {
+			ImGui::TreePop();
+		}
+		return;
+	}
 
 	// 行がホバーされているときの処理
 	if(ImGui::IsItemHovered()) {
@@ -379,7 +390,9 @@ void HierarchyWindow::HandleEntityDragDrop(ONEngine::GameEntity* entity) {
 ///
 /// エンティティの右クリックメニューの処理
 ///
-void HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected) {
+bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected) {
+	bool isDeleted = false;
+
 	if(ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
 		ImGui::OpenPopup("EntityContextMenu");
 	}
@@ -408,9 +421,12 @@ void HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 			if(selected) {
 				ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
 			}
+			isDeleted = true;
 		}
 		ImGui::EndPopup();
 	}
+
+	return isDeleted;
 }
 
 ///
