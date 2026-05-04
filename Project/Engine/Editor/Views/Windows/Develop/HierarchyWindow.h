@@ -84,7 +84,7 @@ protected:
 
 	void HandleEntityDragDrop(ONEngine::GameEntity* entity);
 
-	void DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected);
+	bool DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected);
 
 	void HandleEntityShortcuts(ONEngine::GameEntity* entity, bool selected);
 

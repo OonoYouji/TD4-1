@@ -17,9 +17,6 @@ void BoxColliderDebug(BoxCollider* _boxCollider);
 
 }	/// namespace ComponentDebug
 
-void from_json(const nlohmann::json& _j, BoxCollider& _b);
-void to_json(nlohmann::json& _j, const BoxCollider& _b);
-
 /// //////////////////////////////////////
 /// BoxCollider
 /// //////////////////////////////////////
