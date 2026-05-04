@@ -3,25 +3,35 @@
         "enable": 1,
         "matrixCalcFlags": 7,
         "position": {
-            "x": -10.932351112365723,
+            "x": 0.0,
             "y": 0.0,
-            "z": 95.63760375976563
+            "z": 0.0
         },
         "rotate": {
-            "w": 0.82115638256073,
+            "w": 1.0,
             "x": 0.0,
-            "y": 0.5707032084465027,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 5.0,
+            "y": 5.0,
+            "z": 5.0
         },
         "type": "Transform"
     },
     {
         "type": "Variables"
+    },
+    {
+        "enable": 1,
+        "scripts": [
+            {
+                "enable": true,
+                "name": "BulletMuzzle"
+            }
+        ],
+        "type": "Script"
     },
     {
         "enable": 1,
@@ -37,17 +47,7 @@
             "normalTextureGuid": "00000000000000000000000000000000",
             "postEffectFlags": 1
         },
-        "meshPath": "./Assets/Models/objects/PuzzleClearEffect/CannonStand.obj",
+        "meshPath": "./Assets/Models/Entity/player.obj",
         "type": "MeshRenderer"
-    },
-    {
-        "enable": 1,
-        "scripts": [
-            {
-                "enable": true,
-                "name": "Player"
-            }
-        ],
-        "type": "Script"
     }
 ]

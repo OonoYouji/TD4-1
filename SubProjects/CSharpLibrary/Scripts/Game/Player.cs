@@ -12,6 +12,9 @@ public class Player : MonoScript
     // 目標方向にリニアで回転する速さ
     [SerializeField] public float rotationSpeed = 8.0f;
 
+    // 腕の長さ
+    [SerializeField] public float armLength = 2.0f;
+
 
     // =========================================================
     // 内部状態

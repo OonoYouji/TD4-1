@@ -23,9 +23,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -290.0124206542969,
+                        "x": 46.48198699951172,
                         "y": 38.0,
-                        "z": 203.97549438476563
+                        "z": 75.60931396484375
                     },
                     "rotate": {
                         "w": 0.7713119983673096,
@@ -115,14 +115,14 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -290.00811767578125,
+                        "x": 46.48198699951172,
                         "y": 0.0,
-                        "z": 203.95416259765625
+                        "z": 75.60931396484375
                     },
                     "rotate": {
-                        "w": 0.9058563709259033,
+                        "w": 0.8702788352966309,
                         "x": 0.0,
-                        "y": -0.4235849678516388,
+                        "y": -0.49255937337875366,
                         "z": 0.0
                     },
                     "scale": {
@@ -167,6 +167,246 @@
             "id": 3,
             "name": "Player",
             "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -1.167205810546875,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 25.510629653930664,
+                        "y": 2.0,
+                        "z": 2.0000035762786865
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "PlayerArm"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Assets/Models/objects/PlayerLeftHand/PlayerLeftHand.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "579981716c2ed68722d2f19edfd5a6d9",
+            "id": 4,
+            "name": "PlayerLeftArm",
+            "parent": 3,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": -24.0,
+                        "y": 2.0,
+                        "z": 2.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "PlayerArm"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "d6dd606f1455423aa2fca05e7d833049",
+            "id": 5,
+            "name": "PlayerRightArm",
+            "parent": 3,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -12.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BulletMuzzle"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Assets/Models/Entity/player.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "2ea23374f0f7bababe842574acacad6f",
+            "id": 6,
+            "name": "PlayerLeftBulletMuzzle",
+            "parent": 3,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 12.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.000000476837158,
+                        "z": 5.000000476837158
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BulletMuzzle"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Assets/Models/Entity/player.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "c7b59103f369698bf6c815a21483876b",
+            "id": 7,
+            "name": "PlayerRightBulletMuzzle",
+            "parent": 3,
             "prefabName": ""
         }
     ]
