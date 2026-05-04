@@ -16,12 +16,12 @@ using namespace ONEngine;
 
 
 namespace std {
-	template <>
-	struct hash<std::pair<int, int>> {
-		std::size_t operator()(const std::pair<int, int>& p) const {
-			return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
-		}
-	};
+template <>
+struct hash<std::pair<int, int>> {
+	std::size_t operator()(const std::pair<int, int>& p) const {
+		return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
+	}
+};
 }
 
 
@@ -37,7 +37,7 @@ CollisionSystem::CollisionSystem() {
 			_pair.second->GetComponent<SphereCollider>(),
 			_info
 		);
-		};
+	};
 
 	collisionCheckMap_[sphereCompName + "Vs" + boxCompName] = [](const CollisionPair& _pair, CollisionInfo* _info) -> bool {
 		return CheckMethod::CollisionCheckSphereVsBox(
@@ -45,7 +45,7 @@ CollisionSystem::CollisionSystem() {
 			_pair.second->GetComponent<BoxCollider>(),
 			_info
 		);
-		};
+	};
 
 	collisionCheckMap_[boxCompName + "Vs" + sphereCompName] = [](const CollisionPair& _pair, CollisionInfo* _info) -> bool {
 		return CheckMethod::CollisionCheckBoxVsSphere(
@@ -53,7 +53,7 @@ CollisionSystem::CollisionSystem() {
 			_pair.second->GetComponent<SphereCollider>(),
 			_info
 		);
-		};
+	};
 
 	collisionCheckMap_[boxCompName + "Vs" + boxCompName] = [](const CollisionPair& _pair, CollisionInfo* _info) -> bool {
 		return CheckMethod::CollisionCheckBoxVsBox(
@@ -61,7 +61,7 @@ CollisionSystem::CollisionSystem() {
 			_pair.second->GetComponent<BoxCollider>(),
 			_info
 		);
-		};
+	};
 
 }
 
@@ -80,25 +80,25 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 	std::vector<ICollider*> colliders;
 
 	/// sphere colliderを配列に格納する、インスタンスのnullチェックと有効フラグのチェックを行う
-	if (sphereColliderArray) {
-		for (auto& sphereCollider : sphereColliderArray->GetUsedComponents()) {
-			if (sphereCollider && sphereCollider->enable) {
+	if(sphereColliderArray) {
+		for(auto& sphereCollider : sphereColliderArray->GetUsedComponents()) {
+			if(sphereCollider && sphereCollider->enable) {
 				colliders.push_back(sphereCollider);
 			}
 		}
 	}
 
 	/// box colliderを配列に格納する、インスタンスのnullチェックと有効フラグのチェックを行う
-	if (boxColliderArray) {
-		for (auto& boxCollider : boxColliderArray->GetUsedComponents()) {
-			if (boxCollider && boxCollider->enable) {
+	if(boxColliderArray) {
+		for(auto& boxCollider : boxColliderArray->GetUsedComponents()) {
+			if(boxCollider && boxCollider->enable) {
 				colliders.push_back(boxCollider);
 			}
 		}
 	}
 
 	/// 全てのColliderのprevPositionを更新する
-	for (auto& collider : colliders) {
+	for(auto& collider : colliders) {
 		collider->UpdatePrevPosition();
 	}
 
@@ -109,10 +109,10 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 
 	/// 衝突判定
 	std::string collisionType = "";
-	for (auto& a : colliders) {
-		for (auto& b : colliders) {
+	for(auto& a : colliders) {
+		for(auto& b : colliders) {
 			/// 同じオブジェクト同士の衝突は無視
-			if (a == b) {
+			if(a == b) {
 				continue;
 			}
 
@@ -132,16 +132,16 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 
 			/// mapがペアを持っていないかどうか
 			bool collisionFrameMapContains = false;
-			if (!collisionFrameMap.contains(pairKey)) {
+			if(!collisionFrameMap.contains(pairKey)) {
 				/// 逆順でないかチェック
 				pairKey = std::make_pair(b->GetOwner()->GetId(), a->GetOwner()->GetId());
-				if (!collisionFrameMap.contains(pairKey)) {
+				if(!collisionFrameMap.contains(pairKey)) {
 					collisionFrameMapContains = true;
 				}
 			}
 
 			/// このフレームで衝突判定をしている場合はスキップする
-			if (!collisionFrameMapContains) {
+			if(!collisionFrameMapContains) {
 				continue;
 			}
 
@@ -152,14 +152,14 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 			/// 衝突計算の関数を取得
 			CollisionPair pair(a->GetOwner(), b->GetOwner());
 			auto collisionCheckItr = collisionCheckMap_.find(collisionType);
-			if (collisionCheckItr == collisionCheckMap_.end()) {
+			if(collisionCheckItr == collisionCheckMap_.end()) {
 				continue;
 			}
 
 			/// 衝突計算を行う
 			CollisionInfo info;
 			bool isCollided = collisionCheckItr->second(pair, &info);
-			if (isCollided) {
+			if(isCollided) {
 
 				/// 押し戻しを行う
 				PushBack(
@@ -173,9 +173,9 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 				auto collisionPairItr = std::find_if(collidedPairs_.begin(), collidedPairs_.end(), [&pair](const CollisionPair& _p) {
 					return (_p.first == pair.first && _p.second == pair.second)
 						|| (_p.first == pair.second && _p.second == pair.first);
-					});
+				});
 
-				if (collisionPairItr != collidedPairs_.end()) {
+				if(collisionPairItr != collidedPairs_.end()) {
 					/// すでにペアが存在している場合は stayPairs_ に追加
 					stayPairs_.emplace_back(pair);
 				} else {
@@ -192,10 +192,10 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 				auto collisionPairItr = std::remove_if(collidedPairs_.begin(), collidedPairs_.end(), [&pair](const CollisionPair& _p) {
 					return (_p.first == pair.first && _p.second == pair.second)
 						|| (_p.first == pair.second && _p.second == pair.first);
-					});
+				});
 
 				/// 削除するペアがあった場合は exitPairs_ に追加
-				if (collisionPairItr != collidedPairs_.end()) {
+				if(collisionPairItr != collidedPairs_.end()) {
 					exitPairs_.emplace_back(pair);
 				}
 
@@ -217,12 +217,12 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 	MonoScriptEngine& monoEngine = MonoScriptEngine::GetInstance();
 
-	for (auto& pair : enterPairs_) {
+	for(auto& pair : enterPairs_) {
 		GameEntity* entityA = pair.first;
 		GameEntity* entityB = pair.second;
 
 		/// ポインタが有効でないならスキップ
-		if (!entityA || !entityB) {
+		if(!entityA || !entityB) {
 			continue;
 		}
 
@@ -230,13 +230,13 @@ void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 		std::array<GameEntity*, 2> entities = { entityA, entityB };
 		std::array<Script*, 2>     scripts = { entityA->GetComponent<Script>(), entityB->GetComponent<Script>() };
 
-		for (size_t i = 0; i < 2; i++) {
-			if (!scripts[i]) {
+		for(size_t i = 0; i < 2; i++) {
+			if(!scripts[i]) {
 				continue;
 			}
 
 			auto& data = scripts[i]->GetScriptDataList();
-			for (auto& script : data) {
+			for(auto& script : data) {
 				MonoObject* exc = nullptr;
 
 				/// 引数の準備
@@ -244,7 +244,7 @@ void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 				params[0] = entities[(i + 1) % 2]; /// 衝突しているもう一方のオブジェクトを渡す
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
-				if (!script.collisionEventMethods[0]) {
+				if(!script.collisionEventMethods[0]) {
 					script.collisionEventMethods[0] = monoEngine.GetMethodFromCS(script.scriptName, "OnCollisionEnter", 1);
 				}
 
@@ -254,9 +254,9 @@ void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 				Console::Log("Collision Enter Event Invoked");
 
 				/// 例外が発生した場合の処理
-				if (exc) {
+				if(exc) {
 					MonoString* monoStr = mono_object_to_string(exc, nullptr);
-					if (monoStr) {
+					if(monoStr) {
 						char* message = mono_string_to_utf8(monoStr);
 						Console::Log(std::string("Mono Exception: ") + message);
 						mono_free(message);
@@ -274,12 +274,12 @@ void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 	MonoScriptEngine& monoEngine = MonoScriptEngine::GetInstance();
 
-	for (auto& pair : stayPairs_) {
+	for(auto& pair : stayPairs_) {
 		GameEntity* entityA = pair.first;
 		GameEntity* entityB = pair.second;
 
 		/// ポインタが有効でないならスキップ
-		if (!entityA || !entityB) {
+		if(!entityA || !entityB) {
 			continue;
 		}
 
@@ -287,13 +287,13 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 		std::array<GameEntity*, 2> entities = { entityA, entityB };
 		std::array<Script*, 2>     scripts = { entityA->GetComponent<Script>(), entityB->GetComponent<Script>() };
 
-		for (size_t i = 0; i < 2; i++) {
-			if (!scripts[i]) {
+		for(size_t i = 0; i < 2; i++) {
+			if(!scripts[i]) {
 				continue;
 			}
 
 			auto& data = scripts[i]->GetScriptDataList();
-			for (auto& script : data) {
+			for(auto& script : data) {
 				MonoObject* exc = nullptr;
 
 				/// 引数の準備
@@ -301,7 +301,7 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 				params[0] = entities[(i + 1) % 2]; /// 衝突しているもう一方のオブジェクトを渡す
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
-				if (!script.collisionEventMethods[1]) {
+				if(!script.collisionEventMethods[1]) {
 					script.collisionEventMethods[1] = monoEngine.GetMethodFromCS(script.scriptName, "OnCollisionStay", 1);
 				}
 
@@ -310,9 +310,9 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 				Console::Log("Collision Stay Event Invoked");
 
 				/// 例外が発生した場合の処理
-				if (exc) {
+				if(exc) {
 					MonoString* monoStr = mono_object_to_string(exc, nullptr);
-					if (monoStr) {
+					if(monoStr) {
 						char* message = mono_string_to_utf8(monoStr);
 						Console::Log(std::string("Mono Exception: ") + message);
 						mono_free(message);
@@ -330,12 +330,12 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 	MonoScriptEngine& monoEngine = MonoScriptEngine::GetInstance();
 
-	for (auto& pair : exitPairs_) {
+	for(auto& pair : exitPairs_) {
 		GameEntity* entityA = pair.first;
 		GameEntity* entityB = pair.second;
 
 		/// ポインタが有効でないならスキップ
-		if (!entityA || !entityB) {
+		if(!entityA || !entityB) {
 			continue;
 		}
 
@@ -343,13 +343,13 @@ void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 		std::array<GameEntity*, 2> entities = { entityA, entityB };
 		std::array<Script*, 2>     scripts = { entityA->GetComponent<Script>(), entityB->GetComponent<Script>() };
 
-		for (size_t i = 0; i < 2; i++) {
-			if (!scripts[i]) {
+		for(size_t i = 0; i < 2; i++) {
+			if(!scripts[i]) {
 				continue;
 			}
 
 			auto& data = scripts[i]->GetScriptDataList();
-			for (auto& script : data) {
+			for(auto& script : data) {
 				MonoObject* exc = nullptr;
 
 				/// 引数の準備
@@ -358,7 +358,7 @@ void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
-				if (!script.collisionEventMethods[2]) {
+				if(!script.collisionEventMethods[2]) {
 					script.collisionEventMethods[2] = monoEngine.GetMethodFromCS(script.scriptName, "OnCollisionExit", 1);
 				}
 
@@ -368,9 +368,9 @@ void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 				Console::Log("Collision Exit Event Invoked");
 
 				/// 例外が発生した場合の処理
-				if (exc) {
+				if(exc) {
 					MonoString* monoStr = mono_object_to_string(exc, nullptr);
-					if (monoStr) {
+					if(monoStr) {
 						char* message = mono_string_to_utf8(monoStr);
 						Console::Log(std::string("Mono Exception: ") + message);
 						mono_free(message);
@@ -386,7 +386,7 @@ void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 }
 
 void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntity* _b, CollisionState _bState, const CollisionInfo& _info) {
-	if (!_a || !_b) {
+	if(!_a || !_b) {
 		return;
 	}
 
@@ -397,13 +397,13 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 	// 押し戻しベクトル
 	Vector3 correction = _info.normal * _info.penetration;
 
-	if (aDynamic && !bDynamic) {
+	if(aDynamic && !bDynamic) {
 		// _aだけ押し戻す
 		_a->SetPosition(_a->GetPosition() - correction);
-	} else if (!aDynamic && bDynamic) {
+	} else if(!aDynamic && bDynamic) {
 		// _bだけ押し戻す
 		_b->SetPosition(_b->GetPosition() + correction);
-	} else if (aDynamic && bDynamic) {
+	} else if(aDynamic && bDynamic) {
 		// 両方Dynamicなら半分ずつ押し戻す
 		_a->SetPosition(_a->GetPosition() - correction * 0.5f);
 		_b->SetPosition(_b->GetPosition() + correction * 0.5f);
@@ -414,7 +414,7 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 
 
 bool CheckMethod::CollisionCheckSphereVsSphere(SphereCollider* _s1, SphereCollider* _s2, CollisionInfo* _info) {
-	if (!_s1 || !_s2) {
+	if(!_s1 || !_s2) {
 		return false; // 型が一致しない場合は衝突なし
 	}
 
@@ -424,7 +424,7 @@ bool CheckMethod::CollisionCheckSphereVsSphere(SphereCollider* _s1, SphereCollid
 	float distance = (e1->GetPosition() - e2->GetPosition()).Length();
 
 	/// 衝突情報の設定
-	if (_info) {
+	if(_info) {
 		/// 法線はe1からe2への方向
 		_info->normal = Vector3::Normalize(e2->GetPosition() - e1->GetPosition());
 		_info->penetration = (_s1->GetRadius() + _s2->GetRadius()) - distance;
@@ -435,102 +435,110 @@ bool CheckMethod::CollisionCheckSphereVsSphere(SphereCollider* _s1, SphereCollid
 }
 
 bool CheckMethod::CollisionCheckSphereVsBox(SphereCollider* _s, BoxCollider* _b, CollisionInfo* _info) {
-	if (!_s || !_b) {
+	if(!_s || !_b) {
 		return false; // 型が一致しない場合は衝突なし
 	}
-	GameEntity* e1 = _s->GetOwner();
-	GameEntity* e2 = _b->GetOwner();
 
-
-	Vector3 closestPoint;
-	float distance;
-
-	bool collided = CollisionCheck::CubeVsSphere(
-		e2->GetPosition(), _b->GetSize(),
-		e1->GetPosition(), _s->GetRadius(),
-		&closestPoint, &distance
-	);
-
-	/// 衝突情報の設定
-	if (collided) {
-		const Vector3& sphereCenter = e1->GetPosition();
-		Vector3 cubeMin = e2->GetPosition() - (_b->GetSize() * 0.5f);
-		Vector3 cubeMax = e2->GetPosition() + (_b->GetSize() * 0.5f);
-
-		/// 最近接点と球中心の差
-		Vector3 delta = sphereCenter - closestPoint;
-		float dist = delta.Length();
-
-		/// AABBとの各軸方向の距離
-		float dxMin = std::fabs(sphereCenter.x - cubeMin.x);
-		float dxMax = std::fabs(sphereCenter.x - cubeMax.x);
-		float dyMin = std::fabs(sphereCenter.y - cubeMin.y);
-		float dyMax = std::fabs(sphereCenter.y - cubeMax.y);
-		float dzMin = std::fabs(sphereCenter.z - cubeMin.z);
-		float dzMax = std::fabs(sphereCenter.z - cubeMax.z);
-
-		/// 最も近い面を探す
-		float minDist = (std::min)({ dxMin, dxMax, dyMin, dyMax, dzMin, dzMax });
-		Vector3 normal = Vector3::Zero;
-
-		/// 最も近い面の法線を設定
-		if (minDist == dxMin) {
-			normal = Vector3::Left;
-		} else if (minDist == dxMax) {
-			normal = Vector3::Right;
-		} else if (minDist == dyMin) {
-			normal = Vector3::Down;
-		} else if (minDist == dyMax) {
-			normal = Vector3::Up;
-		} else if (minDist == dzMin) {
-			normal = Vector3::Back;
-		} else if (minDist == dzMax) {
-			normal = Vector3::Forward;
-		}
-
-		// めり込み量（球がAABBの表面を越えた距離）
-		float penetration = _s->GetRadius() - dist;
-		if (_info) {
-			_info->normal = -normal;
-			_info->penetration = penetration;
-			_info->contactPoint = closestPoint;
-		}
-	}
-
-	return collided;
+	return CollisionCheckBoxVsSphere(_b, _s, _info);
 }
 
 bool CheckMethod::CollisionCheckBoxVsSphere(BoxCollider* _b, SphereCollider* _s, CollisionInfo* _info) {
-	if (!_s || !_b) {
-		return false; // 型が一致しない場合は衝突なし
+	if(!_b || !_s) {
+		return false;
 	}
-	GameEntity* e1 = _s->GetOwner();
-	GameEntity* e2 = _b->GetOwner();
 
+	GameEntity* boxEntity = _b->GetOwner();
+	GameEntity* sphereEntity = _s->GetOwner();
 
-	Vector3 closestPoint;
-	float distance;
+	// 球のワールド座標
+	Vector3 spherePos = sphereEntity->GetPosition();
 
-	bool collided = CollisionCheck::CubeVsSphere(
-		e2->GetPosition(), _b->GetSize(),
-		e1->GetPosition(), _s->GetRadius(),
-		&closestPoint, &distance
+	Transform* bTrans = boxEntity->GetTransform();
+
+	// ★修正1: 変換行列には Scale や Size を含めない！（距離のスケールをワールドと一致させるため）
+	// エンジンの乗算順序（行優先か列優先か）に合わせて Rotate と Translate を掛けてください
+	Matrix4x4 matOBBTransform = Matrix4x4::MakeRotate(bTrans->GetRotate()) * Matrix4x4::MakeTranslate(bTrans->position);
+	Matrix4x4 matOBBTransformInverse = matOBBTransform.Inverse();
+	
+	// 球の座標をスケール無しのローカル空間へ
+	Vector3 localSpherePos = Matrix4x4::Transform(spherePos, matOBBTransformInverse);
+
+	// ★修正2: 箱のサイズとTransformのスケールは、ここで計算する
+	// ※ bTrans->scale が Vector3 であることを想定
+	Vector3 boxWorldSize = Vector3(
+		_b->GetSize().x * bTrans->scale.x,
+		_b->GetSize().y * bTrans->scale.y,
+		_b->GetSize().z * bTrans->scale.z
+	);
+	Vector3 halfExtents = boxWorldSize * 0.5f;
+	
+	Vector3 localMin = -halfExtents;
+	Vector3 localMax = halfExtents;
+
+	// 3. ローカル空間での最近接点 (Closest Point) をクランプで求める
+	Vector3 localClosestPoint(
+		std::clamp(localSpherePos.x, localMin.x, localMax.x),
+		std::clamp(localSpherePos.y, localMin.y, localMax.y),
+		std::clamp(localSpherePos.z, localMin.z, localMax.z)
 	);
 
-	/// 衝突情報の設定
-	if (collided) {
-		if (_info) {
-			_info->normal = Vector3::Normalize(e1->GetPosition() - closestPoint);
-			_info->penetration = _s->GetRadius() - distance;
+	// 4. 最近接点と球の中心の距離をチェック
+	Vector3 localDelta = localSpherePos - localClosestPoint;
+	float distanceSquared = localDelta.LengthSquared();
+	float radius = _s->GetRadius(); // ※もしSphereにもTransformのscaleを適用するならここも修正
+
+	if(distanceSquared > radius * radius) {
+		return false; // 衝突していない
+	}
+
+	// === ここから衝突時の情報 (CollisionInfo) の計算 ===
+	if(_info) {
+		float distance = std::sqrt(distanceSquared);
+
+		// 球の中心が箱の「外」にあり、浅く接触している場合
+		if(distance > 0.0001f) {
+			_info->penetration = radius - distance;
+
+			// 最近接点をワールド空間に戻す（ここは座標なので通常のTransformでOK）
+			Vector3 worldClosestPoint = Matrix4x4::Transform(localClosestPoint, matOBBTransform);
+
+			_info->normal = -Vector3::Normalize(spherePos - worldClosestPoint);
+			_info->contactPoint = worldClosestPoint;
+		}
+		// 球の中心が箱の「完全に中」に入ってしまっている場合 (distance == 0)
+		else {
+			float distX = halfExtents.x - std::abs(localSpherePos.x);
+			float distY = halfExtents.y - std::abs(localSpherePos.y);
+			float distZ = halfExtents.z - std::abs(localSpherePos.z);
+
+			float minDist = (std::min)({ distX, distY, distZ });
+			Vector3 localNormal = Vector3::Zero;
+
+			if(minDist == distX) {
+				localNormal = localSpherePos.x > 0 ? Vector3::Right : Vector3::Left;
+			} else if(minDist == distY) {
+				localNormal = localSpherePos.y > 0 ? Vector3::Up : Vector3::Down;
+			} else {
+				localNormal = localSpherePos.z > 0 ? Vector3::Forward : Vector3::Back;
+			}
+
+			_info->penetration = radius + minDist;
+
+			// ★修正3: 法線には平行移動を適用してはいけない！
+			// もし Matrix4x4::TransformNormal がまだエンジン内に無い場合は、
+			// 回転行列のみを取り出して適用します。
+			Matrix4x4 rotationOnlyMat = Matrix4x4::MakeRotate(bTrans->GetRotate());
+			_info->normal = Vector3::Normalize(Matrix4x4::Transform(localNormal, rotationOnlyMat));
+			
+			_info->contactPoint = spherePos;
 		}
 	}
 
-
-	return collided;
+	return true;
 }
 
 bool CheckMethod::CollisionCheckBoxVsBox(BoxCollider* _b1, BoxCollider* _b2, CollisionInfo* _info) {
-	if (!_b1 || !_b2) {
+	if(!_b1 || !_b2) {
 		return false; // 型が一致しない場合は衝突なし
 	}
 	GameEntity* e1 = _b1->GetOwner();
@@ -544,8 +552,8 @@ bool CheckMethod::CollisionCheckBoxVsBox(BoxCollider* _b1, BoxCollider* _b2, Col
 		&outNormal, &outPenetration
 	);
 
-	if (collided) {
-		if (_info) {
+	if(collided) {
+		if(_info) {
 			_info->normal = outNormal;
 			_info->penetration = outPenetration;
 		}
