@@ -1,1 +1,14 @@
-null
+{
+    "Player": {
+        "currentYaw": 14.241327285766602,
+        "inputDeadZone": 0.0,
+        "isGamepadMode": true,
+        "lastMousePos": {
+            "x": 1417.0,
+            "y": 439.0
+        },
+        "maxMoveSpeed": 27.0,
+        "mouseIsMovePixel": 0.0,
+        "rotationSpeed": 8.0
+    }
+}

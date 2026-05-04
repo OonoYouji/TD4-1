@@ -14,7 +14,7 @@
                     "fogEnd": 10000.0,
                     "fogStart": 0.0,
                     "fovY": 0.699999988079071,
-                    "isDrawFrustum": false,
+                    "isDrawFrustum": true,
                     "isMainCamera": true,
                     "nearClip": 0.10000000149011612,
                     "type": "CameraComponent"
@@ -23,18 +23,18 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": -290.0124206542969,
+                        "y": 38.0,
+                        "z": 203.97549438476563
                     },
                     "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
+                        "w": 0.7713119983673096,
+                        "x": 0.6364572644233704,
+                        "y": -0.0,
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 1.0,
+                        "x": 1.0000064373016357,
                         "y": 1.0,
                         "z": 1.0
                     },
@@ -42,6 +42,16 @@
                 },
                 {
                     "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FollowCamera"
+                        }
+                    ],
+                    "type": "Script"
                 }
             ],
             "guid": "1d9ec6292e550cf2c7b90213b3e7002b",
@@ -105,14 +115,14 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
+                        "x": -290.00811767578125,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": 203.95416259765625
                     },
                     "rotate": {
-                        "w": 1.0,
+                        "w": 0.9058563709259033,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -0.4235849678516388,
                         "z": 0.0
                     },
                     "scale": {
@@ -139,7 +149,7 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "meshPath": "./Assets/Models/objects/PuzzleClearEffect/CannonStand.obj",
                     "type": "MeshRenderer"
                 },
                 {
