@@ -82,6 +82,7 @@
     <Compile Include="Scripts\Engine\Graphics\Material.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Compute\Transform.cs" />
+    <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
     <Compile Include="Scripts\Game\Player.cs" />
     <Compile Include="Scripts\Engine\MonoScript.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Vector3.cs" />
