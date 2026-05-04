@@ -116,6 +116,14 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 				continue;
 			}
 
+			bool canCollide = (a->GetCategoryBits() & b->GetMaskBits()) != 0 &&
+				(b->GetCategoryBits() & a->GetMaskBits()) != 0;
+
+			/// 互いに衝突する設定でなければ、このペアの処理をスキップ
+			if(!canCollide) {
+				continue;
+			}
+
 			/// このフレームないで衝突計算をしているかチェック
 			collisionType = typeid(*a).name() + std::string("Vs") + typeid(*b).name();
 			EntityIdPair pairKey = std::make_pair(a->GetOwner()->GetId(), b->GetOwner()->GetId());
