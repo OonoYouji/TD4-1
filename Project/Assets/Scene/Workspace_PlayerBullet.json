@@ -1,0 +1,146 @@
+{
+    "entities": [
+        {
+            "components": [
+                {
+                    "cameraType": 0,
+                    "enable": 1,
+                    "farClip": 1000.0,
+                    "fogColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "fogEnd": 10000.0,
+                    "fogStart": 0.0,
+                    "fovY": 0.699999988079071,
+                    "isDrawFrustum": false,
+                    "isMainCamera": true,
+                    "nearClip": 0.10000000149011612,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "bca19a51168a1448842c350f5d800808",
+            "id": 1,
+            "name": "Camera",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "color": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "direction": {
+                        "x": 0.0,
+                        "y": -1.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "intensity": 1.0,
+                    "type": "DirectionalLight"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "1fa07280b44ba0603e9fb3c8886e5140",
+            "id": 2,
+            "name": "Light",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "PlayerBulletLauncher"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "15262baf9d97d4a8f6259dd11acdf326",
+            "id": 3,
+            "name": "BulletLauncher",
+            "parent": null,
+            "prefabName": ""
+        }
+    ]
+}
