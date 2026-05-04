@@ -45,7 +45,7 @@
                 }
             ],
             "guid": "1d9ec6292e550cf2c7b90213b3e7002b",
-            "id": 4,
+            "id": 1,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -94,7 +94,7 @@
                 }
             ],
             "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "id": 5,
+            "id": 2,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -105,14 +105,14 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": -22.604970932006836,
+                        "y": -3.928923433704767e-06,
+                        "z": 0.13638091087341309
                     },
                     "rotate": {
                         "w": 1.0,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -0.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -146,7 +146,7 @@
                     "enable": 1,
                     "scripts": [
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "Player"
                         }
                     ],
@@ -154,13 +154,13 @@
                 },
                 {
                     "enable": 1,
-                    "radius": 1.0,
+                    "radius": 1.7000000476837158,
                     "state": "Dynamic",
                     "type": "SphereCollider"
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 6,
+            "id": 3,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -193,7 +193,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 11,
+            "id": 4,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -243,9 +243,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 10,
+            "id": 5,
             "name": "Field",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -294,18 +294,18 @@
                 {
                     "enable": 1,
                     "size": {
-                        "x": 28.0,
-                        "y": 8.0,
-                        "z": 4.0
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
                     },
                     "state": "Static",
                     "type": "BoxCollider"
                 }
             ],
             "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 9,
+            "id": 6,
             "name": "Wall",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -354,18 +354,18 @@
                 {
                     "enable": 1,
                     "size": {
-                        "x": 28.0,
-                        "y": 8.0,
-                        "z": 4.0
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
                     },
                     "state": "Static",
                     "type": "BoxCollider"
                 }
             ],
             "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 8,
+            "id": 7,
             "name": "Wall_1",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -414,18 +414,18 @@
                 {
                     "enable": 1,
                     "size": {
-                        "x": 28.0,
-                        "y": 8.0,
-                        "z": 4.0
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
                     },
                     "state": "Static",
                     "type": "BoxCollider"
                 }
             ],
             "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 7,
+            "id": 8,
             "name": "Wall_2",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -439,10 +439,10 @@
                         "z": 0.14931297302246094
                     },
                     "rotate": {
-                        "w": 0.7095591425895691,
-                        "x": 0.0,
-                        "y": -0.7046458721160889,
-                        "z": 0.0
+                        "w": 0.8835885524749756,
+                        "x": -5.9091355808504886e-08,
+                        "y": -0.468264102935791,
+                        "z": 1.8154409531234705e-08
                     },
                     "scale": {
                         "x": 14.000025749206543,
@@ -474,18 +474,18 @@
                 {
                     "enable": 1,
                     "size": {
-                        "x": 28.0,
-                        "y": 8.0,
-                        "z": 4.0
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
                     },
                     "state": "Static",
                     "type": "BoxCollider"
                 }
             ],
             "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 1,
+            "id": 9,
             "name": "Wall_3",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         }
     ]
