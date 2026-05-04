@@ -14,10 +14,6 @@ namespace ComponentDebug {
 void SphereColliderDebug(SphereCollider* _collider);
 }
 
-void from_json(const nlohmann::json& _j, SphereCollider& _c);
-void to_json(nlohmann::json& _j, const SphereCollider& _c);
-
-
 /// //////////////////////////////////////
 /// SphereCollider
 /// //////////////////////////////////////

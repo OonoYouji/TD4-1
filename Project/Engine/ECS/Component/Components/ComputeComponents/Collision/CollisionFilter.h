@@ -15,7 +15,6 @@ enum class CollisionFilter : uint32_t {
 	Enemy        = 1 << 3,
 	EnemyBullet  = 1 << 4,
 	StageObject  = 1 << 5,
-
 	ALL = 0xFFFFFFFF
 };
 

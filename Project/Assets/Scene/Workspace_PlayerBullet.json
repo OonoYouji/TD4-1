@@ -184,6 +184,59 @@
             "name": "BulletLauncherRight",
             "parent": null,
             "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "categoryBits": 1,
+                    "enable": 1,
+                    "maskBits": 34,
+                    "radius": 1.0,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                },
+                {
+                    "categoryBits": 1,
+                    "enable": 1,
+                    "maskBits": 4294967267,
+                    "size": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "state": "Dynamic",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "fb059c40d0cc0d46936fdeb4f322581b",
+            "id": 5,
+            "name": "NewEntity",
+            "parent": null,
+            "prefabName": ""
         }
     ]
 }
