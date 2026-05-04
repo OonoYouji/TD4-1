@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Game\DebugEntity\DebugCamera.cs" />
     <Compile Include="Scripts\Engine\Attribute\SerializeField.cs" />
     <Compile Include="Scripts\Engine\Core\ObjectPool\ObjectPool.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\File\FileSystem.cs" />
