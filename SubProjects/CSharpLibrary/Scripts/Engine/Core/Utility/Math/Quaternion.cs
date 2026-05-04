@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -106,24 +106,24 @@ public struct Quaternion {
 		if (trace > 0.0f) {
 			float s = Mathf.Sqrt(trace + 1.0f) * 2.0f; // 4 * w
 			q.w = 0.25f * s;
-			q.x = (_m.m21 - _m.m12) / s;
-			q.y = (_m.m02 - _m.m20) / s;
-			q.z = (_m.m10 - _m.m01) / s;
+			q.x = (_m.m12 - _m.m21) / s;
+			q.y = (_m.m20 - _m.m02) / s;
+			q.z = (_m.m01 - _m.m10) / s;
 		} else if (_m.m00 > _m.m11 && _m.m00 > _m.m22) {
 			float s = Mathf.Sqrt(1.0f + _m.m00 - _m.m11 - _m.m22) * 2.0f; // 4 * x
-			q.w = (_m.m21 - _m.m12) / s;
+			q.w = (_m.m12 - _m.m21) / s;
 			q.x = 0.25f * s;
 			q.y = (_m.m01 + _m.m10) / s;
 			q.z = (_m.m02 + _m.m20) / s;
 		} else if (_m.m11 > _m.m22) {
 			float s = Mathf.Sqrt(1.0f + _m.m11 - _m.m00 - _m.m22) * 2.0f; // 4 * y
-			q.w = (_m.m02 - _m.m20) / s;
+			q.w = (_m.m20 - _m.m02) / s;
 			q.x = (_m.m01 + _m.m10) / s;
 			q.y = 0.25f * s;
 			q.z = (_m.m12 + _m.m21) / s;
 		} else {
 			float s = Mathf.Sqrt(1.0f + _m.m22 - _m.m00 - _m.m11) * 2.0f; // 4 * z
-			q.w = (_m.m10 - _m.m01) / s;
+			q.w = (_m.m01 - _m.m10) / s;
 			q.x = (_m.m02 + _m.m20) / s;
 			q.y = (_m.m12 + _m.m21) / s;
 			q.z = 0.25f * s;
@@ -220,12 +220,37 @@ public struct Quaternion {
 		return q;
 	}
 
+	static public Quaternion Slerp(Quaternion _q1, Quaternion _q2, float _t) {
+		// 球面線形補間
+		float dot = _q1.x * _q2.x + _q1.y * _q2.y + _q1.z * _q2.z + _q1.w * _q2.w;
+		if (dot < 0.0f) {
+			_q2 = new Quaternion(-_q2.x, -_q2.y, -_q2.z, -_q2.w);
+			dot = -dot;
+		}
+		const float DOT_THRESHOLD = 0.9995f;
+		if (dot > DOT_THRESHOLD) {
+			return Lerp(_q1, _q2, _t).Normalized();
+		}
+		float theta_0 = Mathf.Acos(dot);
+		float theta = theta_0 * _t;
+		float sin_theta = Mathf.Sin(theta);
+		float sin_theta_0 = Mathf.Sin(theta_0);
+		float s0 = Mathf.Cos(theta) - dot * sin_theta / sin_theta_0;
+		float s1 = sin_theta / sin_theta_0;
+		return new Quaternion(
+			s0 * _q1.x + s1 * _q2.x,
+			s0 * _q1.y + s1 * _q2.y,
+			s0 * _q1.z + s1 * _q2.z,
+			s0 * _q1.w + s1 * _q2.w
+		);
+	}
 
-	/// -------------------------------------------
-	/// public operators
-	/// - -----------------------------------------
 
-	static public Quaternion operator *(Quaternion _q1, Quaternion _q2) {
+    /// -------------------------------------------
+    /// public operators
+    /// - -----------------------------------------
+
+    static public Quaternion operator *(Quaternion _q1, Quaternion _q2) {
 		return new Quaternion(
 			_q1.w * _q2.x + _q1.x * _q2.w + _q1.y * _q2.z - _q1.z * _q2.y,
 			_q1.w * _q2.y + _q1.y * _q2.w + _q1.z * _q2.x - _q1.x * _q2.z,

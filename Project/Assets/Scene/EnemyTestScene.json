@@ -1,0 +1,213 @@
+{
+    "entities": [
+        {
+            "components": [
+                {
+                    "cameraType": 0,
+                    "enable": 1,
+                    "farClip": 1000.0,
+                    "fogColor": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "fogEnd": 10000.0,
+                    "fogStart": 0.0,
+                    "fovY": 0.699999988079071,
+                    "isDrawFrustum": false,
+                    "isMainCamera": true,
+                    "nearClip": 0.10000000149011612,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 35.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 0.7071408033370972,
+                        "x": 0.7070727348327637,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "f3301490d260735dfc6b4620b64395a9",
+            "id": 1,
+            "name": "Camera",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "color": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "direction": {
+                        "x": 0.0,
+                        "y": -1.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "intensity": 1.0,
+                    "type": "DirectionalLight"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "545c4c6071414dab0e6246ebae462081",
+            "id": 2,
+            "name": "Light",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "TestEnemy"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "e4fbf4300183bd4a528834bcd7c93725",
+            "id": 3,
+            "name": "TestEnemy",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -7.088486671447754,
+                        "y": 0.0,
+                        "z": 2.260542154312134
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "2b88d62373851c2ef94c79db45b92d33",
+            "id": 4,
+            "name": "Player",
+            "parent": null,
+            "prefabName": ""
+        }
+    ]
+}
