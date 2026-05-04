@@ -130,7 +130,8 @@ void HierarchyWindow::DrawMenuScene() {
 }
 
 void HierarchyWindow::DrawHierarchy() {
-	if(ImGui::CollapsingHeader(pEcsGroup_->GetGroupName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+	const std::string& groupName = pEcsGroup_->GetGroupName();
+	if(ImGui::CollapsingHeader(groupName != "" ? groupName.c_str() : "Unnamed Group", ImGuiTreeNodeFlags_DefaultOpen)) {
 
 		HandleRootDragDrop();
 
