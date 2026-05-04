@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 public class PlayerBullet : MonoScript {
 
-	public enum UTurnType {
-		Left, Right
-	}
-
-	/// 状態を2つ（直進とUターン）に絞り、これをループさせます
 	enum UTurnState {
 		Straight,   /// 直進中
 		UTurn       /// Uターン中
@@ -21,7 +16,9 @@ public class PlayerBullet : MonoScript {
 	float lifeTime = 20.0f;
 
 	/// 進行・Uターン用パラメータ
+	// ↓ ここで指定した方向（外部から変更可能）でずっとUターンし続けます
 	public UTurnType uTurnType = UTurnType.Left;
+
 	UTurnState uTurnState = UTurnState.Straight;
 
 	float straightDuration = 2.0f;  // 直進する時間（秒）
@@ -38,16 +35,13 @@ public class PlayerBullet : MonoScript {
 
 	public override void Update() {
 
-		/// 状態のループ処理
 		switch (uTurnState) {
-
 		case UTurnState.Straight:
 			straightTimer += Time.deltaTime;
 
-			// 指定時間直進したら、Uターン状態へ切り替え
 			if (straightTimer >= straightDuration) {
 				uTurnState = UTurnState.UTurn;
-				uTurnTimer = 0.0f; // Uターンのタイマーをリセット（重要）
+				uTurnTimer = 0.0f;
 			} else {
 				MoveStraight();
 			}
@@ -56,12 +50,10 @@ public class PlayerBullet : MonoScript {
 		case UTurnState.UTurn:
 			MoveUTurn();
 			break;
-
 		}
 
 		CheckLifeTime();
 	}
-
 
 	void MoveStraight() {
 		transform.position += velocity * Time.deltaTime;
@@ -71,6 +63,8 @@ public class PlayerBullet : MonoScript {
 		uTurnTimer += Time.deltaTime;
 
 		float turnSpeedDeg = 180.0f / uTurnDuration;
+
+		// 設定されている uTurnType に従って回転方向を決める
 		float directionSign = (uTurnType == UTurnType.Left) ? -1.0f : 1.0f;
 		float angleThisFrame = turnSpeedDeg * directionSign * Time.deltaTime;
 
@@ -84,10 +78,11 @@ public class PlayerBullet : MonoScript {
 
 		transform.position += velocity * Time.deltaTime;
 
-		// 180度回りきったら、再び直進状態へ戻す
+		// 180度回りきったときの処理
 		if (uTurnTimer >= uTurnDuration) {
 			uTurnState = UTurnState.Straight;
-			straightTimer = 0.0f; // 直進のタイマーをリセットしてループ（重要）
+			straightTimer = 0.0f;
+			// ※方向を反転させるコードを削除したため、次回も同じ方向に曲がります
 		}
 	}
 

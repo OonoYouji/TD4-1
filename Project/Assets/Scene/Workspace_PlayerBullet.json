@@ -138,7 +138,50 @@
             ],
             "guid": "15262baf9d97d4a8f6259dd11acdf326",
             "id": 3,
-            "name": "BulletLauncher",
+            "name": "BulletLauncherLeft",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "PlayerBulletLauncher"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "944593ba9e9d00ca70d1d86f652dd851",
+            "id": 4,
+            "name": "BulletLauncherRight",
             "parent": null,
             "prefabName": ""
         }

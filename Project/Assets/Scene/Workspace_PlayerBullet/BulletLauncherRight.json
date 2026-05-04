@@ -1,0 +1,17 @@
+{
+    "PlayerBulletLauncher": {
+        "bulletSpeed": 24.0,
+        "launchDirection": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0
+        },
+        "launchInterval": 0.14000000059604645,
+        "launchTimer": 0.03131389990448952,
+        "offset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0
+        }
+    }
+}
