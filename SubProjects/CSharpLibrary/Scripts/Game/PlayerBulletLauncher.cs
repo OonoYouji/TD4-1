@@ -27,7 +27,8 @@ public class PlayerBulletLauncher : MonoScript {
 	///
 	/// Uターンを制御するため
 	///
-	[SerializeField] UTurnType uTurnType = UTurnType.Left;
+	[SerializeField] int uTurnTypeInt = 0;
+	UTurnType uTurnType => (UTurnType)uTurnTypeInt;
 	[SerializeField] public Mouse launchKey = Mouse.Left;
 
 
@@ -86,7 +87,7 @@ public class PlayerBulletLauncher : MonoScript {
 	}
 
 
-	void FireBullet(UTurnType type) {
+	public void FireBullet(UTurnType type) {
 
         // 弾のエンティティを生成
         var bullet = ecsGroup.CreateEntity("PlayerBullet");

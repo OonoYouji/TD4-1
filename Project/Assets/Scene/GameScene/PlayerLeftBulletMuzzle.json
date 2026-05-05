@@ -1,10 +1,16 @@
 {
-    "BulletMuzzle": {
-        "isLeft": true,
-        "offsetPos": {
+    "PlayerBulletLauncher": {
+        "bulletSpeed": 10.0,
+        "launchDirection": {
+            "x": 0.9950928092002869,
+            "y": 0.0,
+            "z": -0.0989459753036499
+        },
+        "modelNaturalLength": 0.0,
+        "offset": {
             "x": 0.0,
             "y": 0.0,
-            "z": 0.0
+            "z": 1.0
         }
     }
 }
