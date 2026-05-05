@@ -9,15 +9,15 @@ class EnemyCollisionHandler : MonoScript
     float damageCooldown = 0f;
 
     [SerializeField]
-    public float KNOCKBACK_FORCE_STRENGTH = 100f;
+    public float KNOCKBACK_FORCE_STRENGTH = 10f;
     [SerializeField]
-    public float KNOCKBACK_DECAY = 0.99f;
+    public float KNOCKBACK_DECAY = 0.9f;
     Vector3 knockbackVelocity = Vector3.zero;
     float knockbackThreshold = 0.01f;
 
     EnemyUIHandler uiHandler;
 
-    bool isDestory = false;
+    bool isDestroy = false;
 
     public override void Initialize()
     {
@@ -35,7 +35,7 @@ class EnemyCollisionHandler : MonoScript
         transform.position += knockbackVelocity * Time.deltaTime;
         knockbackVelocity -= knockbackVelocity * KNOCKBACK_DECAY * Time.deltaTime;
 
-        if (isDestory)
+        if (isDestroy)
         {
             entity.Destroy();
         }
@@ -63,6 +63,7 @@ class EnemyCollisionHandler : MonoScript
 
             // ノックバック処理
             Vector3 direction = transform.position - collider.transform.position;
+            direction.y = 0.0f;
             if (direction.Length() > knockbackThreshold)
             {
                 direction = direction.Normalized();
@@ -87,7 +88,7 @@ class EnemyCollisionHandler : MonoScript
             Debug.Log("Enemy destroyed!");
             // HOTIFX: OnCollisiton内でDestoryを呼ぶとクラッシュするので、現在はフラグを立ててUpdate内でDestroyするようにしている
             // Update内でなら大丈夫とのこと
-            isDestory = true;
+            isDestroy = true;
         }
     }
 }

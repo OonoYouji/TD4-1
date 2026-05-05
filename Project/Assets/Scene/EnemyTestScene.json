@@ -45,7 +45,7 @@
                 }
             ],
             "guid": "f3301490d260735dfc6b4620b64395a9",
-            "id": 3,
+            "id": 1,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -94,7 +94,7 @@
                 }
             ],
             "guid": "545c4c6071414dab0e6246ebae462081",
-            "id": 6,
+            "id": 2,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -105,9 +105,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.7111845016479492,
+                        "x": 0.0,
                         "y": 0.0,
-                        "z": 0.6330869793891907
+                        "z": 0.0
                     },
                     "rotate": {
                         "w": 1.0,
@@ -170,7 +170,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93725",
-            "id": 5,
+            "id": 3,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -181,9 +181,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -9.68111801147461,
-                        "y": 0.0,
-                        "z": -7.783847332000732
+                        "x": -8.220860481262207,
+                        "y": -3.2460447982884943e-06,
+                        "z": -13.62527847290039
                     },
                     "rotate": {
                         "w": 1.0,
@@ -220,7 +220,7 @@
                 }
             ],
             "guid": "2b88d62373851c2ef94c79db45b92d33",
-            "id": 1,
+            "id": 4,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -278,7 +278,7 @@
                 }
             ],
             "guid": "f1c6abc3a0b1eab6bb7c67f089776c77",
-            "id": 2,
+            "id": 5,
             "name": "TestBullet",
             "parent": null,
             "prefabName": ""
@@ -294,10 +294,10 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": 3.090713107667398e-08,
-                        "x": -3.091010469802313e-08,
-                        "y": 0.7070727348327637,
-                        "z": 0.7071408033370972
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
                     },
                     "scale": {
                         "x": 1.0,
@@ -321,9 +321,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817b",
-            "id": 4,
+            "id": 6,
             "name": "UI Root",
-            "parent": 5,
+            "parent": 3,
             "prefabName": ""
         },
         {
@@ -375,7 +375,7 @@
             "guid": "fc9c35f3c6655b859b19742a69c96942",
             "id": 7,
             "name": "HP",
-            "parent": 4,
+            "parent": 6,
             "prefabName": ""
         }
     ]
