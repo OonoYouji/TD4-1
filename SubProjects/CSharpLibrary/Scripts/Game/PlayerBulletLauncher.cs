@@ -92,7 +92,7 @@ public class PlayerBulletLauncher : MonoScript {
         var bullet = ecsGroup.CreateEntity("PlayerBullet");
         // PlayerBulletスクリプトを取得して初期化
         PlayerBullet bs = bullet.GetScript<PlayerBullet>();
-        bs.startPosition = transform.GetWorldPosition();
+        bs.startPosition = transform.GetWorldPosition()+offset;
 
         bs.velocity = launchDirection.Normalized() * bulletSpeed;
 		bs.uTurnType = type;
