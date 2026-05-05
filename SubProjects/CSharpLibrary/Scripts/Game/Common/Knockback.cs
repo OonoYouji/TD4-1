@@ -1,7 +1,7 @@
 class Knockback : MonoScript
 {
     [SerializeField]
-    public float KNOCKBACK_FORCE_STRENGTH = 30f;
+    public float KNOCKBACK_FORCE_STRENGTH = 10f;
     [SerializeField]
     public float KNOCKBACK_DECAY = 0.9f;
     Vector3 knockbackVelocity = Vector3.zero;
@@ -20,7 +20,7 @@ class Knockback : MonoScript
         Debug.LogInfo($"Knockback applied: ({knockbackVelocity.x}, {knockbackVelocity.y}, {knockbackVelocity.z})");
     }
 
-    public void Update()
+    public override void Update()
     {
         Debug.LogInfo($"Knockback Update: ({knockbackVelocity.x}, {knockbackVelocity.y}, {knockbackVelocity.z})");
         transform.position += knockbackVelocity * Time.deltaTime;
