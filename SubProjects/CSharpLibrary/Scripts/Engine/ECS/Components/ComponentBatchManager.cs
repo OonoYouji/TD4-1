@@ -32,9 +32,6 @@ static class ComponentBatchManager {
 		RegisterAllocator<Transform, Transform.BatchData>((ComponentArray<Transform> array) => {
 			int count = array.Count;
 			Transform.BatchData[] batch = new Transform.BatchData[count];
-
-			// C++側がどのエンティティのデータを書き込むべきか判別できるように、
-			// 予め compId を設定した状態で配列を作成する
 			for (int i = 0; i < count; i++) {
 				var comp = array.Get(i);
 				batch[i].compId = comp.compId;
@@ -64,16 +61,42 @@ static class ComponentBatchManager {
 		RegisterAllocator<MeshRenderer, MeshRenderer.BatchData>((ComponentArray<MeshRenderer> array) => {
 			int count = array.Count;
 			MeshRenderer.BatchData[] batch = new MeshRenderer.BatchData[count];
-
-			// C++側での検索キーとなる nativeHandle (または compId) を設定する
 			for (int i = 0; i < count; i++) {
 				var comp = array.Get(i);
 				batch[i].compId = comp.compId;
-				//batch[i].color = comp.color;
-				//batch[i].postEffectFlags = comp.postEffectFlags;
 			}
 			return batch;
 		});
+
+
+		// --- DissolveMeshRenderer の登録 ---
+
+		// 送信用コンバータ
+		RegisterConverter<DissolveMeshRenderer, DissolveMeshRenderer.BatchData>((ComponentArray<DissolveMeshRenderer> array) => {
+			int count = array.Count;
+			DissolveMeshRenderer.BatchData[] batch = new DissolveMeshRenderer.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				var batchData = comp.GetBatchData();
+
+				batch[i].compId = comp.compId;
+				batch[i].threshold = batchData.threshold;
+			}
+			return batch;
+		});
+
+		// 受信用アロケータ (変更点: Handleを事前に埋める)
+		RegisterAllocator<DissolveMeshRenderer, DissolveMeshRenderer.BatchData>((ComponentArray<DissolveMeshRenderer> array) => {
+			int count = array.Count;
+			DissolveMeshRenderer.BatchData[] batch = new DissolveMeshRenderer.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+			}
+			return batch;
+		});
+
+
 	}
 
 
@@ -137,8 +160,9 @@ static class ComponentBatchManager {
 		}
 	}
 
-
+	//
 	// データの適用
+	//
 	static public void ApplyBatch(Type _componentType, Array _batch, IComponentArray _array) {
 		if (_componentType == typeof(Transform)) {
 			var array = (ComponentArray<Transform>)_array;
@@ -149,11 +173,10 @@ static class ComponentBatchManager {
 
 				// 念のためIDの一致を確認することも可能だが、
 				// Allocatorで順番通りに作成しているため、ここではそのまま適用する
-				// comp.compId = batch[i].compId; // IDは変更しない
-
 				comp.position = batch[i].position;
 				comp.rotate = batch[i].rotate;
 				comp.scale = batch[i].scale;
+				comp.matrix = batch[i].matrix;
 			}
 		}
 
@@ -163,11 +186,20 @@ static class ComponentBatchManager {
 
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
-
 				// Handleは変更せず、描画パラメータのみ更新
-				//comp.compId = batch[i].compId;
 				comp.color = batch[i].color;
 				comp.postEffectFlags = batch[i].postEffectFlags;
+			}
+		}
+
+
+		if (_componentType == typeof(DissolveMeshRenderer)) {
+			var array = (ComponentArray<DissolveMeshRenderer>)_array;
+			var batch = (DissolveMeshRenderer.BatchData[])_batch;
+			for (int i = 0; i < batch.Length; i++) {
+				var comp = array.Get(i);
+				// Handleは変更せず、描画パラメータのみ更新
+				comp.threshold = batch[i].threshold;
 			}
 		}
 	}
