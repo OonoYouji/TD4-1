@@ -22,6 +22,7 @@
 #include "Engine/Editor/Math/ImGuiMath.h"
 #include "Engine/Editor/Math/ImGuiSelection.h"
 #include "Engine/Editor/Commands/ImGuiCommand/FocusEntityCommand.h"
+#include "Engine/Editor/Math/AssetPayload.h"
 
 namespace Editor {
 
@@ -59,8 +60,8 @@ void HierarchyWindow::PrefabDragAndDrop() {
 	if(ImGui::BeginDragDropTarget()) {
 		if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
 			if(payload->Data) {
-				const char* droppedPath = static_cast<const char*>(payload->Data);
-				std::string path = std::string(droppedPath);
+				Editor::AssetPayload* assetPayload = *static_cast<Editor::AssetPayload**>(payload->Data);
+				const std::string path = assetPayload->filePath;
 
 				if(path.find(".prefab") != std::string::npos) {
 					// filesystemを使って安全かつシンプルにファイル名を抽出
@@ -254,7 +255,18 @@ void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 	bool nodeOpen = ImGui::TreeNodeEx((void*)entity, flags, "");
 
 	HandleEntityDragDrop(entity);
-	DrawEntityContextMenu(entity, isSelected);
+
+	// コンテキストメニューで削除されたかどうかをチェック
+	if(DrawEntityContextMenu(entity, isSelected)) {
+		// 削除された場合はImGuiのスタックを戻して、即座に関数を抜ける
+		ImGui::PopID();
+
+		// ★修正箇所：子を持たない（Leaf）の場合は TreePop を呼んではいけない
+		if(hasChildren && nodeOpen) {
+			ImGui::TreePop();
+		}
+		return;
+	}
 
 	// 行がホバーされているときの処理
 	if(ImGui::IsItemHovered()) {
@@ -379,7 +391,9 @@ void HierarchyWindow::HandleEntityDragDrop(ONEngine::GameEntity* entity) {
 ///
 /// エンティティの右クリックメニューの処理
 ///
-void HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected) {
+bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected) {
+	bool isDeleted = false;
+
 	if(ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
 		ImGui::OpenPopup("EntityContextMenu");
 	}
@@ -408,9 +422,12 @@ void HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 			if(selected) {
 				ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
 			}
+			isDeleted = true;
 		}
 		ImGui::EndPopup();
 	}
+
+	return isDeleted;
 }
 
 ///
