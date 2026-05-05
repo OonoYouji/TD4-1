@@ -146,14 +146,20 @@
                     "enable": 1,
                     "scripts": [
                         {
-                            "enable": false,
-                            "name": "Player"
+                            "enable": true,
+                            "name": "PlayerInputHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "PlayerBulletLauncher"
                         }
                     ],
                     "type": "Script"
                 },
                 {
+                    "categoryBits": 1,
                     "enable": 1,
+                    "maskBits": 4294967295,
                     "radius": 1.7000000476837158,
                     "state": "Dynamic",
                     "type": "SphereCollider"
@@ -292,7 +298,9 @@
                     "type": "MeshRenderer"
                 },
                 {
+                    "categoryBits": 1,
                     "enable": 1,
+                    "maskBits": 4294967295,
                     "size": {
                         "x": 2.0,
                         "y": 2.0,
@@ -352,7 +360,9 @@
                     "type": "MeshRenderer"
                 },
                 {
+                    "categoryBits": 1,
                     "enable": 1,
+                    "maskBits": 4294967295,
                     "size": {
                         "x": 2.0,
                         "y": 2.0,
@@ -412,7 +422,9 @@
                     "type": "MeshRenderer"
                 },
                 {
+                    "categoryBits": 1,
                     "enable": 1,
+                    "maskBits": 4294967295,
                     "size": {
                         "x": 2.0,
                         "y": 2.0,
@@ -472,7 +484,9 @@
                     "type": "MeshRenderer"
                 },
                 {
+                    "categoryBits": 1,
                     "enable": 1,
+                    "maskBits": 4294967295,
                     "size": {
                         "x": 2.0,
                         "y": 2.0,

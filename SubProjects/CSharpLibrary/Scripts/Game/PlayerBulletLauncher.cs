@@ -1,66 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-public enum UTurnType {
-	Left, Right
+public enum UTurnType
+{
+    Left, Right
 }
 
-public class PlayerBulletLauncher : MonoScript {
 
+public class PlayerBulletLauncher : MonoScript
+{
+    ///
+    /// 基礎
+    ///
+    [SerializeField]
+    Vector3 offset = new Vector3(0, 0, 1);
 
-	///
-	/// 基礎
-	///
+    [SerializeField]
+    public Vector3 launchDirection = new Vector3(0, 0, 1);
 
-	[SerializeField]
-	Vector3 offset = new Vector3(0, 0, 1);
+    [SerializeField]
+    readonly float bulletSpeed = 10.0f;
 
-	[SerializeField]
-	public Vector3 launchDirection = new Vector3(0, 0, 1);
+    public override void Initialize() { }
 
-	[SerializeField]
-	float launchInterval = 0.5f;
-	float launchTimer = 0.0f;
+    public override void Update()
+    {
+    }
 
-	[SerializeField]
-	float bulletSpeed = 10.0f;
+    public void FireBullet(UTurnType type)
+    {
+        var bullet = ecsGroup.CreateEntity("PlayerBullet");
+        bullet.transform.position = transform.position + offset;
 
-
-	///
-	/// Uターンを制御するため
-	///
-	[SerializeField] UTurnType uTurnType = UTurnType.Left;
-	[SerializeField] public Mouse launchKey = Mouse.Left;
-
-
-	public override void Initialize() {}
-
-	public override void Update() {
-		if (Input.PressMouse(launchKey)) {
-			launchTimer += Time.deltaTime;
-		}
-
-		if (launchTimer >= launchInterval) {
-			FireBullet(uTurnType);
-			launchTimer = 0.0f;
-		}
-	}
-
-
-
-
-	void FireBullet(UTurnType type) {
-		var bullet = ecsGroup.CreateEntity("PlayerBullet");
-		bullet.transform.position = transform.position + offset;
-
-		PlayerBullet bs = bullet.GetScript<PlayerBullet>();
-		bs.velocity = launchDirection.Normalized() * bulletSpeed;
-		bs.uTurnType = type;
-	}
-
-
+        PlayerBullet bs = bullet.GetScript<PlayerBullet>();
+        bs.velocity = launchDirection.Normalized() * bulletSpeed;
+        bs.uTurnType = type;
+    }
 
 }

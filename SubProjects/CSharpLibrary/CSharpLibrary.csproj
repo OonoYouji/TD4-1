@@ -89,6 +89,7 @@
     <Compile Include="Scripts\Engine\Core\Utility\Math\Vector3.cs" />
     <Compile Include="Scripts\Game\PlayerBullet.cs" />
     <Compile Include="Scripts\Game\PlayerBulletLauncher.cs" />
+    <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
   </ItemGroup>
   <ItemGroup>
