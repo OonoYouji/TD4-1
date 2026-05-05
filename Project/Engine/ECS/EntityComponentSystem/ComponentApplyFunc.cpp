@@ -114,7 +114,16 @@ void ONEngine::ComponentApplyFuncs::FetchMeshRenderer(void* _element, ECSGroup* 
 }
 
 void ONEngine::ComponentApplyFuncs::FetchDissolve(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<DissolveBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<DissolveMeshRenderer>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
 
+	if(DissolveMeshRenderer* mr = array->GetComponent(data->compId)) {
+		data->threshold = mr->GetDissolveThreshold();
+		data->compId = mr->GetDissolveCompare();
+	}
 }
 
 ComponentApplyFunc ComponentApplyFuncs::GetApplyFunc(MonoClass* _monoClass) {
