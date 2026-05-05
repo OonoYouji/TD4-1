@@ -33,7 +33,7 @@ public class Player : MonoScript
     private bool isGamepadMode = false;
     // 最後のフレームのマウス位置
     private Vector2 lastMousePos = new Vector2(640f, 360f);
-    // 発射クールタイムタイマー（fireInterval から始め、即撃ち可能にする）
+    // 発射クールタイムタイマー
     private float fireCooldownTimer;
     // 左右の発射口
     private PlayerBulletLauncher leftLauncher;
@@ -197,7 +197,7 @@ public class Player : MonoScript
     {
         fireCooldownTimer += Time.deltaTime;
 
-        // 右クリック または ゲームパッド LB/RB（LT/RTはenumに未定義）
+        // 右クリック または ゲームパッド LB/RB
         bool wantFire =
             Input.PressMouse(Mouse.Right) ||
             Input.PressGamepad(Gamepad.LeftShoulder) ||

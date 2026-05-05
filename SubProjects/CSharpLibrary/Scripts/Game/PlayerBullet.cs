@@ -12,6 +12,7 @@ public class PlayerBullet : MonoScript {
 	}
 
 	/// 基盤
+	public Vector3 startPosition = Vector3.zero;
 	public Vector3 velocity = new Vector3(0, 0, 1);
 	float lifeTime = 20.0f;
 
@@ -27,13 +28,21 @@ public class PlayerBullet : MonoScript {
 	float uTurnDuration = 1.0f;     // Uターンにかける時間（秒）
 	float uTurnTimer = 0.0f;        // Uターンの経過時間
 
+	bool positionApplied = false;
+
 	public override void Initialize() {
 		uTurnState = UTurnState.Straight;
 		straightTimer = 0.0f;
 		uTurnTimer = 0.0f;
+		positionApplied = false;
 	}
 
 	public override void Update() {
+
+		if (!positionApplied) {
+			transform.position = startPosition;
+			positionApplied = true;
+		}
 
 		switch (uTurnState) {
 		case UTurnState.Straight:

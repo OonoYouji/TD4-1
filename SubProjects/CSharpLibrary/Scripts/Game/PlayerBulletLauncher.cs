@@ -87,11 +87,14 @@ public class PlayerBulletLauncher : MonoScript {
 
 
 	void FireBullet(UTurnType type) {
-		var bullet = ecsGroup.CreateEntity("PlayerBullet");
-		bullet.transform.position = transform.position + offset;
 
-		PlayerBullet bs = bullet.GetScript<PlayerBullet>();
-		bs.velocity = launchDirection.Normalized() * bulletSpeed;
+        // 弾のエンティティを生成
+        var bullet = ecsGroup.CreateEntity("PlayerBullet");
+        // PlayerBulletスクリプトを取得して初期化
+        PlayerBullet bs = bullet.GetScript<PlayerBullet>();
+        bs.startPosition = transform.GetWorldPosition();
+
+        bs.velocity = launchDirection.Normalized() * bulletSpeed;
 		bs.uTurnType = type;
 	}
 }
