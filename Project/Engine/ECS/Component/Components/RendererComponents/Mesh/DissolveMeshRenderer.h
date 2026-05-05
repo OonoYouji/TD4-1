@@ -70,6 +70,12 @@ public:
 	GPUMaterial GetGPUMaterial(Asset::AssetCollection* _ac) const;
 
 	uint32_t GetDissolveCompare() const;
+
+
+	void SetThreshold(float threshold) {
+		dissolveThreshold_ = threshold;
+	}
+
 };
 
 } /// namespace ONEngine

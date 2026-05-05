@@ -57,6 +57,8 @@ void ONEngine::from_json(const nlohmann::json& _j, DissolveMeshRenderer& _dmr) {
 	_dmr.meshGuid_ = _j.value("meshGuid", Guid::kInvalid);
 	_dmr.material_ = _j.value("material", Asset::Material());
 	_dmr.dissolveTexture_ = _j.value("dissolveTexture", Guid::kInvalid);
+	_dmr.dissolveCompare_ = _j.value("dissolveCompare", DissolveCompare::LessEqual);
+	_dmr.dissolveThreshold_ = _j.value("dissolveThreshold", 0.5f);
 }
 
 void ONEngine::to_json(nlohmann::json& _j, const DissolveMeshRenderer& _dmr) {
@@ -64,7 +66,9 @@ void ONEngine::to_json(nlohmann::json& _j, const DissolveMeshRenderer& _dmr) {
 		{ "type", "DissolveMeshRenderer" },
 		{ "meshGuid", _dmr.meshGuid_ },
 		{ "material", _dmr.material_ },
-		{ "dissolveTexture", _dmr.dissolveTexture_ }
+		{ "dissolveTexture", _dmr.dissolveTexture_ },
+		{ "dissolveCompare", _dmr.dissolveCompare_ },
+		{ "dissolveThreshold", _dmr.dissolveThreshold_ }
 	};
 }
 
@@ -97,7 +101,7 @@ float DissolveMeshRenderer::GetDissolveThreshold() const {
 }
 
 GPUMaterial DissolveMeshRenderer::GetGPUMaterial(Asset::AssetCollection* _ac) const {
-	GPUMaterial result;
+	GPUMaterial result{};
 	result.uvTransform = material_.uvTransform;
 	result.baseColor = material_.baseColor;
 	result.postEffectFlags = material_.postEffectFlags;
@@ -116,5 +120,6 @@ GPUMaterial DissolveMeshRenderer::GetGPUMaterial(Asset::AssetCollection* _ac) co
 uint32_t ONEngine::DissolveMeshRenderer::GetDissolveCompare() const {
 	return static_cast<uint32_t>(dissolveCompare_);
 }
+
 
 
