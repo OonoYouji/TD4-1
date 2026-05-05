@@ -157,10 +157,22 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "Player"
+                            "name": "PlayerInputHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "PlayerBulletLauncher"
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "categoryBits": 1,
+                    "enable": 1,
+                    "maskBits": 4294967295,
+                    "radius": 1.7000000476837158,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
