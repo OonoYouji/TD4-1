@@ -101,7 +101,7 @@ float DissolveMeshRenderer::GetDissolveThreshold() const {
 }
 
 GPUMaterial DissolveMeshRenderer::GetGPUMaterial(Asset::AssetCollection* _ac) const {
-	GPUMaterial result;
+	GPUMaterial result{};
 	result.uvTransform = material_.uvTransform;
 	result.baseColor = material_.baseColor;
 	result.postEffectFlags = material_.postEffectFlags;
@@ -120,5 +120,6 @@ GPUMaterial DissolveMeshRenderer::GetGPUMaterial(Asset::AssetCollection* _ac) co
 uint32_t ONEngine::DissolveMeshRenderer::GetDissolveCompare() const {
 	return static_cast<uint32_t>(dissolveCompare_);
 }
+
 
 
