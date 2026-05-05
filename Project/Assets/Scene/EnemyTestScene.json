@@ -45,7 +45,7 @@
                 }
             ],
             "guid": "f3301490d260735dfc6b4620b64395a9",
-            "id": 1,
+            "id": 3,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -94,7 +94,7 @@
                 }
             ],
             "guid": "545c4c6071414dab0e6246ebae462081",
-            "id": 2,
+            "id": 6,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -150,10 +150,6 @@
                             "name": "TestEnemy"
                         },
                         {
-                            "enable": false,
-                            "name": "PlayerBulletLauncher"
-                        },
-                        {
                             "enable": true,
                             "name": "EnemyCollisionHandler"
                         },
@@ -163,10 +159,18 @@
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "maskBits": 36,
+                    "radius": 1.0,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93725",
-            "id": 3,
+            "id": 5,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -177,9 +181,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -7.088486671447754,
+                        "x": -9.68111801147461,
                         "y": 0.0,
-                        "z": 2.260542154312134
+                        "z": -7.783847332000732
                     },
                     "rotate": {
                         "w": 1.0,
@@ -216,7 +220,7 @@
                 }
             ],
             "guid": "2b88d62373851c2ef94c79db45b92d33",
-            "id": 4,
+            "id": 1,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -274,7 +278,7 @@
                 }
             ],
             "guid": "f1c6abc3a0b1eab6bb7c67f089776c77",
-            "id": 5,
+            "id": 2,
             "name": "TestBullet",
             "parent": null,
             "prefabName": ""
@@ -317,9 +321,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817b",
-            "id": 6,
+            "id": 4,
             "name": "UI Root",
-            "parent": 3,
+            "parent": 5,
             "prefabName": ""
         },
         {
@@ -327,7 +331,7 @@
                 {
                     "dissolveCompare": 0,
                     "dissolveTexture": "719dccb697924483b4cf03e2ace1b540",
-                    "dissolveThreshold": 0.0,
+                    "dissolveThreshold": 1.0,
                     "material": {
                         "baseColor": {
                             "w": 1.0,
@@ -371,7 +375,7 @@
             "guid": "fc9c35f3c6655b859b19742a69c96942",
             "id": 7,
             "name": "HP",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         }
     ]
