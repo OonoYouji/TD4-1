@@ -1,1 +1,15 @@
-null
+{
+    "Player": {
+        "armLength": 12.0,
+        "currentYaw": 14.223740577697754,
+        "inputDeadZone": 0.0,
+        "isGamepadMode": false,
+        "lastMousePos": {
+            "x": 1395.0,
+            "y": 423.0
+        },
+        "maxMoveSpeed": 27.0,
+        "mouseIsMovePixel": 0.0,
+        "rotationSpeed": 8.0
+    }
+}

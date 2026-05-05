@@ -149,7 +149,7 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+                    "meshPath": "./Assets/Models/objects/PuzzleClearEffect/CannonStand.obj",
                     "type": "MeshRenderer"
                 },
                 {
@@ -157,359 +157,16 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "PlayerInputHandler"
-                        },
-                        {
-                            "enable": true,
-                            "name": "PlayerBulletLauncher"
+                            "name": "Player"
                         }
                     ],
                     "type": "Script"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "radius": 1.7000000476837158,
-                    "state": "Dynamic",
-                    "type": "SphereCollider"
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
             "id": 3,
             "name": "Player",
             "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                }
-            ],
-            "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 4,
-            "name": "Background",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 100.0,
-                        "y": 100.0,
-                        "z": 100.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshPath": "./Packages/Models/primitive/plane.obj",
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 5,
-            "name": "Field",
-            "parent": 4,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 27.062217712402344
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 14.0,
-                        "y": 4.0,
-                        "z": 2.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 6,
-            "name": "Wall",
-            "parent": 4,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.795562744140625,
-                        "y": 0.0,
-                        "z": -21.717073440551758
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 14.0,
-                        "y": 4.0,
-                        "z": 2.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 7,
-            "name": "Wall_1",
-            "parent": 4,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 32.127498626708984,
-                        "y": -7.4569275057001505e-06,
-                        "z": -0.026893138885498047
-                    },
-                    "rotate": {
-                        "w": 0.7160019278526306,
-                        "x": 0.0,
-                        "y": 0.6980983018875122,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 14.000031471252441,
-                        "y": 4.000014781951904,
-                        "z": 2.0000054836273193
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 8,
-            "name": "Wall_2",
-            "parent": 4,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -32.60081100463867,
-                        "y": 0.0,
-                        "z": 0.14931297302246094
-                    },
-                    "rotate": {
-                        "w": 0.8835885524749756,
-                        "x": -5.9091355808504886e-08,
-                        "y": -0.468264102935791,
-                        "z": 1.8154409531234705e-08
-                    },
-                    "scale": {
-                        "x": 14.000025749206543,
-                        "y": 4.000010967254639,
-                        "z": 2.000000238418579
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 9,
-            "name": "Wall_3",
-            "parent": 4,
             "prefabName": ""
         },
         {
@@ -567,7 +224,7 @@
                 }
             ],
             "guid": "579981716c2ed68722d2f19edfd5a6d9",
-            "id": 10,
+            "id": 4,
             "name": "PlayerLeftArm",
             "parent": 3,
             "prefabName": ""
@@ -627,7 +284,7 @@
                 }
             ],
             "guid": "d6dd606f1455423aa2fca05e7d833049",
-            "id": 11,
+            "id": 5,
             "name": "PlayerRightArm",
             "parent": 3,
             "prefabName": ""
@@ -687,7 +344,7 @@
                 }
             ],
             "guid": "2ea23374f0f7bababe842574acacad6f",
-            "id": 12,
+            "id": 6,
             "name": "PlayerLeftBulletMuzzle",
             "parent": 3,
             "prefabName": ""
@@ -747,7 +404,7 @@
                 }
             ],
             "guid": "c7b59103f369698bf6c815a21483876b",
-            "id": 13,
+            "id": 7,
             "name": "PlayerRightBulletMuzzle",
             "parent": 3,
             "prefabName": ""

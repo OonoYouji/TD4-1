@@ -1,0 +1,53 @@
+[
+    {
+        "enable": 1,
+        "matrixCalcFlags": 7,
+        "position": {
+            "x": 46.48198699951172,
+            "y": 0.0,
+            "z": 75.60931396484375
+        },
+        "rotate": {
+            "w": 0.8702788352966309,
+            "x": 0.0,
+            "y": -0.49255937337875366,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "type": "Transform"
+    },
+    {
+        "type": "Variables"
+    },
+    {
+        "enable": 1,
+        "material": {
+            "baseColor": {
+                "w": 1.0,
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "baseTextureGuid": "00000000000000000000000000000000",
+            "guid": "00000000000000000000000000000000",
+            "normalTextureGuid": "00000000000000000000000000000000",
+            "postEffectFlags": 1
+        },
+        "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+        "type": "MeshRenderer"
+    },
+    {
+        "enable": 1,
+        "scripts": [
+            {
+                "enable": true,
+                "name": "Player"
+            }
+        ],
+        "type": "Script"
+    }
+]
