@@ -163,14 +163,6 @@
                         }
                     ],
                     "type": "Script"
-                },
-                {
-                    "categoryBits": 8,
-                    "enable": 1,
-                    "maskBits": 36,
-                    "radius": 1.0,
-                    "state": "Dynamic",
-                    "type": "SphereCollider"
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93725",
@@ -185,9 +177,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -21.42633628845215,
+                        "x": -7.088486671447754,
                         "y": 0.0,
-                        "z": -6.097095489501953
+                        "z": 2.260542154312134
                     },
                     "rotate": {
                         "w": 1.0,

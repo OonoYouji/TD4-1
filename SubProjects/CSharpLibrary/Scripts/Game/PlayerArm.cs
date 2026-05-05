@@ -5,10 +5,7 @@ public class PlayerArm : MonoScript
     // パラメーター
     // =========================================================
 
-    // 左腕かどうか
-    [SerializeField] public bool isLeft = true;
-
-
+  
     // =========================================================
     // 内部状態
     // =========================================================
@@ -19,8 +16,6 @@ public class PlayerArm : MonoScript
     // =========================================================
     // プロパティ
     // =========================================================
-
-    public bool IsLeft => isLeft;
 
 
     // =========================================================
@@ -50,15 +45,9 @@ public class PlayerArm : MonoScript
     {
         if (player == null) { return; }
 
-        float sign = 1.0f;
-        if (isLeft)
-        {
-            sign = -1.0f;
-        }
-
         // X軸スケールを腕の長さに合わせる
         Vector3 scale = transform.scale;
-        scale.x = player.armLength * sign;
+        scale.x = player.armLength;
         transform.scale = scale;
     }
 

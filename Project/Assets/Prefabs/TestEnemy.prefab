@@ -47,20 +47,12 @@
                 {
                     "enable": true,
                     "name": "TestEnemy"
-                },
-                {
-                    "enable": true,
-                    "name": "EnemyCollisionHandler"
-                },
-                {
-                    "enable": true,
-                    "name": "PlayerBulletLauncher"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "33e4b5f4a6807a08ef6ae5cc53bdc14d",
+    "guid": "8c80a37abf4aab7d7b153c2a14c93277",
     "id": 2,
     "name": "TestEnemy",
     "parent": null,

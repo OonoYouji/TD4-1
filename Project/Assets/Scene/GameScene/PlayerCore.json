@@ -1,0 +1,13 @@
+{
+    "PlayerCore": {
+        "currentHp": 3,
+        "followSpeed": 6.0,
+        "maxHp": 3,
+        "offset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -10.0
+        },
+        "size": 3.0
+    }
+}

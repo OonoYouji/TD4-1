@@ -41,7 +41,7 @@ class EnemyCollisionHandler : MonoScript
         }
     }
 
-    void OnCollisionEnter(Entity collider)
+    public override void OnCollisionEnter(Entity collider)
     {
         if (collider == null) return;
         if (damageCooldown > 0f) return; // ダメージクールダウン中は無効

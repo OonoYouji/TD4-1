@@ -3,7 +3,7 @@
         "enable": 1,
         "matrixCalcFlags": 7,
         "position": {
-            "x": 0.0,
+            "x": 26.989030838012695,
             "y": 0.0,
             "z": 0.0
         },
@@ -28,7 +28,7 @@
         "scripts": [
             {
                 "enable": true,
-                "name": "BulletMuzzle"
+                "name": "PlayerBulletLauncher"
             }
         ],
         "type": "Script"

@@ -76,6 +76,7 @@
     <Compile Include="Scripts\Engine\ECS\Components\ComponentBatchManager.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\ComponentCollection.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Compute\AudioSource.cs" />
+    <Compile Include="Scripts\Engine\ECS\Components\Renderer\DissolveMeshRenderer.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Renderer\MeshRenderer.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Renderer\SkinMeshRenderer.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Renderer\SpriteRenderer.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Scripts\Game\PlayerArm.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
+    <Compile Include="Scripts\Game\PlayerCore.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
   </ItemGroup>
   <ItemGroup>
