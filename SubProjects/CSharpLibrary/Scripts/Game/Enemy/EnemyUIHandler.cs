@@ -24,6 +24,7 @@ class EnemyUIHandler : MonoScript
 
     public void OnDamaged(float currentHpPercent)
     {
+        Debug.LogInfo($"EnemyUIHandler OnDamaged called with currentHpPercent: {currentHpPercent}");
         renderer.threshold = Mathf.Clamp01(currentHpPercent);
     }
 
