@@ -11,11 +11,13 @@ public class TestEnemy : MonoScript
     public float rotateSpeed = 3.0f;
 
     [SerializeField]
-    public float attackRange = 5.0f;
+    public float attackRange = 10.0f;
     [SerializeField]
     public float speed = 5.0f;
 
     MeshRenderer meshRenderer;
+
+    PlayerBulletLauncher launcher;
 
     public override void Initialize()
     {
@@ -26,6 +28,16 @@ public class TestEnemy : MonoScript
             Debug.LogWarning("Failed to find target entity");
         }
         meshRenderer = entity.GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+        {
+            Debug.LogError("Failed to find MeshRenderer component");
+        }
+        launcher = entity.GetScript<PlayerBulletLauncher>();
+        if (launcher == null)
+        {
+            Debug.LogError("Failed to find PlayerBulletLauncher script");
+        }
+        launcher.enable = false;
 
         Debug.Log("Initialized Enemy");
     }
@@ -38,6 +50,8 @@ public class TestEnemy : MonoScript
         {
             return;
         }
+
+        launcher.enable = false;
 
         float distance = Vector3.Distance(transform.position, targetEntity.transform.position);
         if (distance < searchRange)
@@ -58,6 +72,13 @@ public class TestEnemy : MonoScript
         else if (distance <= attackRange)
         {
             meshRenderer.color = Vector4.red;
+            launcher.enable = true;
+
+            float diff = distance - attackRange;
+            Vector3 forward = Matrix4x4.Transform(Vector3.forward, Matrix4x4.Rotate(transform.rotate));
+            transform.position += forward * Time.deltaTime * speed * diff;
+
+            launcher.launchDirection = forward.Normalized();
         }
         else
         {
