@@ -115,14 +115,14 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 46.48198699951172,
+                        "x": 46.981990814208984,
                         "y": 0.0,
-                        "z": 75.60931396484375
+                        "z": 113.70929718017578
                     },
                     "rotate": {
-                        "w": 0.8702788352966309,
+                        "w": 1.0,
                         "x": 0.0,
-                        "y": -0.49255937337875366,
+                        "y": 0.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -197,7 +197,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 4,
+            "id": 12,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -247,9 +247,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 5,
+            "id": 13,
             "name": "Field",
-            "parent": 4,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -309,9 +309,9 @@
                 }
             ],
             "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 6,
+            "id": 4,
             "name": "Wall",
-            "parent": 4,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -371,9 +371,9 @@
                 }
             ],
             "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 7,
+            "id": 5,
             "name": "Wall_1",
-            "parent": 4,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -433,9 +433,9 @@
                 }
             ],
             "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 8,
+            "id": 6,
             "name": "Wall_2",
-            "parent": 4,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -495,9 +495,9 @@
                 }
             ],
             "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 9,
+            "id": 7,
             "name": "Wall_3",
-            "parent": 4,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -506,14 +506,14 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -1.167205810546875,
+                        "x": 0.732797384262085,
                         "y": 0.0,
                         "z": 0.0
                     },
                     "rotate": {
                         "w": 1.0,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -1.1920928955078125e-07,
                         "z": 0.0
                     },
                     "scale": {
@@ -555,7 +555,7 @@
                 }
             ],
             "guid": "579981716c2ed68722d2f19edfd5a6d9",
-            "id": 10,
+            "id": 8,
             "name": "PlayerLeftArm",
             "parent": 3,
             "prefabName": ""
@@ -566,20 +566,20 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 1.0,
+                        "x": -0.09999366104602814,
                         "y": 0.0,
                         "z": 0.0
                     },
                     "rotate": {
                         "w": 1.0,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -1.1920928955078125e-07,
                         "z": 0.0
                     },
                     "scale": {
-                        "x": -24.0,
-                        "y": 2.0,
-                        "z": 2.0
+                        "x": 12.400002479553223,
+                        "y": 2.0000007152557373,
+                        "z": 2.0000007152557373
                     },
                     "type": "Transform"
                 },
@@ -615,7 +615,7 @@
                 }
             ],
             "guid": "d6dd606f1455423aa2fca05e7d833049",
-            "id": 11,
+            "id": 9,
             "name": "PlayerRightArm",
             "parent": 3,
             "prefabName": ""
@@ -651,7 +651,7 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "BulletMuzzle"
+                            "name": "PlayerBulletLauncher"
                         }
                     ],
                     "type": "Script"
@@ -675,7 +675,7 @@
                 }
             ],
             "guid": "2ea23374f0f7bababe842574acacad6f",
-            "id": 12,
+            "id": 10,
             "name": "PlayerLeftBulletMuzzle",
             "parent": 3,
             "prefabName": ""
@@ -711,7 +711,7 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "BulletMuzzle"
+                            "name": "PlayerBulletLauncher"
                         }
                     ],
                     "type": "Script"
@@ -735,7 +735,7 @@
                 }
             ],
             "guid": "c7b59103f369698bf6c815a21483876b",
-            "id": 13,
+            "id": 11,
             "name": "PlayerRightBulletMuzzle",
             "parent": 3,
             "prefabName": ""
@@ -794,7 +794,9 @@
                     "type": "Script"
                 },
                 {
+                    "categoryBits": 1,
                     "enable": 1,
+                    "maskBits": 4294967295,
                     "radius": 1.0,
                     "state": "Dynamic",
                     "type": "SphereCollider"

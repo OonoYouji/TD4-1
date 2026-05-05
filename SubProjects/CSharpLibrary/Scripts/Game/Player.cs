@@ -15,6 +15,9 @@ public class Player : MonoScript
     // 腕の長さ
     [SerializeField] public float armLength = 2.0f;
 
+    // 弾の発射間隔（クールタイム）
+    [SerializeField] public float fireInterval = 0.5f;
+
 
     // =========================================================
     // 内部状態
@@ -30,6 +33,11 @@ public class Player : MonoScript
     private bool isGamepadMode = false;
     // 最後のフレームのマウス位置
     private Vector2 lastMousePos = new Vector2(640f, 360f);
+    // 発射クールタイムタイマー（fireInterval から始め、即撃ち可能にする）
+    private float fireCooldownTimer;
+    // 左右の発射口
+    private PlayerBulletLauncher leftLauncher;
+    private PlayerBulletLauncher rightLauncher;
 
     // =========================================================
     // ライフサイクル
@@ -39,6 +47,12 @@ public class Player : MonoScript
     {
         currentYaw = transform.rotate.ToEuler().y;
         lastMousePos = Input.MousePosition();
+        fireCooldownTimer = fireInterval;
+
+        Entity leftMuzzleEntity  = ecsGroup.FindEntity("PlayerLeftBulletMuzzle");
+        Entity rightMuzzleEntity = ecsGroup.FindEntity("PlayerRightBulletMuzzle");
+        if (leftMuzzleEntity  != null) { leftLauncher  = leftMuzzleEntity.GetScript<PlayerBulletLauncher>(); }
+        if (rightMuzzleEntity != null) { rightLauncher = rightMuzzleEntity.GetScript<PlayerBulletLauncher>(); }
     }
 
     public override void Update()
@@ -49,6 +63,8 @@ public class Player : MonoScript
         HandleMovement();
         // 回転処理
         HandleRotation();
+        // 発射処理
+        HandleFiring();
     }
 
     private void UpdateInputMode()
@@ -171,5 +187,27 @@ public class Player : MonoScript
         }
 
         return a + diff * t;
+    }
+
+    // =========================================================
+    // 発射
+    // =========================================================
+
+    private void HandleFiring()
+    {
+        fireCooldownTimer += Time.deltaTime;
+
+        // 右クリック または ゲームパッド LB/RB（LT/RTはenumに未定義）
+        bool wantFire =
+            Input.PressMouse(Mouse.Right) ||
+            Input.PressGamepad(Gamepad.LeftShoulder) ||
+            Input.PressGamepad(Gamepad.RightShoulder);
+
+        if (wantFire && fireCooldownTimer >= fireInterval)
+        {
+            fireCooldownTimer = 0.0f;
+            if (leftLauncher  != null) { leftLauncher.Fire(); }
+            if (rightLauncher != null) { rightLauncher.Fire(); }
+        }
     }
 }

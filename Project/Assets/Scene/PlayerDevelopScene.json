@@ -320,7 +320,7 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "BulletMuzzle"
+                            "name": "PlayerBulletLauncher"
                         }
                     ],
                     "type": "Script"
@@ -380,7 +380,7 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "BulletMuzzle"
+                            "name": "PlayerBulletLauncher"
                         }
                     ],
                     "type": "Script"
