@@ -92,6 +92,7 @@
     <Compile Include="Scripts\Game\PlayerBulletLauncher.cs" />
     <Compile Include="Scripts\Game\PlayerArm.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
+    <Compile Include="Scripts\Test\DissolveTest.cs" />
     <Compile Include="Scripts\Game\PlayerCore.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
   </ItemGroup>

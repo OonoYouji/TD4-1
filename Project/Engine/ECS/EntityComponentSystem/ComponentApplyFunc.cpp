@@ -11,6 +11,7 @@
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
+#include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/Script/MonoScriptEngine.h"
 
 
@@ -28,13 +29,18 @@ struct TransformBatch {
 	Vector3 position;
 	Quaternion rotate;
 	Vector3 scale;
+	Matrix4x4 matWorld;
 };
-
 
 struct MeshRendererBatch {
 	uint32_t compId;
 	Vector4 color;
 	uint32_t postEffectFlags;
+};
+
+struct DissolveBatch {
+	uint32_t compId;
+	float threshold;
 };
 
 } /// unnamed namespace
@@ -68,6 +74,18 @@ void ComponentApplyFuncs::ApplyMeshRenderer(void* _element, ECSGroup* _ecsGroup)
 	}
 }
 
+void ONEngine::ComponentApplyFuncs::ApplyDissolve(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<DissolveBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<DissolveMeshRenderer>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(DissolveMeshRenderer* mr = array->GetComponent(data->compId)) {
+		mr->SetThreshold(data->threshold);
+	}
+}
+
 void ONEngine::ComponentApplyFuncs::FetchTransform(void* _element, ECSGroup* _ecsGroup) {
 	auto* data = static_cast<TransformBatch*>(_element);
 	auto* array = _ecsGroup->GetComponentArray<Transform>();
@@ -79,6 +97,7 @@ void ONEngine::ComponentApplyFuncs::FetchTransform(void* _element, ECSGroup* _ec
 		data->position = t->GetPosition();
 		data->rotate = t->GetRotate();
 		data->scale = t->GetScale();
+		data->matWorld = t->GetMatWorld();
 	}
 }
 
@@ -92,6 +111,10 @@ void ONEngine::ComponentApplyFuncs::FetchMeshRenderer(void* _element, ECSGroup* 
 	//if(MeshRenderer* mr = array->GetComponent(data->compId)) {
 
 	//}
+}
+
+void ONEngine::ComponentApplyFuncs::FetchDissolve(void* _element, ECSGroup* _ecsGroup) {
+
 }
 
 ComponentApplyFunc ComponentApplyFuncs::GetApplyFunc(MonoClass* _monoClass) {
@@ -131,5 +154,12 @@ void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
 		gApplyFuncMap[monoClass] = ApplyMeshRenderer;
 		gFetchFuncMap[monoClass] = FetchMeshRenderer;
 		gComponentBatchSize[monoClass] = sizeof(MeshRendererBatch);
+	}
+
+	{	/// DissolveMeshRenderer
+		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "DissolveMeshRenderer");
+		gApplyFuncMap[monoClass] = ApplyDissolve;
+		gFetchFuncMap[monoClass] = FetchDissolve;
+		gComponentBatchSize[monoClass] = sizeof(DissolveBatch);
 	}
 }

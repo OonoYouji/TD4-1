@@ -24,13 +24,13 @@ namespace ComponentApplyFuncs {
 
 void ApplyTransform(void* _element, ECSGroup* _ecsGroup);
 void ApplyMeshRenderer(void* _element, ECSGroup* _ecsGroup);
-
+void ApplyDissolve(void* _element, ECSGroup* _ecsGroup);
 
 /// Fetch
 
 void FetchTransform(void* _element, ECSGroup* _ecsGroup);
 void FetchMeshRenderer(void* _element, ECSGroup* _ecsGroup);
-
+void FetchDissolve(void* _element, ECSGroup* _ecsGroup);
 
 
 ComponentApplyFunc GetApplyFunc(MonoClass* _monoClass);

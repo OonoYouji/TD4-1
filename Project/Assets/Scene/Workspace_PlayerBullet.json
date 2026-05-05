@@ -188,6 +188,23 @@
         {
             "components": [
                 {
+                    "dissolveTexture": "00000000000000000000000000000000",
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshGuid": "bfe7207fb6cdcce101ba2c8b1e23a3c5",
+                    "type": "DissolveMeshRenderer"
+                },
+                {
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
@@ -213,20 +230,8 @@
                 },
                 {
                     "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 0.856589138507843,
-                            "y": 0.2722492516040802,
-                            "z": 0.2722492516040802
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
+                    "scripts": null,
+                    "type": "Script"
                 }
             ],
             "guid": "fb059c40d0cc0d46936fdeb4f322581b",
