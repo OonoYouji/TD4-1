@@ -19,15 +19,19 @@ public class TestEnemy : MonoScript
 
     public override void Initialize()
     {
-        Debug.Log("Start Enemy");
+        Debug.Log("TestEnemy Initializing");
         targetEntity = ecsGroup.FindEntity(ENTITY_NAME);
         if (targetEntity == null)
         {
             Debug.LogWarning("Failed to find target entity");
         }
         meshRenderer = entity.GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+        {
+            Debug.LogWarning("Failed to find MeshRenderer component");
+        }
 
-        Debug.Log("Initialized Enemy");
+        Debug.Log("TestEnemy Initialized");
     }
 
     public override void Update()

@@ -156,6 +156,10 @@
                         {
                             "enable": true,
                             "name": "EnemyUIHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
                         }
                     ],
                     "type": "Script"
@@ -181,9 +185,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -8.220860481262207,
-                        "y": -3.2460447982884943e-06,
-                        "z": -13.62527847290039
+                        "x": -13.640632629394531,
+                        "y": -3.2860943974810652e-06,
+                        "z": -15.982658386230469
                     },
                     "rotate": {
                         "w": 1.0,

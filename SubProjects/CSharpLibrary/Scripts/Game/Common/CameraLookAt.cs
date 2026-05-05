@@ -8,12 +8,17 @@ class CameraLookAt : MonoScript
 
     public override void Initialize()
     {
+        Debug.LogInfo("CameraLookAt Initializing");
         Entity cameraEntity = ecsGroup.FindEntity(cameraName);
         if (cameraEntity != null)
         {
             camera = cameraEntity.transform;
+        }else
+        {
+            Debug.LogError($"CameraLookAt failed to find camera entity with name {cameraName}");
         }
         parent = entity.parent;
+        Debug.LogInfo("CameraLookAt Initialized");
     }
 
     public override void Update()

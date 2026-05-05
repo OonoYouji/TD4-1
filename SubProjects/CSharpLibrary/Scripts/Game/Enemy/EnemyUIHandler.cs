@@ -6,6 +6,7 @@ class EnemyUIHandler : MonoScript
 
     public override void Initialize()
     {
+        Debug.LogInfo("EnemyUIHandler Initializing");
         // 再帰関数で子オブジェクトを探索して、HP_UI_NAMEと一致するオブジェクトを見つける
         Entity hpEntity = FindEntity(entity, HP_UI_NAME);
         if (hpEntity == null)
@@ -18,6 +19,7 @@ class EnemyUIHandler : MonoScript
         {
             Debug.LogError("Failed to find DissolveMeshRenderer component");
         }
+        Debug.LogInfo("EnemyUIHandler initialized");
     }
 
     public void OnDamaged(float currentHpPercent)

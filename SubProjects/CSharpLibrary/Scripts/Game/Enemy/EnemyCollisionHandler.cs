@@ -8,12 +8,8 @@ class EnemyCollisionHandler : MonoScript
     public float DAMAGE_COOLDOWN_TIME = 0.5f;
     float damageCooldown = 0f;
 
-    [SerializeField]
-    public float KNOCKBACK_FORCE_STRENGTH = 10f;
-    [SerializeField]
-    public float KNOCKBACK_DECAY = 0.9f;
-    Vector3 knockbackVelocity = Vector3.zero;
-    float knockbackThreshold = 0.01f;
+    Knockback knockback;
+    float knockbackSafetyThreshold = 0.1f;
 
     EnemyUIHandler uiHandler;
 
@@ -21,19 +17,24 @@ class EnemyCollisionHandler : MonoScript
 
     public override void Initialize()
     {
+        Debug.LogInfo("EnemyCollisionHandler Initializing");
         hitpoints = MAX_HITPOINTS;
         uiHandler = entity.GetScript<EnemyUIHandler>();
         if (uiHandler == null)
         {
             Debug.LogError("Failed to find EnemyUIHandler script");
         }
+        knockback = entity.GetScript<Knockback>();
+        if (knockback == null)
+        {
+            Debug.LogError("Failed to find Knockback script");
+        }
+        Debug.LogInfo("EnemyCollisionHandler initialized");
     }
 
     public override void Update()
     {
         damageCooldown -= Time.deltaTime;
-        transform.position += knockbackVelocity * Time.deltaTime;
-        knockbackVelocity -= knockbackVelocity * KNOCKBACK_DECAY * Time.deltaTime;
 
         if (isDestroy)
         {
@@ -62,18 +63,22 @@ class EnemyCollisionHandler : MonoScript
             damageCooldown = DAMAGE_COOLDOWN_TIME;
 
             // ノックバック処理
-            Vector3 direction = transform.position - collider.transform.position;
+            // メモ: colliderのtransformが正しく受け取れてない可能性
+            Vector3 direction = transform.worldPosition - collider.transform.worldPosition;
+
             direction.y = 0.0f;
-            if (direction.Length() > knockbackThreshold)
+            if (direction.Length() > knockbackSafetyThreshold)
             {
                 direction = direction.Normalized();
-                knockbackVelocity = direction * KNOCKBACK_FORCE_STRENGTH;
             }
             else
-            {
-                // 後ろ
+            { // 後ろ
                 Vector3 backword = Matrix4x4.Transform(Vector3.back, Matrix4x4.Rotate(transform.rotate));
-                knockbackVelocity = backword * KNOCKBACK_FORCE_STRENGTH;
+                direction = backword.Normalized();
+            }
+            if (knockback != null)
+            {
+                knockback.ApplyKnockback(direction);
             }
         }
     }
