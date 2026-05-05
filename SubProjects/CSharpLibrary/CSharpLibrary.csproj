@@ -86,6 +86,7 @@
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Compute\Transform.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyCollisionHandler.cs" />
+    <Compile Include="Scripts\Game\Enemy\EnemyUIHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
     <Compile Include="Scripts\Game\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Player.cs" />

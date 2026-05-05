@@ -9,22 +9,36 @@ class EnemyCollisionHandler : MonoScript
     float damageCooldown = 0f;
 
     [SerializeField]
-    public float KNOCKBACK_FORCE_STRENGTH = 5f;
+    public float KNOCKBACK_FORCE_STRENGTH = 100f;
     [SerializeField]
-    public float KNOCKBACK_DECAY = 0.9f;
+    public float KNOCKBACK_DECAY = 0.99f;
     Vector3 knockbackVelocity = Vector3.zero;
     float knockbackThreshold = 0.01f;
+
+    EnemyUIHandler uiHandler;
+
+    bool isDestory = false;
 
     public override void Initialize()
     {
         hitpoints = MAX_HITPOINTS;
+        uiHandler = entity.GetScript<EnemyUIHandler>();
+        if (uiHandler == null)
+        {
+            Debug.LogError("Failed to find EnemyUIHandler script");
+        }
     }
 
     public override void Update()
     {
         damageCooldown -= Time.deltaTime;
         transform.position += knockbackVelocity * Time.deltaTime;
-        knockbackVelocity *= KNOCKBACK_DECAY;
+        knockbackVelocity -= knockbackVelocity * KNOCKBACK_DECAY * Time.deltaTime;
+
+        if (isDestory)
+        {
+            entity.Destroy();
+        }
     }
 
     void OnCollisionEnter(Entity collider)
@@ -39,6 +53,10 @@ class EnemyCollisionHandler : MonoScript
             //int damage = bullet.damage;
             int damage = 100; // 仮
             TakeDamage(damage);
+            if (uiHandler != null)
+            {
+                uiHandler.OnDamaged((float)hitpoints / (float)MAX_HITPOINTS);
+            }
 
             // ダメージを連続で受けないよう無敵設定
             damageCooldown = DAMAGE_COOLDOWN_TIME;
@@ -67,7 +85,9 @@ class EnemyCollisionHandler : MonoScript
         if (hitpoints <= 0)
         {
             Debug.Log("Enemy destroyed!");
-            entity.Destroy();
+            // HOTIFX: OnCollisiton内でDestoryを呼ぶとクラッシュするので、現在はフラグを立ててUpdate内でDestroyするようにしている
+            // Update内でなら大丈夫とのこと
+            isDestory = true;
         }
     }
 }

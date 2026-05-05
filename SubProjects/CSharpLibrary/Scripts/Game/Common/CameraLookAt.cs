@@ -19,7 +19,7 @@ class CameraLookAt : MonoScript
         if (camera != null && parent != null) {
             Quaternion baseRotate = Quaternion.MakeFromAxis(Vector3.up, Mathf.PI) * camera.rotate;
             Quaternion parentRotateInv = parent.transform.rotate.Inverse();
-            transform.rotate = baseRotate * parentRotateInv;
+            transform.rotate = parentRotateInv * baseRotate;
         }
     }
 }

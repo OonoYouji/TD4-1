@@ -105,9 +105,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
+                        "x": 0.7111845016479492,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": 0.6330869793891907
                     },
                     "rotate": {
                         "w": 1.0,
@@ -130,14 +130,14 @@
                     "material": {
                         "baseColor": {
                             "w": 1.0,
-                            "x": 1.0,
+                            "x": 0.0,
                             "y": 1.0,
-                            "z": 1.0
+                            "z": 0.0
                         },
                         "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 0
                     },
                     "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
                     "type": "MeshRenderer"
@@ -156,6 +156,10 @@
                         {
                             "enable": true,
                             "name": "EnemyCollisionHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "EnemyUIHandler"
                         }
                     ],
                     "type": "Script"
@@ -231,9 +235,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 7.945758819580078,
+                        "x": 12.99558162689209,
                         "y": 0.0,
-                        "z": -8.806329727172852
+                        "z": -7.392297744750977
                     },
                     "rotate": {
                         "w": 1.0,
@@ -294,10 +298,10 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "w": 3.090713107667398e-08,
+                        "x": -3.091010469802313e-08,
+                        "y": 0.7070727348327637,
+                        "z": 0.7071408033370972
                     },
                     "scale": {
                         "x": 1.0,
@@ -329,9 +333,9 @@
         {
             "components": [
                 {
-                    "dissolveCompare": 1,
-                    "dissolveTexture": "14196fa931d9b8c11196cdd7eca20cf6",
-                    "dissolveThreshold": 0.5,
+                    "dissolveCompare": 0,
+                    "dissolveTexture": "719dccb697924483b4cf03e2ace1b540",
+                    "dissolveThreshold": 0.0,
                     "material": {
                         "baseColor": {
                             "w": 1.0,
