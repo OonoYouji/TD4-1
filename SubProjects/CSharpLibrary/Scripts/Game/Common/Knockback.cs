@@ -3,7 +3,7 @@ class Knockback : MonoScript
     [SerializeField]
     public float KNOCKBACK_FORCE_STRENGTH = 10f;
     [SerializeField]
-    public float KNOCKBACK_DECAY = 0.9f;
+    public float KNOCKBACK_DECAY = 5f;
     Vector3 knockbackVelocity = Vector3.zero;
     float knockbackStopThreshold = 0.01f;
 
