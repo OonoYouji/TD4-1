@@ -54,6 +54,7 @@
     <Compile Include="Scripts\Engine\ECS\Components\Renderer\DissolveMeshRenderer.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
+    <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\DebugEntity\DebugCamera.cs" />
     <Compile Include="Scripts\Engine\Attribute\SerializeField.cs" />
     <Compile Include="Scripts\Engine\Core\ObjectPool\ObjectPool.cs" />
@@ -88,16 +89,15 @@
     <Compile Include="Scripts\Game\Enemy\EnemyCollisionHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyUIHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
-    <Compile Include="Scripts\Game\FollowCamera.cs" />
-    <Compile Include="Scripts\Game\Player.cs" />
     <Compile Include="Scripts\Engine\MonoScript.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Vector3.cs" />
-    <Compile Include="Scripts\Game\PlayerBullet.cs" />
-    <Compile Include="Scripts\Game\PlayerBulletLauncher.cs" />
-    <Compile Include="Scripts\Game\PlayerArm.cs" />
+    <Compile Include="Scripts\Game\Player\Player.cs" />
+    <Compile Include="Scripts\Game\Player\PlayerArm.cs" />
+    <Compile Include="Scripts\Game\Player\PlayerBullet.cs" />
+    <Compile Include="Scripts\Game\Player\PlayerBulletLauncher.cs" />
+    <Compile Include="Scripts\Game\Player\PlayerCore.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
-    <Compile Include="Scripts\Game\PlayerCore.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
   </ItemGroup>
   <ItemGroup>
