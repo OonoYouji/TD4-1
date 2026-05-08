@@ -8,23 +8,38 @@ class EnemyCollisionHandler : MonoScript
     public float DAMAGE_COOLDOWN_TIME = 0.5f;
     float damageCooldown = 0f;
 
-    [SerializeField]
-    public float KNOCKBACK_FORCE_STRENGTH = 5f;
-    [SerializeField]
-    public float KNOCKBACK_DECAY = 0.9f;
-    Vector3 knockbackVelocity = Vector3.zero;
-    float knockbackThreshold = 0.01f;
+    Knockback knockback;
+    float knockbackSafetyThreshold = 0.1f;
+
+    EnemyUIHandler uiHandler;
+
+    bool isDestroy = false;
 
     public override void Initialize()
     {
+        Debug.LogInfo("EnemyCollisionHandler Initializing");
         hitpoints = MAX_HITPOINTS;
+        uiHandler = entity.GetScript<EnemyUIHandler>();
+        if (uiHandler == null)
+        {
+            Debug.LogError("Failed to find EnemyUIHandler script");
+        }
+        knockback = entity.GetScript<Knockback>();
+        if (knockback == null)
+        {
+            Debug.LogError("Failed to find Knockback script");
+        }
+        Debug.LogInfo("EnemyCollisionHandler initialized");
     }
 
     public override void Update()
     {
         damageCooldown -= Time.deltaTime;
-        transform.position += knockbackVelocity * Time.deltaTime;
-        knockbackVelocity *= KNOCKBACK_DECAY;
+
+        if (isDestroy)
+        {
+            entity.Destroy();
+        }
     }
 
     public override void OnCollisionEnter(Entity collider)
@@ -39,22 +54,31 @@ class EnemyCollisionHandler : MonoScript
             //int damage = bullet.damage;
             int damage = 100; // 仮
             TakeDamage(damage);
+            if (uiHandler != null)
+            {
+                uiHandler.OnDamaged((float)hitpoints / (float)MAX_HITPOINTS);
+            }
 
             // ダメージを連続で受けないよう無敵設定
             damageCooldown = DAMAGE_COOLDOWN_TIME;
 
             // ノックバック処理
-            Vector3 direction = transform.position - collider.transform.position;
-            if (direction.Length() > knockbackThreshold)
+            // メモ: colliderのtransformが正しく受け取れてない可能性
+            Vector3 direction = transform.worldPosition - collider.transform.worldPosition;
+
+            direction.y = 0.0f;
+            if (direction.Length() > knockbackSafetyThreshold)
             {
                 direction = direction.Normalized();
-                knockbackVelocity = direction * KNOCKBACK_FORCE_STRENGTH;
             }
             else
-            {
-                // 後ろ
+            { // 後ろ
                 Vector3 backword = Matrix4x4.Transform(Vector3.back, Matrix4x4.Rotate(transform.rotate));
-                knockbackVelocity = backword * KNOCKBACK_FORCE_STRENGTH;
+                direction = backword.Normalized();
+            }
+            if (knockback != null)
+            {
+                knockback.ApplyKnockback(direction);
             }
         }
     }
@@ -67,7 +91,9 @@ class EnemyCollisionHandler : MonoScript
         if (hitpoints <= 0)
         {
             Debug.Log("Enemy destroyed!");
-            entity.Destroy();
+            // HOTIFX: OnCollisiton内でDestoryを呼ぶとクラッシュするので、現在はフラグを立ててUpdate内でDestroyするようにしている
+            // Update内でなら大丈夫とのこと
+            isDestroy = true;
         }
     }
 }

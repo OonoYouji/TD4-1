@@ -130,14 +130,14 @@
                     "material": {
                         "baseColor": {
                             "w": 1.0,
-                            "x": 1.0,
+                            "x": 0.0,
                             "y": 1.0,
-                            "z": 1.0
+                            "z": 0.0
                         },
                         "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 0
                     },
                     "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
                     "type": "MeshRenderer"
@@ -148,9 +148,29 @@
                         {
                             "enable": true,
                             "name": "TestEnemy"
+                        },
+                        {
+                            "enable": true,
+                            "name": "EnemyCollisionHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "EnemyUIHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "maskBits": 36,
+                    "radius": 1.0,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93725",
@@ -165,9 +185,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -7.088486671447754,
-                        "y": 0.0,
-                        "z": 2.260542154312134
+                        "x": -13.640632629394531,
+                        "y": -3.2860943974810652e-06,
+                        "z": -15.982658386230469
                     },
                     "rotate": {
                         "w": 1.0,
@@ -207,6 +227,159 @@
             "id": 4,
             "name": "Player",
             "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 12.99558162689209,
+                        "y": 0.0,
+                        "z": -7.392297744750977
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "categoryBits": 4,
+                    "enable": 1,
+                    "maskBits": 8,
+                    "radius": 1.0,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1
+                    },
+                    "meshPath": "./Packages/Models/primitive/cylinder.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "f1c6abc3a0b1eab6bb7c67f089776c77",
+            "id": 5,
+            "name": "TestBullet",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "CameraLookAt"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "e6c95d0ab902296314ea2f6985e2817b",
+            "id": 6,
+            "name": "UI Root",
+            "parent": 3,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "dissolveCompare": 0,
+                    "dissolveTexture": "719dccb697924483b4cf03e2ace1b540",
+                    "dissolveThreshold": 1.0,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "postEffectFlags": 0
+                    },
+                    "meshGuid": "f3ec2dbb0b5f97a3178ff4ffbe1416dc",
+                    "type": "DissolveMeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 3.0,
+                        "z": 3.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.399999976158142,
+                        "y": 0.10000000149011612,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "fc9c35f3c6655b859b19742a69c96942",
+            "id": 7,
+            "name": "HP",
+            "parent": 6,
             "prefabName": ""
         }
     ]
