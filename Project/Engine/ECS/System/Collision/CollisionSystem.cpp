@@ -249,7 +249,7 @@ void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 
 				/// 引数の準備
 				void* params[1];
-				params[0] = entities[(i + 1) % 2]; /// 衝突しているもう一方のオブジェクトを渡す
+				params[0] = monoEngine.GetEntityFromCS(_ecsGroupName, entities[(i + 1) % 2]->GetId()); /// 衝突しているもう一方のオブジェクトを渡す
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
 				if(!script.collisionEventMethods[0]) {
@@ -306,7 +306,7 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 
 				/// 引数の準備
 				void* params[1];
-				params[0] = entities[(i + 1) % 2]; /// 衝突しているもう一方のオブジェクトを渡す
+				params[0] = monoEngine.GetEntityFromCS(_ecsGroupName, entities[(i + 1) % 2]->GetId()); /// 衝突しているもう一方のオブジェクトを渡す
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
 				if(!script.collisionEventMethods[1]) {
@@ -362,7 +362,7 @@ void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 
 				/// 引数の準備
 				void* params[1];
-				params[0] = entities[(i + 1) % 2]; /// 衝突しているもう一方のオブジェクトを渡す
+				params[0] = monoEngine.GetEntityFromCS(_ecsGroupName, entities[(i + 1) % 2]->GetId()); /// 衝突しているもう一方のオブジェクトを渡す
 
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);

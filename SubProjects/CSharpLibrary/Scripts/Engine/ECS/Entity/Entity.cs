@@ -47,6 +47,7 @@ public class Entity {
 
 	public string name {
 		get {
+			//Debug.LogInfo("Getting name for Entity ID: " + entityId_ + ", EcsGroupName: " + ecsGroupName_);
 			IntPtr namePtr = InternalGetName(entityId_, ecsGroupName_);
 			if (namePtr == IntPtr.Zero) {
 				// Debug.Log("[error] Entity name is null for ID: " + entityId_);
