@@ -88,7 +88,7 @@ void GameFramework::Initialize(const GameFrameworkConfig& _startSetting) {
 	renderingFramework_->SetImGuiManager(imGuiManager_.get());
 #endif // DEBUG_MODE
 
-	editorManager_->Initialize(dxManager_.get(), renderingFramework_->GetShaderCompiler());
+	editorManager_->Initialize(dxManager_.get(), renderingFramework_->GetShaderCompiler(), sceneManager_.get());
 	SetEntityComponentSystemPtr(entityComponentSystem_->GetECSGroup("GameScene"), entityComponentSystem_->GetECSGroup("Debug"));
 
 

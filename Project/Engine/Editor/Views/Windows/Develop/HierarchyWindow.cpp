@@ -131,7 +131,11 @@ void HierarchyWindow::DrawMenuScene() {
 }
 
 void HierarchyWindow::DrawHierarchy() {
-	const std::string& groupName = pEcsGroup_->GetGroupName();
+	std::string groupName = pEcsGroup_->GetGroupName();
+	if(pSceneManager_->IsDirty()) {
+		groupName += " *";
+	}
+
 	if(ImGui::CollapsingHeader(groupName != "" ? groupName.c_str() : "Unnamed Group", ImGuiTreeNodeFlags_DefaultOpen)) {
 
 		HandleRootDragDrop();
