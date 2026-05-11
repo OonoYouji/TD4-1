@@ -1,8 +1,5 @@
 #include "Log.h"
 
-using namespace ONEngine;
-
-
 #include <comdef.h>
 #include <Windows.h>
 
@@ -10,6 +7,10 @@ using namespace ONEngine;
 #include <fstream>
 #include <filesystem>
 #include <chrono>
+#include <mutex>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
 
 /// external
 #include <spdlog/spdlog.h>
@@ -18,6 +19,8 @@ using namespace ONEngine;
 
 /// engine
 #include "Engine/Core/Config/EngineConfig.h"
+
+namespace ONEngine {
 
 namespace {
 
@@ -59,7 +62,7 @@ namespace {
 	std::string gMessage;
 
 	/// メンバ変数としてstaticで宣言したくないのでここで定義
-	std::vector<std::string> gLogBuffer_;
+	std::vector<LogEntry> gLogBuffer_;
 	std::mutex gMutex_;
 
 } /// namespace
@@ -106,9 +109,9 @@ void Console::Finalize() {
 	spdlog::shutdown();
 }
 
-void Console::AddToBuffer(const std::string& _msg) {
+void Console::AddToBuffer(const std::string& _msg, LogLevel _level, LogCategory _category) {
 	std::lock_guard<std::mutex> lock(gMutex_);
-	gLogBuffer_.push_back(_msg);
+	gLogBuffer_.push_back({ _level, _category, _msg });
 
 	/// ログの最大数を制限
 	if (gLogBuffer_.size() > MAX_LOG_BUFFER_SIZE) {
@@ -119,33 +122,37 @@ void Console::AddToBuffer(const std::string& _msg) {
 
 Console::~Console() {}
 
-void Console::Log(const std::string& _message) {
-	AddToBuffer(_message);
+void Console::Log(const std::string& _message, LogCategory _category) {
+	AddToBuffer(_message, LogLevel::Info, _category);
 	spdlog::info(_message);
 }
 
-void Console::Log(const std::wstring& _message) {
-	Log(ConvertString(_message));
+void Console::Log(const std::wstring& _message, LogCategory _category) {
+	Log(ConvertString(_message), _category);
 }
 
-void Console::LogInfo(const std::string& _message) {
-	AddToBuffer("[info] " + _message);
+void Console::LogInfo(const std::string& _message, LogCategory _category) {
+	AddToBuffer(_message, LogLevel::Info, _category);
 	spdlog::info(_message);
 }
 
-void Console::LogError(const std::string& _message) {
-	AddToBuffer("[error] " + _message);
+void Console::LogError(const std::string& _message, LogCategory _category) {
+	AddToBuffer(_message, LogLevel::Error, _category);
 	spdlog::error(_message);
 }
 
-void Console::LogWarning(const std::string& _message) {
-	AddToBuffer("[warning] " + _message);
+void Console::LogWarning(const std::string& _message, LogCategory _category) {
+	AddToBuffer(_message, LogLevel::Warning, _category);
 	spdlog::warn(_message);
 }
 
-const std::vector<std::string>& Console::GetLogVector() {
-	std::lock_guard<std::mutex> lock(gMutex_);
+const std::vector<LogEntry>& Console::GetLogVector() {
 	return gLogBuffer_;
+}
+
+void Console::ClearLogBuffer() {
+	std::lock_guard<std::mutex> lock(gMutex_);
+	gLogBuffer_.clear();
 }
 
 void Console::Shutdown() {
@@ -156,7 +163,7 @@ void Console::Shutdown() {
 /// 文字列変換関数
 /// ////////////////////////////////////////////////
 
-std::string ONEngine::ConvertString(const std::wstring& _wstr) {
+std::string ConvertString(const std::wstring& _wstr) {
 
 	/// 引数が空の場合は空文字を返す
 	if (_wstr.empty()) {
@@ -175,7 +182,7 @@ std::string ONEngine::ConvertString(const std::wstring& _wstr) {
 	return result;
 }
 
-std::wstring ONEngine::ConvertString(const std::string& _str) {
+std::wstring ConvertString(const std::string& _str) {
 
 	/// 引数が空の場合は空文字を返す
 	if (_str.empty()) {
@@ -196,7 +203,7 @@ std::wstring ONEngine::ConvertString(const std::string& _str) {
 
 
 
-std::string ONEngine::ConvertTCHARToString(const TCHAR* tstr) {
+std::string ConvertTCHARToString(const TCHAR* tstr) {
 #ifdef UNICODE
 	// TCHAR == wchar_t
 	int len = WideCharToMultiByte(CP_UTF8, 0, tstr, -1, nullptr, 0, nullptr, nullptr);
@@ -210,21 +217,11 @@ std::string ONEngine::ConvertTCHARToString(const TCHAR* tstr) {
 #endif
 }
 
-std::string ONEngine::ConvertString(DWORD _dw) {
+std::string ConvertString(DWORD _dw) {
 	return std::to_string(_dw);
 }
 
-std::string ONEngine::HrToString(HRESULT _hr) {
-	//_com_error err(_hr);
-	//const wchar_t* wmsg = err.ErrorMessage();
-
-	//// UTF-16 → UTF-8 変換
-	//int sizeNeeded = WideCharToMultiByte(CP_UTF8, 0, wmsg, -1, nullptr, 0, nullptr, nullptr);
-	//std::string msg(sizeNeeded - 1, 0); // 終端を除く
-	//WideCharToMultiByte(CP_UTF8, 0, wmsg, -1, msg.data(), sizeNeeded, nullptr, nullptr);
-
-	//return msg;
-
+std::string HrToString(HRESULT _hr) {
 	char* errorMsg = nullptr;
 
 	FormatMessageA(
@@ -243,5 +240,4 @@ std::string ONEngine::HrToString(HRESULT _hr) {
 	return errorString;
 }
 
-
-
+} /// namespace ONEngine
