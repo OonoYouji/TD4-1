@@ -7,6 +7,7 @@ using namespace ONEngine;
 
 /// externals
 #include <metadata/mono-config.h>
+#include <mono/metadata/object.h>
 #include <mono/metadata/debug-helpers.h>
 
 
@@ -130,6 +131,28 @@ void MonoScriptEngine::RegisterFunctions() {
 
 	AddSceneInternalCalls();
 	ComponentApplyFuncs::Initialize(image_);
+
+	// データ同期用のC#メソッドを取得
+	{
+		// static class ComponentBatchManager
+		receiveAllBatchesMethod_ = GetMethodFromCS("ComponentBatchManager", "ReceiveAllBatches", 2);
+
+		// static class EntityComponentSystem
+		getEcsGroupMethod_ = GetMethodFromCS("EntityComponentSystem", "GetECSGroup", 1);
+		
+		// class ECSGroup
+		MonoClass* ecsGroupClass = mono_class_from_name(image_, "", "ECSGroup");
+		if (ecsGroupClass) {
+			getComponentCollectionField_ = MonoScriptEngineUtils::FindFieldRecursive(ecsGroupClass, "componentCollection");
+			addEntityMethod_ = mono_class_get_method_from_name(ecsGroupClass, "AddEntity", 1);
+		}
+
+		// class Entity
+		MonoClass* entityClass = mono_class_from_name(image_, "", "Entity");
+		if (entityClass) {
+			fetchInitialDataMethod_ = mono_class_get_method_from_name(entityClass, "FetchInitialData", 0);
+		}
+	}
 }
 
 void MonoScriptEngine::HotReload() {
@@ -365,6 +388,79 @@ bool MonoScriptEngine::GetIsHotReloadRequest() const {
 }
 
 
+
+
+void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
+	if (!_ecsGroup) {
+		return;
+	}
+
+	const std::string& ecsGroupName = _ecsGroup->GetGroupName();
+
+	if (!getEcsGroupMethod_ || !getComponentCollectionField_ || !receiveAllBatchesMethod_) {
+		Console::LogError("One or more methods for SyncInitialComponentsToCS are not found.");
+		return;
+	}
+
+	MonoObject* exc = nullptr;
+
+	// 1. C#側の EntityComponentSystem.GetECSGroup(groupName) を呼び出す
+	void* getGroupArgs[1];
+	getGroupArgs[0] = mono_string_new(domain_, ecsGroupName.c_str());
+	MonoObject* ecsGroupObject = mono_runtime_invoke(getEcsGroupMethod_, nullptr, getGroupArgs, &exc);
+	if (exc) {
+		char* err = mono_string_to_utf8(mono_object_to_string(exc, nullptr));
+		Console::LogError(std::string("Exception in GetECSGroup: ") + err);
+		mono_free(err);
+		return;
+	}
+	if (!ecsGroupObject) {
+		Console::LogError("C# ECSGroup object is null for group: " + ecsGroupName);
+		return;
+	}
+
+	// 2. C++側のエンティティを全てC#側に登録し、コンポーネントを実体化させる
+	if (addEntityMethod_) {
+		for (const auto& entity : _ecsGroup->GetEntities()) {
+			int32_t id = entity->GetId();
+
+			// C#の AddEntity(id) を呼び出す
+			// (C#側の AddEntity 内で FetchInitialData() が呼ばれ、コンポーネントが実体化される)
+			void* addArgs[1];
+			addArgs[0] = &id;
+			mono_runtime_invoke(addEntityMethod_, ecsGroupObject, addArgs, &exc);
+			if (exc) {
+				char* err = mono_string_to_utf8(mono_object_to_string(exc, nullptr));
+				Console::LogError(std::string("Exception in AddEntity: ") + err);
+				mono_free(err);
+				exc = nullptr;
+				continue;
+			}
+		}
+	}
+
+	// 3. 取得した ECSGroup オブジェクトの componentCollection フィールドの値を取得する
+	MonoObject* collectionObject = mono_field_get_value_object(domain_, getComponentCollectionField_, ecsGroupObject);
+	if (!collectionObject) {
+		Console::LogError("C# ComponentCollection object is null for group: " + ecsGroupName);
+		return;
+	}
+
+	// 4. ComponentBatchManager.ReceiveAllBatches(collection, groupName) を呼び出す
+	exc = nullptr;
+	void* receiveArgs[2];
+	receiveArgs[0] = collectionObject;
+	receiveArgs[1] = mono_string_new(domain_, ecsGroupName.c_str());
+	mono_runtime_invoke(receiveAllBatchesMethod_, nullptr, receiveArgs, &exc);
+	if (exc) {
+		char* err = mono_string_to_utf8(mono_object_to_string(exc, nullptr));
+		Console::LogError(std::string("Exception in ReceiveAllBatches: ") + err);
+		mono_free(err);
+		return;
+	}
+
+	Console::Log("Successfully synced initial components to C# for group: " + ecsGroupName);
+}
 
 MonoMethod* MonoScriptEngineUtils::FindMethodInClassOrParents(MonoClass* _class, const char* _methodName, int _paramCount) {
 	while (_class) {

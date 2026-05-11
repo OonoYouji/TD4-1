@@ -283,7 +283,7 @@ uint64_t MonoInternalMethods::InternalGetComponent(int32_t _entityId, MonoString
 	IComponent* component = entity->GetComponent(typeName);
 
 
-	if(_compId) {
+	if(component && _compId) {
 		*_compId = component->id;
 	}
 

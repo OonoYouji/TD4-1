@@ -255,6 +255,18 @@ public class Entity {
 		return mb;
 	}
 
+	/// <summary>
+	/// C++側のデータを同期するために主要なコンポーネントを取得しておく
+	/// </summary>
+	public void FetchInitialData() {
+		// 主要なコンポーネントを一度GetComponentしておくことで、C#側にインスタンスが作られ、
+		// その後の ReceiveAllBatches でデータが同期されるようになる。
+		GetComponent<Transform>();
+		GetComponent<MeshRenderer>();
+		GetComponent<DissolveMeshRenderer>();
+	}
+
+
 
 	public static implicit operator bool(Entity _entity) {
 		return _entity != null;

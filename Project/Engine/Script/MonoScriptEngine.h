@@ -20,6 +20,8 @@
 /// ///////////////////////////////////////////////////
 namespace ONEngine {
 
+class ECSGroup;
+
 class MonoScriptEngine {
 private:
 	/// ===================================================
@@ -61,6 +63,9 @@ public:
 	/// C#側のリセット
 	void ResetCS();
 
+	/// @brief C++で初期化したコンポーネントデータをCS側に同期する
+	void SyncInitialComponentsToCS(ECSGroup* _ecsGroup);
+
 	/// C#側のEntityを取得
 	MonoObject* GetEntityFromCS(const std::string& _ecsGroupName, int32_t _entityId);
 	MonoObject* GetMonoBehaviorFromCS(const std::string& _ecsGroupName, int32_t _entityId, const std::string& _behaviorName);
@@ -89,6 +94,13 @@ private:
 
 	bool isHotReloadRequest_;
 	int32_t domainReloadCounter_; /// domainのリロード回数
+
+	/// C#側のメソッドポインタ
+	MonoMethod* receiveAllBatchesMethod_ = nullptr;
+	MonoMethod* getEcsGroupMethod_ = nullptr;
+	MonoMethod* addEntityMethod_ = nullptr;
+	MonoMethod* fetchInitialDataMethod_ = nullptr;
+	MonoClassField* getComponentCollectionField_ = nullptr;
 
 public:
 	/// ===================================================

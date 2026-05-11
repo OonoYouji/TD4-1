@@ -138,7 +138,7 @@ static class ComponentBatchManager {
 	public static void ReceiveAllBatches(ComponentCollection _collection, string _ecsGroupName) {
 		foreach (var kv in allocators) {
 			if (!_collection.TryGetArray(kv.Key, out IComponentArray array)) {
-				Debug.LogWarning($"ComponentBatchManager.ReceiveAllBatches: ComponentArray for {kv.Key} not found.");
+				// Debug.LogWarning($"ComponentBatchManager.ReceiveAllBatches: ComponentArray for {kv.Key} not found.");
 				continue;
 			}
 
@@ -170,6 +170,8 @@ static class ComponentBatchManager {
 
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
+
+				// Debug.LogInfo($"--- RECEIVE BATCH for Transform[{comp.compId}]: pos={batch[i].position}");
 
 				// 念のためIDの一致を確認することも可能だが、
 				// Allocatorで順番通りに作成しているため、ここではそのまま適用する

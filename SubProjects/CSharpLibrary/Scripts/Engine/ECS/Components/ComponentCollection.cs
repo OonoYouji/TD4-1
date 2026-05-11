@@ -47,4 +47,15 @@ public class ComponentCollection {
 		return arrays_.TryGetValue(_type, out _array);
 	}
 
+	public ComponentArray<T> GetArray<T>() where T : Component {
+		Debug.Log($"GetArray<{typeof(T).Name}>: Checking if key exists."); // 追加ログ
+		if (!arrays_.ContainsKey(typeof(T))) {
+			Debug.LogError($"GetArray<{typeof(T).Name}>: Key not found. Creating new ComponentArray."); // 追加ログ
+			arrays_[typeof(T)] = new ComponentArray<T>();
+			Debug.Log($"GetArray<{typeof(T).Name}>: Key added. Count: {arrays_.Count}"); // 追加ログ
+		} else {
+			Debug.Log($"GetArray<{typeof(T).Name}>: Key found. Returning existing array."); // 追加ログ
+		}		return (ComponentArray<T>)arrays_[typeof(T)];
+	}
+
 }
