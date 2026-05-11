@@ -4,6 +4,7 @@
 #include "Engine/Core/DirectX12/Manager/DxManager.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/Core/Utility/Utility.h"
+#include "Engine/Core/Utility/Input/Input.h"
 
 #include "EditCommand.h"
 #include "Engine/Editor/Commands/WorldEditorCommands/WorldEditorCommands.h"
@@ -66,6 +67,12 @@ void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {
 
 		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_Y)) {
 			Redo();
+		}
+
+		// Ctrl+S でシーンを保存
+		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_S)) {
+			pSceneManager_->SaveCurrentScene();
+			ONEngine::Console::Log("Scene saved via Ctrl+S.");
 		}
 #endif // DEBUG_MODE
 	}
