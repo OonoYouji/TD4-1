@@ -97,6 +97,7 @@
     <Compile Include="Scripts\Game\Player\PlayerBulletLauncher.cs" />
     <Compile Include="Scripts\Game\Player\PlayerCore.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
+    <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
   </ItemGroup>
