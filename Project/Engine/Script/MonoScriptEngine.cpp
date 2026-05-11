@@ -421,7 +421,6 @@ void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
 
 	// 2. C++側のエンティティを全てC#側に登録し、コンポーネントを実体化させる
 	if (addEntityMethod_) {
-		Console::Log("[Sync] Start explicit entity sync for group: " + ecsGroupName + " (Count: " + std::to_string(_ecsGroup->GetEntities().size()) + ")");
 		for (const auto& entity : _ecsGroup->GetEntities()) {
 			int32_t id = entity->GetId();
 
@@ -438,7 +437,6 @@ void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
 				continue;
 			}
 		}
-		Console::Log("[Sync] Finished explicit entity sync.");
 	}
 
 	// 3. 取得した ECSGroup オブジェクトの componentCollection フィールドの値を取得する
