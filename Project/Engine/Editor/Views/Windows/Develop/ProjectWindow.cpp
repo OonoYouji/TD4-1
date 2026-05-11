@@ -413,6 +413,12 @@ void ProjectWindow::UpdateFileCache(const std::filesystem::path& directory) {
 				if(!item.displayTexture) item.displayTexture = pAssetCollection_->GetTexture("./Packages/Textures/ImGui/FileIcons/FolderIcon.dds");
 			} else if(ONEngine::Asset::CheckAssetType(ext, ONEngine::Asset::AssetType::Texture)) {
 				item.displayTexture = pAssetCollection_->GetTexture(item.relativePath);
+				
+				// TextureCubeやTexture3Dの場合はプレビューを表示するとシェーダー側でクラッシュするため、
+				// プレビュー用テクスチャを無効にしてデフォルトアイコンを表示させる
+				if (item.displayTexture && !item.displayTexture->IsStandard2D()) {
+					item.displayTexture = nullptr;
+				}
 			} else if(ONEngine::Asset::CheckAssetType(ext, ONEngine::Asset::AssetType::Audio)) {
 				item.displayTexture = pAssetCollection_->GetTexture("./Packages/Textures/ImGui/FileIcons/lets-icons-sound-none-256.png");
 			} else if(ext == ".cs") {
