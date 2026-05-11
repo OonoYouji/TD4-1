@@ -33,7 +33,7 @@ namespace {
 	void ConsoleLog(MonoString* _msg) {
 		// MonoString* -> const char* 変換
 		char* cstr = mono_string_to_utf8(_msg);
-		Console::Log(cstr);
+		Console::Log(cstr, LogCategory::Application);
 		mono_free(cstr);
 	}
 
