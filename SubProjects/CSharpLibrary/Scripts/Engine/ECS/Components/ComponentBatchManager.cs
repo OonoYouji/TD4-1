@@ -50,6 +50,9 @@ static class ComponentBatchManager {
 				var comp = array.Get(i);
 				var batchData = comp.GetBatchData();
 
+				// C++に何を送信するかログに出す
+				Debug.LogError($"--- SEND BATCH for MeshRenderer[{comp.compId}]: color={batchData.color}");
+
 				batch[i].compId = comp.compId;
 				batch[i].color = batchData.color;
 				batch[i].postEffectFlags = batchData.postEffectFlags;
@@ -136,9 +139,10 @@ static class ComponentBatchManager {
 
 	// 一括受信
 	public static void ReceiveAllBatches(ComponentCollection _collection, string _ecsGroupName) {
+		Debug.LogInfo($"ComponentBatchManager.ReceiveAllBatches: START for group: {_ecsGroupName}");
 		foreach (var kv in allocators) {
 			if (!_collection.TryGetArray(kv.Key, out IComponentArray array)) {
-				Debug.LogWarning($"ComponentBatchManager.ReceiveAllBatches: ComponentArray for {kv.Key} not found.");
+				// Debug.LogWarning($"ComponentBatchManager.ReceiveAllBatches: ComponentArray for {kv.Key} not found.");
 				continue;
 			}
 
@@ -158,6 +162,7 @@ static class ComponentBatchManager {
 
 			ApplyBatch(kv.Key, batch, array);
 		}
+		Debug.LogInfo($"ComponentBatchManager.ReceiveAllBatches: END for group: {_ecsGroupName}");
 	}
 
 	//
@@ -170,6 +175,8 @@ static class ComponentBatchManager {
 
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
+
+				// Debug.LogInfo($"--- RECEIVE BATCH for Transform[{comp.compId}]: pos={batch[i].position}");
 
 				// 念のためIDの一致を確認することも可能だが、
 				// Allocatorで順番通りに作成しているため、ここではそのまま適用する
@@ -186,6 +193,8 @@ static class ComponentBatchManager {
 
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
+				// C++から何を受け取ったかログに出す
+				Debug.LogError($"--- RECEIVE BATCH for MeshRenderer[{comp.compId}]: color={batch[i].color}");
 				// Handleは変更せず、描画パラメータのみ更新
 				comp.color = batch[i].color;
 				comp.postEffectFlags = batch[i].postEffectFlags;
@@ -198,6 +207,7 @@ static class ComponentBatchManager {
 			var batch = (DissolveMeshRenderer.BatchData[])_batch;
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
+				Debug.LogError($"--- RECEIVE BATCH for DissolveMeshRenderer[{comp.compId}]: threshold={batch[i].threshold}");
 				// Handleは変更せず、描画パラメータのみ更新
 				comp.threshold = batch[i].threshold;
 			}

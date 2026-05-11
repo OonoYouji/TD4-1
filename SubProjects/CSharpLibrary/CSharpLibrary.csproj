@@ -99,6 +99,7 @@
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
+    <Compile Include="Scripts\Test\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Engine\Collision\" />

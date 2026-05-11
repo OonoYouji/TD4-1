@@ -13,6 +13,7 @@ using namespace ONEngine;
 #include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/Editor/Commands/ComponentEditCommands/ComponentJsonConverter.h"
+#include "Engine/Script/MonoScriptEngine.h"
 
 SceneIO::SceneIO(EntityComponentSystem* _ecs) : pEcs_(_ecs) {
 	fileName_ = "";
@@ -143,6 +144,9 @@ void SceneIO::LoadSceneFromJson(const nlohmann::json& _input, ECSGroup* _ecsGrou
 			}
 		}
 	}
+
+	// C++でロードしたデータをC#側に同期する
+	MonoScriptEngine::GetInstance().SyncInitialComponentsToCS(_ecsGroup);
 }
 
 void SceneIO::OutputJson(const nlohmann::json& _json, const std::string& _filename) {
