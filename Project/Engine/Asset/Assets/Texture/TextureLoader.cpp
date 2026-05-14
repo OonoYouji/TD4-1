@@ -83,10 +83,11 @@ std::optional<Texture> AssetLoader<Texture>::Reload(const std::string& _filepath
 Meta<Texture::MetaData> AssetLoader<Texture>::GetMetaData(const std::string& _filepath) {
 	Meta<Texture::MetaData> res{};
 
-	res.base = LoadMetaBaseFromFile(_filepath);
+	const std::string metaPath = _filepath + ".meta";
+	res.base = LoadOrGenerateMetaBase(metaPath, _filepath);
 
 	nlohmann::json j;
-	std::ifstream ifs(_filepath);
+	std::ifstream ifs(metaPath);
 	if(!ifs.is_open()) {
 		return {};
 	}
