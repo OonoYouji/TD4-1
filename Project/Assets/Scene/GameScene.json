@@ -197,7 +197,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 8,
+            "id": 4,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -219,9 +219,9 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 100.0,
-                        "y": 100.0,
-                        "z": 100.0
+                        "x": 1000.0,
+                        "y": 1000.0,
+                        "z": 1000.0
                     },
                     "type": "Transform"
                 },
@@ -247,9 +247,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 9,
+            "id": 5,
             "name": "Field",
-            "parent": 8,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -309,9 +309,9 @@
                 }
             ],
             "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 10,
+            "id": 6,
             "name": "Wall",
-            "parent": 8,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -371,9 +371,9 @@
                 }
             ],
             "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 11,
+            "id": 7,
             "name": "Wall_1",
-            "parent": 8,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -433,9 +433,9 @@
                 }
             ],
             "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 12,
+            "id": 8,
             "name": "Wall_2",
-            "parent": 8,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -495,9 +495,9 @@
                 }
             ],
             "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 13,
+            "id": 9,
             "name": "Wall_3",
-            "parent": 8,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -555,7 +555,7 @@
                 }
             ],
             "guid": "579981716c2ed68722d2f19edfd5a6d9",
-            "id": 4,
+            "id": 10,
             "name": "PlayerLeftArm",
             "parent": 3,
             "prefabName": ""
@@ -615,7 +615,7 @@
                 }
             ],
             "guid": "d6dd606f1455423aa2fca05e7d833049",
-            "id": 5,
+            "id": 11,
             "name": "PlayerRightArm",
             "parent": 3,
             "prefabName": ""
@@ -675,7 +675,7 @@
                 }
             ],
             "guid": "2ea23374f0f7bababe842574acacad6f",
-            "id": 6,
+            "id": 12,
             "name": "PlayerLeftBulletMuzzle",
             "parent": 3,
             "prefabName": ""
@@ -735,7 +735,7 @@
                 }
             ],
             "guid": "c7b59103f369698bf6c815a21483876b",
-            "id": 7,
+            "id": 13,
             "name": "PlayerRightBulletMuzzle",
             "parent": 3,
             "prefabName": ""
