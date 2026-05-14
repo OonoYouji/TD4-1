@@ -1,48 +1,48 @@
-# Enemy State Documentation
+# Enemy状態管理
 
-This document describes the implementation of the Enemy in C#.
+このドキュメントはC#におけるEnemyの実装について記述したものです。
 
-## Location
+## 場所
 
-The core implementation is located in the `SubProjects/CSharpLibrary/Scripts/Game/Enemy/` directory.
+中心となる実装は `SubProjects/CSharpLibrary/Scripts/Game/Enemy/` ディレクトリにあります。
 
-## Components
+## コンポーネント
 
-The Enemy is composed of three main scripts:
+Enemyは主に3つのスクリプトで構成されています:
 
 ### 1. `TestEnemy.cs`
 
-This script handles the basic AI and movement of the enemy.
+このスクリプトはEnemyの基本的なAIと移動を扱います。
 
-*   **States:**
-    *   **Idle/Searching:** When the player is outside the `searchRange`, the enemy is in a searching state. Its color is green.
-    *   **Chasing:** When the player is within the `searchRange` but outside the `attackRange`, the enemy will chase the player. Its color is khaki.
-    *   **Attacking:** When the player is within the `attackRange`, the enemy is in an attacking state. Its color is red.
-*   **Serialized Fields:**
-    *   `ENTITY_NAME`: The name of the entity to target (default: "Player").
-    *   `searchRange`: The range at which the enemy starts to detect the player.
-    *   `rotateSpeed`: The speed at which the enemy rotates to face the player.
-    *   `attackRange`: The range at which the enemy starts to attack the player.
-    *   `speed`: The movement speed of the enemy.
+*   **状態:**
+    *   **待機/索敵:** プレイヤーが `searchRange` の範囲外にいる時、Enemyは索敵状態になります。色は緑です。
+    *   **追跡:** プレイヤーが `searchRange` の範囲内かつ `attackRange` の範囲外にいる時、Enemyはプレイヤーを追跡します。色はカーキ色です。
+    *   **攻撃:** プレイヤーが `attackRange` の範囲内にいる時、Enemyは攻撃状態になります。色は赤です。
+*   **シリアライズされたフィールド:**
+    *   `ENTITY_NAME`: ターゲットとするエンティティの名前 (デフォルト: "Player").
+    *   `searchRange`: Enemyがプレイヤーを検知し始める範囲。
+    *   `rotateSpeed`: Enemyがプレイヤーの方向を向く回転速度。
+    *   `attackRange`: Enemyがプレイヤーを攻撃し始める範囲。
+    *   `speed`: Enemyの移動速度。
 
 ### 2. `EnemyCollisionHandler.cs`
 
-This script manages the enemy's health, damage, and collision.
+このスクリプトはEnemyの体力、ダメージ、衝突を管理します。
 
-*   **States:**
-    *   **Alive:** The enemy is alive and can take damage.
-    *   **Damaged:** The enemy has been hit and is temporarily invulnerable (`damageCooldown`).
-    *   **Destroyed:** When `hitpoints` are less than or equal to 0, the `isDestroy` flag is set to true, and the entity is destroyed in the next `Update` cycle.
-*   **Serialized Fields:**
-    *   `MAX_HITPOINTS`: The maximum health of the enemy.
-    *   `DAMAGE_COOLDOWN_TIME`: The duration of invulnerability after taking damage.
+*   **状態:**
+    *   **生存:** Enemyは生きており、ダメージを受けることができます。
+    *   **被ダメージ:** Enemyは攻撃を受け、一時的に無敵状態になります (`damageCooldown`)。
+    *   **破壊:** `hitpoints` が0以下になると、 `isDestroy` フラグがtrueに設定され、次の `Update` サイクルでエンティティが破壊されます。
+*   **シリアライズされたフィールド:**
+    *   `MAX_HITPOINTS`: Enemyの最大体力。
+    *   `DAMAGE_COOLDOWN_TIME`: ダメージを受けた後の無敵時間。
 
 ### 3. `EnemyUIHandler.cs`
 
-This script controls the enemy's UI, specifically the health bar.
+このスクリプトはEnemyのUI、特に体力バーを制御します。
 
-*   **Functionality:**
-    *   It finds a child entity named "HP" and gets its `DissolveMeshRenderer` component.
-    *   The `OnDamaged` method is called by `EnemyCollisionHandler` to update the `threshold` of the `DissolveMeshRenderer`, which visually represents the enemy's current health.
-*   **Serialized Fields:**
-    *   `HP_UI_NAME`: The name of the child entity that represents the HP bar (default: "HP").
+*   **機能:**
+    *   "HP" という名前の子エンティティを見つけ、その `DissolveMeshRenderer` コンポーネントを取得します。
+    *   `EnemyCollisionHandler` によって `OnDamaged` メソッドが呼び出され、 `DissolveMeshRenderer` の `threshold` を更新することで、Enemyの現在の体力を視覚的に表現します。
+*   **シリアライズされたフィールド:**
+    *   `HP_UI_NAME`: HPバーを表す子エンティティの名前 (デフォルト: "HP")。
