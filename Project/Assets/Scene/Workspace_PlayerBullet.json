@@ -134,6 +134,33 @@
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "6d46b53d01009d0166af6d4aee0acb0c",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "type": "SpriteRenderer"
                 }
             ],
             "guid": "26f268661ab3796229c1fddad0de60c8",

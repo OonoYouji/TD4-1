@@ -97,6 +97,33 @@ static class ComponentBatchManager {
 		});
 
 
+		// --- SpriteRenderer の登録 ---
+
+		// 送信用コンバータ
+		RegisterConverter<SpriteRenderer, SpriteRenderer.BatchData>((ComponentArray<SpriteRenderer> array) => {
+			int count = array.Count;
+			SpriteRenderer.BatchData[] batch = new SpriteRenderer.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+				batch[i].color = comp.color;
+				batch[i].textureSize = comp.textureSize;
+			}
+			return batch;
+		});
+
+		// 受信用アロケータ
+		RegisterAllocator<SpriteRenderer, SpriteRenderer.BatchData>((ComponentArray<SpriteRenderer> array) => {
+			int count = array.Count;
+			SpriteRenderer.BatchData[] batch = new SpriteRenderer.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+			}
+			return batch;
+		});
+
+
 	}
 
 
@@ -202,6 +229,16 @@ static class ComponentBatchManager {
 				var comp = array.Get(i);
 				// Handleは変更せず、描画パラメータのみ更新
 				comp.threshold = batch[i].threshold;
+			}
+		}
+
+		if (_componentType == typeof(SpriteRenderer)) {
+			var array = (ComponentArray<SpriteRenderer>)_array;
+			var batch = (SpriteRenderer.BatchData[])_batch;
+			for (int i = 0; i < batch.Length; i++) {
+				var comp = array.Get(i);
+				comp.color = batch[i].color;
+				comp.textureSize = batch[i].textureSize;
 			}
 		}
 	}

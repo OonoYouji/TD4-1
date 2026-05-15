@@ -13,6 +13,8 @@
 #include "Engine/Editor/Math/ImGuiMath.h"
 #include "Engine/Editor/Math/AssetDebugger.h"
 
+#include "Engine/Core/DirectX12/Manager/DxManager.h"
+
 using namespace ONEngine;
 
 /// /////////////////////////////////////////////////////////////
@@ -98,6 +100,16 @@ const GPUMaterial& SpriteRenderer::GetGpuMaterial() const {
 	return gpuMaterial_;
 }
 
+Vector2 SpriteRenderer::GetTextureSize(Asset::AssetCollection* _assetCollection) const {
+	if (material_.HasBaseTexture()) {
+		Asset::Texture* texture = _assetCollection->GetTextureFromGuid(material_.GetBaseTextureGuid());
+		if (texture) {
+			return texture->GetTextureSize();
+		}
+	}
+	return Vector2(0.0f, 0.0f);
+}
+
 
 /// ===================================================
 /// csで使用するための関数群
@@ -122,4 +134,15 @@ void MonoInternalMethods::InternalSetColor(uint64_t _nativeHandle, Vector4 _colo
 	}
 
 	Console::LogError("MonoInternalMethods::InternalSetColor() | native handle is invalid");
+}
+
+Vector2 MonoInternalMethods::InternalGetTextureSize(uint64_t _nativeHandle) {
+	SpriteRenderer* sr = reinterpret_cast<SpriteRenderer*>(_nativeHandle);
+	if (sr) {
+		auto* assetCollection = Asset::AssetCollection::GetInstance();
+		return sr->GetTextureSize(assetCollection);
+	}
+
+	Console::LogError("MonoInternalMethods::InternalGetTextureSize() | native handle is invalid");
+	return Vector2(0.0f, 0.0f);
 }

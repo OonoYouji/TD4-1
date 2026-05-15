@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 public class Test : MonoScript {
 
-	[SerializeField] Vector3 copyPosition = Vector3.zero;
+	[SerializeField] Vector4 color;
+	[SerializeField] Vector2 textureSize;
 
 	public override void Initialize() {
-		copyPosition = transform.position;
+		SpriteRenderer renderer = entity.GetComponent<SpriteRenderer>();
+		color = renderer.color;
+		textureSize = renderer.textureSize;
 	}
 
 }

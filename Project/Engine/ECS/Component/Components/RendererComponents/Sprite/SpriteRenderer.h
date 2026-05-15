@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /// std
 #include <string>
@@ -11,6 +11,7 @@
 #include "Engine/Graphics/Buffer/Data/GPUMaterial.h"
 #include "Engine/Asset/Guid/Guid.h"
 #include "Engine/Asset/Assets/Material/Material.h"
+#include "Engine/Core/Utility/Math/Vector2.h"
 
 
 namespace ONEngine {
@@ -74,6 +75,8 @@ public:
 
 	const GPUMaterial& GetGpuMaterial() const;
 
+	Vector2 GetTextureSize(Asset::AssetCollection* _assetCollection) const;
+
 };
 
 
@@ -88,6 +91,8 @@ namespace MonoInternalMethods {
 
 	Vector4 InternalGetColor(uint64_t _nativeHandle);
 	void InternalSetColor(uint64_t _nativeHandle, Vector4 _color);
+
+	Vector2 InternalGetTextureSize(uint64_t _nativeHandle);
 }
 
 } /// ONEngine

@@ -8,10 +8,12 @@
 #include "Engine/Core/Utility/Utility.h"
 
 /// components
+#include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
+#include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
 #include "Engine/Script/MonoScriptEngine.h"
 
 
@@ -41,6 +43,12 @@ struct MeshRendererBatch {
 struct DissolveBatch {
 	uint32_t compId;
 	float threshold;
+};
+
+struct SpriteBatch {
+	uint32_t compId;
+	Vector4 color;
+	Vector2 textureSize;
 };
 
 } /// unnamed namespace
@@ -86,6 +94,18 @@ void ONEngine::ComponentApplyFuncs::ApplyDissolve(void* _element, ECSGroup* _ecs
 	}
 }
 
+void ONEngine::ComponentApplyFuncs::ApplySprite(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<SpriteBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<SpriteRenderer>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(SpriteRenderer* sr = array->GetComponent(data->compId)) {
+		sr->SetColor(data->color);
+	}
+}
+
 void ONEngine::ComponentApplyFuncs::FetchTransform(void* _element, ECSGroup* _ecsGroup) {
 	auto* data = static_cast<TransformBatch*>(_element);
 	auto* array = _ecsGroup->GetComponentArray<Transform>();
@@ -124,6 +144,19 @@ void ONEngine::ComponentApplyFuncs::FetchDissolve(void* _element, ECSGroup* _ecs
 	if(DissolveMeshRenderer* mr = array->GetComponent(data->compId)) {
 		data->threshold = mr->GetDissolveThreshold();
 		data->compId = mr->GetDissolveCompare();
+	}
+}
+
+void ONEngine::ComponentApplyFuncs::FetchSprite(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<SpriteBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<SpriteRenderer>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(SpriteRenderer* sr = array->GetComponent(data->compId)) {
+		data->color = sr->GetColor();
+		data->textureSize = sr->GetTextureSize(Asset::AssetCollection::GetInstance());
 	}
 }
 
@@ -171,5 +204,12 @@ void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
 		gApplyFuncMap[monoClass] = ApplyDissolve;
 		gFetchFuncMap[monoClass] = FetchDissolve;
 		gComponentBatchSize[monoClass] = sizeof(DissolveBatch);
+	}
+
+	{	/// SpriteRenderer
+		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "SpriteRenderer");
+		gApplyFuncMap[monoClass] = ApplySprite;
+		gFetchFuncMap[monoClass] = FetchSprite;
+		gComponentBatchSize[monoClass] = sizeof(SpriteBatch);
 	}
 }
