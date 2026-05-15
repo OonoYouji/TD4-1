@@ -77,8 +77,6 @@ private:
 	ONEngine::SceneManager*          pSceneManager_;
 	class InspectorWindow*  pInspector_;
 
-	int manipulateOperation_;
-	int manipulateMode_;
 	bool isDrawSceneStats_ = true;
 
 	OverlaySection sceneStatsSection_;

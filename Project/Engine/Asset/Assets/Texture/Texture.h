@@ -41,6 +41,12 @@ enum class ColorSpace {
 	sRGB
 };
 
+void from_json(const nlohmann::json& j, TextureFormat& format);
+void to_json(nlohmann::json& j, const TextureFormat& format);
+
+void from_json(const nlohmann::json& j, ColorSpace& colorSpace);
+void to_json(nlohmann::json& j, const ColorSpace& colorSpace);
+
 /// ///////////////////////////////////////////////////
 /// texture
 /// ///////////////////////////////////////////////////
