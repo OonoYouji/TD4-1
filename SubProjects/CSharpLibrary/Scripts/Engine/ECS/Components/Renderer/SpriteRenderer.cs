@@ -11,6 +11,7 @@ public class SpriteRenderer : Component {
 		public uint compId;
 		public Vector4 color;
 		public Vector2 textureSize;
+		public UVTransform uvTransform;
 	}
 
 	private Vector4 color_ = Vector4.one;
@@ -30,6 +31,16 @@ public class SpriteRenderer : Component {
 		}
 		set {
 			textureSize_ = value;
+		}
+	}
+
+	private UVTransform uvTransform_ = UVTransform.identity;
+	public UVTransform uvTransform {
+		get {
+			return uvTransform_;
+		}
+		set {
+			uvTransform_ = value;
 		}
 	}
 }

@@ -17,6 +17,8 @@
 #include "Engine/Script/MonoScriptEngine.h"
 
 
+#include "Engine/Graphics/Buffer/Data/UVTransform.h"
+
 using namespace ONEngine;
 
 namespace {
@@ -38,17 +40,20 @@ struct MeshRendererBatch {
 	uint32_t compId;
 	Vector4 color;
 	uint32_t postEffectFlags;
+	UVTransform uvTransform;
 };
 
 struct DissolveBatch {
 	uint32_t compId;
 	float threshold;
+	UVTransform uvTransform;
 };
 
 struct SpriteBatch {
 	uint32_t compId;
 	Vector4 color;
 	Vector2 textureSize;
+	UVTransform uvTransform;
 };
 
 } /// unnamed namespace
@@ -79,6 +84,7 @@ void ComponentApplyFuncs::ApplyMeshRenderer(void* _element, ECSGroup* _ecsGroup)
 	if(MeshRenderer* mr = array->GetComponent(data->compId)) {
 		mr->SetColor(data->color);
 		mr->SetPostEffectFlags(data->postEffectFlags);
+		mr->SetUVTransform(data->uvTransform);
 	}
 }
 
@@ -91,6 +97,7 @@ void ONEngine::ComponentApplyFuncs::ApplyDissolve(void* _element, ECSGroup* _ecs
 
 	if(DissolveMeshRenderer* mr = array->GetComponent(data->compId)) {
 		mr->SetThreshold(data->threshold);
+		mr->SetUVTransform(data->uvTransform);
 	}
 }
 
@@ -103,6 +110,7 @@ void ONEngine::ComponentApplyFuncs::ApplySprite(void* _element, ECSGroup* _ecsGr
 
 	if(SpriteRenderer* sr = array->GetComponent(data->compId)) {
 		sr->SetColor(data->color);
+		sr->SetUVTransform(data->uvTransform);
 	}
 }
 
@@ -131,6 +139,7 @@ void ONEngine::ComponentApplyFuncs::FetchMeshRenderer(void* _element, ECSGroup* 
 	if(MeshRenderer* mr = array->GetComponent(data->compId)) {
 		data->color = mr->GetColor();
 		data->postEffectFlags = mr->GetPostEffectFlags();
+		data->uvTransform = mr->GetUVTransform();
 	}
 }
 
@@ -144,6 +153,7 @@ void ONEngine::ComponentApplyFuncs::FetchDissolve(void* _element, ECSGroup* _ecs
 	if(DissolveMeshRenderer* mr = array->GetComponent(data->compId)) {
 		data->threshold = mr->GetDissolveThreshold();
 		data->compId = mr->GetDissolveCompare();
+		data->uvTransform = mr->GetUVTransform();
 	}
 }
 
@@ -157,6 +167,7 @@ void ONEngine::ComponentApplyFuncs::FetchSprite(void* _element, ECSGroup* _ecsGr
 	if(SpriteRenderer* sr = array->GetComponent(data->compId)) {
 		data->color = sr->GetColor();
 		data->textureSize = sr->GetTextureSize(Asset::AssetCollection::GetInstance());
+		data->uvTransform = sr->GetUVTransform();
 	}
 }
 

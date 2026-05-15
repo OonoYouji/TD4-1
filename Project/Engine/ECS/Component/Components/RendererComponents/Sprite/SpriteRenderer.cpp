@@ -92,12 +92,20 @@ void SpriteRenderer::SetColor(const Vector4& _color) {
 	gpuMaterial_.baseColor = _color;
 }
 
+void SpriteRenderer::SetUVTransform(const UVTransform& _uvTransform) {
+	material_.uvTransform = _uvTransform;
+}
+
 const Vector4& SpriteRenderer::GetColor() const {
 	return gpuMaterial_.baseColor;
 }
 
 const GPUMaterial& SpriteRenderer::GetGpuMaterial() const {
 	return gpuMaterial_;
+}
+
+const UVTransform& SpriteRenderer::GetUVTransform() const {
+	return material_.uvTransform;
 }
 
 Vector2 SpriteRenderer::GetTextureSize(Asset::AssetCollection* _assetCollection) const {
