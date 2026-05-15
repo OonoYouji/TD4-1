@@ -1,12 +1,14 @@
 {
     "Player": {
-        "armLength": 12.0,
-        "currentYaw": 14.223740577697754,
+        "armLength": 6.0,
+        "currentYaw": -1.264796257019043,
+        "fireCooldownTimer": 12.748733520507813,
+        "fireInterval": 0.5,
         "inputDeadZone": 0.0,
         "isGamepadMode": false,
         "lastMousePos": {
-            "x": 1395.0,
-            "y": 423.0
+            "x": 79.0,
+            "y": 183.0
         },
         "maxMoveSpeed": 27.0,
         "mouseIsMovePixel": 0.0,
