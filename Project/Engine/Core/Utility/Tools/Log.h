@@ -27,6 +27,7 @@ enum class LogLevel {
 
 enum class LogCategory {
 	Engine,
+	ScriptEngine,
 	Application
 };
 

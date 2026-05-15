@@ -20,6 +20,8 @@ public class GoalPoint : MonoScript
             
             // ゴール後はシーンを遷移する
             SceneManager.LoadScene(nextSceneName);
-        }
+        } else {
+            Debug.Log("Collision with non-player entity: " + collision.name);
+		}
     }
 }

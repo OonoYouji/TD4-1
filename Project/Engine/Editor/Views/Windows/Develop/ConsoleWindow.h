@@ -35,6 +35,7 @@ private:
 	bool showError_ = true;
 
 	bool showEngine_ = true;
+	bool showScriptEngine_ = true;
 	bool showApplication_ = true;
 
 	bool autoScroll_ = true;

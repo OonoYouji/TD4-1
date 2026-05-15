@@ -44,7 +44,9 @@ void ConsoleWindow::ShowImGui() {
 	ImGui::SameLine();
 	ImGui::Checkbox("Engine", &showEngine_);
 	ImGui::SameLine();
-	ImGui::Checkbox("App", &showApplication_);
+	ImGui::Checkbox("Script", &showScriptEngine_);
+	ImGui::SameLine();
+	ImGui::Checkbox("Game", &showApplication_);
 
 	ImGui::Separator();
 
@@ -69,6 +71,7 @@ void ConsoleWindow::ShowImGui() {
 
 		// カテゴリフィルタリング
 		if (entry.category == ONEngine::LogCategory::Engine && !showEngine_) continue;
+		if (entry.category == ONEngine::LogCategory::ScriptEngine && !showScriptEngine_) continue;
 		if (entry.category == ONEngine::LogCategory::Application && !showApplication_) continue;
 
 		displayIndices.push_back(i);
@@ -81,7 +84,10 @@ void ConsoleWindow::ShowImGui() {
 			const auto& entry = allLogs[displayIndices[i]];
 
 			// カテゴリプレフィックスと色
-			const char* categoryTag = (entry.category == ONEngine::LogCategory::Engine) ? "[Engine] " : "[App]    ";
+			const char* categoryTag = "[Unknown] ";
+			if (entry.category == ONEngine::LogCategory::Engine) categoryTag = "[Engine] ";
+			else if (entry.category == ONEngine::LogCategory::ScriptEngine) categoryTag = "[Script] ";
+			else if (entry.category == ONEngine::LogCategory::Application) categoryTag = "[Game]   ";
 			
 			// レベルに応じた色分け
 			ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Default White
