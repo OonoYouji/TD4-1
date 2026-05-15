@@ -264,6 +264,9 @@ public class Entity {
 		GetComponent<Transform>();
 		GetComponent<MeshRenderer>();
 		GetComponent<DissolveMeshRenderer>();
+		GetComponent<SkinMeshRenderer>();
+		GetComponent<SpriteRenderer>();
+		GetComponent<AudioSource>();
 	}
 
 

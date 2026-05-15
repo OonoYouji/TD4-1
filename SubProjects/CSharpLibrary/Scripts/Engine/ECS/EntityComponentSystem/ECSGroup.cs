@@ -112,14 +112,13 @@ public class ECSGroup {
 
 		var sw = Stopwatch.StartNew();
 
+		// 受信を最初に行う
+		componentCollection.GetArray<MeshRenderer>();
+		ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
+
 		/// 生成、初期化の呼び出しを行う
 		CallAwake();
 		CallInitialize();
-
-		// ★★★ 修正: ReceiveAllBatches の前に MeshRenderer の配列を確保 ★★★
-		componentCollection.GetArray<MeshRenderer>();
-
-		ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
 
 		foreach (Entity entity in entities_.Values) {
 			if (!CheckEnable(entity)) {
