@@ -43,6 +43,9 @@ public:
 	AssetCollection();
 	~AssetCollection();
 
+	/// @brief インスタンスの取得
+	static AssetCollection* GetInstance();
+
 	/// @brief 初期化関数
 	/// @param _dxm DxManagerのポインタ
 	void Initialize(DxManager* dxm);

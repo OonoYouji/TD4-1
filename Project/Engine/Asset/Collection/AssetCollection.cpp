@@ -10,8 +10,18 @@
 
 namespace ONEngine::Asset {
 
+namespace {
+	AssetCollection* sInstance = nullptr;
+}
 
-AssetCollection::AssetCollection() = default;
+AssetCollection* AssetCollection::GetInstance() {
+	return sInstance;
+}
+
+
+AssetCollection::AssetCollection() {
+	sInstance = this;
+}
 AssetCollection::~AssetCollection() = default;
 
 void AssetCollection::Initialize(DxManager* dxm) {

@@ -49,6 +49,10 @@ void MeshRenderer::SetPostEffectFlags(uint32_t _flags) {
 	material_.postEffectFlags = _flags;
 }
 
+void MeshRenderer::SetUVTransform(const UVTransform& _uvTransform) {
+	material_.uvTransform = _uvTransform;
+}
+
 const std::string& MeshRenderer::GetMeshPath() const {
 	return meshPath_;
 }
@@ -63,6 +67,10 @@ const GPUMaterial& MeshRenderer::GetGpuMaterial() const {
 
 uint32_t MeshRenderer::GetPostEffectFlags() const {
 	return material_.postEffectFlags;
+}
+
+const UVTransform& MeshRenderer::GetUVTransform() const {
+	return material_.uvTransform;
 }
 
 const Guid& MeshRenderer::GetTextureGuid() const {

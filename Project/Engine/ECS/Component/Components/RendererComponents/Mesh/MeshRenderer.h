@@ -9,6 +9,7 @@
 #include "Engine/Asset/Assets/Material/Material.h"
 #include "Engine/Graphics/Pipelines/Render/Mesh/MeshRenderingPipeline.h"
 #include "Engine/Graphics/Buffer/Data/GPUMaterial.h"
+#include "Engine/Graphics/Buffer/Data/UVTransform.h"
 
 
 namespace ONEngine {
@@ -81,6 +82,9 @@ public:
 	/// @param _flags ポストエフェクトのフラグ
 	void SetPostEffectFlags(uint32_t _flags);
 
+	/// @brief UV変形のセット
+	void SetUVTransform(const UVTransform& _uvTransform);
+
 	/// @brief 描画するmeshの file pathを取得
 	/// @return .slnからの相対パス
 	const std::string& GetMeshPath() const;
@@ -95,6 +99,9 @@ public:
 	/// @brief ポストエフェクトのフラグを取得
 	/// @return ポストエフェクトのフラグ
 	uint32_t GetPostEffectFlags() const;
+
+	/// @brief UV変形の取得
+	const UVTransform& GetUVTransform() const;
 
 	/// @brief テクスチャのGuidを返す
 	const Guid& GetTextureGuid() const;
