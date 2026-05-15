@@ -2,7 +2,9 @@
 
 /// engine
 #include "Engine/Core/DirectX12/Manager/DxManager.h"
+#include "Engine/Scene/SceneManager.h"
 #include "Engine/Core/Utility/Utility.h"
+#include "Engine/Core/Utility/Input/Input.h"
 
 #include "EditCommand.h"
 #include "Engine/Editor/Commands/WorldEditorCommands/WorldEditorCommands.h"
@@ -22,8 +24,9 @@ using namespace Editor;
 EditorManager::EditorManager(ONEngine::EntityComponentSystem* _ecs) : pEcs_(_ecs) {}
 EditorManager::~EditorManager() = default;
 
-void EditorManager::Initialize(ONEngine::DxManager* dxm, ONEngine::ShaderCompiler* sc) {
+void EditorManager::Initialize(ONEngine::DxManager* dxm, ONEngine::ShaderCompiler* sc, ONEngine::SceneManager* sm) {
 	pDxManager_ = dxm;
+	pSceneManager_ = sm;
 	runningCommand_ = nullptr;
 
 	/// EditCommandへEditorManagerのポインタを渡す
@@ -65,6 +68,12 @@ void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {
 		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_Y)) {
 			Redo();
 		}
+
+		// Ctrl+S でシーンを保存
+		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_S)) {
+			pSceneManager_->SaveCurrentScene();
+			ONEngine::Console::Log("Scene saved via Ctrl+S.");
+		}
 #endif // DEBUG_MODE
 	}
 
@@ -80,6 +89,8 @@ void EditorManager::Undo() {
 	command->Undo();
 	redoStack_.push_back(std::move(command));
 	commandStack_.pop_back();
+
+	MarkSceneDirty();
 }
 
 void EditorManager::Redo() {
@@ -95,6 +106,13 @@ void EditorManager::Redo() {
 	/// command stackに戻す
 	commandStack_.push_back(std::move(command));
 
+	MarkSceneDirty();
+}
+
+void EditorManager::MarkSceneDirty() {
+	if (pSceneManager_) {
+		pSceneManager_->MarkDirty();
+	}
 }
 
 void EditorManager::AddEditorCompute(ONEngine::DxManager* dxm, ONEngine::ShaderCompiler* sc, std::unique_ptr<IEditorCompute> compute) {

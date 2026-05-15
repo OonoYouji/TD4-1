@@ -523,7 +523,11 @@ void InspectorWindow::TextureAssetInspector(ONEngine::Asset::Texture* tex) {
 
 	/// 枠を表示
 	ImGui::BeginChild("TextureFrame", displaySize, true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-	ImGui::Image((ImTextureID)(uintptr_t)tex->GetSRVGPUHandle().ptr, displaySize);
+	if(tex->IsStandard2D()) {
+		ImGui::Image((ImTextureID)(uintptr_t)tex->GetSRVGPUHandle().ptr, displaySize);
+	} else {
+		ImGui::Text("Preview not supported\n(CubeMap or 3D Texture)");
+	}
 	ImGui::EndChild();
 }
 

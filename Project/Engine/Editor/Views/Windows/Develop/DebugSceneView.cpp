@@ -42,8 +42,6 @@ namespace Editor {
 DebugSceneView::DebugSceneView(ONEngine::EntityComponentSystem* _ecs, ONEngine::Asset::AssetCollection* _assetCollection, ONEngine::SceneManager* _sceneManager, InspectorWindow* _inspector)
 	: pEcs_(_ecs), pAssetCollection_(_assetCollection), pSceneManager_(_sceneManager), pInspector_(_inspector) {
 
-	manipulateOperation_ = ImGuizmo::OPERATION::TRANSLATE; // 初期操作モードは移動
-	manipulateMode_ = ImGuizmo::MODE::WORLD; // 初期モードはワールド座標
 }
 
 
@@ -282,6 +280,25 @@ void DebugSceneView::DrawToolbar() {
 
 	// スタッツの表示トグル (メンバ変数に変更)
 	ImGui::Checkbox("show scene stats", &isDrawSceneStats_);
+
+	ImGui::SameLine();
+
+	// 2D/3D モードの切り替え
+	bool is2D = Editor::Is2DMode();
+	if (ImGui::RadioButton("2D", is2D)) {
+		Editor::Set2DMode(true);
+		if (auto* cam = pEcs_->GetECSGroup("Debug")->GetMainCamera()) {
+			cam->SetCameraType(static_cast<int>(ONEngine::CameraType::Type2D));
+			cam->GetOwner()->GetTransform()->SetRotate(ONEngine::Quaternion::kIdentity);
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("3D", !is2D)) {
+		Editor::Set2DMode(false);
+		if (auto* cam = pEcs_->GetECSGroup("Debug")->GetMainCamera()) {
+			cam->SetCameraType(static_cast<int>(ONEngine::CameraType::Type3D));
+		}
+	}
 
 	// ImGuiInfo の右寄せ表示
 	{

@@ -108,9 +108,10 @@ void ONEngine::ComponentApplyFuncs::FetchMeshRenderer(void* _element, ECSGroup* 
 		return;
 	}
 
-	//if(MeshRenderer* mr = array->GetComponent(data->compId)) {
-
-	//}
+	if(MeshRenderer* mr = array->GetComponent(data->compId)) {
+		data->color = mr->GetColor();
+		data->postEffectFlags = mr->GetPostEffectFlags();
+	}
 }
 
 void ONEngine::ComponentApplyFuncs::FetchDissolve(void* _element, ECSGroup* _ecsGroup) {

@@ -31,6 +31,11 @@ public class ECSGroup {
 		ComponentBatchManager.Initialize();
 		groupName = _groupName;
 		enable_ = true;
+
+		// 主要なComponentArrayをあらかじめ確保しておく
+		componentCollection.GetArray<Transform>();
+		componentCollection.GetArray<MeshRenderer>();
+		componentCollection.GetArray<DissolveMeshRenderer>();
 	}
 
 	// ==============================================
@@ -50,6 +55,9 @@ public class ECSGroup {
 
 		Entity entity = new Entity(_id, this);
 		entities_.Add(_id, entity);
+
+		// C++側のデータを同期するために主要なコンポーネントを取得しておく
+		entity.FetchInitialData();
 
 		/// 生成、初期化の呼び出し用リストに追加
 		awakeList_.Add(entity);
@@ -107,6 +115,9 @@ public class ECSGroup {
 		/// 生成、初期化の呼び出しを行う
 		CallAwake();
 		CallInitialize();
+
+		// ★★★ 修正: ReceiveAllBatches の前に MeshRenderer の配列を確保 ★★★
+		componentCollection.GetArray<MeshRenderer>();
 
 		ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
 

@@ -5,6 +5,9 @@
 
 /// engine
 #include "Engine/Core/Config/EngineConfig.h"
+#include "Engine/Core/Window/WindowManager.h"
+#include "Engine/Scene/SceneManager.h"
+#include "Engine/Editor/Manager/ImGuiManager.h"
 #include "Tabs/DevelopTab.h"
 #include "Tabs/GameTab.h"
 #include "Tabs/PrefabTab.h"
@@ -22,7 +25,7 @@ EditorViewCollection::EditorViewCollection(
 	ImGuiManager* _imGuiManager,
 	EditorManager* _editorManager,
 	ONEngine::SceneManager* _sceneManager)
-	: pImGuiManager_(_imGuiManager) {
+	: pImGuiManager_(_imGuiManager), pSceneManager_(_sceneManager) {
 
 	/// ここでwindowを生成する
 	AddViewContainer("Develop", std::make_unique<DevelopTab>(_dxm, _ecs, _assetCollection, _editorManager, _sceneManager));
@@ -39,6 +42,38 @@ EditorViewCollection::~EditorViewCollection() {}
 void EditorViewCollection::Update() {
 
 	MainMenuUpdate();
+
+	/// 終了リクエストの確認
+	if(pImGuiManager_->GetWindowManager()->IsCloseRequested()) {
+		if(pSceneManager_->IsDirty()) {
+			ImGui::OpenPopup("Save Changes?");
+		} else {
+			PostQuitMessage(0);
+		}
+	}
+
+	if(ImGui::BeginPopupModal("Save Changes?", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::Text("Scene has been modified. Save changes?");
+		ImGui::Separator();
+
+		if(ImGui::Button("Save", ImVec2(120, 0))) {
+			pSceneManager_->SaveCurrentScene();
+			PostQuitMessage(0);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if(ImGui::Button("Don't Save", ImVec2(120, 0))) {
+			PostQuitMessage(0);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if(ImGui::Button("Cancel", ImVec2(120, 0))) {
+			pImGuiManager_->GetWindowManager()->SetCloseRequested(false);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
 
 	/// 選択されたMenuの内容を表示する
 	parentWindows_[selectedMenuIndex_]->ShowImGui();

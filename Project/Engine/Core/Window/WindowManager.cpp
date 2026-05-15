@@ -27,7 +27,9 @@ LRESULT WindowManager::MainWindowProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPA
 
 	switch (_msg) {
 	case WM_CLOSE:
-		PostQuitMessage(0);
+		if (gWindowManager) {
+			gWindowManager->SetCloseRequested(true);
+		}
 		return 0;
 	case WM_DESTROY: /// window破棄
 		return 0;
@@ -244,4 +246,12 @@ Window* WindowManager::GetActiveWindow() const {
 	}
 
 	return GetMainWindow();
+}
+
+bool WindowManager::IsCloseRequested() const {
+	return closeRequested_;
+}
+
+void WindowManager::SetCloseRequested(bool _isCloseRequested) {
+	closeRequested_ = _isCloseRequested;
 }

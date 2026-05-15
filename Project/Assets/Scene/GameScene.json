@@ -120,9 +120,9 @@
                         "z": 113.70929718017578
                     },
                     "rotate": {
-                        "w": 0.8979367613792419,
+                        "w": 1.0,
                         "x": 0.0,
-                        "y": -0.4401244819164276,
+                        "y": 0.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -147,7 +147,18 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
                     "type": "MeshRenderer"
@@ -219,9 +230,9 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 100.0,
-                        "y": 100.0,
-                        "z": 100.0
+                        "x": 1000.0,
+                        "y": 1000.0,
+                        "z": 1000.0
                     },
                     "type": "Transform"
                 },
@@ -240,7 +251,18 @@
                         "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/plane.obj",
                     "type": "MeshRenderer"
@@ -290,7 +312,18 @@
                         "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/cube.obj",
                     "type": "MeshRenderer"
@@ -352,7 +385,18 @@
                         "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/cube.obj",
                     "type": "MeshRenderer"
@@ -414,7 +458,18 @@
                         "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/cube.obj",
                     "type": "MeshRenderer"
@@ -476,7 +531,18 @@
                         "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/cube.obj",
                     "type": "MeshRenderer"
@@ -548,7 +614,18 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Assets/Models/objects/PlayerLeftHand/PlayerLeftHand.obj",
                     "type": "MeshRenderer"
@@ -608,7 +685,18 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
                     "type": "MeshRenderer"
@@ -668,7 +756,18 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Assets/Models/Entity/player.obj",
                     "type": "MeshRenderer"
@@ -728,7 +827,18 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Assets/Models/Entity/player.obj",
                     "type": "MeshRenderer"
@@ -778,7 +888,18 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/sphere.obj",
                     "type": "MeshRenderer"
@@ -806,6 +927,126 @@
             "id": 14,
             "name": "PlayerCore",
             "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "cameraType": 1,
+                    "enable": 1,
+                    "farClip": 1000.0,
+                    "fogColor": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "fogEnd": 10000.0,
+                    "fogStart": 0.0,
+                    "fovY": 0.699999988079071,
+                    "isDrawFrustum": true,
+                    "isMainCamera": true,
+                    "nearClip": 0.0,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "1bfe2134e5bc44573be595efe7705c27",
+            "id": 15,
+            "name": "Camera2D",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": -400.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1500.0,
+                        "y": 70.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "UiGauge"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "719dccb697924483b4cf03e2ace1b540",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "type": "SpriteRenderer"
+                }
+            ],
+            "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
+            "id": 16,
+            "name": "PlayerHP",
+            "parent": 15,
             "prefabName": ""
         }
     ]

@@ -27,6 +27,7 @@ MeshRenderer::~MeshRenderer() = default;
 void MeshRenderer::SetupRenderData(Asset::AssetCollection* _assetCollection) {
 	gpuMaterial_.postEffectFlags = material_.postEffectFlags;
 	gpuMaterial_.baseColor = material_.baseColor;
+	gpuMaterial_.uvTransform = material_.uvTransform;
 	gpuMaterial_.entityId = GetOwner() ? GetOwner()->GetId() : 0;
 
 	if (material_.HasBaseTexture()) {

@@ -124,10 +124,11 @@ std::optional<AudioClip> AssetLoader<AudioClip>::Reload(const std::string& _file
 Meta<AudioClip::MetaData> AssetLoader<AudioClip>::GetMetaData(const std::string& _filepath) {
 	Meta<AudioClip::MetaData> res{};
 
-	res.base = LoadMetaBaseFromFile(_filepath);
+	const std::string metaPath = _filepath + ".meta";
+	res.base = LoadOrGenerateMetaBase(metaPath, _filepath);
 
 	nlohmann::json j;
-	std::ifstream ifs(_filepath);
+	std::ifstream ifs(metaPath);
 	if(!ifs.is_open()) {
 		return {};
 	}

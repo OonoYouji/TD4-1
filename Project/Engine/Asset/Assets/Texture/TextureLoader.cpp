@@ -83,10 +83,11 @@ std::optional<Texture> AssetLoader<Texture>::Reload(const std::string& _filepath
 Meta<Texture::MetaData> AssetLoader<Texture>::GetMetaData(const std::string& _filepath) {
 	Meta<Texture::MetaData> res{};
 
-	res.base = LoadMetaBaseFromFile(_filepath);
+	const std::string metaPath = _filepath + ".meta";
+	res.base = LoadOrGenerateMetaBase(metaPath, _filepath);
 
 	nlohmann::json j;
-	std::ifstream ifs(_filepath);
+	std::ifstream ifs(metaPath);
 	if(!ifs.is_open()) {
 		return {};
 	}
@@ -174,6 +175,8 @@ std::optional<Texture> AssetLoader<Texture>::Load2DTexture(const std::string& _f
 		Vector2 textureSize = { static_cast<float>(metadata.width), static_cast<float>(metadata.height) };
 		texture.textureSize_ = textureSize;
 		texture.srvFormat_ = metadata.format;
+		texture.isCubeMap_ = metadata.IsCubemap();
+		texture.arraySize_ = static_cast<UINT>(metadata.arraySize);
 
 		Console::Log("[Success Texture Info] Path: \"" + _filepath + "\"");
 		Console::Log(" - DescriptorIndex: " + std::to_string(texture.srvHandle_->descriptorIndex));
@@ -314,6 +317,8 @@ std::optional<Texture> AssetLoader<Texture>::Reload2DTexture(const std::string& 
 		Vector2 textureSize = { static_cast<float>(metadata.width), static_cast<float>(metadata.height) };
 		texture.textureSize_ = textureSize;
 		texture.srvFormat_ = metadata.format;
+		texture.isCubeMap_ = metadata.IsCubemap();
+		texture.arraySize_ = static_cast<UINT>(metadata.arraySize);
 
 		Console::Log("[Success Reload Texture Info] Path: \"" + _filepath + "\"");
 	}

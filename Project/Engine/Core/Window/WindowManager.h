@@ -123,6 +123,7 @@ private:
 	Window*                              pMainWindow_ = nullptr;
 
 	bool                                 isProcessEnd_;
+	bool                                 closeRequested_ = false;
 
 
 public:
@@ -135,6 +136,12 @@ public:
 
 	/// @brief 現在のアクティブなWindowを取得
 	Window* GetActiveWindow() const;
+
+	/// @brief 終了リクエストが来ているか
+	bool IsCloseRequested() const;
+
+	/// @brief 終了リクエストを設定
+	void SetCloseRequested(bool _isCloseRequested);
 
 private:
 	/// ===================================================

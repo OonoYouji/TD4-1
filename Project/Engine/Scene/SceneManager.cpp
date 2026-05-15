@@ -12,6 +12,7 @@ using namespace ONEngine;
 /// engine
 //#include "Scene/Factory/SceneFactory.h"
 #include "Engine/Core/Config/EngineConfig.h"
+#include "Engine/Core/Utility/Tools/Log.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
@@ -76,6 +77,7 @@ void SceneManager::SaveScene(const std::string& _name, ECSGroup* _ecsGroup) {
 	}
 
 	sceneIO_->Output(_name, _ecsGroup);
+	SetDirty(false);
 }
 
 void SceneManager::SaveCurrentScene() {
@@ -85,6 +87,7 @@ void SceneManager::SaveCurrentScene() {
 	}
 
 	sceneIO_->Output(currentScene_, pEcs_->GetCurrentGroup());
+	SetDirty(false);
 }
 
 void SceneManager::SaveCurrentSceneTemporary() {
@@ -138,6 +141,18 @@ std::string SceneManager::LastOpenSceneName() {
 	return "";
 }
 
+void SceneManager::MarkDirty() {
+	isDirty_ = true;
+}
+
+bool SceneManager::IsDirty() const {
+	return isDirty_;
+}
+
+void SceneManager::SetDirty(bool _isDirty) {
+	isDirty_ = _isDirty;
+}
+
 void SceneManager::MoveNextToCurrentScene(bool _isTemporary) {
 	ECSGroup* prevSceneGroup = pEcs_->GetCurrentGroup();
 	if (prevSceneGroup) {
@@ -158,6 +173,8 @@ void SceneManager::MoveNextToCurrentScene(bool _isTemporary) {
 	}
 
 	sceneIO_->Input(sceneName, nextSceneGroup);
+
+	SetDirty(false);
 
 	Time::ResetTime();
 }

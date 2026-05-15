@@ -142,10 +142,11 @@ std::optional<Model> AssetLoader<Model>::Reload(const std::string& _filepath, Mo
 Meta<Model::MetaData> AssetLoader<Model>::GetMetaData(const std::string& _filepath) {
 	Meta<Model::MetaData> res{};
 
-	res.base = LoadMetaBaseFromFile(_filepath);
+	const std::string metaPath = _filepath + ".meta";
+	res.base = LoadOrGenerateMetaBase(metaPath, _filepath);
 
 	nlohmann::json j;
-	std::ifstream ifs(_filepath);
+	std::ifstream ifs(metaPath);
 	if(!ifs.is_open()) {
 		return {};
 	}

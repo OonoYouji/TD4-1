@@ -24,6 +24,7 @@ public class PlayerCore : MonoScript
     // 内部状態
     // =========================================================
 
+    [SerializeField]
     private int currentHp;
     private Transform playerTransform;
 
@@ -109,6 +110,11 @@ public class PlayerCore : MonoScript
     {
         // ゲームオーバーシーンに遷移
         SceneManager.LoadScene("GameOver");
+    }
+
+    public float CurrentHpRatio()
+    {
+        return Mathf.Clamp01((float)currentHp / maxHp);
     }
 
 
