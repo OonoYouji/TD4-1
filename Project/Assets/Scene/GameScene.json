@@ -208,7 +208,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 4,
+            "id": 6,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -269,9 +269,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 5,
+            "id": 7,
             "name": "Field",
-            "parent": 4,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -342,9 +342,9 @@
                 }
             ],
             "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 6,
+            "id": 8,
             "name": "Wall",
-            "parent": 4,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -415,9 +415,9 @@
                 }
             ],
             "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 7,
+            "id": 9,
             "name": "Wall_1",
-            "parent": 4,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -488,9 +488,9 @@
                 }
             ],
             "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 8,
+            "id": 10,
             "name": "Wall_2",
-            "parent": 4,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -561,293 +561,9 @@
                 }
             ],
             "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 9,
-            "name": "Wall_3",
-            "parent": 4,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.732797384262085,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -1.1920928955078125e-07,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 12.0,
-                        "y": 2.0,
-                        "z": 2.0000035762786865
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerArm"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Assets/Models/objects/PlayerLeftHand/PlayerLeftHand.obj",
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "579981716c2ed68722d2f19edfd5a6d9",
-            "id": 10,
-            "name": "PlayerLeftArm",
-            "parent": 3,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -0.09999366104602814,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -1.1920928955078125e-07,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 12.0,
-                        "y": 2.0000007152557373,
-                        "z": 2.0000007152557373
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerArm"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "d6dd606f1455423aa2fca05e7d833049",
             "id": 11,
-            "name": "PlayerRightArm",
-            "parent": 3,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -26.989030838012695,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 5.0,
-                        "y": 5.0,
-                        "z": 5.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerBulletLauncher"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Assets/Models/Entity/player.obj",
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "2ea23374f0f7bababe842574acacad6f",
-            "id": 12,
-            "name": "PlayerLeftBulletMuzzle",
-            "parent": 3,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 26.989030838012695,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 5.0,
-                        "y": 5.000000476837158,
-                        "z": 5.000000476837158
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerBulletLauncher"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Assets/Models/Entity/player.obj",
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "c7b59103f369698bf6c815a21483876b",
-            "id": 13,
-            "name": "PlayerRightBulletMuzzle",
-            "parent": 3,
+            "name": "Wall_3",
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -1119,7 +835,7 @@
                             "name": "EnemyUIHandler"
                         },
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "Knockback"
                         },
                         {
@@ -1204,8 +920,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 1.4,
-                        "y": 0.1,
+                        "x": 1.399999976158142,
+                        "y": 0.10000000149011612,
                         "z": 1.0
                     },
                     "type": "Transform"

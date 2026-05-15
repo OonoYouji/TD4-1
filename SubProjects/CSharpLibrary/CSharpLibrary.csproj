@@ -97,10 +97,10 @@
     <Compile Include="Scripts\Engine\MonoScript.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Vector3.cs" />
     <Compile Include="Scripts\Game\Player\Player.cs" />
-    <Compile Include="Scripts\Game\Player\PlayerArm.cs" />
-    <Compile Include="Scripts\Game\Player\PlayerBullet.cs" />
-    <Compile Include="Scripts\Game\Player\PlayerBulletLauncher.cs" />
-    <Compile Include="Scripts\Game\Player\PlayerCore.cs" />
+    <Compile Include="Scripts\Game\Player\Olds\PlayerArm.cs" />
+    <Compile Include="Scripts\Game\Player\Olds\PlayerBullet.cs" />
+    <Compile Include="Scripts\Game\Player\Olds\PlayerBulletLauncher.cs" />
+    <Compile Include="Scripts\Game\Player\Olds\PlayerCore.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
