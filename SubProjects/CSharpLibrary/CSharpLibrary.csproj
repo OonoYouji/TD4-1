@@ -53,6 +53,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Renderer\DissolveMeshRenderer.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />
+    <Compile Include="Scripts\Game\Player\CallingReinforcement.cs" />
+    <Compile Include="Scripts\Game\Reinforcement\Reinforcement.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
