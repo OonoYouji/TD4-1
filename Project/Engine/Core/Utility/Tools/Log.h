@@ -8,6 +8,7 @@
 #include <string>
 #include <format>
 #include <tchar.h>
+#include <optional>
 
 
 /// @brief 最大のログバッファサイズ
@@ -69,7 +70,8 @@ public:
 	static const std::vector<LogEntry>& GetLogVector();
 
 	/// @brief ログのバッファをクリアする
-	static void ClearLogBuffer();
+	/// @param _category 指定したカテゴリのみクリアする。デフォルト(std::nullopt)は全てクリア
+	static void ClearLogBuffer(std::optional<LogCategory> _category = std::nullopt);
 
 	/// @brief ログをファイルに保存して終了する
 	static void Shutdown();
