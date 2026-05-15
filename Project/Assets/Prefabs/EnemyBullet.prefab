@@ -26,39 +26,41 @@
         },
         {
             "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "EnemyBullet"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 1.0,
-                    "y": 1.0,
+                    "x": 0.5,
+                    "y": 0.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "baseTextureGuid": "bf41deabb8d3b499fda8edb63ccb7c7d",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1
             },
-            "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+            "meshPath": "./Packages/Models/primitive/cylinder.obj",
             "type": "MeshRenderer"
         },
         {
             "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "TestEnemy"
-                },
-                {
-                    "enable": true,
-                    "name": "EnemyBulletLauncher"
-                }
-            ],
-            "type": "Script"
+            "radius": 1.0,
+            "state": "Dynamic",
+            "type": "SphereCollider"
         }
     ],
-    "guid": "8c80a37abf4aab7d7b153c2a14c93277",
+    "guid": "e5ad8665ce5dfd69655249604fe9397c",
     "id": 2,
-    "name": "TestEnemy",
+    "name": "EnemyBullet",
     "parent": null,
-    "prefabName": "TestEnemy"
+    "prefabName": "EnemyBullet"
 }

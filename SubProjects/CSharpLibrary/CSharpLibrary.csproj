@@ -89,6 +89,8 @@
     <Compile Include="Scripts\Game\Enemy\EnemyCollisionHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyUIHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
+    <Compile Include="Scripts\Game\Enemy\EnemyBullet.cs" />
+    <Compile Include="Scripts\Game\Enemy\EnemyBulletLauncher.cs" />
     <Compile Include="Scripts\Engine\MonoScript.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Vector3.cs" />
     <Compile Include="Scripts\Game\Player\Player.cs" />

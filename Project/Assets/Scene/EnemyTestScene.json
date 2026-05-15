@@ -45,7 +45,7 @@
                 }
             ],
             "guid": "f3301490d260735dfc6b4620b64395a9",
-            "id": 1,
+            "id": 5,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -94,7 +94,7 @@
                 }
             ],
             "guid": "545c4c6071414dab0e6246ebae462081",
-            "id": 2,
+            "id": 6,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -160,6 +160,10 @@
                         {
                             "enable": true,
                             "name": "Knockback"
+                        },
+                        {
+                            "enable": true,
+                            "name": "EnemyBulletLauncher"
                         }
                     ],
                     "type": "Script"
@@ -174,7 +178,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93725",
-            "id": 3,
+            "id": 7,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -224,7 +228,7 @@
                 }
             ],
             "guid": "2b88d62373851c2ef94c79db45b92d33",
-            "id": 4,
+            "id": 1,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -279,10 +283,20 @@
                     },
                     "meshPath": "./Packages/Models/primitive/cylinder.obj",
                     "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "EnemyBullet"
+                        }
+                    ],
+                    "type": "Script"
                 }
             ],
             "guid": "f1c6abc3a0b1eab6bb7c67f089776c77",
-            "id": 5,
+            "id": 2,
             "name": "TestBullet",
             "parent": null,
             "prefabName": ""
@@ -325,9 +339,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817b",
-            "id": 6,
+            "id": 3,
             "name": "UI Root",
-            "parent": 3,
+            "parent": 7,
             "prefabName": ""
         },
         {
@@ -377,9 +391,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96942",
-            "id": 7,
+            "id": 4,
             "name": "HP",
-            "parent": 6,
+            "parent": 3,
             "prefabName": ""
         }
     ]

@@ -1,1 +1,20 @@
-null
+{
+    "EnemyBullet": {
+        "lifeTime": 17.262882232666016,
+        "positionApplied": true,
+        "startPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "straightDuration": 2.0,
+        "straightTimer": 2.0009095668792725,
+        "uTurnDuration": 1.0,
+        "uTurnTimer": 0.736211359500885,
+        "velocity": {
+            "x": 0.7370644211769104,
+            "y": 0.0,
+            "z": -0.6758226752281189
+        }
+    }
+}
