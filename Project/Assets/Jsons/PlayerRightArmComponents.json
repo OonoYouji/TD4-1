@@ -3,18 +3,18 @@
         "enable": 1,
         "matrixCalcFlags": 7,
         "position": {
-            "x": -6.099992275238037,
+            "x": -0.09999366104602814,
             "y": 0.0,
-            "z": 0.20000113546848297
+            "z": 0.0
         },
         "rotate": {
-            "w": 0.8702788352966309,
+            "w": 1.0,
             "x": 0.0,
-            "y": -0.49255937337875366,
+            "y": -1.1920928955078125e-07,
             "z": 0.0
         },
         "scale": {
-            "x": 12.400002479553223,
+            "x": 12.0,
             "y": 2.0000007152557373,
             "z": 2.0000007152557373
         },
@@ -45,7 +45,18 @@
             "baseTextureGuid": "00000000000000000000000000000000",
             "guid": "00000000000000000000000000000000",
             "normalTextureGuid": "00000000000000000000000000000000",
-            "postEffectFlags": 1
+            "postEffectFlags": 1,
+            "uvTransform": {
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "rotate": 0.0,
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            }
         },
         "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
         "type": "MeshRenderer"

@@ -35,10 +35,6 @@ public class Player : MonoScript
     private Vector2 lastMousePos = new Vector2(640f, 360f);
     // 発射クールタイムタイマー
     private float fireCooldownTimer;
-    // 左右の発射口
-    private PlayerBulletLauncher leftLauncher;
-    private PlayerBulletLauncher rightLauncher;
-
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -49,10 +45,6 @@ public class Player : MonoScript
         lastMousePos = Input.MousePosition();
         fireCooldownTimer = fireInterval;
 
-        Entity leftMuzzleEntity  = ecsGroup.FindEntity("PlayerLeftBulletMuzzle");
-        Entity rightMuzzleEntity = ecsGroup.FindEntity("PlayerRightBulletMuzzle");
-        if (leftMuzzleEntity  != null) { leftLauncher  = leftMuzzleEntity.GetScript<PlayerBulletLauncher>(); }
-        if (rightMuzzleEntity != null) { rightLauncher = rightMuzzleEntity.GetScript<PlayerBulletLauncher>(); }
     }
 
     public override void Update()
@@ -206,8 +198,6 @@ public class Player : MonoScript
         if (wantFire && fireCooldownTimer >= fireInterval)
         {
             fireCooldownTimer = 0.0f;
-            if (leftLauncher  != null) { leftLauncher.Fire(); }
-            if (rightLauncher != null) { rightLauncher.Fire(); }
         }
     }
 }
