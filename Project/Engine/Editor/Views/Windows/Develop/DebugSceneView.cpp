@@ -72,11 +72,12 @@ void DebugSceneView::SetGamePlay(bool _isGamePlay) {
 		ONEngine::Console::ClearLogBuffer(ONEngine::LogCategory::Application);
 		pSceneManager_->SaveCurrentSceneTemporary();
 
+		/// Monoスクリプトエンジンのホットリロードでスクリプトの初期化を行う
+		/// シーンをロードする前にドメインを最新の状態にしておく
+		ONEngine::MonoScriptEngine::GetInstance().HotReload();
+
 		pSceneManager_->ReloadScene(true);
 		ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
-
-		/// Monoスクリプトエンジンのホットリロードでスクリプトの初期化を行う
-		ONEngine::MonoScriptEngine::GetInstance().HotReload();
 	} else {
 
 		/// 共通の処理（ゲーム開始、停止時に行う処理）
