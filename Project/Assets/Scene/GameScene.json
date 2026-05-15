@@ -169,6 +169,10 @@
                         {
                             "enable": true,
                             "name": "Player"
+                        },
+                        {
+                            "enable": true,
+                            "name": "CallingReinforcement"
                         }
                     ],
                     "type": "Script"
@@ -208,7 +212,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 6,
+            "id": 4,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -269,9 +273,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 7,
+            "id": 5,
             "name": "Field",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -342,9 +346,9 @@
                 }
             ],
             "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 8,
+            "id": 6,
             "name": "Wall",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -415,9 +419,9 @@
                 }
             ],
             "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 9,
+            "id": 7,
             "name": "Wall_1",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -488,9 +492,9 @@
                 }
             ],
             "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 10,
+            "id": 8,
             "name": "Wall_2",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -561,9 +565,9 @@
                 }
             ],
             "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 11,
+            "id": 9,
             "name": "Wall_3",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -633,14 +637,14 @@
                 {
                     "categoryBits": 2,
                     "enable": 1,
-                    "maskBits": 4294967295,
+                    "maskBits": 0,
                     "radius": 1.0,
                     "state": "Dynamic",
                     "type": "SphereCollider"
                 }
             ],
             "guid": "a3f1c2d4e5b6789012345678abcdef01",
-            "id": 14,
+            "id": 10,
             "name": "PlayerCore",
             "parent": null,
             "prefabName": ""
@@ -690,7 +694,7 @@
                 }
             ],
             "guid": "1bfe2134e5bc44573be595efe7705c27",
-            "id": 15,
+            "id": 11,
             "name": "Camera2D",
             "parent": null,
             "prefabName": ""
@@ -760,9 +764,9 @@
                 }
             ],
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "id": 16,
+            "id": 12,
             "name": "PlayerHP",
-            "parent": 15,
+            "parent": 11,
             "prefabName": ""
         },
         {
@@ -855,7 +859,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93726",
-            "id": 17,
+            "id": 13,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -898,9 +902,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817c",
-            "id": 18,
+            "id": 14,
             "name": "UI Root",
-            "parent": 17,
+            "parent": 13,
             "prefabName": ""
         },
         {
@@ -959,9 +963,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96943",
-            "id": 19,
+            "id": 15,
             "name": "HP",
-            "parent": 18,
+            "parent": 14,
             "prefabName": ""
         }
     ]

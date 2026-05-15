@@ -13,6 +13,8 @@ public class CallingReinforcement : MonoScript
     [SerializeField] public float spawnBehindDistance = 5.0f;
     // 援軍の移動速度
     [SerializeField] public float reinforcementSpeed = 8.0f;
+    // スポーン間隔（秒）
+    [SerializeField] public float spawnInterval = 3.0f;
 
     // =========================================================
     // 内部状態
@@ -20,6 +22,7 @@ public class CallingReinforcement : MonoScript
 
     private Player player = null;
     private List<Entity> activeReinforcements = new List<Entity>();
+    private float spawnTimer = 0.0f;
 
     // =========================================================
     // ライフサイクル
@@ -35,14 +38,13 @@ public class CallingReinforcement : MonoScript
         {
             player = playerEntity.GetScript<Player>();
         }
+
+        spawnTimer = spawnInterval;
     }
 
     public override void Update()
     {
-
-        // 発射と退散の入力を処理
         HandleFiring();
-        //  
         HandleRetreat();
     }
 
@@ -52,13 +54,12 @@ public class CallingReinforcement : MonoScript
 
     private void HandleFiring()
     {
-        // 発射の入力をチェック
-        bool wantFire = Input.TriggerKey(KeyCode.Space) || Input.TriggerGamepad(Gamepad.A);
+        if (player == null) { return; }
 
-        /// 発射したいけどプレイヤーが見つかっていない場合は何もしない 
-        if (wantFire && player != null)
+        spawnTimer -= Time.deltaTime;
+        if (spawnTimer <= 0.0f)
         {
-            // 軍隊をスポーン
+            spawnTimer = spawnInterval;
             SpawnReinforcements();
         }
     }
@@ -69,18 +70,26 @@ public class CallingReinforcement : MonoScript
 
     private void HandleRetreat()
     {
-        bool wantRetreat =
-            Input.TriggerKey(KeyCode.E) ||
-            Input.TriggerGamepad(Gamepad.B);
+        bool wantRetreat =Input.TriggerKey(KeyCode.E) ||Input.TriggerGamepad(Gamepad.B);
 
-        if (!wantRetreat) { return; }
+        if (!wantRetreat) { 
+            return; 
+        }
 
         foreach (Entity e in activeReinforcements)
         {
-            if (e == null) { continue; }
+            if (e == null) {
+                continue; 
+            }
+
+            // 退散させる
             Reinforcement r = e.GetScript<Reinforcement>();
-            if (r != null) { r.Retreat(); }
+            if (r != null) { 
+                r.Retreat(); 
+            }
         }
+
+        // 退散させた軍隊はリストから削除
         activeReinforcements.Clear();
     }
 

@@ -3,14 +3,14 @@
         "enable": 1,
         "matrixCalcFlags": 7,
         "position": {
-            "x": 127.91456604003906,
+            "x": 0.0,
             "y": 0.0,
-            "z": 102.54458618164063
+            "z": 0.0
         },
         "rotate": {
-            "w": -0.8229662179946899,
-            "x": -0.0,
-            "y": -0.5680903196334839,
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -25,14 +25,24 @@
     },
     {
         "enable": 1,
+        "scripts": [
+            {
+                "enable": true,
+                "name": "Reinforcement"
+            }
+        ],
+        "type": "Script"
+    },
+    {
+        "enable": 1,
         "material": {
             "baseColor": {
                 "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
+                "x": 0.20000000298023224,
+                "y": 0.6000000238418579,
                 "z": 1.0
             },
-            "baseTextureGuid": "00000000000000000000000000000000",
+            "baseTextureGuid": "bf41deabb8d3b499fda8edb63ccb7c7d",
             "guid": "00000000000000000000000000000000",
             "normalTextureGuid": "00000000000000000000000000000000",
             "postEffectFlags": 1,
@@ -48,21 +58,15 @@
                 }
             }
         },
-        "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+        "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
         "type": "MeshRenderer"
     },
     {
+        "categoryBits": 1,
         "enable": 1,
-        "scripts": [
-            {
-                "enable": true,
-                "name": "Player"
-            },
-            {
-                "enable": true,
-                "name": "CallingReinforcement"
-            }
-        ],
-        "type": "Script"
+        "maskBits": 4294967295,
+        "radius": 1.0,
+        "state": "Dynamic",
+        "type": "SphereCollider"
     }
 ]

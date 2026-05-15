@@ -3,20 +3,20 @@
         "enable": 1,
         "matrixCalcFlags": 7,
         "position": {
-            "x": 127.91456604003906,
+            "x": 129.65211486816406,
             "y": 0.0,
-            "z": 102.54458618164063
+            "z": 107.5848159790039
         },
         "rotate": {
-            "w": -0.8229662179946899,
-            "x": -0.0,
-            "y": -0.5680903196334839,
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 3.0,
+            "y": 3.0,
+            "z": 3.0
         },
         "type": "Transform"
     },
@@ -48,7 +48,7 @@
                 }
             }
         },
-        "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+        "meshPath": "./Packages/Models/primitive/sphere.obj",
         "type": "MeshRenderer"
     },
     {
@@ -56,13 +56,17 @@
         "scripts": [
             {
                 "enable": true,
-                "name": "Player"
-            },
-            {
-                "enable": true,
-                "name": "CallingReinforcement"
+                "name": "PlayerCore"
             }
         ],
         "type": "Script"
+    },
+    {
+        "categoryBits": 2,
+        "enable": 1,
+        "maskBits": 0,
+        "radius": 1.0,
+        "state": "Dynamic",
+        "type": "SphereCollider"
     }
 ]
