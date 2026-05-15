@@ -109,6 +109,9 @@ protected:
 	std::string newName_ = "";
 	ONEngine::Guid renameEntityGuid_; ///< 生ポインタではなくGuidで安全に管理
 
+	/// ----- delete ----- ///
+	std::vector<ONEngine::Guid> deleteQueue_;
+
 	/// ----- test objects ----- ///
 	bool showInvalidParentPopup_ = false;
 

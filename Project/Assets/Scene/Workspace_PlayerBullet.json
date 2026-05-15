@@ -105,95 +105,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
+                        "x": -10.418957710266113,
                         "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerBulletLauncher"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "15262baf9d97d4a8f6259dd11acdf326",
-            "id": 3,
-            "name": "BulletLauncherLeft",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerBulletLauncher"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "944593ba9e9d00ca70d1d86f652dd851",
-            "id": 4,
-            "name": "BulletLauncherRight",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -2.1539740562438965,
-                        "y": 0.0,
-                        "z": 0.0
+                        "z": -11.503827095031738
                     },
                     "rotate": {
                         "w": 1.0,
@@ -216,10 +130,102 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "Test"
+                            "name": "StartPoint"
                         }
                     ],
                     "type": "Script"
+                }
+            ],
+            "guid": "df164440f4ba0b3580ce740a4b5f3fb2",
+            "id": 3,
+            "name": "StartPoint",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 18.11293601989746,
+                        "y": -3.814697265625e-06,
+                        "z": 11.026456832885742
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "GoalPoint"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "categoryBits": 32,
+                    "enable": 1,
+                    "maskBits": 2,
+                    "radius": 1.0,
+                    "state": "Static",
+                    "type": "SphereCollider"
+                }
+            ],
+            "guid": "21fc90aab0904f5416d91e3286a239f3",
+            "id": 4,
+            "name": "GoalPoint",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "categoryBits": 2,
+                    "enable": 1,
+                    "maskBits": 0,
+                    "radius": 1.0,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 },
                 {
                     "enable": 1,
@@ -233,77 +239,26 @@
                         "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "meshPath": "./Packages/Models/primitive/cube.obj",
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "fb059c40d0cc0d46936fdeb4f322581b",
+            "guid": "26f268661ab3796229c1fddad0de60c8",
             "id": 5,
-            "name": "NewEntity",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "dissolveCompare": 0,
-                    "dissolveTexture": "00000000000000000000000000000000",
-                    "dissolveThreshold": 0.5,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1
-                    },
-                    "meshGuid": "00000000000000000000000000000000",
-                    "type": "DissolveMeshRenderer"
-                },
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 2.0831172466278076,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "Test"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "9662c3fca7ab15f6ca1e9d2d2bc36393",
-            "id": 6,
-            "name": "NewEntity_1",
+            "name": "Player",
             "parent": null,
             "prefabName": ""
         }

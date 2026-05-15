@@ -150,9 +150,19 @@ const std::vector<LogEntry>& Console::GetLogVector() {
 	return gLogBuffer_;
 }
 
-void Console::ClearLogBuffer() {
+void Console::ClearLogBuffer(std::optional<LogCategory> _category) {
 	std::lock_guard<std::mutex> lock(gMutex_);
-	gLogBuffer_.clear();
+	if (!_category.has_value()) {
+		gLogBuffer_.clear();
+	} else {
+		gLogBuffer_.erase(
+			std::remove_if(gLogBuffer_.begin(), gLogBuffer_.end(),
+				[_category](const LogEntry& entry) {
+					return entry.category == _category.value();
+				}),
+			gLogBuffer_.end()
+		);
+	}
 }
 
 void Console::Shutdown() {

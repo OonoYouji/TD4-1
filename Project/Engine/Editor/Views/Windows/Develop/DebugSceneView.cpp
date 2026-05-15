@@ -69,6 +69,7 @@ void DebugSceneView::SetGamePlay(bool _isGamePlay) {
 
 	/// ゲームの開始処理
 	if(ONEngine::DebugConfig::isDebugging) {
+		ONEngine::Console::ClearLogBuffer(ONEngine::LogCategory::Application);
 		pSceneManager_->SaveCurrentSceneTemporary();
 
 		pSceneManager_->ReloadScene(true);

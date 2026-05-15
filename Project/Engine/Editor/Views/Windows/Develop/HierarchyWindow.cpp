@@ -148,6 +148,17 @@ void HierarchyWindow::DrawHierarchy() {
 
 		ShowInvalidParentPopup();
 	}
+
+	/// 遅延削除の実行
+	if(!deleteQueue_.empty()) {
+		for(const auto& guid : deleteQueue_) {
+			ONEngine::GameEntity* entity = pEcsGroup_->GetEntityFromGuid(guid);
+			if(entity) {
+				pEditorManager_->ExecuteCommand<DeleteEntityCommand>(pEcsGroup_, entity);
+			}
+		}
+		deleteQueue_.clear();
+	}
 }
 
 void HierarchyWindow::EntityRename(ONEngine::GameEntity* entity) {
@@ -419,7 +430,7 @@ bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 		}
 
 		if(ImGui::MenuItem("delete")) {
-			pEditorManager_->ExecuteCommand<DeleteEntityCommand>(pEcsGroup_, entity);
+			deleteQueue_.push_back(entity->GetGuid());
 			renameEntityGuid_ = ONEngine::Guid::kInvalid;
 
 			// 削除したエンティティが選択中だった場合は、選択状態も解除する
