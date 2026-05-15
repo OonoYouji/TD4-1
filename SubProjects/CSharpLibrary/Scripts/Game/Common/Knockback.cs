@@ -7,7 +7,7 @@ class Knockback : MonoScript
     Vector3 knockbackVelocity = Vector3.zero;
     float knockbackStopThreshold = 0.01f;
 
-    public void Initialize()
+    public override void Initialize()
     {
         Debug.LogInfo("Knockback Initializing");
         Debug.LogInfo("Knockback Initialized");

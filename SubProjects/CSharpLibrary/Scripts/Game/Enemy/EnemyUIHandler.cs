@@ -12,18 +12,21 @@ class EnemyUIHandler : MonoScript
         if (hpEntity == null)
         {
             Debug.LogError($"Failed to find entity with name {HP_UI_NAME}");
+            return;
         }
 
         renderer = hpEntity.GetComponent<DissolveMeshRenderer>();
         if (renderer == null)
         {
-            Debug.LogError("Failed to find DissolveMeshRenderer component");
+            Debug.LogError("Failed to find DissolveMeshRenderer component on " + HP_UI_NAME);
+            return;
         }
         Debug.LogInfo("EnemyUIHandler initialized");
     }
 
     public void OnDamaged(float currentHpPercent)
     {
+        if (renderer == null) return;
         Debug.LogInfo($"EnemyUIHandler OnDamaged called with currentHpPercent: {currentHpPercent}");
         renderer.threshold = Mathf.Clamp01(currentHpPercent);
     }

@@ -1,5 +1,8 @@
 {
-    "EnemyBulletLauncher": {},
+    "EnemyBulletLauncher": {
+        "bulletSpeed": 10.0,
+        "uTurnTypeInt": 0
+    },
     "EnemyCollisionHandler": {
         "DAMAGE_COOLDOWN_TIME": 0.5,
         "MAX_HITPOINTS": 1000,
