@@ -76,6 +76,14 @@ public:
 		dissolveThreshold_ = threshold;
 	}
 
+	void SetUVTransform(const UVTransform& _uvTransform) {
+		material_.uvTransform = _uvTransform;
+	}
+
+	const UVTransform& GetUVTransform() const {
+		return material_.uvTransform;
+	}
+
 };
 
 } /// namespace ONEngine

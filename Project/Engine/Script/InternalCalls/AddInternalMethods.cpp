@@ -72,6 +72,7 @@ void ONEngine::AddComponentInternalCalls() {
 	/// sprite renderer
 	mono_add_internal_call("SpriteRenderer::InternalGetColor", (void*)InternalGetColor);
 	mono_add_internal_call("SpriteRenderer::InternalSetColor", (void*)InternalSetColor);
+	mono_add_internal_call("SpriteRenderer::InternalGetTextureSize", (void*)InternalGetTextureSize);
 
 	/// audio source
 	mono_add_internal_call("AudioSource::InternalGetParams", (void*)InternalGetParams);

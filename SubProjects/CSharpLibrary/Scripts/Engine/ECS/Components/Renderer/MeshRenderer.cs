@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +10,37 @@ class MeshRenderer : Component {
 		public uint compId;
 		public Vector4 color;
 		public uint postEffectFlags;
+		public UVTransform uvTransform;
 	}
 
-	BatchData batchData;
-	public BatchData GetBatchData() {
-		return batchData;
+	private Vector4 color_ = Vector4.one;
+	public Vector4 color {
+		get {
+			return color_;
+		}
+		set {
+			color_ = value;
+		}
+	}
+
+	private uint postEffectFlags_ = 0;
+	public uint postEffectFlags {
+		get {
+			return postEffectFlags_;
+		}
+		set {
+			postEffectFlags_ = value;
+		}
+	}
+
+	private UVTransform uvTransform_ = UVTransform.identity;
+	public UVTransform uvTransform {
+		get {
+			return uvTransform_;
+		}
+		set {
+			uvTransform_ = value;
+		}
 	}
 
 
@@ -28,23 +53,6 @@ class MeshRenderer : Component {
 		}
 	}
 
-	public Vector4 color {
-		get {
-			return batchData.color;
-		}
-		set {
-			batchData.color = value;
-		}
-	}
-
-	public uint postEffectFlags {
-		get {
-			return batchData.postEffectFlags;
-		}
-		set {
-			batchData.postEffectFlags = value;
-		}
-	}
 
 	/// -------------------------------------------
 	/// internal methods
@@ -55,18 +63,6 @@ class MeshRenderer : Component {
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static extern void InternalSetMeshName(ulong _nativeHandle, string _meshName);
-
-	//[MethodImpl(MethodImplOptions.InternalCall)]
-	//static extern Vector4 InternalGetColor(ulong _nativeHandle);
-
-	//[MethodImpl(MethodImplOptions.InternalCall)]
-	//static extern void InternalSetColor(ulong _nativeHandle, Vector4 _color);
-
-	//[MethodImpl(MethodImplOptions.InternalCall)]
-	//static extern uint InternalGetPostEffectFlags(ulong _nativeHandle);
-
-	//[MethodImpl(MethodImplOptions.InternalCall)]
-	//static extern void InternalSetPostEffectFlags(ulong _nativeHandle, uint _flags);
 
 }
 

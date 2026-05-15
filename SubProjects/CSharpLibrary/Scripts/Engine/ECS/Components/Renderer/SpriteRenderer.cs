@@ -1,45 +1,46 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
-class SpriteRenderer : Component {
+public class SpriteRenderer : Component {
 
-	//public string meshPath {
-	//	get {
-	//		return InternalGetMeshName(nativeHandle);
-	//	}
-	//	set {
-	//		InternalSetMeshName(nativeHandle, value);
-	//	}
-	//}
+	public struct BatchData {
+		public uint compId;
+		public Vector4 color;
+		public Vector2 textureSize;
+		public UVTransform uvTransform;
+	}
 
+	private Vector4 color_ = Vector4.one;
 	public Vector4 color {
 		get {
-			return InternalGetColor(nativeHandle);
+			return color_;
 		}
 		set {
-			InternalSetColor(nativeHandle, value);
+			color_ = value;
 		}
 	}
 
+	private Vector2 textureSize_ = Vector2.zero;
+	public Vector2 textureSize {
+		get {
+			return textureSize_;
+		}
+		set {
+			textureSize_ = value;
+		}
+	}
 
-	/// -------------------------------------------
-	/// internal methods
-	/// -------------------------------------------
-
-	//[MethodImpl(MethodImplOptions.InternalCall)]
-	//static extern string InternalGetMeshName(ulong _nativeHandle);
-
-	//[MethodImpl(MethodImplOptions.InternalCall)]
-	//static extern void InternalSetMeshName(ulong _nativeHandle, string _meshName);
-
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	static extern Vector4 InternalGetColor(ulong _nativeHandle);
-
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	static extern void InternalSetColor(ulong _nativeHandle, Vector4 _color);
-
+	private UVTransform uvTransform_ = UVTransform.identity;
+	public UVTransform uvTransform {
+		get {
+			return uvTransform_;
+		}
+		set {
+			uvTransform_ = value;
+		}
+	}
 }
