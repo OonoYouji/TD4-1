@@ -44,7 +44,9 @@ public class CallingReinforcement : MonoScript
 
     public override void Update()
     {
+        // 発射処理
         HandleFiring();
+        // 退散命令
         HandleRetreat();
     }
 
@@ -70,22 +72,26 @@ public class CallingReinforcement : MonoScript
 
     private void HandleRetreat()
     {
+
+        // 退散キーが押されたか
         bool wantRetreat =Input.TriggerKey(KeyCode.E) ||Input.TriggerGamepad(Gamepad.B);
 
+        // 押されていなければ何もしない
         if (!wantRetreat) { 
             return; 
         }
 
-        foreach (Entity e in activeReinforcements)
+        // 退散させる軍隊がいなければ何もしない
+        foreach (Entity ReinforcementEntity in activeReinforcements)
         {
-            if (e == null) {
+            if (ReinforcementEntity == null) {
                 continue; 
             }
 
             // 退散させる
-            Reinforcement r = e.GetScript<Reinforcement>();
-            if (r != null) { 
-                r.Retreat(); 
+            Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();
+            if (reinforcement != null) { 
+                reinforcement.Retreat(); 
             }
         }
 
@@ -113,12 +119,23 @@ public class CallingReinforcement : MonoScript
 
     private void SpawnOne(Vector3 spawnPos, Vector3 dir)
     {
-        Entity e = ecsGroup.CreateEntity("Reinforcement");
-        if (e == null) { return; }
-        Reinforcement r = e.GetScript<Reinforcement>();
-        if (r == null) { return; }
-        r.startPosition = spawnPos;
-        r.velocity = dir * reinforcementSpeed;
-        activeReinforcements.Add(e);
+        // Entityを生成
+        Entity ReinforcementEntity = ecsGroup.CreateEntity("Reinforcement");
+
+        // スクリプトを追加
+        if (ReinforcementEntity == null) { 
+            return;
+        }
+
+        // 初期位置と速度を設定
+        Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();
+
+        // スクリプトが取得できなければ何もしない
+        if (reinforcement == null) { 
+            return;
+        }
+        reinforcement.startPosition = spawnPos;
+        reinforcement.velocity = dir * reinforcementSpeed;
+        activeReinforcements.Add(ReinforcementEntity);
     }
 }
