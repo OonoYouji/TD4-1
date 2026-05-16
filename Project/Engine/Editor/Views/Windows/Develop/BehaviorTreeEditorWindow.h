@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
+
+// imgui-node-editor
+#include <imgui-node-editor/imgui_node_editor.h>
 
 namespace ONEngine {
     class EntityComponentSystem;
@@ -11,30 +15,70 @@ namespace ONEngine {
 
 namespace Editor {
 
+namespace ed = ax::NodeEditor;
+
 class BehaviorTreeEditorWindow : public IEditorWindow {
 public:
     BehaviorTreeEditorWindow(ONEngine::EntityComponentSystem* ecs);
-    ~BehaviorTreeEditorWindow() override = default;
+    ~BehaviorTreeEditorWindow() override;
 
     void ShowImGui() override;
 
 private:
-    void DrawNodeList();
-    void DrawTreeEditor();
-    void DrawBlackboardViewer();
+    enum class PinKind { Input, Output };
 
-    struct NodeInfo {
-        std::string className;
+    struct Node;
+
+    struct Pin {
+        ed::PinId id;
         std::string name;
-        uint32_t idHash;
-        std::vector<std::unique_ptr<NodeInfo>> children;
+        PinKind kind;
+        Node* node;
+
+        Pin(int _id, const std::string& _name, PinKind _kind)
+            : id(_id), name(_name), kind(_kind), node(nullptr) {}
     };
+
+    struct Node {
+        ed::NodeId id;
+        std::string name;
+        std::string className;
+        std::vector<Pin> inputs;
+        std::vector<Pin> outputs;
+        ImColor color;
+        ImVec2 size;
+
+        Node(int _id, const std::string& _name, ImColor _color = ImColor(255, 255, 255))
+            : id(_id), name(_name), color(_color) {}
+    };
+
+    struct Link {
+        ed::LinkId id;
+        ed::PinId startPinId;
+        ed::PinId endPinId;
+        ImColor color;
+
+        Link(ed::LinkId _id, ed::PinId _start, ed::PinId _end)
+            : id(_id), startPinId(_start), endPinId(_end), color(255, 255, 255) {}
+    };
+
+    void InitializeEditor();
+    void DrawNodeList();
+    void DrawGraphEditor();
+    
+    Node* CreateNode(const std::string& className);
+    void CreateLink(ed::PinId startPin, ed::PinId endPin);
 
     ONEngine::EntityComponentSystem* pEcs_;
     std::vector<std::string> availableNodeClasses_;
-    std::unique_ptr<NodeInfo> rootNode_;
     
-    int selectedEntityId_ = -1;
+    ed::EditorContext* m_Editor = nullptr;
+    std::vector<Node> m_Nodes;
+    std::vector<Link> m_Links;
+    ImVec2 m_ContextNodePos;
+    int m_NextId = 1;
+
+    int GetNextId() { return m_NextId++; }
 };
 
 }
