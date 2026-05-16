@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /// std
 #include <string>
@@ -71,15 +71,18 @@ public:
 	MonoObject* GetMonoBehaviorFromCS(const std::string& _ecsGroupName, int32_t _entityId, const std::string& _behaviorName);
 
 	/// @brief C#側のメソッドを取得する
+	/// @param _namespace 名前空間
 	/// @param _className クラス名
 	/// @param _methodName 関数名
 	/// @param _argsCount 引数の数
 	/// @return 関数へのポインタ
-	MonoMethod* GetMethodFromCS(const std::string& _className, const std::string& _methodName, int _argsCount);
+	MonoMethod* GetMethodFromCS(const std::string& _namespace, const std::string& _className, const std::string& _methodName, int _argsCount);
 
 	/// @brief Reload用のDomainを作成する
 	/// @return 作成したDomainへのポインタ
 	MonoDomain* CreateReloadDomain();
+	
+	void UpdateAiIntents(void* data, int count, float deltaTime);
 
 private:
 	/// ===================================================
@@ -101,6 +104,7 @@ private:
 	MonoMethod* addEntityMethod_ = nullptr;
 	MonoMethod* fetchInitialDataMethod_ = nullptr;
 	MonoClassField* getComponentCollectionField_ = nullptr;
+	MonoMethod* updateAiIntentsMethod_ = nullptr;
 
 public:
 	/// ===================================================

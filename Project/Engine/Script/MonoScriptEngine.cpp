@@ -1,4 +1,4 @@
-﻿#include "MonoScriptEngine.h"
+#include "MonoScriptEngine.h"
 
 using namespace ONEngine;
 
@@ -17,6 +17,7 @@ using namespace ONEngine;
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/EntityComponentSystem/ComponentApplyFunc.h"
 #include "InternalCalls/AddInternalMethods.h"
+#include "InternalCalls/EventInternalCalls.h"
 
 namespace {
 	void LogCallback(const char* _log_domain, const char* _log_level, const char* _message, mono_bool _fatal, void*) {
@@ -56,8 +57,6 @@ void MonoScriptEngine::Initialize() {
 	/// 高速化用オプション
 	const char* options[] = {
 		"--optimize=all",   // JIT最適化フル
-		//"--gc=sgen",        // Generational GC
-		//"--llvm"            // LLVMバックエンド (ビルド時有効なら)
 	};
 	mono_jit_parse_options(sizeof(options) / sizeof(char*), (char**)options);
 
@@ -111,8 +110,8 @@ void MonoScriptEngine::Finalize() {
 void MonoScriptEngine::RegisterFunctions() {
 	/// 関数の登録
 	AddComponentInternalCalls();
-
 	AddEntityInternalCalls();
+	AddEventInternalCalls();
 
 	/// log
 	mono_add_internal_call("Debug::InternalConsoleLog", (void*)ConsoleLog);
@@ -128,17 +127,16 @@ void MonoScriptEngine::RegisterFunctions() {
 
 	/// 他のクラスの関数も登録
 	AddInputInternalCalls();
-
 	AddSceneInternalCalls();
 	ComponentApplyFuncs::Initialize(image_);
 
 	// データ同期用のC#メソッドを取得
 	{
 		// static class ComponentBatchManager
-		receiveAllBatchesMethod_ = GetMethodFromCS("ComponentBatchManager", "ReceiveAllBatches", 2);
+		receiveAllBatchesMethod_ = GetMethodFromCS("", "ComponentBatchManager", "ReceiveAllBatches", 2);
 
 		// static class EntityComponentSystem
-		getEcsGroupMethod_ = GetMethodFromCS("EntityComponentSystem", "GetECSGroup", 1);
+		getEcsGroupMethod_ = GetMethodFromCS("", "EntityComponentSystem", "GetECSGroup", 1);
 		
 		// class ECSGroup
 		MonoClass* ecsGroupClass = mono_class_from_name(image_, "", "ECSGroup");
@@ -152,12 +150,15 @@ void MonoScriptEngine::RegisterFunctions() {
 		if (entityClass) {
 			fetchInitialDataMethod_ = mono_class_get_method_from_name(entityClass, "FetchInitialData", 0);
 		}
+
+		// AI
+		updateAiIntentsMethod_ = GetMethodFromCS("", "AIUpdater", "UpdateIntents", 3);
 	}
 }
 
 void MonoScriptEngine::HotReload() {
 	MonoDomain* oldDomain = domain_;
-	std::string oldDllPath = currentDllPath_; // 今読み込んでるDLLのパスを保存
+	std::string oldDllPath = currentDllPath_;
 
 	domain_ = CreateReloadDomain();
 	mono_domain_set(domain_, true);
@@ -195,16 +196,19 @@ void MonoScriptEngine::HotReload() {
 
 	currentDllPath_ = *latestDll;
 
-	/// ScriptUpdateSystemのスクリプトのリセットを要請
 	SetIsHotReloadRequest(true);
 
 	Console::Log("Reloaded assembly successfully in new domain.", LogCategory::ScriptEngine);
 }
 
 std::optional<std::string> MonoScriptEngine::FindLatestDll(const std::string& _dirPath, const std::string& _baseName) {
-	std::regex pattern(_baseName + R"(_(\d{8})_(\d{6})\.dll)");
+	std::regex pattern(_baseName + R"(.*\.dll)"); // プレフィックスが一致する全てのDLL
 	std::optional<std::string> latestFile;
-	std::string latestTimestamp;
+	std::filesystem::file_time_type latestTime;
+
+	if (!std::filesystem::exists(_dirPath)) {
+		return std::nullopt;
+	}
 
 	for (const auto& entry : std::filesystem::directory_iterator(_dirPath)) {
 		if (!entry.is_regular_file()) {
@@ -212,18 +216,20 @@ std::optional<std::string> MonoScriptEngine::FindLatestDll(const std::string& _d
 		}
 
 		std::string filename = entry.path().filename().string();
-		std::smatch match;
-		if (!std::regex_match(filename, match, pattern)) {
+		if (!std::regex_match(filename, pattern)) {
 			continue;
 		}
 
-		// match[1] → 日付（YYYYMMDD）、match[2] → 時刻（HHMMSS）
-		std::string timestamp = match[1].str() + match[2].str(); // "yyyyMMddHHmmss"
+		auto currentTime = std::filesystem::last_write_time(entry.path());
 
-		if (!latestFile || timestamp > latestTimestamp) {
+		if (!latestFile || currentTime > latestTime) {
 			latestFile = entry.path().string();
-			latestTimestamp = timestamp;
+			latestTime = currentTime;
 		}
+	}
+
+	if (latestFile) {
+		Console::Log("Latest DLL found: " + *latestFile, LogCategory::ScriptEngine);
 	}
 
 	return latestFile;
@@ -242,8 +248,6 @@ void MonoScriptEngine::ResetCS() {
 		return;
 	}
 
-
-	/// 関数を呼び出す
 	MonoObject* exc = nullptr;
 	mono_runtime_invoke(method, nullptr, nullptr, &exc);
 
@@ -252,31 +256,25 @@ void MonoScriptEngine::ResetCS() {
 		Console::LogError(std::string("Exception thrown: ") + err, LogCategory::ScriptEngine);
 		mono_free(err);
 	}
-
 }
 
 MonoObject* MonoScriptEngine::GetEntityFromCS(const std::string& _ecsGroupName, int32_t _entityId) {
-	/// MonoClassを取得
 	MonoClass* monoClass = mono_class_from_name(image_, "", "EntityComponentSystem");
 	if (!monoClass) {
 		Console::LogError("Failed to find class: EntityComponentSystem", LogCategory::ScriptEngine);
 		return nullptr;
 	}
 
-	/// MonoMethodを取得
 	MonoMethod* method = mono_class_get_method_from_name(monoClass, "GetEntity", 2);
 	if (!method) {
 		Console::LogError("Failed to find method: GetEntity", LogCategory::ScriptEngine);
 		return nullptr;
 	}
 
-	/// 引数を設定
-	MonoString* ecsGroupNameStr = mono_string_new(mono_domain_get(), _ecsGroupName.c_str());
 	void* args[2];
-	args[0] = ecsGroupNameStr;
+	args[0] = mono_string_new(mono_domain_get(), _ecsGroupName.c_str());
 	args[1] = &_entityId;
 
-	/// MonoObjectを取得
 	MonoObject* exc = nullptr;
 	MonoObject* result = mono_runtime_invoke(method, nullptr, args, &exc);
 	if (exc) {
@@ -286,37 +284,27 @@ MonoObject* MonoScriptEngine::GetEntityFromCS(const std::string& _ecsGroupName, 
 		return nullptr;
 	}
 
-	if (result) {
-		return result;
-	}
-
-	return nullptr;
+	return result;
 }
 
 MonoObject* MonoScriptEngine::GetMonoBehaviorFromCS(const std::string& _ecsGroupName, int32_t _entityId, const std::string& _behaviorName) {
-	/// MonoClassを取得
 	MonoClass* monoClass = mono_class_from_name(image_, "", "EntityComponentSystem");
 	if (!monoClass) {
 		Console::LogError("Failed to find class: EntityComponentSystem", LogCategory::ScriptEngine);
 		return nullptr;
 	}
 
-	/// MonoMethodを取得
 	MonoMethod* method = mono_class_get_method_from_name(monoClass, "GetMonoBehavior", 3);
 	if (!method) {
-		Console::LogError("Failed to find method: GetEntity", LogCategory::ScriptEngine);
+		Console::LogError("Failed to find method: GetMonoBehavior", LogCategory::ScriptEngine);
 		return nullptr;
 	}
 
-	/// 引数を設定
-	MonoString* ecsGroupNameStr = mono_string_new(mono_domain_get(), _ecsGroupName.c_str());
-	MonoString* behaviorNameStr = mono_string_new(mono_domain_get(), _behaviorName.c_str());
 	void* args[3];
-	args[0] = ecsGroupNameStr;
+	args[0] = mono_string_new(mono_domain_get(), _ecsGroupName.c_str());
 	args[1] = &_entityId;
-	args[2] = behaviorNameStr;
+	args[2] = mono_string_new(mono_domain_get(), _behaviorName.c_str());
 
-	/// MonoObjectを取得
 	MonoObject* exc = nullptr;
 	MonoObject* result = mono_runtime_invoke(method, nullptr, args, &exc);
 	if (exc) {
@@ -326,35 +314,30 @@ MonoObject* MonoScriptEngine::GetMonoBehaviorFromCS(const std::string& _ecsGroup
 		return nullptr;
 	}
 
-	if (result) {
-		return result;
-	}
-
-	return nullptr;
+	return result;
 }
 
-MonoMethod* MonoScriptEngine::GetMethodFromCS(const std::string& _className, const std::string& _methodName, int _argsCount) {
+MonoMethod* MonoScriptEngine::GetMethodFromCS(const std::string& _namespace, const std::string& _className, const std::string& _methodName, int _argsCount) {
 	/// MonoClassを取得
-	MonoClass* monoClass = mono_class_from_name(image_, "", _className.c_str());
+	MonoClass* monoClass = mono_class_from_name(image_, _namespace.c_str(), _className.c_str());
 	if (!monoClass) {
-		Console::LogError("Failed to find class: " + _className, LogCategory::ScriptEngine);
+		Console::LogError("Failed to find class: " + (_namespace.empty() ? "" : _namespace + ".") + _className, LogCategory::ScriptEngine);
 		return nullptr;
 	}
 
-	/// クラス階層を親まで辿って検索
 	for (MonoClass* current = monoClass; current != nullptr; current = mono_class_get_parent(current)) {
 		MonoMethod* method = mono_class_get_method_from_name(current, _methodName.c_str(), _argsCount);
 		if (method) {
-			return method; // 見つかったら即返す
+			return method;
 		}
 	}
 
-	Console::LogError("Failed to find method: " + _className + "::" + _methodName, LogCategory::ScriptEngine);
+	Console::LogError("Failed to find method: " + (_namespace.empty() ? "" : _namespace + ".") + _className + "::" + _methodName, LogCategory::ScriptEngine);
 	return nullptr;
 }
 
 MonoDomain* MonoScriptEngine::CreateReloadDomain() {
-	std::string domainName = "ReloadedDomain_" + std::to_string(domainReloadCounter_);
+	std::string domainName = "ReloadedDomain_" + std::to_string(++domainReloadCounter_);
 
 	MonoDomain* domain = mono_domain_create_appdomain((char*)domainName.c_str(), nullptr);
 	if (!domain) {
@@ -364,8 +347,6 @@ MonoDomain* MonoScriptEngine::CreateReloadDomain() {
 
 	return domain;
 }
-
-
 
 MonoDomain* MonoScriptEngine::Domain() const {
 	return domain_;
@@ -387,8 +368,26 @@ bool MonoScriptEngine::GetIsHotReloadRequest() const {
 	return isHotReloadRequest_;
 }
 
+void MonoScriptEngine::UpdateAiIntents(void* data, int count, float deltaTime) {
+	if (!updateAiIntentsMethod_) {
+		Console::LogWarning("AIUpdater.UpdateIntents method not found in C#.", LogCategory::ScriptEngine);
+		return;
+	}
 
+	void* args[3];
+	args[0] = data;
+	args[1] = &count;
+	args[2] = &deltaTime;
 
+	MonoObject* exc = nullptr;
+	mono_runtime_invoke(updateAiIntentsMethod_, nullptr, args, &exc);
+
+	if (exc) {
+		char* err = mono_string_to_utf8(mono_object_to_string(exc, nullptr));
+		Console::LogError(std::string("Exception thrown in AIUpdater.UpdateIntents: ") + err, LogCategory::ScriptEngine);
+		mono_free(err);
+	}
+}
 
 void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
 	if (!_ecsGroup) {
@@ -404,7 +403,6 @@ void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
 
 	MonoObject* exc = nullptr;
 
-	// 1. C#側の EntityComponentSystem.GetECSGroup(groupName) を呼び出す
 	void* getGroupArgs[1];
 	getGroupArgs[0] = mono_string_new(domain_, ecsGroupName.c_str());
 	MonoObject* ecsGroupObject = mono_runtime_invoke(getEcsGroupMethod_, nullptr, getGroupArgs, &exc);
@@ -419,13 +417,9 @@ void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
 		return;
 	}
 
-	// 2. C++側のエンティティを全てC#側に登録し、コンポーネントを実体化させる
 	if (addEntityMethod_) {
 		for (const auto& entity : _ecsGroup->GetEntities()) {
 			int32_t id = entity->GetId();
-
-			// C#の AddEntity(id) を呼び出す
-			// (C#側の AddEntity 内で FetchInitialData() が呼ばれ、コンポーネントが実体化される)
 			void* addArgs[1];
 			addArgs[0] = &id;
 			mono_runtime_invoke(addEntityMethod_, ecsGroupObject, addArgs, &exc);
@@ -439,14 +433,12 @@ void MonoScriptEngine::SyncInitialComponentsToCS(ECSGroup* _ecsGroup) {
 		}
 	}
 
-	// 3. 取得した ECSGroup オブジェクトの componentCollection フィールドの値を取得する
 	MonoObject* collectionObject = mono_field_get_value_object(domain_, getComponentCollectionField_, ecsGroupObject);
 	if (!collectionObject) {
 		Console::LogError("C# ComponentCollection object is null for group: " + ecsGroupName, LogCategory::ScriptEngine);
 		return;
 	}
 
-	// 4. ComponentBatchManager.ReceiveAllBatches(collection, groupName) を呼び出す
 	exc = nullptr;
 	void* receiveArgs[2];
 	receiveArgs[0] = collectionObject;

@@ -19,6 +19,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Audio/AudioSource.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/ShadowCaster/ShadowCaster.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 
 /// engine/renderer
 #include "Engine/ECS/Component/Components/RendererComponents/Skybox/Skybox.h"
@@ -55,6 +56,7 @@ namespace {
 			Register<CameraComponent>();
 			Register<ShadowCaster>();
 			Register<VoxelTerrain>();
+			Register<AgentIntentComponent>();
 
 			/// renderer
 			Register<SpriteRenderer>();
@@ -300,14 +302,4 @@ void ONEngine::to_json(nlohmann::json& _j, const Line3DRenderer& _l) {
 		{ "enable", _l.enable }
 	};
 }
-
-
-
-
-
-
-
-
-
-
 

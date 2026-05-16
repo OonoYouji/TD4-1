@@ -19,6 +19,8 @@
 #include "../System/Transform/TransformUpdateSystem.h"
 #include "../System/ShadowCaster/ShadowCasterUpdateSystem.h"
 #include "../System/GrassBufferCreateSystem/GrassBufferCreateSystem.h"
+#include "../System/AI/AISystem.h"
+#include "../System/Movement/MovementSystem.h"
 
 using namespace ONEngine;
 
@@ -34,6 +36,8 @@ void ONEngine::GameECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, As
 	/// 更新に使うsystem
 	_ecs->AddSystem<SkinMeshUpdateSystem>(_dxm, _assetCollection);
 	_ecs->AddSystem<ScriptUpdateSystem>(_ecs);
+	_ecs->AddSystem<AISystem>();
+	_ecs->AddSystem<MovementSystem>();
 	_ecs->AddSystem<AudioPlaybackSystem>(_assetCollection);
 	_ecs->AddSystem<EffectUpdateSystem>();
 	_ecs->AddSystem<TransformUpdateSystem>();
@@ -66,6 +70,8 @@ void ONEngine::DebugECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, A
 	_ecs->AddSystem<CameraUpdateSystem>(_dxm->GetDxDevice());
 	_ecs->AddSystem<SkinMeshUpdateSystem>(_dxm, _assetCollection);
 	_ecs->AddSystem<DebugScriptUpdateSystem>(_ecs);
+	_ecs->AddSystem<AISystem>();
+	_ecs->AddSystem<MovementSystem>();
 	_ecs->AddSystem<AudioPlaybackSystem>(_assetCollection);
 	_ecs->AddSystem<EffectUpdateSystem>();
 	_ecs->AddSystem<ShadowCasterUpdateSystem>();
