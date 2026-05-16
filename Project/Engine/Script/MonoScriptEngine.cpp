@@ -8,6 +8,9 @@ using namespace ONEngine;
 /// externals
 #include <metadata/mono-config.h>
 #include <mono/metadata/object.h>
+#include <mono/metadata/class.h>
+#include <mono/metadata/tokentype.h>
+#include <mono/metadata/blob.h>
 #include <mono/metadata/debug-helpers.h>
 
 
@@ -152,7 +155,7 @@ void MonoScriptEngine::RegisterFunctions() {
 		}
 
 		// AI
-		updateAiIntentsMethod_ = GetMethodFromCS("", "AIUpdater", "UpdateIntents", 3);
+		updateAiIntentsMethod_ = GetMethodFromCS("", "AIUpdater", "UpdateIntents", 4);
 	}
 }
 
@@ -368,16 +371,55 @@ bool MonoScriptEngine::GetIsHotReloadRequest() const {
 	return isHotReloadRequest_;
 }
 
-void MonoScriptEngine::UpdateAiIntents(void* data, int count, float deltaTime) {
+std::vector<std::string> MonoScriptEngine::GetBehaviorNodeClasses() {
+	std::vector<std::string> nodeClasses;
+	if (!image_) return nodeClasses;
+
+	MonoClass* baseClass = mono_class_from_name(image_, "", "BehaviorNode");
+	if (!baseClass) {
+		Console::LogError("BehaviorNode class not found in C# assembly.", LogCategory::ScriptEngine);
+		return nodeClasses;
+	}
+
+	const MonoTableInfo* tableInfo = mono_image_get_table_info(image_, MONO_TABLE_TYPEDEF);
+	int rows = mono_table_info_get_rows(tableInfo);
+
+	for (int i = 0; i < rows; i++) {
+		MonoClass* klass = mono_class_get(image_, (i + 1) | MONO_TOKEN_TYPE_DEF);
+		if (!klass) continue;
+
+		// 抽象クラスやインターフェースは除外
+		uint32_t flags = mono_class_get_flags(klass);
+		if (flags & (0x00000080 /* TYPE_ATTRIBUTE_ABSTRACT */ | 0x00000020 /* TYPE_ATTRIBUTE_INTERFACE */)) {
+			continue;
+		}
+
+		if (mono_class_is_subclass_of(klass, baseClass, false)) {
+			const char* className = mono_class_get_name(klass);
+			const char* nameSpace = mono_class_get_namespace(klass);
+			
+			std::string fullName = (nameSpace && strlen(nameSpace) > 0) 
+				? std::string(nameSpace) + "." + className 
+				: std::string(className);
+			
+			nodeClasses.push_back(fullName);
+		}
+	}
+
+	return nodeClasses;
+}
+
+void MonoScriptEngine::UpdateAiIntents(void* data, int count, float deltaTime, const std::string& groupName) {
 	if (!updateAiIntentsMethod_) {
 		Console::LogWarning("AIUpdater.UpdateIntents method not found in C#.", LogCategory::ScriptEngine);
 		return;
 	}
 
-	void* args[3];
+	void* args[4];
 	args[0] = data;
 	args[1] = &count;
 	args[2] = &deltaTime;
+	args[3] = mono_string_new(domain_, groupName.c_str());
 
 	MonoObject* exc = nullptr;
 	mono_runtime_invoke(updateAiIntentsMethod_, nullptr, args, &exc);

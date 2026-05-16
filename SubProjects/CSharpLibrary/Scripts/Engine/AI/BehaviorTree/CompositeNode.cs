@@ -16,4 +16,6 @@ public abstract class CompositeNode : BehaviorNode
     {
         children.Add(node);
     }
+
+    public List<BehaviorNode> GetChildren() => children;
 }

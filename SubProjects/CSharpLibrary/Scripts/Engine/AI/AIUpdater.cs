@@ -1,33 +1,67 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 public static class AIUpdater {
+    private static readonly Dictionary<uint, AgentIntentComponent> _componentCache = new Dictionary<uint, AgentIntentComponent>();
+
     /// <summary>
     /// C++ から呼び出されるAI更新のメインエントリーポイント
     /// </summary>
     /// <param name="intentsDataPtr">AgentIntentComponentのネイティブ配列へのポインタ</param>
     /// <param name="entityCount">エンティティの数</param>
     /// <param name="deltaTime">フレーム時間</param>
-    public unsafe static void UpdateIntents(AgentIntentComponent.BatchData* intentsDataPtr, int entityCount, float deltaTime) {
-        if (intentsDataPtr == null) {
-            return;
-        }
+    /// <param name="groupName">対象のECSグループ名</param>
+    public unsafe static void UpdateIntents(AgentIntentComponent.BatchData* intentsDataPtr, int entityCount, float deltaTime, string groupName) {
+        if (intentsDataPtr == null) return;
 
-        // Span<T> を使わずにポインタを直接操作する
+        // キャッシュを更新
+        RefreshCache(groupName);
+
         for (int i = 0; i < entityCount; i++) {
-            AgentIntentComponent.BatchData* current = intentsDataPtr + i;
+            AgentIntentComponent.BatchData* nativeData = intentsDataPtr + i;
 
-            // デバッグ: 受け取った全てのcompIdをログ出力
-            Debug.Log($"C# AIUpdater: Processing component index {i}, compId: {current->compId}");
+            if (_componentCache.TryGetValue(nativeData->compId, out var component)) {
+                // 安全策：Entityが未設定またはIDが無効な場合はスキップ
+                if (component.entity == null || component.entity.Id == 0) {
+                    continue;
+                }
 
-            // 全てのエンティティを右に動かす設定にする
-            current->desiredMoveDirection = new Vector3(1, 0, 0);
-            current->isAttacking = 1; // true
-            
-            // 最初の1つ目だけ詳細ログを出す（ログ過多防止）
-            if (i == 0) {
-                Debug.Log($"C# AIUpdater: Intent applied to compId {current->compId}. Dir: {current->desiredMoveDirection}");
+                // サンプル：ツリーがなければ作成（検証用）
+                if (component.behaviorTree == null) {
+                    var root = new Sequence(
+                        new MoveToPlayerNode(3.0f),
+                        new InvokeEventNode(FrameEvent.Type.TestEvent, true, 2.0f)
+                    );
+                    // 簡易的なハッシュ割り当て
+                    root.NodeIdHash = 1;
+                    ((CompositeNode)root).GetChildren()[0].NodeIdHash = 2;
+                    ((CompositeNode)root).GetChildren()[1].NodeIdHash = 3;
+
+                    component.InitBehaviorTree(root);
+                }
+
+                // ビヘイビアツリーを実行
+                if (component.behaviorTree != null) {
+                    component.behaviorTree.Tick();
+                }
+
+                // ツリーの実行結果（インテント）をネイティブデータに反映
+                nativeData->desiredMoveDirection = component.desiredMoveDirection;
+                nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
+                nativeData->targetEntityId = component.targetEntityId;
             }
+        }
+    }
+
+    private static void RefreshCache(string groupName) {
+        var group = EntityComponentSystem.GetECSGroup(groupName);
+        if (group == null) return;
+
+        var array = group.componentCollection.GetArray<AgentIntentComponent>();
+        _componentCache.Clear();
+        foreach (var comp in array.components) {
+            _componentCache[comp.compId] = comp;
         }
     }
 }

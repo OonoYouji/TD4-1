@@ -36,6 +36,7 @@ public class ECSGroup {
 		componentCollection.GetArray<Transform>();
 		componentCollection.GetArray<MeshRenderer>();
 		componentCollection.GetArray<DissolveMeshRenderer>();
+		componentCollection.GetArray<AgentIntentComponent>();
 	}
 
 	// ==============================================

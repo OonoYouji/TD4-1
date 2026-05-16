@@ -82,7 +82,10 @@ public:
 	/// @return 作成したDomainへのポインタ
 	MonoDomain* CreateReloadDomain();
 	
-	void UpdateAiIntents(void* data, int count, float deltaTime);
+	void UpdateAiIntents(void* data, int count, float deltaTime, const std::string& groupName);
+
+	/// @brief BehaviorNodeを継承する全クラス名を取得する
+	std::vector<std::string> GetBehaviorNodeClasses();
 
 private:
 	/// ===================================================

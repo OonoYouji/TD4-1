@@ -267,6 +267,7 @@ public class Entity {
 		GetComponent<SkinMeshRenderer>();
 		GetComponent<SpriteRenderer>();
 		GetComponent<AudioSource>();
+		GetComponent<AgentIntentComponent>();
 	}
 
 

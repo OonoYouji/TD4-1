@@ -21,4 +21,17 @@ public class AgentIntentComponent : Component {
     public Vector3 desiredMoveDirection = Vector3.zero;
     public bool isAttacking = false;
     public uint targetEntityId = 0; // 0 is considered an invalid ID
+
+    /// <summary>
+    /// このコンポーネントに関連付けられたビヘイビアツリー
+    /// </summary>
+    public BehaviorTree behaviorTree;
+
+    /// <summary>
+    /// ビヘイビアツリーを初期化する
+    /// </summary>
+    public void InitBehaviorTree(BehaviorNode root) {
+        behaviorTree = new BehaviorTree(this.entity);
+        behaviorTree.RootNode = root;
+    }
 }

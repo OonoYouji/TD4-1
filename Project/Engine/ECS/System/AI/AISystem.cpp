@@ -32,7 +32,7 @@ void AISystem::RuntimeUpdate(ECSGroup* _ecs) {
     }
 
     // 2. Call C# to let it fill the batchData buffer
-    MonoScriptEngine::GetInstance().UpdateAiIntents(batchData.data(), static_cast<int>(batchData.size()), Time::DeltaTime());
+    MonoScriptEngine::GetInstance().UpdateAiIntents(batchData.data(), static_cast<int>(batchData.size()), Time::DeltaTime(), _ecs->GetGroupName());
 
     // 3. Apply the results from the buffer back to the main component array
     for (size_t i = 0; i < usedComponents.size(); ++i) {
