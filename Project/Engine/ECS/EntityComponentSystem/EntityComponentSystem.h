@@ -215,6 +215,7 @@ void InternalSetBatch(MonoReflectionType* _typeReflection, MonoArray* _batchArra
 void InternalGetBatch(MonoReflectionType* _typeReflection, MonoArray* _batchArray, int _count, MonoString* _ecsGroupName);
 
 void Internal_UpdateNodeStatus(uint32_t nodeIdHash, int status);
+void Internal_UpdateBlackboardValue(uint32_t keyHash, MonoString* value, MonoString* typeName);
 
 } // namespace MonoInternalMethods
 

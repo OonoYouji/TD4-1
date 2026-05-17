@@ -47,6 +47,7 @@ void BehaviorTreeEditorWindow::ShowImGui() {
 
     if (!ONEngine::DebugConfig::isDebugging) {
         m_RuntimeNodeStatuses.clear();
+        m_RuntimeBBValues.clear();
     }
 
     if (!ImGui::Begin("Behavior Tree Editor", nullptr)) {
@@ -93,7 +94,7 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     ImGuiStyle& style = ImGui::GetStyle();
     float spacing = style.ItemSpacing.x;
     float leftWidth = 220.0f;
-    float rightWidth = 280.0f; // インスペクター用に幅を少し広げる
+    float rightWidth = 280.0f; 
     float centerWidth = ImGui::GetContentRegionAvail().x - leftWidth - rightWidth - (spacing * 2.0f);
 
     if (ImGui::BeginChild("LeftPanel", ImVec2(leftWidth, 0), true)) DrawBlackboardEditor();
@@ -102,64 +103,71 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     if (ImGui::BeginChild("CenterPanel", ImVec2(centerWidth, 0), true)) DrawGraphEditor();
     ImGui::EndChild();
     ImGui::SameLine();
-    if (ImGui::BeginChild("RightPanel", ImVec2(rightWidth, 0), true)) DrawNodeInspector();
+    if (ImGui::BeginChild("RightPanel", ImVec2(220, 0), true)) DrawNodeInspector();
     ImGui::EndChild();
 
     ImGui::End();
 }
 
 void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
-    ImGui::Text("Blackboard Variables");
-    ImGui::Separator();
-    if (ImGui::Button("Add Variable")) {
-        RecordUndo();
-        m_BBVariables.push_back({ "NewVar", BBVarType::Float });
-    }
-
-    ImGui::BeginChild("VariablesList");
-    for (size_t i = 0; i < m_BBVariables.size(); ++i) {
-        auto& var = m_BBVariables[i];
-        ImGui::PushID(static_cast<int>(i));
-        if (ImGui::Button("X")) { RecordUndo(); m_BBVariables.erase(m_BBVariables.begin() + i); ImGui::PopID(); break; }
-        ImGui::SameLine();
-        char keyBuf[64]; strncpy_s(keyBuf, var.key.c_str(), sizeof(keyBuf));
-        ImGui::PushItemWidth(100);
-        if (ImGui::InputText("##Key", keyBuf, sizeof(keyBuf))) { var.key = keyBuf; }
-        if (ImGui::IsItemActivated()) RecordUndo();
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        const char* typeNames[] = { "Int", "Float", "Bool", "Vec3", "String" };
-        int typeIdx = static_cast<int>(var.type);
-        ImGui::PushItemWidth(70);
-        if (ImGui::Combo("##Type", &typeIdx, typeNames, IM_ARRAYSIZE(typeNames))) { RecordUndo(); var.type = static_cast<BBVarType>(typeIdx); }
-        ImGui::PopItemWidth();
-        ImGui::Indent(20.0f);
-        switch (var.type) {
-        case BBVarType::Int: 
-            if (ImGui::InputInt("Value", &var.iVal)) {}
-            if (ImGui::IsItemActivated()) RecordUndo();
-            break;
-        case BBVarType::Float: 
-            if (ImGui::InputFloat("Value", &var.fVal)) {}
-            if (ImGui::IsItemActivated()) RecordUndo();
-            break;
-        case BBVarType::Bool: 
-            if (ImGui::Checkbox("Value", &var.bVal)) RecordUndo(); 
-            break;
-        case BBVarType::Vector3: 
-            if (ImGui::DragFloat3("Value", var.vVal, 0.1f)) {}
-            if (ImGui::IsItemActivated()) RecordUndo();
-            break;
-        case BBVarType::String: 
-            if (ImGui::InputText("Value", var.sVal, sizeof(var.sVal))) {}
-            if (ImGui::IsItemActivated()) RecordUndo();
-            break;
+    if (ImGui::BeginTabBar("BlackboardTabs")) {
+        if (ImGui::BeginTabItem("Edit")) {
+            if (ImGui::Button("Add Variable")) { RecordUndo(); m_BBVariables.push_back({ "NewVar", BBVarType::Float }); }
+            ImGui::BeginChild("VariablesListEdit");
+            for (size_t i = 0; i < m_BBVariables.size(); ++i) {
+                auto& var = m_BBVariables[i];
+                ImGui::PushID(static_cast<int>(i));
+                if (ImGui::Button("X")) { RecordUndo(); m_BBVariables.erase(m_BBVariables.begin() + i); ImGui::PopID(); break; }
+                ImGui::SameLine();
+                char keyBuf[64]; strncpy_s(keyBuf, var.key.c_str(), sizeof(keyBuf));
+                ImGui::PushItemWidth(100);
+                if (ImGui::InputText("##Key", keyBuf, sizeof(keyBuf))) { var.key = keyBuf; }
+                if (ImGui::IsItemActivated()) RecordUndo();
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
+                const char* typeNames[] = { "Int", "Float", "Bool", "Vec3", "String" };
+                int typeIdx = (int)var.type;
+                ImGui::PushItemWidth(70);
+                if (ImGui::Combo("##Type", &typeIdx, typeNames, IM_ARRAYSIZE(typeNames))) { RecordUndo(); var.type = static_cast<BBVarType>(typeIdx); }
+                ImGui::PopItemWidth();
+                ImGui::Indent(20.0f);
+                switch (var.type) {
+                case BBVarType::Int: if (ImGui::InputInt("Value", &var.iVal)) {} if (ImGui::IsItemActivated()) RecordUndo(); break;
+                case BBVarType::Float: if (ImGui::InputFloat("Value", &var.fVal)) {} if (ImGui::IsItemActivated()) RecordUndo(); break;
+                case BBVarType::Bool: if (ImGui::Checkbox("Value", &var.bVal)) RecordUndo(); break;
+                case BBVarType::Vector3: if (ImGui::DragFloat3("Value", var.vVal, 0.1f)) {} if (ImGui::IsItemActivated()) RecordUndo(); break;
+                case BBVarType::String: if (ImGui::InputText("Value", var.sVal, sizeof(var.sVal))) {} if (ImGui::IsItemActivated()) RecordUndo(); break;
+                }
+                ImGui::Unindent(20.0f);
+                ImGui::Separator();
+                ImGui::PopID();
+            }
+            ImGui::EndChild();
+            ImGui::EndTabItem();
         }
-        ImGui::Unindent(20.0f);
-        ImGui::Separator();
-        ImGui::PopID();
+        if (ImGui::BeginTabItem("Runtime")) {
+            ImGui::TextColored(ImVec4(0, 1, 0, 1), "Live Watcher");
+            ImGui::Separator();
+            ImGui::BeginChild("VariablesListRuntime");
+            for (auto const& [keyHash, runtimeVal] : m_RuntimeBBValues) {
+                std::string keyName = "Unknown";
+                for (const auto& var : m_BBVariables) {
+                    // C#側のハッシュロジック（FNV-1a 32bit）に合わせて計算 or 保存
+                    // 簡易的に現状の変数名から探す
+                    uint32_t hash = 2166136261;
+                    for (char c : var.key) hash = (hash ^ c) * 16777619;
+                    if (hash == keyHash) { keyName = var.key; break; }
+                }
+                ImGui::Text("%s:", keyName.c_str()); ImGui::SameLine();
+                ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", runtimeVal.value.c_str());
+                ImGui::TextDisabled("  Type: %s", runtimeVal.typeName.c_str());
+                ImGui::Separator();
+            }
+            ImGui::EndChild();
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
     }
-    ImGui::EndChild();
 }
 
 static int s_SelectedModuleId = -1;
@@ -170,7 +178,6 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
     ImGui::Text("Inspector");
     ImGui::Separator();
 
-    // インスペクター全体のアイテム幅を調整（右端から 100ピクセル確保）
     ImGui::PushItemWidth(-100.0f);
 
     if (s_SelectedCommentId != -1) {
@@ -219,6 +226,10 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
         auto& modules = s_SelectedModuleIsService ? selectedNode->services : selectedNode->decorators;
         if (s_SelectedModuleId < (int)modules.size()) {
             targetClassName = modules[s_SelectedModuleId].className; targetProps = &modules[s_SelectedModuleId].properties;
+            if (ImGui::Button("Move Up") && s_SelectedModuleId > 0) { RecordUndo(); std::swap(modules[s_SelectedModuleId], modules[s_SelectedModuleId - 1]); s_SelectedModuleId--; }
+            ImGui::SameLine();
+            if (ImGui::Button("Move Down") && s_SelectedModuleId < (int)modules.size() - 1) { RecordUndo(); std::swap(modules[s_SelectedModuleId], modules[s_SelectedModuleId + 1]); s_SelectedModuleId++; }
+            ImGui::SameLine();
             if (ImGui::Button("Remove Module")) { RecordUndo(); modules.erase(modules.begin() + s_SelectedModuleId); s_SelectedModuleId = -1; ImGui::PopItemWidth(); return; }
         }
     }
@@ -251,7 +262,6 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
             ImGui::PopID();
         }
     }
-
     ImGui::PopItemWidth();
 }
 
@@ -259,13 +269,11 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     ed::SetCurrentEditor(m_Editor);
     ed::Begin("BT_Graph_Editor", ImVec2(0, 0));
 
-    // 実行順序の計算
     std::map<uintptr_t, int> executionOrder;
     int currentOrder = 1;
     auto entryIt = std::find_if(m_Nodes.begin(), m_Nodes.end(), [](const Node& n) { return n.className == "Entry"; });
     if (entryIt != m_Nodes.end()) {
-        std::vector<Node*> stack;
-        stack.push_back(&(*entryIt));
+        std::vector<Node*> stack; stack.push_back(&(*entryIt));
         std::set<uintptr_t> visited;
         while (!stack.empty()) {
             Node* current = stack.back(); stack.pop_back();
@@ -273,7 +281,6 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
             if (visited.count(ptr)) continue;
             visited.insert(ptr);
             if (current->className != "Entry") executionOrder[ptr] = currentOrder++;
-
             std::vector<Node*> children;
             for (const auto& link : m_Links) {
                 bool isOutputOfCurrent = false;
@@ -284,14 +291,11 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
                     }
                 }
             }
-            std::sort(children.begin(), children.end(), [](Node* a, Node* b) {
-                return ed::GetNodePosition(a->id).x > ed::GetNodePosition(b->id).x; // 右にあるものほどスタックの上（後で積む＝先に処理されない）
-            });
+            std::sort(children.begin(), children.end(), [](Node* a, Node* b) { return ed::GetNodePosition(a->id).x > ed::GetNodePosition(b->id).x; });
             for (auto* child : children) stack.push_back(child);
         }
     }
 
-    // コメントボックスの描画（背景）
     for (int i = 0; i < (int)m_CommentBoxes.size(); ++i) {
         auto& cb = m_CommentBoxes[i];
         ed::PushStyleColor(ed::StyleColor_NodeBg, cb.color);
@@ -307,7 +311,6 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         ed::PopStyleColor();
     }
 
-    // 選択同期
     if (ed::GetSelectedObjectCount() > 0) {
         ed::NodeId selectedNodes[1];
         if (ed::GetSelectedNodes(selectedNodes, 1) > 0) {
@@ -333,13 +336,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         ImGui::PushID(node.id.AsPointer());
         ImVec4 titleColor = node.isDecorator ? ImVec4(0.3f, 0.6f, 1.0f, 1.0f) : ImVec4(1.0f, 0.8f, 0.2f, 1.0f);
         ImGui::TextColored(titleColor, "== %s ==", node.name.c_str());
-        
-        // 実行順序番号の描画
-        if (executionOrder.count((uintptr_t)node.id.AsPointer())) {
-            ImGui::SameLine(120);
-            ImGui::TextDisabled("[%d]", executionOrder[(uintptr_t)node.id.AsPointer()]);
-        }
-
+        if (executionOrder.count((uintptr_t)node.id.AsPointer())) { ImGui::SameLine(120); ImGui::TextDisabled("[%d]", executionOrder[(uintptr_t)node.id.AsPointer()]); }
         for (const auto& d : node.decorators) ImGui::TextColored(ImVec4(0.4f, 0.7f, 1.0f, 1.0f), "[D] %s", d.name.c_str());
         for (const auto& s : node.services) ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "[S] %s", s.name.c_str());
         ImGui::Spacing();
@@ -446,6 +443,7 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
 
 void BehaviorTreeEditorWindow::CreateLink(ed::PinId startPin, ed::PinId endPin) { m_Links.emplace_back(GetNextId(), startPin, endPin); }
 void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status) { m_RuntimeNodeStatuses[nodeIdHash] = status; }
+void BehaviorTreeEditorWindow::UpdateBlackboardValue(uint32_t keyHash, const std::string& value, const std::string& typeName) { m_RuntimeBBValues[keyHash] = { value, typeName }; }
 
 json BehaviorTreeEditorWindow::GetTreeAsJson() {
     ed::SetCurrentEditor(m_Editor);

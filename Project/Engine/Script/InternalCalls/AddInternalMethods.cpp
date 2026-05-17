@@ -101,6 +101,7 @@ void ONEngine::AddEntityInternalCalls() {
 
 	// AI Debug
 	mono_add_internal_call("BehaviorTree::Internal_UpdateNodeStatus", (void*)Internal_UpdateNodeStatus);
+	mono_add_internal_call("Blackboard::Internal_UpdateBlackboardValue", (void*)Internal_UpdateBlackboardValue);
 	}
 
 

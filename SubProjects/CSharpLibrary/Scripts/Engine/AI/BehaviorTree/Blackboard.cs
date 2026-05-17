@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 /// <summary>
 /// AIのデータ共有用ストレージ。
@@ -20,6 +21,7 @@ public class Blackboard
     { 
         _intData[key] = value; 
         OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value.ToString(), "Int");
     }
     public int GetInt(uint key, int defaultValue = 0) => _intData.TryGetValue(key, out var val) ? val : defaultValue;
 
@@ -27,6 +29,7 @@ public class Blackboard
     { 
         _floatData[key] = value; 
         OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value.ToString(), "Float");
     }
     public float GetFloat(uint key, float defaultValue = 0f) => _floatData.TryGetValue(key, out var val) ? val : defaultValue;
 
@@ -34,6 +37,7 @@ public class Blackboard
     { 
         _boolData[key] = value; 
         OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value ? "true" : "false", "Bool");
     }
     public bool GetBool(uint key, bool defaultValue = false) => _boolData.TryGetValue(key, out var val) ? val : defaultValue;
 
@@ -41,6 +45,7 @@ public class Blackboard
     { 
         _vector3Data[key] = value; 
         OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value.x + "," + value.y + "," + value.z, "Vector3");
     }
     public Vector3 GetVector3(uint key) => _vector3Data.TryGetValue(key, out var val) ? val : Vector3.zero;
 
@@ -48,6 +53,7 @@ public class Blackboard
     { 
         _stringData[key] = value; 
         OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value, "String");
     }
     public string GetString(uint key, string defaultValue = "") => _stringData.TryGetValue(key, out var val) ? val : defaultValue;
 
@@ -102,4 +108,7 @@ public class Blackboard
         _stringData.Clear();
         _objectData.Clear();
     }
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern void Internal_UpdateBlackboardValue(uint keyHash, string valueStr, string typeName);
 }
