@@ -97,6 +97,14 @@ public struct Quaternion {
 		return Quaternion.Normalized(rot);
 	}
 
+	static public Quaternion LookRotation(Vector3 _forward) {
+		return LookAt(Vector3.zero, _forward, Vector3.up);
+	}
+
+	static public Quaternion LookRotation(Vector3 _forward, Vector3 _up) {
+		return LookAt(Vector3.zero, _forward, _up);
+	}
+
 
 	static public Quaternion CreateFromRotationMatrix(Matrix4x4 _m) {
 		float trace = _m.m00 + _m.m11 + _m.m22;

@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <filesystem>
+#include <set>
 
 using json = nlohmann::json;
 
@@ -60,6 +61,12 @@ void BehaviorTreeEditorWindow::ShowImGui() {
         if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_C)) CopySelectedNodes();
         if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_V)) PasteNodes();
         if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_D)) DuplicateSelectedNodes();
+
+        // ズーム・フォーカス操作
+        if (!ImGui::IsAnyItemActive()) {
+            if (ImGui::IsKeyPressed(ImGuiKey_F)) ed::NavigateToSelection(true);
+            if (ImGui::IsKeyPressed(ImGuiKey_A)) ed::NavigateToContent(true);
+        }
     }
 
     // ツールバー
@@ -83,14 +90,19 @@ void BehaviorTreeEditorWindow::ShowImGui() {
 
     ImGui::Separator();
 
-    float totalWidth = ImGui::GetContentRegionAvail().x;
-    if (ImGui::BeginChild("LeftPanel", ImVec2(220, 0), true)) DrawBlackboardEditor();
+    ImGuiStyle& style = ImGui::GetStyle();
+    float spacing = style.ItemSpacing.x;
+    float leftWidth = 220.0f;
+    float rightWidth = 280.0f; // インスペクター用に幅を少し広げる
+    float centerWidth = ImGui::GetContentRegionAvail().x - leftWidth - rightWidth - (spacing * 2.0f);
+
+    if (ImGui::BeginChild("LeftPanel", ImVec2(leftWidth, 0), true)) DrawBlackboardEditor();
     ImGui::EndChild();
     ImGui::SameLine();
-    if (ImGui::BeginChild("CenterPanel", ImVec2(totalWidth - 440, 0), true)) DrawGraphEditor();
+    if (ImGui::BeginChild("CenterPanel", ImVec2(centerWidth, 0), true)) DrawGraphEditor();
     ImGui::EndChild();
     ImGui::SameLine();
-    if (ImGui::BeginChild("RightPanel", ImVec2(220, 0), true)) DrawNodeInspector();
+    if (ImGui::BeginChild("RightPanel", ImVec2(rightWidth, 0), true)) DrawNodeInspector();
     ImGui::EndChild();
 
     ImGui::End();
@@ -152,13 +164,34 @@ void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
 
 static int s_SelectedModuleId = -1;
 static bool s_SelectedModuleIsService = false;
+static int s_SelectedCommentId = -1;
 
 void BehaviorTreeEditorWindow::DrawNodeInspector() {
     ImGui::Text("Inspector");
     ImGui::Separator();
+
+    // インスペクター全体のアイテム幅を調整（右端から 100ピクセル確保）
+    ImGui::PushItemWidth(-100.0f);
+
+    if (s_SelectedCommentId != -1) {
+        if (s_SelectedCommentId >= (int)m_CommentBoxes.size()) { s_SelectedCommentId = -1; ImGui::PopItemWidth(); return; }
+        auto& cb = m_CommentBoxes[s_SelectedCommentId];
+        ImGui::TextColored(ImVec4(1, 0.5f, 0, 1), "Comment Box");
+        ImGui::Separator();
+        char buf[256]; strncpy_s(buf, cb.text.c_str(), sizeof(buf));
+        if (ImGui::InputTextMultiline("Text", buf, sizeof(buf), ImVec2(0, 60))) cb.text = buf;
+        if (ImGui::IsItemActivated()) RecordUndo();
+        float col[4]; ImVec4 cv = cb.color; col[0] = cv.x; col[1] = cv.y; col[2] = cv.z; col[3] = cv.w;
+        if (ImGui::ColorEdit4("Color", col)) cb.color = ImColor(col[0], col[1], col[2], col[3]);
+        if (ImGui::IsItemActivated()) RecordUndo();
+        if (ImGui::Button("Remove Comment Box")) { RecordUndo(); m_CommentBoxes.erase(m_CommentBoxes.begin() + s_SelectedCommentId); s_SelectedCommentId = -1; }
+        ImGui::PopItemWidth();
+        return;
+    }
+
     Node* selectedNode = nullptr;
     if (m_SelectedNodeId) { for (auto& node : m_Nodes) { if (node.id == m_SelectedNodeId) { selectedNode = &node; break; } } }
-    if (!selectedNode) { ImGui::TextDisabled("Select a node."); return; }
+    if (!selectedNode) { ImGui::TextDisabled("Select a node."); ImGui::PopItemWidth(); return; }
 
     ImGui::TextColored(ImVec4(1,1,0,1), "%s", selectedNode->name.c_str());
     ImGui::Separator();
@@ -186,7 +219,7 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
         auto& modules = s_SelectedModuleIsService ? selectedNode->services : selectedNode->decorators;
         if (s_SelectedModuleId < (int)modules.size()) {
             targetClassName = modules[s_SelectedModuleId].className; targetProps = &modules[s_SelectedModuleId].properties;
-            if (ImGui::Button("Remove Module")) { RecordUndo(); modules.erase(modules.begin() + s_SelectedModuleId); s_SelectedModuleId = -1; return; }
+            if (ImGui::Button("Remove Module")) { RecordUndo(); modules.erase(modules.begin() + s_SelectedModuleId); s_SelectedModuleId = -1; ImGui::PopItemWidth(); return; }
         }
     }
 
@@ -218,26 +251,71 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
             ImGui::PopID();
         }
     }
+
+    ImGui::PopItemWidth();
 }
 
 void BehaviorTreeEditorWindow::DrawGraphEditor() {
     ed::SetCurrentEditor(m_Editor);
     ed::Begin("BT_Graph_Editor", ImVec2(0, 0));
 
+    // 実行順序の計算
+    std::map<uintptr_t, int> executionOrder;
+    int currentOrder = 1;
+    auto entryIt = std::find_if(m_Nodes.begin(), m_Nodes.end(), [](const Node& n) { return n.className == "Entry"; });
+    if (entryIt != m_Nodes.end()) {
+        std::vector<Node*> stack;
+        stack.push_back(&(*entryIt));
+        std::set<uintptr_t> visited;
+        while (!stack.empty()) {
+            Node* current = stack.back(); stack.pop_back();
+            uintptr_t ptr = (uintptr_t)current->id.AsPointer();
+            if (visited.count(ptr)) continue;
+            visited.insert(ptr);
+            if (current->className != "Entry") executionOrder[ptr] = currentOrder++;
+
+            std::vector<Node*> children;
+            for (const auto& link : m_Links) {
+                bool isOutputOfCurrent = false;
+                for (const auto& pin : current->outputs) if (pin.id == link.startPinId) { isOutputOfCurrent = true; break; }
+                if (isOutputOfCurrent) {
+                    for (auto& targetNode : m_Nodes) {
+                        for (const auto& inPin : targetNode.inputs) if (inPin.id == link.endPinId) { children.push_back(&targetNode); break; }
+                    }
+                }
+            }
+            std::sort(children.begin(), children.end(), [](Node* a, Node* b) {
+                return ed::GetNodePosition(a->id).x > ed::GetNodePosition(b->id).x; // 右にあるものほどスタックの上（後で積む＝先に処理されない）
+            });
+            for (auto* child : children) stack.push_back(child);
+        }
+    }
+
+    // コメントボックスの描画（背景）
+    for (int i = 0; i < (int)m_CommentBoxes.size(); ++i) {
+        auto& cb = m_CommentBoxes[i];
+        ed::PushStyleColor(ed::StyleColor_NodeBg, cb.color);
+        ed::PushStyleVar(ed::StyleVar_NodePadding, ImVec4(20, 20, 20, 20));
+        ed::BeginNode(ed::NodeId(cb.id));
+        ImGui::PushID(cb.id);
+        ImGui::TextColored(ImVec4(1, 1, 1, 0.8f), "%s", cb.text.c_str());
+        ImGui::Dummy(cb.size);
+        if (ed::GetSelectedObjectCount() > 0 && ed::IsNodeSelected(ed::NodeId(cb.id))) { s_SelectedCommentId = i; m_SelectedNodeId = 0; }
+        ImGui::PopID();
+        ed::EndNode();
+        ed::PopStyleVar();
+        ed::PopStyleColor();
+    }
+
     // 選択同期
     if (ed::GetSelectedObjectCount() > 0) {
         ed::NodeId selectedNodes[1];
         if (ed::GetSelectedNodes(selectedNodes, 1) > 0) {
-            if (m_SelectedNodeId != selectedNodes[0]) {
-                m_SelectedNodeId = selectedNodes[0];
-                s_SelectedModuleId = -1;
-            }
+            bool isComment = false;
+            for (const auto& cb : m_CommentBoxes) if (cb.id == (uint32_t)(uintptr_t)selectedNodes[0].AsPointer()) { isComment = true; break; }
+            if (!isComment && m_SelectedNodeId != selectedNodes[0]) { m_SelectedNodeId = selectedNodes[0]; s_SelectedModuleId = -1; s_SelectedCommentId = -1; }
         }
-    } else { m_SelectedNodeId = 0; s_SelectedModuleId = -1; }
-
-    bool hasEntry = false;
-    for (const auto& n : m_Nodes) if (n.className == "Entry") { hasEntry = true; break; }
-    if (!hasEntry) { Node* entry = CreateNode("Entry"); entry->name = "ROOT ENTRY"; ed::SetNodePosition(entry->id, ImVec2(50, 250)); }
+    } else { if (!ImGui::IsAnyItemActive()) { m_SelectedNodeId = 0; s_SelectedModuleId = -1; s_SelectedCommentId = -1; } }
 
     for (auto& node : m_Nodes) {
         bool isHighlighted = false; ImColor highlightColor = ImColor(255, 255, 0, 0);
@@ -255,6 +333,13 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         ImGui::PushID(node.id.AsPointer());
         ImVec4 titleColor = node.isDecorator ? ImVec4(0.3f, 0.6f, 1.0f, 1.0f) : ImVec4(1.0f, 0.8f, 0.2f, 1.0f);
         ImGui::TextColored(titleColor, "== %s ==", node.name.c_str());
+        
+        // 実行順序番号の描画
+        if (executionOrder.count((uintptr_t)node.id.AsPointer())) {
+            ImGui::SameLine(120);
+            ImGui::TextDisabled("[%d]", executionOrder[(uintptr_t)node.id.AsPointer()]);
+        }
+
         for (const auto& d : node.decorators) ImGui::TextColored(ImVec4(0.4f, 0.7f, 1.0f, 1.0f), "[D] %s", d.name.c_str());
         for (const auto& s : node.services) ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "[S] %s", s.name.c_str());
         ImGui::Spacing();
@@ -285,17 +370,22 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         while (ed::QueryDeletedNode(&nodeId)) {
             auto it = std::find_if(m_Nodes.begin(), m_Nodes.end(), [nodeId](const Node& n) { return n.id == nodeId; });
             if (it != m_Nodes.end()) { if (it->className == "Entry") ed::RejectDeletedItem(); else if (ed::AcceptDeletedItem()) { RecordUndo(); m_Nodes.erase(it); } }
+            auto itCb = std::find_if(m_CommentBoxes.begin(), m_CommentBoxes.end(), [nodeId](const CommentBox& cb) { return cb.id == (uint32_t)(uintptr_t)nodeId.AsPointer(); });
+            if (itCb != m_CommentBoxes.end()) if (ed::AcceptDeletedItem()) { RecordUndo(); m_CommentBoxes.erase(itCb); }
         }
     }
     ed::EndDelete();
 
     ed::Suspend();
     ed::NodeId contextNodeId;
-    if (ed::ShowNodeContextMenu(&contextNodeId)) { m_SelectedNodeId = contextNodeId; ImGui::OpenPopup("Node Context Menu"); }
+    if (ed::ShowNodeContextMenu(&contextNodeId)) { 
+        bool isComment = false;
+        for(int i=0; i<(int)m_CommentBoxes.size(); ++i) if(m_CommentBoxes[i].id == (uint32_t)(uintptr_t)contextNodeId.AsPointer()) { s_SelectedCommentId = i; isComment = true; break; }
+        if(!isComment) { m_SelectedNodeId = contextNodeId; ImGui::OpenPopup("Node Context Menu"); }
+    }
     if (ImGui::BeginPopup("Node Context Menu")) {
         if (ImGui::BeginMenu("Add Decorator")) {
-            static char decSearchBuf[64] = "";
-            if (ImGui::IsWindowAppearing()) { decSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
+            static char decSearchBuf[64] = ""; if (ImGui::IsWindowAppearing()) { decSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
             ImGui::InputTextWithHint("##DecSearch", "Search...", decSearchBuf, sizeof(decSearchBuf));
             std::string searchStr = decSearchBuf; std::transform(searchStr.begin(), searchStr.end(), searchStr.begin(), ::tolower);
             ImGui::Separator();
@@ -307,8 +397,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Add Service")) {
-            static char srvSearchBuf[64] = "";
-            if (ImGui::IsWindowAppearing()) { srvSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
+            static char srvSearchBuf[64] = ""; if (ImGui::IsWindowAppearing()) { srvSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
             ImGui::InputTextWithHint("##SrvSearch", "Search...", srvSearchBuf, sizeof(srvSearchBuf));
             std::string searchStr = srvSearchBuf; std::transform(searchStr.begin(), searchStr.end(), searchStr.begin(), ::tolower);
             ImGui::Separator();
@@ -323,8 +412,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     }
     if (ed::ShowBackgroundContextMenu()) { m_ContextNodePos = ed::ScreenToCanvas(ImGui::GetMousePos()); ImGui::OpenPopup("Create New Node"); }
     if (ImGui::BeginPopup("Create New Node")) {
-        static char nodeSearchBuf[64] = "";
-        if (ImGui::IsWindowAppearing()) { nodeSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
+        static char nodeSearchBuf[64] = ""; if (ImGui::IsWindowAppearing()) { nodeSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
         ImGui::InputTextWithHint("##NodeSearch", "Search...", nodeSearchBuf, sizeof(nodeSearchBuf));
         std::string searchStr = nodeSearchBuf; std::transform(searchStr.begin(), searchStr.end(), searchStr.begin(), ::tolower);
         ImGui::Separator();
@@ -333,6 +421,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
             if (!searchStr.empty() && nameLower.find(searchStr) == std::string::npos) continue;
             if (ImGui::MenuItem(classInfo.fullName.c_str())) { RecordUndo(); Node* node = CreateNode(classInfo.fullName, classInfo.isDecorator); ed::SetNodePosition(node->id, m_ContextNodePos); }
         }
+        if (ImGui::MenuItem("Add Comment Box")) { RecordUndo(); m_CommentBoxes.push_back({ (uint32_t)GetNextId(), "New Comment", m_ContextNodePos, ImVec2(200, 200) }); }
         ImGui::EndPopup();
     }
     ed::Resume();
@@ -384,16 +473,22 @@ json BehaviorTreeEditorWindow::GetTreeAsJson() {
         json l; l["id"] = (uintptr_t)link.id.AsPointer(); l["startPin"] = (uintptr_t)link.startPinId.AsPointer(); l["endPin"] = (uintptr_t)link.endPinId.AsPointer();
         data["links"].push_back(l);
     }
+    data["comments"] = json::array();
+    for (const auto& cb : m_CommentBoxes) {
+        json c; c["id"] = cb.id; c["text"] = cb.text; c["pos"] = { cb.pos.x, cb.pos.y }; c["size"] = { cb.size.x, cb.size.y };
+        ImVec4 cv = cb.color; c["color"] = { cv.x, cv.y, cv.z, cv.w };
+        data["comments"].push_back(c);
+    }
     return data;
 }
 
 void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
     ed::SetCurrentEditor(m_Editor);
-    m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_NextId = 1;
+    m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_CommentBoxes.clear(); m_NextId = 1;
     if (data.contains("blackboard")) {
         for (const auto& v : data["blackboard"]) {
             BBVariable var; var.key = v["key"]; var.type = static_cast<BBVarType>(v["type"].get<int>()); var.iVal = v["iVal"]; var.fVal = v["fVal"]; var.bVal = v["bVal"];
-            if (v.contains("vVal")) { var.vVal[0] = v["vVal"][0]; var.vVal[1] = v["vVal"][1]; var.vVal[2] = v["vVal"][2]; }
+            if (v.contains("vVal")) { var.vVal[0] = v["vVal"][0].get<float>(); var.vVal[1] = v["vVal"][1].get<float>(); var.vVal[2] = v["vVal"][2].get<float>(); }
             if (v.contains("sVal")) strncpy_s(var.sVal, v["sVal"].get<std::string>().c_str(), sizeof(var.sVal));
             m_BBVariables.push_back(var);
         }
@@ -412,11 +507,19 @@ void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
         }
         if (n.contains("inputs") && n["inputs"].size() == node->inputs.size()) { for (size_t i = 0; i < node->inputs.size(); ++i) pinIdMap[(uintptr_t)n["inputs"][i]["id"]] = node->inputs[i].id; }
         if (n.contains("outputs") && n["outputs"].size() == node->outputs.size()) { for (size_t i = 0; i < node->outputs.size(); ++i) pinIdMap[(uintptr_t)n["outputs"][i]["id"]] = node->outputs[i].id; }
-        ed::SetNodePosition(node->id, ImVec2((float)n["pos"][0], (float)n["pos"][1]));
+        ed::SetNodePosition(node->id, ImVec2(n["pos"][0].get<float>(), n["pos"][1].get<float>()));
     }
     for (const auto& l : data["links"]) {
         uintptr_t startId = l["startPin"]; uintptr_t endId = l["endPin"];
         if (pinIdMap.count(startId) && pinIdMap.count(endId)) CreateLink(pinIdMap[startId], pinIdMap[endId]);
+    }
+    if (data.contains("comments")) {
+        for (const auto& c : data["comments"]) {
+            CommentBox cb; cb.id = c["id"]; cb.text = c["text"]; cb.pos = ImVec2(c["pos"][0].get<float>(), c["pos"][1].get<float>()); cb.size = ImVec2(c["size"][0].get<float>(), c["size"][1].get<float>());
+            cb.color = ImColor(c["color"][0].get<float>(), c["color"][1].get<float>(), c["color"][2].get<float>(), c["color"][3].get<float>());
+            m_CommentBoxes.push_back(cb);
+            ed::SetNodePosition(ed::NodeId(cb.id), cb.pos);
+        }
     }
 }
 
@@ -483,7 +586,7 @@ void BehaviorTreeEditorWindow::PasteNodes() {
         if (n.contains("services")) {
             for (const auto& s : n["services"]) node->services.push_back({ (uint32_t)GetNextId(), s["className"], s["name"], s["properties"].get<std::map<std::string, std::string>>(), true });
         }
-        ed::SetNodePosition(node->id, ImVec2((float)n["pos"][0] + 50.0f, (float)n["pos"][1] + 50.0f));
+        ed::SetNodePosition(node->id, ImVec2(n["pos"][0].get<float>() + 50.0f, n["pos"][1].get<float>() + 50.0f));
         ed::SelectNode(node->id, true);
     }
 }

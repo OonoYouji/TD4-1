@@ -17,6 +17,11 @@ public abstract class BehaviorDecorator
     /// 監視対象のBlackboardキーを取得する（継承先で実装）
     /// </summary>
     public virtual uint GetMonitoredKey() => 0;
+
+    /// <summary>
+    /// ノードの実行結果を後処理する（成功を失敗に変える、ループさせる等）
+    /// </summary>
+    public virtual NodeStatus PostProcessStatus(NodeStatus currentStatus, Blackboard blackboard) => currentStatus;
 }
 
 /// <summary>

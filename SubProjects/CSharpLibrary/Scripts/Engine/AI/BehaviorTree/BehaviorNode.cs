@@ -19,13 +19,20 @@ public abstract class BehaviorNode
     /// </summary>
     public NodeStatus Tick(Blackboard blackboard, Entity owner)
     {
-        // 1. Services の実行
+        // 1. Services の実行 (Interval管理)
+        float currentTime = Time.time;
         foreach (var service in Services)
         {
-            service.OnTick(blackboard, owner);
+            uint timeKey = BehaviorTreeLoader.HashString("LastSrvTick_" + service.NodeIdHash);
+            float lastTick = blackboard.GetFloat(timeKey, -1.0f);
+            if (currentTime - lastTick >= service.Interval)
+            {
+                service.OnTick(blackboard, owner);
+                blackboard.SetFloat(timeKey, currentTime);
+            }
         }
 
-        // 2. Decorators の条件チェック
+        // 2. Decorators の条件チェック (Pre-Condition)
         foreach (var decorator in Decorators)
         {
             if (!decorator.CalculateCondition(blackboard, owner))
@@ -35,7 +42,15 @@ public abstract class BehaviorNode
         }
 
         // 3. 本体ロジックの実行
-        return LastStatus = Execute(blackboard, owner);
+        NodeStatus result = Execute(blackboard, owner);
+
+        // 4. Decorators による結果の加工 (Post-Process)
+        foreach (var decorator in Decorators)
+        {
+            result = decorator.PostProcessStatus(result, blackboard);
+        }
+
+        return LastStatus = result;
     }
 
     /// <summary>

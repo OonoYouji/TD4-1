@@ -30,6 +30,8 @@ public struct Vector3 {
 		return (float)System.Math.Sqrt(x * x + y * y + z * z);
 	}
 
+	public float sqrMagnitude => x * x + y * y + z * z;
+
 	public Vector3 Normalized() {
 		float length = this.Length();
 		if (length == 0.0f) return zero;

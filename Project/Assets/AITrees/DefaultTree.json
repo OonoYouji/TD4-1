@@ -27,20 +27,21 @@
             ]
         }
     ],
+    "comments": [],
     "links": [
         {
             "endPin": 4,
-            "id": 12,
+            "id": 10,
             "startPin": 2
         },
         {
             "endPin": 8,
-            "id": 13,
+            "id": 11,
             "startPin": 5
         },
         {
-            "endPin": 11,
-            "id": 14,
+            "endPin": 13,
+            "id": 15,
             "startPin": 5
         }
     ],
@@ -129,6 +130,40 @@
                 "stopDistance": "12.000000"
             },
             "services": []
+        },
+        {
+            "className": "Selector",
+            "decorators": [],
+            "id": 12,
+            "inputs": [
+                {
+                    "id": 13,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Selector",
+            "outputs": [
+                {
+                    "id": 14,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                308.0,
+                372.0
+            ],
+            "properties": {},
+            "services": [
+                {
+                    "className": "DefaultFocusService",
+                    "name": "DefaultFocusService",
+                    "properties": {
+                        "rotationSpeed": "1.000000",
+                        "targetNameKey": "TargetEntity"
+                    }
+                }
+            ]
         }
     ]
 }

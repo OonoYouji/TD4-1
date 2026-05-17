@@ -86,6 +86,14 @@ private:
             : id(_id), startPinId(_start), endPinId(_end), color(255, 255, 255) {}
     };
 
+    struct CommentBox {
+        uint32_t id;
+        std::string text;
+        ImVec2 pos;
+        ImVec2 size;
+        ImColor color = ImColor(255, 255, 255, 30);
+    };
+
     enum class BBVarType { Int, Float, Bool, Vector3, String };
     struct BBVariable {
         std::string key;
@@ -134,6 +142,7 @@ private:
     ed::EditorContext* m_Editor = nullptr;
     std::vector<Node> m_Nodes;
     std::vector<Link> m_Links;
+    std::vector<CommentBox> m_CommentBoxes;
     std::vector<BBVariable> m_BBVariables;
     std::map<uint32_t, int> m_RuntimeNodeStatuses;
 
