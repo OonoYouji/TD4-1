@@ -6,17 +6,17 @@ using System;
 /// </summary>
 public class InvokeEventNode : BehaviorNode
 {
-    public FrameEvent.Type EventType { get; set; } = FrameEvent.Type.TestEvent;
-    public bool WaitUntilComplete { get; set; } = true;
-    public float TimeoutSec { get; set; } = 5.0f; // 必須：永久停止防止のフェイルセーフ
+    public FrameEvent.Type eventType = FrameEvent.Type.TestEvent;
+    public bool waitUntilComplete = true;
+    public float timeoutSec = 5.0f; // 必須：永久停止防止のフェイルセーフ
 
     public InvokeEventNode() { }
 
     public InvokeEventNode(FrameEvent.Type eventType, bool waitUntilComplete = true, float timeoutSec = 5.0f)
     {
-        EventType = eventType;
-        WaitUntilComplete = waitUntilComplete;
-        TimeoutSec = timeoutSec;
+        this.eventType = eventType;
+        this.waitUntilComplete = waitUntilComplete;
+        this.timeoutSec = timeoutSec;
     }
 
     public override NodeStatus Execute(Blackboard blackboard, Entity owner)
@@ -27,9 +27,9 @@ public class InvokeEventNode : BehaviorNode
         if (!blackboard.HasKey(startTimeKey))
         {
             // 初回実行: イベントを発行
-            FrameEvent.EnqueueEntityEvent(EventType, owner.Id);
+            FrameEvent.EnqueueEntityEvent(eventType, owner.Id);
             
-            if (!WaitUntilComplete)
+            if (!waitUntilComplete)
             {
                 return NodeStatus.Success;
             }
@@ -40,12 +40,10 @@ public class InvokeEventNode : BehaviorNode
         }
 
         // 2回目以降の実行: タイムアウトをチェック
-        // ※本来はイベント完了通知をBlackboardの別フラグ等でチェックすべきだが、
-        // 現状の仕様に合わせて経過時間での簡易的な待機/タイムアウト処理とする。
         float startTime = blackboard.GetFloat(startTimeKey);
         float elapsed = Time.time - startTime;
 
-        if (elapsed >= TimeoutSec)
+        if (elapsed >= timeoutSec)
         {
             // タイムアウト: 失敗として復帰（永久停止防止）
             blackboard.Remove(startTimeKey);

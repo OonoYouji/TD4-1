@@ -85,6 +85,27 @@ public static class BehaviorTreeLoader
                 node.NodeIdHash = (uint)id; // エディタのIDをハッシュとして使用
                 nodeInstances[id] = node;
 
+                // エディタで設定したプロパティを反映
+                if (n["properties"] != null)
+                {
+                    foreach (JProperty prop in n["properties"])
+                    {
+                        var field = type.GetField(prop.Name);
+                        if (field != null)
+                        {
+                            string valStr = prop.Value.ToString();
+                            try {
+                                if (field.FieldType == typeof(float)) field.SetValue(node, float.Parse(valStr));
+                                else if (field.FieldType == typeof(int)) field.SetValue(node, int.Parse(valStr));
+                                else if (field.FieldType == typeof(bool)) field.SetValue(node, valStr == "true");
+                                else if (field.FieldType == typeof(string)) field.SetValue(node, valStr);
+                            } catch (Exception e) {
+                                Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {prop.Name} on {className}: {e.Message}");
+                            }
+                        }
+                    }
+                }
+
                 // ピンのIDをノードIDに紐付け
                 if (n["inputs"] != null) foreach (var pin in n["inputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
                 if (n["outputs"] != null) foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;

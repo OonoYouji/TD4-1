@@ -47,6 +47,7 @@ private:
         std::vector<Pin> outputs;
         ImColor color;
         ImVec2 size;
+        std::map<std::string, std::string> properties;
 
         Node(int _id, const std::string& _name, ImColor _color = ImColor(255, 255, 255))
             : id(_id), name(_name), color(_color) {}
@@ -76,6 +77,7 @@ private:
     void DrawNodeList();
     void DrawGraphEditor();
     void DrawBlackboardEditor();
+    void DrawNodeInspector();
     
     void SaveTree(const std::string& path);
     void LoadTree(const std::string& path);
@@ -91,6 +93,7 @@ private:
     std::vector<Node> m_Nodes;
     std::vector<Link> m_Links;
     std::vector<BBVariable> m_BBVariables;
+    ed::NodeId m_SelectedNodeId = 0;
     ImVec2 m_ContextNodePos;
     int m_NextId = 1;
 

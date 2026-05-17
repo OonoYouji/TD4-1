@@ -59,14 +59,28 @@ void BehaviorTreeEditorWindow::ShowImGui() {
 
     ImGui::Separator();
 
-    // 左右の分割
-    if (ImGui::BeginChild("LeftPanel", ImVec2(250, 0), true)) {
+    // 3列のレイアウト
+    float totalWidth = ImGui::GetContentRegionAvail().x;
+    
+    // Left: Blackboard
+    if (ImGui::BeginChild("LeftPanel", ImVec2(220, 0), true)) {
         DrawBlackboardEditor();
     }
     ImGui::EndChild();
     ImGui::SameLine();
 
-    DrawGraphEditor();
+    // Center: Graph
+    if (ImGui::BeginChild("CenterPanel", ImVec2(totalWidth - 440, 0), true)) {
+        DrawGraphEditor();
+    }
+    ImGui::EndChild();
+    ImGui::SameLine();
+
+    // Right: Inspector
+    if (ImGui::BeginChild("RightPanel", ImVec2(220, 0), true)) {
+        DrawNodeInspector();
+    }
+    ImGui::EndChild();
 
     ImGui::End();
 }
@@ -124,9 +138,91 @@ void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
     ImGui::EndChild();
 }
 
+void BehaviorTreeEditorWindow::DrawNodeInspector() {
+    ImGui::Text("Node Details");
+    ImGui::Separator();
+
+    Node* selectedNode = nullptr;
+    if (m_SelectedNodeId) {
+        for (auto& node : m_Nodes) {
+            if (node.id == m_SelectedNodeId) {
+                selectedNode = &node;
+                break;
+            }
+        }
+    }
+
+    if (!selectedNode) {
+        ImGui::TextDisabled("Select a node to edit properties.");
+        return;
+    }
+
+    ImGui::TextColored(ImVec4(1,1,0,1), "%s", selectedNode->name.c_str());
+    ImGui::TextDisabled("Type: %s", selectedNode->className.c_str());
+    ImGui::Separator();
+
+    // 名前編集
+    char nameBuf[64];
+    strncpy_s(nameBuf, selectedNode->name.c_str(), sizeof(nameBuf));
+    if (ImGui::InputText("Display Name", nameBuf, sizeof(nameBuf))) {
+        selectedNode->name = nameBuf;
+    }
+
+    if (selectedNode->className == "Entry") return;
+
+    ImGui::Spacing();
+    ImGui::Text("Properties:");
+
+    // C#リフレクションによるプロパティ取得
+    auto fields = ONEngine::MonoScriptEngine::GetInstance().GetClassFields(selectedNode->className);
+    for (const auto& field : fields) {
+        ImGui::PushID(field.name.c_str());
+        
+        // 現在の値を文字列から変換して表示
+        std::string currentVal = selectedNode->properties[field.name];
+
+        if (field.typeName == "System.Single" || field.typeName == "float") {
+            float f = currentVal.empty() ? 0.0f : std::stof(currentVal);
+            if (ImGui::DragFloat(field.name.c_str(), &f, 0.1f)) {
+                selectedNode->properties[field.name] = std::to_string(f);
+            }
+        } else if (field.typeName == "System.Int32" || field.typeName == "int") {
+            int i = currentVal.empty() ? 0 : std::stoi(currentVal);
+            if (ImGui::InputInt(field.name.c_str(), &i)) {
+                selectedNode->properties[field.name] = std::to_string(i);
+            }
+        } else if (field.typeName == "System.Boolean" || field.typeName == "bool") {
+            bool b = (currentVal == "true");
+            if (ImGui::Checkbox(field.name.c_str(), &b)) {
+                selectedNode->properties[field.name] = b ? "true" : "false";
+            }
+        } else if (field.typeName == "System.String" || field.typeName == "string") {
+            char sBuf[128];
+            strncpy_s(sBuf, currentVal.c_str(), sizeof(sBuf));
+            if (ImGui::InputText(field.name.c_str(), sBuf, sizeof(sBuf))) {
+                selectedNode->properties[field.name] = sBuf;
+            }
+        } else {
+            ImGui::LabelText(field.name.c_str(), "(%s)", field.typeName.c_str());
+        }
+
+        ImGui::PopID();
+    }
+}
+
 void BehaviorTreeEditorWindow::DrawGraphEditor() {
     ed::SetCurrentEditor(m_Editor);
     ed::Begin("BT_Graph_Editor", ImVec2(0, 0));
+
+    // 選択状態の同期
+    if (ed::GetSelectedObjectCount() > 0) {
+        ed::NodeId selectedNodes[1];
+        if (ed::GetSelectedNodes(selectedNodes, 1) > 0) {
+            m_SelectedNodeId = selectedNodes[0];
+        }
+    } else {
+        m_SelectedNodeId = 0;
+    }
 
     // Entryノードがなければ作成
     bool hasEntry = false;
@@ -309,6 +405,13 @@ void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
         n["id"] = (uintptr_t)node.id.AsPointer();
         n["className"] = node.className;
         n["name"] = node.name;
+        
+        // プロパティの保存
+        n["properties"] = json::object();
+        for (const auto& p : node.properties) {
+            n["properties"][p.first] = p.second;
+        }
+
         ImVec2 pos = ed::GetNodePosition(node.id);
         n["pos"] = { pos.x, pos.y };
         n["inputs"] = json::array();
@@ -387,6 +490,13 @@ void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
         Node* node = CreateNode(className);
         node->name = n["name"];
         
+        // プロパティの復元
+        if (n.contains("properties")) {
+            for (auto it = n["properties"].begin(); it != n["properties"].end(); ++it) {
+                node->properties[it.key()] = it.value();
+            }
+        }
+
         if (n.contains("inputs") && n["inputs"].size() == node->inputs.size()) {
             for (size_t i = 0; i < node->inputs.size(); ++i) {
                 pinIdMap[(uintptr_t)n["inputs"][i]["id"]] = node->inputs[i].id;

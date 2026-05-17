@@ -409,6 +409,43 @@ std::vector<std::string> MonoScriptEngine::GetBehaviorNodeClasses() {
 	return nodeClasses;
 }
 
+std::vector<MonoScriptEngine::FieldInfo> MonoScriptEngine::GetClassFields(const std::string& className) {
+	std::vector<FieldInfo> fields;
+	if (!image_) return fields;
+
+	MonoClass* klass = mono_class_from_name(image_, "", className.c_str());
+	if (!klass) {
+		// 名前空間ありの場合
+		size_t dotPos = className.find_last_of('.');
+		if (dotPos != std::string::npos) {
+			std::string ns = className.substr(0, dotPos);
+			std::string name = className.substr(dotPos + 1);
+			klass = mono_class_from_name(image_, ns.c_str(), name.c_str());
+		}
+	}
+
+	if (!klass) return fields;
+
+	void* iter = nullptr;
+	MonoClassField* field;
+	while ((field = mono_class_get_fields(klass, &iter))) {
+		uint32_t flags = mono_field_get_flags(field);
+		if (!(flags & 0x0006 /* FIELD_ATTRIBUTE_PUBLIC */)) continue;
+
+		FieldInfo info;
+		info.name = mono_field_get_name(field);
+		
+		MonoType* type = mono_field_get_type(field);
+		char* typeName = mono_type_get_name(type);
+		info.typeName = typeName;
+		mono_free(typeName);
+
+		fields.push_back(info);
+	}
+
+	return fields;
+}
+
 void MonoScriptEngine::UpdateAiIntents(void* data, int count, float deltaTime, const std::string& groupName) {
 	if (!updateAiIntentsMethod_) {
 		Console::LogWarning("AIUpdater.UpdateIntents method not found in C#.", LogCategory::ScriptEngine);

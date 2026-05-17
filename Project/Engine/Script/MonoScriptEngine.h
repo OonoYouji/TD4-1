@@ -87,6 +87,13 @@ public:
 	/// @brief BehaviorNodeを継承する全クラス名を取得する
 	std::vector<std::string> GetBehaviorNodeClasses();
 
+	struct FieldInfo {
+		std::string name;
+		std::string typeName;
+	};
+	/// @brief 指定したクラスの公開フィールド情報を取得する
+	std::vector<FieldInfo> GetClassFields(const std::string& className);
+
 private:
 	/// ===================================================
 	/// private : objects

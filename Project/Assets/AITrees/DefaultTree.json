@@ -61,7 +61,13 @@
             ]
         }
     ],
-    "links": [],
+    "links": [
+        {
+            "endPin": 6,
+            "id": 7,
+            "startPin": 2
+        }
+    ],
     "nodes": [
         {
             "className": "Entry",
@@ -77,7 +83,48 @@
             "pos": [
                 50.0,
                 250.0
-            ]
+            ],
+            "properties": {}
+        },
+        {
+            "className": "InvokeEventNode",
+            "id": 3,
+            "inputs": [
+                {
+                    "id": 4,
+                    "name": "In"
+                }
+            ],
+            "name": "InvokeEventNode",
+            "outputs": [],
+            "pos": [
+                260.0,
+                366.0
+            ],
+            "properties": {
+                "eventType": "",
+                "timeoutSec": "",
+                "waitUntilComplete": ""
+            }
+        },
+        {
+            "className": "MoveToPlayerNode",
+            "id": 5,
+            "inputs": [
+                {
+                    "id": 6,
+                    "name": "In"
+                }
+            ],
+            "name": "MoveToPlayerNode",
+            "outputs": [],
+            "pos": [
+                348.0,
+                194.0
+            ],
+            "properties": {
+                "stopDistance": ""
+            }
         }
     ]
 }

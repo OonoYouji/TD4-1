@@ -5,13 +5,13 @@ using System;
 /// </summary>
 public class MoveToPlayerNode : BehaviorNode
 {
-    public float StopDistance { get; set; } = 2.0f;
+    public float stopDistance = 2.0f;
 
     public MoveToPlayerNode() { }
 
     public MoveToPlayerNode(float stopDistance = 2.0f)
     {
-        StopDistance = stopDistance;
+        this.stopDistance = stopDistance;
     }
 
     public override NodeStatus Execute(Blackboard blackboard, Entity owner)
@@ -35,7 +35,7 @@ public class MoveToPlayerNode : BehaviorNode
         Debug.Log($"MoveToPlayerNode: [Player:{player.name} ID:{player.Id}] Pos={playerPos}");
         Debug.Log($"MoveToPlayerNode: Diff={diff}, Dist={distance}");
 
-        if (distance <= StopDistance)
+        if (distance <= stopDistance)
         {
             // 到着
             Debug.Log($"MoveToPlayerNode: Arrived at player.");
