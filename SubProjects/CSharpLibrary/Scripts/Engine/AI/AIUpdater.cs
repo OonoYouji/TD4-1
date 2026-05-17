@@ -29,6 +29,11 @@ public static class AIUpdater {
 
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
+                    // 実行前にIntentをリセット（ツリー内で上書きされなければ停止する）
+                    component.desiredMoveDirection = Vector3.zero;
+                    component.isAttacking = false;
+                    component.targetEntityId = 0;
+
                     component.behaviorTree.Tick();
 
                     // エディタ用：実行状態を同期

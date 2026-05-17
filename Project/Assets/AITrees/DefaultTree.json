@@ -5,6 +5,7 @@
             "fVal": 0.0,
             "iVal": 0,
             "key": "TargetEntity",
+            "sVal": "Player",
             "type": 4,
             "vVal": [
                 0.0,
@@ -15,44 +16,19 @@
     ],
     "links": [
         {
-            "endPin": 9,
+            "endPin": 10,
+            "id": 12,
+            "startPin": 2
+        },
+        {
+            "endPin": 8,
             "id": 13,
-            "startPin": 12
+            "startPin": 11
         },
         {
-            "endPin": 11,
+            "endPin": 6,
             "id": 14,
-            "startPin": 2
-        },
-        {
-            "endPin": 16,
-            "id": 18,
-            "startPin": 2
-        },
-        {
-            "endPin": 9,
-            "id": 19,
-            "startPin": 17
-        },
-        {
-            "endPin": 6,
-            "id": 20,
-            "startPin": 17
-        },
-        {
-            "endPin": 22,
-            "id": 24,
-            "startPin": 2
-        },
-        {
-            "endPin": 9,
-            "id": 25,
-            "startPin": 23
-        },
-        {
-            "endPin": 6,
-            "id": 26,
-            "startPin": 23
+            "startPin": 11
         }
     ],
     "nodes": [
@@ -118,10 +94,10 @@
         },
         {
             "className": "CheckDistanceNode",
-            "id": 8,
+            "id": 7,
             "inputs": [
                 {
-                    "id": 9,
+                    "id": 8,
                     "name": "In"
                 }
             ],
@@ -133,16 +109,16 @@
                 286.0
             ],
             "properties": {
-                "checkDistance": "64.000000",
+                "checkDistance": "32.000000",
                 "targetEntityNameKey": "TargetEntity"
             }
         },
         {
             "className": "Sequence",
-            "id": 21,
+            "id": 9,
             "inputs": [
                 {
-                    "id": 22,
+                    "id": 10,
                     "name": "In"
                 }
             ],
@@ -150,7 +126,7 @@
             "name": "Sequence",
             "outputs": [
                 {
-                    "id": 23,
+                    "id": 11,
                     "name": "Out"
                 }
             ],

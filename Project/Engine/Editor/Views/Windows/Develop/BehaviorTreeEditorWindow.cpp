@@ -48,18 +48,17 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     ImGui::SameLine();
     if (ImGui::Button("Load")) LoadTree(m_CurrentFilePath);
     ImGui::SameLine();
-    ImGui::PushItemWidth(300);
-    char pathBuf[256];
-    strncpy_s(pathBuf, m_CurrentFilePath.c_str(), sizeof(pathBuf));
-    if (ImGui::InputText("File Path", pathBuf, sizeof(pathBuf))) m_CurrentFilePath = pathBuf;
-    ImGui::PopItemWidth();
-
-    ImGui::SameLine();
     if (ImGui::Button("Refresh Nodes")) {
         availableNodeClasses_ = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorNodeClasses();
     }
     ImGui::SameLine();
     ImGui::Text("Nodes: %d", (int)availableNodeClasses_.size());
+
+    ImGui::PushItemWidth(300);
+    char pathBuf[256];
+    strncpy_s(pathBuf, m_CurrentFilePath.c_str(), sizeof(pathBuf));
+    if (ImGui::InputText("File Path", pathBuf, sizeof(pathBuf))) m_CurrentFilePath = pathBuf;
+    ImGui::PopItemWidth();
 
     ImGui::Separator();
 
@@ -223,9 +222,6 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         if (isHighlighted) { ed::PopStyleVar(); ed::PopStyleColor(); }
     }
     
-    // 描画が完了してもクリアせず、C#からの新しい通知を待つように変更
-    // (1秒以上更新がなければ消すなどの寿命管理も可能ですが、まずはこのまま)
-
     for (auto& link : m_Links) ed::Link(link.id, link.startPinId, link.endPinId, link.color, 2.0f);
 
     if (ed::BeginCreate()) {
@@ -300,11 +296,15 @@ void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status)
 void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
     ed::SetCurrentEditor(m_Editor);
     json data;
+
     data["blackboard"] = json::array();
     for (const auto& var : m_BBVariables) {
-        json v; v["key"] = var.key; v["type"] = static_cast<int>(var.type); v["iVal"] = var.iVal; v["fVal"] = var.fVal; v["bVal"] = var.bVal; v["vVal"] = { var.vVal[0], var.vVal[1], var.vVal[2] };
+        json v; v["key"] = var.key; v["type"] = static_cast<int>(var.type); v["iVal"] = var.iVal; v["fVal"] = var.fVal; v["bVal"] = var.bVal; 
+        v["vVal"] = { var.vVal[0], var.vVal[1], var.vVal[2] };
+        v["sVal"] = var.sVal;
         data["blackboard"].push_back(v);
     }
+
     data["nodes"] = json::array();
     for (const auto& node : m_Nodes) {
         json n; n["id"] = (uintptr_t)node.id.AsPointer(); n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator;
@@ -314,11 +314,13 @@ void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
         n["outputs"] = json::array(); for (const auto& pin : node.outputs) n["outputs"].push_back({ {"id", (uintptr_t)pin.id.AsPointer()}, {"name", pin.name} });
         data["nodes"].push_back(n);
     }
+
     data["links"] = json::array();
     for (const auto& link : m_Links) {
         json l; l["id"] = (uintptr_t)link.id.AsPointer(); l["startPin"] = (uintptr_t)link.startPinId.AsPointer(); l["endPin"] = (uintptr_t)link.endPinId.AsPointer();
         data["links"].push_back(l);
     }
+
     std::filesystem::path fsPath(path); if (!std::filesystem::exists(fsPath.parent_path())) std::filesystem::create_directories(fsPath.parent_path());
     std::ofstream file(path); if (file.is_open()) file << data.dump(4);
     ed::SetCurrentEditor(nullptr);
@@ -328,14 +330,18 @@ void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
     std::ifstream file(path); if (!file.is_open()) return;
     ed::SetCurrentEditor(m_Editor);
     json data; try { file >> data; } catch (...) { ed::SetCurrentEditor(nullptr); return; }
+
     m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_NextId = 1;
+
     if (data.contains("blackboard")) {
         for (const auto& v : data["blackboard"]) {
             BBVariable var; var.key = v["key"]; var.type = static_cast<BBVarType>(v["type"].get<int>()); var.iVal = v["iVal"]; var.fVal = v["fVal"]; var.bVal = v["bVal"];
             if (v.contains("vVal")) { var.vVal[0] = v["vVal"][0]; var.vVal[1] = v["vVal"][1]; var.vVal[2] = v["vVal"][2]; }
+            if (v.contains("sVal")) { strncpy_s(var.sVal, v["sVal"].get<std::string>().c_str(), sizeof(var.sVal)); }
             m_BBVariables.push_back(var);
         }
     }
+
     std::map<uintptr_t, ed::PinId> pinIdMap;
     for (const auto& n : data["nodes"]) {
         std::string className = n["className"];
