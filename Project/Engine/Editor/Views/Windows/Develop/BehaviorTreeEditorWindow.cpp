@@ -48,6 +48,7 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     if (!ONEngine::DebugConfig::isDebugging) {
         m_RuntimeNodeStatuses.clear();
         m_RuntimeBBValues.clear();
+        m_NodeLastActiveTime.clear();
     }
 
     if (!ImGui::Begin("Behavior Tree Editor", nullptr)) {
@@ -80,6 +81,15 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     if (ImGui::Button("Load")) LoadTree(m_CurrentFilePath);
     ImGui::SameLine();
     if (ImGui::Button("Refresh")) InitializeEditor();
+    ImGui::SameLine();
+    if (ONEngine::DebugConfig::isPause) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.3f, 0.3f, 1.0f));
+        if (ImGui::Button("RESUME")) ONEngine::DebugConfig::isPause = false;
+        ImGui::PopStyleColor(2);
+    } else {
+        if (ImGui::Button("PAUSE")) ONEngine::DebugConfig::isPause = true;
+    }
     ImGui::SameLine();
     ImGui::Text("Nodes:%d Modules:%d", (int)availableNodeClasses_.size(), (int)availableModuleClasses_.size());
 
@@ -149,11 +159,11 @@ void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
             ImGui::TextColored(ImVec4(0, 1, 0, 1), "Live Watcher");
             ImGui::Separator();
             ImGui::BeginChild("VariablesListRuntime");
-            for (auto const& [keyHash, runtimeVal] : m_RuntimeBBValues) {
+            for (auto it = m_RuntimeBBValues.begin(); it != m_RuntimeBBValues.end(); ++it) {
+                uint32_t keyHash = it->first;
+                const auto& runtimeVal = it->second;
                 std::string keyName = "Unknown";
                 for (const auto& var : m_BBVariables) {
-                    // C#側のハッシュロジック（FNV-1a 32bit）に合わせて計算 or 保存
-                    // 簡易的に現状の変数名から探す
                     uint32_t hash = 2166136261;
                     for (char c : var.key) hash = (hash ^ c) * 16777619;
                     if (hash == keyHash) { keyName = var.key; break; }
@@ -206,6 +216,13 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
     char nameBuf[64]; strncpy_s(nameBuf, selectedNode->name.c_str(), sizeof(nameBuf));
     if (ImGui::InputText("Node Name", nameBuf, sizeof(nameBuf))) selectedNode->name = nameBuf;
     if (ImGui::IsItemActivated()) RecordUndo();
+    
+    // ブレークポイント表示
+    if (selectedNode->hasBreakpoint) ImGui::TextColored(ImVec4(1, 0, 0, 1), "BREAKPOINT ACTIVE");
+    if (ImGui::Button(selectedNode->hasBreakpoint ? "Disable Breakpoint" : "Enable Breakpoint")) {
+        RecordUndo();
+        selectedNode->hasBreakpoint = !selectedNode->hasBreakpoint;
+    }
 
     if (ImGui::CollapsingHeader("Modules", ImGuiTreeNodeFlags_DefaultOpen)) {
         for (int i = 0; i < (int)selectedNode->decorators.size(); ++i) {
@@ -241,7 +258,7 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
             std::string currentVal = (*targetProps)[field.name];
             if (field.isBBKey) {
                 std::vector<const char*> bbKeys; int currentIdx = -1;
-                for (size_t i = 0; i < m_BBVariables.size(); ++i) { bbKeys.push_back(m_BBVariables[i].key.c_str()); if (m_BBVariables[i].key == currentVal) currentIdx = (int)i; }
+                for (int i = 0; i < (int)m_BBVariables.size(); ++i) { bbKeys.push_back(m_BBVariables[i].key.c_str()); if (m_BBVariables[i].key == currentVal) currentIdx = i; }
                 if (ImGui::Combo(field.name.c_str(), &currentIdx, bbKeys.data(), (int)bbKeys.size())) { RecordUndo(); (*targetProps)[field.name] = bbKeys[currentIdx]; }
             } else if (field.typeName == "System.Single" || field.typeName == "float") {
                 float f = currentVal.empty() ? 0.0f : std::stof(currentVal);
@@ -268,6 +285,8 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
 void BehaviorTreeEditorWindow::DrawGraphEditor() {
     ed::SetCurrentEditor(m_Editor);
     ed::Begin("BT_Graph_Editor", ImVec2(0, 0));
+
+    float currentTime = ONEngine::Time::GetTime();
 
     std::map<uintptr_t, int> executionOrder;
     int currentOrder = 1;
@@ -320,9 +339,17 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         }
     } else { if (!ImGui::IsAnyItemActive()) { m_SelectedNodeId = 0; s_SelectedModuleId = -1; s_SelectedCommentId = -1; } }
 
+    std::map<uintptr_t, float> nodeAlpha;
+
     for (auto& node : m_Nodes) {
-        bool isHighlighted = false; ImColor highlightColor = ImColor(255, 255, 0, 0);
         uint32_t idHash = (uint32_t)(uintptr_t)node.id.AsPointer();
+        
+        float lastTime = m_NodeLastActiveTime.count(idHash) ? m_NodeLastActiveTime[idHash] : -100.0f;
+        float elapsed = currentTime - lastTime;
+        float alpha = (std::max)(0.0f, 1.0f - (elapsed / 2.0f)); 
+        nodeAlpha[(uintptr_t)node.id.AsPointer()] = alpha;
+
+        bool isHighlighted = false; ImColor highlightColor = ImColor(255, 255, 0, 0);
         if (m_RuntimeNodeStatuses.count(idHash)) {
             isHighlighted = true;
             switch (m_RuntimeNodeStatuses[idHash]) {
@@ -331,9 +358,19 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
             case 2: highlightColor = ImColor(0, 255, 0); break;
             }
         }
-        if (isHighlighted) { ed::PushStyleColor(ed::StyleColor_NodeBorder, highlightColor); ed::PushStyleVar(ed::StyleVar_NodeBorderWidth, 4.0f); }
+        
+        if (node.hasBreakpoint) { ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(255, 0, 0)); ed::PushStyleVar(ed::StyleVar_NodeBorderWidth, 6.0f); }
+        else if (isHighlighted) { ed::PushStyleColor(ed::StyleColor_NodeBorder, highlightColor); ed::PushStyleVar(ed::StyleVar_NodeBorderWidth, 4.0f); }
+        else if (alpha > 0.01f) {
+            ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(1.0f, 1.0f, 1.0f, alpha * 0.5f));
+            ed::PushStyleVar(ed::StyleVar_NodeBorderWidth, 2.0f + alpha * 2.0f);
+        }
+
         ed::BeginNode(node.id);
         ImGui::PushID(node.id.AsPointer());
+        
+        if (node.hasBreakpoint) { ImGui::TextColored(ImVec4(1, 0, 0, 1), "(BP)"); ImGui::SameLine(); }
+
         ImVec4 titleColor = node.isDecorator ? ImVec4(0.3f, 0.6f, 1.0f, 1.0f) : ImVec4(1.0f, 0.8f, 0.2f, 1.0f);
         ImGui::TextColored(titleColor, "== %s ==", node.name.c_str());
         if (executionOrder.count((uintptr_t)node.id.AsPointer())) { ImGui::SameLine(120); ImGui::TextDisabled("[%d]", executionOrder[(uintptr_t)node.id.AsPointer()]); }
@@ -347,10 +384,25 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         ImGui::EndGroup();
         ImGui::PopID();
         ed::EndNode();
-        if (isHighlighted) { ed::PopStyleVar(); ed::PopStyleColor(); }
+        if (node.hasBreakpoint || isHighlighted || alpha > 0.01f) { ed::PopStyleVar(); ed::PopStyleColor(); }
     }
     
-    for (auto& link : m_Links) ed::Link(link.id, link.startPinId, link.endPinId, link.color, 2.0f);
+    for (auto& link : m_Links) {
+        float alpha = 0.0f;
+        uintptr_t startNodePtr = 0, endNodeAlphaPtr = 0;
+        for(const auto& n : m_Nodes) {
+            for(const auto& p : n.outputs) if(p.id == link.startPinId) startNodePtr = (uintptr_t)n.id.AsPointer();
+            for(const auto& p : n.inputs) if(p.id == link.endPinId) endNodeAlphaPtr = (uintptr_t)n.id.AsPointer();
+        }
+        if(startNodePtr && endNodeAlphaPtr) alpha = (std::min)(nodeAlpha[startNodePtr], nodeAlpha[endNodeAlphaPtr]);
+
+        float thickness = 2.0f + alpha * 3.0f;
+        ImColor col = link.color;
+        if(alpha > 0.01f) col = ImColor(1.0f, 1.0f, 1.0f, 0.3f + alpha * 0.7f);
+        
+        ed::Link(link.id, link.startPinId, link.endPinId, col, thickness);
+        if(alpha > 0.5f) ed::Flow(link.id);
+    }
 
     if (ed::BeginCreate()) {
         ed::PinId inputPinId, outputPinId;
@@ -381,6 +433,11 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         if(!isComment) { m_SelectedNodeId = contextNodeId; ImGui::OpenPopup("Node Context Menu"); }
     }
     if (ImGui::BeginPopup("Node Context Menu")) {
+        if (ImGui::MenuItem("Toggle Breakpoint")) {
+            RecordUndo();
+            for (auto& node : m_Nodes) if (node.id == m_SelectedNodeId) { node.hasBreakpoint = !node.hasBreakpoint; break; }
+        }
+        ImGui::Separator();
         if (ImGui::BeginMenu("Add Decorator")) {
             static char decSearchBuf[64] = ""; if (ImGui::IsWindowAppearing()) { decSearchBuf[0] = '\0'; ImGui::SetKeyboardFocusHere(); }
             ImGui::InputTextWithHint("##DecSearch", "Search...", decSearchBuf, sizeof(decSearchBuf));
@@ -442,7 +499,10 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
 }
 
 void BehaviorTreeEditorWindow::CreateLink(ed::PinId startPin, ed::PinId endPin) { m_Links.emplace_back(GetNextId(), startPin, endPin); }
-void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status) { m_RuntimeNodeStatuses[nodeIdHash] = status; }
+void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status) { 
+    m_RuntimeNodeStatuses[nodeIdHash] = status; 
+    m_NodeLastActiveTime[nodeIdHash] = ONEngine::Time::GetTime(); 
+}
 void BehaviorTreeEditorWindow::UpdateBlackboardValue(uint32_t keyHash, const std::string& value, const std::string& typeName) { m_RuntimeBBValues[keyHash] = { value, typeName }; }
 
 json BehaviorTreeEditorWindow::GetTreeAsJson() {
@@ -455,7 +515,7 @@ json BehaviorTreeEditorWindow::GetTreeAsJson() {
     }
     data["nodes"] = json::array();
     for (const auto& node : m_Nodes) {
-        json n; n["id"] = (uintptr_t)node.id.AsPointer(); n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator;
+        json n; n["id"] = (uintptr_t)node.id.AsPointer(); n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator; n["hasBreakpoint"] = node.hasBreakpoint;
         n["properties"] = json::object(); for (const auto& p : node.properties) n["properties"][p.first] = p.second;
         n["decorators"] = json::array();
         for (const auto& d : node.decorators) { json dj; dj["className"] = d.className; dj["name"] = d.name; dj["properties"] = d.properties; n["decorators"].push_back(dj); }
@@ -496,6 +556,7 @@ void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
         std::string className = n["className"]; bool isDecorator = n.value("isDecorator", false);
         Node* node = CreateNode(className, isDecorator);
         node->name = n["name"];
+        node->hasBreakpoint = n.value("hasBreakpoint", false);
         if (n.contains("properties")) { for (auto it = n["properties"].begin(); it != n["properties"].end(); ++it) node->properties[it.key()] = it.value(); }
         if (n.contains("decorators")) {
             for (const auto& d : n["decorators"]) node->decorators.push_back({ (uint32_t)GetNextId(), d["className"], d["name"], d["properties"].get<std::map<std::string, std::string>>(), false });
@@ -553,7 +614,7 @@ void BehaviorTreeEditorWindow::CopySelectedNodes() {
     for (auto id : selectedNodes) {
         for (const auto& node : m_Nodes) {
             if (node.id == id) {
-                json n; n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator;
+                json n; n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator; n["hasBreakpoint"] = node.hasBreakpoint;
                 n["properties"] = node.properties;
                 n["decorators"] = json::array();
                 for (const auto& d : node.decorators) { json dj; dj["className"] = d.className; dj["name"] = d.name; dj["properties"] = d.properties; n["decorators"].push_back(dj); }
@@ -577,6 +638,7 @@ void BehaviorTreeEditorWindow::PasteNodes() {
     for (const auto& n : clip["nodes"]) {
         Node* node = CreateNode(n["className"], n.value("isDecorator", false));
         node->name = n["name"];
+        node->hasBreakpoint = n.value("hasBreakpoint", false);
         if (n.contains("properties")) node->properties = n["properties"].get<std::map<std::string, std::string>>();
         if (n.contains("decorators")) {
             for (const auto& d : n["decorators"]) node->decorators.push_back({ (uint32_t)GetNextId(), d["className"], d["name"], d["properties"].get<std::map<std::string, std::string>>(), false });

@@ -1,31 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
-/// エディタで作成したJSONファイルからビヘイビアツリーを構築するクラス
+/// JSONファイルからビヘイビアツリーを生成するクラス。
 /// </summary>
 public static class BehaviorTreeLoader
 {
-    public static BehaviorTree LoadFromFile(string filePath, Entity owner)
+    public static BehaviorTree LoadFromFile(string path, Entity owner)
     {
-        if (!File.Exists(filePath))
-        {
-            Debug.LogError($"BehaviorTreeLoader: File not found: {filePath}");
-            return null;
-        }
+        string jsonText = Mathf.LoadFile(path);
+        if (string.IsNullOrEmpty(jsonText)) return null;
 
-        string jsonContent = File.ReadAllText(filePath);
-        return LoadFromJson(jsonContent, owner);
-    }
-
-    public static BehaviorTree LoadFromJson(string jsonContent, Entity owner)
-    {
-        JObject root = JObject.Parse(jsonContent);
+        var root = JObject.Parse(jsonText);
         BehaviorTree tree = new BehaviorTree(owner);
 
-        // 0. Blackboardの初期化
+        // 0. Blackboard変数のロード
         if (root["blackboard"] != null)
         {
             foreach (var v in root["blackboard"])
@@ -33,7 +25,6 @@ public static class BehaviorTreeLoader
                 string key = (string)v["key"];
                 uint keyHash = HashString(key);
                 int type = (int)v["type"];
-
                 switch (type)
                 {
                     case 0: // Int
@@ -79,6 +70,10 @@ public static class BehaviorTreeLoader
             {
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
                 node.NodeIdHash = (uint)id;
+                
+                // ブレークポイント
+                if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
+
                 nodeInstances[id] = node;
 
                 // ノード本体のプロパティ反映
@@ -164,27 +159,35 @@ public static class BehaviorTreeLoader
         return tree;
     }
 
-    private static void ApplyProperties(Type type, object instance, JToken properties)
+    private static void ApplyProperties(Type type, object instance, JToken props)
     {
-        if (properties is JObject props)
+        if (props == null) return;
+        foreach (var p in props.Children<JProperty>())
         {
-            foreach (var prop in props)
+            FieldInfo field = type.GetField(p.Name, BindingFlags.Public | BindingFlags.Instance);
+            if (field != null)
             {
-                var field = type.GetField(prop.Key);
-                if (field != null)
+                try
                 {
-                    try {
-                        JToken val = prop.Value;
-                        if (field.FieldType == typeof(float)) field.SetValue(instance, val.Value<float>());
-                        else if (field.FieldType == typeof(int)) field.SetValue(instance, val.Value<int>());
-                        else if (field.FieldType == typeof(bool)) field.SetValue(instance, val.Value<bool>());
-                        else if (field.FieldType == typeof(string)) field.SetValue(instance, val.Value<string>());
-                    } catch (Exception e) {
-                        Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {prop.Key} on {type.Name}: {e.Message}");
-                    }
+                    object val = ConvertValue(field.FieldType, p.Value.ToString());
+                    field.SetValue(instance, val);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning($"BehaviorTreeLoader: Failed to set field {p.Name} on {type.Name}. {e.Message}");
                 }
             }
         }
+    }
+
+    private static object ConvertValue(Type type, string value)
+    {
+        if (type == typeof(string)) return value;
+        if (type == typeof(int)) return int.Parse(value);
+        if (type == typeof(float)) return float.Parse(value);
+        if (type == typeof(bool)) return bool.Parse(value);
+        if (type.IsEnum) return Enum.Parse(type, value);
+        return null;
     }
 
     public static uint HashString(string str)

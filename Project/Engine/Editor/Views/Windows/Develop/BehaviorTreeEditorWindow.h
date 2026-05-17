@@ -62,6 +62,7 @@ private:
         ImVec2 size;
         std::map<std::string, std::string> properties;
         bool isDecorator = false;
+        bool hasBreakpoint = false;
 
         struct Module {
             uint32_t id;
@@ -146,6 +147,7 @@ private:
     std::vector<CommentBox> m_CommentBoxes;
     std::vector<BBVariable> m_BBVariables;
     std::map<uint32_t, int> m_RuntimeNodeStatuses;
+    std::map<uint32_t, float> m_NodeLastActiveTime;
     
     struct RuntimeBBValue {
         std::string value;

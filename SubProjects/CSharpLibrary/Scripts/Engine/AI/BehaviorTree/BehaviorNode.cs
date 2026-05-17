@@ -7,6 +7,7 @@ public abstract class BehaviorNode
 {
     public uint NodeIdHash { get; set; }
     public NodeStatus LastStatus { get; protected set; } = NodeStatus.Failure;
+    public bool HasBreakpoint { get; set; } = false;
 
     public List<BehaviorDecorator> Decorators { get; } = new List<BehaviorDecorator>();
     public List<BehaviorService> Services { get; } = new List<BehaviorService>();
@@ -19,6 +20,12 @@ public abstract class BehaviorNode
     /// </summary>
     public NodeStatus Tick(Blackboard blackboard, Entity owner)
     {
+        // ブレークポイントチェック
+        if (HasBreakpoint)
+        {
+            Internal_OnBreakpointHit(NodeIdHash);
+        }
+
         // 1. Services の実行 (Interval管理)
         float currentTime = Time.time;
         foreach (var service in Services)
@@ -57,4 +64,7 @@ public abstract class BehaviorNode
     /// ノード固有のロジック（継承先で実装）
     /// </summary>
     protected abstract NodeStatus Execute(Blackboard blackboard, Entity owner);
+
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.InternalCall)]
+    private static extern void Internal_OnBreakpointHit(uint nodeIdHash);
 }

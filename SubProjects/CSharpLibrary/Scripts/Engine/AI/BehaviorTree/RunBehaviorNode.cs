@@ -23,7 +23,7 @@ public class RunBehaviorNode : BehaviorNode
             {
                 // 注意: 循環参照チェックは本来ローダー側で行うべきだが、
                 // ここでは簡易的にロードを試みる
-                var tree = BehaviorTreeLoader.LoadFromJson(subtreePath, owner);
+                var tree = BehaviorTreeLoader.LoadFromFile(subtreePath, owner);
                 if (tree != null)
                 {
                     _rootOfSubtree = tree.RootNode;
