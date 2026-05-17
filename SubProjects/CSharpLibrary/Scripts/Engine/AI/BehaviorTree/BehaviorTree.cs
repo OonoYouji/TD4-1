@@ -11,15 +11,29 @@ public class BehaviorTree
     public Blackboard Blackboard { get; } = new Blackboard();
     public Entity Owner { get; }
 
+    private bool _reevaluateRequest = false;
+
     public BehaviorTree(Entity owner)
     {
         Owner = owner;
+        Blackboard.OnValueChanged += HandleBlackboardChanged;
+    }
+
+    private void HandleBlackboardChanged(uint keyHash)
+    {
+        // 本来はここで「どのデコレーターがこのキーを監視しているか」をチェックすべきだが、
+        // 簡略化のため、値が変わったら次のTickで必ずRootからの評価をやり直すフラグを立てる
+        _reevaluateRequest = true;
     }
 
     public void Tick()
     {
         if (RootNode == null || Owner == null) return;
-        RootNode.Execute(Blackboard, Owner);
+
+        // 再評価リクエストがあれば、現在の実行状態を無視して（ステートレスなので自然に）最初から回す
+        // 現在の Reactive な実装では毎フレームRootから回しているため、このフラグは将来的な最適化（イベント駆動）の布石となる
+        RootNode.Tick(Blackboard, Owner);
+        _reevaluateRequest = false;
     }
 
     /// <summary>

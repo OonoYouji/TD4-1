@@ -91,6 +91,9 @@ public:
 	/// @brief BehaviorNodeを継承する全クラス情報を取得する
 	std::vector<NodeClassInfo> GetBehaviorNodeClasses();
 
+	/// @brief BehaviorDecorator/Serviceを継承する全クラス情報を取得する
+	std::vector<NodeClassInfo> GetBehaviorModuleClasses();
+
 	struct FieldInfo {
 		std::string name;
 		std::string typeName;

@@ -34,6 +34,7 @@
     "nodes": [
         {
             "className": "Entry",
+            "decorators": [],
             "id": 1,
             "inputs": [],
             "isDecorator": false,
@@ -48,10 +49,12 @@
                 -79.0,
                 266.0
             ],
-            "properties": {}
+            "properties": {},
+            "services": []
         },
         {
             "className": "InvokeEventNode",
+            "decorators": [],
             "id": 3,
             "inputs": [
                 {
@@ -70,10 +73,12 @@
                 "eventType": "",
                 "timeoutSec": "",
                 "waitUntilComplete": ""
-            }
+            },
+            "services": []
         },
         {
             "className": "MoveToPlayerNode",
+            "decorators": [],
             "id": 5,
             "inputs": [
                 {
@@ -90,10 +95,21 @@
             ],
             "properties": {
                 "stopDistance": "12.000000"
-            }
+            },
+            "services": []
         },
         {
             "className": "CheckDistanceNode",
+            "decorators": [
+                {
+                    "className": "BlackboardDecorator",
+                    "name": "BlackboardDecorator",
+                    "properties": {
+                        "abortPolicy": "",
+                        "keyName": "TargetEntity"
+                    }
+                }
+            ],
             "id": 7,
             "inputs": [
                 {
@@ -106,15 +122,17 @@
             "outputs": [],
             "pos": [
                 324.0,
-                286.0
+                276.0
             ],
             "properties": {
                 "checkDistance": "32.000000",
                 "targetEntityNameKey": "TargetEntity"
-            }
+            },
+            "services": []
         },
         {
             "className": "Sequence",
+            "decorators": [],
             "id": 9,
             "inputs": [
                 {
@@ -134,7 +152,8 @@
                 100.0,
                 254.0
             ],
-            "properties": {}
+            "properties": {},
+            "services": []
         }
     ]
 }

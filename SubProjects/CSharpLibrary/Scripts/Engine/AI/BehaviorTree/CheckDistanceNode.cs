@@ -13,7 +13,7 @@ public class CheckDistanceNode : BehaviorNode
 
     public CheckDistanceNode() { }
 
-    public override NodeStatus Execute(Blackboard blackboard, Entity owner)
+    protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint key = BehaviorTreeLoader.HashString(targetEntityNameKey);
         if (!blackboard.HasKey(key)) return NodeStatus.Failure;

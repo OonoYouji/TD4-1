@@ -1,22 +1,45 @@
+using System.Collections.Generic;
+
 /// <summary>
 /// ビヘイビアツリーの全てのノードの基底クラス。
-/// ステートレス（Flyweightパターン）でなければならない。
 /// </summary>
 public abstract class BehaviorNode
 {
-    /// <summary>
-    /// エディター側で一意に割り振られるノードIDのハッシュ値。
-    /// Blackboardへの状態保存キーとして使用される。
-    /// </summary>
     public uint NodeIdHash { get; set; }
-
-    /// <summary>
-    /// 直近の実行状態。デバッグビジュアライザーで使用される。
-    /// </summary>
     public NodeStatus LastStatus { get; protected set; } = NodeStatus.Failure;
 
+    public List<BehaviorDecorator> Decorators { get; } = new List<BehaviorDecorator>();
+    public List<BehaviorService> Services { get; } = new List<BehaviorService>();
+
+    public void AddDecorator(BehaviorDecorator decorator) => Decorators.Add(decorator);
+    public void AddService(BehaviorService service) => Services.Add(service);
+
     /// <summary>
-    /// ノードのロジックを実行する。
+    /// ノードを実行する（内部でDecorator/Serviceを処理する）
     /// </summary>
-    public abstract NodeStatus Execute(Blackboard blackboard, Entity owner);
+    public NodeStatus Tick(Blackboard blackboard, Entity owner)
+    {
+        // 1. Services の実行
+        foreach (var service in Services)
+        {
+            service.OnTick(blackboard, owner);
+        }
+
+        // 2. Decorators の条件チェック
+        foreach (var decorator in Decorators)
+        {
+            if (!decorator.CalculateCondition(blackboard, owner))
+            {
+                return LastStatus = NodeStatus.Failure;
+            }
+        }
+
+        // 3. 本体ロジックの実行
+        return LastStatus = Execute(blackboard, owner);
+    }
+
+    /// <summary>
+    /// ノード固有のロジック（継承先で実装）
+    /// </summary>
+    protected abstract NodeStatus Execute(Blackboard blackboard, Entity owner);
 }

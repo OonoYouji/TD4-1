@@ -14,7 +14,7 @@ public class MoveToPlayerNode : BehaviorNode
         this.stopDistance = stopDistance;
     }
 
-    public override NodeStatus Execute(Blackboard blackboard, Entity owner)
+    protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         // プレイヤーを検索
         Entity player = FindPlayer(owner);
@@ -44,7 +44,7 @@ public class MoveToPlayerNode : BehaviorNode
             {
                 intent.desiredMoveDirection = Vector3.zero;
             }
-            return LastStatus = NodeStatus.Success;
+            return NodeStatus.Success;
         }
 
         // 移動方向を設定
@@ -56,7 +56,7 @@ public class MoveToPlayerNode : BehaviorNode
             Debug.Log($"MoveToPlayerNode: SET INTENT DIRECTION: {aiIntent.desiredMoveDirection}");
         }
 
-        return LastStatus = NodeStatus.Running;
+        return NodeStatus.Running;
 
     }
 

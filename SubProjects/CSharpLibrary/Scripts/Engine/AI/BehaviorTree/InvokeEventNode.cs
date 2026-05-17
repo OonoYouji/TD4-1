@@ -19,7 +19,7 @@ public class InvokeEventNode : BehaviorNode
         this.timeoutSec = timeoutSec;
     }
 
-    public override NodeStatus Execute(Blackboard blackboard, Entity owner)
+    protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         // ノード固有の開始時刻キーとして NodeIdHash を使用
         uint startTimeKey = NodeIdHash;
@@ -31,12 +31,12 @@ public class InvokeEventNode : BehaviorNode
             
             if (!waitUntilComplete)
             {
-                return LastStatus = NodeStatus.Success;
+                return NodeStatus.Success;
             }
 
             // 開始時刻を保存してRunning開始
             blackboard.SetFloat(startTimeKey, Time.time);
-            return LastStatus = NodeStatus.Running;
+            return NodeStatus.Running;
         }
 
         // 2回目以降の実行: タイムアウトをチェック
@@ -47,11 +47,11 @@ public class InvokeEventNode : BehaviorNode
         {
             // タイムアウト: 失敗として復帰
             blackboard.Remove(startTimeKey);
-            return LastStatus = NodeStatus.Failure;
+            return NodeStatus.Failure;
         }
 
         // TODO: 外部システムからの完了通知フラグをチェックするロジック
         
-        return LastStatus = NodeStatus.Running;
+        return NodeStatus.Running;
     }
 }

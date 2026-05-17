@@ -58,6 +58,16 @@ private:
         std::map<std::string, std::string> properties;
         bool isDecorator = false;
 
+        struct Module {
+            uint32_t id;
+            std::string className;
+            std::string name;
+            std::map<std::string, std::string> properties;
+            bool isService = false;
+        };
+        std::vector<Module> decorators;
+        std::vector<Module> services;
+
         Node(int _id, const std::string& _name, ImColor _color = ImColor(255, 255, 255))
             : id(_id), name(_name), color(_color) {}
     };
@@ -83,6 +93,11 @@ private:
         char sVal[128] = "";
     };
 
+    struct ModuleClassInfo {
+        std::string fullName;
+        bool isService = false;
+    };
+
     void InitializeEditor();
     void DrawNodeList();
     void DrawGraphEditor();
@@ -97,6 +112,7 @@ private:
 
     ONEngine::EntityComponentSystem* pEcs_;
     std::vector<ONEngine::MonoScriptEngine::NodeClassInfo> availableNodeClasses_;
+    std::vector<ModuleClassInfo> availableModuleClasses_;
     std::string m_CurrentFilePath = "Assets/AITrees/DefaultTree.json";
     
     ed::EditorContext* m_Editor = nullptr;

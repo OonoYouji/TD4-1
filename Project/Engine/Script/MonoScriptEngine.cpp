@@ -470,6 +470,41 @@ std::vector<MonoScriptEngine::FieldInfo> MonoScriptEngine::GetClassFields(const 
 	return fields;
 }
 
+std::vector<MonoScriptEngine::NodeClassInfo> MonoScriptEngine::GetBehaviorModuleClasses() {
+	std::vector<NodeClassInfo> moduleClasses;
+	if (!image_) return moduleClasses;
+
+	MonoClass* decoratorBase = mono_class_from_name(image_, "", "BehaviorDecorator");
+	MonoClass* serviceBase = mono_class_from_name(image_, "", "BehaviorService");
+	
+	const MonoTableInfo* tableInfo = mono_image_get_table_info(image_, MONO_TABLE_TYPEDEF);
+	int rows = mono_table_info_get_rows(tableInfo);
+
+	for (int i = 0; i < rows; i++) {
+		MonoClass* klass = mono_class_get(image_, (i + 1) | MONO_TOKEN_TYPE_DEF);
+		if (!klass) continue;
+
+		uint32_t flags = mono_class_get_flags(klass);
+		if (flags & (0x00000080 | 0x00000020)) continue;
+
+		bool isDecorator = decoratorBase && mono_class_is_subclass_of(klass, decoratorBase, false);
+		bool isService = serviceBase && mono_class_is_subclass_of(klass, serviceBase, false);
+
+		if (isDecorator || isService) {
+			const char* className = mono_class_get_name(klass);
+			const char* nameSpace = mono_class_get_namespace(klass);
+			
+			NodeClassInfo info;
+			info.fullName = (nameSpace && strlen(nameSpace) > 0) 
+				? std::string(nameSpace) + "." + className 
+				: std::string(className);
+			info.isDecorator = isDecorator; // true: Decorator, false: Service
+			moduleClasses.push_back(info);
+		}
+	}
+	return moduleClasses;
+}
+
 void MonoScriptEngine::UpdateAiIntents(void* data, int count, float deltaTime, const std::string& groupName) {
 	if (!updateAiIntentsMethod_) {
 		Console::LogWarning("AIUpdater.UpdateIntents method not found in C#.", LogCategory::ScriptEngine);

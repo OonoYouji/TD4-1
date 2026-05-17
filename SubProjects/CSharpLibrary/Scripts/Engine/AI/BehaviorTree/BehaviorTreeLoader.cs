@@ -69,42 +69,49 @@ public static class BehaviorTreeLoader
             if (className == "Entry")
             {
                 entryNodeId = id;
-                // Entry自体のピンをマップに登録
                 foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
                 continue;
             }
 
-            // リフレクションでクラスを生成
-            Type type = Type.GetType(className);
-            if (type == null)
-            {
-                // 名前空間なしで試行
-                type = Type.GetType(className + ", CSharpLibrary");
-            }
+            Type type = Type.GetType(className) ?? Type.GetType(className + ", CSharpLibrary");
 
             if (type != null)
             {
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
-                node.NodeIdHash = (uint)id; // エディタのIDをハッシュとして使用
+                node.NodeIdHash = (uint)id;
                 nodeInstances[id] = node;
 
-                // エディタで設定したプロパティを反映
-                if (n["properties"] is JObject props)
+                // ノード本体のプロパティ反映
+                ApplyProperties(type, node, n["properties"]);
+
+                // Decorators のロード
+                if (n["decorators"] is JArray decorators)
                 {
-                    foreach (var prop in props)
+                    foreach (var d in decorators)
                     {
-                        var field = type.GetField(prop.Key);
-                        if (field != null)
+                        string dClassName = (string)d["className"];
+                        Type dType = Type.GetType(dClassName) ?? Type.GetType(dClassName + ", CSharpLibrary");
+                        if (dType != null)
                         {
-                            try {
-                                JToken val = prop.Value;
-                                if (field.FieldType == typeof(float)) field.SetValue(node, val.Value<float>());
-                                else if (field.FieldType == typeof(int)) field.SetValue(node, val.Value<int>());
-                                else if (field.FieldType == typeof(bool)) field.SetValue(node, val.Value<bool>());
-                                else if (field.FieldType == typeof(string)) field.SetValue(node, val.Value<string>());
-                            } catch (Exception e) {
-                                Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {prop.Key} on {className}: {e.Message}");
-                            }
+                            var decorator = (BehaviorDecorator)Activator.CreateInstance(dType);
+                            ApplyProperties(dType, decorator, d["properties"]);
+                            node.AddDecorator(decorator);
+                        }
+                    }
+                }
+
+                // Services のロード
+                if (n["services"] is JArray services)
+                {
+                    foreach (var s in services)
+                    {
+                        string sClassName = (string)s["className"];
+                        Type sType = Type.GetType(sClassName) ?? Type.GetType(sClassName + ", CSharpLibrary");
+                        if (sType != null)
+                        {
+                            var service = (BehaviorService)Activator.CreateInstance(sType);
+                            ApplyProperties(sType, service, s["properties"]);
+                            node.AddService(service);
                         }
                     }
                 }
@@ -152,6 +159,29 @@ public static class BehaviorTreeLoader
         }
 
         return tree;
+    }
+
+    private static void ApplyProperties(Type type, object instance, JToken properties)
+    {
+        if (properties is JObject props)
+        {
+            foreach (var prop in props)
+            {
+                var field = type.GetField(prop.Key);
+                if (field != null)
+                {
+                    try {
+                        JToken val = prop.Value;
+                        if (field.FieldType == typeof(float)) field.SetValue(instance, val.Value<float>());
+                        else if (field.FieldType == typeof(int)) field.SetValue(instance, val.Value<int>());
+                        else if (field.FieldType == typeof(bool)) field.SetValue(instance, val.Value<bool>());
+                        else if (field.FieldType == typeof(string)) field.SetValue(instance, val.Value<string>());
+                    } catch (Exception e) {
+                        Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {prop.Key} on {type.Name}: {e.Message}");
+                    }
+                }
+            }
+        }
     }
 
     public static uint HashString(string str)
