@@ -66,11 +66,15 @@ private:
     void DrawNodeList();
     void DrawGraphEditor();
     
+    void SaveTree(const std::string& path);
+    void LoadTree(const std::string& path);
+    
     Node* CreateNode(const std::string& className);
     void CreateLink(ed::PinId startPin, ed::PinId endPin);
 
     ONEngine::EntityComponentSystem* pEcs_;
     std::vector<std::string> availableNodeClasses_;
+    std::string m_CurrentFilePath = "Assets/AITrees/DefaultTree.json";
     
     ed::EditorContext* m_Editor = nullptr;
     std::vector<Node> m_Nodes;

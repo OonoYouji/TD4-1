@@ -7,6 +7,8 @@ public abstract class CompositeNode : BehaviorNode
 {
     protected readonly List<BehaviorNode> children = new List<BehaviorNode>();
 
+    public CompositeNode() { }
+
     public CompositeNode(params BehaviorNode[] nodes)
     {
         children.AddRange(nodes);

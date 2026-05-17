@@ -40,12 +40,17 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
         // 将来的にはキャラクターコントローラーや物理演算を介すべき
         float speed = 5.0f; // 仮のスピード
         Vector3 velocity = intent->desiredMoveDirection.Normalize() * speed * Time::DeltaTime();
-        Vector3 newPos = owner->GetLocalPosition() + velocity;
+        Vector3 oldPos = owner->GetLocalPosition();
+        Vector3 newPos = oldPos + velocity;
         owner->SetPosition(newPos);
 
-        // ログを出力して動作を確認
-        if (owner->GetId() == 1) {
-            Console::Log("C++ MovementSystem: Entity 1 moved to (" + std::to_string(newPos.x) + ", " + std::to_string(newPos.y) + ", " + std::to_string(newPos.z) + ")", LogCategory::Engine);
+        // ログを出力して動作を確認 (Bossエンティティを想定)
+        if (owner->GetName().find("Boss") != std::string::npos || owner->GetId() == 1) {
+            Console::Log("C++ MovementSystem: Entity " + owner->GetName() + " moving. Dir: (" + 
+                std::to_string(intent->desiredMoveDirection.x) + ", " + 
+                std::to_string(intent->desiredMoveDirection.y) + ", " + 
+                std::to_string(intent->desiredMoveDirection.z) + "), Pos: (" + 
+                std::to_string(newPos.x) + ", " + std::to_string(newPos.y) + ", " + std::to_string(newPos.z) + ")", LogCategory::Engine);
         }
     }
 }

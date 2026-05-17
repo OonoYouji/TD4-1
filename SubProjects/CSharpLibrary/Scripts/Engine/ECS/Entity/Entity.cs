@@ -29,6 +29,12 @@ public class Entity {
 	/// methods
 	/// =========================================
 
+	public ECSGroup Group {
+		get {
+			return ecsGroup_;
+		}
+	}
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

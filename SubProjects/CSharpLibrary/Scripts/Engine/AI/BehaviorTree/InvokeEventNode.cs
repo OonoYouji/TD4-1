@@ -6,9 +6,11 @@ using System;
 /// </summary>
 public class InvokeEventNode : BehaviorNode
 {
-    public FrameEvent.Type EventType { get; set; }
+    public FrameEvent.Type EventType { get; set; } = FrameEvent.Type.TestEvent;
     public bool WaitUntilComplete { get; set; } = true;
     public float TimeoutSec { get; set; } = 5.0f; // 必須：永久停止防止のフェイルセーフ
+
+    public InvokeEventNode() { }
 
     public InvokeEventNode(FrameEvent.Type eventType, bool waitUntilComplete = true, float timeoutSec = 5.0f)
     {

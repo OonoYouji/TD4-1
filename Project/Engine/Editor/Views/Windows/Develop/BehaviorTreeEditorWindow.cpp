@@ -4,13 +4,18 @@
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/Core/Utility/Time/Time.h"
 #include <algorithm>
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <filesystem>
+
+using json = nlohmann::json;
 
 namespace Editor {
 
 BehaviorTreeEditorWindow::BehaviorTreeEditorWindow(ONEngine::EntityComponentSystem* ecs)
     : pEcs_(ecs) {
     ed::Config config;
-    config.SettingsFile = "BehaviorTreeEditor.json";
+    config.SettingsFile = "BehaviorTreeEditor_UI.json";
     m_Editor = ed::CreateEditor(&config);
 
     availableNodeClasses_ = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorNodeClasses();
@@ -28,15 +33,29 @@ void BehaviorTreeEditorWindow::ShowImGui() {
         return;
     }
 
-    if (availableNodeClasses_.empty()) {
-        availableNodeClasses_ = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorNodeClasses();
+    // ツールバー
+    if (ImGui::Button("Save")) {
+        SaveTree(m_CurrentFilePath);
     }
+    ImGui::SameLine();
+    if (ImGui::Button("Load")) {
+        LoadTree(m_CurrentFilePath);
+    }
+    ImGui::SameLine();
+    ImGui::PushItemWidth(300);
+    char pathBuf[256];
+    strncpy_s(pathBuf, m_CurrentFilePath.c_str(), sizeof(pathBuf));
+    if (ImGui::InputText("File Path", pathBuf, sizeof(pathBuf))) {
+        m_CurrentFilePath = pathBuf;
+    }
+    ImGui::PopItemWidth();
 
+    ImGui::SameLine();
     if (ImGui::Button("Refresh Nodes")) {
         availableNodeClasses_ = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorNodeClasses();
     }
     ImGui::SameLine();
-    ImGui::Text("Available Nodes: %d", (int)availableNodeClasses_.size());
+    ImGui::Text("Nodes: %d", (int)availableNodeClasses_.size());
 
     ImGui::Separator();
 
@@ -49,7 +68,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     ed::SetCurrentEditor(m_Editor);
     ed::Begin("BT_Graph_Editor", ImVec2(0, 0));
 
-    // Entryノードがなければ作成 (安定化のためIDを固定)
+    // Entryノードがなければ作成
     bool hasEntry = false;
     for (const auto& n : m_Nodes) {
         if (n.className == "Entry") {
@@ -67,10 +86,8 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     for (auto& node : m_Nodes) {
         ed::BeginNode(node.id);
         
-        // ヘッダー部分
         ImGui::PushID(node.id.AsPointer());
         
-        // タイトルの描画 (背景色は imgui-node-editor のスタイル設定に任せるか、簡易的に描画)
         ImGui::BeginGroup();
         ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "== %s ==", node.name.c_str());
         if (node.className != "Entry") {
@@ -80,7 +97,6 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         
         ImGui::Spacing();
 
-        // ピンレイアウト
         ImGui::BeginGroup();
         
         // Input Pins
@@ -118,7 +134,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         ed::Link(link.id, link.startPinId, link.endPinId, link.color, 2.0f);
     }
 
-    // 3. インタラクション処理 (リンク作成)
+    // 3. インタラクション処理
     if (ed::BeginCreate()) {
         ed::PinId inputPinId, outputPinId;
         if (ed::QueryNewLink(&inputPinId, &outputPinId)) {
@@ -131,7 +147,6 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     }
     ed::EndCreate();
 
-    // 4. 削除処理
     if (ed::BeginDelete()) {
         ed::LinkId linkId;
         while (ed::QueryDeletedLink(&linkId)) {
@@ -158,7 +173,6 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     }
     ed::EndDelete();
 
-    // 5. コンテキストメニュー
     ed::Suspend();
     if (ed::ShowBackgroundContextMenu()) {
         m_ContextNodePos = ed::ScreenToCanvas(ImGui::GetMousePos());
@@ -181,12 +195,10 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
 }
 
 BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::string& className) {
-    // 安定化のため直接構築
     m_Nodes.emplace_back(GetNextId(), className);
     Node* node = &m_Nodes.back();
     node->className = className;
 
-    // クラス名に基づいた色設定 (UE風の簡易版)
     if (className == "Entry") {
         node->color = ImColor(255, 128, 0);
     } else if (className.find("Sequence") != std::string::npos || className.find("Selector") != std::string::npos) {
@@ -195,7 +207,6 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
         node->color = ImColor(100, 40, 100);
     }
 
-    // ピンの初期化
     if (className != "Entry") {
         node->inputs.emplace_back(GetNextId(), "In", PinKind::Input);
         node->inputs.back().node = node;
@@ -213,6 +224,98 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
 
 void BehaviorTreeEditorWindow::CreateLink(ed::PinId startPin, ed::PinId endPin) {
     m_Links.emplace_back(GetNextId(), startPin, endPin);
+}
+
+void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
+    ed::SetCurrentEditor(m_Editor);
+    json data;
+    data["nodes"] = json::array();
+    for (const auto& node : m_Nodes) {
+        json n;
+        n["id"] = (uintptr_t)node.id.AsPointer();
+        n["className"] = node.className;
+        n["name"] = node.name;
+        ImVec2 pos = ed::GetNodePosition(node.id);
+        n["pos"] = { pos.x, pos.y };
+        n["inputs"] = json::array();
+        for (const auto& pin : node.inputs) {
+            n["inputs"].push_back({ {"id", (uintptr_t)pin.id.AsPointer()}, {"name", pin.name} });
+        }
+        n["outputs"] = json::array();
+        for (const auto& pin : node.outputs) {
+            n["outputs"].push_back({ {"id", (uintptr_t)pin.id.AsPointer()}, {"name", pin.name} });
+        }
+        data["nodes"].push_back(n);
+    }
+
+    data["links"] = json::array();
+    for (const auto& link : m_Links) {
+        json l;
+        l["id"] = (uintptr_t)link.id.AsPointer();
+        l["startPin"] = (uintptr_t)link.startPinId.AsPointer();
+        l["endPin"] = (uintptr_t)link.endPinId.AsPointer();
+        data["links"].push_back(l);
+    }
+
+    std::filesystem::path fsPath(path);
+    if (!std::filesystem::exists(fsPath.parent_path())) {
+        std::filesystem::create_directories(fsPath.parent_path());
+    }
+
+    std::ofstream file(path);
+    if (file.is_open()) {
+        file << data.dump(4);
+        ONEngine::Console::Log("BehaviorTreeEditor: Saved tree to " + path);
+    } else {
+        ONEngine::Console::LogError("BehaviorTreeEditor: Failed to save tree to " + path);
+    }
+    ed::SetCurrentEditor(nullptr);
+}
+
+void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
+    std::ifstream file(path);
+    if (!file.is_open()) return;
+
+    ed::SetCurrentEditor(m_Editor);
+    json data;
+    try { file >> data; } catch (...) { 
+        ed::SetCurrentEditor(nullptr);
+        return; 
+    }
+
+    m_Nodes.clear();
+    m_Links.clear();
+    m_NextId = 1;
+
+    std::map<uintptr_t, ed::PinId> pinIdMap;
+
+    for (const auto& n : data["nodes"]) {
+        std::string className = n["className"];
+        Node* node = CreateNode(className);
+        node->name = n["name"];
+        
+        if (n.contains("inputs") && n["inputs"].size() == node->inputs.size()) {
+            for (size_t i = 0; i < node->inputs.size(); ++i) {
+                pinIdMap[(uintptr_t)n["inputs"][i]["id"]] = node->inputs[i].id;
+            }
+        }
+        if (n.contains("outputs") && n["outputs"].size() == node->outputs.size()) {
+            for (size_t i = 0; i < node->outputs.size(); ++i) {
+                pinIdMap[(uintptr_t)n["outputs"][i]["id"]] = node->outputs[i].id;
+            }
+        }
+        ed::SetNodePosition(node->id, ImVec2(n["pos"][0], n["pos"][1]));
+    }
+
+    for (const auto& l : data["links"]) {
+        uintptr_t startId = l["startPin"];
+        uintptr_t endId = l["endPin"];
+        if (pinIdMap.count(startId) && pinIdMap.count(endId)) {
+            CreateLink(pinIdMap[startId], pinIdMap[endId]);
+        }
+    }
+    ONEngine::Console::Log("BehaviorTreeEditor: Loaded tree from " + path);
+    ed::SetCurrentEditor(nullptr);
 }
 
 }

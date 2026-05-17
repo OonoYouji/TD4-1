@@ -3,6 +3,7 @@
 /// </summary>
 public class Sequence : CompositeNode
 {
+    public Sequence() : base() { }
     public Sequence(params BehaviorNode[] nodes) : base(nodes) { }
 
     public override NodeStatus Execute(Blackboard blackboard, Entity owner)

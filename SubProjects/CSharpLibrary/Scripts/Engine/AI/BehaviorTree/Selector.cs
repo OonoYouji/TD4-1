@@ -3,6 +3,7 @@
 /// </summary>
 public class Selector : CompositeNode
 {
+    public Selector() : base() { }
     public Selector(params BehaviorNode[] nodes) : base(nodes) { }
 
     public override NodeStatus Execute(Blackboard blackboard, Entity owner)

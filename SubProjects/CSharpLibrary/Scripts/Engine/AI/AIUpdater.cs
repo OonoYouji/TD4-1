@@ -27,29 +27,22 @@ public static class AIUpdater {
                     continue;
                 }
 
-                // サンプル：ツリーがなければ作成（検証用）
-                if (component.behaviorTree == null) {
-                    var root = new Sequence(
-                        new MoveToPlayerNode(3.0f),
-                        new InvokeEventNode(FrameEvent.Type.TestEvent, true, 2.0f)
-                    );
-                    // 簡易的なハッシュ割り当て
-                    root.NodeIdHash = 1;
-                    ((CompositeNode)root).GetChildren()[0].NodeIdHash = 2;
-                    ((CompositeNode)root).GetChildren()[1].NodeIdHash = 3;
-
-                    component.InitBehaviorTree(root);
-                }
-
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
                     component.behaviorTree.Tick();
+                    
+                    // ツリーの実行結果（インテント）をネイティブデータに反映
+                    nativeData->desiredMoveDirection = component.desiredMoveDirection;
+                    nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
+                    nativeData->targetEntityId = component.targetEntityId;
+                } else {
+                    // ツリーがない場合は停止を意図する
+                    nativeData->desiredMoveDirection = Vector3.zero;
+                    nativeData->isAttacking = 0;
                 }
-
-                // ツリーの実行結果（インテント）をネイティブデータに反映
-                nativeData->desiredMoveDirection = component.desiredMoveDirection;
-                nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
-                nativeData->targetEntityId = component.targetEntityId;
+            } else {
+                // コンポーネントが見つからない場合も停止
+                nativeData->desiredMoveDirection = Vector3.zero;
             }
         }
     }
@@ -59,9 +52,13 @@ public static class AIUpdater {
         if (group == null) return;
 
         var array = group.componentCollection.GetArray<AgentIntentComponent>();
+        if (array == null) return;
+
         _componentCache.Clear();
         foreach (var comp in array.components) {
-            _componentCache[comp.compId] = comp;
+            if (comp != null) {
+                _componentCache[comp.compId] = comp;
+            }
         }
     }
 }

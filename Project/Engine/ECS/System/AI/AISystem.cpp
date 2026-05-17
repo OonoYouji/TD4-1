@@ -26,7 +26,8 @@ void AISystem::RuntimeUpdate(ECSGroup* _ecs) {
 
     // 1. Create a temporary vector for batch data. C# will write to this.
     // We only need to fill the IDs so C# knows which component is which.
-    std::vector<AgentIntentComponent::BatchData> batchData(usedComponents.size());
+    // Ensure all fields are zero-initialized to prevent garbage movement directions.
+    std::vector<AgentIntentComponent::BatchData> batchData(usedComponents.size(), { 0 });
     for (size_t i = 0; i < usedComponents.size(); ++i) {
         batchData[i].compId = usedComponents[i]->id;
     }

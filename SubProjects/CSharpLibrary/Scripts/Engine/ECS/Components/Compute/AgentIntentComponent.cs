@@ -34,4 +34,14 @@ public class AgentIntentComponent : Component {
         behaviorTree = new BehaviorTree(this.entity);
         behaviorTree.RootNode = root;
     }
+
+    /// <summary>
+    /// JSONファイルからビヘイビアツリーを読み込む
+    /// </summary>
+    public void LoadBehaviorTree(string path) {
+        behaviorTree = BehaviorTreeLoader.LoadFromFile(path, this.entity);
+        if (behaviorTree != null) {
+            Debug.Log($"AgentIntentComponent: Loaded AI tree from {path}");
+        }
+    }
 }
