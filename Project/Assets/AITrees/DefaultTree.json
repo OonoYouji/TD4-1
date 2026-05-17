@@ -4,55 +4,7 @@
             "bVal": false,
             "fVal": 0.0,
             "iVal": 0,
-            "key": "AAA",
-            "type": 1,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        },
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "V",
-            "type": 3,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        },
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "B",
-            "type": 0,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        },
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "A",
-            "type": 2,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        },
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "AAAAA",
+            "key": "TargetEntity",
             "type": 1,
             "vVal": [
                 0.0,
@@ -119,11 +71,11 @@
             "name": "MoveToPlayerNode",
             "outputs": [],
             "pos": [
-                348.0,
-                194.0
+                340.0,
+                206.0
             ],
             "properties": {
-                "stopDistance": ""
+                "stopDistance": "12.000000"
             }
         }
     ]

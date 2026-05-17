@@ -53,8 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Engine\AI\Attribute\BlackboardKeyAttribute.cs" />
+    <Compile Include="Scripts\Engine\AI\Attribute\DecoratorAttribute.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\BehaviorTree.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\BehaviorTreeLoader.cs" />
+    <Compile Include="Scripts\Engine\AI\BehaviorTree\CheckDistanceNode.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\MoveToPlayerNode.cs" />
     <Compile Include="Scripts\Engine\ECS\Components\Renderer\DissolveMeshRenderer.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />

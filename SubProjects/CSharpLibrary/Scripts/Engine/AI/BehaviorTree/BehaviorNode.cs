@@ -11,6 +11,11 @@ public abstract class BehaviorNode
     public uint NodeIdHash { get; set; }
 
     /// <summary>
+    /// 直近の実行状態。デバッグビジュアライザーで使用される。
+    /// </summary>
+    public NodeStatus LastStatus { get; protected set; } = NodeStatus.Failure;
+
+    /// <summary>
     /// ノードのロジックを実行する。
     /// </summary>
     public abstract NodeStatus Execute(Blackboard blackboard, Entity owner);

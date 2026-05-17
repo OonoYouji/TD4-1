@@ -9,6 +9,9 @@
 // imgui-node-editor
 #include <imgui-node-editor/imgui_node_editor.h>
 
+// engine
+#include "Engine/Script/MonoScriptEngine.h"
+
 namespace ONEngine {
     class EntityComponentSystem;
 }
@@ -23,6 +26,11 @@ public:
     ~BehaviorTreeEditorWindow() override;
 
     void ShowImGui() override;
+
+    // 実行状態の更新（C#から呼ばれる）
+    void UpdateNodeStatus(uint32_t nodeIdHash, int status);
+
+    static BehaviorTreeEditorWindow* s_Instance;
 
 private:
     enum class PinKind { Input, Output };
@@ -48,6 +56,7 @@ private:
         ImColor color;
         ImVec2 size;
         std::map<std::string, std::string> properties;
+        bool isDecorator = false;
 
         Node(int _id, const std::string& _name, ImColor _color = ImColor(255, 255, 255))
             : id(_id), name(_name), color(_color) {}
@@ -82,17 +91,18 @@ private:
     void SaveTree(const std::string& path);
     void LoadTree(const std::string& path);
     
-    Node* CreateNode(const std::string& className);
+    Node* CreateNode(const std::string& className, bool isDecorator = false);
     void CreateLink(ed::PinId startPin, ed::PinId endPin);
 
     ONEngine::EntityComponentSystem* pEcs_;
-    std::vector<std::string> availableNodeClasses_;
+    std::vector<ONEngine::MonoScriptEngine::NodeClassInfo> availableNodeClasses_;
     std::string m_CurrentFilePath = "Assets/AITrees/DefaultTree.json";
     
     ed::EditorContext* m_Editor = nullptr;
     std::vector<Node> m_Nodes;
     std::vector<Link> m_Links;
     std::vector<BBVariable> m_BBVariables;
+    std::map<uint32_t, int> m_RuntimeNodeStatuses;
     ed::NodeId m_SelectedNodeId = 0;
     ImVec2 m_ContextNodePos;
     int m_NextId = 1;

@@ -30,12 +30,16 @@ public static class AIUpdater {
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
                     component.behaviorTree.Tick();
-                    
+
+                    // エディタ用：実行状態を同期
+                    component.behaviorTree.GetAllNodeStatuses(new Dictionary<uint, NodeStatus>());
+
                     // ツリーの実行結果（インテント）をネイティブデータに反映
                     nativeData->desiredMoveDirection = component.desiredMoveDirection;
                     nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
                     nativeData->targetEntityId = component.targetEntityId;
-                } else {
+                }
+ else {
                     // ツリーがない場合は停止を意図する
                     nativeData->desiredMoveDirection = Vector3.zero;
                     nativeData->isAttacking = 0;

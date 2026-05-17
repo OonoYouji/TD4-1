@@ -16,6 +16,10 @@ AITab::AITab(
 	EditorManager* _editorManager, SceneManager* _sceneManager)
 	: IEditorWindowContainer("AI") {
 
+	(void)_dxm;
+	(void)_editorManager;
+	(void)_sceneManager;
+
 	/// BehaviorTreeEditorWindowを追加
 	AddView(std::make_unique<BehaviorTreeEditorWindow>(_ecs));
 }

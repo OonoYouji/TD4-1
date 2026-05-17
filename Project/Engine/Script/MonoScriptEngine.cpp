@@ -371,8 +371,8 @@ bool MonoScriptEngine::GetIsHotReloadRequest() const {
 	return isHotReloadRequest_;
 }
 
-std::vector<std::string> MonoScriptEngine::GetBehaviorNodeClasses() {
-	std::vector<std::string> nodeClasses;
+std::vector<MonoScriptEngine::NodeClassInfo> MonoScriptEngine::GetBehaviorNodeClasses() {
+	std::vector<NodeClassInfo> nodeClasses;
 	if (!image_) return nodeClasses;
 
 	MonoClass* baseClass = mono_class_from_name(image_, "", "BehaviorNode");
@@ -380,6 +380,8 @@ std::vector<std::string> MonoScriptEngine::GetBehaviorNodeClasses() {
 		Console::LogError("BehaviorNode class not found in C# assembly.", LogCategory::ScriptEngine);
 		return nodeClasses;
 	}
+
+	MonoClass* decoratorAttrClass = mono_class_from_name(image_, "", "DecoratorAttribute");
 
 	const MonoTableInfo* tableInfo = mono_image_get_table_info(image_, MONO_TABLE_TYPEDEF);
 	int rows = mono_table_info_get_rows(tableInfo);
@@ -398,11 +400,23 @@ std::vector<std::string> MonoScriptEngine::GetBehaviorNodeClasses() {
 			const char* className = mono_class_get_name(klass);
 			const char* nameSpace = mono_class_get_namespace(klass);
 			
-			std::string fullName = (nameSpace && strlen(nameSpace) > 0) 
+			NodeClassInfo info;
+			info.fullName = (nameSpace && strlen(nameSpace) > 0) 
 				? std::string(nameSpace) + "." + className 
 				: std::string(className);
 			
-			nodeClasses.push_back(fullName);
+			// Decorator属性のチェック
+			if (decoratorAttrClass) {
+				MonoCustomAttrInfo* attrs = mono_custom_attrs_from_class(klass);
+				if (attrs) {
+					if (mono_custom_attrs_has_attr(attrs, decoratorAttrClass)) {
+						info.isDecorator = true;
+					}
+					mono_custom_attrs_free(attrs);
+				}
+			}
+
+			nodeClasses.push_back(info);
 		}
 	}
 
@@ -439,6 +453,16 @@ std::vector<MonoScriptEngine::FieldInfo> MonoScriptEngine::GetClassFields(const 
 		char* typeName = mono_type_get_name(type);
 		info.typeName = typeName;
 		mono_free(typeName);
+
+		// 属性のチェック (BlackboardKeyAttribute)
+		MonoCustomAttrInfo* attrs = mono_custom_attrs_from_field(klass, field);
+		if (attrs) {
+			MonoClass* attrClass = mono_class_from_name(image_, "", "BlackboardKeyAttribute");
+			if (attrClass && mono_custom_attrs_has_attr(attrs, attrClass)) {
+				info.isBBKey = true;
+			}
+			mono_custom_attrs_free(attrs);
+		}
 
 		fields.push_back(info);
 	}

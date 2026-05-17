@@ -99,7 +99,10 @@ void ONEngine::AddEntityInternalCalls() {
 	mono_add_internal_call("ECSGroup::InternalCreateEntity", (void*)InternalCreateEntity);
 	mono_add_internal_call("ECSGroup::InternalDestroyEntity", (void*)InternalDestroyEntity);
 
-}
+	// AI Debug
+	mono_add_internal_call("BehaviorTree::Internal_UpdateNodeStatus", (void*)Internal_UpdateNodeStatus);
+	}
+
 
 void ONEngine::AddInputInternalCalls() {
 	mono_add_internal_call("Input::InternalTriggerKey", (void*)Input::TriggerKey);

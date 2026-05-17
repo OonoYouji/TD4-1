@@ -31,12 +31,12 @@ public class InvokeEventNode : BehaviorNode
             
             if (!waitUntilComplete)
             {
-                return NodeStatus.Success;
+                return LastStatus = NodeStatus.Success;
             }
 
             // 開始時刻を保存してRunning開始
             blackboard.SetFloat(startTimeKey, Time.time);
-            return NodeStatus.Running;
+            return LastStatus = NodeStatus.Running;
         }
 
         // 2回目以降の実行: タイムアウトをチェック
@@ -45,14 +45,13 @@ public class InvokeEventNode : BehaviorNode
 
         if (elapsed >= timeoutSec)
         {
-            // タイムアウト: 失敗として復帰（永久停止防止）
+            // タイムアウト: 失敗として復帰
             blackboard.Remove(startTimeKey);
-            return NodeStatus.Failure;
+            return LastStatus = NodeStatus.Failure;
         }
 
-        // TODO: 外部システム（StageSystem等）からの完了通知フラグをチェックするロジックをここに追加
-        // 現時点では、InvokeEventNode自体が時間経過を待つ仕様として動作
+        // TODO: 外部システムからの完了通知フラグをチェックするロジック
         
-        return NodeStatus.Running;
+        return LastStatus = NodeStatus.Running;
     }
 }

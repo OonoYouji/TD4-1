@@ -44,7 +44,7 @@ public class MoveToPlayerNode : BehaviorNode
             {
                 intent.desiredMoveDirection = Vector3.zero;
             }
-            return NodeStatus.Success;
+            return LastStatus = NodeStatus.Success;
         }
 
         // 移動方向を設定
@@ -56,7 +56,8 @@ public class MoveToPlayerNode : BehaviorNode
             Debug.Log($"MoveToPlayerNode: SET INTENT DIRECTION: {aiIntent.desiredMoveDirection}");
         }
 
-        return NodeStatus.Running;
+        return LastStatus = NodeStatus.Running;
+
     }
 
 

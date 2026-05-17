@@ -86,21 +86,21 @@ public static class BehaviorTreeLoader
                 nodeInstances[id] = node;
 
                 // エディタで設定したプロパティを反映
-                if (n["properties"] != null)
+                if (n["properties"] is JObject props)
                 {
-                    foreach (JProperty prop in n["properties"])
+                    foreach (var prop in props)
                     {
-                        var field = type.GetField(prop.Name);
+                        var field = type.GetField(prop.Key);
                         if (field != null)
                         {
-                            string valStr = prop.Value.ToString();
                             try {
-                                if (field.FieldType == typeof(float)) field.SetValue(node, float.Parse(valStr));
-                                else if (field.FieldType == typeof(int)) field.SetValue(node, int.Parse(valStr));
-                                else if (field.FieldType == typeof(bool)) field.SetValue(node, valStr == "true");
-                                else if (field.FieldType == typeof(string)) field.SetValue(node, valStr);
+                                JToken val = prop.Value;
+                                if (field.FieldType == typeof(float)) field.SetValue(node, val.Value<float>());
+                                else if (field.FieldType == typeof(int)) field.SetValue(node, val.Value<int>());
+                                else if (field.FieldType == typeof(bool)) field.SetValue(node, val.Value<bool>());
+                                else if (field.FieldType == typeof(string)) field.SetValue(node, val.Value<string>());
                             } catch (Exception e) {
-                                Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {prop.Name} on {className}: {e.Message}");
+                                Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {prop.Key} on {className}: {e.Message}");
                             }
                         }
                     }
@@ -151,7 +151,7 @@ public static class BehaviorTreeLoader
         return tree;
     }
 
-    private static uint HashString(string str)
+    public static uint HashString(string str)
     {
         if (string.IsNullOrEmpty(str)) return 0;
         uint hash = 2166136261;

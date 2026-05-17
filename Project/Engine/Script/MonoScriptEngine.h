@@ -84,12 +84,17 @@ public:
 	
 	void UpdateAiIntents(void* data, int count, float deltaTime, const std::string& groupName);
 
-	/// @brief BehaviorNodeを継承する全クラス名を取得する
-	std::vector<std::string> GetBehaviorNodeClasses();
+	struct NodeClassInfo {
+		std::string fullName;
+		bool isDecorator = false;
+	};
+	/// @brief BehaviorNodeを継承する全クラス情報を取得する
+	std::vector<NodeClassInfo> GetBehaviorNodeClasses();
 
 	struct FieldInfo {
 		std::string name;
 		std::string typeName;
+		bool isBBKey = false;
 	};
 	/// @brief 指定したクラスの公開フィールド情報を取得する
 	std::vector<FieldInfo> GetClassFields(const std::string& className);

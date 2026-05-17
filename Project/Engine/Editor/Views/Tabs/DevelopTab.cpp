@@ -14,6 +14,7 @@
 #include "../Windows/Develop/HierarchyWindow.h"
 #include "../Windows/Develop/ConsoleWindow.h"
 #include "../Windows/Develop/TexturePreviewWindow.h"
+#include "../Windows/Develop/BehaviorTreeEditorWindow.h"
 
 using namespace ONEngine;
 using namespace Editor;
@@ -33,4 +34,5 @@ DevelopTab::DevelopTab(
 	AddView(std::make_unique<DebugSceneView>(_ecs, _assetCollection, _sceneManager, inspector));
 	AddView(std::make_unique<ConsoleWindow>());
 	AddView(std::make_unique<TexturePreviewWindow>(_assetCollection));
+	AddView(std::make_unique<BehaviorTreeEditorWindow>(_ecs));
 }

@@ -19,11 +19,11 @@ public class Selector : CompositeNode
                 case NodeStatus.Success:
                     // 成功時は状態をクリアしてSuccess
                     blackboard.Remove(NodeIdHash);
-                    return NodeStatus.Success;
+                    return LastStatus = NodeStatus.Success;
                 case NodeStatus.Running:
                     // 継続時は現在のインデックスを保存してRunning
                     blackboard.SetInt(NodeIdHash, i);
-                    return NodeStatus.Running;
+                    return LastStatus = NodeStatus.Running;
                 case NodeStatus.Failure:
                     // 失敗時は次のノードへ
                     continue;
@@ -32,7 +32,7 @@ public class Selector : CompositeNode
 
         // 全て失敗したら状態をクリアしてFailure
         blackboard.Remove(NodeIdHash);
-        return NodeStatus.Failure;
+        return LastStatus = NodeStatus.Failure;
     }
 }
 

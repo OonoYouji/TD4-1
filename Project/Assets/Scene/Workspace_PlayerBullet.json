@@ -45,7 +45,7 @@
                 }
             ],
             "guid": "bca19a51168a1448842c350f5d800808",
-            "id": 4,
+            "id": 1,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -94,7 +94,7 @@
                 }
             ],
             "guid": "1fa07280b44ba0603e9fb3c8886e5140",
-            "id": 3,
+            "id": 2,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -176,7 +176,7 @@
                 }
             ],
             "guid": "d4c69b1e432e54d26f80995d798b0ea2",
-            "id": 1,
+            "id": 3,
             "name": "Boss",
             "parent": null,
             "prefabName": ""
@@ -237,7 +237,7 @@
                 }
             ],
             "guid": "e71959344d99f7272a984b3ac6c0504b",
-            "id": 2,
+            "id": 4,
             "name": "Player",
             "parent": null,
             "prefabName": ""

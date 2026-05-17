@@ -13,6 +13,7 @@ using namespace ONEngine;
 #include "AddECSSystemFunction.h"
 #include "AddECSComponentFactoryFunction.h"
 #include "ComponentApplyFunc.h"
+#include "Engine/Editor/Views/Windows/Develop/BehaviorTreeEditorWindow.h"
 
 namespace {
 ECSGroup* gGameGroup = nullptr;
@@ -545,4 +546,10 @@ void ONEngine::MonoInternalMethods::InternalGetBatch(MonoReflectionType* _typeRe
 	}
 
 	mono_free(cstr);
+}
+
+void ONEngine::MonoInternalMethods::Internal_UpdateNodeStatus(uint32_t nodeIdHash, int status) {
+	if (Editor::BehaviorTreeEditorWindow::s_Instance) {
+		Editor::BehaviorTreeEditorWindow::s_Instance->UpdateNodeStatus(nodeIdHash, status);
+	}
 }

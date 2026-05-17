@@ -19,11 +19,11 @@ public class Sequence : CompositeNode
                 case NodeStatus.Failure:
                     // 失敗時は状態をクリアしてFailure
                     blackboard.Remove(NodeIdHash);
-                    return NodeStatus.Failure;
+                    return LastStatus = NodeStatus.Failure;
                 case NodeStatus.Running:
                     // 継続時は現在のインデックスを保存してRunning
                     blackboard.SetInt(NodeIdHash, i);
-                    return NodeStatus.Running;
+                    return LastStatus = NodeStatus.Running;
                 case NodeStatus.Success:
                     // 成功時は次のノードへ
                     continue;
@@ -32,6 +32,6 @@ public class Sequence : CompositeNode
 
         // 全て成功したら状態をクリアしてSuccess
         blackboard.Remove(NodeIdHash);
-        return NodeStatus.Success;
+        return LastStatus = NodeStatus.Success;
     }
 }
