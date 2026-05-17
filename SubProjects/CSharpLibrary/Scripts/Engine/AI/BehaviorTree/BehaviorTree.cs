@@ -12,6 +12,7 @@ public class BehaviorTree
     public Entity Owner { get; }
 
     private bool _reevaluateRequest = false;
+    private readonly Dictionary<uint, List<BehaviorDecorator>> _monitoredDecorators = new Dictionary<uint, List<BehaviorDecorator>>();
 
     public BehaviorTree(Entity owner)
     {
@@ -19,11 +20,44 @@ public class BehaviorTree
         Blackboard.OnValueChanged += HandleBlackboardChanged;
     }
 
+    /// <summary>
+    /// ツリー構造が決定した後に、Decoratorの監視を初期化する
+    /// </summary>
+    public void InitializeMonitoring()
+    {
+        _monitoredDecorators.Clear();
+        if (RootNode == null) return;
+        RegisterMonitoringRecursive(RootNode);
+    }
+
+    private void RegisterMonitoringRecursive(BehaviorNode node)
+    {
+        foreach (var decorator in node.Decorators)
+        {
+            if (decorator.AbortPolicy != ObserverAbortPolicy.None)
+            {
+                uint key = decorator.GetMonitoredKey();
+                if (key != 0)
+                {
+                    if (!_monitoredDecorators.ContainsKey(key)) _monitoredDecorators[key] = new List<BehaviorDecorator>();
+                    _monitoredDecorators[key].Add(decorator);
+                }
+            }
+        }
+
+        if (node is CompositeNode composite)
+        {
+            foreach (var child in composite.GetChildren()) RegisterMonitoringRecursive(child);
+        }
+    }
+
     private void HandleBlackboardChanged(uint keyHash)
     {
-        // 本来はここで「どのデコレーターがこのキーを監視しているか」をチェックすべきだが、
-        // 簡略化のため、値が変わったら次のTickで必ずRootからの評価をやり直すフラグを立てる
-        _reevaluateRequest = true;
+        // 監視中のキーが変わったかチェック
+        if (_monitoredDecorators.ContainsKey(keyHash))
+        {
+            _reevaluateRequest = true;
+        }
     }
 
     public void Tick()

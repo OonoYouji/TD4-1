@@ -6,11 +6,17 @@ using System;
 public abstract class BehaviorDecorator
 {
     public uint NodeIdHash { get; set; }
+    public ObserverAbortPolicy AbortPolicy { get; set; } = ObserverAbortPolicy.None;
 
     /// <summary>
     /// 条件を満たしているかチェックする
     /// </summary>
     public abstract bool CalculateCondition(Blackboard blackboard, Entity owner);
+
+    /// <summary>
+    /// 監視対象のBlackboardキーを取得する（継承先で実装）
+    /// </summary>
+    public virtual uint GetMonitoredKey() => 0;
 }
 
 /// <summary>

@@ -5,12 +5,16 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <deque>
 
 // imgui-node-editor
 #include <imgui-node-editor/imgui_node_editor.h>
 
 // engine
 #include "Engine/Script/MonoScriptEngine.h"
+
+// external
+#include <nlohmann/json.hpp>
 
 namespace ONEngine {
     class EntityComponentSystem;
@@ -106,6 +110,18 @@ private:
     
     void SaveTree(const std::string& path);
     void LoadTree(const std::string& path);
+
+    // Undo/Redo support
+    nlohmann::json GetTreeAsJson();
+    void ApplyTreeFromJson(const nlohmann::json& data);
+    void RecordUndo();
+    void Undo();
+    void Redo();
+
+    // Productivity features
+    void CopySelectedNodes();
+    void PasteNodes();
+    void DuplicateSelectedNodes();
     
     Node* CreateNode(const std::string& className, bool isDecorator = false);
     void CreateLink(ed::PinId startPin, ed::PinId endPin);
@@ -120,6 +136,13 @@ private:
     std::vector<Link> m_Links;
     std::vector<BBVariable> m_BBVariables;
     std::map<uint32_t, int> m_RuntimeNodeStatuses;
+
+    std::deque<nlohmann::json> m_UndoStack;
+    std::deque<nlohmann::json> m_RedoStack;
+    const size_t m_MaxUndoSteps = 50;
+
+    std::string m_Clipboard;
+
     ed::NodeId m_SelectedNodeId = 0;
     ImVec2 m_ContextNodePos;
     int m_NextId = 1;

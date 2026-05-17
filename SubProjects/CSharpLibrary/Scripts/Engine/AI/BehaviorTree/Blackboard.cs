@@ -62,6 +62,20 @@ public class Blackboard
         return null;
     }
 
+    /// <summary>
+    /// 指定したキーの値をobject型として取得する（型が不明な場合やデバッグ用）
+    /// </summary>
+    public object GetValueAsObject(uint key)
+    {
+        if (_intData.TryGetValue(key, out var i)) return i;
+        if (_floatData.TryGetValue(key, out var f)) return f;
+        if (_boolData.TryGetValue(key, out var b)) return b;
+        if (_vector3Data.TryGetValue(key, out var v)) return v;
+        if (_stringData.TryGetValue(key, out var s)) return s;
+        if (_objectData.TryGetValue(key, out var o)) return o;
+        return null;
+    }
+
     public bool HasKey(uint key)
     {
         return _intData.ContainsKey(key) || _floatData.ContainsKey(key) || 

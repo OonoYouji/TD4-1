@@ -158,6 +158,9 @@ public static class BehaviorTreeLoader
             Debug.LogWarning("BehaviorTreeLoader: Loaded tree has no root connected to ENTRY.");
         }
 
+        // 監視ロジックの初期化
+        tree.InitializeMonitoring();
+
         return tree;
     }
 

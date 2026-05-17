@@ -12,23 +12,36 @@
                 0.0,
                 0.0
             ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "IsPlayerDetected",
+            "sVal": "",
+            "type": 2,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     ],
     "links": [
         {
-            "endPin": 10,
+            "endPin": 4,
             "id": 12,
             "startPin": 2
         },
         {
             "endPin": 8,
             "id": 13,
-            "startPin": 11
+            "startPin": 5
         },
         {
-            "endPin": 6,
+            "endPin": 11,
             "id": 14,
-            "startPin": 11
+            "startPin": 5
         }
     ],
     "nodes": [
@@ -53,7 +66,7 @@
             "services": []
         },
         {
-            "className": "InvokeEventNode",
+            "className": "Sequence",
             "decorators": [],
             "id": 3,
             "inputs": [
@@ -63,50 +76,38 @@
                 }
             ],
             "isDecorator": false,
-            "name": "InvokeEventNode",
-            "outputs": [],
-            "pos": [
-                52.0,
-                462.0
+            "name": "Sequence",
+            "outputs": [
+                {
+                    "id": 5,
+                    "name": "Out"
+                }
             ],
-            "properties": {
-                "eventType": "",
-                "timeoutSec": "",
-                "waitUntilComplete": ""
-            },
-            "services": []
+            "pos": [
+                113.0,
+                260.0
+            ],
+            "properties": {},
+            "services": [
+                {
+                    "className": "SensingService",
+                    "name": "SensingService",
+                    "properties": {
+                        "detectionRange": "32.000000",
+                        "resultBoolKey": "IsPlayerDetected",
+                        "targetNameKey": "TargetEntity"
+                    }
+                }
+            ]
         },
         {
             "className": "MoveToPlayerNode",
-            "decorators": [],
-            "id": 5,
-            "inputs": [
-                {
-                    "id": 6,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "MoveToPlayerNode",
-            "outputs": [],
-            "pos": [
-                324.0,
-                414.0
-            ],
-            "properties": {
-                "stopDistance": "12.000000"
-            },
-            "services": []
-        },
-        {
-            "className": "CheckDistanceNode",
             "decorators": [
                 {
                     "className": "BlackboardDecorator",
                     "name": "BlackboardDecorator",
                     "properties": {
-                        "abortPolicy": "",
-                        "keyName": "TargetEntity"
+                        "keyName": "IsPlayerDetected"
                     }
                 }
             ],
@@ -117,42 +118,16 @@
                     "name": "In"
                 }
             ],
-            "isDecorator": true,
-            "name": "CheckDistanceNode",
+            "isDecorator": false,
+            "name": "MoveToPlayerNode",
             "outputs": [],
             "pos": [
-                324.0,
-                276.0
+                292.0,
+                270.0
             ],
             "properties": {
-                "checkDistance": "32.000000",
-                "targetEntityNameKey": "TargetEntity"
+                "stopDistance": "12.000000"
             },
-            "services": []
-        },
-        {
-            "className": "Sequence",
-            "decorators": [],
-            "id": 9,
-            "inputs": [
-                {
-                    "id": 10,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Sequence",
-            "outputs": [
-                {
-                    "id": 11,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                100.0,
-                254.0
-            ],
-            "properties": {},
             "services": []
         }
     ]
