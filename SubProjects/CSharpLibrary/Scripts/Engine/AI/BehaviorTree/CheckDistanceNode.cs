@@ -7,7 +7,7 @@ using System;
 public class CheckDistanceNode : BehaviorNode
 {
     [BlackboardKey]
-    public string targetEntityIdKey = "TargetId";
+    public string targetEntityNameKey = "TargetName";
 
     public float checkDistance = 5.0f;
 
@@ -15,12 +15,12 @@ public class CheckDistanceNode : BehaviorNode
 
     public override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        uint key = BehaviorTreeLoader.HashString(targetEntityIdKey);
+        uint key = BehaviorTreeLoader.HashString(targetEntityNameKey);
         if (!blackboard.HasKey(key)) return NodeStatus.Failure;
 
-        int targetId = blackboard.GetInt(key);
+        string targetName = blackboard.GetString(key);
         // Entityを検索
-        Entity target = owner.Group.GetEntity(targetId);
+        Entity target = owner.Group.FindEntity(targetName);
         if (target == null) return NodeStatus.Failure;
 
         float dist = Vector3.Distance(owner.transform.position, target.transform.position);

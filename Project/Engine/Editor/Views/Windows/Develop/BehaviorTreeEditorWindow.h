@@ -72,7 +72,7 @@ private:
             : id(_id), startPinId(_start), endPinId(_end), color(255, 255, 255) {}
     };
 
-    enum class BBVarType { Int, Float, Bool, Vector3 };
+    enum class BBVarType { Int, Float, Bool, Vector3, String };
     struct BBVariable {
         std::string key;
         BBVarType type = BBVarType::Float;
@@ -80,6 +80,7 @@ private:
         float fVal = 0.0f;
         bool bVal = false;
         float vVal[3] = { 0,0,0 };
+        char sVal[128] = "";
     };
 
     void InitializeEditor();

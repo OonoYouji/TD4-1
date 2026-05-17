@@ -43,13 +43,6 @@
                         }
                     ],
                     "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "type": "AgentIntentComponent",
-                    "desiredMoveDirection": {"x": 0.0, "y": 0.0, "z": 0.0},
-                    "isAttacking": false,
-                    "targetEntityId": 0
                 }
             ],
             "id": 1,

@@ -49,6 +49,9 @@ public static class BehaviorTreeLoader
                         var va = v["vVal"];
                         tree.Blackboard.SetVector3(keyHash, new Vector3((float)va[0], (float)va[1], (float)va[2]));
                         break;
+                    case 4: // String
+                        tree.Blackboard.SetString(keyHash, (string)v["sVal"]);
+                        break;
                 }
             }
         }

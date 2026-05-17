@@ -93,7 +93,7 @@ void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
         if (ImGui::InputText("##Key", keyBuf, sizeof(keyBuf))) var.key = keyBuf;
         ImGui::PopItemWidth();
         ImGui::SameLine();
-        const char* typeNames[] = { "Int", "Float", "Bool", "Vec3" };
+        const char* typeNames[] = { "Int", "Float", "Bool", "Vec3", "String" };
         int typeIdx = static_cast<int>(var.type);
         ImGui::PushItemWidth(70);
         if (ImGui::Combo("##Type", &typeIdx, typeNames, IM_ARRAYSIZE(typeNames))) var.type = static_cast<BBVarType>(typeIdx);
@@ -104,6 +104,7 @@ void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
         case BBVarType::Float: ImGui::InputFloat("Value", &var.fVal); break;
         case BBVarType::Bool: ImGui::Checkbox("Value", &var.bVal); break;
         case BBVarType::Vector3: ImGui::DragFloat3("Value", var.vVal, 0.1f); break;
+        case BBVarType::String: ImGui::InputText("Value", var.sVal, sizeof(var.sVal)); break;
         }
         ImGui::Unindent(20.0f);
         ImGui::Separator();

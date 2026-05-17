@@ -11,6 +11,7 @@ public class Blackboard
     private readonly Dictionary<uint, float> _floatData = new Dictionary<uint, float>();
     private readonly Dictionary<uint, bool> _boolData = new Dictionary<uint, bool>();
     private readonly Dictionary<uint, Vector3> _vector3Data = new Dictionary<uint, Vector3>();
+    private readonly Dictionary<uint, string> _stringData = new Dictionary<uint, string>();
     private readonly Dictionary<uint, object> _objectData = new Dictionary<uint, object>();
 
     public void SetInt(uint key, int value) => _intData[key] = value;
@@ -25,6 +26,9 @@ public class Blackboard
     public void SetVector3(uint key, Vector3 value) => _vector3Data[key] = value;
     public Vector3 GetVector3(uint key) => _vector3Data.TryGetValue(key, out var val) ? val : Vector3.zero;
 
+    public void SetString(uint key, string value) => _stringData[key] = value;
+    public string GetString(uint key, string defaultValue = "") => _stringData.TryGetValue(key, out var val) ? val : defaultValue;
+
     public void SetObject(uint key, object value) => _objectData[key] = value;
     public T GetObject<T>(uint key) where T : class
     {
@@ -36,7 +40,7 @@ public class Blackboard
     {
         return _intData.ContainsKey(key) || _floatData.ContainsKey(key) || 
                _boolData.ContainsKey(key) || _vector3Data.ContainsKey(key) || 
-               _objectData.ContainsKey(key);
+               _stringData.ContainsKey(key) || _objectData.ContainsKey(key);
     }
 
     public void Remove(uint key)
@@ -45,6 +49,7 @@ public class Blackboard
         _floatData.Remove(key);
         _boolData.Remove(key);
         _vector3Data.Remove(key);
+        _stringData.Remove(key);
         _objectData.Remove(key);
     }
 
@@ -54,6 +59,7 @@ public class Blackboard
         _floatData.Clear();
         _boolData.Clear();
         _vector3Data.Clear();
+        _stringData.Clear();
         _objectData.Clear();
     }
 }

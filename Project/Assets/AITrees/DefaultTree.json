@@ -5,7 +5,7 @@
             "fVal": 0.0,
             "iVal": 0,
             "key": "TargetEntity",
-            "type": 1,
+            "type": 4,
             "vVal": [
                 0.0,
                 0.0,
@@ -15,9 +15,44 @@
     ],
     "links": [
         {
-            "endPin": 6,
-            "id": 7,
+            "endPin": 9,
+            "id": 13,
+            "startPin": 12
+        },
+        {
+            "endPin": 11,
+            "id": 14,
             "startPin": 2
+        },
+        {
+            "endPin": 16,
+            "id": 18,
+            "startPin": 2
+        },
+        {
+            "endPin": 9,
+            "id": 19,
+            "startPin": 17
+        },
+        {
+            "endPin": 6,
+            "id": 20,
+            "startPin": 17
+        },
+        {
+            "endPin": 22,
+            "id": 24,
+            "startPin": 2
+        },
+        {
+            "endPin": 9,
+            "id": 25,
+            "startPin": 23
+        },
+        {
+            "endPin": 6,
+            "id": 26,
+            "startPin": 23
         }
     ],
     "nodes": [
@@ -25,6 +60,7 @@
             "className": "Entry",
             "id": 1,
             "inputs": [],
+            "isDecorator": false,
             "name": "ROOT ENTRY",
             "outputs": [
                 {
@@ -33,8 +69,8 @@
                 }
             ],
             "pos": [
-                50.0,
-                250.0
+                -79.0,
+                266.0
             ],
             "properties": {}
         },
@@ -47,11 +83,12 @@
                     "name": "In"
                 }
             ],
+            "isDecorator": false,
             "name": "InvokeEventNode",
             "outputs": [],
             "pos": [
-                260.0,
-                366.0
+                52.0,
+                462.0
             ],
             "properties": {
                 "eventType": "",
@@ -68,15 +105,60 @@
                     "name": "In"
                 }
             ],
+            "isDecorator": false,
             "name": "MoveToPlayerNode",
             "outputs": [],
             "pos": [
-                340.0,
-                206.0
+                324.0,
+                414.0
             ],
             "properties": {
                 "stopDistance": "12.000000"
             }
+        },
+        {
+            "className": "CheckDistanceNode",
+            "id": 8,
+            "inputs": [
+                {
+                    "id": 9,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": true,
+            "name": "CheckDistanceNode",
+            "outputs": [],
+            "pos": [
+                324.0,
+                286.0
+            ],
+            "properties": {
+                "checkDistance": "64.000000",
+                "targetEntityNameKey": "TargetEntity"
+            }
+        },
+        {
+            "className": "Sequence",
+            "id": 21,
+            "inputs": [
+                {
+                    "id": 22,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Sequence",
+            "outputs": [
+                {
+                    "id": 23,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                100.0,
+                254.0
+            ],
+            "properties": {}
         }
     ]
 }
