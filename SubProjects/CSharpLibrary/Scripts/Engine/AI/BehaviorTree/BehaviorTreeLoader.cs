@@ -25,6 +25,34 @@ public static class BehaviorTreeLoader
         JObject root = JObject.Parse(jsonContent);
         BehaviorTree tree = new BehaviorTree(owner);
 
+        // 0. Blackboardの初期化
+        if (root["blackboard"] != null)
+        {
+            foreach (var v in root["blackboard"])
+            {
+                string key = (string)v["key"];
+                uint keyHash = HashString(key);
+                int type = (int)v["type"];
+
+                switch (type)
+                {
+                    case 0: // Int
+                        tree.Blackboard.SetInt(keyHash, (int)v["iVal"]);
+                        break;
+                    case 1: // Float
+                        tree.Blackboard.SetFloat(keyHash, (float)v["fVal"]);
+                        break;
+                    case 2: // Bool
+                        tree.Blackboard.SetBool(keyHash, (bool)v["bVal"]);
+                        break;
+                    case 3: // Vector3
+                        var va = v["vVal"];
+                        tree.Blackboard.SetVector3(keyHash, new Vector3((float)va[0], (float)va[1], (float)va[2]));
+                        break;
+                }
+            }
+        }
+
         // 1. ノードのインスタンス化
         Dictionary<ulong, BehaviorNode> nodeInstances = new Dictionary<ulong, BehaviorNode>();
         Dictionary<ulong, ulong> pinToNodeMap = new Dictionary<ulong, ulong>();
@@ -68,7 +96,6 @@ public static class BehaviorTreeLoader
         }
 
         // 2. リンクに基づいた親子関係の構築
-        // C#側の実装では、Sequence/SelectorがBehaviorNodeのリストを持つ構造
         foreach (var l in root["links"])
         {
             ulong startPin = (ulong)l["startPin"];
@@ -77,7 +104,6 @@ public static class BehaviorTreeLoader
             if (pinToNodeMap.TryGetValue(startPin, out ulong parentId) &&
                 pinToNodeMap.TryGetValue(endPin, out ulong childId))
             {
-                // 親が Entry ノードの場合、その子がツリーのルート
                 if (parentId == entryNodeId)
                 {
                     if (nodeInstances.TryGetValue(childId, out var rootNode))
@@ -85,7 +111,6 @@ public static class BehaviorTreeLoader
                         tree.RootNode = rootNode;
                     }
                 }
-                // 親が Composite ノードの場合
                 else if (nodeInstances.TryGetValue(parentId, out var parentNode) && 
                          nodeInstances.TryGetValue(childId, out var childNode))
                 {
@@ -103,5 +128,16 @@ public static class BehaviorTreeLoader
         }
 
         return tree;
+    }
+
+    private static uint HashString(string str)
+    {
+        if (string.IsNullOrEmpty(str)) return 0;
+        uint hash = 2166136261;
+        foreach (char c in str)
+        {
+            hash = (hash ^ c) * 16777619;
+        }
+        return hash;
     }
 }

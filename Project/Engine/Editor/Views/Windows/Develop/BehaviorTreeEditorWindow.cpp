@@ -59,9 +59,69 @@ void BehaviorTreeEditorWindow::ShowImGui() {
 
     ImGui::Separator();
 
+    // 左右の分割
+    if (ImGui::BeginChild("LeftPanel", ImVec2(250, 0), true)) {
+        DrawBlackboardEditor();
+    }
+    ImGui::EndChild();
+    ImGui::SameLine();
+
     DrawGraphEditor();
 
     ImGui::End();
+}
+
+void BehaviorTreeEditorWindow::DrawBlackboardEditor() {
+    ImGui::Text("Blackboard Variables");
+    ImGui::Separator();
+
+    if (ImGui::Button("Add Variable")) {
+        m_BBVariables.push_back({ "NewVar", BBVarType::Float });
+    }
+
+    ImGui::BeginChild("VariablesList");
+    for (size_t i = 0; i < m_BBVariables.size(); ++i) {
+        auto& var = m_BBVariables[i];
+        ImGui::PushID(static_cast<int>(i));
+
+        if (ImGui::Button("X")) {
+            m_BBVariables.erase(m_BBVariables.begin() + i);
+            ImGui::PopID();
+            break;
+        }
+        ImGui::SameLine();
+
+        char keyBuf[64];
+        strncpy_s(keyBuf, var.key.c_str(), sizeof(keyBuf));
+        ImGui::PushItemWidth(100);
+        if (ImGui::InputText("##Key", keyBuf, sizeof(keyBuf))) {
+            var.key = keyBuf;
+        }
+        ImGui::PopItemWidth();
+        ImGui::SameLine();
+
+        const char* typeNames[] = { "Int", "Float", "Bool", "Vec3" };
+        int typeIdx = static_cast<int>(var.type);
+        ImGui::PushItemWidth(70);
+        if (ImGui::Combo("##Type", &typeIdx, typeNames, IM_ARRAYSIZE(typeNames))) {
+            var.type = static_cast<BBVarType>(typeIdx);
+        }
+        ImGui::PopItemWidth();
+
+        // 値の編集
+        ImGui::Indent(20.0f);
+        switch (var.type) {
+        case BBVarType::Int:    ImGui::InputInt("Value", &var.iVal); break;
+        case BBVarType::Float:  ImGui::InputFloat("Value", &var.fVal); break;
+        case BBVarType::Bool:   ImGui::Checkbox("Value", &var.bVal); break;
+        case BBVarType::Vector3: ImGui::DragFloat3("Value", var.vVal, 0.1f); break;
+        }
+        ImGui::Unindent(20.0f);
+
+        ImGui::Separator();
+        ImGui::PopID();
+    }
+    ImGui::EndChild();
 }
 
 void BehaviorTreeEditorWindow::DrawGraphEditor() {
@@ -229,6 +289,20 @@ void BehaviorTreeEditorWindow::CreateLink(ed::PinId startPin, ed::PinId endPin) 
 void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
     ed::SetCurrentEditor(m_Editor);
     json data;
+
+    // Blackboardの保存
+    data["blackboard"] = json::array();
+    for (const auto& var : m_BBVariables) {
+        json v;
+        v["key"] = var.key;
+        v["type"] = static_cast<int>(var.type);
+        v["iVal"] = var.iVal;
+        v["fVal"] = var.fVal;
+        v["bVal"] = var.bVal;
+        v["vVal"] = { var.vVal[0], var.vVal[1], var.vVal[2] };
+        data["blackboard"].push_back(v);
+    }
+
     data["nodes"] = json::array();
     for (const auto& node : m_Nodes) {
         json n;
@@ -265,7 +339,7 @@ void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
     std::ofstream file(path);
     if (file.is_open()) {
         file << data.dump(4);
-        ONEngine::Console::Log("BehaviorTreeEditor: Saved tree to " + path);
+        ONEngine::Console::Log("BehaviorTreeEditor: Saved tree with blackboard to " + path);
     } else {
         ONEngine::Console::LogError("BehaviorTreeEditor: Failed to save tree to " + path);
     }
@@ -285,7 +359,26 @@ void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
 
     m_Nodes.clear();
     m_Links.clear();
+    m_BBVariables.clear();
     m_NextId = 1;
+
+    // Blackboardの復元
+    if (data.contains("blackboard")) {
+        for (const auto& v : data["blackboard"]) {
+            BBVariable var;
+            var.key = v["key"];
+            var.type = static_cast<BBVarType>(v["type"].get<int>());
+            var.iVal = v["iVal"];
+            var.fVal = v["fVal"];
+            var.bVal = v["bVal"];
+            if (v.contains("vVal")) {
+                var.vVal[0] = v["vVal"][0];
+                var.vVal[1] = v["vVal"][1];
+                var.vVal[2] = v["vVal"][2];
+            }
+            m_BBVariables.push_back(var);
+        }
+    }
 
     std::map<uintptr_t, ed::PinId> pinIdMap;
 
@@ -314,7 +407,7 @@ void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
             CreateLink(pinIdMap[startId], pinIdMap[endId]);
         }
     }
-    ONEngine::Console::Log("BehaviorTreeEditor: Loaded tree from " + path);
+    ONEngine::Console::Log("BehaviorTreeEditor: Loaded tree with blackboard from " + path);
     ed::SetCurrentEditor(nullptr);
 }
 

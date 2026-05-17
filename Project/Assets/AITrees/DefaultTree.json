@@ -1,16 +1,67 @@
 {
-    "links": [
+    "blackboard": [
         {
-            "endPin": 4,
-            "id": 14,
-            "startPin": 2
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "AAA",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
         },
         {
-            "endPin": 10,
-            "id": 15,
-            "startPin": 5
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "V",
+            "type": 3,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "B",
+            "type": 0,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "A",
+            "type": 2,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "AAAAA",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     ],
+    "links": [],
     "nodes": [
         {
             "className": "Entry",
@@ -26,85 +77,6 @@
             "pos": [
                 50.0,
                 250.0
-            ]
-        },
-        {
-            "className": "Sequence",
-            "id": 3,
-            "inputs": [
-                {
-                    "id": 4,
-                    "name": "In"
-                }
-            ],
-            "name": "Sequence",
-            "outputs": [
-                {
-                    "id": 5,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                292.0,
-                222.0
-            ]
-        },
-        {
-            "className": "Selector",
-            "id": 6,
-            "inputs": [
-                {
-                    "id": 7,
-                    "name": "In"
-                }
-            ],
-            "name": "Selector",
-            "outputs": [
-                {
-                    "id": 8,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                323.0,
-                463.0
-            ]
-        },
-        {
-            "className": "MoveToPlayerNode",
-            "id": 9,
-            "inputs": [
-                {
-                    "id": 10,
-                    "name": "In"
-                }
-            ],
-            "name": "MoveToPlayerNode",
-            "outputs": [],
-            "pos": [
-                532.0,
-                222.0
-            ]
-        },
-        {
-            "className": "Selector",
-            "id": 11,
-            "inputs": [
-                {
-                    "id": 12,
-                    "name": "In"
-                }
-            ],
-            "name": "Selector",
-            "outputs": [
-                {
-                    "id": 13,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                918.0,
-                384.0
             ]
         }
     ]

@@ -62,9 +62,20 @@ private:
             : id(_id), startPinId(_start), endPinId(_end), color(255, 255, 255) {}
     };
 
+    enum class BBVarType { Int, Float, Bool, Vector3 };
+    struct BBVariable {
+        std::string key;
+        BBVarType type = BBVarType::Float;
+        int iVal = 0;
+        float fVal = 0.0f;
+        bool bVal = false;
+        float vVal[3] = { 0,0,0 };
+    };
+
     void InitializeEditor();
     void DrawNodeList();
     void DrawGraphEditor();
+    void DrawBlackboardEditor();
     
     void SaveTree(const std::string& path);
     void LoadTree(const std::string& path);
@@ -79,6 +90,7 @@ private:
     ed::EditorContext* m_Editor = nullptr;
     std::vector<Node> m_Nodes;
     std::vector<Link> m_Links;
+    std::vector<BBVariable> m_BBVariables;
     ImVec2 m_ContextNodePos;
     int m_NextId = 1;
 
