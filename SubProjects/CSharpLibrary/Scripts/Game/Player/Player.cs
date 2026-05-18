@@ -30,7 +30,7 @@ public class Player : MonoScript
     // 現在のY軸回転角
     private float currentYaw = 0.0f;
     // ゲームパッド入力モードかどうか
-    private bool isGamepadMode = false;
+    public bool isGamepadMode { get; private set; } = false;
     // 最後のフレームのマウス位置
     private Vector2 lastMousePos = new Vector2(640f, 360f);
     // 発射クールタイムタイマー

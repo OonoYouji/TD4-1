@@ -105,6 +105,9 @@
     <Compile Include="Scripts\Game\Player\Olds\PlayerCore.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />
+    <Compile Include="Scripts\Game\UI\ConvertTo2D.cs" />
+    <Compile Include="Scripts\Game\UI\UiController.cs" />
+    <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
     <Compile Include="Scripts\Test\Test.cs" />
