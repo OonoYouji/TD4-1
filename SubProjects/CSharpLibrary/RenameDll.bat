@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 setlocal enabledelayedexpansion
 
 REM --- Determine the output folder relative to the batch file location ---
