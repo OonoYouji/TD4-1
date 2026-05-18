@@ -5,26 +5,37 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
-/// JSONファイルからビヘイビアツリーを生成するクラス。
+/// C++エディタで作成され JSON フォーマットで保存されたビヘイビアツリー資産を読み込み、
+/// C#の実行用インスタンスとして展開（デシリアライズ）する静的ローダークラス。
 /// </summary>
 public static class BehaviorTreeLoader
 {
+    /// <summary>
+    /// 指定されたファイルパスのJSONを読み込み、ビヘイビアツリーを構築する。
+    /// </summary>
+    /// <param name="path">JSONファイルのパス</param>
+    /// <param name="owner">このツリーを実行するエンティティ（AI本体）</param>
+    /// <returns>構築済みのBehaviorTreeインスタンス、失敗した場合はnull</returns>
     public static BehaviorTree LoadFromFile(string path, Entity owner)
     {
+        // 1. ファイルの読み込みとパース
         string jsonText = Mathf.LoadFile(path);
         if (string.IsNullOrEmpty(jsonText)) return null;
 
         var root = JObject.Parse(jsonText);
         BehaviorTree tree = new BehaviorTree(owner);
 
-        // 0. Blackboard変数のロード
+        // 2. Blackboard（共有変数）のロード
+        // JSON内の "blackboard" 配列から変数を読み取り、型に応じたディクショナリに格納する。
         if (root["blackboard"] != null)
         {
             foreach (var v in root["blackboard"])
             {
                 string key = (string)v["key"];
-                uint keyHash = HashString(key);
+                uint keyHash = HashString(key); // キーは高速化のために常にハッシュ値(uint)として扱う
                 int type = (int)v["type"];
+                
+                // 型ごとに適切なメソッドを呼び出して初期値を設定
                 switch (type)
                 {
                     case 0: // Int
@@ -47,16 +58,17 @@ public static class BehaviorTreeLoader
             }
         }
 
-        // 1. ノードのインスタンス化
+        // 3. ノード（タスク・コンポジット）とモジュール（デコレーター・サービス）のインスタンス化
         Dictionary<ulong, BehaviorNode> nodeInstances = new Dictionary<ulong, BehaviorNode>();
         Dictionary<ulong, ulong> pinToNodeMap = new Dictionary<ulong, ulong>();
-        ulong entryNodeId = 0;
+        ulong entryNodeId = 0; // ツリーの開始点となる "Entry" ノードのID
 
         foreach (var n in root["nodes"])
         {
             ulong id = (ulong)n["id"];
             string className = (string)n["className"];
 
+            // Entryノードは実際の実行ロジックを持たないため、ピンの接続関係のみを記録してスキップ
             if (className == "Entry")
             {
                 entryNodeId = id;
@@ -64,6 +76,7 @@ public static class BehaviorTreeLoader
                 continue;
             }
 
+            // クラス名からTypeを取得し、リフレクションでインスタンスを生成
             Type type = Type.GetType(className) ?? Type.GetType(className + ", CSharpLibrary");
 
             if (type != null)
@@ -71,15 +84,15 @@ public static class BehaviorTreeLoader
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
                 node.NodeIdHash = (uint)id;
                 
-                // ブレークポイント
+                // ブレークポイント設定の反映
                 if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
 
                 nodeInstances[id] = node;
 
-                // ノード本体のプロパティ反映
+                // ノード本体のプロパティ（インスペクターで設定した値）の反映
                 ApplyProperties(type, node, n["properties"]);
 
-                // Decorators のロード
+                // 4. アタッチされている Decorator（条件）のロード
                 if (n["decorators"] is JArray decorators)
                 {
                     foreach (var d in decorators)
@@ -95,7 +108,7 @@ public static class BehaviorTreeLoader
                     }
                 }
 
-                // Services のロード
+                // 5. アタッチされている Service（定期実行処理）のロード
                 if (n["services"] is JArray services)
                 {
                     foreach (var s in services)
@@ -111,7 +124,7 @@ public static class BehaviorTreeLoader
                     }
                 }
 
-                // ピンのIDをノードIDに紐付け
+                // 6. ピンのIDをノードIDに紐付けるマップを作成（後のリンク構築用）
                 if (n["inputs"] != null) foreach (var pin in n["inputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
                 if (n["outputs"] != null) foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
             }
@@ -121,15 +134,17 @@ public static class BehaviorTreeLoader
             }
         }
 
-        // 2. リンクに基づいた親子関係の構築
+        // 7. リンク情報に基づいたツリー構造（親子関係）の構築
         foreach (var l in root["links"])
         {
             ulong startPin = (ulong)l["startPin"];
             ulong endPin = (ulong)l["endPin"];
 
+            // リンクの開始ピン・終了ピンがどのノードに属しているかを特定
             if (pinToNodeMap.TryGetValue(startPin, out ulong parentId) &&
                 pinToNodeMap.TryGetValue(endPin, out ulong childId))
             {
+                // 親が "Entry" ノードの場合は、その子ノードをこのツリーの「RootNode（最上位ノード）」として設定
                 if (parentId == entryNodeId)
                 {
                     if (nodeInstances.TryGetValue(childId, out var rootNode))
@@ -137,6 +152,7 @@ public static class BehaviorTreeLoader
                         tree.RootNode = rootNode;
                     }
                 }
+                // それ以外の場合は、親コンポジットノードに子ノードを追加
                 else if (nodeInstances.TryGetValue(parentId, out var parentNode) && 
                          nodeInstances.TryGetValue(childId, out var childNode))
                 {
@@ -153,12 +169,18 @@ public static class BehaviorTreeLoader
             Debug.LogWarning("BehaviorTreeLoader: Loaded tree has no root connected to ENTRY.");
         }
 
-        // 監視ロジックの初期化
+        // 8. Observer Abort（監視による割り込み）のための初期化処理を実行
         tree.InitializeMonitoring();
 
         return tree;
     }
 
+    /// <summary>
+    /// リフレクションを使用して、JSON上のプロパティ値をC#インスタンスのフィールドに自動で代入する。
+    /// </summary>
+    /// <param name="type">対象クラスの型情報</param>
+    /// <param name="instance">代入先のインスタンス</param>
+    /// <param name="props">JSON内のプロパティオブジェクト</param>
     private static void ApplyProperties(Type type, object instance, JToken props)
     {
         if (props == null) return;
@@ -180,6 +202,9 @@ public static class BehaviorTreeLoader
         }
     }
 
+    /// <summary>
+    /// 文字列データを指定されたC#の型（int, float, bool, enumなど）に変換するユーティリティメソッド。
+    /// </summary>
     private static object ConvertValue(Type type, string value)
     {
         if (type == typeof(string)) return value;
@@ -190,6 +215,10 @@ public static class BehaviorTreeLoader
         return null;
     }
 
+    /// <summary>
+    /// 文字列を高速な32ビットハッシュ値（FNV-1aアルゴリズム）に変換する。
+    /// BlackboardのキーやノードIDの管理に使用される。
+    /// </summary>
     public static uint HashString(string str)
     {
         if (string.IsNullOrEmpty(str)) return 0;

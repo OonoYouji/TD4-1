@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 /// <summary>
-/// AIのデータ共有用ストレージ。
-/// 値が変更された際に通知を行う Observer パターンをサポートする。
+/// AIのデータをツリー全体で共有するための記憶領域（ストレージ）。
+/// ボクシング（GCアロケーション）を防ぐため、値型ごとに個別の Dictionary を持つ。
+/// また、文字列キーの代わりにハッシュ値 (uint) を使用して高速なアクセスを実現している。
+/// 値が変更された際にツリーに通知を行う Observer パターンをサポートし、
+/// エディタ側の Live Watcher 用にC++への通知も行う。
 /// </summary>
 public class Blackboard
 {
+    /// <summary>
+    /// Blackboard内のいずれかの変数が変更された時に発火するイベント。
+    /// BehaviorTree がこれを購読し、Observer Aborts（割り込み）の判定を行う。
+    /// </summary>
     public event Action<uint> OnValueChanged;
 
+    // --- 型ごとのデータストレージ ---
     private readonly Dictionary<uint, int> _intData = new Dictionary<uint, int>();
     private readonly Dictionary<uint, float> _floatData = new Dictionary<uint, float>();
     private readonly Dictionary<uint, bool> _boolData = new Dictionary<uint, bool>();
@@ -17,51 +25,87 @@ public class Blackboard
     private readonly Dictionary<uint, string> _stringData = new Dictionary<uint, string>();
     private readonly Dictionary<uint, object> _objectData = new Dictionary<uint, object>();
 
+    /// <summary>
+    /// Int型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
+    /// </summary>
     public void SetInt(uint key, int value) 
     { 
         _intData[key] = value; 
         OnValueChanged?.Invoke(key);
         Internal_UpdateBlackboardValue(key, value.ToString(), "Int");
     }
+    /// <summary>
+    /// Int型の値を取得する。キーが存在しない場合はデフォルト値を返す。
+    /// </summary>
     public int GetInt(uint key, int defaultValue = 0) => _intData.TryGetValue(key, out var val) ? val : defaultValue;
 
+    /// <summary>
+    /// Float型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
+    /// </summary>
     public void SetFloat(uint key, float value) 
     { 
         _floatData[key] = value; 
         OnValueChanged?.Invoke(key);
         Internal_UpdateBlackboardValue(key, value.ToString(), "Float");
     }
+    /// <summary>
+    /// Float型の値を取得する。キーが存在しない場合はデフォルト値を返す。
+    /// </summary>
     public float GetFloat(uint key, float defaultValue = 0f) => _floatData.TryGetValue(key, out var val) ? val : defaultValue;
 
+    /// <summary>
+    /// Bool型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
+    /// </summary>
     public void SetBool(uint key, bool value) 
     { 
         _boolData[key] = value; 
         OnValueChanged?.Invoke(key);
         Internal_UpdateBlackboardValue(key, value ? "true" : "false", "Bool");
     }
+    /// <summary>
+    /// Bool型の値を取得する。キーが存在しない場合はデフォルト値を返す。
+    /// </summary>
     public bool GetBool(uint key, bool defaultValue = false) => _boolData.TryGetValue(key, out var val) ? val : defaultValue;
 
+    /// <summary>
+    /// Vector3型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
+    /// </summary>
     public void SetVector3(uint key, Vector3 value) 
     { 
         _vector3Data[key] = value; 
         OnValueChanged?.Invoke(key);
         Internal_UpdateBlackboardValue(key, value.x + "," + value.y + "," + value.z, "Vector3");
     }
+    /// <summary>
+    /// Vector3型の値を取得する。キーが存在しない場合は Vector3.zero を返す。
+    /// </summary>
     public Vector3 GetVector3(uint key) => _vector3Data.TryGetValue(key, out var val) ? val : Vector3.zero;
 
+    /// <summary>
+    /// String型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
+    /// </summary>
     public void SetString(uint key, string value) 
     { 
         _stringData[key] = value; 
         OnValueChanged?.Invoke(key);
         Internal_UpdateBlackboardValue(key, value, "String");
     }
+    /// <summary>
+    /// String型の値を取得する。キーが存在しない場合はデフォルト値を返す。
+    /// </summary>
     public string GetString(uint key, string defaultValue = "") => _stringData.TryGetValue(key, out var val) ? val : defaultValue;
 
+    /// <summary>
+    /// 任意のオブジェクト型の値を設定する。変更時はC#側のイベントのみ発火する。
+    /// </summary>
     public void SetObject(uint key, object value) 
     { 
         _objectData[key] = value; 
         OnValueChanged?.Invoke(key);
     }
+    /// <summary>
+    /// 任意のオブジェクト型の値を取得し、指定した型にキャストして返す。失敗した場合はnullを返す。
+    /// </summary>
     public T GetObject<T>(uint key) where T : class
     {
         if (_objectData.TryGetValue(key, out var val) && val is T typedVal) return typedVal;
@@ -69,8 +113,11 @@ public class Blackboard
     }
 
     /// <summary>
-    /// 指定したキーの値をobject型として取得する（型が不明な場合やデバッグ用）
+    /// 指定したキーの値をobject型として（ボクシングして）取得する。
+    /// デコレーター等で型が事前定義されていない変数の中身を検証・判定する際に使用する。
     /// </summary>
+    /// <param name="key">取得するキーのハッシュ値</param>
+    /// <returns>キーが存在すればその値のobject、存在しなければnull</returns>
     public object GetValueAsObject(uint key)
     {
         if (_intData.TryGetValue(key, out var i)) return i;
@@ -82,6 +129,9 @@ public class Blackboard
         return null;
     }
 
+    /// <summary>
+    /// 指定したキーがいずれかの型のストレージに存在するかどうかを確認する。
+    /// </summary>
     public bool HasKey(uint key)
     {
         return _intData.ContainsKey(key) || _floatData.ContainsKey(key) || 
@@ -89,6 +139,9 @@ public class Blackboard
                _stringData.ContainsKey(key) || _objectData.ContainsKey(key);
     }
 
+    /// <summary>
+    /// 指定したキーのデータをすべての型のストレージから削除する。
+    /// </summary>
     public void Remove(uint key)
     {
         _intData.Remove(key);
@@ -99,6 +152,9 @@ public class Blackboard
         _objectData.Remove(key);
     }
 
+    /// <summary>
+    /// Blackboard内のすべてのデータをクリアする。
+    /// </summary>
     public void Clear()
     {
         _intData.Clear();
@@ -109,6 +165,9 @@ public class Blackboard
         _objectData.Clear();
     }
 
+    /// <summary>
+    /// C++エディタ側の「Live Watcher (Runtimeタブ)」に値を送信するための内部呼び出し。
+    /// </summary>
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern void Internal_UpdateBlackboardValue(uint keyHash, string valueStr, string typeName);
 }
