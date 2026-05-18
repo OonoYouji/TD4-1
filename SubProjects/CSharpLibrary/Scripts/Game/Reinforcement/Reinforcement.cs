@@ -6,18 +6,25 @@ public class Reinforcement : MonoScript
     // パラメーター
     // =========================================================
 
+    // 移動速度 (m/s)
+    [SerializeField] public float moveSpeed = 8.0f;
+    // 質量 (kg)
+    [SerializeField] public float mass = 1.0f;
+    // 消えるまでの秒数 (s)
+    [SerializeField] public float lifeTime = 10.0f;
+    // ダメージ量
+    [SerializeField] public float damage = 10.0f;
+
     // 退散スピード
     [SerializeField] public float retreatSpeed = 20.0f;
-    // 存在時間
-    [SerializeField] public float lifeTime     = 10.0f;
 
     // =========================================================
     // 外部から設定
     // =========================================================
 
-    // 出現位置、速度
+    // 出現位置、進行方向
     public Vector3 startPosition = Vector3.zero;
-    public Vector3 velocity      = Vector3.forward;
+    public Vector3 direction     = Vector3.forward;
 
     // =========================================================
     // 内部状態
@@ -72,7 +79,7 @@ public class Reinforcement : MonoScript
         else
         {
             // 通常移動
-            transform.position += velocity * Time.deltaTime;
+            transform.position += direction.Normalized() * moveSpeed * Time.deltaTime;
         }
     }
 
@@ -89,6 +96,6 @@ public class Reinforcement : MonoScript
 
         // 退散開始
         isRetreating = true;
-        retreatVelocity = -velocity.Normalized() * retreatSpeed;
+        retreatVelocity = -direction.Normalized() * retreatSpeed;
     }
 }
