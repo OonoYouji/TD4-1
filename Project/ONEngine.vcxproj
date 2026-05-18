@@ -1,0 +1,637 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Development|x64">
+      <Configuration>Development</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{58413781-440E-928C-6D27-80345953C71A}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ONEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\Generated\Outputs\Debug\</OutDir>
+    <IntDir>$(ProjectDir)..\Generated\Obj\ONEngine\Debug\</IntDir>
+    <TargetName>ONEngine</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\Generated\Outputs\Release\</OutDir>
+    <IntDir>$(ProjectDir)..\Generated\Obj\ONEngine\Release\</IntDir>
+    <TargetName>ONEngine</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\Generated\Outputs\Development\</OutDir>
+    <IntDir>$(ProjectDir)..\Generated\Obj\ONEngine\Development\</IntDir>
+    <TargetName>ONEngine</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;DEBUG_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\imgui;$(ProjectDir)Externals\glib;$(ProjectDir)Externals\mono;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 /MP /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Externals\assimp\lib;Packages\Scripts\lib;$(ProjectDir)Externals\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\imgui;$(ProjectDir)Externals\glib;$(ProjectDir)Externals\mono;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 /MP /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalDependencies>$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Externals\assimp\lib;Packages\Scripts\lib;$(ProjectDir)Externals\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll"
+xcopy /E /Y /I "$(ProjectDir)Assets" "$(TargetDir)Assets"
+xcopy /E /Y /I "$(ProjectDir)Packages" "$(TargetDir)Packages"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>DEBUG_BUILD;_WINDOWS;DEBUG_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\imgui;$(ProjectDir)Externals\glib;$(ProjectDir)Externals\mono;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 /MP /bigobj /Zo /Oi /Ot /GL %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalDependencies>$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Externals\assimp\lib;Packages\Scripts\lib;$(ProjectDir)Externals\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/OPT:REF /OPT:ICF /LTCG %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Asset\AssetType.h" />
+    <ClInclude Include="Engine\Asset\Assets\AudioClip\AudioClip.h" />
+    <ClInclude Include="Engine\Asset\Assets\AudioClip\AudioClipLoader.h" />
+    <ClInclude Include="Engine\Asset\Assets\IAsset.h" />
+    <ClInclude Include="Engine\Asset\Assets\IAssetLoader.h" />
+    <ClInclude Include="Engine\Asset\Assets\Material\Material.h" />
+    <ClInclude Include="Engine\Asset\Assets\Material\MaterialLoader.h" />
+    <ClInclude Include="Engine\Asset\Assets\Mesh\Mesh.h" />
+    <ClInclude Include="Engine\Asset\Assets\Mesh\Model.h" />
+    <ClInclude Include="Engine\Asset\Assets\Mesh\ModelLoader.h" />
+    <ClInclude Include="Engine\Asset\Assets\Mesh\Skinning.h" />
+    <ClInclude Include="Engine\Asset\Assets\Shader\Shader.h" />
+    <ClInclude Include="Engine\Asset\Assets\Shader\ShaderLoader.h" />
+    <ClInclude Include="Engine\Asset\Assets\Texture\Texture.h" />
+    <ClInclude Include="Engine\Asset\Assets\Texture\TextureLoader.h" />
+    <ClInclude Include="Engine\Asset\Collection\AssetBundle.h" />
+    <ClInclude Include="Engine\Asset\Collection\AssetCollection.h" />
+    <ClInclude Include="Engine\Asset\Collection\Container\AssetContainer.h" />
+    <ClInclude Include="Engine\Asset\Guid\Guid.h" />
+    <ClInclude Include="Engine\Asset\Meta\MetaFile.h" />
+    <ClInclude Include="Engine\Core\Config\EngineConfig.h" />
+    <ClInclude Include="Engine\Core\DirectX12\ComPtr\ComPtr.h" />
+    <ClInclude Include="Engine\Core\DirectX12\Command\DxCommand.h" />
+    <ClInclude Include="Engine\Core\DirectX12\Command\DxUploadCommand.h" />
+    <ClInclude Include="Engine\Core\DirectX12\Debug\DxDebug.h" />
+    <ClInclude Include="Engine\Core\DirectX12\DepthStencil\DxDepthStencil.h" />
+    <ClInclude Include="Engine\Core\DirectX12\DescriptorHeap\DescriptorHeapSize.h" />
+    <ClInclude Include="Engine\Core\DirectX12\DescriptorHeap\DxDSVHeap.h" />
+    <ClInclude Include="Engine\Core\DirectX12\DescriptorHeap\DxRTVHeap.h" />
+    <ClInclude Include="Engine\Core\DirectX12\DescriptorHeap\DxSRVHeap.h" />
+    <ClInclude Include="Engine\Core\DirectX12\DescriptorHeap\IDxDescriptorHeap.h" />
+    <ClInclude Include="Engine\Core\DirectX12\Device\DxDevice.h" />
+    <ClInclude Include="Engine\Core\DirectX12\GPUTimeStamp\GPUTimeStamp.h" />
+    <ClInclude Include="Engine\Core\DirectX12\GPUTimeStamp\GPUTimeStampID.h" />
+    <ClInclude Include="Engine\Core\DirectX12\Manager\DxManager.h" />
+    <ClInclude Include="Engine\Core\DirectX12\Resource\DxResource.h" />
+    <ClInclude Include="Engine\Core\DirectX12\SwapChain\DxSwapChain.h" />
+    <ClInclude Include="Engine\Core\Event\Event.h" />
+    <ClInclude Include="Engine\Core\Event\FrameEventQueue.h" />
+    <ClInclude Include="Engine\Core\GameFramework\GameFramework.h" />
+    <ClInclude Include="Engine\Core\GameFramework\GameFrameworkConfig.h" />
+    <ClInclude Include="Engine\Core\Threading\ConcurrentQueue.h" />
+    <ClInclude Include="Engine\Core\Threading\JobHandle.h" />
+    <ClInclude Include="Engine\Core\Threading\ThreadPool.h" />
+    <ClInclude Include="Engine\Core\Utility\FileSystem\FileSystem.h" />
+    <ClInclude Include="Engine\Core\Utility\Input\DInput.h" />
+    <ClInclude Include="Engine\Core\Utility\Input\Gamepad.h" />
+    <ClInclude Include="Engine\Core\Utility\Input\Input.h" />
+    <ClInclude Include="Engine\Core\Utility\Input\InputSystem.h" />
+    <ClInclude Include="Engine\Core\Utility\Input\Keyboard.h" />
+    <ClInclude Include="Engine\Core\Utility\Input\Mouse.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Color.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Math.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Matrix4x4.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Primitive.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Quaternion.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Vector2.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Vector2T.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Vector3.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Vector3T.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Vector4.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Vector4T.h" />
+    <ClInclude Include="Engine\Core\Utility\Time\CPUTimeStamp.h" />
+    <ClInclude Include="Engine\Core\Utility\Time\CPUTimeStampID.h" />
+    <ClInclude Include="Engine\Core\Utility\Time\Time.h" />
+    <ClInclude Include="Engine\Core\Utility\Tools\Assert.h" />
+    <ClInclude Include="Engine\Core\Utility\Tools\Ease.h" />
+    <ClInclude Include="Engine\Core\Utility\Tools\Gizmo.h" />
+    <ClInclude Include="Engine\Core\Utility\Tools\Log.h" />
+    <ClInclude Include="Engine\Core\Utility\Tools\Random.h" />
+    <ClInclude Include="Engine\Core\Utility\Utility.h" />
+    <ClInclude Include="Engine\Core\Window\Window.h" />
+    <ClInclude Include="Engine\Core\Window\WindowManager.h" />
+    <ClInclude Include="Engine\ECS\Component\Array\ComponentArray.h" />
+    <ClInclude Include="Engine\ECS\Component\Collection\ComponentCollection.h" />
+    <ClInclude Include="Engine\ECS\Component\Collection\ComponentHash.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Camera\CameraComponent.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Collision\BoxCollider.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Collision\CollisionCheck\CollisionCheck.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Collision\CollisionFilter.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Collision\ICollider.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Collision\SphereCollider.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Effect\Effect.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Effect\EmitShape\EffectEmitShape.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Effect\MainModule\EffectMainModule.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Light\Light.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Script\Script.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\ShadowCaster\ShadowCaster.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\Grass\GrassField.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\River\River.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\Terrain.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\TerrainCollider.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\TerrainVertex.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Transform\Transform.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Variables\Variables.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\VoxelTerrain\VoxelTerrain.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\VoxelTerrain\VoxelTerrainChunk.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\Interface\IComponent.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Mesh\CustomMeshRenderer.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Mesh\DissolveMeshRenderer.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Mesh\MeshRenderer.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Primitive\Line2DRenderer.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Primitive\Line3DRenderer.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\ScreenPostEffectTag\ScreenPostEffectTag.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\SkinMesh\SkinMeshRenderer.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Skybox\Skybox.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\RendererComponents\Sprite\SpriteRenderer.h" />
+    <ClInclude Include="Engine\ECS\Entity\Collection\EntityCollection.h" />
+    <ClInclude Include="Engine\ECS\Entity\EntityJsonConverter.h" />
+    <ClInclude Include="Engine\ECS\Entity\GameEntity\GameEntity.h" />
+    <ClInclude Include="Engine\ECS\Entity\Prefab\EntityPrefab.h" />
+    <ClInclude Include="Engine\ECS\Entity\Prefab\EntityPrefabCollection.h" />
+    <ClInclude Include="Engine\ECS\EntityComponentSystem\AddECSComponentFactoryFunction.h" />
+    <ClInclude Include="Engine\ECS\EntityComponentSystem\AddECSSystemFunction.h" />
+    <ClInclude Include="Engine\ECS\EntityComponentSystem\ComponentApplyFunc.h" />
+    <ClInclude Include="Engine\ECS\EntityComponentSystem\ECSGroup.h" />
+    <ClInclude Include="Engine\ECS\EntityComponentSystem\EntityComponentSystem.h" />
+    <ClInclude Include="Engine\ECS\System\AI\AISystem.h" />
+    <ClInclude Include="Engine\ECS\System\Audio\AudioPlaybackSystem.h" />
+    <ClInclude Include="Engine\ECS\System\CameraUpdate\CameraUpdateSystem.h" />
+    <ClInclude Include="Engine\ECS\System\Collision\ColliderRenderQueueSystem.h" />
+    <ClInclude Include="Engine\ECS\System\Collision\CollisionSystem.h" />
+    <ClInclude Include="Engine\ECS\System\EffectUpdateSystem\EffectUpdateSystem.h" />
+    <ClInclude Include="Engine\ECS\System\GrassBufferCreateSystem\GrassBufferCreateSystem.h" />
+    <ClInclude Include="Engine\ECS\System\Interface\ECSISystem.h" />
+    <ClInclude Include="Engine\ECS\System\MeshBufferRecreate\MeshBufferRecreate.h" />
+    <ClInclude Include="Engine\ECS\System\Movement\MovementSystem.h" />
+    <ClInclude Include="Engine\ECS\System\ScriptUpdateSystem\ScriptUpdateSystem.h" />
+    <ClInclude Include="Engine\ECS\System\ShadowCaster\ShadowCasterUpdateSystem.h" />
+    <ClInclude Include="Engine\ECS\System\SkinMesh\SkinMeshUpdateSystem.h" />
+    <ClInclude Include="Engine\ECS\System\SystemCollection\SystemCollection.h" />
+    <ClInclude Include="Engine\ECS\System\Terrain\TerrainColliderVertexGenerator.h" />
+    <ClInclude Include="Engine\ECS\System\Terrain\TerrainCollision.h" />
+    <ClInclude Include="Engine\ECS\System\Transform\TransformUpdateSystem.h" />
+    <ClInclude Include="Engine\Editor\Clipboard\Clipboard.h" />
+    <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentEditCommands.h" />
+    <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.h" />
+    <ClInclude Include="Engine\Editor\Commands\IEditCommand.h" />
+    <ClInclude Include="Engine\Editor\Commands\ImGuiCommand\FocusEntityCommand.h" />
+    <ClInclude Include="Engine\Editor\Commands\ImGuiCommand\ImGuiCommand.h" />
+    <ClInclude Include="Engine\Editor\Commands\WorldEditorCommands\WorldEditorCommands.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\GameEntityPicking\GameEntityPickingPipeline.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\Grass\GrassArrangementPipeline.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\Interface\IEditorCompute.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\River\RiverMeshGeneratePipeline.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\TerrainEditor\RiverTerrainAdjustPipeline.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainDataOutput.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainInfo.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainVertexCreator.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainVertexEditorCompute.h" />
+    <ClInclude Include="Engine\Editor\EditorCompute\VoxelTerrainEditor\VoxelTerrainEditorComputePipeline.h" />
+    <ClInclude Include="Engine\Editor\EditorUtils.h" />
+    <ClInclude Include="Engine\Editor\Manager\EditCommand.h" />
+    <ClInclude Include="Engine\Editor\Manager\EditorManager.h" />
+    <ClInclude Include="Engine\Editor\Manager\ImGuiManager.h" />
+    <ClInclude Include="Engine\Editor\Math\AssetDebugger.h" />
+    <ClInclude Include="Engine\Editor\Math\AssetPayload.h" />
+    <ClInclude Include="Engine\Editor\Math\Combo\Combo.h" />
+    <ClInclude Include="Engine\Editor\Math\DragDrop\DragDrop.h" />
+    <ClInclude Include="Engine\Editor\Math\FileWatcher\FileWatcher.h" />
+    <ClInclude Include="Engine\Editor\Math\ImGuiMath.h" />
+    <ClInclude Include="Engine\Editor\Math\ImGuiSceneImageInfo.h" />
+    <ClInclude Include="Engine\Editor\Math\ImGuiSelection.h" />
+    <ClInclude Include="Engine\Editor\Math\ImGuiShowField.h" />
+    <ClInclude Include="Engine\Editor\Math\MetaData\AssetMetaReflection.h" />
+    <ClInclude Include="Engine\Editor\Math\MetaData\MetaReflectionUI.h" />
+    <ClInclude Include="Engine\Editor\Math\Pivot\Pivot.h" />
+    <ClInclude Include="Engine\Editor\Math\Preview\Texture2DPreview.h" />
+    <ClInclude Include="Engine\Editor\Math\Widget\BasicTypeWidget.h" />
+    <ClInclude Include="Engine\Editor\Math\Widget\VectorWidget.h" />
+    <ClInclude Include="Engine\Editor\Views\EditorViewCollection.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\AITab.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\DevelopTab.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\EditorTab.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\GameTab.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\PrefabTab.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\ConsoleWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\GameSceneView.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\HierarchyWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\InspectorWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\ProjectWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\TexturePreviewWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Editor\TestWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Prefab\PrefabFileWindow.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Prefab\PrefabViewWindow.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\ByteAddressBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\Data\GPUMaterial.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\Data\UVTransform.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\Data\ViewProjection.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\IndexBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\StructuredBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Buffer\VertexBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Framework\RenderInfo.h" />
+    <ClInclude Include="Engine\Graphics\Framework\RenderingFramework.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Collection\RenderingPipelineCollection.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Interface\IPostProcessPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Interface\IRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\PerObject\Blur\PostProcessGaussianBlurPerObject.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\PerObject\Grayscale\PostProcessGrayscalePerObject.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\PerObject\Light\PostProcessLighting.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\PerObject\TerrainBrush\PostProcessTerrainBrush.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\PerObject\VoxelTerrainBrush\PostProcessVoxelTerrainBrush.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\Screen\Fog\PostProcessFog.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\Screen\Grayscale\PostProcessGrayscale.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\Screen\RadialBlur\PostProcessRadialBlur.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\PostProcess\Screen\Shadow\PostProcessShadowApply.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\CopyImage\CopyImageRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Effect\EffectRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Gizmo\GizmoPrimitiveVertices.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Gizmo\GizmoRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Grass\GrassRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Grid\GridRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\DissolveMeshRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\MeshRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshSkeletonRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Primitive\Line2DRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Primitive\Line3DRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\River\RiverRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Skybox\SkyboxRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Sprite\SpriteRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Terrain\TerrainProceduralRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\Terrain\TerrainRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainBrushPreviewRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainTransvoxelRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainVertexCreatePipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainVertexShaderRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\RenderTexture\RenderTexture.h" />
+    <ClInclude Include="Engine\Graphics\RenderTexture\SceneRenderTexture.h" />
+    <ClInclude Include="Engine\Graphics\Shader\ComputePipeline.h" />
+    <ClInclude Include="Engine\Graphics\Shader\GraphicsPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Shader\Shader.h" />
+    <ClInclude Include="Engine\Graphics\Shader\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Scene\Loader\SceneIO.h" />
+    <ClInclude Include="Engine\Scene\SceneManager.h" />
+    <ClInclude Include="Engine\Script\InternalCalls\AddInternalMethods.h" />
+    <ClInclude Include="Engine\Script\InternalCalls\EventInternalCalls.h" />
+    <ClInclude Include="Engine\Script\MonoScriptEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\Asset\AssetType.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\AudioClip\AudioClip.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\AudioClip\AudioClipLoader.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Material\Material.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Material\MaterialLoader.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Mesh\Mesh.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Mesh\Model.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Mesh\ModelLoader.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Mesh\Skinning.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Shader\Shader.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Shader\ShaderLoader.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Texture\Texture.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Texture\TextureLoader.cpp" />
+    <ClCompile Include="Engine\Asset\Collection\AssetCollection.cpp" />
+    <ClCompile Include="Engine\Asset\Guid\Guid.cpp" />
+    <ClCompile Include="Engine\Asset\Meta\MetaFile.cpp" />
+    <ClCompile Include="Engine\Core\Config\EngineConfig.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\Command\DxCommand.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\Command\DxUploadCommand.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\Debug\DxDebug.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\DepthStencil\DxDepthStencil.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\DescriptorHeap\DxDSVHeap.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\DescriptorHeap\DxRTVHeap.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\DescriptorHeap\DxSRVHeap.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\DescriptorHeap\IDxDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\Device\DxDevice.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\GPUTimeStamp\GPUTimeStamp.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\Manager\DxManager.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\Resource\DxResource.cpp" />
+    <ClCompile Include="Engine\Core\DirectX12\SwapChain\DxSwapChain.cpp" />
+    <ClCompile Include="Engine\Core\Event\FrameEventQueue.cpp" />
+    <ClCompile Include="Engine\Core\GameFramework\GameFramework.cpp" />
+    <ClCompile Include="Engine\Core\Threading\ThreadPool.cpp" />
+    <ClCompile Include="Engine\Core\Utility\FileSystem\FileSystem.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Input\Gamepad.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Input\Input.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Input\InputSystem.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Input\Keyboard.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Input\Mouse.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Math\Color.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Math\Math.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Math\Primitive.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Time\CPUTimeStamp.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Time\Time.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Tools\Ease.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Tools\Gizmo.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Tools\Log.cpp" />
+    <ClCompile Include="Engine\Core\Utility\Tools\Random.cpp" />
+    <ClCompile Include="Engine\Core\Window\Window.cpp" />
+    <ClCompile Include="Engine\Core\Window\WindowManager.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Collection\ComponentCollection.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Camera\CameraComponent.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Collision\BoxCollider.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Collision\CollisionCheck\CollisionCheck.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Collision\ICollider.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Collision\SphereCollider.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Effect\Effect.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Effect\EmitShape\EffectEmitShape.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Effect\MainModule\EffectMainModule.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Light\Light.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Script\Script.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\ShadowCaster\ShadowCaster.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\Grass\GrassField.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\River\River.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\Terrain.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\TerrainCollider.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Transform\Transform.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Variables\Variables.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\VoxelTerrain\VoxelTerrain.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\VoxelTerrain\VoxelTerrainChunk.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\Interface\IComponent.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Mesh\CustomMeshRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Mesh\DissolveMeshRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Mesh\MeshRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Primitive\Line2DRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Primitive\Line3DRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\ScreenPostEffectTag\ScreenPostEffectTag.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\SkinMesh\SkinMeshRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Skybox\Skybox.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\RendererComponents\Sprite\SpriteRenderer.cpp" />
+    <ClCompile Include="Engine\ECS\Entity\Collection\EntityCollection.cpp" />
+    <ClCompile Include="Engine\ECS\Entity\EntityJsonConverter.cpp" />
+    <ClCompile Include="Engine\ECS\Entity\GameEntity\GameEntity.cpp" />
+    <ClCompile Include="Engine\ECS\Entity\Prefab\EntityPrefab.cpp" />
+    <ClCompile Include="Engine\ECS\Entity\Prefab\EntityPrefabCollection.cpp" />
+    <ClCompile Include="Engine\ECS\EntityComponentSystem\AddECSSystemFunction.cpp" />
+    <ClCompile Include="Engine\ECS\EntityComponentSystem\ComponentApplyFunc.cpp" />
+    <ClCompile Include="Engine\ECS\EntityComponentSystem\ECSGroup.cpp" />
+    <ClCompile Include="Engine\ECS\EntityComponentSystem\EntityComponentSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\AI\AISystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\Audio\AudioPlaybackSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\CameraUpdate\CameraUpdateSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\Collision\ColliderRenderQueueSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\Collision\CollisionSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\EffectUpdateSystem\EffectUpdateSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\GrassBufferCreateSystem\GrassBufferCreateSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\MeshBufferRecreate\MeshBufferRecreate.cpp" />
+    <ClCompile Include="Engine\ECS\System\Movement\MovementSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\ScriptUpdateSystem\ScriptUpdateSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\ShadowCaster\ShadowCasterUpdateSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\SkinMesh\SkinMeshUpdateSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\SystemCollection\SystemCollection.cpp" />
+    <ClCompile Include="Engine\ECS\System\Terrain\TerrainColliderVertexGenerator.cpp" />
+    <ClCompile Include="Engine\ECS\System\Terrain\TerrainCollision.cpp" />
+    <ClCompile Include="Engine\ECS\System\Transform\TransformUpdateSystem.cpp" />
+    <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ComponentEditCommands.cpp" />
+    <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.cpp" />
+    <ClCompile Include="Engine\Editor\Commands\ImGuiCommand\FocusEntityCommand.cpp" />
+    <ClCompile Include="Engine\Editor\Commands\ImGuiCommand\ImGuiCommand.cpp" />
+    <ClCompile Include="Engine\Editor\Commands\WorldEditorCommands\WorldEditorCommands.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\GameEntityPicking\GameEntityPickingPipeline.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\Grass\GrassArrangementPipeline.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\River\RiverMeshGeneratePipeline.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\TerrainEditor\RiverTerrainAdjustPipeline.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainDataOutput.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainVertexCreator.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\TerrainEditor\TerrainVertexEditorCompute.cpp" />
+    <ClCompile Include="Engine\Editor\EditorCompute\VoxelTerrainEditor\VoxelTerrainEditorComputePipeline.cpp" />
+    <ClCompile Include="Engine\Editor\Manager\EditCommand.cpp" />
+    <ClCompile Include="Engine\Editor\Manager\EditorManager.cpp" />
+    <ClCompile Include="Engine\Editor\Manager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Editor\Math\AssetDebugger.cpp" />
+    <ClCompile Include="Engine\Editor\Math\DragDrop\DragDrop.cpp" />
+    <ClCompile Include="Engine\Editor\Math\FileWatcher\FileWatcher.cpp" />
+    <ClCompile Include="Engine\Editor\Math\ImGuiMath.cpp" />
+    <ClCompile Include="Engine\Editor\Math\ImGuiSelection.cpp" />
+    <ClCompile Include="Engine\Editor\Math\ImGuiShowField.cpp" />
+    <ClCompile Include="Engine\Editor\Math\Pivot\Pivot.cpp" />
+    <ClCompile Include="Engine\Editor\Math\Preview\Texture2DPreview.cpp" />
+    <ClCompile Include="Engine\Editor\Math\Widget\BasicTypeWidget.cpp" />
+    <ClCompile Include="Engine\Editor\Math\Widget\VectorWidget.cpp" />
+    <ClCompile Include="Engine\Editor\Views\EditorViewCollection.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\AITab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\DevelopTab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\EditorTab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\GameTab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\PrefabTab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\ConsoleWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\GameSceneView.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\HierarchyWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\InspectorWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\ProjectWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\TexturePreviewWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Editor\TestWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Prefab\PrefabFileWindow.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Prefab\PrefabViewWindow.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffer\ByteAddressBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffer\Data\GPUMaterial.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffer\Data\UVTransform.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffer\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\Framework\RenderingFramework.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Collection\RenderingPipelineCollection.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Interface\IPostProcessPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\PerObject\Blur\PostProcessGaussianBlurPerObject.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\PerObject\Grayscale\PostProcessGrayscalePerObject.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\PerObject\Light\PostProcessLighting.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\PerObject\TerrainBrush\PostProcessTerrainBrush.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\PerObject\VoxelTerrainBrush\PostProcessVoxelTerrainBrush.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\Screen\Fog\PostProcessFog.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\Screen\Grayscale\PostProcessGrayscale.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\Screen\RadialBlur\PostProcessRadialBlur.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\PostProcess\Screen\Shadow\PostProcessShadowApply.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\CopyImage\CopyImageRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Effect\EffectRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Gizmo\GizmoPrimitiveVertices.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Gizmo\GizmoRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Grass\GrassRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Grid\GridRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\DissolveMeshRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\MeshRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshSkeletonRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Primitive\Line2DRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Primitive\Line3DRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\River\RiverRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Skybox\SkyboxRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Sprite\SpriteRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Terrain\TerrainProceduralRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\Terrain\TerrainRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainBrushPreviewRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainTransvoxelRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainVertexCreatePipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\VoxelTerrain\VoxelTerrainVertexShaderRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\RenderTexture\RenderTexture.cpp" />
+    <ClCompile Include="Engine\Graphics\RenderTexture\SceneRenderTexture.cpp" />
+    <ClCompile Include="Engine\Graphics\Shader\ComputePipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Shader\GraphicsPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Shader\Shader.cpp">
+      <ObjectFileName>$(IntDir)\Shader1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Shader\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\Scene\Loader\SceneIO.cpp" />
+    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\Script\InternalCalls\AddInternalMethods.cpp" />
+    <ClCompile Include="Engine\Script\InternalCalls\EventInternalCalls.cpp" />
+    <ClCompile Include="Engine\Script\MonoScriptEngine.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Externals\DirectXTex\DirectXTex.vcxproj">
+      <Project>{A90EE592-95C6-26E0-FECD-FF3BEAA4C1D0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Externals\ImGui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
