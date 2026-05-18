@@ -48,6 +48,10 @@ public class Reinforcement : MonoScript
     // カメラのEntity
     private Entity  cameraEntity    = null;
 
+    // 元の色を保持
+    private Vector4 originalColor   = Vector4.one;
+    private bool    colorSaved      = false;
+
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -59,6 +63,7 @@ public class Reinforcement : MonoScript
         isCollisionEnabled = false;
         timer           = 0.0f;
         cameraEntity    = ecsGroup.FindEntity("Camera");
+        colorSaved      = false;
     }
 
     public override void Update()
@@ -81,8 +86,8 @@ public class Reinforcement : MonoScript
             return;
         }
 
-        // 画面内に完全に入ったかチェックして当たり判定を有効化
-        if (!isCollisionEnabled && !isRetreating)
+        // 画面内判定して当たり判定と色を切り替え
+        if (!isRetreating)
         {
             if (cameraEntity == null)
             {
@@ -97,6 +102,7 @@ public class Reinforcement : MonoScript
                 Vector3 cameraForward = cameraEntity.transform.rotate * Vector3.forward;
 
                 float distance = toTarget.Length();
+                bool inFrustum = false;
                 if (distance > 0.1f)
                 {
                     toTarget = toTarget.Normalized();
@@ -106,18 +112,33 @@ public class Reinforcement : MonoScript
                     float halfAngleRad = (viewAngle * 0.5f) * Mathf.Deg2Rad;
                     float threshold = Mathf.Cos(halfAngleRad);
 
-                    // 視界内に入ったら当たり判定有効化
                     if (dot >= threshold)
                     {
-                        isCollisionEnabled = true;
+                        inFrustum = true;
+                    }
+                }
 
-                        // 視野角に入ったら色を変更してフィードバック
-                        MeshRenderer meshRenderer = entity.GetComponent<MeshRenderer>();
-                        if (meshRenderer != null)
-                        {
-                            // 例として少し赤っぽくする (1, 0.5, 0.5, 1)
-                            meshRenderer.color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f);
-                        }
+                MeshRenderer meshRenderer = entity.GetComponent<MeshRenderer>();
+                if (meshRenderer != null && !colorSaved)
+                {
+                    originalColor = meshRenderer.color;
+                    colorSaved = true;
+                }
+
+                if (inFrustum)
+                {
+                    isCollisionEnabled = true;
+                    if (meshRenderer != null)
+                    {
+                        meshRenderer.color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f);
+                    }
+                }
+                else
+                {
+                    isCollisionEnabled = false;
+                    if (meshRenderer != null && colorSaved)
+                    {
+                        meshRenderer.color = originalColor;
                     }
                 }
             }
@@ -126,8 +147,17 @@ public class Reinforcement : MonoScript
         // 退散
         if (isRetreating)
         {
-            // 退散中は当たり判定を切る
-            isCollisionEnabled = false;
+            // 退散中は当たり判定を切り、色を元に戻す
+            if (isCollisionEnabled)
+            {
+                isCollisionEnabled = false;
+                MeshRenderer meshRenderer = entity.GetComponent<MeshRenderer>();
+                if (meshRenderer != null && colorSaved)
+                {
+                    meshRenderer.color = originalColor;
+                }
+            }
+
             // 退散速度で移動
             transform.position += retreatVelocity * Time.deltaTime;
         }
