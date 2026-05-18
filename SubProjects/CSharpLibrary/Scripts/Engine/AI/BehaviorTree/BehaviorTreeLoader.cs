@@ -24,6 +24,7 @@ public static class BehaviorTreeLoader
 
         var root = JObject.Parse(jsonText);
         BehaviorTree tree = new BehaviorTree(owner);
+        tree.SourcePath = path; // NEW: Set source path for filtering status updates in editor
 
         // 2. Blackboard（共有変数）のロード
         // JSON内の "blackboard" 配列から変数を読み取り、型に応じたディクショナリに格納する。
@@ -104,6 +105,7 @@ public static class BehaviorTreeLoader
                         if (dType != null)
                         {
                             var decorator = (BehaviorDecorator)Activator.CreateInstance(dType);
+                            if (d["id"] != null) decorator.NodeIdHash = (uint)d["id"];
                             ApplyProperties(dType, decorator, d["properties"]);
                             node.AddDecorator(decorator);
                         }
@@ -120,6 +122,7 @@ public static class BehaviorTreeLoader
                         if (sType != null)
                         {
                             var service = (BehaviorService)Activator.CreateInstance(sType);
+                            if (s["id"] != null) service.NodeIdHash = (uint)s["id"];
                             ApplyProperties(sType, service, s["properties"]);
                             node.AddService(service);
                         }
@@ -205,6 +208,7 @@ public static class BehaviorTreeLoader
         if (props == null) return;
         foreach (var p in props.Children<JProperty>())
         {
+            // まずはフィールドを探す
             FieldInfo field = type.GetField(p.Name, BindingFlags.Public | BindingFlags.Instance);
             if (field != null)
             {
@@ -216,6 +220,23 @@ public static class BehaviorTreeLoader
                 catch (Exception e)
                 {
                     Debug.LogWarning($"BehaviorTreeLoader: Failed to set field {p.Name} on {type.Name}. {e.Message}");
+                }
+            }
+            else
+            {
+                // フィールドがなければプロパティを探す（AbortPolicyなどがこちらに該当する）
+                PropertyInfo prop = type.GetProperty(p.Name, BindingFlags.Public | BindingFlags.Instance);
+                if (prop != null && prop.CanWrite)
+                {
+                    try
+                    {
+                        object val = ConvertValue(prop.PropertyType, p.Value.ToString());
+                        prop.SetValue(instance, val);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {p.Name} on {type.Name}. {e.Message}");
+                    }
                 }
             }
         }
@@ -230,7 +251,15 @@ public static class BehaviorTreeLoader
         if (type == typeof(int)) return int.Parse(value);
         if (type == typeof(float)) return float.Parse(value);
         if (type == typeof(bool)) return bool.Parse(value);
-        if (type.IsEnum) return Enum.Parse(type, value);
+        if (type.IsEnum)
+        {
+            // 数値文字列（"0", "1" など）か、名前（"Success", "Failure" など）かを判定
+            if (int.TryParse(value, out int intVal))
+            {
+                return Enum.ToObject(type, intVal);
+            }
+            return Enum.Parse(type, value, true);
+        }
         return null;
     }
 

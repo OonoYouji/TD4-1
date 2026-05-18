@@ -25,7 +25,15 @@ public class BehaviorTree
     /// </summary>
     public Entity Owner { get; }
 
-    // Blackboardの変数が書き換わった際、ツリーの再評価（割り込み処理）が必要かどうかを示すフラグ
+    /// <summary>
+    /// このツリーがロードされた元のJSONファイルのパス。
+    /// エディタでのデバッグ表示のフィルタリングに使用される。
+    /// </summary>
+    public string SourcePath { get; set; }
+
+    /// <summary>
+    /// Blackboardの変数が書き換わった際、ツリーの再評価（割り込み処理）が必要かどうかを示すフラグ
+    /// </summary>
     private bool _reevaluateRequest = false;
 
     // Blackboardの特定のキー（変数）を監視しているデコレーターのリスト。
@@ -205,7 +213,8 @@ public class BehaviorTree
         outStatuses[node.NodeIdHash] = node.LastStatus;
         
         // C++エディタへ状態を通知（グラフ上のノード枠色をリアルタイムに変更するため）
-        Internal_UpdateNodeStatus(node.NodeIdHash, (int)node.LastStatus);
+        // ツリーのソースパスを渡すことで、エディタ側で現在表示中のファイルのみを更新するようにフィルタリングする
+        Internal_UpdateNodeStatus(node.NodeIdHash, (int)node.LastStatus, SourcePath ?? "");
 
         // 子ノードも再帰的に収集
         if (node is CompositeNode composite)
@@ -221,5 +230,5 @@ public class BehaviorTree
     /// C++エディタへノードの状態を送信するための内部呼び出し。
     /// </summary>
     [MethodImpl(MethodImplOptions.InternalCall)]
-    private static extern void Internal_UpdateNodeStatus(uint nodeIdHash, int status);
+    private static extern void Internal_UpdateNodeStatus(uint nodeIdHash, int status, string treePath);
 }

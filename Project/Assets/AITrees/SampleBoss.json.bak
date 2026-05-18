@@ -94,58 +94,58 @@
     "links": [
         {
             "endPin": 4,
-            "id": 36,
+            "id": 37,
             "startPin": 2
         },
         {
-            "endPin": 8,
-            "id": 37,
-            "startPin": 5
-        },
-        {
-            "endPin": 20,
+            "endPin": 9,
             "id": 38,
             "startPin": 5
         },
         {
-            "endPin": 35,
+            "endPin": 21,
             "id": 39,
             "startPin": 5
         },
         {
-            "endPin": 12,
+            "endPin": 36,
             "id": 40,
-            "startPin": 9
+            "startPin": 5
         },
         {
-            "endPin": 16,
+            "endPin": 13,
             "id": 41,
-            "startPin": 13
+            "startPin": 10
         },
         {
-            "endPin": 18,
+            "endPin": 17,
             "id": 42,
-            "startPin": 13
+            "startPin": 14
         },
         {
-            "endPin": 24,
+            "endPin": 19,
             "id": 43,
-            "startPin": 21
+            "startPin": 14
         },
         {
-            "endPin": 30,
+            "endPin": 25,
             "id": 44,
-            "startPin": 21
+            "startPin": 22
         },
         {
-            "endPin": 28,
+            "endPin": 31,
             "id": 45,
-            "startPin": 25
+            "startPin": 22
         },
         {
-            "endPin": 33,
+            "endPin": 29,
             "id": 46,
-            "startPin": 31
+            "startPin": 26
+        },
+        {
+            "endPin": 34,
+            "id": 47,
+            "startPin": 32
         }
     ],
     "nodes": [
@@ -202,6 +202,13 @@
                         "resultEntityKey": "Target",
                         "targetNameKey": "Target"
                     }
+                },
+                {
+                    "className": "DebugAngerService",
+                    "name": "Auto Anger Trigger",
+                    "properties": {
+                        "delay": "5.0"
+                    }
                 }
             ]
         },
@@ -220,10 +227,10 @@
                 }
             ],
             "hasBreakpoint": false,
-            "id": 7,
+            "id": 8,
             "inputs": [
                 {
-                    "id": 8,
+                    "id": 9,
                     "name": "In"
                 }
             ],
@@ -231,7 +238,7 @@
             "name": "Anger Phase Branch",
             "outputs": [
                 {
-                    "id": 9,
+                    "id": 10,
                     "name": "Out"
                 }
             ],
@@ -246,10 +253,10 @@
             "className": "Parallel",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 11,
+            "id": 12,
             "inputs": [
                 {
-                    "id": 12,
+                    "id": 13,
                     "name": "In"
                 }
             ],
@@ -257,7 +264,7 @@
             "name": "Chase & Attack",
             "outputs": [
                 {
-                    "id": 13,
+                    "id": 14,
                     "name": "Out"
                 }
             ],
@@ -286,10 +293,10 @@
             "className": "MoveToPosNode",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 15,
+            "id": 16,
             "inputs": [
                 {
-                    "id": 16,
+                    "id": 17,
                     "name": "In"
                 }
             ],
@@ -310,10 +317,10 @@
             "className": "RunBehaviorNode",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 17,
+            "id": 18,
             "inputs": [
                 {
-                    "id": 18,
+                    "id": 19,
                     "name": "In"
                 }
             ],
@@ -343,10 +350,10 @@
                 }
             ],
             "hasBreakpoint": false,
-            "id": 19,
+            "id": 20,
             "inputs": [
                 {
-                    "id": 20,
+                    "id": 21,
                     "name": "In"
                 }
             ],
@@ -354,7 +361,7 @@
             "name": "Normal Combat Branch",
             "outputs": [
                 {
-                    "id": 21,
+                    "id": 22,
                     "name": "Out"
                 }
             ],
@@ -379,10 +386,10 @@
                 }
             ],
             "hasBreakpoint": false,
-            "id": 23,
+            "id": 24,
             "inputs": [
                 {
-                    "id": 24,
+                    "id": 25,
                     "name": "In"
                 }
             ],
@@ -390,7 +397,7 @@
             "name": "Special Skill Branch",
             "outputs": [
                 {
-                    "id": 25,
+                    "id": 26,
                     "name": "Out"
                 }
             ],
@@ -405,10 +412,10 @@
             "className": "RunBehaviorNode",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 27,
+            "id": 28,
             "inputs": [
                 {
-                    "id": 28,
+                    "id": 29,
                     "name": "In"
                 }
             ],
@@ -428,10 +435,10 @@
             "className": "Sequence",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 29,
+            "id": 30,
             "inputs": [
                 {
-                    "id": 30,
+                    "id": 31,
                     "name": "In"
                 }
             ],
@@ -439,7 +446,7 @@
             "name": "Normal Attack Branch",
             "outputs": [
                 {
-                    "id": 31,
+                    "id": 32,
                     "name": "Out"
                 }
             ],
@@ -454,10 +461,10 @@
             "className": "RunBehaviorNode",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 32,
+            "id": 33,
             "inputs": [
                 {
-                    "id": 33,
+                    "id": 34,
                     "name": "In"
                 }
             ],
@@ -477,10 +484,10 @@
             "className": "WaitRandomNode",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 34,
+            "id": 35,
             "inputs": [
                 {
-                    "id": 35,
+                    "id": 36,
                     "name": "In"
                 }
             ],

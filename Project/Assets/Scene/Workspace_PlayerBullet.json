@@ -161,7 +161,7 @@
                             }
                         }
                     },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
                     "type": "MeshRenderer"
                 },
                 {

@@ -37,15 +37,13 @@ public class InvokeEventNode : BehaviorNode
     /// </summary>
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        uint startTimeKey = NodeIdHash;
+        uint startTimeKey = BehaviorTreeLoader.HashString("EventStart_" + NodeIdHash);
 
         if (!blackboard.HasKey(startTimeKey))
         {
             // 1. 初回実行: イベントを発行
             Debug.Log($"[InvokeEvent] {owner.name} triggered event: {eventName}");
             
-            // TODO: エンジン側の文字列イベントシステムが実装されたらここに呼び出しを追加
-            // 現状は互換性のためにTestEventとして発行しておく（必要に応じて）
             FrameEvent.EnqueueEntityEvent(FrameEvent.Type.TestEvent, owner.Id);
             
             if (!waitUntilComplete)
@@ -57,22 +55,26 @@ public class InvokeEventNode : BehaviorNode
             return NodeStatus.Running;
         }
 
-        // 2. 2回目以降の実行（待機中）: タイムアウトをチェックする
+        // 2. 2回目以降の実行（待機中）
         float startTime = blackboard.GetFloat(startTimeKey);
         float elapsed = Time.time - startTime;
 
         // 設定されたタイムアウト時間を超えた場合
         if (elapsed >= timeoutSec)
         {
-            // フェイルセーフ発動：Blackboardから時刻を消去し、Failure（失敗）として異常終了する
             blackboard.Remove(startTimeKey);
             return NodeStatus.Failure;
         }
 
-        // TODO: 外部システムからの「演出完了通知」を受け取るフラグ監視ロジックをここに追加する。
-        // （完了通知を受け取った場合は、startTimeKeyを削除してNodeStatus.Successを返す）
+        // 現状は外部からの完了通知システムがないため、一定時間（例：1.0秒）経過したら
+        // 演出が完了したものとみなして Success を返すように暫定実装
+        if (elapsed >= 1.0f) 
+        {
+            Debug.Log($"[InvokeEvent] {owner.name} event '{eventName}' completed (simulated).");
+            blackboard.Remove(startTimeKey);
+            return NodeStatus.Success;
+        }
         
-        // 完了通知もタイムアウトも来ていなければ、引き続き待機（Running）
         return NodeStatus.Running;
     }
 }

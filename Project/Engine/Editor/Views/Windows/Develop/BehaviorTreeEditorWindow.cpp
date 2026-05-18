@@ -657,7 +657,11 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
 }
 
 void BehaviorTreeEditorWindow::CreateLink(ed::PinId startPin, ed::PinId endPin) { m_Links.emplace_back(GetNextId(), startPin, endPin); }
-void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status) { 
+void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status, const std::string& treePath) { 
+    // 現在エディタで開いているファイルパスと一致する場合のみ、実行状態を更新する
+    // これにより、サブツリーや他の実行中AIのステータスが混ざるのを防ぐ
+    if (treePath != m_CurrentFilePath) return;
+
     m_RuntimeNodeStatuses[nodeIdHash] = status; 
     m_NodeLastActiveTime[nodeIdHash] = ONEngine::Time::GetTime(); 
 }
@@ -701,6 +705,10 @@ json BehaviorTreeEditorWindow::GetTreeAsJson() {
 void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
     ed::SetCurrentEditor(m_Editor);
     m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_CommentBoxes.clear(); m_NextId = 1;
+    m_RuntimeNodeStatuses.clear(); // NEW: ファイル切り替え時に古い実行状態をクリア
+    m_NodeLastActiveTime.clear();
+    m_RuntimeBBValues.clear();
+
     if (data.contains("blackboard")) {
         for (const auto& v : data["blackboard"]) {
             BBVariable var; var.key = v["key"]; var.type = static_cast<BBVarType>(v["type"].get<int>()); var.iVal = v["iVal"]; var.fVal = v["fVal"]; var.bVal = v["bVal"];
