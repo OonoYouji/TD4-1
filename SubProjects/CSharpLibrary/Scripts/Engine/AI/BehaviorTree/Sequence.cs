@@ -10,34 +10,65 @@ public class Sequence : CompositeNode
 
     /// <summary>
     /// 子ノードの実行ループ。
-    /// 内部に状態を持たない「Reactive」な設計となっているため、毎フレーム必ず最初の子から評価し直す。
-    /// そのため、Sequence内に配置する各アクションノードは、完了済みのタスクを再度実行しないように
-    /// Blackboardを用いて自身の実行状態（終了フラグ等）を管理することが推奨される。
+    /// 実行ポインタ（ActiveNode）を維持するイベント駆動設計に対応し、
+    /// Running状態から再開した場合は、中断されていたインデックスから処理を開始する。
     /// </summary>
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        for (int i = 0; i < children.Count; i++)
+        // 実行中の子ノードのインデックスをBlackboardから取得（なければ0から開始）
+        uint indexKey = BehaviorTreeLoader.HashString("SeqIndex_" + NodeIdHash);
+        int startIndex = blackboard.GetInt(indexKey, 0);
+
+        for (int i = startIndex; i < children.Count; i++)
         {
-            // 子ノードを実行（内部でデコレーターの条件チェックも行われる）
+            // 現在実行中のインデックスを保存（途中中断やRunning時に備える）
+            blackboard.SetInt(indexKey, i);
+            
+            // 子ノードを実行
             var status = children[i].Tick(blackboard, owner);
             
             switch (status)
             {
-                // 一連の手順の途中で一つでも失敗すれば、即座に手順全体を中断しFailureを返す
+                // 手順の途中で失敗したら、即座に終了しインデックスをリセット
                 case NodeStatus.Failure:
+                    blackboard.SetInt(indexKey, 0);
                     return NodeStatus.Failure;
                     
-                // 現在の手順が実行中であれば、以降の手順には進まず自身もRunningを返す
+                // 実行中の場合は、次フレームでこのインデックスから再開するためにRunningを返す
                 case NodeStatus.Running:
                     return NodeStatus.Running;
                     
-                // 手順が成功したら、次の手順（次の子ノード）の評価へ進む
+                // 成功したら次の子ノードへ進む
                 case NodeStatus.Success:
                     continue;
             }
         }
 
-        // 全ての子ノードの処理が完了（成功）した場合のみ、自身もSuccessを返す
+        // 全て成功したらインデックスをリセットしてSuccessを返す
+        blackboard.SetInt(indexKey, 0);
         return NodeStatus.Success;
+    }
+
+    public override NodeStatus OnChildCompleted(BehaviorNode child, NodeStatus status, Blackboard blackboard, Entity owner)
+    {
+        uint indexKey = BehaviorTreeLoader.HashString("SeqIndex_" + NodeIdHash);
+        int currentIndex = blackboard.GetInt(indexKey, 0);
+
+        if (status == NodeStatus.Failure)
+        {
+            blackboard.SetInt(indexKey, 0);
+            return NodeStatus.Failure;
+        }
+
+        // 次の手順へ
+        int nextIndex = currentIndex + 1;
+        if (nextIndex >= children.Count)
+        {
+            blackboard.SetInt(indexKey, 0);
+            return NodeStatus.Success;
+        }
+
+        blackboard.SetInt(indexKey, nextIndex);
+        return children[nextIndex].Tick(blackboard, owner);
     }
 }

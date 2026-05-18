@@ -16,12 +16,14 @@ namespace Editor {
 
 BehaviorTreeEditorWindow* BehaviorTreeEditorWindow::s_Instance = nullptr;
 
-BehaviorTreeEditorWindow::BehaviorTreeEditorWindow(ONEngine::EntityComponentSystem* ecs)
-    : pEcs_(ecs) {
+BehaviorTreeEditorWindow::BehaviorTreeEditorWindow(const std::string& title, ONEngine::EntityComponentSystem* ecs)
+    : pEcs_(ecs), m_WindowTitle(title) {
     s_Instance = this;
     ed::Config config;
     config.SettingsFile = "BehaviorTreeEditor_UI.json";
     m_Editor = ed::CreateEditor(&config);
+
+    m_LastAutoSaveTime = ONEngine::Time::GetTime();
 
     InitializeEditor();
 }
@@ -40,10 +42,49 @@ void BehaviorTreeEditorWindow::InitializeEditor() {
     for (const auto& m : moduleClasses) {
         availableModuleClasses_.push_back({ m.fullName, !m.isDecorator });
     }
+    RefreshFileList();
+}
+
+void BehaviorTreeEditorWindow::RefreshFileList() {
+    m_AvailableTrees.clear();
+    std::string path = "Assets/AITrees";
+    if (std::filesystem::exists(path)) {
+        for (const auto& entry : std::filesystem::directory_iterator(path)) {
+            if (entry.path().extension() == ".json") {
+                m_AvailableTrees.push_back(entry.path().filename().string());
+            }
+        }
+    }
+}
+
+void BehaviorTreeEditorWindow::DrawFileBrowser() {
+    if (ImGui::Button("Refresh Files")) RefreshFileList();
+    ImGui::Separator();
+
+    ImGui::BeginChild("FileList");
+    for (const auto& fileName : m_AvailableTrees) {
+        bool isSelected = (m_CurrentFilePath.find(fileName) != std::string::npos);
+        if (ImGui::Selectable(fileName.c_str(), isSelected)) {
+            m_CurrentFilePath = "Assets/AITrees/" + fileName;
+            LoadTree(m_CurrentFilePath);
+        }
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Click to Load: %s", fileName.c_str());
+    }
+    ImGui::EndChild();
 }
 
 void BehaviorTreeEditorWindow::ShowImGui() {
     s_Instance = this;
+
+    // オートセーブ処理
+    float currentTime = ONEngine::Time::GetTime();
+    if (currentTime - m_LastAutoSaveTime > m_AutoSaveInterval) {
+        m_LastAutoSaveTime = currentTime;
+        if (!m_CurrentFilePath.empty()) {
+            std::string backupPath = m_CurrentFilePath + ".bak";
+            SaveTree(backupPath);
+        }
+    }
 
     if (!ONEngine::DebugConfig::isDebugging) {
         m_RuntimeNodeStatuses.clear();
@@ -51,7 +92,9 @@ void BehaviorTreeEditorWindow::ShowImGui() {
         m_NodeLastActiveTime.clear();
     }
 
-    if (!ImGui::Begin("Behavior Tree Editor", nullptr)) {
+    // ウィンドウタイトルに '*' を表示（IDを固定するために ### を使用）
+    std::string displayTitle = m_WindowTitle + (m_IsDirty ? "*" : "") + "###" + m_WindowTitle;
+    if (!ImGui::Begin(displayTitle.c_str(), nullptr)) {
         ImGui::End();
         return;
     }
@@ -76,11 +119,15 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     if (ImGui::Button("Redo")) Redo(); ImGui::SameLine();
     ImGui::TextDisabled("|"); ImGui::SameLine();
 
-    if (ImGui::Button("Save")) SaveTree(m_CurrentFilePath);
+    if (ImGui::Button("Save")) { if (!m_CurrentFilePath.empty()) SaveTree(m_CurrentFilePath); }
     ImGui::SameLine();
-    if (ImGui::Button("Load")) LoadTree(m_CurrentFilePath);
+    if (ImGui::Button("Save As...")) { ImGui::OpenPopup("Save As"); }
     ImGui::SameLine();
-    if (ImGui::Button("Refresh")) InitializeEditor();
+    if (ImGui::Button("New")) { RecordUndo(); m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_CurrentFilePath = ""; CreateNode("Entry"); ed::NavigateToContent(); }
+    ImGui::SameLine();
+    if (ImGui::Button("Focus")) { ed::SetCurrentEditor(m_Editor); ed::NavigateToContent(); ed::SetCurrentEditor(nullptr); }
+    ImGui::SameLine();
+    if (ImGui::Button("Refresh")) { InitializeEditor(); RefreshFileList(); }
     ImGui::SameLine();
     if (ONEngine::DebugConfig::isPause) {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
@@ -93,11 +140,30 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     ImGui::SameLine();
     ImGui::Text("Nodes:%d Modules:%d", (int)availableNodeClasses_.size(), (int)availableModuleClasses_.size());
 
-    ImGui::PushItemWidth(300);
-    char pathBuf[256];
-    strncpy_s(pathBuf, m_CurrentFilePath.c_str(), sizeof(pathBuf));
-    if (ImGui::InputText("File Path", pathBuf, sizeof(pathBuf))) m_CurrentFilePath = pathBuf;
-    ImGui::PopItemWidth();
+    // Save As Popup
+    if (ImGui::BeginPopupModal("Save As", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        static char nameBuf[64] = "NewTree";
+        ImGui::Text("Enter new file name:");
+        ImGui::InputText(".json", nameBuf, sizeof(nameBuf));
+        
+        std::string newPath = "Assets/AITrees/" + std::string(nameBuf) + ".json";
+        bool exists = std::filesystem::exists(newPath);
+        if (exists) {
+            ImGui::TextColored(ImVec4(1, 0.5f, 0, 1), "Warning: File already exists and will be overwritten.");
+        }
+
+        if (ImGui::Button("Save", ImVec2(120, 0))) {
+            SaveTree(newPath);
+            m_CurrentFilePath = newPath;
+            RefreshFileList();
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+        ImGui::EndPopup();
+    }
+
+    ImGui::Text("Current File: %s", m_CurrentFilePath.empty() ? "(Unsaved)" : m_CurrentFilePath.c_str());
 
     ImGui::Separator();
 
@@ -107,7 +173,13 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     float rightWidth = 280.0f; 
     float centerWidth = ImGui::GetContentRegionAvail().x - leftWidth - rightWidth - (spacing * 2.0f);
 
-    if (ImGui::BeginChild("LeftPanel", ImVec2(leftWidth, 0), true)) DrawBlackboardEditor();
+    if (ImGui::BeginChild("LeftPanel", ImVec2(leftWidth, 0), true)) {
+        if (ImGui::BeginTabBar("LeftTabs")) {
+            if (ImGui::BeginTabItem("Files")) { DrawFileBrowser(); ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Blackboard")) { DrawBlackboardEditor(); ImGui::EndTabItem(); }
+            ImGui::EndTabBar();
+        }
+    }
     ImGui::EndChild();
     ImGui::SameLine();
     if (ImGui::BeginChild("CenterPanel", ImVec2(centerWidth, 0), true)) DrawGraphEditor();
@@ -219,6 +291,11 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
     
     // ブレークポイント表示
     if (selectedNode->hasBreakpoint) ImGui::TextColored(ImVec4(1, 0, 0, 1), "BREAKPOINT ACTIVE");
+    if (selectedNode->hasError) {
+        ImGui::TextColored(ImVec4(1, 0.2f, 0.2f, 1), "VALIDATION ERROR:");
+        ImGui::TextDisabled("%s", selectedNode->validationError.c_str());
+    }
+
     if (ImGui::Button(selectedNode->hasBreakpoint ? "Disable Breakpoint" : "Enable Breakpoint")) {
         RecordUndo();
         selectedNode->hasBreakpoint = !selectedNode->hasBreakpoint;
@@ -226,12 +303,18 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
 
     if (ImGui::CollapsingHeader("Modules", ImGuiTreeNodeFlags_DefaultOpen)) {
         for (int i = 0; i < (int)selectedNode->decorators.size(); ++i) {
+            auto& d = selectedNode->decorators[i];
             bool isSelected = (s_SelectedModuleId == i && !s_SelectedModuleIsService);
-            if (ImGui::Selectable(std::format("[D] {}", selectedNode->decorators[i].name).c_str(), isSelected)) { s_SelectedModuleId = i; s_SelectedModuleIsService = false; }
+            if (d.hasError) { ImGui::TextColored(ImVec4(1, 0, 0, 1), "!"); ImGui::SameLine(); }
+            if (ImGui::Selectable(std::format("[D] {}", d.name).c_str(), isSelected)) { s_SelectedModuleId = i; s_SelectedModuleIsService = false; }
+            if (d.hasError && ImGui::IsItemHovered()) ImGui::SetTooltip("%s", d.validationError.c_str());
         }
         for (int i = 0; i < (int)selectedNode->services.size(); ++i) {
+            auto& s = selectedNode->services[i];
             bool isSelected = (s_SelectedModuleId == i && s_SelectedModuleIsService);
-            if (ImGui::Selectable(std::format("[S] {}", selectedNode->services[i].name).c_str(), isSelected)) { s_SelectedModuleId = i; s_SelectedModuleIsService = true; }
+            if (s.hasError) { ImGui::TextColored(ImVec4(1, 0, 0, 1), "!"); ImGui::SameLine(); }
+            if (ImGui::Selectable(std::format("[S] {}", s.name).c_str(), isSelected)) { s_SelectedModuleId = i; s_SelectedModuleIsService = true; }
+            if (s.hasError && ImGui::IsItemHovered()) ImGui::SetTooltip("%s", s.validationError.c_str());
         }
     }
     ImGui::Separator();
@@ -242,7 +325,12 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
     else {
         auto& modules = s_SelectedModuleIsService ? selectedNode->services : selectedNode->decorators;
         if (s_SelectedModuleId < (int)modules.size()) {
-            targetClassName = modules[s_SelectedModuleId].className; targetProps = &modules[s_SelectedModuleId].properties;
+            auto& m = modules[s_SelectedModuleId];
+            if (m.hasError) {
+                ImGui::TextColored(ImVec4(1, 0.2f, 0.2f, 1), "MODULE ERROR:");
+                ImGui::TextDisabled("%s", m.validationError.c_str());
+            }
+            targetClassName = m.className; targetProps = &m.properties;
             if (ImGui::Button("Move Up") && s_SelectedModuleId > 0) { RecordUndo(); std::swap(modules[s_SelectedModuleId], modules[s_SelectedModuleId - 1]); s_SelectedModuleId--; }
             ImGui::SameLine();
             if (ImGui::Button("Move Down") && s_SelectedModuleId < (int)modules.size() - 1) { RecordUndo(); std::swap(modules[s_SelectedModuleId], modules[s_SelectedModuleId + 1]); s_SelectedModuleId++; }
@@ -283,6 +371,7 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
 }
 
 void BehaviorTreeEditorWindow::DrawGraphEditor() {
+    ValidateNodes();
     ed::SetCurrentEditor(m_Editor);
     ed::Begin("BT_Graph_Editor", ImVec2(0, 0));
 
@@ -310,7 +399,8 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
                     }
                 }
             }
-            std::sort(children.begin(), children.end(), [](Node* a, Node* b) { return ed::GetNodePosition(a->id).x > ed::GetNodePosition(b->id).x; });
+            // Y座標でソート（スタックなので降順に積むことで、昇順＝上にあるものが先に処理される）
+            std::sort(children.begin(), children.end(), [](Node* a, Node* b) { return ed::GetNodePosition(a->id).y > ed::GetNodePosition(b->id).y; });
             for (auto* child : children) stack.push_back(child);
         }
     }
@@ -373,9 +463,23 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
 
         ImVec4 titleColor = node.isDecorator ? ImVec4(0.3f, 0.6f, 1.0f, 1.0f) : ImVec4(1.0f, 0.8f, 0.2f, 1.0f);
         ImGui::TextColored(titleColor, "== %s ==", node.name.c_str());
+        if (node.hasError) {
+            ImGui::SameLine();
+            ImGui::TextColored(ImVec4(1, 0, 0, 1), "[!] ");
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s", node.validationError.c_str());
+        }
+
         if (executionOrder.count((uintptr_t)node.id.AsPointer())) { ImGui::SameLine(120); ImGui::TextDisabled("[%d]", executionOrder[(uintptr_t)node.id.AsPointer()]); }
-        for (const auto& d : node.decorators) ImGui::TextColored(ImVec4(0.4f, 0.7f, 1.0f, 1.0f), "[D] %s", d.name.c_str());
-        for (const auto& s : node.services) ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "[S] %s", s.name.c_str());
+        for (const auto& d : node.decorators) {
+            if (d.hasError) { ImGui::TextColored(ImVec4(1, 0, 0, 1), "!"); ImGui::SameLine(); }
+            ImGui::TextColored(ImVec4(0.4f, 0.7f, 1.0f, 1.0f), "[D] %s", d.name.c_str());
+            if (d.hasError && ImGui::IsItemHovered()) ImGui::SetTooltip("%s", d.validationError.c_str());
+        }
+        for (const auto& s : node.services) {
+            if (s.hasError) { ImGui::TextColored(ImVec4(1, 0, 0, 1), "!"); ImGui::SameLine(); }
+            ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "[S] %s", s.name.c_str());
+            if (s.hasError && ImGui::IsItemHovered()) ImGui::SetTooltip("%s", s.validationError.c_str());
+        }
         ImGui::Spacing();
         ImGui::BeginGroup();
         for (auto& pin : node.inputs) { ed::BeginPin(pin.id, ed::PinKind::Input); ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), ">"); ed::EndPin(); ImGui::SameLine(); ImGui::TextUnformatted(pin.name.c_str()); }
@@ -552,25 +656,29 @@ void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
         }
     }
     std::map<uintptr_t, ed::PinId> pinIdMap;
-    for (const auto& n : data["nodes"]) {
-        std::string className = n["className"]; bool isDecorator = n.value("isDecorator", false);
-        Node* node = CreateNode(className, isDecorator);
-        node->name = n["name"];
-        node->hasBreakpoint = n.value("hasBreakpoint", false);
-        if (n.contains("properties")) { for (auto it = n["properties"].begin(); it != n["properties"].end(); ++it) node->properties[it.key()] = it.value(); }
-        if (n.contains("decorators")) {
-            for (const auto& d : n["decorators"]) node->decorators.push_back({ (uint32_t)GetNextId(), d["className"], d["name"], d["properties"].get<std::map<std::string, std::string>>(), false });
+    if (data.contains("nodes")) {
+        for (const auto& n : data["nodes"]) {
+            std::string className = n["className"]; bool isDecorator = n.value("isDecorator", false);
+            Node* node = CreateNode(className, isDecorator);
+            node->name = n["name"];
+            node->hasBreakpoint = n.value("hasBreakpoint", false);
+            if (n.contains("properties")) { for (auto it = n["properties"].begin(); it != n["properties"].end(); ++it) node->properties[it.key()] = it.value(); }
+            if (n.contains("decorators")) {
+                for (const auto& d : n["decorators"]) node->decorators.push_back({ (uint32_t)GetNextId(), d["className"], d["name"], d["properties"].get<std::map<std::string, std::string>>(), false });
+            }
+            if (n.contains("services")) {
+                for (const auto& s : n["services"]) node->services.push_back({ (uint32_t)GetNextId(), s["className"], s["name"], s["properties"].get<std::map<std::string, std::string>>(), true });
+            }
+            if (n.contains("inputs") && n["inputs"].size() == node->inputs.size()) { for (size_t i = 0; i < node->inputs.size(); ++i) pinIdMap[(uintptr_t)n["inputs"][i]["id"]] = node->inputs[i].id; }
+            if (n.contains("outputs") && n["outputs"].size() == node->outputs.size()) { for (size_t i = 0; i < node->outputs.size(); ++i) pinIdMap[(uintptr_t)n["outputs"][i]["id"]] = node->outputs[i].id; }
+            ed::SetNodePosition(node->id, ImVec2(n["pos"][0].get<float>(), n["pos"][1].get<float>()));
         }
-        if (n.contains("services")) {
-            for (const auto& s : n["services"]) node->services.push_back({ (uint32_t)GetNextId(), s["className"], s["name"], s["properties"].get<std::map<std::string, std::string>>(), true });
-        }
-        if (n.contains("inputs") && n["inputs"].size() == node->inputs.size()) { for (size_t i = 0; i < node->inputs.size(); ++i) pinIdMap[(uintptr_t)n["inputs"][i]["id"]] = node->inputs[i].id; }
-        if (n.contains("outputs") && n["outputs"].size() == node->outputs.size()) { for (size_t i = 0; i < node->outputs.size(); ++i) pinIdMap[(uintptr_t)n["outputs"][i]["id"]] = node->outputs[i].id; }
-        ed::SetNodePosition(node->id, ImVec2(n["pos"][0].get<float>(), n["pos"][1].get<float>()));
     }
-    for (const auto& l : data["links"]) {
-        uintptr_t startId = l["startPin"]; uintptr_t endId = l["endPin"];
-        if (pinIdMap.count(startId) && pinIdMap.count(endId)) CreateLink(pinIdMap[startId], pinIdMap[endId]);
+    if (data.contains("links")) {
+        for (const auto& l : data["links"]) {
+            uintptr_t startId = l["startPin"]; uintptr_t endId = l["endPin"];
+            if (pinIdMap.count(startId) && pinIdMap.count(endId)) CreateLink(pinIdMap[startId], pinIdMap[endId]);
+        }
     }
     if (data.contains("comments")) {
         for (const auto& c : data["comments"]) {
@@ -580,9 +688,13 @@ void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
             ed::SetNodePosition(ed::NodeId(cb.id), cb.pos);
         }
     }
+
+    // NEW: 自動的に全ノードを画面に収める
+    ed::NavigateToContent(0.0f);
 }
 
 void BehaviorTreeEditorWindow::RecordUndo() {
+    m_IsDirty = true;
     m_UndoStack.push_back(GetTreeAsJson());
     if (m_UndoStack.size() > m_MaxUndoSteps) m_UndoStack.pop_front();
     m_RedoStack.clear();
@@ -656,10 +768,76 @@ void BehaviorTreeEditorWindow::DuplicateSelectedNodes() {
     PasteNodes();
 }
 
+void BehaviorTreeEditorWindow::ValidateNodes() {
+    for (auto& node : m_Nodes) {
+        node.hasError = false;
+        node.validationError = "";
+
+        if (node.className == "Entry") {
+            bool hasChild = false;
+            for (const auto& link : m_Links) {
+                if (link.startPinId == node.outputs[0].id) { hasChild = true; break; }
+            }
+            if (!hasChild) {
+                node.hasError = true;
+                node.validationError += "- Root has no child tree connected.\n";
+            }
+        }
+        else if (node.className == "Sequence" || node.className == "Selector") {
+            bool hasChild = false;
+            for (const auto& link : m_Links) {
+                for (const auto& outPin : node.outputs) {
+                    if (link.startPinId == outPin.id) { hasChild = true; break; }
+                }
+                if (hasChild) break;
+            }
+            if (!hasChild) {
+                node.hasError = true;
+                node.validationError += "- Composite node has no children.\n";
+            }
+        }
+        else if (node.className == "RunBehaviorNode") {
+            if (node.properties["treePath"].empty()) {
+                node.hasError = true;
+                node.validationError += "- Behavior tree path is not assigned.\n";
+            }
+        }
+
+        for (auto& d : node.decorators) {
+            d.hasError = false;
+            d.validationError = "";
+            if (d.className == "BlackboardDecorator") {
+                if (d.properties["keyName"].empty()) {
+                    d.hasError = true;
+                    d.validationError = "Blackboard key is not assigned.";
+                    node.hasError = true;
+                    node.validationError += std::format("- Decorator [{}] has no key assigned.\n", d.name);
+                }
+            }
+        }
+
+        for (auto& s : node.services) {
+            s.hasError = false;
+            s.validationError = "";
+            if (s.className == "SensingService") {
+                if (s.properties["targetNameKey"].empty()) {
+                    s.hasError = true;
+                    s.validationError = "Target Name Key is not assigned.";
+                    node.hasError = true;
+                    node.validationError += std::format("- Service [{}] target key is missing.\n", s.name);
+                }
+            }
+        }
+    }
+}
+
 void BehaviorTreeEditorWindow::SaveTree(const std::string& path) {
     json data = GetTreeAsJson();
     std::filesystem::path fsPath(path); if (!std::filesystem::exists(fsPath.parent_path())) std::filesystem::create_directories(fsPath.parent_path());
-    std::ofstream file(path); if (file.is_open()) file << data.dump(4);
+    std::ofstream file(path); if (file.is_open()) {
+        file << data.dump(4);
+        m_IsDirty = false;
+    }
 }
 
 void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
@@ -667,6 +845,7 @@ void BehaviorTreeEditorWindow::LoadTree(const std::string& path) {
     json data; try { file >> data; } catch (...) { return; }
     RecordUndo();
     ApplyTreeFromJson(data);
+    m_IsDirty = false;
 }
 
 }

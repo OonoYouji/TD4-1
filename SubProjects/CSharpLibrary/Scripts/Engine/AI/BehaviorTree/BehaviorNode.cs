@@ -47,6 +47,41 @@ public abstract class BehaviorNode
     public void AddService(BehaviorService service) => Services.Add(service);
 
     /// <summary>
+    /// このノードが属しているビヘイビアツリーのインスタンス。
+    /// </summary>
+    public BehaviorTree Tree { get; set; }
+
+    /// <summary>
+    /// このノードの親ノード。ツリー構造を上に辿るために使用される。
+    /// </summary>
+    public BehaviorNode Parent { get; set; }
+
+    /// <summary>
+    /// 子ノードが完了（Success or Failure）した際に親ノードへ通知されるコールバック。
+    /// コンポジットノードはこのメソッドをオーバーライドして、次に実行すべき子ノードを決定する。
+    /// </summary>
+    /// <param name="child">完了した子ノード</param>
+    /// <param name="status">子ノードの実行結果</param>
+    /// <param name="blackboard">共有記憶領域</param>
+    /// <param name="owner">実行エンティティ</param>
+    /// <returns>親ノードとしての新しい実行状態</returns>
+    public virtual NodeStatus OnChildCompleted(BehaviorNode child, NodeStatus status, Blackboard blackboard, Entity owner)
+    {
+        return status;
+    }
+
+    /// <summary>
+    /// ノードが実行中（Running）に他の優先度の高いノードや条件変更によって中断された際に呼び出される。
+    /// 移動の停止やアニメーションのキャンセルなど、後片付け処理をここで実装する。
+    /// </summary>
+    /// <param name="blackboard">共有記憶領域</param>
+    /// <param name="owner">実行エンティティ</param>
+    public virtual void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        // 既定では何もしない
+    }
+
+    /// <summary>
     /// ノードの実行エントリーポイント。
     /// 内部でサービス、デコレーター、そして本体ロジックを順に処理する。
     /// </summary>
@@ -94,6 +129,12 @@ public abstract class BehaviorNode
         // 3. 本体ロジックの実行
         // 継承先のクラスで実装された具体的な処理（移動、攻撃など）を実行する。
         NodeStatus result = Execute(blackboard, owner);
+
+        // 実行ポインタの更新: 実行中の場合はこのノードをアクティブとして記録する
+        if (result == NodeStatus.Running && Tree != null)
+        {
+            Tree.ActiveNode = this;
+        }
 
         // 4. Decorators による結果の加工 (Post-Process)
         // ノード本体の実行結果をデコレーターに渡し、結果を書き換える（例：強制的にSuccessにする、条件を満たすまでRunningにする等）。

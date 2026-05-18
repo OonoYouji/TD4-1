@@ -1,73 +1,69 @@
-# 実戦的ボスAI 構築ガイド：Behavior Tree 実装設計案
+# 実戦的ボスAI 構築ガイド：Behavior Tree 実装設計案 (v2.0)
 
-このドキュメントでは、ONEngine のビヘイビアツリー（BT）システムの各機能をフル活用した、アクションゲーム向けボスの行動設計案を解説します。
+このドキュメントでは、ONEngine の最新ビヘイビアツリー（BT）機能をフル活用した、高度なアクションゲーム向けボスの行動設計案を解説します。
 
 ---
 
 ## 1. Blackboard (記憶) の定義
-まず、AIが判断材料とする変数を定義します。
+AIが判断材料とする変数を定義します。
 
 | 変数名 | 型 | 用途 |
 | :--- | :--- | :--- |
-| `TargetName` | String | ターゲット（例："Player"）の名前。 |
-| `DistanceToPlayer` | Float | プレイヤーとの現在の距離（Serviceで更新）。 |
-| `IsPlayerInSight` | Bool | プレイヤーが視界内にいるか（Serviceで判定）。 |
-| `IsEnraged` | Bool | 怒り状態フラグ（HP低下などのイベントでON）。 |
-| `SuperAttackCooldown` | Bool | 必殺技が使用可能か（Cooldownモジュールで管理）。 |
+| `Target` | Entity | 追従・攻撃対象。 |
+| `TargetPos` | Vector3 | Targetの現在の座標（SensingServiceで更新）。 |
+| `MoveToPos` | Vector3 | 移動の目標地点（SimpleEQSで計算）。 |
+| `IsAnger` | Bool | 怒り状態フラグ（HP低下でTrue）。 |
+| `DistanceToTarget` | Float | ターゲットとの距離。 |
+| `CombatPhase` | Int | 現在のフェーズ（0:巡回, 1:通常, 2:狂暴）。 |
+| `SkillCooldown` | Bool | 必殺技のクールダウン中か。 |
 
 ---
 
-## 2. ビヘイビアツリー構造
+## 2. 推奨ツリー構造 (フル機能活用版)
 
-**ROOT ENTRY**
-└─ **Selector (メインブレイン)**  
-　　※ **[Service] SensingService**: 毎フレーム索敵を行い `DistanceToPlayer` 等を自動更新
-　　
-### ① 必殺技ブランチ (最優先)
-*   **Node:** Sequence
-*   **[Decorator] LogicDecorator**: (AND: `IsPlayerInSight` && `IsEnraged`)
-*   **[Decorator] CooldownDecorator**: (15.0s)
-*   **Actions:** 
-    1.  `InvokeEventNode` ("SuperAttackStart")
-    2.  `WaitNode` (3.0s)
+最新機能（Parallel, SimpleEQS, Advanced Decorator）を組み合わせた構造例です。
 
-### ② 近接コンボブランチ (射程内)
-*   **Node:** Sequence
-*   **[Decorator] BlackboardDecorator**: (条件: `DistanceToPlayer` < 3.0, **Abort: Self**)
-*   **[Service] DefaultFocusService**: 攻撃中、プレイヤーを自動で向き続ける
-*   **[Decorator] LoopDecorator**: (3回ループ)
-    *   **Action: `RunBehaviorNode`**: ("Assets/AITrees/SlashAttack.json")
-    *   ※ 個別の攻撃モーションをサブツリー化して再利用。
-
-### ③ 追跡ブランチ (発見時)
-*   **Node:** Sequence
-*   **[Decorator] BlackboardDecorator**: (条件: `IsPlayerInSight` == true, **Abort: Self**)
-*   **[Service] DefaultFocusService**: 移動中、プレイヤーの方向へ体を向ける
-*   **Action: `MoveToPlayerNode`**
-
-### ④ 巡回ブランチ (非発見時・低優先度)
-*   **Node:** Sequence
-*   **Action: `RunBehaviorNode`**: ("Assets/AITrees/PatrolPattern.json")
-*   ※ 複雑な巡回ルートを別ファイルに分離して管理。
+### Root (Selector)
+*   **[Phase 2: 狂暴状態] (Sequence)**
+    *   *Decorator: Blackboard (CombatPhase == 2, ObserverAborts: Both)*
+    *   **狂暴化エフェクト再生 (Task)**
+    *   **[並列行動] (Parallel: SuccessPolicy=All)**
+        *   **高速追従 (SimpleEQS + MoveTo)**: `angleOffset=180` (常に背後を狙う)。
+        *   **連続斬撃 (Task)**: 移動しながら攻撃を繰り出す。
+*   **[Phase 1: 戦闘状態] (Selector)**
+    *   *Decorator: Blackboard (Target != null, ObserverAborts: Both)*
+    *   **[必殺技] (Sequence)**
+        *   *Decorator: Blackboard (SkillCooldown == false && DistanceToTarget < 5.0)*
+        *   **溜め動作 (WaitRandom: 0.5s~1.0s)**
+        *   **回転斬り (Task)**
+        *   **クールダウン開始 (Task)**
+    *   **[回り込み移動] (Sequence)**
+        *   *Decorator: Blackboard (DistanceToTarget > 10.0)*
+        *   **目標地点計算 (SimpleEQS)**: ターゲットの横側 (`angleOffset=90`) を指定。
+        *   **移動 (MoveToPosNode)**
+    *   **[基本攻撃] (Task)**: 近接攻撃を実行。
+*   **[Idle/Patrol] (WaitRandom: 2s~4s)**: ターゲットがいない時の待機。
 
 ---
 
-## 3. この設計で使用している高度な機能
+## 3. 活用されている高度なテクニック
 
-### Observer Aborts (監視による中断)
-近接コンボ（②）や追跡（③）に `Abort: Self` を設定することで、**「追いかけている途中でプレイヤーが射程に入った瞬間に、追跡ノードを中断して即座にコンボへ移行する」** という、UEスタイルのキビキビした挙動を実現します。
+### ① Parallel による「動きながらの攻撃」
+従来のツリーでは「移動」と「攻撃」を順に実行（Sequence）する必要がありましたが、**Parallel ノード**を使用することで、`SimpleEQS` で算出した最新の目標地点へ移動し続けながら、同時に攻撃モーションを再生することが可能になります。これにより「逃げるプレイヤーを追いかけながら切りつける」という執拗な挙動が実現します。
 
-### LogicDecorator (論理ゲート)
-「怒り状態」かつ「視界内にいる」という、フラグが2つ揃った時だけ発動する必殺技を、コードを書かずにエディタ上の設定だけで構築しています。
+### ② SimpleEQS による「賢いポジショニング」
+単にプレイヤーへ直進するのではなく、`SimpleEQSService` を使用して「プレイヤーの横 5m」や「プレイヤーの背後」といった動的な目標地点を Blackboard に書き込みます。`MoveTo` ノードはこの座標を参照するだけでよいため、タスクの責務が分離され、再利用性が高まります。
 
-### Sub-tree (Run Behavior)
-「3連撃の各アクション」や「複雑な巡回AI」を別ツリー (`.json`) に分けることで、メインのツリーが巨大化して煩雑になるのを防ぎ、デバッグもしやすくしています。
+### ③ Advanced Decorator による「フェーズ遷移」
+`BlackboardQuery` の拡張（Equal, GreaterThan等）により、「HPが50%以下ならフェーズ1へ」「怒りフラグが立っているならフェーズ2へ」といった複雑な条件分岐を、C#コードを書かずにエディタ上で完結できます。
 
-### Runtime Watcher (実行時監視)
-ゲームを動かしながら、Blackboard パネルの **「Runtime」タブ** を見ることで、「なぜ今ボスが必殺技を打たないのか（まだクールダウン中なのか？視界から外れたのか？）」をリアルタイムで特定できます。
+### ④ Observer Aborts (Lower Priority) による「割り込み」
+プレイヤーが遠くに逃げた際、現在実行中の「近接攻撃」を即座に中断（**OnAbort**）し、上位にある「追いかけ（EQS + MoveTo）」に即座に評価を飛ばすことで、AIの反応速度を飛躍的に向上させています。
 
 ---
 
-## 4. 今後の拡張アドバイス
-*   **Random Selector:** 攻撃の種類をランダムに変えたい場合は、優先順位ではなくランダムに子を選ぶ `RandomSelector` ノードを追加してください。
-*   **Parallel:** 攻撃しながら別の特殊効果を発生させたい場合は、複数の子を同時に実行する `Parallel` ノードが有効です。
+## 4. デバッグのポイント
+*   **Validator の活用**: 
+    エディタ上で赤い **[!] アイコン**が出ていないか確認してください。特に Subtree (`RunBehaviorNode`) のパスが正しいか、EQS の出力キーと移動ノードの入力キーが一致しているかをチェックします。
+*   **Runtime ハイライト**: 
+    Parallel ノード内では複数の子が同時に黄色（Running）になります。どのポリシー（One/All）で完了しようとしているか、各ノードの状態を注視してください。

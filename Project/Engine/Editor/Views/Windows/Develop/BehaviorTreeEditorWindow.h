@@ -26,7 +26,7 @@ namespace ed = ax::NodeEditor;
 
 class BehaviorTreeEditorWindow : public IEditorWindow {
 public:
-    BehaviorTreeEditorWindow(ONEngine::EntityComponentSystem* ecs);
+    BehaviorTreeEditorWindow(const std::string& title, ONEngine::EntityComponentSystem* ecs);
     ~BehaviorTreeEditorWindow() override;
 
     void ShowImGui() override;
@@ -70,9 +70,14 @@ private:
             std::string name;
             std::map<std::string, std::string> properties;
             bool isService = false;
+            std::string validationError;
+            bool hasError = false;
         };
         std::vector<Module> decorators;
         std::vector<Module> services;
+
+        std::string validationError;
+        bool hasError = false;
 
         Node(int _id, const std::string& _name, ImColor _color = ImColor(255, 255, 255))
             : id(_id), name(_name), color(_color) {}
@@ -116,8 +121,11 @@ private:
     void DrawNodeList();
     void DrawGraphEditor();
     void DrawBlackboardEditor();
+    void DrawFileBrowser();
     void DrawNodeInspector();
+    void ValidateNodes();
     
+    void RefreshFileList();
     void SaveTree(const std::string& path);
     void LoadTree(const std::string& path);
 
@@ -164,6 +172,13 @@ private:
     ed::NodeId m_SelectedNodeId = 0;
     ImVec2 m_ContextNodePos;
     int m_NextId = 1;
+
+    std::string m_WindowTitle;
+    std::vector<std::string> m_AvailableTrees;
+    bool m_IsDirty = false;
+
+    float m_LastAutoSaveTime = 0.0f;
+    const float m_AutoSaveInterval = 60.0f; // 1 minute for better safety in dev
 
     int GetNextId() { return m_NextId++; }
 };

@@ -16,6 +16,22 @@ public enum ObserverAbortPolicy
 }
 
 /// <summary>
+/// Blackboardの値をどのように比較するかを定義する演算子。
+/// </summary>
+public enum BlackboardQuery
+{
+    IsSet,          // 値が設定されている（null/0以外）
+    IsNotSet,       // 値が設定されていない（null/0）
+    Equal,          // 一致する
+    NotEqual,       // 一致しない
+    Less,           // 未満
+    LessOrEqual,    // 以下
+    Greater,        // 超過
+    GreaterOrEqual, // 以上
+    StringContains  // 文字列が含まれる
+}
+
+/// <summary>
 /// Blackboardの特定の変数（キー）を監視し、その値に基づいて実行の可否を判定するデコレーター。
 /// Unreal Engineの Blackboard Decorator に相当する。
 /// </summary>
@@ -23,10 +39,19 @@ public class BlackboardDecorator : BehaviorDecorator
 {
     /// <summary>
     /// 監視対象となるBlackboardのキー名。
-    /// エディタ上では [BlackboardKey] 属性により、登録されている変数のドロップダウンとして表示される。
     /// </summary>
     [BlackboardKey]
     public string keyName = "";
+
+    /// <summary>
+    /// 比較演算子。
+    /// </summary>
+    public BlackboardQuery queryOperator = BlackboardQuery.IsSet;
+
+    /// <summary>
+    /// 比較対象となる値（文字列として保持し、実行時に変換）。
+    /// </summary>
+    public string compareValue = "";
 
     /// <summary>
     /// ツリー初期化時に呼ばれ、このデコレーターが監視すべきキーのハッシュ値を BehaviorTree に登録する。
@@ -42,23 +67,64 @@ public class BlackboardDecorator : BehaviorDecorator
     public override bool CalculateCondition(Blackboard blackboard, Entity owner)
     {
         uint key = BehaviorTreeLoader.HashString(keyName);
-        
-        // キーが存在しなければ無条件で失敗（False）とする
-        if (!blackboard.HasKey(key)) return false;
 
-        // 型が不定な場合でも汎用的に値を取得する
+        // 1. 基本的な存在チェック (IsSet / IsNotSet)
+        bool hasKey = blackboard.HasKey(key);
+        if (queryOperator == BlackboardQuery.IsNotSet) return !hasKey;
+        if (!hasKey) return false;
+
         object val = blackboard.GetValueAsObject(key);
-        if (val == null) return false;
+        if (val == null) return queryOperator == BlackboardQuery.IsNotSet;
+        if (queryOperator == BlackboardQuery.IsSet) 
+        {
+            if (val is int i) return i != 0;
+            if (val is float f) return f != 0.0f;
+            if (val is bool b) return b;
+            if (val is string s) return !string.IsNullOrEmpty(s);
+            return true;
+        }
 
-        // 取得した値の型に応じて「条件を満たしているか（True扱いか）」を判定する
-        // 本来は列挙型で比較演算子（Equal, NotEqual, GreaterThan 等）を持たせるべきだが、
-        // 現状は簡易的に「0ではない」「空ではない」「Falseではない」ことを成功条件としている。
-        if (val is int i) return i != 0;
-        if (val is float f) return f != 0.0f;
-        if (val is bool b) return b;
-        if (val is string s) return !string.IsNullOrEmpty(s);
+        // 2. 詳細な比較ロジック
+        try
+        {
+            switch (queryOperator)
+            {
+                case BlackboardQuery.Equal:
+                    return val.ToString() == compareValue;
+                case BlackboardQuery.NotEqual:
+                    return val.ToString() != compareValue;
 
-        // その他の参照型などであれば、nullでなかった時点で成功とする
-        return true;
+                case BlackboardQuery.Less:
+                case BlackboardQuery.LessOrEqual:
+                case BlackboardQuery.Greater:
+                case BlackboardQuery.GreaterOrEqual:
+                    if (val is int iv) {
+                        int cv = int.Parse(compareValue);
+                        if (queryOperator == BlackboardQuery.Less) return iv < cv;
+                        if (queryOperator == BlackboardQuery.LessOrEqual) return iv <= cv;
+                        if (queryOperator == BlackboardQuery.Greater) return iv > cv;
+                        if (queryOperator == BlackboardQuery.GreaterOrEqual) return iv >= cv;
+                    }
+                    if (val is float fv) {
+                        float cv = float.Parse(compareValue);
+                        if (queryOperator == BlackboardQuery.Less) return fv < cv;
+                        if (queryOperator == BlackboardQuery.LessOrEqual) return fv <= cv;
+                        if (queryOperator == BlackboardQuery.Greater) return fv > cv;
+                        if (queryOperator == BlackboardQuery.GreaterOrEqual) return fv >= cv;
+                    }
+                    break;
+
+                case BlackboardQuery.StringContains:
+                    return val.ToString().Contains(compareValue);
+            }
+        }
+        catch
+        {
+            // パース失敗時などは安全のために false を返す
+            return false;
+        }
+
+        return false;
     }
 }
+

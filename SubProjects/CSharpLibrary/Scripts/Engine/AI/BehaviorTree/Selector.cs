@@ -10,33 +10,64 @@ public class Selector : CompositeNode
 
     /// <summary>
     /// 子ノードの実行ループ。
-    /// 内部に状態を持たない「Reactive」な設計となっているため、毎フレーム必ず最初の子から評価し直す。
-    /// これにより、実行中の行動より優先度の高い行動の条件が満たされた際、自然とそちらに実行権が移る（横取りされる）性質を持つ。
+    /// 実行ポインタ（ActiveNode）を維持する設計に対応。
+    /// セレクターは「優先度の高い方から試す」性質上、常に0番目の子から評価を試みる。
     /// </summary>
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
+        uint indexKey = BehaviorTreeLoader.HashString("SelIndex_" + NodeIdHash);
+
         for (int i = 0; i < children.Count; i++)
         {
-            // 子ノードを実行（内部でデコレーターの条件チェックも行われる）
+            // 現在評価中のインデックスを保存
+            blackboard.SetInt(indexKey, i);
+            
+            // 子ノードを実行
             var status = children[i].Tick(blackboard, owner);
             
             switch (status)
             {
-                // 一つでも成功すれば、以降の子ノードは評価せずに自身もSuccessを返す
+                // 一つでも成功すれば、インデックスをリセットしてSuccessを返す
                 case NodeStatus.Success:
+                    blackboard.SetInt(indexKey, 0);
                     return NodeStatus.Success;
                     
-                // 子ノードが継続中（時間がかかる処理など）であれば、自身もRunningを返す
+                // 実行中の場合は、次フレームでこのインデックスから再開するためにRunningを返す
                 case NodeStatus.Running:
                     return NodeStatus.Running;
                     
-                // 失敗した場合は、次の優先度の子ノードを試すためにループを継続する
+                // 失敗した場合は、次の優先度の子ノードを試す
                 case NodeStatus.Failure:
                     continue;
             }
         }
 
-        // 全ての子ノードが失敗した場合のみ、自身もFailureを返す
+        // 全て失敗したらインデックスをリセットしてFailureを返す
+        blackboard.SetInt(indexKey, 0);
         return NodeStatus.Failure;
+    }
+
+    public override NodeStatus OnChildCompleted(BehaviorNode child, NodeStatus status, Blackboard blackboard, Entity owner)
+    {
+        uint indexKey = BehaviorTreeLoader.HashString("SelIndex_" + NodeIdHash);
+        int currentIndex = blackboard.GetInt(indexKey, 0);
+
+        // 子が成功したなら、セレクター自身も成功として終了
+        if (status == NodeStatus.Success)
+        {
+            blackboard.SetInt(indexKey, 0);
+            return NodeStatus.Success;
+        }
+
+        // 失敗した場合は、現在のインデックスの次から再開する
+        int nextIndex = currentIndex + 1;
+        if (nextIndex >= children.Count)
+        {
+            blackboard.SetInt(indexKey, 0);
+            return NodeStatus.Failure;
+        }
+
+        blackboard.SetInt(indexKey, nextIndex);
+        return children[nextIndex].Tick(blackboard, owner);
     }
 }

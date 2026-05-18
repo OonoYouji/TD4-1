@@ -83,6 +83,7 @@ public static class BehaviorTreeLoader
             {
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
                 node.NodeIdHash = (uint)id;
+                node.Tree = tree; // NEW: Set tree instance
                 
                 // ブレークポイント設定の反映
                 if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
@@ -135,7 +136,23 @@ public static class BehaviorTreeLoader
         }
 
         // 7. リンク情報に基づいたツリー構造（親子関係）の構築
-        foreach (var l in root["links"])
+        // 実行順序を「高さ（Y座標）」で制御するため、リンクをターゲットノードのY座標でソートする
+        var links = new List<JToken>(root["links"]);
+        links.Sort((a, b) => {
+            ulong childIdA = 0, childIdB = 0;
+            pinToNodeMap.TryGetValue((ulong)a["endPin"], out childIdA);
+            pinToNodeMap.TryGetValue((ulong)b["endPin"], out childIdB);
+
+            float yA = 0, yB = 0;
+            // JSONから座標を取得
+            foreach (var n in root["nodes"]) {
+                if ((ulong)n["id"] == childIdA) yA = (float)n["pos"][1];
+                if ((ulong)n["id"] == childIdB) yB = (float)n["pos"][1];
+            }
+            return yA.CompareTo(yB);
+        });
+
+        foreach (var l in links)
         {
             ulong startPin = (ulong)l["startPin"];
             ulong endPin = (ulong)l["endPin"];
@@ -159,6 +176,7 @@ public static class BehaviorTreeLoader
                     if (parentNode is CompositeNode composite)
                     {
                         composite.AddChild(childNode);
+                        childNode.Parent = parentNode; // NEW: Set parent
                     }
                 }
             }

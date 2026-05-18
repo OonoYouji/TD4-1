@@ -21,5 +21,5 @@ AITab::AITab(
 	(void)_sceneManager;
 
 	/// BehaviorTreeEditorWindowを追加
-	AddView(std::make_unique<BehaviorTreeEditorWindow>(_ecs));
+	AddView(std::make_unique<BehaviorTreeEditorWindow>("AI Behavior Tree", _ecs));
 }

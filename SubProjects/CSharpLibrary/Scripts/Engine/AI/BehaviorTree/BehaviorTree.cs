@@ -32,6 +32,10 @@ public class BehaviorTree
     // キーのハッシュ値を元に、どのデコレーターが反応すべきかを管理する。
     private readonly Dictionary<uint, List<BehaviorDecorator>> _monitoredDecorators = new Dictionary<uint, List<BehaviorDecorator>>();
 
+    // 現在実行中のノード（Running状態のノード）へのポインタ。
+    // イベント駆動エンジンとして、次フレームはここから再開する。
+    public BehaviorNode ActiveNode { get; set; }
+
     /// <summary>
     /// 新しいビヘイビアツリーのインスタンスを生成する。
     /// </summary>
@@ -101,18 +105,77 @@ public class BehaviorTree
     }
 
     /// <summary>
+    /// 指定したノードとそのすべての子孫ノードに対して Abort 処理を再帰的に実行する。
+    /// </summary>
+    private void AbortRecursive(BehaviorNode node)
+    {
+        if (node == null) return;
+
+        // 子ノード（コンポジットの場合）を先に中断
+        if (node is CompositeNode composite)
+        {
+            foreach (var child in composite.GetChildren()) AbortRecursive(child);
+        }
+
+        // ノード本体の中断処理を呼び出し
+        node.OnAbort(Blackboard, Owner);
+    }
+
+    /// <summary>
     /// 毎フレーム呼び出される、ビヘイビアツリーの実行エントリーポイント。
     /// </summary>
     public void Tick()
     {
         if (RootNode == null || Owner == null) return;
 
-        // 再評価リクエストがあれば、現在の実行状態を無視して（ステートレスなので自然に）最初から回す
-        // 現在の Reactive な実装では毎フレームRootから回しているため、このフラグは将来的な最適化（イベント駆動エンジンへの完全移行）の布石となる
-        RootNode.Tick(Blackboard, Owner);
-        
-        // 評価が終了したらリクエストフラグを下ろす
-        _reevaluateRequest = false;
+        // 1. 再評価リクエスト（割り込み）のチェック
+        if (_reevaluateRequest)
+        {
+            // 割り込みが発生した場合、現在の実行パスにあるすべてのノードに中断通知を送り、
+            // 最初（Root）から評価し直す。
+            if (ActiveNode != null)
+            {
+                // 現在のアクティブノードからRootまで辿ってすべて中断するか、
+                // あるいは安全のためにRootから全走査して中断するか。
+                // ここでは現在のアクティブノード周辺のみを確実に止めるため、
+                // ルートから全子孫に対して再帰的にAbortを送る（ステートレスなので影響は軽微）。
+                AbortRecursive(RootNode);
+            }
+            ActiveNode = null;
+            _reevaluateRequest = false;
+        }
+
+        // 2. 実行の開始または再開
+        // ActiveNode が保持されていればそこから、なければ Root から Tick を開始する。
+        NodeStatus status;
+        if (ActiveNode != null)
+        {
+            status = ActiveNode.Tick(Blackboard, Owner);
+        }
+        else
+        {
+            status = RootNode.Tick(Blackboard, Owner);
+        }
+
+        // 3. 親への結果伝播（バブリング）
+        // ノードが Success または Failure を返した場合、親ノードの OnChildCompleted を呼び出し、
+        // 実行ポインタを親へと戻しながら次のノードを決定する。
+        while (status != NodeStatus.Running)
+        {
+            // Rootが完了した、または実行ポインタが未設定の場合はツリー全体が完了
+            if (ActiveNode == null || ActiveNode.Parent == null)
+            {
+                ActiveNode = null;
+                break;
+            }
+
+            var finishedNode = ActiveNode;
+            ActiveNode = finishedNode.Parent; // 親へ戻る
+            status = ActiveNode.OnChildCompleted(finishedNode, status, Blackboard, Owner);
+        }
+
+        // Tick終了時点で status が Running の場合、
+        // 各ノードの Tick 内部で ActiveNode が更新されているため、次フレームはその地点から再開される。
     }
 
     /// <summary>
