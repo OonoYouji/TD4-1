@@ -274,6 +274,7 @@ public class Entity {
 		GetComponent<SpriteRenderer>();
 		GetComponent<AudioSource>();
 		GetComponent<AgentIntentComponent>();
+		GetComponent<CameraComponent>();
 	}
 
 

@@ -6,19 +6,42 @@ using System.Threading.Tasks;
 
 public class Test : MonoScript {
 
-	[SerializeField] Vector4 color;
-	[SerializeField] Vector2 textureSize;
-	[SerializeField] Vector2 uvTransform_position;
-	[SerializeField] float uvTransform_rotate;
-	[SerializeField] Vector2 uvTransform_scale;
+	[SerializeField] Vector4 mat1;
+	[SerializeField] Vector4 mat2;
+	[SerializeField] Vector4 mat3;
+	[SerializeField] Vector4 mat4;
+
+	[SerializeField] float fovY;
+	[SerializeField] float nearClip;
+	[SerializeField] float farClip;
+
 
 	public override void Initialize() {
-		SpriteRenderer renderer = entity.GetComponent<SpriteRenderer>();
-		color = renderer.color;
-		textureSize = renderer.textureSize;
-		uvTransform_position = renderer.uvTransform.offset;
-		uvTransform_rotate = renderer.uvTransform.rotate;
-		uvTransform_scale = renderer.uvTransform.scale;
+
+		CameraComponent camera = entity.GetComponent<CameraComponent>();
+		Matrix4x4 matVP = camera.matVP;
+		mat1 = matVP.GetRow(0);
+		mat2 = matVP.GetRow(1);
+		mat3 = matVP.GetRow(2);
+		mat4 = matVP.GetRow(3);
+
+		fovY = camera.fovY;
+		nearClip = camera.nearClip;
+		farClip = camera.farClip;
+	}
+
+	public override void Update() {
+		//CameraComponent camera = entity.GetComponent<CameraComponent>();
+		//Matrix4x4 matVP = camera.matVP;
+		//mat1 = matVP.GetRow(0);
+		//mat2 = matVP.GetRow(1);
+		//mat3 = matVP.GetRow(2);
+		//mat4 = matVP.GetRow(3);
+
+
+		//fovY = camera.fovY;
+		//nearClip = camera.nearClip;
+		//farClip = camera.farClip;
 	}
 
 }
