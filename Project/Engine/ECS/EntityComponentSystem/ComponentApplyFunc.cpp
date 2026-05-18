@@ -1,4 +1,4 @@
-﻿#include "ComponentApplyFunc.h"
+#include "ComponentApplyFunc.h"
 
 /// std
 #include <unordered_map>
@@ -11,6 +11,7 @@
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
@@ -54,6 +55,13 @@ struct SpriteBatch {
 	Vector4 color;
 	Vector2 textureSize;
 	UVTransform uvTransform;
+};
+
+struct AgentIntentBatch {
+	uint32_t compId;
+	Vector3 desiredMoveDirection;
+	uint8_t isAttacking;
+	uint32_t targetEntityId;
 };
 
 } /// unnamed namespace
@@ -114,6 +122,20 @@ void ONEngine::ComponentApplyFuncs::ApplySprite(void* _element, ECSGroup* _ecsGr
 	}
 }
 
+void ONEngine::ComponentApplyFuncs::ApplyAgentIntent(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<AgentIntentBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<AgentIntentComponent>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(AgentIntentComponent* ai = array->GetComponent(data->compId)) {
+		ai->desiredMoveDirection = data->desiredMoveDirection;
+		ai->isAttacking = (data->isAttacking != 0);
+		ai->targetEntityId = data->targetEntityId;
+	}
+}
+
 void ONEngine::ComponentApplyFuncs::FetchTransform(void* _element, ECSGroup* _ecsGroup) {
 	auto* data = static_cast<TransformBatch*>(_element);
 	auto* array = _ecsGroup->GetComponentArray<Transform>();
@@ -171,6 +193,20 @@ void ONEngine::ComponentApplyFuncs::FetchSprite(void* _element, ECSGroup* _ecsGr
 	}
 }
 
+void ONEngine::ComponentApplyFuncs::FetchAgentIntent(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<AgentIntentBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<AgentIntentComponent>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(AgentIntentComponent* ai = array->GetComponent(data->compId)) {
+		data->desiredMoveDirection = ai->desiredMoveDirection;
+		data->isAttacking = ai->isAttacking;
+		data->targetEntityId = ai->targetEntityId;
+	}
+}
+
 ComponentApplyFunc ComponentApplyFuncs::GetApplyFunc(MonoClass* _monoClass) {
 	auto itr = gApplyFuncMap.find(_monoClass);
 	if(itr == gApplyFuncMap.end()) {
@@ -222,5 +258,14 @@ void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
 		gApplyFuncMap[monoClass] = ApplySprite;
 		gFetchFuncMap[monoClass] = FetchSprite;
 		gComponentBatchSize[monoClass] = sizeof(SpriteBatch);
+	}
+
+	{	/// AgentIntentComponent
+		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "AgentIntentComponent");
+		if (monoClass) {
+			gApplyFuncMap[monoClass] = ApplyAgentIntent;
+			gFetchFuncMap[monoClass] = FetchAgentIntent;
+			gComponentBatchSize[monoClass] = sizeof(AgentIntentBatch);
+		}
 	}
 }

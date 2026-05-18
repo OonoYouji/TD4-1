@@ -11,6 +11,7 @@ using namespace ONEngine;
 #include "Engine/Core/Config/EngineConfig.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Script/Script.h"
 #include "Engine/Core/Threading/ThreadPool.h"
+#include "Engine/Core/Event/FrameEventQueue.h"
 
 GameFramework::GameFramework() {}
 GameFramework::~GameFramework() {
@@ -132,6 +133,9 @@ void GameFramework::Run() {
 		sceneManager_->Update();
 		entityComponentSystem_->Update();
 #endif // DEBUG_MODE
+
+		// Process all queued events for this frame
+		FrameEventQueue::GetInstance().Flush();
 
 		/// 描画処理
 		renderingFramework_->Draw();

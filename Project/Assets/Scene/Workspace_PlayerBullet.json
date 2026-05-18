@@ -105,7 +105,89 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 156.19996643066406,
+                        "x": 26.573284149169922,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "desiredMoveDirection": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": true,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "d4c69b1e432e54d26f80995d798b0ea2",
+            "id": 3,
+            "name": "Boss",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -127,16 +209,6 @@
                 },
                 {
                     "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "Test"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
                     "material": {
                         "baseColor": {
                             "w": 1.0,
@@ -144,10 +216,10 @@
                             "y": 1.0,
                             "z": 1.0
                         },
-                        "baseTextureGuid": "6d46b53d01009d0166af6d4aee0acb0c",
+                        "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
+                        "postEffectFlags": 1,
                         "uvTransform": {
                             "position": {
                                 "x": 0.0,
@@ -155,16 +227,17 @@
                             },
                             "rotate": 0.0,
                             "scale": {
-                                "x": 4.519999980926514,
-                                "y": 1.5199999809265137
+                                "x": 1.0,
+                                "y": 1.0
                             }
                         }
                     },
-                    "type": "SpriteRenderer"
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
                 }
             ],
-            "guid": "26f268661ab3796229c1fddad0de60c8",
-            "id": 3,
+            "guid": "e71959344d99f7272a984b3ac6c0504b",
+            "id": 4,
             "name": "Player",
             "parent": null,
             "prefabName": ""

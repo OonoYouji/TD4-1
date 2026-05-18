@@ -1,0 +1,95 @@
+{
+    "blackboard": [
+        { "key": "Target", "type": 4, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "Player" },
+        { "key": "CombatPhase", "type": 0, "iVal": 1, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
+        { "key": "SkillCooldown", "type": 2, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
+        { "key": "MoveToPos", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "nodes": [
+        {
+            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [-100.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+        },
+        {
+            "id": 2, "className": "Selector", "name": "RootSelector", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [],
+            "services": [
+                { "id": 210, "className": "ResolveTargetService", "name": "Resolve Player Entity", "properties": { "targetNameKey": "Target", "resultEntityKey": "Target" }, "isService": true },
+                { "id": 211, "className": "DebugAngerService", "name": "Auto Anger Trigger", "properties": { "delay": "5.0" }, "isService": true }
+            ],
+            "pos": [100.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+        },
+        {
+            "id": 3, "className": "Sequence", "name": "Anger Phase Branch", "isDecorator": false, "hasBreakpoint": false, "properties": {},
+            "decorators": [{ "id": 31, "className": "BlackboardDecorator", "name": "Phase == 2?", "properties": { "keyName": "CombatPhase", "queryOperator": "2", "compareValue": "2", "AbortPolicy": "3" }, "isService": false }],
+            "services": [], "pos": [450.0, -250.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": [{ "id": 32, "name": "Out" }]
+        },
+        {
+            "id": 4, "className": "Parallel", "name": "Chase & Attack", "isDecorator": false, "hasBreakpoint": false, "properties": { "successPolicy": "1", "failurePolicy": "0" },
+            "decorators": [],
+            "services": [{ "id": 41, "className": "SimpleEQSService", "name": "Find Backside", "properties": { "targetKey": "Target", "resultPosKey": "MoveToPos", "angleOffset": "180.0", "preferredDistance": "3.0" }, "isService": true }],
+            "pos": [750.0, -250.0],
+            "inputs": [{ "id": 40, "name": "In" }], "outputs": [{ "id": 42, "name": "Out" }]
+        },
+        {
+            "id": 5, "className": "MoveToPosNode", "name": "Run to Pos", "isDecorator": false, "hasBreakpoint": false, "properties": { "posKey": "MoveToPos", "stopDistance": "1.0" },
+            "decorators": [], "services": [], "pos": [1050.0, -320.0],
+            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 6, "className": "RunBehaviorNode", "name": "Basic Attack Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/BasicAttack.json" },
+            "decorators": [], "services": [], "pos": [1050.0, -180.0],
+            "inputs": [{ "id": 60, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 7, "className": "Selector", "name": "Normal Combat Branch", "isDecorator": false, "hasBreakpoint": false, "properties": {},
+            "decorators": [{ "id": 71, "className": "BlackboardDecorator", "name": "Has Target?", "properties": { "keyName": "Target", "queryOperator": "0", "AbortPolicy": "3" }, "isService": false }],
+            "services": [], "pos": [450.0, 50.0],
+            "inputs": [{ "id": 70, "name": "In" }], "outputs": [{ "id": 72, "name": "Out" }]
+        },
+        {
+            "id": 8, "className": "Sequence", "name": "Special Skill Branch", "isDecorator": false, "hasBreakpoint": false, "properties": {},
+            "decorators": [{ "id": 81, "className": "BlackboardDecorator", "name": "Ready?", "properties": { "keyName": "SkillCooldown", "queryOperator": "2", "compareValue": "false" }, "isService": false }],
+            "services": [], "pos": [750.0, -20.0],
+            "inputs": [{ "id": 80, "name": "In" }], "outputs": [{ "id": 82, "name": "Out" }]
+        },
+        {
+            "id": 9, "className": "RunBehaviorNode", "name": "Special Skill Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/SpecialSkill.json" },
+            "decorators": [], "services": [], "pos": [1050.0, -20.0],
+            "inputs": [{ "id": 90, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 10, "className": "Sequence", "name": "Normal Attack Branch", "isDecorator": false, "hasBreakpoint": false, "properties": {},
+            "decorators": [], "services": [], "pos": [750.0, 120.0],
+            "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 102, "name": "Out" }]
+        },
+        {
+            "id": 11, "className": "RunBehaviorNode", "name": "Basic Attack Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/BasicAttack.json" },
+            "decorators": [], "services": [], "pos": [1050.0, 120.0],
+            "inputs": [{ "id": 110, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 12, "className": "WaitRandomNode", "name": "Idle / Patrol", "isDecorator": false, "hasBreakpoint": false, "properties": { "minDuration": "2.0", "maxDuration": "4.0" },
+            "decorators": [], "services": [], "pos": [450.0, 300.0],
+            "inputs": [{ "id": 120, "name": "In" }], "outputs": []
+        }
+    ],
+    "links": [
+        { "id": 1000, "startPin": 10, "endPin": 20 },
+        { "id": 1001, "startPin": 21, "endPin": 30 },
+        { "id": 1002, "startPin": 21, "endPin": 70 },
+        { "id": 1003, "startPin": 21, "endPin": 120 },
+        { "id": 1004, "startPin": 32, "endPin": 40 },
+        { "id": 1005, "startPin": 42, "endPin": 50 },
+        { "id": 1006, "startPin": 42, "endPin": 60 },
+        { "id": 1007, "startPin": 72, "endPin": 80 },
+        { "id": 1008, "startPin": 72, "endPin": 100 },
+        { "id": 1009, "startPin": 82, "endPin": 90 },
+        { "id": 1010, "startPin": 102, "endPin": 110 }
+    ],
+    "comments": [
+        { "id": 2000, "text": "PHASE 2: ANGER MODE", "pos": [430, -380], "size": [850, 250], "color": [0.5, 0, 0, 0.3] },
+        { "id": 2001, "text": "PHASE 1: NORMAL COMBAT", "pos": [430, -80], "size": [850, 300], "color": [0, 0.3, 0.5, 0.3] }
+    ]
+}

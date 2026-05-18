@@ -20,6 +20,7 @@ public class Transform : Component {
 	public Vector3 position = new Vector3(0f, 0f, 0f);
 	public Vector3 worldPosition = Vector3.zero;
 	public Quaternion rotate = Quaternion.identity;
+	public Quaternion rotation { get => rotate; set => rotate = value; }
 	public Vector3 scale = new Vector3(1f, 1f, 1f);
 	public Matrix4x4 matrix = Matrix4x4.kIdentity;
 }

@@ -253,7 +253,7 @@ void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
 				if(!script.collisionEventMethods[0]) {
-					script.collisionEventMethods[0] = monoEngine.GetMethodFromCS(script.scriptName, "OnCollisionEnter", 1);
+					script.collisionEventMethods[0] = monoEngine.GetMethodFromCS("", script.scriptName, "OnCollisionEnter", 1);
 				}
 
 				mono_runtime_invoke(script.collisionEventMethods[0], monoBehavior, params, &exc);
@@ -310,7 +310,7 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
 				if(!script.collisionEventMethods[1]) {
-					script.collisionEventMethods[1] = monoEngine.GetMethodFromCS(script.scriptName, "OnCollisionStay", 1);
+					script.collisionEventMethods[1] = monoEngine.GetMethodFromCS("", script.scriptName, "OnCollisionStay", 1);
 				}
 
 				mono_runtime_invoke(script.collisionEventMethods[1], monoBehavior, params, &exc);
@@ -367,7 +367,7 @@ void CollisionSystem::CallExitFunc(const std::string& _ecsGroupName) {
 
 				MonoObject* monoBehavior = monoEngine.GetMonoBehaviorFromCS(_ecsGroupName, scripts[i]->GetOwner()->GetId(), script.scriptName);
 				if(!script.collisionEventMethods[2]) {
-					script.collisionEventMethods[2] = monoEngine.GetMethodFromCS(script.scriptName, "OnCollisionExit", 1);
+					script.collisionEventMethods[2] = monoEngine.GetMethodFromCS("", script.scriptName, "OnCollisionExit", 1);
 				}
 
 				mono_runtime_invoke(script.collisionEventMethods[2], monoBehavior, params, &exc);

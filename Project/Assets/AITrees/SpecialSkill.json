@@ -1,0 +1,101 @@
+{
+    "blackboard": [
+        {
+            "key": "SkillCooldown",
+            "type": 2,
+            "iVal": 0,
+            "fVal": 0.0,
+            "bVal": false,
+            "vVal": [0.0, 0.0, 0.0],
+            "sVal": ""
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1,
+            "className": "Entry",
+            "name": "Entry",
+            "isDecorator": false,
+            "hasBreakpoint": false,
+            "properties": {},
+            "decorators": [],
+            "services": [],
+            "pos": [0.0, 0.0],
+            "inputs": [],
+            "outputs": [{ "id": 10, "name": "Out" }]
+        },
+        {
+            "id": 2,
+            "className": "Sequence",
+            "name": "Special Skill Sequence",
+            "isDecorator": false,
+            "hasBreakpoint": false,
+            "properties": {},
+            "decorators": [],
+            "services": [],
+            "pos": [200.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }],
+            "outputs": [{ "id": 21, "name": "Out" }]
+        },
+        {
+            "id": 3,
+            "className": "WaitNode",
+            "name": "Charge Up",
+            "isDecorator": false,
+            "hasBreakpoint": false,
+            "properties": { "duration": "1.2" },
+            "decorators": [],
+            "services": [],
+            "pos": [500.0, -150.0],
+            "inputs": [{ "id": 30, "name": "In" }],
+            "outputs": []
+        },
+        {
+            "id": 4,
+            "className": "InvokeEventNode",
+            "name": "Spin Attack Anim",
+            "isDecorator": false,
+            "hasBreakpoint": false,
+            "properties": { "eventName": "PlayAnimation_SpinAttack", "waitUntilComplete": "true" },
+            "decorators": [],
+            "services": [],
+            "pos": [500.0, -50.0],
+            "inputs": [{ "id": 40, "name": "In" }],
+            "outputs": []
+        },
+        {
+            "id": 5,
+            "className": "SetBBValueNode",
+            "name": "Set Cooldown",
+            "isDecorator": false,
+            "hasBreakpoint": false,
+            "properties": { "keyName": "SkillCooldown", "type": "2", "value": "true" },
+            "decorators": [],
+            "services": [],
+            "pos": [500.0, 50.0],
+            "inputs": [{ "id": 50, "name": "In" }],
+            "outputs": []
+        },
+        {
+            "id": 6,
+            "className": "WaitNode",
+            "name": "End Lag",
+            "isDecorator": false,
+            "hasBreakpoint": false,
+            "properties": { "duration": "2.0" },
+            "decorators": [],
+            "services": [],
+            "pos": [500.0, 150.0],
+            "inputs": [{ "id": 60, "name": "In" }],
+            "outputs": []
+        }
+    ],
+    "links": [
+        { "id": 100, "startPin": 10, "endPin": 20 },
+        { "id": 101, "startPin": 21, "endPin": 30 },
+        { "id": 102, "startPin": 21, "endPin": 40 },
+        { "id": 103, "startPin": 21, "endPin": 50 },
+        { "id": 104, "startPin": 21, "endPin": 60 }
+    ],
+    "comments": []
+}

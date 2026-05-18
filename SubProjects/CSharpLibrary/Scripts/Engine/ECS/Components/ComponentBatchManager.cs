@@ -122,6 +122,32 @@ static class ComponentBatchManager {
 			return batch;
 		});
 
+		// --- AgentIntentComponent の登録 ---
+
+		// 送信用コンバータ (C#からC++へ)
+		RegisterConverter<AgentIntentComponent, AgentIntentComponent.BatchData>((ComponentArray<AgentIntentComponent> array) => {
+			int count = array.Count;
+			AgentIntentComponent.BatchData[] batch = new AgentIntentComponent.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+				batch[i].desiredMoveDirection = comp.desiredMoveDirection;
+				batch[i].isAttacking = (byte)(comp.isAttacking ? 1 : 0);
+				batch[i].targetEntityId = comp.targetEntityId;
+			}
+			return batch;
+		});
+
+		// 受信用アロケータ (C++からC#へ)
+		RegisterAllocator<AgentIntentComponent, AgentIntentComponent.BatchData>((ComponentArray<AgentIntentComponent> array) => {
+			int count = array.Count;
+			AgentIntentComponent.BatchData[] batch = new AgentIntentComponent.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+			}
+			return batch;
+		});
 
 	}
 
@@ -241,6 +267,17 @@ static class ComponentBatchManager {
 				comp.color = batch[i].color;
 				comp.textureSize = batch[i].textureSize;
 				comp.uvTransform = batch[i].uvTransform;
+			}
+		}
+
+		if (_componentType == typeof(AgentIntentComponent)) {
+			var array = (ComponentArray<AgentIntentComponent>)_array;
+			var batch = (AgentIntentComponent.BatchData[])_batch;
+			for (int i = 0; i < batch.Length; i++) {
+				var comp = array.Get(i);
+				comp.desiredMoveDirection = batch[i].desiredMoveDirection;
+				comp.isAttacking = (batch[i].isAttacking != 0);
+				comp.targetEntityId = batch[i].targetEntityId;
 			}
 		}
 	}

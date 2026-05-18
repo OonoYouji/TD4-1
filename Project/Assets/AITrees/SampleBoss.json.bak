@@ -1,0 +1,501 @@
+{
+    "blackboard": [
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "Target",
+            "sVal": "Player",
+            "type": 4,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 1,
+            "key": "CombatPhase",
+            "sVal": "",
+            "type": 0,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "SkillCooldown",
+            "sVal": "",
+            "type": 2,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "MoveToPos",
+            "sVal": "",
+            "type": 3,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ],
+    "comments": [
+        {
+            "color": [
+                0.5,
+                0.0,
+                0.0,
+                0.30000001192092896
+            ],
+            "id": 2000,
+            "pos": [
+                430.0,
+                -380.0
+            ],
+            "size": [
+                850.0,
+                250.0
+            ],
+            "text": "PHASE 2: ANGER MODE"
+        },
+        {
+            "color": [
+                0.0,
+                0.30000001192092896,
+                0.5,
+                0.30000001192092896
+            ],
+            "id": 2001,
+            "pos": [
+                430.0,
+                -80.0
+            ],
+            "size": [
+                850.0,
+                300.0
+            ],
+            "text": "PHASE 1: NORMAL COMBAT"
+        }
+    ],
+    "links": [
+        {
+            "endPin": 4,
+            "id": 36,
+            "startPin": 2
+        },
+        {
+            "endPin": 8,
+            "id": 37,
+            "startPin": 5
+        },
+        {
+            "endPin": 20,
+            "id": 38,
+            "startPin": 5
+        },
+        {
+            "endPin": 35,
+            "id": 39,
+            "startPin": 5
+        },
+        {
+            "endPin": 12,
+            "id": 40,
+            "startPin": 9
+        },
+        {
+            "endPin": 16,
+            "id": 41,
+            "startPin": 13
+        },
+        {
+            "endPin": 18,
+            "id": 42,
+            "startPin": 13
+        },
+        {
+            "endPin": 24,
+            "id": 43,
+            "startPin": 21
+        },
+        {
+            "endPin": 30,
+            "id": 44,
+            "startPin": 21
+        },
+        {
+            "endPin": 28,
+            "id": 45,
+            "startPin": 25
+        },
+        {
+            "endPin": 33,
+            "id": 46,
+            "startPin": 31
+        }
+    ],
+    "nodes": [
+        {
+            "className": "Entry",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 1,
+            "inputs": [],
+            "isDecorator": false,
+            "name": "Entry",
+            "outputs": [
+                {
+                    "id": 2,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                -100.0,
+                0.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "Selector",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 3,
+            "inputs": [
+                {
+                    "id": 4,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "RootSelector",
+            "outputs": [
+                {
+                    "id": 5,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                100.0,
+                0.0
+            ],
+            "properties": {},
+            "services": [
+                {
+                    "className": "ResolveTargetService",
+                    "name": "Resolve Player Entity",
+                    "properties": {
+                        "resultEntityKey": "Target",
+                        "targetNameKey": "Target"
+                    }
+                }
+            ]
+        },
+        {
+            "className": "Sequence",
+            "decorators": [
+                {
+                    "className": "BlackboardDecorator",
+                    "name": "Phase == 2?",
+                    "properties": {
+                        "AbortPolicy": "3",
+                        "compareValue": "2",
+                        "keyName": "CombatPhase",
+                        "queryOperator": "2"
+                    }
+                }
+            ],
+            "hasBreakpoint": false,
+            "id": 7,
+            "inputs": [
+                {
+                    "id": 8,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Anger Phase Branch",
+            "outputs": [
+                {
+                    "id": 9,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                450.0,
+                -250.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "Parallel",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 11,
+            "inputs": [
+                {
+                    "id": 12,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Chase & Attack",
+            "outputs": [
+                {
+                    "id": 13,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                750.0,
+                -250.0
+            ],
+            "properties": {
+                "failurePolicy": "0",
+                "successPolicy": "1"
+            },
+            "services": [
+                {
+                    "className": "SimpleEQSService",
+                    "name": "Find Backside",
+                    "properties": {
+                        "angleOffset": "180.0",
+                        "preferredDistance": "3.0",
+                        "resultPosKey": "MoveToPos",
+                        "targetKey": "Target"
+                    }
+                }
+            ]
+        },
+        {
+            "className": "MoveToPosNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 15,
+            "inputs": [
+                {
+                    "id": 16,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Run to Pos",
+            "outputs": [],
+            "pos": [
+                1050.0,
+                -320.0
+            ],
+            "properties": {
+                "posKey": "MoveToPos",
+                "stopDistance": "1.0"
+            },
+            "services": []
+        },
+        {
+            "className": "RunBehaviorNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 17,
+            "inputs": [
+                {
+                    "id": 18,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Basic Attack Subtree",
+            "outputs": [],
+            "pos": [
+                1050.0,
+                -180.0
+            ],
+            "properties": {
+                "treePath": "Assets/AITrees/BasicAttack.json"
+            },
+            "services": []
+        },
+        {
+            "className": "Selector",
+            "decorators": [
+                {
+                    "className": "BlackboardDecorator",
+                    "name": "Has Target?",
+                    "properties": {
+                        "AbortPolicy": "3",
+                        "keyName": "Target",
+                        "queryOperator": "0"
+                    }
+                }
+            ],
+            "hasBreakpoint": false,
+            "id": 19,
+            "inputs": [
+                {
+                    "id": 20,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Normal Combat Branch",
+            "outputs": [
+                {
+                    "id": 21,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                450.0,
+                50.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "Sequence",
+            "decorators": [
+                {
+                    "className": "BlackboardDecorator",
+                    "name": "Ready?",
+                    "properties": {
+                        "compareValue": "false",
+                        "keyName": "SkillCooldown",
+                        "queryOperator": "2"
+                    }
+                }
+            ],
+            "hasBreakpoint": false,
+            "id": 23,
+            "inputs": [
+                {
+                    "id": 24,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Special Skill Branch",
+            "outputs": [
+                {
+                    "id": 25,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                750.0,
+                -20.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "RunBehaviorNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 27,
+            "inputs": [
+                {
+                    "id": 28,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Special Skill Subtree",
+            "outputs": [],
+            "pos": [
+                1050.0,
+                -20.0
+            ],
+            "properties": {
+                "treePath": "Assets/AITrees/SpecialSkill.json"
+            },
+            "services": []
+        },
+        {
+            "className": "Sequence",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 29,
+            "inputs": [
+                {
+                    "id": 30,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Normal Attack Branch",
+            "outputs": [
+                {
+                    "id": 31,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                750.0,
+                120.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "RunBehaviorNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 32,
+            "inputs": [
+                {
+                    "id": 33,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Basic Attack Subtree",
+            "outputs": [],
+            "pos": [
+                1050.0,
+                120.0
+            ],
+            "properties": {
+                "treePath": "Assets/AITrees/BasicAttack.json"
+            },
+            "services": []
+        },
+        {
+            "className": "WaitRandomNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 34,
+            "inputs": [
+                {
+                    "id": 35,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Idle / Patrol",
+            "outputs": [],
+            "pos": [
+                450.0,
+                300.0
+            ],
+            "properties": {
+                "maxDuration": "4.0",
+                "minDuration": "2.0"
+            },
+            "services": []
+        }
+    ]
+}

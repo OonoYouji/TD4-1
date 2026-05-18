@@ -29,6 +29,12 @@ public class Entity {
 	/// methods
 	/// =========================================
 
+	public ECSGroup Group {
+		get {
+			return ecsGroup_;
+		}
+	}
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -267,6 +273,7 @@ public class Entity {
 		GetComponent<SkinMeshRenderer>();
 		GetComponent<SpriteRenderer>();
 		GetComponent<AudioSource>();
+		GetComponent<AgentIntentComponent>();
 	}
 
 
