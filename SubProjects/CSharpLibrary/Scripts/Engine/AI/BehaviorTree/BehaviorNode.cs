@@ -24,6 +24,12 @@ public abstract class BehaviorNode
     public NodeStatus LastStatus { get; protected set; } = NodeStatus.Failure;
 
     /// <summary>
+    /// このノードが最後に実行（Tick）された際のツリー全体のTick回数。
+    /// エディタでのデバッグ表示（現在実行中のパスかどうかの判定）に使用される。
+    /// </summary>
+    public uint LastTickCount { get; set; } = 0;
+
+    /// <summary>
     /// デバッグ用のブレークポイントがこのノードに設定されているかどうか。
     /// trueの場合、Tick実行時にゲームが一時停止する。
     /// </summary>
@@ -95,6 +101,12 @@ public abstract class BehaviorNode
     /// <returns>実行結果（Success, Failure, Running）</returns>
     public NodeStatus Tick(Blackboard blackboard, Entity owner)
     {
+        // Tick回数を更新（デバッグ表示用）
+        if (Tree != null)
+        {
+            LastTickCount = Tree.TickCount;
+        }
+
         // 0. ブレークポイントチェック
         // エディタでブレークポイントが設定されている場合、C++エンジン側に通知してゲームを一時停止させる
         if (HasBreakpoint)

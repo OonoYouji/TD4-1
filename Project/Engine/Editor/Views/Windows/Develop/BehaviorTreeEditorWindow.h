@@ -54,6 +54,7 @@ private:
 
     struct Node {
         ed::NodeId id;
+        uint32_t runtimeId = 0; // JSON上のID（C#側との同期用）
         std::string name;
         std::string className;
         std::vector<Pin> inputs;

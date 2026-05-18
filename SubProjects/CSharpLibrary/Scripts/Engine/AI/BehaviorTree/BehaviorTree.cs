@@ -45,6 +45,11 @@ public class BehaviorTree
     public BehaviorNode ActiveNode { get; set; }
 
     /// <summary>
+    /// 現在のTick回数。ノードが今フレーム実行されたかを判定するために使用される。
+    /// </summary>
+    public uint TickCount { get; private set; } = 0;
+
+    /// <summary>
     /// 新しいビヘイビアツリーのインスタンスを生成する。
     /// </summary>
     /// <param name="owner">ツリーを所有するエンティティ</param>
@@ -136,6 +141,9 @@ public class BehaviorTree
     {
         if (RootNode == null || Owner == null) return;
 
+        // Tick回数をインクリメント
+        TickCount++;
+
         // 1. 再評価リクエスト（割り込み）のチェック
         if (_reevaluateRequest)
         {
@@ -209,12 +217,15 @@ public class BehaviorTree
     {
         if (node == null) return;
         
+        // 今フレーム実行されたかチェック
+        bool wasTickedThisFrame = (node.LastTickCount == TickCount);
+        int statusValue = wasTickedThisFrame ? (int)node.LastStatus : 4; // 4 は Inactive（非アクティブ）として扱う
+
         // C#側のディクショナリに状態を記録
-        outStatuses[node.NodeIdHash] = node.LastStatus;
+        outStatuses[node.NodeIdHash] = wasTickedThisFrame ? node.LastStatus : NodeStatus.Failure;
         
         // C++エディタへ状態を通知（グラフ上のノード枠色をリアルタイムに変更するため）
-        // ツリーのソースパスを渡すことで、エディタ側で現在表示中のファイルのみを更新するようにフィルタリングする
-        Internal_UpdateNodeStatus(node.NodeIdHash, (int)node.LastStatus, SourcePath ?? "");
+        Internal_UpdateNodeStatus(node.NodeIdHash, statusValue, SourcePath ?? "");
 
         // 子ノードも再帰的に収集
         if (node is CompositeNode composite)
@@ -222,6 +233,14 @@ public class BehaviorTree
             foreach (var child in composite.GetChildren())
             {
                 CollectStatusRecursive(child, outStatuses);
+            }
+        }
+        else if (node is RunBehaviorNode runBehavior)
+        {
+            // サブツリー内部の状態も同期対象にする
+            if (runBehavior.SubTree != null)
+            {
+                runBehavior.SubTree.GetAllNodeStatuses(outStatuses);
             }
         }
     }

@@ -1,46 +1,66 @@
 using System;
 
 /// <summary>
-/// 指定されたBlackboard上のターゲット（Vector3 または Entity）を向くタスク。
+/// Blackboard上のターゲット（Entity）を向き続ける、あるいは瞬間的に向くアクションノード。
+/// 攻撃開始前のエイムや、追従時の方向転換に使用する。
 /// </summary>
 public class RotateToFaceNode : BehaviorNode
 {
+    /// <summary>
+    /// 向き先となるターゲットが格納されているBlackboardのキー。
+    /// Entityオブジェクトが格納されていることを期待する。
+    /// </summary>
     [BlackboardKey]
-    public string targetKey = "";
+    public string targetKey = "Target";
+
+    /// <summary>
+    /// 回転速度（度/秒）。0を指定すると即座に向く。
+    /// </summary>
+    public float rotationSpeed = 360.0f;
+
+    /// <summary>
+    /// 目標方向との角度差がこれ以下になればSuccessを返す閾値。
+    /// </summary>
+    public float precisionAngle = 5.0f;
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint key = BehaviorTreeLoader.HashString(targetKey);
-        if (!blackboard.HasKey(key)) return NodeStatus.Failure;
+        Entity target = blackboard.GetEntity(key);
 
-        Vector3 targetPos = Vector3.zero;
-        object val = blackboard.GetValueAsObject(key);
-
-        if (val is Vector3 v) targetPos = v;
-        else if (val is Entity e) targetPos = e.transform.position;
-        else return NodeStatus.Failure;
+        if (target == null)
+        {
+            Debug.LogWarning($"RotateToFaceNode: Target '{targetKey}' is null.");
+            return NodeStatus.Failure;
+        }
 
         Vector3 ownerPos = owner.transform.position;
+        Vector3 targetPos = target.transform.position;
+
+        // 水平面（XZ）での向きを計算
         Vector3 diff = targetPos - ownerPos;
-        diff.y = 0; // 高さは無視
+        diff.y = 0;
 
         if (diff.Length() < 0.01f) return NodeStatus.Success;
 
-        Vector3 targetDir = diff.Normalized();
-
-        var intent = owner.GetComponent<AgentIntentComponent>();
-        if (intent != null)
+        Quaternion targetRot = Quaternion.LookRotation(diff.Normalized(), Vector3.up);
+        
+        if (rotationSpeed <= 0)
         {
-            // 移動方向として設定することで、MovementSystemに回転を促す
-            intent.desiredMoveDirection = targetDir;
+            owner.transform.rotation = targetRot;
+            return NodeStatus.Success;
         }
 
-        // 現在の向きとターゲット方向の角度差をチェック（簡易的に内積を使用）
-        // forward = rotate * (0, 0, 1)
-        Vector3 forward = owner.transform.rotate * new Vector3(0, 0, 1);
-        float dot = Vector3.Dot(forward.Normalized(), targetDir);
+        // 現在の回転から徐々に向ける
+        owner.transform.rotation = Quaternion.RotateTowards(
+            owner.transform.rotation, 
+            targetRot, 
+            rotationSpeed * Time.deltaTime
+        );
 
-        if (dot > 0.99f) // 約8度以内
+        // 角度差をチェック
+        float angle = Quaternion.Angle(owner.transform.rotation, targetRot);
+        if (angle <= precisionAngle)
         {
             return NodeStatus.Success;
         }
