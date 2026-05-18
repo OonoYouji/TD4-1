@@ -24,6 +24,7 @@ static class ComponentBatchManager {
 				batch[i].position = comp.position;
 				batch[i].rotate = comp.rotate;
 				batch[i].scale = comp.scale;
+				batch[i].matrix = comp.matrix;
 			}
 			return batch;
 		});
