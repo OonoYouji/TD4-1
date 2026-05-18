@@ -7,9 +7,7 @@ class UiControlManager : MonoScript
     readonly List<UiController> uiControllers = new List<UiController>();
 
     [SerializeField]
-    float uncontrolTimer = 0.0f;
-    [SerializeField]
-    float UNCONTROLED_THRESHOLD = 5.0f;
+    readonly float UNCONTROLED_THRESHOLD = 5.0f;
 
     public override void Initialize()
     {
@@ -37,22 +35,24 @@ class UiControlManager : MonoScript
                 uiControllers.Add(uiController);
             }
         }
-
-        uncontrolTimer = UNCONTROLED_THRESHOLD;
     }
 
     public override void Update()
     {
+        if (playerScript == null)
+        {
+            return; // Player scriptが見つからない場合は処理をスキップ
+        }
+
         // UIの描画をするかどうか
         // プレイヤーが一定時間操作していない場合はUIを表示する
-        uncontrolTimer += Time.deltaTime;
-        bool isPlayerUncontrolled = uncontrolTimer >= UNCONTROLED_THRESHOLD;
-        Debug.LogInfo($"Uncontrol Timer: {uncontrolTimer}, Is Player Uncontrolled: {isPlayerUncontrolled}");
+        bool isPlayerUncontrolled = playerScript.fireCooldownTimer >= UNCONTROLED_THRESHOLD;
         foreach (UiController uiController in uiControllers)
         {
             uiController.entity.enable = isPlayerUncontrolled;
         }
 
+        // 入力モードによってUIを切り替え
         bool isCurrentGamepadMode = playerScript.isGamepadMode;
         if (isCurrentGamepadMode != isGamepadMode)
         {
@@ -63,10 +63,5 @@ class UiControlManager : MonoScript
                 uiController.SetSpriteByMode(isGamepadMode);
             }
         }
-    }
-
-    public void ResetUncontrolTimer()
-    {
-        uncontrolTimer = 0.0f;
     }
 }

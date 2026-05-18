@@ -34,7 +34,7 @@ public class Player : MonoScript
     // 最後のフレームのマウス位置
     private Vector2 lastMousePos = new Vector2(640f, 360f);
     // 発射クールタイムタイマー
-    private float fireCooldownTimer;
+    public float fireCooldownTimer { get; private set; }
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -63,8 +63,8 @@ public class Player : MonoScript
     {
         // スティック判定
         bool anyStick =
-            Input.GamepadThumb(GamepadAxis.LeftThumb).Length() > 0.1f ||
-            Input.GamepadThumb(GamepadAxis.RightThumb).Length() > 0.1f;
+            Input.GamepadThumb(GamepadAxis.LeftThumb).Length() > inputDeadZone ||
+            Input.GamepadThumb(GamepadAxis.RightThumb).Length() > inputDeadZone;
 
         // キー判定
         bool anyKey =
