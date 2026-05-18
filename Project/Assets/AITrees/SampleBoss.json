@@ -13,7 +13,8 @@
         {
             "id": 2, "className": "Selector", "name": "RootSelector", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [],
             "services": [
-                { "id": 210, "className": "ResolveTargetService", "name": "Resolve Player Entity", "properties": { "targetNameKey": "Target", "resultEntityKey": "Target" }, "isService": true }
+                { "id": 210, "className": "ResolveTargetService", "name": "Resolve Player Entity", "properties": { "targetNameKey": "Target", "resultEntityKey": "Target" }, "isService": true },
+                { "id": 211, "className": "DebugAngerService", "name": "Auto Anger Trigger", "properties": { "delay": "5.0" }, "isService": true }
             ],
             "pos": [100.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]

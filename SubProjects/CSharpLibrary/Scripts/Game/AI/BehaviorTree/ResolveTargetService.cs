@@ -21,15 +21,16 @@ public class ResolveTargetService : BehaviorService
     public override void OnTick(Blackboard blackboard, Entity owner)
     {
         uint nameKey = BehaviorTreeLoader.HashString(targetNameKey);
-        if (!blackboard.HasKey(nameKey)) {
-            Debug.Log($"[ResolveTarget] Key '{targetNameKey}' not found in blackboard.");
-            return;
-        }
+        object currentVal = blackboard.GetValueAsObject(nameKey);
+
+        // 既に Entity として解決済みなら何もしない
+        if (currentVal is Entity) return;
 
         // 文字列として名前を取得
-        string name = blackboard.GetString(nameKey);
+        string name = currentVal as string;
         if (string.IsNullOrEmpty(name)) {
-            Debug.Log($"[ResolveTarget] Name is empty for key '{targetNameKey}'.");
+            // 文字列が見つからない場合のみエラーログ（初回のみに限定するため GetValueAsObject で判定）
+            if (currentVal == null) Debug.Log($"[ResolveTarget] Key '{targetNameKey}' is empty or missing.");
             return;
         }
 
@@ -38,11 +39,11 @@ public class ResolveTargetService : BehaviorService
         if (found != null)
         {
             Debug.Log($"[ResolveTarget] Successfully resolved '{name}' to Entity ID:{found.Id}");
-            // オブジェクトとして保存
+            // オブジェクトとして保存（これにより次フレームからは 'val is Entity' に入り、文字列は消えても問題なくなる）
             blackboard.SetObject(BehaviorTreeLoader.HashString(resultEntityKey), found);
         }
         else {
-            Debug.Log($"[ResolveTarget] Could not find entity with name '{name}'.");
+            if ((int)(Time.time * 2) % 10 == 0) Debug.Log($"[ResolveTarget] Could not find entity with name '{name}'.");
         }
     }
 
