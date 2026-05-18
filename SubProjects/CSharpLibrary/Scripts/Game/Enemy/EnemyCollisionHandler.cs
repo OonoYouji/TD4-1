@@ -46,6 +46,45 @@ class EnemyCollisionHandler : MonoScript
     {
         if (collider == null) return;
         if (damageCooldown > 0f) return; // ダメージクールダウン中は無効
+        
+        // 衝突対象が援軍の場合
+        Reinforcement reinforcement = collider.GetScript<Reinforcement>();
+        if (reinforcement != null)
+        {
+            // 画面外等で当たり判定が切られている場合は無視
+            if (!reinforcement.isCollisionEnabled) return;
+
+            Debug.Log("Enemy hit by reinforcement!");
+            int dmg = (int)reinforcement.damage;
+            TakeDamage(dmg);
+            if (uiHandler != null)
+            {
+                uiHandler.OnDamaged((float)hitpoints / (float)MAX_HITPOINTS);
+            }
+
+            // ダメージを連続で受けないよう無敵設定
+            damageCooldown = DAMAGE_COOLDOWN_TIME;
+
+            // ノックバック処理
+            Vector3 dir = transform.worldPosition - collider.transform.worldPosition;
+            dir.y = 0.0f;
+            if (dir.Length() > knockbackSafetyThreshold)
+            {
+                dir = dir.Normalized();
+            }
+            else
+            { // 後ろ
+                Vector3 backword = Matrix4x4.Transform(Vector3.back, Matrix4x4.Rotate(transform.rotate));
+                dir = backword.Normalized();
+            }
+            if (knockback != null)
+            {
+                knockback.ApplyKnockback(dir);
+            }
+            
+            return; // 処理完了
+        }
+
         // 衝突対象がプレイヤーの弾かどうかを判定
         //PlayerBullet bullet = collider.GetScript<PlayerBullet>();
         if (true)
