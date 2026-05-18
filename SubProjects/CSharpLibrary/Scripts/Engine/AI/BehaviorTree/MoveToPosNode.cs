@@ -33,6 +33,10 @@ public class MoveToPosNode : BehaviorNode
         Vector3 diff = targetPos - ownerPos;
         float distance = diff.Length();
 
+        if ((int)(Time.time * 2) % 10 == 0) {
+            Debug.Log($"[MoveToPos] {owner.name} Dist:{distance:F2} TargetPos:{targetPos}");
+        }
+
         // 1. 到着判定
         if (distance <= stopDistance)
         {

@@ -8,27 +8,26 @@ using System;
 public class InvokeEventNode : BehaviorNode
 {
     /// <summary>
-    /// 発行するイベントの種類。
+    /// 発行するイベントの名前。
+    /// エディタ上で文字列として設定可能。
     /// </summary>
-    public FrameEvent.Type eventType = FrameEvent.Type.TestEvent;
+    public string eventName = "DefaultEvent";
 
     /// <summary>
     /// イベントを発行した後、外部システムから「完了通知」が来るまで待機するかどうか。
-    /// falseの場合はイベント発行後、即座にSuccessを返す。
     /// </summary>
     public bool waitUntilComplete = true;
 
     /// <summary>
     /// 待機状態におけるタイムアウト時間（秒）。
-    /// 外部システムからの完了通知が来なかった場合に、AIが永久に止まってしまうのを防ぐためのフェイルセーフ。
     /// </summary>
     public float timeoutSec = 5.0f; 
 
     public InvokeEventNode() { }
 
-    public InvokeEventNode(FrameEvent.Type eventType, bool waitUntilComplete = true, float timeoutSec = 5.0f)
+    public InvokeEventNode(string eventName, bool waitUntilComplete = true, float timeoutSec = 5.0f)
     {
-        this.eventType = eventType;
+        this.eventName = eventName;
         this.waitUntilComplete = waitUntilComplete;
         this.timeoutSec = timeoutSec;
     }
@@ -38,22 +37,22 @@ public class InvokeEventNode : BehaviorNode
     /// </summary>
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        // ノード固有の開始時刻を保存するためのキーとして、ノード自身のIDハッシュを使用
         uint startTimeKey = NodeIdHash;
 
-        // Blackboardに開始時刻が保存されていない場合は「初回実行」とみなす
         if (!blackboard.HasKey(startTimeKey))
         {
-            // 1. 初回実行: キューにイベントを発行し、C++エンジン側に伝達する
-            FrameEvent.EnqueueEntityEvent(eventType, owner.Id);
+            // 1. 初回実行: イベントを発行
+            Debug.Log($"[InvokeEvent] {owner.name} triggered event: {eventName}");
             
-            // 待機が不要な設定であれば即座に終了（成功）
+            // TODO: エンジン側の文字列イベントシステムが実装されたらここに呼び出しを追加
+            // 現状は互換性のためにTestEventとして発行しておく（必要に応じて）
+            FrameEvent.EnqueueEntityEvent(FrameEvent.Type.TestEvent, owner.Id);
+            
             if (!waitUntilComplete)
             {
                 return NodeStatus.Success;
             }
 
-            // 待機が必要な場合、現在の時刻を開始時刻としてBlackboardに保存し、Running（実行中）を返す
             blackboard.SetFloat(startTimeKey, Time.time);
             return NodeStatus.Running;
         }

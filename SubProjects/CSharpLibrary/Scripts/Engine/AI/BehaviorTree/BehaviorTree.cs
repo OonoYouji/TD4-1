@@ -131,51 +131,54 @@ public class BehaviorTree
         // 1. 再評価リクエスト（割り込み）のチェック
         if (_reevaluateRequest)
         {
-            // 割り込みが発生した場合、現在の実行パスにあるすべてのノードに中断通知を送り、
-            // 最初（Root）から評価し直す。
+            // 割り込みが発生した場合、現在の実行ポイントを破棄して最初（Root）から評価し直す。
             if (ActiveNode != null)
             {
-                // 現在のアクティブノードからRootまで辿ってすべて中断するか、
-                // あるいは安全のためにRootから全走査して中断するか。
-                // ここでは現在のアクティブノード周辺のみを確実に止めるため、
-                // ルートから全子孫に対して再帰的にAbortを送る（ステートレスなので影響は軽微）。
                 AbortRecursive(RootNode);
             }
             ActiveNode = null;
             _reevaluateRequest = false;
         }
 
-        // 2. 実行の開始または再開
-        // ActiveNode が保持されていればそこから、なければ Root から Tick を開始する。
-        NodeStatus status;
-        if (ActiveNode != null)
-        {
-            status = ActiveNode.Tick(Blackboard, Owner);
-        }
-        else
-        {
-            status = RootNode.Tick(Blackboard, Owner);
-        }
+        // 2. 実行の開始
+        NodeStatus status = RootNode.Tick(Blackboard, Owner);
 
-        // 3. 親への結果伝播（バブリング）
-        // ノードが Success または Failure を返した場合、親ノードの OnChildCompleted を呼び出し、
-        // 実行ポインタを親へと戻しながら次のノードを決定する。
-        while (status != NodeStatus.Running)
+        // 3. 実行中ノードの追跡
+        // ツリーの走査結果、Runningになった末端ノードをActiveNodeとして保持する。
+        _newActiveNode = null;
+        UpdateActiveNodeRecursive(RootNode);
+        ActiveNode = _newActiveNode;
+
+        // ツリー全体が完了した場合はリセット
+        if (status != NodeStatus.Running)
         {
-            // Rootが完了した、または実行ポインタが未設定の場合はツリー全体が完了
-            if (ActiveNode == null || ActiveNode.Parent == null)
+            ActiveNode = null;
+        }
+    }
+
+    private BehaviorNode _newActiveNode = null;
+
+    /// <summary>
+    /// ツリーを再帰的に探索し、現在Running状態にある最も深いノードを実行ポインタとして記録する。
+    /// </summary>
+    private void UpdateActiveNodeRecursive(BehaviorNode node)
+    {
+        if (node == null || node.LastStatus != NodeStatus.Running) return;
+
+        _newActiveNode = node; // より深いノードが見つかるたびに更新
+
+        if (node is CompositeNode composite)
+        {
+            foreach (var child in composite.GetChildren())
             {
-                ActiveNode = null;
-                break;
+                if (child.LastStatus == NodeStatus.Running)
+                {
+                    UpdateActiveNodeRecursive(child);
+                    // Parallelの場合は複数の子がRunningになり得るが、
+                    // エディタ表示用には最初に見つかったアクティブなブランチを優先する
+                }
             }
-
-            var finishedNode = ActiveNode;
-            ActiveNode = finishedNode.Parent; // 親へ戻る
-            status = ActiveNode.OnChildCompleted(finishedNode, status, Blackboard, Owner);
         }
-
-        // Tick終了時点で status が Running の場合、
-        // 各ノードの Tick 内部で ActiveNode が更新されているため、次フレームはその地点から再開される。
     }
 
     /// <summary>

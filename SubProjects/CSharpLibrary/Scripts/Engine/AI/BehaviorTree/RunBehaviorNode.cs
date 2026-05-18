@@ -13,7 +13,7 @@ public class RunBehaviorNode : BehaviorNode
     /// 実行する対象のビヘイビアツリー資産のファイルパス。
     /// </summary>
     [SerializeField]
-    public string subtreePath = "";
+    public string treePath = "";
 
     // 読み込んだサブツリーの最上位（起点）となるノードのキャッシュ
     private BehaviorNode _rootOfSubtree = null;
@@ -30,22 +30,25 @@ public class RunBehaviorNode : BehaviorNode
         if (_failedToLoad) return NodeStatus.Failure;
 
         // 1. 初回実行時にサブツリーのロードを試みる
-        if (_rootOfSubtree == null && !string.IsNullOrEmpty(subtreePath))
+        if (_rootOfSubtree == null && !string.IsNullOrEmpty(treePath))
         {
             try
             {
-                // BehaviorTreeLoaderを使用して指定パスからツリーを構築。
-                // サブツリーのノードも同じowner（エンティティ）を対象として生成される。
-                // 注意: 本来は無限ループ（AがBを呼び、BがAを呼ぶ）を防ぐための循環参照チェック機構が必要。
-                var tree = BehaviorTreeLoader.LoadFromFile(subtreePath, owner);
+                Debug.Log($"[RunBehavior] Attempting to load subtree: {treePath}");
+                var tree = BehaviorTreeLoader.LoadFromFile(treePath, owner);
                 if (tree != null)
                 {
                     _rootOfSubtree = tree.RootNode;
+                    Debug.Log($"[RunBehavior] Successfully loaded subtree: {treePath} (Root:{_rootOfSubtree.name})");
+                }
+                else {
+                    Debug.LogWarning($"[RunBehavior] LoadFromFile returned null for: {treePath}");
+                    _failedToLoad = true;
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"RunBehaviorNode: Failed to load subtree {subtreePath}. Error: {e.Message}");
+                Debug.LogError($"RunBehaviorNode: Failed to load subtree {treePath}. Error: {e.Message}");
                 _failedToLoad = true;
             }
         }
@@ -54,8 +57,7 @@ public class RunBehaviorNode : BehaviorNode
         if (_rootOfSubtree == null) return NodeStatus.Failure;
 
         // 2. サブツリーの実行
-        // 読み込んだサブツリーのRootNodeに対して、現在のBlackboardとOwnerを渡して実行（Tick）を委譲する。
-        // サブツリーの内部でも同じBlackboardを共有するため、変数の受け渡しはシームレスに行われる。
-        return _rootOfSubtree.Tick(blackboard, owner);
+        var status = _rootOfSubtree.Tick(blackboard, owner);
+        return status;
     }
 }

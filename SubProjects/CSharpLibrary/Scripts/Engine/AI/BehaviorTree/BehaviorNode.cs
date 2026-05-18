@@ -8,6 +8,11 @@ using System.Collections.Generic;
 public abstract class BehaviorNode
 {
     /// <summary>
+    /// ノードの識別名（デバッグ・表示用）。
+    /// </summary>
+    public string name { get; set; }
+
+    /// <summary>
     /// エディタ上で割り当てられたノードの一意なIDのハッシュ値。
     /// Blackboardでの状態保存や、C++側との同期キーとして使用される。
     /// </summary>
@@ -129,12 +134,6 @@ public abstract class BehaviorNode
         // 3. 本体ロジックの実行
         // 継承先のクラスで実装された具体的な処理（移動、攻撃など）を実行する。
         NodeStatus result = Execute(blackboard, owner);
-
-        // 実行ポインタの更新: 実行中の場合はこのノードをアクティブとして記録する
-        if (result == NodeStatus.Running && Tree != null)
-        {
-            Tree.ActiveNode = this;
-        }
 
         // 4. Decorators による結果の加工 (Post-Process)
         // ノード本体の実行結果をデコレーターに渡し、結果を書き換える（例：強制的にSuccessにする、条件を満たすまでRunningにする等）。

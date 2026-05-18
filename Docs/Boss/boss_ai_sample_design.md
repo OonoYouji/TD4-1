@@ -67,3 +67,61 @@ AIが判断材料とする変数を定義します。
     エディタ上で赤い **[!] アイコン**が出ていないか確認してください。特に Subtree (`RunBehaviorNode`) のパスが正しいか、EQS の出力キーと移動ノードの入力キーが一致しているかをチェックします。
 *   **Runtime ハイライト**: 
     Parallel ノード内では複数の子が同時に黄色（Running）になります。どのポリシー（One/All）で完了しようとしているか、各ノードの状態を注視してください。
+
+---
+
+## 5. エディタでの具体的構築手順
+
+この章では、上記設計を ONEngine エディタで再現するための「レシピ」を記述します。
+
+### 5-1. Blackboard (Editタブ) の設定
+まず、以下の変数を登録してください。
+*   `Target` (String): 追跡対象の名前（例: "Player"）
+*   `CombatPhase` (Int): 現在のフェーズ（0:巡回, 1:通常, 2:狂暴）
+*   `SkillCooldown` (Bool): 必殺技の冷却状態
+*   `MoveToPos` (Vector3): EQSの計算結果格納用
+
+### 5-2. サブツリーの作成
+
+#### 通常攻撃 (`BasicAttack.json`)
+1.  **Entry** -> **Sequence** を作成。
+2.  Sequence の子として以下を順に接続：
+    *   **RotateToFaceNode**: `targetKey` = "Target"
+    *   **WaitRandomNode**: `min` = 0.2, `max` = 0.5
+    *   **InvokeEventNode**: `eventName` = "PlayAnimation_Attack"
+    *   **WaitNode**: `duration` = 1.0
+
+#### 必殺技 (`SpecialSkill.json`)
+1.  **Entry** -> **Sequence** を作成。
+2.  Sequence の子として以下を順に接続：
+    *   **WaitNode**: `duration` = 1.2（溜め時間）
+    *   **InvokeEventNode**: `eventName` = "PlayAnimation_SpinAttack"
+    *   **SetBBValueNode**: `keyName` = "SkillCooldown", `type` = Bool, `value` = "true"
+    *   **WaitNode**: `duration` = 2.0（硬直）
+
+### 5-3. メインツリーの構築 (`SampleBoss.json`)
+
+**Root Selector** を中心に、**「上にあるノードほど優先度が高い」** というルールに従って配置します。
+
+#### ① 狂暴ブランチ（最上段に配置）
+*   **Node**: Sequence
+*   **Decorator**: `BlackboardDecorator`
+    *   `keyName` = "CombatPhase", `Operator` = Equal, `Value` = "2", **`Abort` = Both**
+*   **Child**: **Parallel** (Success: All)
+    *   **Service**: `SimpleEQSService`
+        *   `targetKey` = "Target", `angleOffset` = 180 (背後), `resultPosKey` = "MoveToPos"
+    *   **Parallelの子1**: **MoveToPosNode** (`posKey` = "MoveToPos")
+    *   **Parallelの子2**: **RunBehaviorNode** (`treePath` = "Assets/AITrees/BasicAttack.json")
+
+#### ② 戦闘ブランチ（中段に配置）
+*   **Node**: Selector
+*   **Decorator**: `BlackboardDecorator`
+    *   `keyName` = "Target", `Operator` = IsSet, **`Abort` = Both**
+*   **Child 1 (必殺技)**: Sequence
+    *   **Decorator**: `BlackboardDecorator` (`keyName` = "SkillCooldown", `Operator` = Equal, `Value` = "false")
+    *   **Action**: **RunBehaviorNode** ("Assets/AITrees/SpecialSkill.json")
+*   **Child 2 (通常攻撃)**: Sequence
+    *   **Action**: **RunBehaviorNode** ("Assets/AITrees/BasicAttack.json")
+
+#### ③ 待機ブランチ（最下段に配置）
+*   **Action**: **WaitRandomNode** (`min` = 2.0, `max` = 4.0)

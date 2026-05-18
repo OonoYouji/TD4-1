@@ -170,6 +170,7 @@ private:
     std::string m_Clipboard;
 
     ed::NodeId m_SelectedNodeId = 0;
+    ed::PinId m_NewNodeLinkPinId = 0;
     ImVec2 m_ContextNodePos;
     int m_NextId = 1;
 

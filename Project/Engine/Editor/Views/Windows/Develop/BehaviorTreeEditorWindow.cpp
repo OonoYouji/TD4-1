@@ -513,6 +513,15 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         if (ed::QueryNewLink(&inputPinId, &outputPinId)) {
             if (inputPinId && outputPinId) if (ed::AcceptNewItem()) { RecordUndo(); CreateLink(inputPinId, outputPinId); }
         }
+
+        ed::PinId newNodePinId;
+        if (ed::QueryNewNode(&newNodePinId)) {
+            if (ed::AcceptNewItem()) {
+                m_NewNodeLinkPinId = newNodePinId;
+                m_ContextNodePos = ed::ScreenToCanvas(ImGui::GetMousePos());
+                ImGui::OpenPopup("Create New Node");
+            }
+        }
     }
     ed::EndCreate();
 
@@ -574,11 +583,56 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
         ImGui::InputTextWithHint("##NodeSearch", "Search...", nodeSearchBuf, sizeof(nodeSearchBuf));
         std::string searchStr = nodeSearchBuf; std::transform(searchStr.begin(), searchStr.end(), searchStr.begin(), ::tolower);
         ImGui::Separator();
-        for (const auto& classInfo : availableNodeClasses_) {
-            std::string nameLower = classInfo.fullName; std::transform(nameLower.begin(), nameLower.end(), nameLower.begin(), ::tolower);
-            if (!searchStr.empty() && nameLower.find(searchStr) == std::string::npos) continue;
-            if (ImGui::MenuItem(classInfo.fullName.c_str())) { RecordUndo(); Node* node = CreateNode(classInfo.fullName, classInfo.isDecorator); ed::SetNodePosition(node->id, m_ContextNodePos); }
+
+        auto drawNodeItems = [&](const std::vector<ONEngine::MonoScriptEngine::NodeClassInfo>& classes, bool filterGame) {
+            for (const auto& classInfo : classes) {
+                // 名前空間やクラス名で Engine / Game を簡易判定
+                // ※現在は名前空間が空の場合が多いため、プロジェクト特有のノード名をブラックリスト/ホワイトリスト方式で判定
+                bool isGameNode = (
+                    classInfo.fullName.find("MoveToPlayer") != std::string::npos ||
+                    classInfo.fullName.find("InvokeEvent") != std::string::npos ||
+                    classInfo.fullName.find("Sensing") != std::string::npos ||
+                    classInfo.fullName.find("CheckDistance") != std::string::npos ||
+                    classInfo.fullName.find("FindPlayer") != std::string::npos ||
+                    classInfo.fullName.find("DefaultFocus") != std::string::npos
+                );
+
+                if (isGameNode != filterGame) continue;
+
+                std::string nameLower = classInfo.fullName; std::transform(nameLower.begin(), nameLower.end(), nameLower.begin(), ::tolower);
+                if (!searchStr.empty() && nameLower.find(searchStr) == std::string::npos) continue;
+                
+                if (ImGui::MenuItem(classInfo.fullName.c_str())) {
+                    RecordUndo();
+                    Node* node = CreateNode(classInfo.fullName, classInfo.isDecorator);
+                    ed::SetNodePosition(node->id, m_ContextNodePos);
+                    
+                    if (m_NewNodeLinkPinId) {
+                        Pin* startPin = nullptr;
+                        for (auto& n : m_Nodes) {
+                            for (auto& p : n.inputs) if (p.id == m_NewNodeLinkPinId) startPin = &p;
+                            for (auto& p : n.outputs) if (p.id == m_NewNodeLinkPinId) startPin = &p;
+                        }
+                        if (startPin) {
+                            if (startPin->kind == PinKind::Output && !node->inputs.empty()) CreateLink(startPin->id, node->inputs[0].id);
+                            else if (startPin->kind == PinKind::Input && !node->outputs.empty()) CreateLink(node->outputs[0].id, startPin->id);
+                        }
+                        m_NewNodeLinkPinId = 0;
+                    }
+                }
+            }
+        };
+
+        if (ImGui::BeginMenu("Engine Nodes")) {
+            drawNodeItems(availableNodeClasses_, false);
+            ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Game Nodes")) {
+            drawNodeItems(availableNodeClasses_, true);
+            ImGui::EndMenu();
+        }
+
+        ImGui::Separator();
         if (ImGui::MenuItem("Add Comment Box")) { RecordUndo(); m_CommentBoxes.push_back({ (uint32_t)GetNextId(), "New Comment", m_ContextNodePos, ImVec2(200, 200) }); }
         ImGui::EndPopup();
     }
@@ -596,7 +650,7 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
     else if (isDecorator) node->color = ImColor(20, 60, 100); 
     else node->color = ImColor(100, 40, 100);
     if (className != "Entry") { node->inputs.emplace_back(GetNextId(), "In", PinKind::Input); node->inputs.back().node = node; }
-    if (className.find("Sequence") != std::string::npos || className.find("Selector") != std::string::npos || className == "Entry") {
+    if (className.find("Sequence") != std::string::npos || className.find("Selector") != std::string::npos || className.find("Parallel") != std::string::npos || className == "Entry") {
         node->outputs.emplace_back(GetNextId(), "Out", PinKind::Output); node->outputs.back().node = node;
     }
     return node;

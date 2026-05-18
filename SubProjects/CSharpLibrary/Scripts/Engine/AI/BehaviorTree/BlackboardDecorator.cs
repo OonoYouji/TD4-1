@@ -90,9 +90,9 @@ public class BlackboardDecorator : BehaviorDecorator
             switch (queryOperator)
             {
                 case BlackboardQuery.Equal:
-                    return val.ToString() == compareValue;
+                    return string.Equals(val.ToString(), compareValue, StringComparison.OrdinalIgnoreCase);
                 case BlackboardQuery.NotEqual:
-                    return val.ToString() != compareValue;
+                    return !string.Equals(val.ToString(), compareValue, StringComparison.OrdinalIgnoreCase);
 
                 case BlackboardQuery.Less:
                 case BlackboardQuery.LessOrEqual:

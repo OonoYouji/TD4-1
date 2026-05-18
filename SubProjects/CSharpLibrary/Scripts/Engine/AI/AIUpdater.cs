@@ -34,6 +34,11 @@ public static class AIUpdater {
                     component.isAttacking = false;
                     component.targetEntityId = 0;
 
+                    // デバッグ用：毎フレームは多すぎるので定期的にログを出す
+                    if ((int)(Time.time * 10) % 100 == 0) {
+                        Debug.Log($"AIUpdater: Ticking BT for {component.entity.name} (Root:{(component.behaviorTree.RootNode != null ? component.behaviorTree.RootNode.name : "null")})");
+                    }
+
                     component.behaviorTree.Tick();
 
                     // エディタ用：実行状態を同期

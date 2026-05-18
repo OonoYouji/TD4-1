@@ -1,23 +1,10 @@
 {
     "blackboard": [
         {
-            "bVal": false,
+            "bVal": true,
             "fVal": 0.0,
             "iVal": 0,
-            "key": "TargetEntity",
-            "sVal": "Player",
-            "type": 4,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        },
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "IsPlayerDetected",
+            "key": "SkillCooldown",
             "sVal": "",
             "type": 2,
             "vVal": [
@@ -63,7 +50,7 @@
             "id": 1,
             "inputs": [],
             "isDecorator": false,
-            "name": "ROOT ENTRY",
+            "name": "Entry",
             "outputs": [
                 {
                     "id": 2,
@@ -71,8 +58,8 @@
                 }
             ],
             "pos": [
-                -143.0,
-                154.0
+                -287.0,
+                26.0
             ],
             "properties": {},
             "services": []
@@ -97,14 +84,14 @@
                 }
             ],
             "pos": [
-                49.0,
-                148.0
+                -76.0,
+                20.0
             ],
             "properties": {},
             "services": []
         },
         {
-            "className": "LogNode",
+            "className": "WaitNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 6,
@@ -115,19 +102,19 @@
                 }
             ],
             "isDecorator": false,
-            "name": "LogNode",
+            "name": "WaitNode",
             "outputs": [],
             "pos": [
-                292.0,
-                388.0
+                178.0,
+                27.0
             ],
             "properties": {
-                "message": "Basic Attack Start"
+                "duration": "1.200000"
             },
             "services": []
         },
         {
-            "className": "RotateToFaceNode",
+            "className": "InvokeEventNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 8,
@@ -138,19 +125,22 @@
                 }
             ],
             "isDecorator": false,
-            "name": "RotateToFaceNode",
+            "name": "InvokeEventNode",
             "outputs": [],
             "pos": [
-                292.0,
-                228.0
+                180.0,
+                100.0
             ],
             "properties": {
-                "targetKey": "TargetEntity"
+                "eventName": "PlayAnimation_SpinAttack",
+                "eventType": "",
+                "timeoutSec": "",
+                "waitUntilComplete": ""
             },
             "services": []
         },
         {
-            "className": "WaitRandomNode",
+            "className": "SetBBValueNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 10,
@@ -161,20 +151,21 @@
                 }
             ],
             "isDecorator": false,
-            "name": "WaitRandomNode",
+            "name": "SetBBValueNode",
             "outputs": [],
             "pos": [
-                292.0,
-                308.0
+                180.0,
+                180.0
             ],
             "properties": {
-                "maxDuration": "0.500000",
-                "minDuration": "0.200000"
+                "keyName": "SkillCooldown",
+                "type": "",
+                "value": "true"
             },
             "services": []
         },
         {
-            "className": "InvokeEventNode",
+            "className": "WaitNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 12,
@@ -185,18 +176,13 @@
                 }
             ],
             "isDecorator": false,
-            "name": "InvokeEventNode",
+            "name": "WaitNode",
             "outputs": [],
             "pos": [
-                292.0,
-                148.0
+                180.0,
+                260.0
             ],
-            "properties": {
-                "eventName": "PlayAnimation_Attack",
-                "eventType": "",
-                "timeoutSec": "1.000000",
-                "waitUntilComplete": ""
-            },
+            "properties": {},
             "services": []
         }
     ]

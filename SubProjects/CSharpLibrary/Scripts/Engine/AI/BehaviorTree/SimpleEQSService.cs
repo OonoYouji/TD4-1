@@ -32,34 +32,34 @@ public class SimpleEQSService : BehaviorService
     public override void OnTick(Blackboard blackboard, Entity owner)
     {
         uint tKey = BehaviorTreeLoader.HashString(targetKey);
-        if (!blackboard.HasKey(tKey)) return;
-
-        Entity target = blackboard.GetValueAsObject(tKey) as Entity;
-        if (target == null) return;
+        object rawVal = blackboard.GetValueAsObject(tKey);
+        
+        Entity target = rawVal as Entity;
+        if (target == null) {
+            Debug.Log($"[SimpleEQS] Target '{targetKey}' is not an Entity (Value: {rawVal ?? "null"}).");
+            return;
+        }
 
         Vector3 targetPos = target.transform.position;
-        
-        // ターゲットの向き（Forward）を取得
         Vector3 targetForward = target.transform.rotate * new Vector3(0, 0, 1);
         
-        // オフセット角度を計算
         float rad = (angleOffset) * (float)Math.PI / 180.0f;
-        
-        // ターゲット正面ベクトルを回転させて目標方向を決定
         float cos = (float)Math.Cos(rad);
         float sin = (float)Math.Sin(rad);
         
-        // Y軸周りの回転
+        // 正しいY軸周りの回転行列
         Vector3 offsetDir = new Vector3(
-            targetForward.x * cos - targetForward.z * sin,
+            targetForward.x * cos + targetForward.z * sin,
             0,
-            targetForward.x * sin + targetForward.z * cos
+            -targetForward.x * sin + targetForward.z * cos
         ).Normalized();
 
-        // 目標地点を算出
         Vector3 goalPos = targetPos + offsetDir * preferredDistance;
+        
+        if ((int)(Time.time * 2) % 10 == 0) {
+            Debug.Log($"[SimpleEQS] Goal updated for {owner.name}: {goalPos} (Target: {target.name})");
+        }
 
-        // 結果をBlackboardに保存
         blackboard.SetVector3(BehaviorTreeLoader.HashString(resultPosKey), goalPos);
     }
 }

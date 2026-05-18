@@ -55,7 +55,7 @@
 ### フェーズ13: サンプルボス実装と統合テスト (全機能検証)
 *   [x] **Task 13-1: 汎用移動ノード (MoveToPosNode) の実装**: SimpleEQS が算出した座標へ移動するためのノード。
 *   [x] **Task 13-2: ブラックボード操作ノード (SetBBValueNode) の実装**: BT 内でフェーズ (CombatPhase) を進めるためのユーティリティ。
-*   [ ] **Task 13-3: 攻撃サブツリーの作成 (BasicAttack / SpecialSkill)**: 再利用可能な攻撃パターンを別 JSON として構築。
-*   [ ] **Task 13-4: メインボスツリー (SampleBoss.json) の構築**: Parallel, Aborts, EQS をフル活用した巨大ツリーの作成。
-*   [ ] **Task 13-5: 統合検証環境のセットアップ**: テストシーンへの配置と、全フェーズ（巡回→通常→狂暴）の正常遷移確認。
+*   [x] **Task 13-3: 攻撃サブツリーの作成 (BasicAttack / SpecialSkill)**: 再利用可能な攻撃パターンを別 JSON として構築。
+*   [x] **Task 13-4: メインボスツリー (SampleBoss.json) の構築**: Parallel, Aborts, EQS をフル活用した巨大ツリーの作成。
+*   [x] **Task 13-5: 統合検証環境のセットアップ**: テストシーンへの配置と、全フェーズ（巡回→通常→狂暴）の正常遷移確認。
 

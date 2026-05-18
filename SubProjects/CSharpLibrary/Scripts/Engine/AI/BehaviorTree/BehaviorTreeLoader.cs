@@ -83,6 +83,7 @@ public static class BehaviorTreeLoader
             {
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
                 node.NodeIdHash = (uint)id;
+                node.name = (string)n["name"] ?? className; // NEW: Set name
                 node.Tree = tree; // NEW: Set tree instance
                 
                 // ブレークポイント設定の反映

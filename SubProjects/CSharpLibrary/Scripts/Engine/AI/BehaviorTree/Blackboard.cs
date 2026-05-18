@@ -25,84 +25,85 @@ public class Blackboard
     private readonly Dictionary<uint, string> _stringData = new Dictionary<uint, string>();
     private readonly Dictionary<uint, object> _objectData = new Dictionary<uint, object>();
 
-    /// <summary>
-    /// Int型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
-    /// </summary>
     public void SetInt(uint key, int value) 
     { 
+        if (_intData.TryGetValue(key, out var old) && old == value) return;
+        Remove(key);
         _intData[key] = value; 
         OnValueChanged?.Invoke(key);
         Internal_UpdateBlackboardValue(key, value.ToString(), "Int");
     }
+    
+    public void SetFloat(uint key, float value) 
+    { 
+        if (_floatData.TryGetValue(key, out var old) && Math.Abs(old - value) < 0.001f) return;
+        Remove(key);
+        _floatData[key] = value; 
+        OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value.ToString(), "Float");
+    }
+
+    public void SetBool(uint key, bool value) 
+    { 
+        if (_boolData.TryGetValue(key, out var old) && old == value) return;
+        Remove(key);
+        _boolData[key] = value; 
+        OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value ? "true" : "false", "Bool");
+    }
+
+    public void SetVector3(uint key, Vector3 value) 
+    { 
+        if (_vector3Data.TryGetValue(key, out var old) && Vector3.Distance(old, value) < 0.01f) return;
+        Remove(key);
+        _vector3Data[key] = value; 
+        OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value.x + "," + value.y + "," + value.z, "Vector3");
+    }
+
+    public void SetString(uint key, string value) 
+    { 
+        if (_stringData.TryGetValue(key, out var old) && old == value) return;
+        Remove(key);
+        _stringData[key] = value; 
+        OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value, "String");
+    }
+
+    public void SetObject(uint key, object value) 
+    { 
+        if (_objectData.TryGetValue(key, out var old) && old == value) return;
+        Remove(key);
+        _objectData[key] = value; 
+        OnValueChanged?.Invoke(key);
+        Internal_UpdateBlackboardValue(key, value != null ? value.ToString() : "null", "Object");
+    }
+
     /// <summary>
     /// Int型の値を取得する。キーが存在しない場合はデフォルト値を返す。
     /// </summary>
     public int GetInt(uint key, int defaultValue = 0) => _intData.TryGetValue(key, out var val) ? val : defaultValue;
 
     /// <summary>
-    /// Float型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
-    /// </summary>
-    public void SetFloat(uint key, float value) 
-    { 
-        _floatData[key] = value; 
-        OnValueChanged?.Invoke(key);
-        Internal_UpdateBlackboardValue(key, value.ToString(), "Float");
-    }
-    /// <summary>
     /// Float型の値を取得する。キーが存在しない場合はデフォルト値を返す。
     /// </summary>
     public float GetFloat(uint key, float defaultValue = 0f) => _floatData.TryGetValue(key, out var val) ? val : defaultValue;
 
-    /// <summary>
-    /// Bool型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
-    /// </summary>
-    public void SetBool(uint key, bool value) 
-    { 
-        _boolData[key] = value; 
-        OnValueChanged?.Invoke(key);
-        Internal_UpdateBlackboardValue(key, value ? "true" : "false", "Bool");
-    }
     /// <summary>
     /// Bool型の値を取得する。キーが存在しない場合はデフォルト値を返す。
     /// </summary>
     public bool GetBool(uint key, bool defaultValue = false) => _boolData.TryGetValue(key, out var val) ? val : defaultValue;
 
     /// <summary>
-    /// Vector3型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
-    /// </summary>
-    public void SetVector3(uint key, Vector3 value) 
-    { 
-        _vector3Data[key] = value; 
-        OnValueChanged?.Invoke(key);
-        Internal_UpdateBlackboardValue(key, value.x + "," + value.y + "," + value.z, "Vector3");
-    }
-    /// <summary>
     /// Vector3型の値を取得する。キーが存在しない場合は Vector3.zero を返す。
     /// </summary>
     public Vector3 GetVector3(uint key) => _vector3Data.TryGetValue(key, out var val) ? val : Vector3.zero;
 
     /// <summary>
-    /// String型の値を設定する。変更時はC#イベントおよびC++エディタへ通知を送る。
-    /// </summary>
-    public void SetString(uint key, string value) 
-    { 
-        _stringData[key] = value; 
-        OnValueChanged?.Invoke(key);
-        Internal_UpdateBlackboardValue(key, value, "String");
-    }
-    /// <summary>
     /// String型の値を取得する。キーが存在しない場合はデフォルト値を返す。
     /// </summary>
     public string GetString(uint key, string defaultValue = "") => _stringData.TryGetValue(key, out var val) ? val : defaultValue;
 
-    /// <summary>
-    /// 任意のオブジェクト型の値を設定する。変更時はC#側のイベントのみ発火する。
-    /// </summary>
-    public void SetObject(uint key, object value) 
-    { 
-        _objectData[key] = value; 
-        OnValueChanged?.Invoke(key);
-    }
     /// <summary>
     /// 任意のオブジェクト型の値を取得し、指定した型にキャストして返す。失敗した場合はnullを返す。
     /// </summary>
@@ -120,12 +121,12 @@ public class Blackboard
     /// <returns>キーが存在すればその値のobject、存在しなければnull</returns>
     public object GetValueAsObject(uint key)
     {
+        if (_objectData.TryGetValue(key, out var o)) return o;
         if (_intData.TryGetValue(key, out var i)) return i;
         if (_floatData.TryGetValue(key, out var f)) return f;
         if (_boolData.TryGetValue(key, out var b)) return b;
         if (_vector3Data.TryGetValue(key, out var v)) return v;
         if (_stringData.TryGetValue(key, out var s)) return s;
-        if (_objectData.TryGetValue(key, out var o)) return o;
         return null;
     }
 
