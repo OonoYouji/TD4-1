@@ -13,6 +13,7 @@ using namespace ONEngine;
 #include "AddECSSystemFunction.h"
 #include "AddECSComponentFactoryFunction.h"
 #include "ComponentApplyFunc.h"
+#include "Engine/Editor/Views/Windows/Develop/BehaviorTreeEditorWindow.h"
 
 namespace {
 ECSGroup* gGameGroup = nullptr;
@@ -546,3 +547,25 @@ void ONEngine::MonoInternalMethods::InternalGetBatch(MonoReflectionType* _typeRe
 
 	mono_free(cstr);
 }
+
+void ONEngine::MonoInternalMethods::Internal_UpdateNodeStatus(uint32_t nodeIdHash, int status) {
+    if (Editor::BehaviorTreeEditorWindow::s_Instance) {
+        Editor::BehaviorTreeEditorWindow::s_Instance->UpdateNodeStatus(nodeIdHash, status);
+    }
+}
+
+void ONEngine::MonoInternalMethods::Internal_UpdateBlackboardValue(uint32_t keyHash, MonoString* value, MonoString* typeName) {
+    if (Editor::BehaviorTreeEditorWindow::s_Instance) {
+        std::string v = mono_string_to_utf8(value);
+        std::string t = mono_string_to_utf8(typeName);
+        Editor::BehaviorTreeEditorWindow::s_Instance->UpdateBlackboardValue(keyHash, v, t);
+    }
+}
+
+void ONEngine::MonoInternalMethods::Internal_OnBreakpointHit(uint32_t nodeIdHash) {
+    // ブレークポイントヒット時にゲームを一時停止（デバッグ用）
+    ONEngine::DebugConfig::isPause = true; 
+    // ※ONEngineにグローバルなPauseフラグがあると仮定。
+    // 無ければ Time::SetTimeScale(0) 等で代用。
+}
+

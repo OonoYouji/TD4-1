@@ -1,0 +1,15 @@
+using System;
+
+/// <summary>
+/// コンソールにメッセージを出力するデバッグ用タスク。
+/// </summary>
+public class LogNode : BehaviorNode
+{
+    public string message = "LogNode executed.";
+
+    protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
+    {
+        Debug.Log($"[BT Log] {owner.name}: {message}");
+        return NodeStatus.Success;
+    }
+}

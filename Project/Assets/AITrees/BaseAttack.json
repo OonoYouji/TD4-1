@@ -1,0 +1,203 @@
+{
+    "blackboard": [
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "TargetEntity",
+            "sVal": "Player",
+            "type": 4,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "IsPlayerDetected",
+            "sVal": "",
+            "type": 2,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ],
+    "comments": [],
+    "links": [
+        {
+            "endPin": 4,
+            "id": 14,
+            "startPin": 2
+        },
+        {
+            "endPin": 7,
+            "id": 15,
+            "startPin": 5
+        },
+        {
+            "endPin": 9,
+            "id": 16,
+            "startPin": 5
+        },
+        {
+            "endPin": 11,
+            "id": 17,
+            "startPin": 5
+        },
+        {
+            "endPin": 13,
+            "id": 18,
+            "startPin": 5
+        }
+    ],
+    "nodes": [
+        {
+            "className": "Entry",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 1,
+            "inputs": [],
+            "isDecorator": false,
+            "name": "ROOT ENTRY",
+            "outputs": [
+                {
+                    "id": 2,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                -143.0,
+                154.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "Sequence",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 3,
+            "inputs": [
+                {
+                    "id": 4,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Sequence",
+            "outputs": [
+                {
+                    "id": 5,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                49.0,
+                148.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "LogNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 6,
+            "inputs": [
+                {
+                    "id": 7,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "LogNode",
+            "outputs": [],
+            "pos": [
+                292.0,
+                388.0
+            ],
+            "properties": {
+                "message": "Basic Attack Start"
+            },
+            "services": []
+        },
+        {
+            "className": "RotateToFaceNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 8,
+            "inputs": [
+                {
+                    "id": 9,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "RotateToFaceNode",
+            "outputs": [],
+            "pos": [
+                292.0,
+                228.0
+            ],
+            "properties": {
+                "targetKey": "TargetEntity"
+            },
+            "services": []
+        },
+        {
+            "className": "WaitRandomNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 10,
+            "inputs": [
+                {
+                    "id": 11,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "WaitRandomNode",
+            "outputs": [],
+            "pos": [
+                292.0,
+                308.0
+            ],
+            "properties": {
+                "maxDuration": "0.500000",
+                "minDuration": "0.200000"
+            },
+            "services": []
+        },
+        {
+            "className": "InvokeEventNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 12,
+            "inputs": [
+                {
+                    "id": 13,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "InvokeEventNode",
+            "outputs": [],
+            "pos": [
+                292.0,
+                148.0
+            ],
+            "properties": {
+                "eventName": "PlayAnimation_Attack",
+                "eventType": "",
+                "timeoutSec": "1.000000",
+                "waitUntilComplete": ""
+            },
+            "services": []
+        }
+    ]
+}

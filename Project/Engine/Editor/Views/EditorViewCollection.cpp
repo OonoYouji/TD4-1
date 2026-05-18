@@ -12,6 +12,7 @@
 #include "Tabs/GameTab.h"
 #include "Tabs/PrefabTab.h"
 #include "Tabs/EditorTab.h"
+#include "Tabs/AITab.h"
 
 using namespace Editor;
 
@@ -32,6 +33,7 @@ EditorViewCollection::EditorViewCollection(
 	AddViewContainer("Game", std::make_unique<GameTab>(_assetCollection));
 	AddViewContainer("Prefab", std::make_unique<PrefabTab>(_dxm, _ecs, _assetCollection, _editorManager, _sceneManager));
 	AddViewContainer("Editor", std::make_unique<EditorTab>());
+	AddViewContainer("AI", std::make_unique<AITab>(_dxm, _ecs, _editorManager, _sceneManager));
 
 	// game windowで開始
 	selectedMenuIndex_ = 0;

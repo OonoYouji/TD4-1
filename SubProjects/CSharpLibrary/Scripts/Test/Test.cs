@@ -6,19 +6,25 @@ using System.Threading.Tasks;
 
 public class Test : MonoScript {
 
-	[SerializeField] Vector4 color;
-	[SerializeField] Vector2 textureSize;
-	[SerializeField] Vector2 uvTransform_position;
-	[SerializeField] float uvTransform_rotate;
-	[SerializeField] Vector2 uvTransform_scale;
+	[SerializeField] Vector4 mat1;
+	[SerializeField] Vector4 mat2;
+	[SerializeField] Vector4 mat3;
+	[SerializeField] Vector4 mat4;
+
 
 	public override void Initialize() {
-		SpriteRenderer renderer = entity.GetComponent<SpriteRenderer>();
-		color = renderer.color;
-		textureSize = renderer.textureSize;
-		uvTransform_position = renderer.uvTransform.offset;
-		uvTransform_rotate = renderer.uvTransform.rotate;
-		uvTransform_scale = renderer.uvTransform.scale;
+
+		Transform transform = entity.GetComponent<Transform>();
+		Matrix4x4 matrix = transform.matrix;
+		mat1 = matrix.GetRow(0);
+		mat2 = matrix.GetRow(1);
+		mat3 = matrix.GetRow(2);
+		mat4 = matrix.GetRow(3);
+
+	}
+
+	public override void Update() {
+
 	}
 
 }

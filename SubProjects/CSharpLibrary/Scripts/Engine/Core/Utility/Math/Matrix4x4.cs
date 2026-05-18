@@ -212,6 +212,16 @@ public struct Matrix4x4 {
 		);
 	}
 
+	public Vector4 GetRow(int _index) {
+		switch (_index) {
+			case 0: return new Vector4(m00, m01, m02, m03);
+			case 1: return new Vector4(m10, m11, m12, m13);
+			case 2: return new Vector4(m20, m21, m22, m23);
+			case 3: return new Vector4(m30, m31, m32, m33);
+			default: return Vector4.zero;
+		}
+	}
+
 
 	public static Matrix4x4 operator *(Matrix4x4 _a, Matrix4x4 _b) {
 		Matrix4x4 result = new Matrix4x4();

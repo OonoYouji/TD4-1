@@ -1,4 +1,4 @@
-﻿#include "ComponentApplyFunc.h"
+#include "ComponentApplyFunc.h"
 
 /// std
 #include <unordered_map>
@@ -11,6 +11,8 @@
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
@@ -56,6 +58,24 @@ struct SpriteBatch {
 	UVTransform uvTransform;
 };
 
+struct AgentIntentBatch {
+	uint32_t compId;
+	Vector3 desiredMoveDirection;
+	uint8_t isAttacking;
+	uint32_t targetEntityId;
+};
+
+struct CameraBatch {
+	uint32_t compId;
+	Matrix4x4 matVP;
+	Matrix4x4 matView;
+	Matrix4x4 matProjection;
+	float fovY;
+	float nearClip;
+	float farClip;
+	int cameraType;
+};
+
 } /// unnamed namespace
 
 
@@ -70,7 +90,8 @@ void ComponentApplyFuncs::ApplyTransform(void* _element, ECSGroup* _ecsGroup) {
 		t->SetPosition(data->position);
 		t->SetRotate(data->rotate);
 		t->SetScale(data->scale);
-		t->Update();
+		t->matWorld = data->matWorld;
+		// t->Update(); // 行列を直接同期するので Update() は不要
 	}
 }
 
@@ -111,6 +132,39 @@ void ONEngine::ComponentApplyFuncs::ApplySprite(void* _element, ECSGroup* _ecsGr
 	if(SpriteRenderer* sr = array->GetComponent(data->compId)) {
 		sr->SetColor(data->color);
 		sr->SetUVTransform(data->uvTransform);
+	}
+}
+
+void ONEngine::ComponentApplyFuncs::ApplyAgentIntent(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<AgentIntentBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<AgentIntentComponent>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(AgentIntentComponent* ai = array->GetComponent(data->compId)) {
+		ai->desiredMoveDirection = data->desiredMoveDirection;
+		ai->isAttacking = (data->isAttacking != 0);
+		ai->targetEntityId = data->targetEntityId;
+	}
+}
+
+void ONEngine::ComponentApplyFuncs::ApplyCamera(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<CameraBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<CameraComponent>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(CameraComponent* camera = array->GetComponent(data->compId)) {
+		// matView と matProjection は現状 C++ 側で計算されていることが多いが、
+		// C# 側から上書きしたい場合のために実装しておく
+		// ただし、UpdateViewProjection で上書きされる可能性があるので注意
+
+		camera->fovY_ = data->fovY;
+		camera->nearClip_ = data->nearClip;
+		camera->farClip_ = data->farClip;
+		camera->cameraType_ = data->cameraType;
 	}
 }
 
@@ -171,6 +225,47 @@ void ONEngine::ComponentApplyFuncs::FetchSprite(void* _element, ECSGroup* _ecsGr
 	}
 }
 
+void ONEngine::ComponentApplyFuncs::FetchAgentIntent(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<AgentIntentBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<AgentIntentComponent>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(AgentIntentComponent* ai = array->GetComponent(data->compId)) {
+		data->desiredMoveDirection = ai->desiredMoveDirection;
+		data->isAttacking = ai->isAttacking;
+		data->targetEntityId = ai->targetEntityId;
+	}
+}
+
+void ONEngine::ComponentApplyFuncs::FetchCamera(void* _element, ECSGroup* _ecsGroup) {
+	auto* data = static_cast<CameraBatch*>(_element);
+	auto* array = _ecsGroup->GetComponentArray<CameraComponent>();
+	if(!CheckComponentArrayEnable(array)) {
+		return;
+	}
+
+	if(CameraComponent* camera = array->GetComponent(data->compId)) {
+		if (camera->IsMakeViewProjection()) {
+			const ViewProjection& vp = camera->GetViewProjection();
+			data->matVP = vp.matVP;
+			data->matView = vp.matView;
+			data->matProjection = vp.matProjection;
+		}
+		else {
+			data->matVP = Matrix4x4::kIdentity;
+			data->matView = Matrix4x4::kIdentity;
+			data->matProjection = Matrix4x4::kIdentity;
+		}
+
+		data->fovY = camera->fovY_;
+		data->nearClip = camera->nearClip_;
+		data->farClip = camera->farClip_;
+		data->cameraType = camera->cameraType_;
+	}
+}
+
 ComponentApplyFunc ComponentApplyFuncs::GetApplyFunc(MonoClass* _monoClass) {
 	auto itr = gApplyFuncMap.find(_monoClass);
 	if(itr == gApplyFuncMap.end()) {
@@ -196,6 +291,10 @@ size_t ONEngine::ComponentApplyFuncs::GetBatchElementSize(MonoClass* _monoClass)
 }
 
 void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
+	gApplyFuncMap.clear();
+	gFetchFuncMap.clear();
+	gComponentBatchSize.clear();
+
 	{	/// Transform
 		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "Transform");
 		gApplyFuncMap[monoClass] = ApplyTransform;
@@ -222,5 +321,23 @@ void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
 		gApplyFuncMap[monoClass] = ApplySprite;
 		gFetchFuncMap[monoClass] = FetchSprite;
 		gComponentBatchSize[monoClass] = sizeof(SpriteBatch);
+	}
+
+	{	/// AgentIntentComponent
+		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "AgentIntentComponent");
+		if (monoClass) {
+			gApplyFuncMap[monoClass] = ApplyAgentIntent;
+			gFetchFuncMap[monoClass] = FetchAgentIntent;
+			gComponentBatchSize[monoClass] = sizeof(AgentIntentBatch);
+		}
+	}
+
+	{	/// CameraComponent
+		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "CameraComponent");
+		if (monoClass) {
+			gApplyFuncMap[monoClass] = ApplyCamera;
+			gFetchFuncMap[monoClass] = FetchCamera;
+			gComponentBatchSize[monoClass] = sizeof(CameraBatch);
+		}
 	}
 }
