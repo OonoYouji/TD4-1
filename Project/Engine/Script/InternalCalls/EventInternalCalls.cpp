@@ -37,12 +37,16 @@ namespace ONEngine {
     /// <summary>
     /// C#から攻撃イベントを発行するための内部呼び出し
     /// </summary>
-    static void Internal_EnqueueAttackEvent(int32_t ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp)
+    static void Internal_EnqueueAttackEvent(MonoString* attackName, int32_t ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp)
     {
+        char* name = mono_string_to_utf8(attackName);
+
         Event e;
         e.type = EventType::Attack;
-        e.payload = AttackEventPayload{ ownerId, damage, radius, duration, offsetForward, offsetUp };
+        e.payload = AttackEventPayload{ std::string(name), ownerId, damage, radius, duration, offsetForward, offsetUp };
         FrameEventQueue::GetInstance().Enqueue(e);
+
+        mono_free(name);
     }
 
     void AddEventInternalCalls()

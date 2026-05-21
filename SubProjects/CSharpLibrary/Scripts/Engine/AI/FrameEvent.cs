@@ -35,9 +35,9 @@ public static class FrameEvent
     /// <summary>
     /// 攻撃（当たり判定生成）イベントをキューに追加します。
     /// </summary>
-    public static void EnqueueAttackEvent(int ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp)
+    public static void EnqueueAttackEvent(string attackName, int ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp)
     {
-        Internal_EnqueueAttackEvent(ownerId, damage, radius, duration, offsetForward, offsetUp);
+        Internal_EnqueueAttackEvent(attackName, ownerId, damage, radius, duration, offsetForward, offsetUp);
     }
 
     [MethodImpl(MethodImplOptions.InternalCall)]
@@ -47,5 +47,5 @@ public static class FrameEvent
     private static extern void Internal_EnqueueNamedEvent(string eventName, int entityId);
 
     [MethodImpl(MethodImplOptions.InternalCall)]
-    private static extern void Internal_EnqueueAttackEvent(int ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp);
+    private static extern void Internal_EnqueueAttackEvent(string attackName, int ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp);
 }

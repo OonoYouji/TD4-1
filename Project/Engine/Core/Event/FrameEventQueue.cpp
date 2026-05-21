@@ -1,6 +1,7 @@
 ﻿#include "FrameEventQueue.h"
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/Script/MonoScriptEngine.h"
+#include "GameEventData.h"
 #include <string>
 
 namespace ONEngine {
@@ -39,11 +40,22 @@ namespace ONEngine {
             }
             else if (event.type == EventType::Attack)
             {
-                const auto& payload = std::get<AttackEventPayload>(event.payload);
+                auto payload = std::get<AttackEventPayload>(event.payload);
+                
+                // プリセット名が指定されていれば、マネージャーからデータを取得して上書きする
+                if (!payload.attackName.empty()) {
+                    if (auto* def = GameEventManager::GetInstance().GetAttack(payload.attackName)) {
+                        payload.damage = def->damage;
+                        payload.radius = def->radius;
+                        payload.duration = def->duration;
+                        payload.offsetForward = def->offsetForward.z; // TODO: マネージャー側も正規化が必要
+                        payload.offsetUp = def->offsetUp.y;
+                    }
+                }
+
                 std::string msg = "[AttackEvent] Entity " + std::to_string(payload.ownerId) + 
-                    " Spawn Attack: Damage=" + std::to_string(payload.damage) + 
-                    ", Radius=" + std::to_string(payload.radius) + 
-                    ", Offset=(" + std::to_string(payload.offsetForward) + ", " + std::to_string(payload.offsetUp) + ")";
+                    " (" + payload.attackName + ") Spawn Attack: Damage=" + std::to_string(payload.damage) + 
+                    ", Radius=" + std::to_string(payload.radius);
                 Console::Log(msg, LogCategory::Application);
 
                 // ここで HitboxSystem->Create(payload) 等を呼び出す

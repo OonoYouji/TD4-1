@@ -23,6 +23,7 @@ namespace ONEngine
     // 攻撃（当たり判定生成）イベント用ペイロード
     struct AttackEventPayload
     {
+        std::string attackName; // プリセット名（空なら以下のパラメータを使用）
         int32_t ownerId;        // 攻撃者ID
         float damage;           // ダメージ量
         float radius;           // 半径

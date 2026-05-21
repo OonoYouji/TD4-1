@@ -6,6 +6,7 @@ using System;
 /// </summary>
 public class SpawnAttackNode : BehaviorNode
 {
+    public string attackName = ""; // NEW: Preset name from Game Event Editor
     public float damage = 10.0f;
     public float radius = 2.0f;
     public float duration = 0.1f;
@@ -14,9 +15,14 @@ public class SpawnAttackNode : BehaviorNode
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        Debug.Log($"<color=red>[SpawnAttack]</color> {owner.name} spawning attack: <b>Damage={damage}, Radius={radius}</b>");
+        string logMsg = string.IsNullOrEmpty(attackName) 
+            ? $"Damage={damage}, Radius={radius}" 
+            : $"Preset={attackName}";
+
+        Debug.Log($"<color=red>[SpawnAttack]</color> {owner.name} spawning attack: <b>{logMsg}</b>");
         
         FrameEvent.EnqueueAttackEvent(
+            attackName,
             owner.Id, 
             damage, 
             radius, 
