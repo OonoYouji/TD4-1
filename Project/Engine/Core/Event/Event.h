@@ -2,24 +2,41 @@
 
 #include <variant>
 #include <cstdint>
+#include <string>
 
 namespace ONEngine
 {
     // イベントのペイロード（具体的なデータ）を定義
-    // 例として、エンティティIDを持つイベント
+    // エンティティIDを持つイベント
     struct EntityEventPayload
     {
         int32_t entityId;
     };
 
-    // 必要に応じて他のペイロードをここに追加
-    // struct AnotherEventPayload { ... };
+    // 名前付きイベント（文字列）とエンティティIDを持つペイロード
+    struct NamedEventPayload
+    {
+        std::string eventName;
+        int32_t entityId;
+    };
+
+    // 攻撃（当たり判定生成）イベント用ペイロード
+    struct AttackEventPayload
+    {
+        int32_t ownerId;        // 攻撃者ID
+        float damage;           // ダメージ量
+        float radius;           // 半径
+        float duration;         // 持続時間
+        float offsetForward;    // 前方オフセット
+        float offsetUp;         // 上方オフセット
+    };
 
     // イベントの種類を定義
     enum class EventType : uint8_t
     {
         TestEvent,
-        // ...
+        NamedEvent, // 文字列ベースのイベント
+        Attack,     // 攻撃発生イベント
     };
 
     // イベント本体
@@ -28,8 +45,9 @@ namespace ONEngine
     {
         EventType type;
         std::variant<
-            EntityEventPayload
-            //, AnotherEventPayload
+            EntityEventPayload,
+            NamedEventPayload,
+            AttackEventPayload
         > payload;
     };
 }

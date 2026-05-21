@@ -38,13 +38,16 @@ public class InvokeEventNode : BehaviorNode
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("EventStart_" + NodeIdHash);
+        uint completeKey = BehaviorTreeLoader.HashString("EventComplete_" + eventName);
 
         if (!blackboard.HasKey(startTimeKey))
         {
             // 1. 初回実行: イベントを発行
-            Debug.Log($"[InvokeEvent] {owner.name} triggered event: {eventName}");
+            Debug.Log($"<color=orange>[InvokeEvent]</color> {owner.name} <b>TRIGGERED</b> event: <color=white>{eventName}</color>");
             
-            FrameEvent.EnqueueEntityEvent(FrameEvent.Type.TestEvent, owner.Id);
+            // 完了フラグをリセットしてから発行
+            blackboard.SetBool(completeKey, false);
+            FrameEvent.EnqueueNamedEvent(eventName, owner.Id);
             
             if (!waitUntilComplete)
             {
@@ -62,15 +65,16 @@ public class InvokeEventNode : BehaviorNode
         // 設定されたタイムアウト時間を超えた場合
         if (elapsed >= timeoutSec)
         {
+            Debug.LogWarning($"<color=red>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>TIMED OUT</b> after {timeoutSec}s.");
             blackboard.Remove(startTimeKey);
             return NodeStatus.Failure;
         }
 
-        // 現状は外部からの完了通知システムがないため、一定時間（例：1.0秒）経過したら
-        // 演出が完了したものとみなして Success を返すように暫定実装
-        if (elapsed >= 1.0f) 
+        // Blackboardの完了フラグを監視
+        if (blackboard.GetBool(completeKey))
         {
-            Debug.Log($"[InvokeEvent] {owner.name} event '{eventName}' completed (simulated).");
+            Debug.Log($"<color=cyan>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>RECEIVED</b> completion signal.");
+            blackboard.SetBool(completeKey, false); // 次回のためにリセット
             blackboard.Remove(startTimeKey);
             return NodeStatus.Success;
         }

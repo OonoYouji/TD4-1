@@ -15,6 +15,11 @@ public static class AIUpdater {
     public unsafe static void UpdateIntents(AgentIntentComponent.BatchData* intentsDataPtr, int entityCount, float deltaTime, string groupName) {
         if (intentsDataPtr == null) return;
 
+        // デバッグ用：どのグループが更新されているかログに出す（頻度を抑える）
+        if ((int)(Time.time * 5) % 100 == 0) {
+            Debug.Log($"AIUpdater: Updating intents for group '{groupName}' with {entityCount} entities.");
+        }
+
         // キャッシュを更新
         RefreshCache(groupName);
 
@@ -35,8 +40,8 @@ public static class AIUpdater {
                     component.targetEntityId = 0;
 
                     // デバッグ用：毎フレームは多すぎるので定期的にログを出す
-                    if ((int)(Time.time * 10) % 100 == 0) {
-                        Debug.Log($"AIUpdater: Ticking BT for {component.entity.name} (Root:{(component.behaviorTree.RootNode != null ? component.behaviorTree.RootNode.name : "null")})");
+                    if ((int)(Time.time * 5) % 100 == 0) {
+                        Debug.Log($"AIUpdater: Ticking BT for {component.entity.name} (Root:{(component.behaviorTree.RootNode != null ? component.behaviorTree.RootNode.name : "null")}, Path:{component.behaviorTree.SourcePath})");
                     }
 
                     component.behaviorTree.Tick();
@@ -46,9 +51,13 @@ public static class AIUpdater {
 
                     // ツリーの実行結果（インテント）をネイティブデータに反映
                     nativeData->desiredMoveDirection = component.desiredMoveDirection;
+                    nativeData->desiredRotation = component.desiredRotation;
+                    nativeData->rotationSpeed = component.rotationSpeed;
+                    nativeData->useDesiredRotation = (byte)(component.useDesiredRotation ? 1 : 0);
                     nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
                     nativeData->targetEntityId = component.targetEntityId;
-                }
+                    }
+
  else {
                     // ツリーがない場合は停止を意図する
                     nativeData->desiredMoveDirection = Vector3.zero;

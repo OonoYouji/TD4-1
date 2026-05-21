@@ -24,7 +24,9 @@ public static class BehaviorTreeLoader
 
         var root = JObject.Parse(jsonText);
         BehaviorTree tree = new BehaviorTree(owner);
-        tree.SourcePath = path; // NEW: Set source path for filtering status updates in editor
+        tree.SourcePath = path; // Normalized in property setter
+
+        Debug.Log($"BTLoader: Loading tree for {owner.name} from {tree.SourcePath}");
 
         // 2. Blackboard（共有変数）のロード
         // JSON内の "blackboard" 配列から変数を読み取り、型に応じたディクショナリに格納する。
@@ -84,9 +86,14 @@ public static class BehaviorTreeLoader
             {
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
                 node.NodeIdHash = (uint)id;
-                node.name = (string)n["name"] ?? className; // NEW: Set name
-                node.Tree = tree; // NEW: Set tree instance
+                node.name = (string)n["name"] ?? className;
+                if (string.IsNullOrEmpty(node.name)) node.name = className;
+
+                node.Tree = tree;
                 
+                // Debug log
+                // Debug.Log($"BTLoader: Created node {node.name} (ID:{node.NodeIdHash}, Class:{className})");
+
                 // ブレークポイント設定の反映
                 if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
 

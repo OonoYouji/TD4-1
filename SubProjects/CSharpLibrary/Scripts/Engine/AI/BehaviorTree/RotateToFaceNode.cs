@@ -34,6 +34,13 @@ public class RotateToFaceNode : BehaviorNode
             return NodeStatus.Failure;
         }
 
+        var intent = owner.GetComponent<AgentIntentComponent>();
+        if (intent == null)
+        {
+            Debug.LogWarning($"RotateToFaceNode: AgentIntentComponent not found on {owner.name}.");
+            return NodeStatus.Failure;
+        }
+
         Vector3 ownerPos = owner.transform.position;
         Vector3 targetPos = target.transform.position;
 
@@ -41,30 +48,40 @@ public class RotateToFaceNode : BehaviorNode
         Vector3 diff = targetPos - ownerPos;
         diff.y = 0;
 
-        if (diff.Length() < 0.01f) return NodeStatus.Success;
-
-        Quaternion targetRot = Quaternion.LookRotation(diff.Normalized(), Vector3.up);
-        
-        if (rotationSpeed <= 0)
+        if (diff.Length() < 0.01f)
         {
-            owner.transform.rotation = targetRot;
+            intent.useDesiredRotation = false;
             return NodeStatus.Success;
         }
 
-        // 現在の回転から徐々に向ける
-        owner.transform.rotation = Quaternion.RotateTowards(
-            owner.transform.rotation, 
-            targetRot, 
-            rotationSpeed * Time.deltaTime
-        );
+        // 目標とする回転を計算
+        Quaternion targetRot = Quaternion.LookRotation(diff.Normalized(), Vector3.up);
+        
+        // Intentに意図を書き込む（実際の回転処理はC++側のMovementSystem等が行う）
+        intent.desiredRotation = targetRot;
+        intent.useDesiredRotation = true;
 
-        // 角度差をチェック
+        // 角度差をチェックして終了判定
         float angle = Quaternion.Angle(owner.transform.rotation, targetRot);
         if (angle <= precisionAngle)
         {
+            // 目標角度に到達したら、Intentの制御をオフにしてSuccessを返す
+            // （Successを返した後も向き続けたい場合は、このノードをループさせるか
+            //   別のノードで制御を維持する設計にする）
+            intent.useDesiredRotation = false;
             return NodeStatus.Success;
         }
 
         return NodeStatus.Running;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        // 中断時は回転制御をオフにする
+        var intent = owner.GetComponent<AgentIntentComponent>();
+        if (intent != null)
+        {
+            intent.useDesiredRotation = false;
+        }
     }
 }

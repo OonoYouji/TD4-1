@@ -41,6 +41,9 @@ void AISystem::RuntimeUpdate(ECSGroup* _ecs) {
         // We add an assertion to be safe.
         if (usedComponents[i]->id == batchData[i].compId) {
             usedComponents[i]->desiredMoveDirection = batchData[i].desiredMoveDirection;
+            usedComponents[i]->desiredRotation = batchData[i].desiredRotation;
+            usedComponents[i]->rotationSpeed = batchData[i].rotationSpeed;
+            usedComponents[i]->useDesiredRotation = (batchData[i].useDesiredRotation != 0);
             usedComponents[i]->isAttacking = (batchData[i].isAttacking != 0);
             usedComponents[i]->targetEntityId = batchData[i].targetEntityId;
         }

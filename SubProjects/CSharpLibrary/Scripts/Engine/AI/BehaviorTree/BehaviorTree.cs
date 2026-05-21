@@ -8,10 +8,19 @@ using System.Runtime.CompilerServices;
 /// </summary>
 public class BehaviorTree
 {
+    private BehaviorNode _rootNode;
     /// <summary>
     /// ツリーの最上位（起点）となるノード。
     /// </summary>
-    public BehaviorNode RootNode { get; set; }
+    public BehaviorNode RootNode {
+        get => _rootNode;
+        set {
+            _rootNode = value;
+            if (_rootNode != null) {
+                _rootNode.Tree = this;
+            }
+        }
+    }
 
     /// <summary>
     /// このツリー内で共有される記憶領域。
@@ -25,11 +34,22 @@ public class BehaviorTree
     /// </summary>
     public Entity Owner { get; }
 
+    private string _sourcePath;
     /// <summary>
     /// このツリーがロードされた元のJSONファイルのパス。
     /// エディタでのデバッグ表示のフィルタリングに使用される。
     /// </summary>
-    public string SourcePath { get; set; }
+    public string SourcePath { 
+        get => _sourcePath;
+        set {
+            if (value != null) {
+                // パス形式を統一（スラッシュ、小文字化など）
+                _sourcePath = value.Replace("\\", "/").Trim();
+            } else {
+                _sourcePath = null;
+            }
+        }
+    }
 
     /// <summary>
     /// Blackboardの変数が書き換わった際、ツリーの再評価（割り込み処理）が必要かどうかを示すフラグ
@@ -58,6 +78,12 @@ public class BehaviorTree
         Owner = owner;
         // Blackboardの値が変更されたイベントを購読し、変更時にツリーへ通知が行くように設定
         Blackboard.OnValueChanged += HandleBlackboardChanged;
+
+        // BlackboardManagerに自身を登録（C++からの通知を受け取れるようにする）
+        if (owner != null && owner.Id != 0)
+        {
+            BlackboardManager.Register(owner.Id, Blackboard);
+        }
     }
 
     /// <summary>
@@ -140,6 +166,11 @@ public class BehaviorTree
     public void Tick()
     {
         if (RootNode == null || Owner == null) return;
+
+        // デバッグ用：現在実行中であることをログに出力 (60フレームに1回)
+        if (TickCount % 60 == 0) {
+            Debug.Log($"[BT] Ticking tree for {Owner.name}. Root: {RootNode.name}");
+        }
 
         // Tick回数をインクリメント
         TickCount++;

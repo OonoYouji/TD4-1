@@ -332,7 +332,7 @@
                 -180.0
             ],
             "properties": {
-                "treePath": "Assets/AITrees/BasicAttack.json"
+                "treePath": "Assets/AITrees/BossMeleeCombo.json"
             },
             "services": []
         },
@@ -476,7 +476,7 @@
                 120.0
             ],
             "properties": {
-                "treePath": "Assets/AITrees/BasicAttack.json"
+                "treePath": "Assets/AITrees/BossMeleeCombo.json"
             },
             "services": []
         },

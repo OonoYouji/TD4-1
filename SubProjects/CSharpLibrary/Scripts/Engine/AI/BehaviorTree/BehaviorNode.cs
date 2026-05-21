@@ -57,10 +57,22 @@ public abstract class BehaviorNode
     /// </summary>
     public void AddService(BehaviorService service) => Services.Add(service);
 
+    private BehaviorTree _tree;
     /// <summary>
     /// このノードが属しているビヘイビアツリーのインスタンス。
     /// </summary>
-    public BehaviorTree Tree { get; set; }
+    public BehaviorTree Tree {
+        get => _tree;
+        set {
+            _tree = value;
+            // コンポジットノードの場合は子ノードにも再帰的に伝播させる
+            if (this is CompositeNode composite) {
+                foreach (var child in composite.GetChildren()) {
+                    child.Tree = value;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// このノードの親ノード。ツリー構造を上に辿るために使用される。
