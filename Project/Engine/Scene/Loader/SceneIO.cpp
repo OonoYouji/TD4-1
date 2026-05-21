@@ -73,7 +73,9 @@ void SceneIO::SaveSceneToJson(nlohmann::json& _output, ECSGroup* _ecsGroup) {
 		}
 
 		if (Variables* var = entity->GetComponent<Variables>()) {
-			var->SaveJson("./Assets/Scene/" + _ecsGroup->GetGroupName() + "/" + entity->GetName() + ".json");
+			Console::Log(std::format("SceneIO: Exporting script variables for entity '{}'...", entity->GetName()));
+			var->ReloadScriptVariables();
+			var->SaveJson("Assets/Scene/" + _ecsGroup->GetGroupName() + "/" + entity->GetName() + ".json");
 		}
 
 		nlohmann::json entityJson = EntityJsonConverter::ToJson(entity.get());

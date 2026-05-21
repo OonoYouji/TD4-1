@@ -237,6 +237,10 @@
                         {
                             "enable": true,
                             "name": "AnimationTest"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Test"
                         }
                     ],
                     "type": "Script"
