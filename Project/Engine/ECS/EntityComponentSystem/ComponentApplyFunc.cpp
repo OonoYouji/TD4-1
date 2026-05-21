@@ -13,6 +13,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Animator/Animator.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
@@ -74,6 +75,11 @@ struct CameraBatch {
 	float nearClip;
 	float farClip;
 	int cameraType;
+};
+
+struct AnimatorBatch {
+    uint32_t compId;
+    AnimationLayer layers[MAX_ANIMATION_LAYERS];
 };
 
 } /// unnamed namespace
@@ -166,6 +172,18 @@ void ONEngine::ComponentApplyFuncs::ApplyCamera(void* _element, ECSGroup* _ecsGr
 		camera->farClip_ = data->farClip;
 		camera->cameraType_ = data->cameraType;
 	}
+}
+
+void ONEngine::ComponentApplyFuncs::ApplyAnimator(void* _element, ECSGroup* _ecsGroup) {
+    auto* data = static_cast<AnimatorBatch*>(_element);
+    auto* array = _ecsGroup->GetComponentArray<Animator>();
+    if (!CheckComponentArrayEnable(array)) return;
+
+    if (Animator* animator = array->GetComponent(data->compId)) {
+        for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
+            animator->layers[i] = data->layers[i];
+        }
+    }
 }
 
 void ONEngine::ComponentApplyFuncs::FetchTransform(void* _element, ECSGroup* _ecsGroup) {
@@ -266,6 +284,18 @@ void ONEngine::ComponentApplyFuncs::FetchCamera(void* _element, ECSGroup* _ecsGr
 	}
 }
 
+void ONEngine::ComponentApplyFuncs::FetchAnimator(void* _element, ECSGroup* _ecsGroup) {
+    auto* data = static_cast<AnimatorBatch*>(_element);
+    auto* array = _ecsGroup->GetComponentArray<Animator>();
+    if (!CheckComponentArrayEnable(array)) return;
+
+    if (Animator* animator = array->GetComponent(data->compId)) {
+        for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
+            data->layers[i] = animator->layers[i];
+        }
+    }
+}
+
 ComponentApplyFunc ComponentApplyFuncs::GetApplyFunc(MonoClass* _monoClass) {
 	auto itr = gApplyFuncMap.find(_monoClass);
 	if(itr == gApplyFuncMap.end()) {
@@ -338,6 +368,15 @@ void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
 			gApplyFuncMap[monoClass] = ApplyCamera;
 			gFetchFuncMap[monoClass] = FetchCamera;
 			gComponentBatchSize[monoClass] = sizeof(CameraBatch);
+		}
+	}
+
+	{	/// Animator
+		MonoClass* monoClass = mono_class_from_name(_monoImage, "", "Animator");
+		if (monoClass) {
+			gApplyFuncMap[monoClass] = ApplyAnimator;
+			gFetchFuncMap[monoClass] = FetchAnimator;
+			gComponentBatchSize[monoClass] = sizeof(AnimatorBatch);
 		}
 	}
 }

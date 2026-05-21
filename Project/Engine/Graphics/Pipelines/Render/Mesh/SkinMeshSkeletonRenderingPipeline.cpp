@@ -78,6 +78,8 @@ void SkinMeshSkeletonRenderingPipeline::Draw(class ECSGroup* _ecs, CameraCompone
 	for (auto& smRenderer : skinMeshRendererArray->GetUsedComponents()) {
 
 		float scale = smRenderer->GetOwner()->GetScale().Length();
+		float jointDebugScale = smRenderer->GetDebugJointSize();
+		float rectDebugScale = smRenderer->GetDebugRectSize();
 
 		for (const Joint& joint : smRenderer->GetSkeleton().joints) {
 			if (!joint.parent.has_value()) {
@@ -94,11 +96,11 @@ void SkinMeshSkeletonRenderingPipeline::Draw(class ECSGroup* _ecs, CameraCompone
 			Vector4 thisColor = Color::kRed;
 
 			/// Sphereの頂点データを取得
-			auto sphereVertices = GetSphereVertices(thisPosition, 1.0f * scale, thisColor, 12);
+			auto sphereVertices = GetSphereVertices(thisPosition, 1.0f * scale * jointDebugScale, thisColor, 12);
 			vertices_.insert(vertices_.end(), sphereVertices.begin(), sphereVertices.end());
 
 			/// Rectの頂点データを取得
-			auto rectVertices = GetRectVertices(thisWorldMatrix, Color::kGreen, Vector2::One * (4.0f * scale));
+			auto rectVertices = GetRectVertices(thisWorldMatrix, Color::kGreen, Vector2::One * (4.0f * scale * rectDebugScale));
 			vertices_.insert(vertices_.end(), rectVertices.begin(), rectVertices.end());
 
 

@@ -5,6 +5,7 @@
 
 /// engine
 #include "Engine/Core/Utility/Utility.h"
+#include "Engine/Core/Utility/Tools/StringHash.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
 
 /// editor
@@ -21,6 +22,8 @@ SkinMeshRenderer::SkinMeshRenderer() {
 	animationTime_ = 0.0f;
 	duration_ = 0.0f;
 	animationScale_ = 1.0f;
+	debugJointSize_ = 1.0f;
+	debugRectSize_ = 1.0f;
 
 
 	color_ = Color::kWhite;
@@ -56,6 +59,18 @@ void SkinMeshRenderer::SetAnimationScale(float _scale) {
 	animationScale_ = _scale;
 }
 
+void SkinMeshRenderer::SetDebugJointSize(float _size) {
+	debugJointSize_ = _size;
+}
+
+void SkinMeshRenderer::SetDebugRectSize(float _size) {
+	debugRectSize_ = _size;
+}
+
+void SkinMeshRenderer::SetNodeAnimationMap(const std::unordered_map<uint32_t, NodeAnimation>& _map) {
+	nodeAnimationMap_ = _map;
+}
+
 const std::string& SkinMeshRenderer::GetMeshPath() const {
 	return meshPath_;
 }
@@ -78,6 +93,14 @@ float SkinMeshRenderer::GetDuration() const {
 
 float SkinMeshRenderer::GetAnimationScale() const {
 	return animationScale_;
+}
+
+float SkinMeshRenderer::GetDebugJointSize() const {
+	return debugJointSize_;
+}
+
+float SkinMeshRenderer::GetDebugRectSize() const {
+	return debugRectSize_;
 }
 
 const Skeleton& SkinMeshRenderer::GetSkeleton() const {
@@ -103,6 +126,8 @@ void ComponentDebug::SkinMeshRendererDebug(SkinMeshRenderer* _smr, Asset::AssetC
 	bool isPlaying = _smr->GetIsPlaying();
 	float animationTime = _smr->GetAnimationTime();
 	float duration = _smr->GetDuration();
+	float jointSize = _smr->GetDebugJointSize();
+	float rectSize = _smr->GetDebugRectSize();
 	Vector4 color = _smr->GetColor();
 
 
@@ -113,6 +138,39 @@ void ComponentDebug::SkinMeshRendererDebug(SkinMeshRenderer* _smr, Asset::AssetC
 	/// color edit
 	if (Editor::ImGuiColorEdit("color", &color)) {
 		_smr->SetColor(color);
+	}
+
+	/// debug sizes
+	if (ImGui::DragFloat("joint size", &jointSize, 0.01f, 0.0f, 100.0f)) {
+		_smr->SetDebugJointSize(jointSize);
+	}
+	if (ImGui::DragFloat("rect size", &rectSize, 0.01f, 0.0f, 100.0f)) {
+		_smr->SetDebugRectSize(rectSize);
+	}
+
+	/// animation clips
+	if (Asset::Model* model = _assetCollection->GetModel(_smr->GetMeshPath())) {
+		const auto& clips = model->GetAnimationClips();
+		if (!clips.empty()) {
+			std::string currentClipName = "None";
+			// 現在再生中のクリップ名を特定（暫定的に最初のクリップのアニメーションマップと比較するか、
+			// もしくはSkinMeshRendererに現在のクリップ名を保持させる必要があるが、
+			// 現状はnodeAnimationMap_の内容で判断するか、単にリストを表示する）
+			
+			if (ImGui::BeginCombo("animation clips", "Select Clip...")) {
+				for (const auto& [hash, clip] : clips) {
+					if (ImGui::Selectable(clip.name.c_str())) {
+						_smr->SetNodeAnimationMap(clip.nodeAnimationMap);
+						_smr->SetDuration(clip.duration);
+						_smr->SetAnimationTime(0.0f);
+						Console::Log(std::format("Switched animation to: {} (duration: {:.2f}s)", clip.name, clip.duration));
+					}
+				}
+				ImGui::EndCombo();
+			}
+		} else {
+			ImGui::TextDisabled("No animation clips in model.");
+		}
 	}
 
 	/// edit
@@ -226,6 +284,12 @@ void ONEngine::from_json(const nlohmann::json& _j, SkinMeshRenderer& _smr) {
 	_smr.enable = _j.at("enable").get<int>();
 	_smr.SetMeshPath(_j.at("meshPath").get<std::string>());
 	_smr.SetTexturePath(_j.at("texturePath").get<std::string>());
+	if (_j.contains("debugJointSize")) {
+		_smr.SetDebugJointSize(_j.at("debugJointSize").get<float>());
+	}
+	if (_j.contains("debugRectSize")) {
+		_smr.SetDebugRectSize(_j.at("debugRectSize").get<float>());
+	}
 }
 
 void ONEngine::to_json(nlohmann::json& _j, const SkinMeshRenderer& _smr) {
@@ -235,7 +299,9 @@ void ONEngine::to_json(nlohmann::json& _j, const SkinMeshRenderer& _smr) {
 		{ "meshPath", _smr.GetMeshPath() },
 		{ "texturePath", _smr.GetTexturePath() },
 		{ "isPlaying", _smr.GetIsPlaying() },
-		{ "animationScale", _smr.GetAnimationScale() }
+		{ "animationScale", _smr.GetAnimationScale() },
+		{ "debugJointSize", _smr.GetDebugJointSize() },
+		{ "debugRectSize", _smr.GetDebugRectSize() }
 	};
 }
 
@@ -322,10 +388,11 @@ void ONEngine::InternalGetJointTransform(uint64_t _nativeHandle, MonoString* _jo
 	/// MonoStringからstd::stringに変換
 	char* jointNameChars = mono_string_to_utf8(_jointName);
 	std::string jointName(jointNameChars);
+	uint32_t jointNameHash = StringHash::Get(jointName);
 	mono_free(jointNameChars);
 
 	/// ジョイントのトランスフォームを取得
-	if (smr->GetSkeleton().jointMap.contains(jointName) == false) {
+	if (smr->GetSkeleton().jointMap.contains(jointNameHash) == false) {
 		Console::LogError(std::format("SkinMeshRenderer::InternalGetJointTransform: Joint '{}' not found in skeleton.", jointName));
 		*_outScale = Vector3::One; ///< ジョイントが見つからない場合はゼロベクトルを設定
 		*_outRotation = Quaternion::kIdentity; ///< ジョイントが見つからない場合は単位クォータニオンを設定
@@ -334,7 +401,7 @@ void ONEngine::InternalGetJointTransform(uint64_t _nativeHandle, MonoString* _jo
 		return; ///< ジョイントが見つからない場合は何もしない
 	}
 
-	int32_t jointIndex = smr->GetSkeleton().jointMap.at(jointName);
+	int32_t jointIndex = smr->GetSkeleton().jointMap.at(jointNameHash);
 	const Matrix4x4& matWorld = smr->GetSkeleton().joints[jointIndex].matWorld;
 
 
