@@ -1,4 +1,5 @@
 ﻿#include "EntityCollection.h"
+#include <nlohmann/json.hpp>
 
 using namespace ONEngine;
 

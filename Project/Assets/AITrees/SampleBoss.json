@@ -38,7 +38,7 @@
             "inputs": [{ "id": 50, "name": "In" }], "outputs": []
         },
         {
-            "id": 6, "className": "RunBehaviorNode", "name": "Basic Attack Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/BasicAttack.json" },
+            "id": 6, "className": "RunBehaviorNode", "name": "Basic Attack Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/BossMeleeCombo.json" },
             "decorators": [], "services": [], "pos": [1050.0, -180.0],
             "inputs": [{ "id": 60, "name": "In" }], "outputs": []
         },
@@ -65,7 +65,7 @@
             "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 102, "name": "Out" }]
         },
         {
-            "id": 11, "className": "RunBehaviorNode", "name": "Basic Attack Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/BasicAttack.json" },
+            "id": 11, "className": "RunBehaviorNode", "name": "Basic Attack Subtree", "isDecorator": false, "hasBreakpoint": false, "properties": { "treePath": "Assets/AITrees/BossMeleeCombo.json" },
             "decorators": [], "services": [], "pos": [1050.0, 120.0],
             "inputs": [{ "id": 110, "name": "In" }], "outputs": []
         },

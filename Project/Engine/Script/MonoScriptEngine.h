@@ -84,6 +84,11 @@ public:
 	
 	void UpdateAiIntents(void* data, int count, float deltaTime, const std::string& groupName);
 
+	/// @brief C#のBlackboardManagerにイベント完了を通知する
+	/// @param entityId 対象のエンティティID
+	/// @param eventName 完了したイベント名
+	void NotifyEventCompleted(int32_t entityId, const std::string& eventName);
+
 	struct NodeClassInfo {
 		std::string fullName;
 		bool isDecorator = false;
@@ -123,6 +128,7 @@ private:
 	MonoMethod* fetchInitialDataMethod_ = nullptr;
 	MonoClassField* getComponentCollectionField_ = nullptr;
 	MonoMethod* updateAiIntentsMethod_ = nullptr;
+	MonoMethod* notifyEventCompletedMethod_ = nullptr;
 
 public:
 	/// ===================================================

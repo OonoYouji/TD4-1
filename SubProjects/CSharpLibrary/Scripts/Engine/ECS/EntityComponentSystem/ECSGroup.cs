@@ -76,6 +76,14 @@ public class ECSGroup {
 			_behavior.CreateBehavior(_entityId, _behavior.GetType().Name, this);
 			_behavior.enable = _enable;
 			entity.AddScript(_behavior);
+
+            // もしエンティティが既に初期化済みリストに含まれていない（＝既に初期化が走った後である）なら
+            // この場で初期化関数を呼ぶ必要がある
+            if (!awakeList_.Contains(entity) && !initList_.Contains(entity)) {
+                _behavior.Awake();
+                _behavior.Initialize();
+                Debug.Log($"ECSGroup: Dynamically initialized script {_behavior.GetType().Name} for Entity {_entityId}");
+            }
 		} else {
 			//Debug.LogError("Entity.AddScript - Entity not found with ID: " + _entityId);
 		}

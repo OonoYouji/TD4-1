@@ -52,10 +52,22 @@
 *   [x] **Task 12-4: 汎用タスクライブラリの構築**: RotateToFace, WaitRandom, PlaySound, Log 等の標準ノード群。
 *   [x] **Task 12-5: 簡易環境クエリシステム (Simple EQS)**: ターゲット周辺の有効な位置検索機能の統合。
 
-### フェーズ13: サンプルボス実装と統合テスト (全機能検証)
+### フェーズ13: サンプルボス実装と統合テスト (全機能検証)（完了）
 *   [x] **Task 13-1: 汎用移動ノード (MoveToPosNode) の実装**: SimpleEQS が算出した座標へ移動するためのノード。
 *   [x] **Task 13-2: ブラックボード操作ノード (SetBBValueNode) の実装**: BT 内でフェーズ (CombatPhase) を進めるためのユーティリティ。
 *   [x] **Task 13-3: 攻撃サブツリーの作成 (BasicAttack / SpecialSkill)**: 再利用可能な攻撃パターンを別 JSON として構築。
 *   [x] **Task 13-4: メインボスツリー (SampleBoss.json) の構築**: Parallel, Aborts, EQS をフル活用した巨大ツリーの作成。
 *   [x] **Task 13-5: 統合検証環境のセットアップ**: テストシーンへの配置と、全フェーズ（巡回→通常→狂暴）の正常遷移確認。
+
+### フェーズ14: イベント・Intent連動システムの本格実装
+*   [x] **Task 14-1: RotateToFaceNode のアーキテクチャ準拠（Intent化）**: 直接TransformをいじらずAgentIntentに意図を書き込む。
+*   [x] **Task 14-2: 文字列ベースの FrameEventQueue 連携**: 名前付きイベントをC++へ送る仕組み。
+*   [x] **Task 14-3: イベント完了通知（Feedback Loop）の実装**: Blackboard監視による演出完了待ち。
+*   [x] **Task 14-4: ボス攻撃の統合テスト（実イベント運用）**: ログ出力と連動したAIの進行確認。
+
+### フェーズ15: AI Intent の洗練と移動・回転の滑らかさ向上
+*   [x] **Task 15-1: C++ MovementSystem での回転制御の実装**: `AgentIntentComponent` の `desiredRotation` に基づき、スムーズに回転する処理。
+*   [x] **Task 15-2: 攻撃中の移動制限 (Attack Locking)**: `isAttacking` フラグが立っている間、移動速度を減衰または停止させる。
+*   [x] **Task 15-3: 移動の加減速 (Acceleration/Deceleration)**: 瞬間的な移動開始/停止ではなく、慣性を持たせた移動。
+*   [x] **Task 15-4: 旋回速度 (Rotation Speed) のコンポーネント化**: 敵ごとに回転の速さを調整できるようにフィールドを追加。
 
