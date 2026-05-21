@@ -11,6 +11,7 @@
 
 /// engine
 #include "Engine/Core/Utility/Utility.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 
 /// editor
 #include "ImGuiMath.h"
@@ -51,6 +52,69 @@ void CSGui::ShowFiled(int _type, MonoObject* _obj, MonoClassField* _field, const
 
 	/// Typeごとに登録されたフィールドドロワーを使用して描画
 	gFieldDrawers[_type]->Draw(_obj, _field, _name);
+}
+
+
+void CSGui::ShowFieldForVariables(ONEngine::Variables* _vars, const std::string& _groupName, int _type, MonoClassField* _field, const char* _name) {
+	if(!_vars) return;
+
+	if(!_vars->HasGroup(_groupName)) {
+		_vars->AddGroup(_groupName);
+	}
+
+	auto& group = const_cast<ONEngine::Variables::Group&>(_vars->GetGroup(_groupName));
+
+	switch(_type) {
+	case MONO_TYPE_I4:
+	{
+		if(!group.Has(_name)) group.Add(_name, 0);
+		int value = group.Get<int>(_name);
+		if(ImGui::DragInt(_name, &value)) group.Add(_name, value);
+		break;
+	}
+	case MONO_TYPE_R4:
+	{
+		if(!group.Has(_name)) group.Add(_name, 0.0f);
+		float value = group.Get<float>(_name);
+		if(ImGui::DragFloat(_name, &value)) group.Add(_name, value);
+		break;
+	}
+	case MONO_TYPE_BOOLEAN:
+	{
+		if(!group.Has(_name)) group.Add(_name, false);
+		bool value = group.Get<bool>(_name);
+		if(ImGui::Checkbox(_name, &value)) group.Add(_name, value);
+		break;
+	}
+	case MONO_TYPE_STRING:
+	{
+		if(!group.Has(_name)) group.Add(_name, std::string(""));
+		std::string value = group.Get<std::string>(_name);
+		if(ImGuiInputText(_name, &value)) group.Add(_name, value);
+		break;
+	}
+	case MONO_TYPE_VALUETYPE:
+	{
+		MonoType* fieldType = mono_field_get_type(_field);
+		MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
+		const char* className = mono_class_get_name(fieldClass);
+
+		if(strcmp(className, "Vector2") == 0) {
+			if(!group.Has(_name)) group.Add(_name, ONEngine::Vector2::Zero);
+			ONEngine::Vector2 value = group.Get<ONEngine::Vector2>(_name);
+			if(ImGui::DragFloat2(_name, &value.x)) group.Add(_name, value);
+		} else if(strcmp(className, "Vector3") == 0) {
+			if(!group.Has(_name)) group.Add(_name, ONEngine::Vector3::Zero);
+			ONEngine::Vector3 value = group.Get<ONEngine::Vector3>(_name);
+			if(ImGui::DragFloat3(_name, &value.x)) group.Add(_name, value);
+		} else if(strcmp(className, "Vector4") == 0) {
+			if(!group.Has(_name)) group.Add(_name, ONEngine::Vector4::Zero);
+			ONEngine::Vector4 value = group.Get<ONEngine::Vector4>(_name);
+			if(ImGui::DragFloat4(_name, &value.x)) group.Add(_name, value);
+		}
+		break;
+	}
+	}
 }
 
 
