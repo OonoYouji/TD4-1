@@ -154,10 +154,17 @@ void SkinMeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _cam
 
 		/// mesh の描画
 		Asset::Model* model = pAssetCollection_->GetModel(smRenderer->GetMeshPath());
-		for (auto& mesh : model->GetMeshes()) {
+		for (size_t meshIndex = 0; meshIndex < model->GetMeshes().size(); ++meshIndex) {
+			auto& mesh = model->GetMeshes()[meshIndex];
+			
+			// スキンクラスターがメッシュ数分あるかチェック
+			if (meshIndex >= smRenderer->skinCluster_->meshClusters.size()) {
+				continue;
+			}
+
 			/// vbv, ibvのセット
 			D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
-				mesh->GetVBV(), smRenderer->skinCluster_->vbv
+				mesh->GetVBV(), smRenderer->skinCluster_->meshClusters[meshIndex].vbv
 			};
 			cmdList->IASetVertexBuffers(0, 2, vbvs);
 			cmdList->IASetIndexBuffer(&mesh->GetIBV());

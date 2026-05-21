@@ -38,6 +38,7 @@ public class ECSGroup {
 		componentCollection.GetArray<DissolveMeshRenderer>();
 		componentCollection.GetArray<AgentIntentComponent>();
 		componentCollection.GetArray<CameraComponent>();
+		componentCollection.GetArray<Animator>();
 	}
 
 	// ==============================================

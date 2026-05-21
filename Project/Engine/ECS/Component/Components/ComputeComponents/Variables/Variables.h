@@ -59,6 +59,7 @@ public:
 		void Add(const std::string& _name, const T& _value) {
 			if (keyMap.contains(_name)) {
 				variables[keyMap[_name]] = _value;
+				return;
 			}
 
 			keyMap[_name] = variables.size();

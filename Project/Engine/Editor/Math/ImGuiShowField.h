@@ -10,6 +10,8 @@
 #include <imgui.h>
 
 
+namespace ONEngine { class Variables; }
+
 namespace Editor {
 
 /// ///////////////////////////////////////////////////////
@@ -24,6 +26,15 @@ namespace CSGui {
 /// @param _field 表示するフィールド
 /// @param _name ImGuiで表示する変数名
 void ShowFiled(int _type, MonoObject* _obj, MonoClassField* _field, const char* _name);
+
+/// @brief ImGuiでVariablesコンポーネント経由でC#の[SerializeField]のフィールドを表示する
+/// @param _vars Variablesコンポーネント
+/// @param _groupName グループ名 (スクリプト名)
+/// @param _type 変数の型
+/// @param _field 表示するフィールド
+/// @param _name ImGuiで表示する変数名
+void ShowFieldForVariables(ONEngine::Variables* _vars, const std::string& _groupName, int _type, MonoClassField* _field, const char* _name);
+
 
 
 /// @brief ImGuiでCSのフィールドを表示するための構造体

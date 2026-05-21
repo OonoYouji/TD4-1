@@ -186,6 +186,7 @@ bool AssetCollection::ReloadAsset(const std::string& filepath) {
 
 std::vector<std::string> AssetCollection::GetResourceFilePaths(const std::string& directoryPath) const {
 	std::vector<std::string> resourcePaths;
+	Console::LogInfo(std::format("AssetCollection: Scanning directory: {}", directoryPath));
 	for(const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath)) {
 		if(entry.is_regular_file()) {
 			std::string path = entry.path().string();
@@ -196,6 +197,7 @@ std::vector<std::string> AssetCollection::GetResourceFilePaths(const std::string
 			}
 		}
 	}
+	Console::LogInfo(std::format("AssetCollection: Found {} assets in {}", resourcePaths.size(), directoryPath));
 	return resourcePaths;
 }
 
