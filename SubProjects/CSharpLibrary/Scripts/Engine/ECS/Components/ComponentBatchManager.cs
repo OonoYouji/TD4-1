@@ -24,6 +24,7 @@ static class ComponentBatchManager {
 				batch[i].position = comp.position;
 				batch[i].rotate = comp.rotate;
 				batch[i].scale = comp.scale;
+				batch[i].matrix = comp.matrix;
 			}
 			return batch;
 		});
@@ -142,6 +143,35 @@ static class ComponentBatchManager {
 		RegisterAllocator<AgentIntentComponent, AgentIntentComponent.BatchData>((ComponentArray<AgentIntentComponent> array) => {
 			int count = array.Count;
 			AgentIntentComponent.BatchData[] batch = new AgentIntentComponent.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+			}
+			return batch;
+		});
+
+		// --- CameraComponent の登録 ---
+
+		RegisterConverter<CameraComponent, CameraComponent.BatchData>((ComponentArray<CameraComponent> array) => {
+			int count = array.Count;
+			CameraComponent.BatchData[] batch = new CameraComponent.BatchData[count];
+			for (int i = 0; i < count; i++) {
+				var comp = array.Get(i);
+				batch[i].compId = comp.compId;
+				batch[i].matVP = comp.matVP;
+				batch[i].matView = comp.matView;
+				batch[i].matProjection = comp.matProjection;
+				batch[i].fovY = comp.fovY;
+				batch[i].nearClip = comp.nearClip;
+				batch[i].farClip = comp.farClip;
+				batch[i].cameraType = (int)comp.cameraType;
+			}
+			return batch;
+		});
+
+		RegisterAllocator<CameraComponent, CameraComponent.BatchData>((ComponentArray<CameraComponent> array) => {
+			int count = array.Count;
+			CameraComponent.BatchData[] batch = new CameraComponent.BatchData[count];
 			for (int i = 0; i < count; i++) {
 				var comp = array.Get(i);
 				batch[i].compId = comp.compId;
@@ -278,6 +308,21 @@ static class ComponentBatchManager {
 				comp.desiredMoveDirection = batch[i].desiredMoveDirection;
 				comp.isAttacking = (batch[i].isAttacking != 0);
 				comp.targetEntityId = batch[i].targetEntityId;
+			}
+		}
+
+		if (_componentType == typeof(CameraComponent)) {
+			var array = (ComponentArray<CameraComponent>)_array;
+			var batch = (CameraComponent.BatchData[])_batch;
+			for (int i = 0; i < batch.Length; i++) {
+				var comp = array.Get(i);
+				comp.matVP = batch[i].matVP;
+				comp.matView = batch[i].matView;
+				comp.matProjection = batch[i].matProjection;
+				comp.fovY = batch[i].fovY;
+				comp.nearClip = batch[i].nearClip;
+				comp.farClip = batch[i].farClip;
+				comp.cameraType = (CameraComponent.CameraType)batch[i].cameraType;
 			}
 		}
 	}
