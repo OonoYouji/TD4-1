@@ -20,8 +20,14 @@ public class BossAI : MonoScript
         }
 
         // エディタで作成したツリーをロード
-        Debug.Log($"BossAI: Loading tree from {treePath}");
+        Debug.Log($"BossAI: Loading tree from {treePath} for {entity.name}");
         _intent.LoadBehaviorTree(treePath);
+        
+        if (_intent.behaviorTree != null && _intent.behaviorTree.RootNode != null) {
+            Debug.Log($"BossAI: Successfully loaded tree. Root Node: {_intent.behaviorTree.RootNode.name}");
+        } else {
+            Debug.LogError($"BossAI: Failed to load tree or RootNode is null! Path: {treePath}");
+        }
     }
 
 

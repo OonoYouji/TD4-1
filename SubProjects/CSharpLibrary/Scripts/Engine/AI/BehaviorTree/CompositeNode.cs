@@ -24,7 +24,10 @@ public abstract class CompositeNode : BehaviorNode
     /// <param name="nodes">追加する子ノード群</param>
     public CompositeNode(params BehaviorNode[] nodes)
     {
-        children.AddRange(nodes);
+        foreach (var node in nodes)
+        {
+            AddChild(node);
+        }
     }
 
     /// <summary>
@@ -34,7 +37,12 @@ public abstract class CompositeNode : BehaviorNode
     /// <param name="node">追加する子ノード</param>
     public void AddChild(BehaviorNode node)
     {
-        children.Add(node);
+        if (node != null)
+        {
+            node.Parent = this;
+            node.Tree = this.Tree;
+            children.Add(node);
+        }
     }
 
     /// <summary>

@@ -8,7 +8,7 @@
 #include <deque>
 
 /// externals
-#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
 
 #include "../GameEntity/GameEntity.h"
 #include "../Prefab/EntityPrefab.h"

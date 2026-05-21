@@ -1,0 +1,54 @@
+{
+    "blackboard": [
+        { "key": "Target", "type": 4, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "nodes": [
+        {
+            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [-200.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+        },
+        {
+            "id": 2, "className": "Sequence", "name": "Melee Combo Root", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [0.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+        },
+        {
+            "id": 3, "className": "RotateToFaceNode", "name": "Face Player", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "targetKey": "Target", "rotationSpeed": "360.0", "precisionAngle": "5.0" }, 
+            "decorators": [], "services": [], "pos": [300.0, -150.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 4, "className": "InvokeEventNode", "name": "Attack 1", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "eventName": "PlayAnimation_Attack1", "waitUntilComplete": "true", "timeoutSec": "2.0" }, 
+            "decorators": [], "services": [], "pos": [300.0, -50.0],
+            "inputs": [{ "id": 40, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 5, "className": "WaitNode", "name": "Charge Up", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "duration": "0.3" }, 
+            "decorators": [], "services": [], "pos": [300.0, 50.0],
+            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 6, "className": "InvokeEventNode", "name": "Spin Finisher", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "eventName": "PlayAnimation_SpinAttack", "waitUntilComplete": "true", "timeoutSec": "3.0" }, 
+            "decorators": [], "services": [], "pos": [300.0, 150.0],
+            "inputs": [{ "id": 60, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 7, "className": "WaitNode", "name": "Recovery", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "duration": "1.0" }, 
+            "decorators": [], "services": [], "pos": [300.0, 250.0],
+            "inputs": [{ "id": 70, "name": "In" }], "outputs": []
+        }
+    ],
+    "links": [
+        { "id": 100, "startPin": 10, "endPin": 20 },
+        { "id": 101, "startPin": 21, "endPin": 30 },
+        { "id": 102, "startPin": 21, "endPin": 40 },
+        { "id": 103, "startPin": 21, "endPin": 50 },
+        { "id": 104, "startPin": 21, "endPin": 60 },
+        { "id": 105, "startPin": 21, "endPin": 70 }
+    ],
+    "comments": []
+}

@@ -228,6 +228,21 @@ public struct Quaternion {
 		return q;
 	}
 
+	static public float Dot(Quaternion _q1, Quaternion _q2) {
+		return _q1.x * _q2.x + _q1.y * _q2.y + _q1.z * _q2.z + _q1.w * _q2.w;
+	}
+
+	static public float Angle(Quaternion _a, Quaternion _b) {
+		float dot = Math.Min(Math.Abs(Dot(_a, _b)), 1.0f);
+		return dot > 0.999999f ? 0.0f : (float)(Math.Acos(dot) * 2.0 * (180.0 / Math.PI));
+	}
+
+	static public Quaternion RotateTowards(Quaternion _from, Quaternion _to, float _maxDegreesDelta) {
+		float angle = Angle(_from, _to);
+		if (angle == 0.0f) return _to;
+		return Slerp(_from, _to, Math.Min(1.0f, _maxDegreesDelta / angle));
+	}
+
 	static public Quaternion Slerp(Quaternion _q1, Quaternion _q2, float _t) {
 		// 球面線形補間
 		float dot = _q1.x * _q2.x + _q1.y * _q2.y + _q1.z * _q2.z + _q1.w * _q2.w;

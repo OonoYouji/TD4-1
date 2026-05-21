@@ -60,6 +60,7 @@
     <Compile Include="Scripts\Engine\AI\BehaviorTree\BehaviorTree.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\BehaviorTreeLoader.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\Blackboard.cs" />
+    <Compile Include="Scripts\Engine\AI\BehaviorTree\BlackboardManager.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\BlackboardDecorator.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\CompositeNode.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\LogicDecorator.cs" />
@@ -123,8 +124,10 @@
     <Compile Include="Scripts\Game\AI\BehaviorTree\FindPlayerService.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\InvokeEventNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\MoveToPlayerNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\PlayAnimationNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\ResolveTargetService.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\SensingService.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\SpawnAttackNode.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
@@ -142,9 +145,14 @@
     <Compile Include="Scripts\Game\Player\Player.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />
+    <Compile Include="Scripts\Game\UI\ConvertTo2D.cs" />
+    <Compile Include="Scripts\Game\UI\UiController.cs" />
+    <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
     <Compile Include="Scripts\Game\StageObject\StartPoint.cs" />
+    <Compile Include="Scripts\Test\DebugEventAI.cs" />
+    <Compile Include="Scripts\Test\DebugMovementAI.cs" />
     <Compile Include="Scripts\Test\DissolveTest.cs" />
     <Compile Include="Scripts\Test\ProfileTest.cs" />
     <Compile Include="Scripts\Test\Test.cs" />

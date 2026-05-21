@@ -8,10 +8,19 @@ using System.Runtime.CompilerServices;
 /// </summary>
 public class BehaviorTree
 {
+    private BehaviorNode _rootNode;
     /// <summary>
     /// ツリーの最上位（起点）となるノード。
     /// </summary>
-    public BehaviorNode RootNode { get; set; }
+    public BehaviorNode RootNode {
+        get => _rootNode;
+        set {
+            _rootNode = value;
+            if (_rootNode != null) {
+                _rootNode.Tree = this;
+            }
+        }
+    }
 
     /// <summary>
     /// このツリー内で共有される記憶領域。
@@ -25,7 +34,26 @@ public class BehaviorTree
     /// </summary>
     public Entity Owner { get; }
 
-    // Blackboardの変数が書き換わった際、ツリーの再評価（割り込み処理）が必要かどうかを示すフラグ
+    private string _sourcePath;
+    /// <summary>
+    /// このツリーがロードされた元のJSONファイルのパス。
+    /// エディタでのデバッグ表示のフィルタリングに使用される。
+    /// </summary>
+    public string SourcePath { 
+        get => _sourcePath;
+        set {
+            if (value != null) {
+                // パス形式を統一（スラッシュ、小文字化など）
+                _sourcePath = value.Replace("\\", "/").Trim();
+            } else {
+                _sourcePath = null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Blackboardの変数が書き換わった際、ツリーの再評価（割り込み処理）が必要かどうかを示すフラグ
+    /// </summary>
     private bool _reevaluateRequest = false;
 
     // Blackboardの特定のキー（変数）を監視しているデコレーターのリスト。
@@ -37,6 +65,11 @@ public class BehaviorTree
     public BehaviorNode ActiveNode { get; set; }
 
     /// <summary>
+    /// 現在のTick回数。ノードが今フレーム実行されたかを判定するために使用される。
+    /// </summary>
+    public uint TickCount { get; private set; } = 0;
+
+    /// <summary>
     /// 新しいビヘイビアツリーのインスタンスを生成する。
     /// </summary>
     /// <param name="owner">ツリーを所有するエンティティ</param>
@@ -45,6 +78,12 @@ public class BehaviorTree
         Owner = owner;
         // Blackboardの値が変更されたイベントを購読し、変更時にツリーへ通知が行くように設定
         Blackboard.OnValueChanged += HandleBlackboardChanged;
+
+        // BlackboardManagerに自身を登録（C++からの通知を受け取れるようにする）
+        if (owner != null && owner.Id != 0)
+        {
+            BlackboardManager.Register(owner.Id, Blackboard);
+        }
     }
 
     /// <summary>
@@ -128,6 +167,14 @@ public class BehaviorTree
     {
         if (RootNode == null || Owner == null) return;
 
+        // デバッグ用：現在実行中であることをログに出力 (60フレームに1回)
+        if (TickCount % 60 == 0) {
+            Debug.Log($"[BT] Ticking tree for {Owner.name}. Root: {RootNode.name}");
+        }
+
+        // Tick回数をインクリメント
+        TickCount++;
+
         // 1. 再評価リクエスト（割り込み）のチェック
         if (_reevaluateRequest)
         {
@@ -201,11 +248,15 @@ public class BehaviorTree
     {
         if (node == null) return;
         
+        // 今フレーム実行されたかチェック
+        bool wasTickedThisFrame = (node.LastTickCount == TickCount);
+        int statusValue = wasTickedThisFrame ? (int)node.LastStatus : 4; // 4 は Inactive（非アクティブ）として扱う
+
         // C#側のディクショナリに状態を記録
-        outStatuses[node.NodeIdHash] = node.LastStatus;
+        outStatuses[node.NodeIdHash] = wasTickedThisFrame ? node.LastStatus : NodeStatus.Failure;
         
         // C++エディタへ状態を通知（グラフ上のノード枠色をリアルタイムに変更するため）
-        Internal_UpdateNodeStatus(node.NodeIdHash, (int)node.LastStatus);
+        Internal_UpdateNodeStatus(node.NodeIdHash, statusValue, SourcePath ?? "");
 
         // 子ノードも再帰的に収集
         if (node is CompositeNode composite)
@@ -215,11 +266,19 @@ public class BehaviorTree
                 CollectStatusRecursive(child, outStatuses);
             }
         }
+        else if (node is RunBehaviorNode runBehavior)
+        {
+            // サブツリー内部の状態も同期対象にする
+            if (runBehavior.SubTree != null)
+            {
+                runBehavior.SubTree.GetAllNodeStatuses(outStatuses);
+            }
+        }
     }
 
     /// <summary>
     /// C++エディタへノードの状態を送信するための内部呼び出し。
     /// </summary>
     [MethodImpl(MethodImplOptions.InternalCall)]
-    private static extern void Internal_UpdateNodeStatus(uint nodeIdHash, int status);
+    private static extern void Internal_UpdateNodeStatus(uint nodeIdHash, int status, string treePath);
 }

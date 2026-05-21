@@ -1,4 +1,5 @@
 ﻿#include "MeshRenderer.h"
+#include <nlohmann/json.hpp>
 
 /// std
 #include <format>

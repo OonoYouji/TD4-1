@@ -6,7 +6,7 @@
 /// externals
 #include <jit/jit.h>
 #include <metadata/class.h>
-#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
 
 /// engine
 #include "../../Interface/IComponent.h"

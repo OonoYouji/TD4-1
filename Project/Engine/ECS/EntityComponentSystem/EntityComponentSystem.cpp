@@ -548,9 +548,11 @@ void ONEngine::MonoInternalMethods::InternalGetBatch(MonoReflectionType* _typeRe
 	mono_free(cstr);
 }
 
-void ONEngine::MonoInternalMethods::Internal_UpdateNodeStatus(uint32_t nodeIdHash, int status) {
+void ONEngine::MonoInternalMethods::Internal_UpdateNodeStatus(uint32_t nodeIdHash, int status, MonoString* treePath) {
     if (Editor::BehaviorTreeEditorWindow::s_Instance) {
-        Editor::BehaviorTreeEditorWindow::s_Instance->UpdateNodeStatus(nodeIdHash, status);
+        if (!treePath) return; // 安全策：パスが空の場合は処理をスキップ
+        std::string path = mono_string_to_utf8(treePath);
+        Editor::BehaviorTreeEditorWindow::s_Instance->UpdateNodeStatus(nodeIdHash, status, path);
     }
 }
 

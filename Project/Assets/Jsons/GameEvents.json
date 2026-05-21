@@ -1,0 +1,21 @@
+{
+    "animations": [],
+    "attacks": [
+        {
+            "damage": 10.0,
+            "duration": 0.10000000149011612,
+            "name": "NewAttack",
+            "offsetForward": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "offsetUp": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "radius": 2.0
+        }
+    ]
+}

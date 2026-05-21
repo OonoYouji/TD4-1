@@ -105,6 +105,11 @@ public class Blackboard
     public string GetString(uint key, string defaultValue = "") => _stringData.TryGetValue(key, out var val) ? val : defaultValue;
 
     /// <summary>
+    /// Entity型の値を取得する。キーが存在しない場合は null を返す。
+    /// </summary>
+    public Entity GetEntity(uint key) => GetObject<Entity>(key);
+
+    /// <summary>
     /// 任意のオブジェクト型の値を取得し、指定した型にキャストして返す。失敗した場合はnullを返す。
     /// </summary>
     public T GetObject<T>(uint key) where T : class

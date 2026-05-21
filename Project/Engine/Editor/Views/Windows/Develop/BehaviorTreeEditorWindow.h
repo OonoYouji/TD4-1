@@ -32,7 +32,7 @@ public:
     void ShowImGui() override;
 
     // 実行状態の更新（C#から呼ばれる）
-    void UpdateNodeStatus(uint32_t nodeIdHash, int status);
+    void UpdateNodeStatus(uint32_t nodeIdHash, int status, const std::string& treePath);
     void UpdateBlackboardValue(uint32_t keyHash, const std::string& value, const std::string& typeName);
 
     static BehaviorTreeEditorWindow* s_Instance;
@@ -54,6 +54,7 @@ private:
 
     struct Node {
         ed::NodeId id;
+        uint32_t runtimeId = 0; // JSON上のID（C#側との同期用）
         std::string name;
         std::string className;
         std::vector<Pin> inputs;
