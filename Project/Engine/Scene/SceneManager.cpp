@@ -51,7 +51,7 @@ void SceneManager::Initialize(Asset::AssetCollection* _assetCollection) {
 #ifdef DEBUG_MODE
 	SetNextScene(LastOpenSceneName());
 #else
-	SetNextScene("TitleScene");
+	SetNextScene("GameScene");
 #endif
 
 	MoveNextToCurrentScene(false);

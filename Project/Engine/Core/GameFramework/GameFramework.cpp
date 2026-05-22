@@ -140,6 +140,13 @@ void GameFramework::Run() {
 		/// 描画処理
 		renderingFramework_->Draw();
 
+		/// ウィンドウの終了リクエストを確認（非デバッグ時は即終了、デバッグ時はEditor側で処理）
+#ifndef DEBUG_MODE
+		if (windowManager_->IsCloseRequested()) {
+			PostQuitMessage(0);
+		}
+#endif
+
 		/// 破棄されたら終了
 		if(windowManager_->GetMainWindow()->GetProcessMessage()) {
 			break;
