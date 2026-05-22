@@ -8,7 +8,7 @@ class UiGauge : MonoScript
     public float defaultX = 0;
 
     private SpriteRenderer renderer;
-    private PlayerCore core;
+    private HP playerHp;
 
     public override void Initialize()
     {
@@ -18,16 +18,16 @@ class UiGauge : MonoScript
             Debug.LogError("SpriteRenderer component not found on the UiGauge entity.");
         }
 
-        Entity playerCore = ecsGroup.FindEntity("PlayerCore");
+        Entity playerCore = ecsGroup.FindEntity("Player");
         if (playerCore == null)
         {
-            Debug.LogError("PlayerCore entity not found in the ECS group.");
+            Debug.LogError("Player entity not found in the ECS group.");
             return;
         }
-        core = playerCore.GetScript<PlayerCore>();
-        if (core == null)
+        playerHp = playerCore.GetScript<HP>();
+        if (playerHp == null)
         {
-            Debug.LogError("PlayerCore component not found on the PlayerCore entity.");
+            Debug.LogError("HP component not found on the Player entity.");
             return;
         }
         defaultX = transform.position.x;
@@ -36,12 +36,12 @@ class UiGauge : MonoScript
 
     public override void Update()
     {
-        if (core == null)
+        if (playerHp == null)
         {
             return;
         }
 
-        float hpRatio = core.CurrentHpRatio();
+        float hpRatio = playerHp.CurrentHpRatio();
 
         transform.scale = new Vector3(width * hpRatio, height, 1);
         transform.position.x = Mathf.Lerp(defaultX, -width / 2 + defaultX, 1 - hpRatio);
