@@ -2,6 +2,7 @@
 
 /// std
 #include <filesystem>
+#include <algorithm>
 
 /// external
 #include <imgui.h>
@@ -136,6 +137,37 @@ void HierarchyWindow::DrawHierarchy() {
 		groupName += " *";
 	}
 
+	flatHierarchyGuids_.clear();
+	clickedGuid_ = ONEngine::Guid::kInvalid;
+
+	/// ===================================================
+	/// ボックス選択の事前計算
+	/// ===================================================
+	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+		isMarqueeSelecting_ = true;
+		marqueeStartPos_ = ImGui::GetIO().MousePos;
+		if (!ImGui::GetIO().KeyCtrl) {
+			ImGuiSelection::ClearSelection();
+		}
+	}
+
+	if (isMarqueeSelecting_) {
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+			isMarqueeSelecting_ = false;
+		} else {
+			ImVec2 mousePos = ImGui::GetIO().MousePos;
+			marqueeMin_ = ImVec2((std::min)(marqueeStartPos_.x, mousePos.x), (std::min)(marqueeStartPos_.y, mousePos.y));
+			marqueeMax_ = ImVec2((std::max)(marqueeStartPos_.x, mousePos.x), (std::max)(marqueeStartPos_.y, mousePos.y));
+			
+			// 背景に矩形を描画
+			ImVec4 col = ImGui::GetStyleColorVec4(ImGuiCol_HeaderActive);
+			col.w = 0.3f;
+			ImGui::GetWindowDrawList()->AddRectFilled(marqueeMin_, marqueeMax_, ImGui::GetColorU32(col));
+			col.w = 0.8f;
+			ImGui::GetWindowDrawList()->AddRect(marqueeMin_, marqueeMax_, ImGui::GetColorU32(col));
+		}
+	}
+
 	if(ImGui::CollapsingHeader(groupName != "" ? groupName.c_str() : "Unnamed Group", ImGuiTreeNodeFlags_DefaultOpen)) {
 
 		HandleRootDragDrop();
@@ -147,6 +179,42 @@ void HierarchyWindow::DrawHierarchy() {
 		}
 
 		ShowInvalidParentPopup();
+	}
+
+	/// ===================================================
+	/// クリックによる選択処理 (遅延実行)
+	/// ===================================================
+	if (clickedGuid_.CheckValid()) {
+		if (wasCtrlClicked_) {
+			// Ctrl+クリック: 選択状態を反転
+			if (ImGuiSelection::IsSelected(clickedGuid_)) {
+				ImGuiSelection::RemoveSelectedObject(clickedGuid_);
+			} else {
+				ImGuiSelection::AddSelectedObject(clickedGuid_, SelectionType::Entity);
+			}
+			shiftStartGuid_ = clickedGuid_;
+		} else if (wasShiftClicked_) {
+			// Shift+クリック: 範囲選択
+			ONEngine::Guid startGuid = shiftStartGuid_.CheckValid() ? shiftStartGuid_ : ImGuiSelection::GetLastSelectedObject();
+			if (startGuid.CheckValid() && startGuid != clickedGuid_) {
+				bool inRange = false;
+				for (const auto& guid : flatHierarchyGuids_) {
+					if (guid == startGuid || guid == clickedGuid_) {
+						ImGuiSelection::AddSelectedObject(guid, SelectionType::Entity);
+						inRange = !inRange;
+					} else if (inRange) {
+						ImGuiSelection::AddSelectedObject(guid, SelectionType::Entity);
+					}
+				}
+			} else {
+				ImGuiSelection::SetSelectedObject(clickedGuid_, SelectionType::Entity);
+				shiftStartGuid_ = clickedGuid_;
+			}
+		} else {
+			// 通常クリック: 単一選択
+			ImGuiSelection::SetSelectedObject(clickedGuid_, SelectionType::Entity);
+			shiftStartGuid_ = clickedGuid_;
+		}
 	}
 
 	/// 遅延削除の実行
@@ -250,11 +318,13 @@ void HierarchyWindow::ShowInvalidParentPopup() {
 void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 	bool hasChildren = !entity->GetChildren().empty();
 
+	flatHierarchyGuids_.push_back(entity->GetGuid());
+
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
 
 	ImGui::PushID(entity->GetId());
 
-	bool isSelected = (ImGuiSelection::GetSelectedObject().CheckValid() && ImGuiSelection::GetSelectedObject() == entity->GetGuid());
+	bool isSelected = ImGuiSelection::IsSelected(entity->GetGuid());
 
 	if(isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected;
@@ -270,6 +340,17 @@ void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 	bool nodeOpen = ImGui::TreeNodeEx((void*)entity, flags, "");
 
 	HandleEntityDragDrop(entity);
+
+	// ボックス選択の判定
+	if (isMarqueeSelecting_) {
+		ImVec2 itemMin = ImGui::GetItemRectMin();
+		ImVec2 itemMax = ImGui::GetItemRectMax();
+
+		// 交差判定
+		if (itemMax.x > marqueeMin_.x && itemMin.x < marqueeMax_.x && itemMax.y > marqueeMin_.y && itemMin.y < marqueeMax_.y) {
+			ImGuiSelection::AddSelectedObject(entity->GetGuid(), SelectionType::Entity);
+		}
+	}
 
 	// コンテキストメニューで削除されたかどうかをチェック
 	if(DrawEntityContextMenu(entity, isSelected)) {
@@ -287,7 +368,9 @@ void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 	if(ImGui::IsItemHovered()) {
 		// クリックで選択
 		if(ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsItemToggledOpen()) {
-			ImGuiSelection::SetSelectedObject(entity->GetGuid(), SelectionType::Entity);
+			clickedGuid_ = entity->GetGuid();
+			wasShiftClicked_ = ImGui::GetIO().KeyShift;
+			wasCtrlClicked_ = ImGui::GetIO().KeyCtrl;
 		}
 
 		// ダブルクリックでフォーカス
@@ -474,9 +557,11 @@ void NormalHierarchyWindow::ShowImGui() {
 		return;
 	}
 
+	// ショートカット処理の前に最新のグループを取得しておく
+	pEcsGroup_ = pEcs_->GetCurrentGroup();
+
 	HandleGlobalShortcuts();
 
-	pEcsGroup_ = pEcs_->GetCurrentGroup();
 	PrefabDragAndDrop();
 
 	if(ImGui::BeginMenuBar()) {
@@ -510,14 +595,19 @@ void NormalHierarchyWindow::DrawSceneDialog() {
 }
 
 void NormalHierarchyWindow::HandleGlobalShortcuts() {
-	if(ImGui::IsWindowFocused()) {
+	if(ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows)) {
 		if(ONEngine::Input::PressKey(DIK_LCONTROL) || ONEngine::Input::PressKey(DIK_RCONTROL)) {
 			if(ONEngine::Input::TriggerKey(DIK_V)) {
-				ONEngine::Guid selectedGuid = ImGuiSelection::GetSelectedObject();
+				if (!pEcsGroup_) return;
+
+				ONEngine::Guid selectedGuid = ImGuiSelection::GetLastSelectedObject();
 				if(selectedGuid.CheckValid()) {
 					ONEngine::GameEntity* targetEntity = pEcsGroup_->GetEntityFromGuid(selectedGuid);
 					if(targetEntity) {
 						EditCommand::Execute<PasteEntityCommand>(pEcsGroup_, targetEntity);
+					} else {
+						// 選択中だが現在のグループにいない場合はルートにペースト
+						EditCommand::Execute<PasteEntityCommand>(pEcsGroup_, nullptr);
 					}
 				} else {
 					EditCommand::Execute<PasteEntityCommand>(pEcsGroup_, nullptr);

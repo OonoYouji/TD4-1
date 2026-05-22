@@ -251,6 +251,149 @@
             "name": "TestMesh",
             "parent": null,
             "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "animationScale": 1.0,
+                    "debugJointSize": 0.05000000074505806,
+                    "debugRectSize": 0.029999999329447746,
+                    "enable": 1,
+                    "isPlaying": true,
+                    "meshPath": "./Assets/Models/Knight_Golden_Male.gltf",
+                    "texturePath": "./Packages/Textures/white.png",
+                    "type": "SkinMeshRenderer"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "layers": [
+                        {
+                            "boneMaskHash": 0,
+                            "states": [
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                },
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                }
+                            ],
+                            "weight": 1.0
+                        },
+                        {
+                            "boneMaskHash": 0,
+                            "states": [
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                },
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                }
+                            ],
+                            "weight": 1.0
+                        },
+                        {
+                            "boneMaskHash": 0,
+                            "states": [
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                },
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                }
+                            ],
+                            "weight": 1.0
+                        },
+                        {
+                            "boneMaskHash": 0,
+                            "states": [
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                },
+                                {
+                                    "clipId": 0,
+                                    "isLoop": true,
+                                    "playbackSpeed": 1.0,
+                                    "time": 0.0,
+                                    "weight": 0.0
+                                }
+                            ],
+                            "weight": 1.0
+                        }
+                    ],
+                    "type": "Animator"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "AnimationTest"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Test"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "5df7820ccab885c294cd5e19580cad6f",
+            "id": 4,
+            "name": "TestMesh_1",
+            "parent": null,
+            "prefabName": ""
         }
     ]
 }

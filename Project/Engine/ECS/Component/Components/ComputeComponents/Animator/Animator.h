@@ -57,6 +57,11 @@ public:
 void from_json(const nlohmann::json& _j, Animator& _animator);
 void to_json(nlohmann::json& _j, const Animator& _animator);
 
+namespace ComponentDebug {
+	void AnimatorDebug(Animator* _animator);
+	void AnimatorDebug(const std::vector<Animator*>& _animators);
+}
+
 /// @brief mono からのAnimator操作用関数
 void Internal_Play(uint64_t _nativeHandle, uint32_t _clipId, uint32_t _layerIndex);
 void Internal_CrossFade(uint64_t _nativeHandle, uint32_t _clipId, float _duration, uint32_t _layerIndex);

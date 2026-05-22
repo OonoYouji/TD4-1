@@ -87,6 +87,7 @@ public:
 
 namespace ComponentDebug {
 	void TransformDebug(Transform* _transform);
+	void TransformDebug(const std::vector<Transform*>& _transforms);
 }
 
 /// =================================================
