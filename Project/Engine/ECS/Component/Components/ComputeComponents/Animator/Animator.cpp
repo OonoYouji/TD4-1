@@ -1,0 +1,128 @@
+#include "Animator.h"
+#include "Engine/Core/Utility/Tools/Log.h"
+
+namespace ONEngine {
+
+Animator::Animator() {
+    Console::LogInfo("Animator: Component created.");
+}
+
+void Animator::Play(uint32_t _clipId, uint32_t _layerIndex) {
+    if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
+
+    AnimationLayer& layer = layers[_layerIndex];
+
+    // 即時切り替え
+    layer.states[0].clipId = _clipId;
+    layer.states[0].time = 0.0f;
+    layer.states[0].prevTime = 0.0f;
+    layer.states[0].weight = 1.0f;
+    
+    layer.states[1].clipId = 0;
+    layer.states[1].weight = 0.0f;
+
+    layer.transitionDuration = 0.0f;
+    layer.transitionTimer = 0.0f;
+}
+
+void Animator::CrossFade(uint32_t _clipId, float _duration, uint32_t _layerIndex) {
+    if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
+
+    AnimationLayer& layer = layers[_layerIndex];
+
+    // すでに同じクリップを再生しようとしている場合は無視（またはリセット）
+    if (layer.states[0].clipId == _clipId && layer.transitionDuration <= 0.0f) {
+        return;
+    }
+
+    // 現在再生中のものを states[1] に移動し、新しいものを states[0] に設定
+    // states[1] がフェードアウト、states[0] がフェードイン
+    layer.states[1] = layer.states[0];
+    
+    layer.states[0].clipId = _clipId;
+    layer.states[0].time = 0.0f;
+    layer.states[0].prevTime = 0.0f;
+    layer.states[0].weight = 0.0f;
+
+    layer.transitionDuration = _duration;
+    layer.transitionTimer = 0.0f;
+}
+
+void from_json(const nlohmann::json& _j, Animator& _animator) {
+    if (_j.contains("enable")) {
+        _animator.enable = _j.at("enable").get<int>();
+    }
+
+    if (_j.contains("layers")) {
+        const auto& layersJson = _j.at("layers");
+        for (uint32_t i = 0; i < (uint32_t)layersJson.size() && i < MAX_ANIMATION_LAYERS; ++i) {
+            const auto& layerJson = layersJson[i];
+            AnimationLayer& layer = _animator.layers[i];
+
+            if (layerJson.contains("weight")) layer.weight = layerJson.at("weight").get<float>();
+            if (layerJson.contains("boneMaskHash")) layer.boneMaskHash = layerJson.at("boneMaskHash").get<uint32_t>();
+
+            if (layerJson.contains("states")) {
+                const auto& statesJson = layerJson.at("states");
+                for (uint32_t j = 0; j < (uint32_t)statesJson.size() && j < MAX_ANIMATION_STATES_PER_LAYER; ++j) {
+                    const auto& stateJson = statesJson[j];
+                    AnimationState& state = layer.states[j];
+
+                    if (stateJson.contains("clipId")) state.clipId = stateJson.at("clipId").get<uint32_t>();
+                    if (stateJson.contains("time")) state.time = stateJson.at("time").get<float>();
+                    if (stateJson.contains("weight")) state.weight = stateJson.at("weight").get<float>();
+                    if (stateJson.contains("isLoop")) state.isLoop = stateJson.at("isLoop").get<bool>();
+                    if (stateJson.contains("playbackSpeed")) state.playbackSpeed = stateJson.at("playbackSpeed").get<float>();
+                }
+            }
+        }
+    }
+}
+
+void to_json(nlohmann::json& _j, const Animator& _animator) {
+    _j = nlohmann::json{
+        { "type", "Animator" },
+        { "enable", _animator.enable }
+    };
+
+    auto layersJson = nlohmann::json::array();
+    for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
+        const AnimationLayer& layer = _animator.layers[i];
+
+        auto layerJson = nlohmann::json{
+            { "weight", layer.weight },
+            { "boneMaskHash", layer.boneMaskHash }
+        };
+
+        auto statesJson = nlohmann::json::array();
+        for (uint32_t j = 0; j < MAX_ANIMATION_STATES_PER_LAYER; ++j) {
+            const AnimationState& state = layer.states[j];
+            statesJson.push_back(nlohmann::json{
+                { "clipId", state.clipId },
+                { "time", state.time },
+                { "weight", state.weight },
+                { "isLoop", state.isLoop },
+                { "playbackSpeed", state.playbackSpeed }
+            });
+        }
+        layerJson["states"] = statesJson;
+        layersJson.push_back(layerJson);
+    }
+    _j["layers"] = layersJson;
+}
+
+void Internal_Play(uint64_t _nativeHandle, uint32_t _clipId, uint32_t _layerIndex) {
+    Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
+    if (animator) {
+        animator->Play(_clipId, _layerIndex);
+    }
+}
+
+void Internal_CrossFade(uint64_t _nativeHandle, uint32_t _clipId, float _duration, uint32_t _layerIndex) {
+    Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
+    if (animator) {
+        animator->CrossFade(_clipId, _duration, _layerIndex);
+    }
+}
+
+} // namespace ONEngine

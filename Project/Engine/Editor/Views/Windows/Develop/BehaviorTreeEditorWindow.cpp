@@ -432,7 +432,7 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     std::map<uintptr_t, float> nodeAlpha;
 
     for (auto& node : m_Nodes) {
-        uint32_t idHash = (uint32_t)(uintptr_t)node.id.AsPointer();
+        uint32_t idHash = node.runtimeId; // FIX: 内部エディタIDではなく、JSON上のID（C#側との同期用）を使用する
         
         float lastTime = m_NodeLastActiveTime.count(idHash) ? m_NodeLastActiveTime[idHash] : -100.0f;
         float elapsed = currentTime - lastTime;
@@ -441,11 +441,14 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
 
         bool isHighlighted = false; ImColor highlightColor = ImColor(255, 255, 0, 0);
         if (m_RuntimeNodeStatuses.count(idHash)) {
-            isHighlighted = true;
-            switch (m_RuntimeNodeStatuses[idHash]) {
-            case 0: highlightColor = ImColor(255, 0, 0); break;
-            case 1: highlightColor = ImColor(255, 255, 0); break;
-            case 2: highlightColor = ImColor(0, 255, 0); break;
+            int status = m_RuntimeNodeStatuses[idHash];
+            if (status >= 0 && status <= 2) {
+                isHighlighted = true;
+                switch (status) {
+                case 0: highlightColor = ImColor(255, 0, 0); break;
+                case 1: highlightColor = ImColor(255, 255, 0); break;
+                case 2: highlightColor = ImColor(0, 255, 0); break;
+                }
             }
         }
         
@@ -642,8 +645,10 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
 }
 
 BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::string& className, bool isDecorator) {
-    m_Nodes.emplace_back(GetNextId(), className);
+    int nextId = GetNextId();
+    m_Nodes.emplace_back(nextId, className);
     Node* node = &m_Nodes.back();
+    node->runtimeId = (uint32_t)nextId; // Default runtimeId for new nodes
     node->className = className; node->isDecorator = isDecorator;
     if (className == "Entry") node->color = ImColor(255, 128, 0);
     else if (className.find("Sequence") != std::string::npos || className.find("Selector") != std::string::npos) node->color = ImColor(60, 60, 60);
@@ -657,9 +662,22 @@ BehaviorTreeEditorWindow::Node* BehaviorTreeEditorWindow::CreateNode(const std::
 }
 
 void BehaviorTreeEditorWindow::CreateLink(ed::PinId startPin, ed::PinId endPin) { m_Links.emplace_back(GetNextId(), startPin, endPin); }
-void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status) { 
+void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status, const std::string& treePath) { 
+    // 現在エディタで開いているファイルパスと一致する場合のみ、実行状態を更新する
+    if (treePath != m_CurrentFilePath) return;
+
     m_RuntimeNodeStatuses[nodeIdHash] = status; 
-    m_NodeLastActiveTime[nodeIdHash] = ONEngine::Time::GetTime(); 
+    
+    // 実行中(Running=2) または 成功(Success=0) の場合のみ、フロー（オレンジの円）を流すための時刻を更新する。
+    // 失敗(Failure=1) は「条件不一致によるスキップ」などが含まれるため、
+    // 継続的なフロー表示からは除外することで、デバッグ時の混乱（同時実行に見える現象）を抑制する。
+    if (status == 0 || status == 2) {
+        m_NodeLastActiveTime[nodeIdHash] = ONEngine::Time::GetTime(); 
+    }
+    else if (status == 4) {
+        // Inactive（非アクティブ）時は、即座に表示を消すために過去の時刻を入れる
+        m_NodeLastActiveTime[nodeIdHash] = -100.0f;
+    }
 }
 void BehaviorTreeEditorWindow::UpdateBlackboardValue(uint32_t keyHash, const std::string& value, const std::string& typeName) { m_RuntimeBBValues[keyHash] = { value, typeName }; }
 
@@ -673,7 +691,7 @@ json BehaviorTreeEditorWindow::GetTreeAsJson() {
     }
     data["nodes"] = json::array();
     for (const auto& node : m_Nodes) {
-        json n; n["id"] = (uintptr_t)node.id.AsPointer(); n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator; n["hasBreakpoint"] = node.hasBreakpoint;
+        json n; n["id"] = node.runtimeId; n["className"] = node.className; n["name"] = node.name; n["isDecorator"] = node.isDecorator; n["hasBreakpoint"] = node.hasBreakpoint;
         n["properties"] = json::object(); for (const auto& p : node.properties) n["properties"][p.first] = p.second;
         n["decorators"] = json::array();
         for (const auto& d : node.decorators) { json dj; dj["className"] = d.className; dj["name"] = d.name; dj["properties"] = d.properties; n["decorators"].push_back(dj); }
@@ -701,6 +719,10 @@ json BehaviorTreeEditorWindow::GetTreeAsJson() {
 void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
     ed::SetCurrentEditor(m_Editor);
     m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_CommentBoxes.clear(); m_NextId = 1;
+    m_RuntimeNodeStatuses.clear(); // NEW: ファイル切り替え時に古い実行状態をクリア
+    m_NodeLastActiveTime.clear();
+    m_RuntimeBBValues.clear();
+
     if (data.contains("blackboard")) {
         for (const auto& v : data["blackboard"]) {
             BBVariable var; var.key = v["key"]; var.type = static_cast<BBVarType>(v["type"].get<int>()); var.iVal = v["iVal"]; var.fVal = v["fVal"]; var.bVal = v["bVal"];
@@ -714,6 +736,7 @@ void BehaviorTreeEditorWindow::ApplyTreeFromJson(const json& data) {
         for (const auto& n : data["nodes"]) {
             std::string className = n["className"]; bool isDecorator = n.value("isDecorator", false);
             Node* node = CreateNode(className, isDecorator);
+            node->runtimeId = n["id"]; // FIX: JSON上のIDを同期用に保持
             node->name = n["name"];
             node->hasBreakpoint = n.value("hasBreakpoint", false);
             if (n.contains("properties")) { for (auto it = n["properties"].begin(); it != n["properties"].end(); ++it) node->properties[it.key()] = it.value(); }

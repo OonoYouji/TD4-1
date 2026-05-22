@@ -1,4 +1,4 @@
-#include "MovementSystem.h"
+﻿#include "MovementSystem.h"
 #include "Engine/ECS/EntityComponentSystem/ECSGroup.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
@@ -26,20 +26,47 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
             continue;
         }
 
-        // 移動方向がゼロベクトルに近い場合は何もしない
-        if (intent->desiredMoveDirection.LengthSquared() < 0.001f) {
-            continue;
-        }
-
         auto* owner = intent->GetOwner();
         if (!owner) {
             continue;
         }
+
+        // --- 1. 回転の処理 ---
+        if (intent->useDesiredRotation) {
+            Quaternion currentRot = owner->GetLocalRotateQuaternion();
+            
+            // 現在の回転と目標の回転の間を補間する
+            // rotationSpeed は 1秒あたりの補間率（簡易的な実装）
+            float t = (std::min)(1.0f, intent->rotationSpeed * Time::DeltaTime());
+            Quaternion newRot = Quaternion::Slerp(currentRot, intent->desiredRotation, t);
+            
+            owner->SetRotate(newRot);
+        }
+
+        // --- 2. 移動の処理 ---
+        float targetSpeed = 5.0f; // TODO: コンポーネントから取得
+        float acceleration = 20.0f; // TODO: コンポーネントから取得
+        float deceleration = 30.0f; // TODO: コンポーネントから取得
+
+        // 攻撃中、または移動意図がない場合は目標速度を 0 にする
+        bool isMovingIntent = !intent->isAttacking && intent->desiredMoveDirection.LengthSquared() > 0.001f;
+        float actualTargetSpeed = isMovingIntent ? targetSpeed : 0.0f;
+
+        // 速度の補間（加減速）
+        if (intent->currentSpeed < actualTargetSpeed) {
+            intent->currentSpeed = (std::min)(actualTargetSpeed, intent->currentSpeed + acceleration * Time::DeltaTime());
+        } else if (intent->currentSpeed > actualTargetSpeed) {
+            intent->currentSpeed = (std::max)(actualTargetSpeed, intent->currentSpeed - deceleration * Time::DeltaTime());
+        }
+
+        // 速度がほぼ 0 なら移動処理をスキップ
+        if (intent->currentSpeed < 0.001f) {
+            continue;
+        }
         
-        // ここでは単純な移動を実装する
-        // 将来的にはキャラクターコントローラーや物理演算を介すべき
-        float speed = 5.0f; // 仮のスピード
-        Vector3 velocity = intent->desiredMoveDirection.Normalize() * speed * Time::DeltaTime();
+        // 実際の移動（現在の進行方向または意図方向を使用）
+        // 簡易的に意図方向を向いていると仮定して移動
+        Vector3 velocity = intent->desiredMoveDirection.Normalize() * intent->currentSpeed * Time::DeltaTime();
         Vector3 oldPos = owner->GetLocalPosition();
         Vector3 newPos = oldPos + velocity;
         owner->SetPosition(newPos);

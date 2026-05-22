@@ -6,6 +6,7 @@
 #include "Engine/Core/DirectX12/Manager/DxManager.h"
 
 /// systems
+#include "../System/Animator/AnimatorUpdateSystem.h"
 #include "../System/Audio/AudioPlaybackSystem.h"
 #include "../System/MeshBufferRecreate/MeshBufferRecreate.h"
 #include "../System/EffectUpdateSystem/EffectUpdateSystem.h"
@@ -34,6 +35,7 @@ void ONEngine::GameECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, As
 	_ecs->AddSystem<GrassBufferCreateSystem>(_dxm);
 
 	/// 更新に使うsystem
+	_ecs->AddSystem<AnimatorUpdateSystem>();
 	_ecs->AddSystem<SkinMeshUpdateSystem>(_dxm, _assetCollection);
 	_ecs->AddSystem<ScriptUpdateSystem>(_ecs);
 	_ecs->AddSystem<AISystem>();
@@ -68,6 +70,7 @@ void ONEngine::DebugECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, A
 
 	/// 更新に使うsystem
 	_ecs->AddSystem<CameraUpdateSystem>(_dxm->GetDxDevice());
+	_ecs->AddSystem<AnimatorUpdateSystem>();
 	_ecs->AddSystem<SkinMeshUpdateSystem>(_dxm, _assetCollection);
 	_ecs->AddSystem<DebugScriptUpdateSystem>(_ecs);
 	_ecs->AddSystem<AISystem>();

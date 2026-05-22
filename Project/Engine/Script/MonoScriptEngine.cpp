@@ -156,6 +156,7 @@ void MonoScriptEngine::RegisterFunctions() {
 
 		// AI
 		updateAiIntentsMethod_ = GetMethodFromCS("", "AIUpdater", "UpdateIntents", 4);
+		notifyEventCompletedMethod_ = GetMethodFromCS("", "BlackboardManager", "SetBool", 3);
 	}
 }
 
@@ -523,6 +524,30 @@ void MonoScriptEngine::UpdateAiIntents(void* data, int count, float deltaTime, c
 	if (exc) {
 		char* err = mono_string_to_utf8(mono_object_to_string(exc, nullptr));
 		Console::LogError(std::string("Exception thrown in AIUpdater.UpdateIntents: ") + err, LogCategory::ScriptEngine);
+		mono_free(err);
+	}
+}
+
+void MonoScriptEngine::NotifyEventCompleted(int32_t entityId, const std::string& eventName) {
+	if (!notifyEventCompletedMethod_) {
+		return;
+	}
+
+	std::string key = "EventComplete_" + eventName;
+	MonoString* keyStr = mono_string_new(domain_, key.c_str());
+	bool value = true;
+
+	void* args[3];
+	args[0] = &entityId;
+	args[1] = keyStr;
+	args[2] = &value;
+
+	MonoObject* exc = nullptr;
+	mono_runtime_invoke(notifyEventCompletedMethod_, nullptr, args, &exc);
+
+	if (exc) {
+		char* err = mono_string_to_utf8(mono_object_to_string(exc, nullptr));
+		Console::LogError(std::string("Exception thrown in BlackboardManager.SetBool: ") + err, LogCategory::ScriptEngine);
 		mono_free(err);
 	}
 }

@@ -15,6 +15,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Effect/Effect.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Terrain/TerrainCollider.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Animator/Animator.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Collision/BoxCollider.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Collision/SphereCollider.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Skybox/Skybox.h"
@@ -68,6 +69,10 @@ void ONEngine::AddComponentInternalCalls() {
 	mono_add_internal_call("SkinMeshRenderer::InternalGetAnimationScale", (void*)InternalGetAnimationScale);
 	mono_add_internal_call("SkinMeshRenderer::InternalSetAnimationScale", (void*)InternalSetAnimationScale);
 	mono_add_internal_call("SkinMeshRenderer::InternalGetJointTransform", (void*)InternalGetJointTransform);
+
+	/// animator
+	mono_add_internal_call("Animator::Internal_Play", (void*)Internal_Play);
+	mono_add_internal_call("Animator::Internal_CrossFade", (void*)Internal_CrossFade);
 
 	/// sprite renderer
 	mono_add_internal_call("SpriteRenderer::InternalGetColor", (void*)InternalGetColor);

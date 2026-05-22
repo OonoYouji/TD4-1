@@ -1,4 +1,5 @@
 ﻿#include "Transform.h"
+#include <nlohmann/json.hpp>
 
 #define NOMINMAX
 

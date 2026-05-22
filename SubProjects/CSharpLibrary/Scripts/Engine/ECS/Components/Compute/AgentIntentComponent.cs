@@ -14,13 +14,19 @@ public class AgentIntentComponent : Component {
     public struct BatchData {
         public uint compId;
         public Vector3 desiredMoveDirection;
+        public Quaternion desiredRotation;
+        public float rotationSpeed;
+        public byte useDesiredRotation; // bool interop
         public byte isAttacking; // Use byte for bool interop
-        public uint targetEntityId;
+        public int targetEntityId;
     }
 
     public Vector3 desiredMoveDirection = Vector3.zero;
+    public Quaternion desiredRotation = Quaternion.identity;
+    public float rotationSpeed = 5.0f;
+    public bool useDesiredRotation = false;
     public bool isAttacking = false;
-    public uint targetEntityId = 0; // 0 is considered an invalid ID
+    public int targetEntityId = 0; // 0 is considered an invalid ID
 
     /// <summary>
     /// このコンポーネントに関連付けられたビヘイビアツリー

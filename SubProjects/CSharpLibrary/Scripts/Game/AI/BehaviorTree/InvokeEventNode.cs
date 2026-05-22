@@ -37,16 +37,17 @@ public class InvokeEventNode : BehaviorNode
     /// </summary>
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        uint startTimeKey = NodeIdHash;
+        uint startTimeKey = BehaviorTreeLoader.HashString("EventStart_" + NodeIdHash);
+        uint completeKey = BehaviorTreeLoader.HashString("EventComplete_" + eventName);
 
         if (!blackboard.HasKey(startTimeKey))
         {
             // 1. 初回実行: イベントを発行
-            Debug.Log($"[InvokeEvent] {owner.name} triggered event: {eventName}");
+            Debug.Log($"<color=orange>[InvokeEvent]</color> {owner.name} <b>TRIGGERED</b> event: <color=white>{eventName}</color>");
             
-            // TODO: エンジン側の文字列イベントシステムが実装されたらここに呼び出しを追加
-            // 現状は互換性のためにTestEventとして発行しておく（必要に応じて）
-            FrameEvent.EnqueueEntityEvent(FrameEvent.Type.TestEvent, owner.Id);
+            // 完了フラグをリセットしてから発行
+            blackboard.SetBool(completeKey, false);
+            FrameEvent.EnqueueNamedEvent(eventName, owner.Id);
             
             if (!waitUntilComplete)
             {
@@ -57,22 +58,27 @@ public class InvokeEventNode : BehaviorNode
             return NodeStatus.Running;
         }
 
-        // 2. 2回目以降の実行（待機中）: タイムアウトをチェックする
+        // 2. 2回目以降の実行（待機中）
         float startTime = blackboard.GetFloat(startTimeKey);
         float elapsed = Time.time - startTime;
 
         // 設定されたタイムアウト時間を超えた場合
         if (elapsed >= timeoutSec)
         {
-            // フェイルセーフ発動：Blackboardから時刻を消去し、Failure（失敗）として異常終了する
+            Debug.LogWarning($"<color=red>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>TIMED OUT</b> after {timeoutSec}s.");
             blackboard.Remove(startTimeKey);
             return NodeStatus.Failure;
         }
 
-        // TODO: 外部システムからの「演出完了通知」を受け取るフラグ監視ロジックをここに追加する。
-        // （完了通知を受け取った場合は、startTimeKeyを削除してNodeStatus.Successを返す）
+        // Blackboardの完了フラグを監視
+        if (blackboard.GetBool(completeKey))
+        {
+            Debug.Log($"<color=cyan>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>RECEIVED</b> completion signal.");
+            blackboard.SetBool(completeKey, false); // 次回のためにリセット
+            blackboard.Remove(startTimeKey);
+            return NodeStatus.Success;
+        }
         
-        // 完了通知もタイムアウトも来ていなければ、引き続き待機（Running）
         return NodeStatus.Running;
     }
 }

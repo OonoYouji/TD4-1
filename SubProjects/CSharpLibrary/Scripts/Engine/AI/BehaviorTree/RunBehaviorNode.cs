@@ -15,8 +15,9 @@ public class RunBehaviorNode : BehaviorNode
     [SerializeField]
     public string treePath = "";
 
-    // 読み込んだサブツリーの最上位（起点）となるノードのキャッシュ
-    private BehaviorNode _rootOfSubtree = null;
+    // 読み込んだサブツリーのインスタンス
+    private BehaviorTree _subTree = null;
+    public BehaviorTree SubTree => _subTree;
     
     // 読み込みに失敗した場合に再試行を防ぐためのフラグ
     private bool _failedToLoad = false;
@@ -30,16 +31,15 @@ public class RunBehaviorNode : BehaviorNode
         if (_failedToLoad) return NodeStatus.Failure;
 
         // 1. 初回実行時にサブツリーのロードを試みる
-        if (_rootOfSubtree == null && !string.IsNullOrEmpty(treePath))
+        if (_subTree == null && !string.IsNullOrEmpty(treePath))
         {
             try
             {
                 Debug.Log($"[RunBehavior] Attempting to load subtree: {treePath}");
-                var tree = BehaviorTreeLoader.LoadFromFile(treePath, owner);
-                if (tree != null)
+                _subTree = BehaviorTreeLoader.LoadFromFile(treePath, owner);
+                if (_subTree != null)
                 {
-                    _rootOfSubtree = tree.RootNode;
-                    Debug.Log($"[RunBehavior] Successfully loaded subtree: {treePath} (Root:{_rootOfSubtree.name})");
+                    Debug.Log($"[RunBehavior] Successfully loaded subtree: {treePath} (Root:{_subTree.RootNode.name})");
                 }
                 else {
                     Debug.LogWarning($"[RunBehavior] LoadFromFile returned null for: {treePath}");
@@ -54,10 +54,10 @@ public class RunBehaviorNode : BehaviorNode
         }
 
         // ロードできなかった場合（ファイルが存在しない、フォーマットエラー等）
-        if (_rootOfSubtree == null) return NodeStatus.Failure;
+        if (_subTree == null || _subTree.RootNode == null) return NodeStatus.Failure;
 
         // 2. サブツリーの実行
-        var status = _rootOfSubtree.Tick(blackboard, owner);
+        var status = _subTree.RootNode.Tick(blackboard, owner);
         return status;
     }
 }
