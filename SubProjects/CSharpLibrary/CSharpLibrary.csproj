@@ -117,6 +117,7 @@
     <Compile Include="Scripts\Engine\Graphics\UVTransform.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
+    <Compile Include="Scripts\Game\Common\HP.cs" />
     <Compile Include="Scripts\Game\Enemy\SampleBossComponent.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\CheckDistanceNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\DebugAngerService.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="Scripts\Game\Player\Olds\PlayerArm.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBullet.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBulletLauncher.cs" />
-    <Compile Include="Scripts\Game\Player\Olds\PlayerCore.cs" />
     <Compile Include="Scripts\Game\Player\Player.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />

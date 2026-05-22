@@ -127,6 +127,9 @@
     <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Agent">
       <UniqueIdentifier>{4C2F728B-B816-5D81-C104-5FFD2D6B0044}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Animator">
+      <UniqueIdentifier>{1840336C-0400-C410-6D1D-AC1B59FCD622}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Audio">
       <UniqueIdentifier>{AFD7798B-1BBF-6481-24AD-66FD90130844}</UniqueIdentifier>
     </Filter>
@@ -219,6 +222,9 @@
     </Filter>
     <Filter Include="Engine\ECS\System\AI">
       <UniqueIdentifier>{121F6E84-FEAD-F74D-A7CC-0B49933A08F4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ECS\System\Animator">
+      <UniqueIdentifier>{63B2E572-4FC2-9143-B87B-F661A4AA80DC}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ECS\System\Audio">
       <UniqueIdentifier>{DA75D166-46AD-19FE-4FB7-7D21BB6D40F7}</UniqueIdentifier>
@@ -579,6 +585,9 @@
     <ClInclude Include="Engine\Core\Event\FrameEventQueue.h">
       <Filter>Engine\Core\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\Event\GameEventData.h">
+      <Filter>Engine\Core\Event</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Core\GameFramework\GameFramework.h">
       <Filter>Engine\Core\GameFramework</Filter>
     </ClInclude>
@@ -672,6 +681,9 @@
     <ClInclude Include="Engine\Core\Utility\Tools\Random.h">
       <Filter>Engine\Core\Utility\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\Utility\Tools\StringHash.h">
+      <Filter>Engine\Core\Utility\Tools</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Core\Utility\Utility.h">
       <Filter>Engine\Core\Utility</Filter>
     </ClInclude>
@@ -692,6 +704,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.h">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.h">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.h">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Audio</Filter>
@@ -821,6 +836,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ECS\System\AI\AISystem.h">
       <Filter>Engine\ECS\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.h">
+      <Filter>Engine\ECS\System\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ECS\System\Audio\AudioPlaybackSystem.h">
       <Filter>Engine\ECS\System\Audio</Filter>
@@ -990,6 +1008,9 @@
     <ClInclude Include="Engine\Editor\Views\Tabs\EditorTab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\Views\Tabs\EventTab.h">
+      <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Tabs\GameTab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClInclude>
@@ -1003,6 +1024,9 @@
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.h">
+      <Filter>Engine\Editor\Views\Windows\Develop</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\GameEventEditorWindow.h">
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\GameSceneView.h">
@@ -1289,6 +1313,9 @@
     <ClCompile Include="Engine\Core\Event\FrameEventQueue.cpp">
       <Filter>Engine\Core\Event</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\Event\GameEventData.cpp">
+      <Filter>Engine\Core\Event</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Core\GameFramework\GameFramework.cpp">
       <Filter>Engine\Core\GameFramework</Filter>
     </ClCompile>
@@ -1357,6 +1384,9 @@
     </ClCompile>
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.cpp">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.cpp">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\Animator</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.cpp">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Audio</Filter>
@@ -1477,6 +1507,9 @@
     </ClCompile>
     <ClCompile Include="Engine\ECS\System\AI\AISystem.cpp">
       <Filter>Engine\ECS\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.cpp">
+      <Filter>Engine\ECS\System\Animator</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ECS\System\Audio\AudioPlaybackSystem.cpp">
       <Filter>Engine\ECS\System\Audio</Filter>
@@ -1613,6 +1646,9 @@
     <ClCompile Include="Engine\Editor\Views\Tabs\EditorTab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\Views\Tabs\EventTab.cpp">
+      <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Tabs\GameTab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClCompile>
@@ -1626,6 +1662,9 @@
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.cpp">
+      <Filter>Engine\Editor\Views\Windows\Develop</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\GameEventEditorWindow.cpp">
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\GameSceneView.cpp">
