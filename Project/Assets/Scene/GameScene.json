@@ -144,7 +144,7 @@
                             "y": 1.0,
                             "z": 1.0
                         },
-                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1,
@@ -173,6 +173,10 @@
                         {
                             "enable": true,
                             "name": "CallingReinforcement"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
                         }
                     ],
                     "type": "Script"
@@ -573,85 +577,6 @@
         {
             "components": [
                 {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 129.65211486816406,
-                        "y": 0.0,
-                        "z": 107.5848159790039
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 3.0,
-                        "y": 3.0,
-                        "z": 3.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/sphere.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "PlayerCore"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "categoryBits": 2,
-                    "enable": 1,
-                    "maskBits": 0,
-                    "radius": 1.0,
-                    "state": "Dynamic",
-                    "type": "SphereCollider"
-                }
-            ],
-            "guid": "a3f1c2d4e5b6789012345678abcdef01",
-            "id": 10,
-            "name": "PlayerCore",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
                     "cameraType": 1,
                     "enable": 1,
                     "farClip": 1000.0,
@@ -694,7 +619,7 @@
                 }
             ],
             "guid": "1bfe2134e5bc44573be595efe7705c27",
-            "id": 11,
+            "id": 10,
             "name": "Camera2D",
             "parent": null,
             "prefabName": ""
@@ -764,9 +689,9 @@
                 }
             ],
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "id": 12,
+            "id": 11,
             "name": "PlayerHP",
-            "parent": 11,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -859,7 +784,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93726",
-            "id": 14,
+            "id": 15,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -902,9 +827,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817c",
-            "id": 15,
+            "id": 16,
             "name": "UI Root",
-            "parent": 14,
+            "parent": 15,
             "prefabName": ""
         },
         {
@@ -963,9 +888,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96943",
-            "id": 16,
+            "id": 17,
             "name": "HP",
-            "parent": 15,
+            "parent": 16,
             "prefabName": ""
         },
         {
@@ -1010,7 +935,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 17,
+            "id": 18,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -1053,9 +978,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 18,
+            "id": 19,
             "name": "ShotControl",
-            "parent": 17,
+            "parent": 18,
             "prefabName": ""
         },
         {
@@ -1113,9 +1038,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 19,
+            "id": 20,
             "name": "Gamepad",
-            "parent": 18,
+            "parent": 19,
             "prefabName": ""
         },
         {
@@ -1173,9 +1098,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 20,
+            "id": 12,
             "name": "KBM",
-            "parent": 18,
+            "parent": 19,
             "prefabName": ""
         },
         {
@@ -1233,9 +1158,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 21,
+            "id": 13,
             "name": "TextSprite",
-            "parent": 18,
+            "parent": 19,
             "prefabName": ""
         },
         {
@@ -1293,9 +1218,9 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 13,
+            "id": 14,
             "name": "SpreadUi",
-            "parent": 11,
+            "parent": 10,
             "prefabName": ""
         }
     ]

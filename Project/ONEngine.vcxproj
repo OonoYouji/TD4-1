@@ -211,6 +211,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Core\DirectX12\SwapChain\DxSwapChain.h" />
     <ClInclude Include="Engine\Core\Event\Event.h" />
     <ClInclude Include="Engine\Core\Event\FrameEventQueue.h" />
+    <ClInclude Include="Engine\Core\Event\GameEventData.h" />
     <ClInclude Include="Engine\Core\GameFramework\GameFramework.h" />
     <ClInclude Include="Engine\Core\GameFramework\GameFrameworkConfig.h" />
     <ClInclude Include="Engine\Core\Threading\ConcurrentQueue.h" />
@@ -242,6 +243,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Core\Utility\Tools\Gizmo.h" />
     <ClInclude Include="Engine\Core\Utility\Tools\Log.h" />
     <ClInclude Include="Engine\Core\Utility\Tools\Random.h" />
+    <ClInclude Include="Engine\Core\Utility\Tools\StringHash.h" />
     <ClInclude Include="Engine\Core\Utility\Utility.h" />
     <ClInclude Include="Engine\Core\Window\Window.h" />
     <ClInclude Include="Engine\Core\Window\WindowManager.h" />
@@ -249,6 +251,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\ECS\Component\Collection\ComponentCollection.h" />
     <ClInclude Include="Engine\ECS\Component\Collection\ComponentHash.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Camera\CameraComponent.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Collision\BoxCollider.h" />
@@ -292,6 +295,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\ECS\EntityComponentSystem\ECSGroup.h" />
     <ClInclude Include="Engine\ECS\EntityComponentSystem\EntityComponentSystem.h" />
     <ClInclude Include="Engine\ECS\System\AI\AISystem.h" />
+    <ClInclude Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.h" />
     <ClInclude Include="Engine\ECS\System\Audio\AudioPlaybackSystem.h" />
     <ClInclude Include="Engine\ECS\System\CameraUpdate\CameraUpdateSystem.h" />
     <ClInclude Include="Engine\ECS\System\Collision\ColliderRenderQueueSystem.h" />
@@ -348,11 +352,13 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Editor\Views\Tabs\AITab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\DevelopTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\EditorTab.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\EventTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\GameTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\PrefabTab.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\ConsoleWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\GameEventEditorWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\GameSceneView.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\HierarchyWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\InspectorWindow.h" />
@@ -449,6 +455,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Core\DirectX12\Resource\DxResource.cpp" />
     <ClCompile Include="Engine\Core\DirectX12\SwapChain\DxSwapChain.cpp" />
     <ClCompile Include="Engine\Core\Event\FrameEventQueue.cpp" />
+    <ClCompile Include="Engine\Core\Event\GameEventData.cpp" />
     <ClCompile Include="Engine\Core\GameFramework\GameFramework.cpp" />
     <ClCompile Include="Engine\Core\Threading\ThreadPool.cpp" />
     <ClCompile Include="Engine\Core\Utility\FileSystem\FileSystem.cpp" />
@@ -472,6 +479,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Core\Window\WindowManager.cpp" />
     <ClCompile Include="Engine\ECS\Component\Collection\ComponentCollection.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Camera\CameraComponent.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Collision\BoxCollider.cpp" />
@@ -512,6 +520,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\ECS\EntityComponentSystem\ECSGroup.cpp" />
     <ClCompile Include="Engine\ECS\EntityComponentSystem\EntityComponentSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\AI\AISystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\Audio\AudioPlaybackSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\CameraUpdate\CameraUpdateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\Collision\ColliderRenderQueueSystem.cpp" />
@@ -557,11 +566,13 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Editor\Views\Tabs\AITab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\DevelopTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\EditorTab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\EventTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\GameTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\PrefabTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\ConsoleWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\GameEventEditorWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\GameSceneView.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\HierarchyWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\InspectorWindow.cpp" />
