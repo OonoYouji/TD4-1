@@ -1,6 +1,10 @@
 #include "Animator.h"
 #include "Engine/Core/Utility/Tools/Log.h"
 
+/// externals
+#include <imgui.h>
+#include <string>
+
 namespace ONEngine {
 
 Animator::Animator() {
@@ -122,6 +126,61 @@ void Internal_CrossFade(uint64_t _nativeHandle, uint32_t _clipId, float _duratio
     Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
     if (animator) {
         animator->CrossFade(_clipId, _duration, _layerIndex);
+    }
+}
+
+namespace ComponentDebug {
+    void AnimatorDebug(Animator* _animator) {
+        std::vector<Animator*> animators = { _animator };
+        AnimatorDebug(animators);
+    }
+
+    void AnimatorDebug(const std::vector<Animator*>& _animators) {
+        if (_animators.empty()) return;
+
+        Animator* first = _animators[0];
+
+        if (ImGui::CollapsingHeader("Layers", ImGuiTreeNodeFlags_DefaultOpen)) {
+            for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
+                AnimationLayer& layer = first->layers[i];
+                std::string headerName = "Layer " + std::to_string(i);
+
+                if (ImGui::TreeNode(headerName.c_str())) {
+                    bool isEdit = false;
+                    float weight = layer.weight;
+
+                    if (ImGui::DragFloat("weight", &weight, 0.01f, 0.0f, 1.0f)) {
+                        isEdit = true;
+                    }
+
+                    if (isEdit) {
+                        for (auto a : _animators) {
+                            a->layers[i].weight = weight;
+                        }
+                    }
+
+                    if (ImGui::TreeNode("State 0 (Current)")) {
+                        ImGui::Text("Clip ID: %u", layer.states[0].clipId);
+                        ImGui::Text("Time: %.2f", layer.states[0].time);
+                        ImGui::Text("Weight: %.2f", layer.states[0].weight);
+                        
+                        bool isLoop = layer.states[0].isLoop;
+                        if (ImGui::Checkbox("Loop", &isLoop)) {
+                            for (auto a : _animators) a->layers[i].states[0].isLoop = isLoop;
+                        }
+
+                        float speed = layer.states[0].playbackSpeed;
+                        if (ImGui::DragFloat("Speed", &speed, 0.01f)) {
+                            for (auto a : _animators) a->layers[i].states[0].playbackSpeed = speed;
+                        }
+                        
+                        ImGui::TreePop();
+                    }
+
+                    ImGui::TreePop();
+                }
+            }
+        }
     }
 }
 

@@ -186,36 +186,55 @@ void ONEngine::InternalSetScale(uint64_t _nativeHandle, float _x, float _y, floa
 }
 
 void ComponentDebug::TransformDebug(Transform* _transform) {
-	if(!_transform) {
+	std::vector<Transform*> transforms = { _transform };
+	TransformDebug(transforms);
+}
+
+void ComponentDebug::TransformDebug(const std::vector<Transform*>& _transforms) {
+	if(_transforms.empty()) {
 		return;
 	}
 
+	Transform* first = _transforms[0];
 	bool isEdit = false;
-	static Vector3 eulerAngles = Quaternion::ToEuler(_transform->rotate);
+
+	// 代表値として最初の要素を使用
+	Vector3   pos = first->position;
+	Vector3   euler = Quaternion::ToEuler(first->rotate);
+	Vector3   scale = first->scale;
+	int       flags = first->matrixCalcFlags;
+
+	// 複数選択時の差異チェック (Unity風の "-" 表示は DrawVec3Control が対応していないため、
+	// 現状は最初の要素の値を表示し、編集されたら全員に適用する方式をとる)
+	// ※本格的にやるなら DrawVec3Control を拡張して MixedValue 状態を受け取れるようにする必要がある。
 
 	static bool isUnifieds[3] = { false, false, true };
-	constexpr float minValue = std::numeric_limits<float>::lowest();
-	constexpr float maxValue = std::numeric_limits<float>::max();
-	isEdit |= Editor::DrawVec3Control("position", _transform->position, 0.1f,             minValue, maxValue, 100.0f, &isUnifieds[0]);
-	isEdit |= Editor::DrawVec3Control("rotate",   eulerAngles,          Math::PI / 12.0f, minValue, maxValue, 100.0f, &isUnifieds[1]);
-	isEdit |= Editor::DrawVec3Control("scale",    _transform->scale,    0.1f,             minValue, maxValue, 100.0f, &isUnifieds[2]);
+	constexpr float minValue = (std::numeric_limits<float>::lowest)();
+	constexpr float maxValue = (std::numeric_limits<float>::max)();
+
+	bool posChanged = Editor::DrawVec3Control("position", pos, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[0]);
+	bool rotChanged = Editor::DrawVec3Control("rotate", euler, Math::PI / 12.0f, minValue, maxValue, 100.0f, &isUnifieds[1]);
+	bool sclChanged = Editor::DrawVec3Control("scale", scale, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[2]);
+
+	isEdit |= posChanged | rotChanged | sclChanged;
+
+	bool flagsChanged = false;
+	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: position", &flags, Transform::kPosition);
+	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: rotate", &flags, Transform::kRotate);
+	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: scale", &flags, Transform::kScale);
+	isEdit |= flagsChanged;
 
 	if(isEdit) {
-		_transform->rotate = Quaternion::FromEuler(eulerAngles);
+		Quaternion rot = Quaternion::FromEuler(euler);
+		
+		for (auto t : _transforms) {
+			if (posChanged) t->position = pos;
+			if (rotChanged) t->rotate = rot;
+			if (sclChanged) t->scale = scale;
+			if (flagsChanged) t->matrixCalcFlags = flags;
+			t->Update();
+		}
 	}
-
-	/// matrixCalcFlags 編集
-	int matrixCalcFlags = _transform->matrixCalcFlags;
-	isEdit |= ImGui::CheckboxFlags("matrixCalcFlags: position", &matrixCalcFlags, Transform::kPosition);
-	isEdit |= ImGui::CheckboxFlags("matrixCalcFlags: rotate", &matrixCalcFlags, Transform::kRotate);
-	isEdit |= ImGui::CheckboxFlags("matrixCalcFlags: scale", &matrixCalcFlags, Transform::kScale);
-
-	_transform->matrixCalcFlags = matrixCalcFlags;
-
-	if(isEdit) {
-		_transform->Update();
-	}
-
 }
 
 
