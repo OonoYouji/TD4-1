@@ -16,6 +16,7 @@ using namespace ONEngine;
 #include "../Render/Mesh/SkinMeshRenderingPipeline.h"
 #include "../Render/Mesh/SkinMeshSkeletonRenderingPipeline.h"
 #include "../Render/Effect/EffectRenderingPipeline.h"
+#include "../Render/ParticleSystem/ParticleSystemRenderingPipeline.h"
 #include "../Render/Primitive/Line2DRenderingPipeline.h"
 #include "../Render/Primitive/Line3DRenderingPipeline.h"
 #include "../Render/Sprite/SpriteRenderingPipeline.h"
@@ -75,6 +76,7 @@ void RenderingPipelineCollection::Initialize() {
 	Generate3DRenderingPipeline<GridRenderingPipeline>();
 #endif // DEBUG_MODE
 	Generate3DRenderingPipeline<EffectRenderingPipeline>(pAssetCollection_);
+	Generate3DRenderingPipeline<ParticleSystemRenderingPipeline>(pAssetCollection_);
 	Generate3DRenderingPipeline<GrassRenderingPipeline>(pAssetCollection_);
 
 	/// Gizmoは最後に描画する

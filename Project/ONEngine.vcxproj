@@ -263,6 +263,8 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Effect\EmitShape\EffectEmitShape.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Effect\MainModule\EffectMainModule.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Light\Light.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem\ParticleSystem.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem\ParticleSystemData.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Script\Script.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\ShadowCaster\ShadowCaster.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\Grass\GrassField.h" />
@@ -305,6 +307,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\ECS\System\Interface\ECSISystem.h" />
     <ClInclude Include="Engine\ECS\System\MeshBufferRecreate\MeshBufferRecreate.h" />
     <ClInclude Include="Engine\ECS\System\Movement\MovementSystem.h" />
+    <ClInclude Include="Engine\ECS\System\ParticleSystemUpdateSystem\ParticleSystemUpdateSystem.h" />
     <ClInclude Include="Engine\ECS\System\ScriptUpdateSystem\ScriptUpdateSystem.h" />
     <ClInclude Include="Engine\ECS\System\ShadowCaster\ShadowCasterUpdateSystem.h" />
     <ClInclude Include="Engine\ECS\System\SkinMesh\SkinMeshUpdateSystem.h" />
@@ -399,6 +402,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\MeshRenderingPipeline.h" />
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshRenderingPipeline.h" />
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshSkeletonRenderingPipeline.h" />
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\ParticleSystem\ParticleSystemRenderingPipeline.h" />
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Primitive\Line2DRenderingPipeline.h" />
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Primitive\Line3DRenderingPipeline.h" />
     <ClInclude Include="Engine\Graphics\Pipelines\Render\River\RiverRenderingPipeline.h" />
@@ -490,6 +494,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Effect\EmitShape\EffectEmitShape.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Effect\MainModule\EffectMainModule.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Light\Light.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem\ParticleSystem.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Script\Script.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\ShadowCaster\ShadowCaster.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Terrain\Grass\GrassField.cpp" />
@@ -529,6 +534,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\ECS\System\GrassBufferCreateSystem\GrassBufferCreateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\MeshBufferRecreate\MeshBufferRecreate.cpp" />
     <ClCompile Include="Engine\ECS\System\Movement\MovementSystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\ParticleSystemUpdateSystem\ParticleSystemUpdateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\ScriptUpdateSystem\ScriptUpdateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\ShadowCaster\ShadowCasterUpdateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\SkinMesh\SkinMeshUpdateSystem.cpp" />
@@ -607,6 +613,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\MeshRenderingPipeline.cpp" />
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshRenderingPipeline.cpp" />
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshSkeletonRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\ParticleSystem\ParticleSystemRenderingPipeline.cpp" />
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Primitive\Line2DRenderingPipeline.cpp" />
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Primitive\Line3DRenderingPipeline.cpp" />
     <ClCompile Include="Engine\Graphics\Pipelines\Render\River\RiverRenderingPipeline.cpp" />
