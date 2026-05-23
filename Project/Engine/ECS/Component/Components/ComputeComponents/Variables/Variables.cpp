@@ -206,7 +206,10 @@ void Variables::RegisterScriptVariables() {
 		Group& group = groups_[groupIndex];
 
 		{
-			MonoObject* safeObj = nullptr;
+			MonoScriptEngine& monoEngine = MonoScriptEngine::GetInstance();
+			GameEntity* entity = GetOwner();
+			MonoObject* safeObj = monoEngine.GetMonoBehaviorFromCS(entity->GetECSGroup()->GetGroupName(), entity->GetId(), data.scriptName);
+
 			if (!safeObj) {
 				continue; //!< 対象のスクリプトがない場合はスキップ
 			}
@@ -298,13 +301,10 @@ void Variables::ReloadScriptVariables() {
 		return;
 	}
 
-	groupKeyMap_.clear();
-	groups_.clear();
-
 	for (const auto& data : script->GetScriptDataList()) {
 		size_t groupIndex = 0;
 
-		/// 新規のグループを追加するか、既存のグループを取得する
+		/// 既存のグループを取得するか、新規作成する (クリアはしない)
 		if (!HasGroup(data.scriptName)) {
 			groupIndex = AddGroup(data.scriptName);
 		} else {
@@ -320,7 +320,7 @@ void Variables::ReloadScriptVariables() {
 			MonoObject* safeObj = monoEngine.GetMonoBehaviorFromCS(entity->GetECSGroup()->GetGroupName(), entity->GetId(), data.scriptName);
 
 			if (!safeObj) {
-				continue; //!< 対象のスクリプトがない場合はスキップ
+				continue; //!< 対象のスクリプトがない場合はスキップ (既存の値を維持)
 			}
 
 			MonoClass* monoClass = mono_object_get_class(safeObj);
@@ -330,7 +330,6 @@ void Variables::ReloadScriptVariables() {
 			while ((field = mono_class_get_fields(monoClass, &iter))) {
 				const char* fieldName = mono_field_get_name(field);
 
-				// SerializeFieldチェックを削除
 				MonoType* fieldType = mono_field_get_type(field);
 				int type = mono_type_get_type(fieldType);
 
@@ -360,8 +359,10 @@ void Variables::ReloadScriptVariables() {
 				{
 					MonoString* monoStr = nullptr;
 					mono_field_get_value(safeObj, field, &monoStr);
-					std::string value = mono_string_to_utf8(monoStr);
-					group.Add(fieldName, value);
+					if (monoStr) {
+						std::string value = mono_string_to_utf8(monoStr);
+						group.Add(fieldName, value);
+					}
 				}
 				break;
 				case MONO_TYPE_VALUETYPE: /// 構造体
@@ -370,34 +371,24 @@ void Variables::ReloadScriptVariables() {
 					const char* className = mono_class_get_name(fieldClass);
 
 					if (strcmp(className, "Vector2") == 0) {
-						// Vector2
 						Vector2 vec2;
 						mono_field_get_value(safeObj, field, &vec2);
 						group.Add(fieldName, vec2);
-
 					} else if (strcmp(className, "Vector3") == 0) {
-						// Vector3
 						Vector3 vec3;
 						mono_field_get_value(safeObj, field, &vec3);
 						group.Add(fieldName, vec3);
-
 					} else if (strcmp(className, "Vector4") == 0) {
-						// Vector4
 						Vector4 vec4;
 						mono_field_get_value(safeObj, field, &vec4);
 						group.Add(fieldName, vec4);
-
 					}
 				}
 				break;
 				}
-
 			}
 		}
-
-
 	}
-
 }
 
 void Variables::SetScriptVariables(const std::string& _scriptName) {
@@ -413,12 +404,6 @@ void Variables::SetScriptVariables(const std::string& _scriptName) {
 	if (!script) {
 		Console::LogError("Variables::SetScriptVariables();  owner has no Script component...");
 		return;
-	}
-
-	/// 一旦保存 (Cloneオブジェクト以外
-	if (owner->GetId() > 0) {
-		ECSGroup* ecsGroup = owner->GetECSGroup();
-		SaveJson("Assets/Scene/" + ecsGroup->GetGroupName() + "/" + owner->GetName() + ".json");
 	}
 
 	/// 適用の処理

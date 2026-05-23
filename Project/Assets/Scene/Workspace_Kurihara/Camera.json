@@ -1,3 +1,9 @@
 {
-    "FollowCamera": {}
+    "FollowCamera": {
+        "offsetPos": {
+            "x": 0.0,
+            "y": 44.0,
+            "z": 0.0
+        }
+    }
 }

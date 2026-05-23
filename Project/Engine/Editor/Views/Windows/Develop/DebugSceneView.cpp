@@ -203,7 +203,7 @@ void DebugSceneView::DrawSceneOverlayStats(const ImVec2& imagePos, const std::ve
 void DebugSceneView::HandleCameraFocus() {
 	if(ImGui::IsWindowHovered() || ImGui::IsWindowFocused()) {
 		if(ONEngine::Input::TriggerKey(DIK_F)) {
-			ONEngine::Guid selectedGuid = ImGuiSelection::GetSelectedObject();
+			ONEngine::Guid selectedGuid = ImGuiSelection::GetLastSelectedObject();
 			if(selectedGuid.CheckValid()) {
 				ONEngine::GameEntity* targetEntity = pEcs_->GetCurrentGroup()->GetEntityFromGuid(selectedGuid);
 				if(targetEntity) {
@@ -346,7 +346,7 @@ void DebugSceneView::DrawSceneTexture(ImVec2& outImagePos, ImVec2& outImageSize)
 /// ギズモ操作と統計情報の表示
 ///
 void DebugSceneView::DrawGizmoAndOverlays(const ImVec2& imagePos, const ImVec2& imageSize) {
-	Editor::SetEntity(ImGuiSelection::GetSelectedObject());
+	Editor::SetEntity(ImGuiSelection::GetLastSelectedObject());
 
 	ONEngine::Vector2 imagePosV = { imagePos.x, imagePos.y };
 	ONEngine::Vector2 imageSizeV = { imageSize.x, imageSize.y };
