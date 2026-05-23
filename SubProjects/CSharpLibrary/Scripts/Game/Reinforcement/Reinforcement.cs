@@ -47,6 +47,8 @@ public class Reinforcement : MonoScript
 
     // カメラのEntity
     private Entity  cameraEntity    = null;
+    // プレイヤーのEntity
+    private Entity  playerEntity    = null;
 
     // 元の色を保持
     private Vector4 originalColor   = Vector4.one;
@@ -63,11 +65,18 @@ public class Reinforcement : MonoScript
         isCollisionEnabled = false;
         timer           = 0.0f;
         cameraEntity    = ecsGroup.FindEntity("Camera");
+        playerEntity    = ecsGroup.FindEntity("Player");
         colorSaved      = false;
     }
 
     public override void Update()
     {
+        // カメラ・プレイヤーEntityの再取得
+        if (cameraEntity == null)
+            cameraEntity = ecsGroup.FindEntity("Camera");
+        if (playerEntity == null)
+            playerEntity = ecsGroup.FindEntity("Player");
+
         // 位置適用
         if (!positionApplied)
         {
@@ -79,11 +88,20 @@ public class Reinforcement : MonoScript
         // タイマー加算
         timer += Time.deltaTime;
 
-        // 存在時間経過で削除
+        // 退散するまでの秒数を経過したら退散 or 消滅
         if (timer >= lifeTime)
         {
-            entity.Destroy();
-            return;
+            if (isCollisionEnabled)
+            {
+                // 画面内なら退散開始
+                Retreat();
+            }
+            else
+            {
+                // 画面外にいたら即消滅
+                entity.Destroy();
+                return;
+            }
         }
 
         // 画面内判定して当たり判定と色を切り替え
@@ -93,53 +111,29 @@ public class Reinforcement : MonoScript
             {
                 cameraEntity = ecsGroup.FindEntity("Camera");
             }
-            if (cameraEntity != null)
+
+            MeshRenderer meshRenderer = entity.GetComponent<MeshRenderer>();
+            if (meshRenderer != null && !colorSaved)
             {
-                Vector3 cameraPos = cameraEntity.transform.position;
-                Vector3 toTarget = transform.position - cameraPos;
-                
-                // カメラの前方ベクトルを計算
-                Vector3 cameraForward = cameraEntity.transform.rotate * Vector3.forward;
+                originalColor = meshRenderer.color;
+                colorSaved = true;
+            }
 
-                float distance = toTarget.Length();
-                bool inFrustum = false;
-                if (distance > 0.1f)
+            bool inFrustum = IsInScreenFrustum();
+            if (inFrustum)
+            {
+                isCollisionEnabled = true;
+                if (meshRenderer != null)
                 {
-                    toTarget = toTarget.Normalized();
-                    float dot = Vector3.Dot(cameraForward, toTarget);
-                    
-                    // 視野角の半分から閾値を計算
-                    float halfAngleRad = (viewAngle * 0.5f) * Mathf.Deg2Rad;
-                    float threshold = Mathf.Cos(halfAngleRad);
-
-                    if (dot >= threshold)
-                    {
-                        inFrustum = true;
-                    }
+                    meshRenderer.color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f);
                 }
-
-                MeshRenderer meshRenderer = entity.GetComponent<MeshRenderer>();
-                if (meshRenderer != null && !colorSaved)
+            }
+            else
+            {
+                isCollisionEnabled = false;
+                if (meshRenderer != null && colorSaved)
                 {
-                    originalColor = meshRenderer.color;
-                    colorSaved = true;
-                }
-
-                if (inFrustum)
-                {
-                    isCollisionEnabled = true;
-                    if (meshRenderer != null)
-                    {
-                        meshRenderer.color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f);
-                    }
-                }
-                else
-                {
-                    isCollisionEnabled = false;
-                    if (meshRenderer != null && colorSaved)
-                    {
-                        meshRenderer.color = originalColor;
-                    }
+                    meshRenderer.color = originalColor;
                 }
             }
         }
@@ -160,6 +154,13 @@ public class Reinforcement : MonoScript
 
             // 退散速度で移動
             transform.position += retreatVelocity * Time.deltaTime;
+
+            // 退散中にカメラの視野角から外れたら消滅
+            if (!IsInScreenFrustum())
+            {
+                entity.Destroy();
+                return;
+            }
         }
         else
         {
@@ -175,12 +176,56 @@ public class Reinforcement : MonoScript
     public void Retreat()
     {
         // すでに退散中なら何もしない
-        if (isRetreating) { 
+        if (isRetreating) {
             return;
         }
 
         // 退散開始
         isRetreating = true;
-        retreatVelocity = -direction.Normalized() * retreatSpeed;
+
+        // プレイヤーから自分へのベクトル方向に退散
+        Vector3 retreatDir = direction.Normalized(); // fallback
+        if (playerEntity != null)
+        {
+            Vector3 toSelf = transform.position - playerEntity.transform.position;
+            if (toSelf.Length() > 0.001f)
+            {
+                retreatDir = toSelf.Normalized();
+            }
+        }
+        retreatVelocity = retreatDir * retreatSpeed;
+    }
+
+    // =========================================================
+    // ヘルパー
+    // =========================================================
+
+    private bool IsInScreenFrustum()
+    {
+        if (cameraEntity == null) { return false; }
+
+        Vector3 cameraPos = cameraEntity.transform.position;
+        Vector3 toTarget = transform.position - cameraPos;
+        float distance = toTarget.Length();
+        if (distance <= 0.1f) { return true; }
+
+        // カメラのrotationに依存せず、カメラ→プレイヤー方向をカメラforwardとして使う
+        Vector3 cameraForward;
+        if (playerEntity != null)
+        {
+            Vector3 camToPlayer = playerEntity.transform.position - cameraPos;
+            float camToPlayerLen = camToPlayer.Length();
+            cameraForward = camToPlayerLen > 0.001f ? camToPlayer.Normalized() : new Vector3(0, -1, 0);
+        }
+        else
+        {
+            cameraForward = new Vector3(0, -1, 0);
+        }
+
+        toTarget = toTarget.Normalized();
+        float dot = Vector3.Dot(cameraForward, toTarget);
+        float halfAngleRad = (viewAngle * 0.5f) * Mathf.Deg2Rad;
+        float threshold = Mathf.Cos(halfAngleRad);
+        return dot >= threshold;
     }
 }
