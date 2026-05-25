@@ -148,6 +148,7 @@
     <Compile Include="Scripts\Game\UI\ConvertTo2D.cs" />
     <Compile Include="Scripts\Game\UI\UiController.cs" />
     <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
+    <Compile Include="Scripts\Game\Field\Field.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
     <Compile Include="Scripts\Game\StageObject\StartPoint.cs" />

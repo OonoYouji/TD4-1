@@ -1,3 +1,5 @@
 {
-    "CameraLookAt": {}
+    "CameraLookAt": {
+        "cameraName": "Camera"
+    }
 }
