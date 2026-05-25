@@ -149,7 +149,7 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/player_main.obj",
                     "type": "MeshRenderer"
                 },
                 {
@@ -197,7 +197,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 12,
+            "id": 10,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -247,9 +247,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 13,
+            "id": 11,
             "name": "Field",
-            "parent": 12,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -309,9 +309,9 @@
                 }
             ],
             "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 4,
+            "id": 12,
             "name": "Wall",
-            "parent": 12,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -371,9 +371,9 @@
                 }
             ],
             "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 5,
+            "id": 13,
             "name": "Wall_1",
-            "parent": 12,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -433,9 +433,9 @@
                 }
             ],
             "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 6,
+            "id": 4,
             "name": "Wall_2",
-            "parent": 12,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -495,9 +495,9 @@
                 }
             ],
             "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 7,
+            "id": 5,
             "name": "Wall_3",
-            "parent": 12,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -550,12 +550,12 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Assets/Models/objects/PlayerLeftHand/PlayerLeftHand.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/player_arm.obj",
                     "type": "MeshRenderer"
                 }
             ],
             "guid": "579981716c2ed68722d2f19edfd5a6d9",
-            "id": 8,
+            "id": 6,
             "name": "PlayerLeftArm",
             "parent": 3,
             "prefabName": ""
@@ -566,20 +566,20 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -0.09999366104602814,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": -0.0999755859375,
+                        "y": -7.152557373046875e-07,
+                        "z": 2.288818359375e-05
                     },
                     "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -1.1920928955078125e-07,
-                        "z": 0.0
+                        "w": 0.651160478591919,
+                        "x": -0.614047646522522,
+                        "y": -0.3244968354701996,
+                        "z": -0.3060021698474884
                     },
                     "scale": {
-                        "x": 12.0,
-                        "y": 2.0000007152557373,
-                        "z": 2.0000007152557373
+                        "x": 12.000067710876465,
+                        "y": 2.000006675720215,
+                        "z": 2.000006675720215
                     },
                     "type": "Transform"
                 },
@@ -610,12 +610,12 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/player_arm.obj",
                     "type": "MeshRenderer"
                 }
             ],
             "guid": "d6dd606f1455423aa2fca05e7d833049",
-            "id": 9,
+            "id": 7,
             "name": "PlayerRightArm",
             "parent": 3,
             "prefabName": ""
@@ -670,12 +670,12 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Assets/Models/Entity/player.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/player_gun.obj",
                     "type": "MeshRenderer"
                 }
             ],
             "guid": "2ea23374f0f7bababe842574acacad6f",
-            "id": 10,
+            "id": 8,
             "name": "PlayerLeftBulletMuzzle",
             "parent": 3,
             "prefabName": ""
@@ -730,12 +730,12 @@
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1
                     },
-                    "meshPath": "./Assets/Models/Entity/player.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/player_gun.obj",
                     "type": "MeshRenderer"
                 }
             ],
             "guid": "c7b59103f369698bf6c815a21483876b",
-            "id": 11,
+            "id": 9,
             "name": "PlayerRightBulletMuzzle",
             "parent": 3,
             "prefabName": ""
@@ -797,7 +797,7 @@
                     "categoryBits": 1,
                     "enable": 1,
                     "maskBits": 4294967295,
-                    "radius": 1.0,
+                    "radius": 3.4000000953674316,
                     "state": "Dynamic",
                     "type": "SphereCollider"
                 }
