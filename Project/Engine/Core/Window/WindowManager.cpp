@@ -14,8 +14,16 @@ using namespace ONEngine;
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND _hwnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
 
 
-namespace {
-	WindowManager* gWindowManager = nullptr;
+static WindowManager* gWindowManager = nullptr;
+
+WindowManager* WindowManager::GetInstance() {
+	return gWindowManager;
+}
+
+void ONEngine::InternalGetWindowSize(Vector2* _size) {
+	if(_size && gWindowManager && gWindowManager->GetMainWindow()) {
+		*_size = gWindowManager->GetMainWindow()->GetWindowSize();
+	}
 }
 
 LRESULT WindowManager::MainWindowProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam) {

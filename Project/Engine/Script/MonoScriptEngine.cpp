@@ -131,6 +131,7 @@ void MonoScriptEngine::RegisterFunctions() {
 	/// 他のクラスの関数も登録
 	AddInputInternalCalls();
 	AddSceneInternalCalls();
+	AddWindowInternalCalls();
 	ComponentApplyFuncs::Initialize(image_);
 
 	// データ同期用のC#メソッドを取得

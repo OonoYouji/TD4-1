@@ -43,10 +43,18 @@ public:
 		kVector2,
 		kVector3,
 		kVector4,
+		kIntList,
+		kFloatList,
+		kBoolList,
+		kStringList,
+		kVector3List,
 		Unknown
 	};
 
-	using Var = std::variant<int, float, bool, std::string, Vector2, Vector3, Vector4>;
+	using Var = std::variant<
+		int, float, bool, std::string, Vector2, Vector3, Vector4,
+		std::vector<int>, std::vector<float>, std::vector<bool>, std::vector<std::string>, std::vector<Vector3>
+	>;
 
 
 	/// @brief 変数のグループ、スクリプトごとに使用する予定
