@@ -1,0 +1,43 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 5.0, "y": 5.0, "z": 5.0 },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossAI"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": { "w": 1.0, "x": 0.2, "y": 0.2, "z": 0.2 },
+                "postEffectFlags": 1
+            },
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "type": "MeshRenderer"
+        },
+        {
+            "enable": 1,
+            "currentHp": 1000,
+            "maxHp": 1000,
+            "type": "HPComponent"
+        }
+    ],
+    "guid": "b055b055b055b055b055b055b055b055",
+    "name": "Boss",
+    "prefabName": "Boss"
+}

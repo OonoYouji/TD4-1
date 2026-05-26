@@ -7,16 +7,13 @@
                     "enable": 1,
                     "farClip": 1000.0,
                     "fogColor": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "w": 1.0,
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
                     },
-                    "fogEnd": 10000000.0,
-                    "fogStart": 0.0,
-                    "fovY": 0.699999988079071,
-                    "isDrawFrustum": false,
-                    "isMainCamera": true,
-                    "nearClip": 0.10000000149011612,
+                    "fov": 45.0,
+                    "nearClip": 0.1,
                     "type": "CameraComponent"
                 },
                 {
@@ -24,12 +21,12 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 0.0,
-                        "y": 2.5,
-                        "z": -7.0
+                        "y": 20.0,
+                        "z": -20.0
                     },
                     "rotate": {
-                        "w": 0.9800000190734863,
-                        "x": 0.18000000715255737,
+                        "w": 0.9238795042037964,
+                        "x": 0.3826834559440613,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -39,22 +36,9 @@
                         "z": 1.0
                     },
                     "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "Test"
-                        }
-                    ],
-                    "type": "Script"
                 }
             ],
-            "guid": "408d26d2a00e152eaf70f26aebf335d9",
+            "guid": "c018251e6005d871788771960965f3f4",
             "id": 1,
             "name": "Camera",
             "parent": null,
@@ -63,22 +47,6 @@
         {
             "components": [
                 {
-                    "color": {
-                        "w": 1.0,
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "direction": {
-                        "x": 0.0,
-                        "y": -1.0,
-                        "z": 0.0
-                    },
-                    "enable": 1,
-                    "intensity": 1.0,
-                    "type": "DirectionalLight"
-                },
-                {
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
@@ -98,130 +66,21 @@
                         "z": 1.0
                     },
                     "type": "Transform"
-                },
-                {
-                    "type": "Variables"
                 }
             ],
-            "guid": "167fd93f0163b9fcc1985c5b61b02891",
+            "guid": "80628e93297a73be2e307779d7f02030",
             "id": 2,
-            "name": "Light",
+            "name": "Player",
             "parent": null,
             "prefabName": ""
         },
         {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -30.419275283813477,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "animationScale": 1.0,
-                    "debugJointSize": 0.14000000059604645,
-                    "debugRectSize": 0.10199999809265137,
-                    "enable": 1,
-                    "isPlaying": true,
-                    "meshPath": "./Assets/Models/Knight_Golden_Male.gltf",
-                    "texturePath": "./Packages/Textures/white.png",
-                    "type": "SkinMeshRenderer"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "BossAI"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
+            "components": [],
             "guid": "f63069533965f29774bd19153fe1066e",
             "id": 3,
             "name": "Boss",
             "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "00000000000000000000000000000000",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "fd369134e7918ad09eda17e362fecdc1",
-            "id": 4,
-            "name": "Player",
-            "parent": null,
-            "prefabName": ""
+            "prefabName": "Boss"
         }
     ]
 }
