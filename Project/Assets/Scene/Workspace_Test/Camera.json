@@ -1,3 +1,5 @@
 {
-    "Test": {}
+    "Test": {
+        "testValue": 0.0
+    }
 }

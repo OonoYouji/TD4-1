@@ -2,6 +2,8 @@
 
 /// std
 #include <string>
+#include <list>
+#include <vector>
 
 /// audio
 #include <xaudio2.h>
@@ -66,6 +68,7 @@ private:
 
 	int state_;
 	bool isPlayingRequest_;
+	bool isLoop_ = false;
 
 	/// 再生中の音声ソースリスト
 	std::list<IXAudio2SourceVoice*> sourceVoices_;
@@ -87,6 +90,8 @@ public:
 	/// ----- getter ----- ///
 	float GetVolume() const;
 	float GetPitch() const;
+	bool GetLoop() const { return isLoop_; }
+	void SetLoop(bool _loop) { isLoop_ = _loop; }
 	const std::string& GetAudioPath() const;
 	Asset::AudioClip* GetAudioClip() const;
 	int GetState() const;
