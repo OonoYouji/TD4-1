@@ -26,11 +26,16 @@
 #include "Engine/ECS/Component/Components/RendererComponents/Primitive/Line2DRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Primitive/Line3DRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/ScreenPostEffectTag/ScreenPostEffectTag.h"
+#include "Engine/Core/Window/WindowManager.h"
 
 
 using namespace ONEngine;
 using namespace MonoInternalMethods;
 using namespace MonoInternalMethods;
+
+void ONEngine::AddWindowInternalCalls() {
+	mono_add_internal_call("Window::InternalGetSize", (void*)InternalGetWindowSize);
+}
 
 void ONEngine::AddComponentInternalCalls() {
 

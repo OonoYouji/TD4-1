@@ -234,7 +234,7 @@ void ComponentDebug::ScriptDebug(Script* _script) {
 						int type = mono_type_get_type(fieldType);
 
 						if(safeObj) {
-							ShowFiled(type, safeObj, field, fieldName);
+							ShowField(type, safeObj, field, fieldName);
 						} else {
 							Variables* var = entity->GetComponent<Variables>();
 							if (!var) {

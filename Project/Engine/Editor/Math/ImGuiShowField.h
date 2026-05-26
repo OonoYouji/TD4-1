@@ -25,7 +25,7 @@ namespace CSGui {
 /// @param _obj 表示するオブジェクト
 /// @param _field 表示するフィールド
 /// @param _name ImGuiで表示する変数名
-void ShowFiled(int _type, MonoObject* _obj, MonoClassField* _field, const char* _name);
+void ShowField(int _type, MonoObject* _obj, MonoClassField* _field, const char* _name);
 
 /// @brief ImGuiでVariablesコンポーネント経由でC#の[SerializeField]のフィールドを表示する
 /// @param _vars Variablesコンポーネント
@@ -65,6 +65,11 @@ struct BoolField : public ImGuiShowField {
 
 /// @brief stringをImGuiで表示するための構造体
 struct StringField : public ImGuiShowField {
+	void Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) override;
+};
+
+/// @brief ListをImGuiで表示するための構造体
+struct ListField : public ImGuiShowField {
 	void Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) override;
 };
 

@@ -5,9 +5,12 @@
 #include <mono/metadata/attrdefs.h>
 #include <mono/metadata/appdomain.h> ///< mono_domain_get のため追加
 #include <mono/metadata/class.h>     ///< mono_class_vtable 等のため追加
+#include <mono/metadata/blob.h>
+#include <mono/metadata/loader.h>
 
 /// std
 #include <vector>
+#include <format>
 
 /// engine
 #include "Engine/Core/Utility/Utility.h"
@@ -33,6 +36,9 @@ void RegisterFieldDrawers() {
 	/// Enum型のドロワーを登録
 	gFieldDrawers[MONO_TYPE_ENUM] = std::make_unique<CSGui::EnumField>();
 
+	/// List型のドロワーを登録
+	gFieldDrawers[MONO_TYPE_GENERICINST] = std::make_unique<CSGui::ListField>();
+
 	// 他の型も同様に登録
 	ONEngine::Console::Log("Field drawers registered.");
 }
@@ -40,7 +46,7 @@ void RegisterFieldDrawers() {
 } /// namespace
 
 
-void CSGui::ShowFiled(int _type, MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::ShowField(int _type, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	if(gFieldDrawers.empty()) {
 		RegisterFieldDrawers();  ///< 初回呼び出し時にフィールドドロワーを登録
 	}
@@ -66,9 +72,48 @@ void CSGui::ShowFieldForVariables(ONEngine::Variables* _vars, const std::string&
 
 	switch(_type) {
 	case MONO_TYPE_I4:
+	case MONO_TYPE_ENUM:
 	{
 		if(!group.Has(_name)) group.Add(_name, 0);
 		int value = group.Get<int>(_name);
+
+		if(_type == MONO_TYPE_ENUM) {
+			MonoType* fieldType = mono_field_get_type(_field);
+			MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
+
+			void* iter = nullptr;
+			MonoClassField* enumField;
+			std::vector<std::string> names;
+			std::vector<int> values;
+			int currentIndex = 0;
+			int i = 0;
+
+			MonoDomain* domain = mono_domain_get();
+			MonoVTable* vtable = mono_class_vtable(domain, fieldClass);
+
+			while((enumField = mono_class_get_fields(fieldClass, &iter)) != nullptr) {
+				uint32_t flags = mono_field_get_flags(enumField);
+				if(flags & MONO_FIELD_ATTR_STATIC) {
+					names.push_back(mono_field_get_name(enumField));
+					int val = 0;
+					if(vtable) mono_field_static_get_value(vtable, enumField, &val);
+					else mono_field_get_value(nullptr, enumField, &val);
+					values.push_back(val);
+					if(val == value) currentIndex = i;
+					i++;
+				}
+			}
+
+			if(!names.empty()) {
+				std::vector<const char*> namePtrs;
+				for(const auto& str : names) namePtrs.push_back(str.c_str());
+				if(ImGui::Combo(_name, &currentIndex, namePtrs.data(), static_cast<int>(namePtrs.size()))) {
+					group.Add(_name, values[currentIndex]);
+				}
+				break;
+			}
+		}
+
 		if(ImGui::DragInt(_name, &value)) group.Add(_name, value);
 		break;
 	}
@@ -99,6 +144,43 @@ void CSGui::ShowFieldForVariables(ONEngine::Variables* _vars, const std::string&
 		MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
 		const char* className = mono_class_get_name(fieldClass);
 
+		if(mono_class_is_enum(fieldClass)) {
+			if(!group.Has(_name)) group.Add(_name, 0);
+			int value = group.Get<int>(_name);
+
+			void* iter = nullptr;
+			MonoClassField* enumField;
+			std::vector<std::string> names;
+			std::vector<int> values;
+			int currentIndex = 0;
+			int i = 0;
+
+			MonoDomain* domain = mono_domain_get();
+			MonoVTable* vtable = mono_class_vtable(domain, fieldClass);
+
+			while((enumField = mono_class_get_fields(fieldClass, &iter)) != nullptr) {
+				uint32_t flags = mono_field_get_flags(enumField);
+				if(flags & MONO_FIELD_ATTR_STATIC) {
+					names.push_back(mono_field_get_name(enumField));
+					int val = 0;
+					if(vtable) mono_field_static_get_value(vtable, enumField, &val);
+					else mono_field_get_value(nullptr, enumField, &val);
+					values.push_back(val);
+					if(val == value) currentIndex = i;
+					i++;
+				}
+			}
+
+			if(!names.empty()) {
+				std::vector<const char*> namePtrs;
+				for(const auto& str : names) namePtrs.push_back(str.c_str());
+				if(ImGui::Combo(_name, &currentIndex, namePtrs.data(), static_cast<int>(namePtrs.size()))) {
+					group.Add(_name, values[currentIndex]);
+				}
+				break;
+			}
+		}
+
 		if(strcmp(className, "Vector2") == 0) {
 			if(!group.Has(_name)) group.Add(_name, ONEngine::Vector2::Zero);
 			ONEngine::Vector2 value = group.Get<ONEngine::Vector2>(_name);
@@ -112,6 +194,91 @@ void CSGui::ShowFieldForVariables(ONEngine::Variables* _vars, const std::string&
 			ONEngine::Vector4 value = group.Get<ONEngine::Vector4>(_name);
 			if(ImGui::DragFloat4(_name, &value.x)) group.Add(_name, value);
 		}
+		break;
+	}
+	case MONO_TYPE_GENERICINST:
+	{
+		ImGui::PushID(_name);
+
+		MonoType* fieldType = mono_field_get_type(_field);
+		MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
+		if (strcmp(mono_class_get_name(fieldClass), "List`1") != 0) {
+			ImGui::PopID();
+			break;
+		}
+
+		MonoMethod* getItemMethod = mono_class_get_method_from_name(fieldClass, "get_Item", 1);
+
+		// 型引数の取得
+		MonoMethodSignature* sig = mono_method_signature(getItemMethod);
+		MonoType* elemType = mono_signature_get_return_type(sig);
+		int elemTypeId = mono_type_get_type(elemType);
+
+		if (ImGui::CollapsingHeader(_name)) {
+			ImGui::Indent();
+			if (elemTypeId == MONO_TYPE_I4) {
+				if (!group.Has(_name)) group.Add(_name, std::vector<int>());
+				auto& list = std::get<std::vector<int>>(const_cast<ONEngine::Variables::Var&>(group.Get(_name)));
+				int size = static_cast<int>(list.size());
+				if (ImGui::InputInt("Size", &size)) {
+					if (size < 0) size = 0;
+					list.resize(size);
+				}
+				for (int i = 0; i < static_cast<int>(list.size()); ++i) {
+					ImGui::DragInt(std::format("[{}]", i).c_str(), &list[i]);
+				}
+			} else if (elemTypeId == MONO_TYPE_R4) {
+				if (!group.Has(_name)) group.Add(_name, std::vector<float>());
+				auto& list = std::get<std::vector<float>>(const_cast<ONEngine::Variables::Var&>(group.Get(_name)));
+				int size = static_cast<int>(list.size());
+				if (ImGui::InputInt("Size", &size)) {
+					if (size < 0) size = 0;
+					list.resize(size);
+				}
+				for (int i = 0; i < static_cast<int>(list.size()); ++i) {
+					ImGui::DragFloat(std::format("[{}]", i).c_str(), &list[i]);
+				}
+			} else if (elemTypeId == MONO_TYPE_BOOLEAN) {
+				if (!group.Has(_name)) group.Add(_name, std::vector<bool>());
+				auto& list = std::get<std::vector<bool>>(const_cast<ONEngine::Variables::Var&>(group.Get(_name)));
+				int size = static_cast<int>(list.size());
+				if (ImGui::InputInt("Size", &size)) {
+					if (size < 0) size = 0;
+					list.resize(size);
+				}
+				for (int i = 0; i < static_cast<int>(list.size()); ++i) {
+					bool b = list[i];
+					if (ImGui::Checkbox(std::format("[{}]", i).c_str(), &b)) list[i] = b;
+				}
+			} else if (elemTypeId == MONO_TYPE_STRING) {
+				if (!group.Has(_name)) group.Add(_name, std::vector<std::string>());
+				auto& list = std::get<std::vector<std::string>>(const_cast<ONEngine::Variables::Var&>(group.Get(_name)));
+				int size = static_cast<int>(list.size());
+				if (ImGui::InputInt("Size", &size)) {
+					if (size < 0) size = 0;
+					list.resize(size);
+				}
+				for (int i = 0; i < static_cast<int>(list.size()); ++i) {
+					ImGuiInputText(std::format("[{}]", i).c_str(), &list[i]);
+				}
+			} else if (elemTypeId == MONO_TYPE_VALUETYPE) {
+				MonoClass* elemClass = mono_class_from_mono_type(elemType);
+				if (strcmp(mono_class_get_name(elemClass), "Vector3") == 0) {
+					if (!group.Has(_name)) group.Add(_name, std::vector<ONEngine::Vector3>());
+					auto& list = std::get<std::vector<ONEngine::Vector3>>(const_cast<ONEngine::Variables::Var&>(group.Get(_name)));
+					int size = static_cast<int>(list.size());
+					if (ImGui::InputInt("Size", &size)) {
+						if (size < 0) size = 0;
+						list.resize(size);
+					}
+					for (int i = 0; i < static_cast<int>(list.size()); ++i) {
+						ImGui::DragFloat3(std::format("[{}]", i).c_str(), &list[i].x);
+					}
+				}
+			}
+			ImGui::Unindent();
+		}
+		ImGui::PopID();
 		break;
 	}
 	}
@@ -175,6 +342,95 @@ void CSGui::StringField::Draw(MonoObject* _obj, MonoClassField* _field, const ch
 		MonoString* newStr = mono_string_new(mono_domain_get(), value.c_str());
 		mono_field_set_value(_obj, _field, newStr);
 	}
+}
+
+
+void CSGui::ListField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+	MonoDomain* domain = mono_domain_get();
+	MonoObject* listObj = mono_field_get_value_object(domain, _field, _obj);
+	if(!listObj) {
+		ImGui::Text("%s: (null)", _name);
+		return;
+	}
+
+	ImGui::PushID(_field);
+
+	MonoClass* listClass = mono_object_get_class(listObj);
+	MonoMethod* getCountMethod = mono_class_get_method_from_name(listClass, "get_Count", 0);
+	MonoObject* countObj = mono_runtime_invoke(getCountMethod, listObj, nullptr, nullptr);
+	int count = *(int*)mono_object_unbox(countObj);
+
+	if(ImGui::CollapsingHeader(_name)) {
+		ImGui::Indent();
+
+		MonoMethod* getItemMethod = mono_class_get_method_from_name(listClass, "get_Item", 1);
+		MonoMethod* setItemMethod = mono_class_get_method_from_name(listClass, "set_Item", 2);
+		MonoMethod* addMethod = mono_class_get_method_from_name(listClass, "Add", 1);
+		MonoMethod* removeAtMethod = mono_class_get_method_from_name(listClass, "RemoveAt", 1);
+
+		// 型引数の取得
+		MonoMethodSignature* sig = mono_method_signature(getItemMethod);
+		MonoType* elemType = mono_signature_get_return_type(sig);
+		int elemTypeId = mono_type_get_type(elemType);
+
+		// Size操作
+		int size = count;
+		if(ImGui::InputInt("Size", &size)) {
+			if(size < 0) size = 0;
+			if(size > count) {
+				for(int i = 0; i < size - count; ++i) {
+					// Add default value
+					if(elemTypeId == MONO_TYPE_I4) { int v = 0; void* args[1] = { &v }; mono_runtime_invoke(addMethod, listObj, args, nullptr); }
+					else if(elemTypeId == MONO_TYPE_R4) { float v = 0.0f; void* args[1] = { &v }; mono_runtime_invoke(addMethod, listObj, args, nullptr); }
+					else if(elemTypeId == MONO_TYPE_BOOLEAN) { bool v = false; void* args[1] = { &v }; mono_runtime_invoke(addMethod, listObj, args, nullptr); }
+					else if(elemTypeId == MONO_TYPE_STRING) { MonoString* v = mono_string_new(domain, ""); void* args[1] = { v }; mono_runtime_invoke(addMethod, listObj, args, nullptr); }
+					else if(elemTypeId == MONO_TYPE_VALUETYPE) { 
+						MonoClass* elemClass = mono_class_from_mono_type(elemType);
+						if(strcmp(mono_class_get_name(elemClass), "Vector3") == 0) { ONEngine::Vector3 v = ONEngine::Vector3::Zero; void* args[1] = { &v }; mono_runtime_invoke(addMethod, listObj, args, nullptr); }
+					}
+				}
+			} else if(size < count) {
+				for(int i = 0; i < count - size; ++i) {
+					int idx = size;
+					void* args[1] = { &idx };
+					mono_runtime_invoke(removeAtMethod, listObj, args, nullptr);
+				}
+			}
+			count = size;
+		}
+
+		for(int i = 0; i < count; ++i) {
+			void* getArgs[1] = { &i };
+			MonoObject* itemObj = mono_runtime_invoke(getItemMethod, listObj, getArgs, nullptr);
+			std::string itemName = std::format("[{}]", i);
+
+			if(elemTypeId == MONO_TYPE_I4) {
+				int v = *(int*)mono_object_unbox(itemObj);
+				if(ImGui::DragInt(itemName.c_str(), &v)) { void* setArgs[2] = { &i, &v }; mono_runtime_invoke(setItemMethod, listObj, setArgs, nullptr); }
+			} else if(elemTypeId == MONO_TYPE_R4) {
+				float v = *(float*)mono_object_unbox(itemObj);
+				if(ImGui::DragFloat(itemName.c_str(), &v)) { void* setArgs[2] = { &i, &v }; mono_runtime_invoke(setItemMethod, listObj, setArgs, nullptr); }
+			} else if(elemTypeId == MONO_TYPE_BOOLEAN) {
+				bool v = *(bool*)mono_object_unbox(itemObj);
+				if(ImGui::Checkbox(itemName.c_str(), &v)) { void* setArgs[2] = { &i, &v }; mono_runtime_invoke(setItemMethod, listObj, setArgs, nullptr); }
+			} else if(elemTypeId == MONO_TYPE_STRING) {
+				char* utf8 = mono_string_to_utf8((MonoString*)itemObj);
+				std::string v = utf8;
+				mono_free(utf8);
+				if(ImGuiInputText(itemName.c_str(), &v)) { MonoString* ms = mono_string_new(domain, v.c_str()); void* setArgs[2] = { &i, ms }; mono_runtime_invoke(setItemMethod, listObj, setArgs, nullptr); }
+			} else if(elemTypeId == MONO_TYPE_VALUETYPE) {
+				MonoClass* elemClass = mono_class_from_mono_type(elemType);
+				if(strcmp(mono_class_get_name(elemClass), "Vector3") == 0) {
+					ONEngine::Vector3 v = *(ONEngine::Vector3*)mono_object_unbox(itemObj);
+					if(ImGui::DragFloat3(itemName.c_str(), &v.x)) { void* setArgs[2] = { &i, &v }; mono_runtime_invoke(setItemMethod, listObj, setArgs, nullptr); }
+				}
+			}
+		}
+
+		ImGui::Unindent();
+	}
+
+	ImGui::PopID();
 }
 
 

@@ -3,10 +3,18 @@
 /// std
 #include <fstream>
 #include <filesystem>
+#include <format>
+#include <vector>
+#include <variant>
 
 /// external
 #include <imgui.h>
 #include <Externals/imgui/dialog/ImGuiFileDialog.h>
+#include <mono/metadata/appdomain.h>
+#include <mono/metadata/blob.h>
+#include <mono/metadata/loader.h>
+#include <mono/metadata/object.h>
+#include <mono/metadata/class.h>
 
 /// engine
 #include "Engine/Core/Utility/Math/Math.h"
@@ -97,7 +105,26 @@ void Variables::LoadJson(const std::string& _path) {
 			/// ---------------------------------------------------
 			/// 変数の型をチェックして追加
 			/// ---------------------------------------------------
-			if (varValue.is_number_integer()) {
+			if (varValue.is_array()) {
+				if (varValue.empty()) {
+					// 空の配列の場合は一旦intのリストとして扱う（後で型が判明した時に上書きされる想定）
+					group.Add(varKey, std::vector<int>());
+				} else {
+					if (varValue[0].is_number_integer()) {
+						group.Add(varKey, varValue.get<std::vector<int>>());
+					} else if (varValue[0].is_number_float()) {
+						group.Add(varKey, varValue.get<std::vector<float>>());
+					} else if (varValue[0].is_boolean()) {
+						group.Add(varKey, varValue.get<std::vector<bool>>());
+					} else if (varValue[0].is_string()) {
+						group.Add(varKey, varValue.get<std::vector<std::string>>());
+					} else if (IsVectorN(varValue[0], 3)) {
+						std::vector<Vector3> vecs;
+						for (const auto& v : varValue) vecs.push_back(v);
+						group.Add(varKey, vecs);
+					}
+				}
+			} else if (varValue.is_number_integer()) {
 				/// ----- int ----- ///
 				group.Add(varKey, varValue.get<int>());
 			} else if (varValue.is_number_float()) {
@@ -168,6 +195,19 @@ void Variables::SaveJson(const std::string& _path) {
 					json[groupKey][varKey] = _arg;
 				} else if constexpr (std::is_same_v<T, Vector4>) {
 					json[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<int>>) {
+					json[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<float>>) {
+					json[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<bool>>) {
+					json[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+					json[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<Vector3>>) {
+					json[groupKey][varKey] = nlohmann::json::array();
+					for (const auto& v : _arg) {
+						json[groupKey][varKey].push_back(v);
+					}
 				}
 				}, groups_[value].variables[varValue]);
 		}
@@ -232,6 +272,7 @@ void Variables::RegisterScriptVariables() {
 
 				switch (type) {
 				case MONO_TYPE_I4: /// int
+				case MONO_TYPE_ENUM: /// enum
 				{
 					int value = 0;
 					mono_field_get_value(safeObj, field, &value);
@@ -256,8 +297,10 @@ void Variables::RegisterScriptVariables() {
 				{
 					MonoString* monoStr = nullptr;
 					mono_field_get_value(safeObj, field, &monoStr);
-					std::string value = mono_string_to_utf8(monoStr);
-					group.Add(fieldName, value);
+					if (monoStr) {
+						std::string value = mono_string_to_utf8(monoStr);
+						group.Add(fieldName, value);
+					}
 				}
 				break;
 				case MONO_TYPE_VALUETYPE: /// 構造体
@@ -265,7 +308,12 @@ void Variables::RegisterScriptVariables() {
 					MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
 					const char* className = mono_class_get_name(fieldClass);
 
-					if (strcmp(className, "Vector2") == 0) {
+					if (mono_class_is_enum(fieldClass)) {
+						int value = 0;
+						mono_field_get_value(safeObj, field, &value);
+						group.Add(fieldName, value);
+
+					} else if (strcmp(className, "Vector2") == 0) {
 						// Vector2
 						Vector2 vec2;
 						mono_field_get_value(safeObj, field, &vec2);
@@ -283,6 +331,71 @@ void Variables::RegisterScriptVariables() {
 						mono_field_get_value(safeObj, field, &vec4);
 						group.Add(fieldName, vec4);
 
+					}
+				}
+				break;
+				case MONO_TYPE_GENERICINST:
+				{
+					MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+					if (!listObj) break;
+
+					MonoClass* listClass = mono_object_get_class(listObj);
+					if (strcmp(mono_class_get_name(listClass), "List`1") != 0) break;
+
+					MonoMethod* getCountMethod = mono_class_get_method_from_name(listClass, "get_Count", 0);
+					MonoObject* countObj = mono_runtime_invoke(getCountMethod, listObj, nullptr, nullptr);
+					int count = *(int*)mono_object_unbox(countObj);
+
+					MonoMethod* getItemMethod = mono_class_get_method_from_name(listClass, "get_Item", 1);
+
+					// 型引数の取得
+					MonoMethodSignature* sig = mono_method_signature(getItemMethod);
+					MonoType* elemType = mono_signature_get_return_type(sig);
+					int elemTypeId = mono_type_get_type(elemType);
+
+					if (elemTypeId == MONO_TYPE_I4) {
+						std::vector<int> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							list[i] = *(int*)mono_object_unbox(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_R4) {
+						std::vector<float> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							list[i] = *(float*)mono_object_unbox(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_BOOLEAN) {
+						std::vector<bool> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							list[i] = *(bool*)mono_object_unbox(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_STRING) {
+						std::vector<std::string> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoString* item = (MonoString*)mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							if (item) list[i] = mono_string_to_utf8(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_VALUETYPE) {
+						MonoClass* elemClass = mono_class_from_mono_type(elemType);
+						if (strcmp(mono_class_get_name(elemClass), "Vector3") == 0) {
+							std::vector<Vector3> list(count);
+							for (int i = 0; i < count; ++i) {
+								void* args[1] = { &i };
+								MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+								list[i] = *(Vector3*)mono_object_unbox(item);
+							}
+							group.Add(fieldName, list);
+						}
 					}
 				}
 				break;
@@ -335,6 +448,7 @@ void Variables::ReloadScriptVariables() {
 
 				switch (type) {
 				case MONO_TYPE_I4: /// int
+				case MONO_TYPE_ENUM: /// enum
 				{
 					int value = 0;
 					mono_field_get_value(safeObj, field, &value);
@@ -370,7 +484,12 @@ void Variables::ReloadScriptVariables() {
 					MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
 					const char* className = mono_class_get_name(fieldClass);
 
-					if (strcmp(className, "Vector2") == 0) {
+					if (mono_class_is_enum(fieldClass)) {
+						int value = 0;
+						mono_field_get_value(safeObj, field, &value);
+						group.Add(fieldName, value);
+
+					} else if (strcmp(className, "Vector2") == 0) {
 						Vector2 vec2;
 						mono_field_get_value(safeObj, field, &vec2);
 						group.Add(fieldName, vec2);
@@ -382,6 +501,71 @@ void Variables::ReloadScriptVariables() {
 						Vector4 vec4;
 						mono_field_get_value(safeObj, field, &vec4);
 						group.Add(fieldName, vec4);
+					}
+				}
+				break;
+				case MONO_TYPE_GENERICINST:
+				{
+					MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+					if (!listObj) break;
+
+					MonoClass* listClass = mono_object_get_class(listObj);
+					if (strcmp(mono_class_get_name(listClass), "List`1") != 0) break;
+
+					MonoMethod* getCountMethod = mono_class_get_method_from_name(listClass, "get_Count", 0);
+					MonoObject* countObj = mono_runtime_invoke(getCountMethod, listObj, nullptr, nullptr);
+					int count = *(int*)mono_object_unbox(countObj);
+
+					MonoMethod* getItemMethod = mono_class_get_method_from_name(listClass, "get_Item", 1);
+
+					// 型引数の取得
+					MonoMethodSignature* sig = mono_method_signature(getItemMethod);
+					MonoType* elemType = mono_signature_get_return_type(sig);
+					int elemTypeId = mono_type_get_type(elemType);
+
+					if (elemTypeId == MONO_TYPE_I4) {
+						std::vector<int> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							list[i] = *(int*)mono_object_unbox(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_R4) {
+						std::vector<float> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							list[i] = *(float*)mono_object_unbox(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_BOOLEAN) {
+						std::vector<bool> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							list[i] = *(bool*)mono_object_unbox(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_STRING) {
+						std::vector<std::string> list(count);
+						for (int i = 0; i < count; ++i) {
+							void* args[1] = { &i };
+							MonoString* item = (MonoString*)mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+							if (item) list[i] = mono_string_to_utf8(item);
+						}
+						group.Add(fieldName, list);
+					} else if (elemTypeId == MONO_TYPE_VALUETYPE) {
+						MonoClass* elemClass = mono_class_from_mono_type(elemType);
+						if (strcmp(mono_class_get_name(elemClass), "Vector3") == 0) {
+							std::vector<Vector3> list(count);
+							for (int i = 0; i < count; ++i) {
+								void* args[1] = { &i };
+								MonoObject* item = mono_runtime_invoke(getItemMethod, listObj, args, nullptr);
+								list[i] = *(Vector3*)mono_object_unbox(item);
+							}
+							group.Add(fieldName, list);
+						}
 					}
 				}
 				break;
@@ -471,6 +655,73 @@ void Variables::SetScriptVariables(const std::string& _scriptName) {
 				/// Vector4
 				Vector4 vec4 = std::get<Vector4>(value);
 				mono_field_set_value(safeObj, field, &vec4);
+			} else if (std::holds_alternative<std::vector<int>>(value)) {
+				MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+				if (listObj) {
+					MonoClass* listClass = mono_object_get_class(listObj);
+					MonoMethod* clearMethod = mono_class_get_method_from_name(listClass, "Clear", 0);
+					mono_runtime_invoke(clearMethod, listObj, nullptr, nullptr);
+					MonoMethod* addMethod = mono_class_get_method_from_name(listClass, "Add", 1);
+					auto& list = std::get<std::vector<int>>(value);
+					for (int v : list) {
+						void* args[1] = { &v };
+						mono_runtime_invoke(addMethod, listObj, args, nullptr);
+					}
+				}
+			} else if (std::holds_alternative<std::vector<float>>(value)) {
+				MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+				if (listObj) {
+					MonoClass* listClass = mono_object_get_class(listObj);
+					MonoMethod* clearMethod = mono_class_get_method_from_name(listClass, "Clear", 0);
+					mono_runtime_invoke(clearMethod, listObj, nullptr, nullptr);
+					MonoMethod* addMethod = mono_class_get_method_from_name(listClass, "Add", 1);
+					auto& list = std::get<std::vector<float>>(value);
+					for (float v : list) {
+						void* args[1] = { &v };
+						mono_runtime_invoke(addMethod, listObj, args, nullptr);
+					}
+				}
+			} else if (std::holds_alternative<std::vector<bool>>(value)) {
+				MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+				if (listObj) {
+					MonoClass* listClass = mono_object_get_class(listObj);
+					MonoMethod* clearMethod = mono_class_get_method_from_name(listClass, "Clear", 0);
+					mono_runtime_invoke(clearMethod, listObj, nullptr, nullptr);
+					MonoMethod* addMethod = mono_class_get_method_from_name(listClass, "Add", 1);
+					auto& list = std::get<std::vector<bool>>(value);
+					for (bool v : list) {
+						int bv = v ? 1 : 0;
+						void* args[1] = { &bv };
+						mono_runtime_invoke(addMethod, listObj, args, nullptr);
+					}
+				}
+			} else if (std::holds_alternative<std::vector<std::string>>(value)) {
+				MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+				if (listObj) {
+					MonoClass* listClass = mono_object_get_class(listObj);
+					MonoMethod* clearMethod = mono_class_get_method_from_name(listClass, "Clear", 0);
+					mono_runtime_invoke(clearMethod, listObj, nullptr, nullptr);
+					MonoMethod* addMethod = mono_class_get_method_from_name(listClass, "Add", 1);
+					auto& list = std::get<std::vector<std::string>>(value);
+					for (const auto& v : list) {
+						MonoString* ms = mono_string_new(mono_domain_get(), v.c_str());
+						void* args[1] = { ms };
+						mono_runtime_invoke(addMethod, listObj, args, nullptr);
+					}
+				}
+			} else if (std::holds_alternative<std::vector<Vector3>>(value)) {
+				MonoObject* listObj = mono_field_get_value_object(mono_domain_get(), field, safeObj);
+				if (listObj) {
+					MonoClass* listClass = mono_object_get_class(listObj);
+					MonoMethod* clearMethod = mono_class_get_method_from_name(listClass, "Clear", 0);
+					mono_runtime_invoke(clearMethod, listObj, nullptr, nullptr);
+					MonoMethod* addMethod = mono_class_get_method_from_name(listClass, "Add", 1);
+					auto& list = std::get<std::vector<Vector3>>(value);
+					for (auto v : list) {
+						void* args[1] = { &v };
+						mono_runtime_invoke(addMethod, listObj, args, nullptr);
+					}
+				}
 			}
 		}
 

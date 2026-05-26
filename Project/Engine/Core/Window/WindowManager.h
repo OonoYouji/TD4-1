@@ -51,9 +51,11 @@ public:
 	/// public : method
 	/// ===================================================
 
-	WindowManager(class DxManager* _dxm);
+	WindowManager(DxManager* _dxm);
 	~WindowManager();
 
+	/// @brief Instanceの取得
+	static WindowManager* GetInstance();
 
 	/// @brief 初期化
 	void Initialize();
@@ -154,5 +156,6 @@ private:
 	WindowManager& operator=(WindowManager&&)      = delete;
 };
 
+void InternalGetWindowSize(Vector2* _size);
 
 } /// ONEngine
