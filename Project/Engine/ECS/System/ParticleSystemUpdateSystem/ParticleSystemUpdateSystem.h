@@ -10,6 +10,10 @@ namespace ONEngine {
         ~ParticleSystemUpdateSystem() override = default;
 
         void RuntimeUpdate(class ECSGroup* _ecs) override;
+        void OutsideOfRuntimeUpdate(class ECSGroup* _ecs) override;
+
+    private:
+        void DrawGizmos(class ECSGroup* _ecs);
     };
 
 }

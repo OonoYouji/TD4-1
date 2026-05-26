@@ -2,6 +2,7 @@
 
 #include "../../Interface/IComponent.h"
 #include "ParticleSystemData.h"
+#include "Engine/Core/Utility/Math/Matrix4x4.h"
 
 namespace ONEngine {
 
@@ -14,6 +15,9 @@ namespace ONEngine {
         float remainingLifetime;
         float size;
         float rotation;
+        Color startColor;
+        float startSize;
+        Vector3 baseVelocity;
     };
 
     class ParticleSystem : public IComponent {
@@ -41,6 +45,7 @@ namespace ONEngine {
         ParticleSystemShape shape;
         ParticleSystemColorOverLifetime colorOverLifetime;
         ParticleSystemSizeOverLifetime sizeOverLifetime;
+        ParticleSystemVelocityOverLifetime velocityOverLifetime;
         ParticleSystemRenderer renderer;
 
         // --- CPU Simulation State ---
@@ -48,6 +53,9 @@ namespace ONEngine {
         size_t aliveCount = 0;
         float emitAccumulator = 0.0f;
         std::vector<int> burstCycleCounts; // Track how many times a burst has fired
+
+        Matrix4x4 previousWorldMat;
+        bool hasPreviousWorldMat = false;
 
     private:
         bool isPlaying_ = false;

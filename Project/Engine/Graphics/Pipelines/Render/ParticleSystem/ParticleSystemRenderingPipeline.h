@@ -29,9 +29,9 @@ class ParticleSystemRenderingPipeline : public IRenderingPipeline {
 
     enum ROOT_PARAM {
         CBV_VIEW_PROJECTION,
-        SRV_PARTICLES,
         CBV_CAMERA_DATA,
         CBV_INSTANCE_OFFSET,
+        SRV_PARTICLES,
         SRV_MATERIALS,
         SRV_TEXTURE_IDS,
         SRV_TEXTURES
@@ -46,6 +46,7 @@ public:
 
 private:
     Asset::AssetCollection* pAssetCollection_ = nullptr;
+    DxManager* pDxManager_ = nullptr;
     
     ConstantBuffer<CameraData> cameraDataBuffer_;
     ConstantBuffer<InstanceOffset> instanceOffsetBuffer_;

@@ -11,8 +11,9 @@ namespace ONEngine {
 
     enum class MinMaxState : uint8_t {
         Constant,
-        RandomBetweenTwoConstants
-        // Future: Curve, RandomBetweenTwoCurves
+        RandomBetweenTwoConstants,
+        Curve,
+        RandomBetweenTwoCurves
     };
 
     struct MinMaxFloat {
@@ -20,6 +21,7 @@ namespace ONEngine {
         float constant;
         float minVal;
         float maxVal;
+        // AnimationCurve curve; // Future
 
         MinMaxFloat() : state(MinMaxState::Constant), constant(0.0f), minVal(0.0f), maxVal(1.0f) {}
         MinMaxFloat(float _c) : state(MinMaxState::Constant), constant(_c), minVal(0.0f), maxVal(1.0f) {}
@@ -35,6 +37,45 @@ namespace ONEngine {
         MinMaxColor() : state(MinMaxState::Constant), constant(Color::kWhite), minVal(Color::kWhite), maxVal(Color::kWhite) {}
         MinMaxColor(const Color& _c) : state(MinMaxState::Constant), constant(_c), minVal(Color::kWhite), maxVal(Color::kWhite) {}
         MinMaxColor(const Color& _min, const Color& _max) : state(MinMaxState::RandomBetweenTwoConstants), constant(Color::kWhite), minVal(_min), maxVal(_max) {}
+    };
+
+    struct GradientColorKey {
+        Color color;
+        float time;
+    };
+    struct GradientAlphaKey {
+        float alpha;
+        float time;
+    };
+    struct ParticleSystemGradient {
+        std::vector<GradientColorKey> colorKeys;
+        std::vector<GradientAlphaKey> alphaKeys;
+
+        Color Evaluate(float time) const;
+    };
+
+    struct AnimationCurveKey {
+        float time;
+        float value;
+    };
+    struct AnimationCurve {
+        std::vector<AnimationCurveKey> keys;
+        float Evaluate(float time) const;
+    };
+
+    struct MinMaxGradient {
+        MinMaxState state = MinMaxState::Constant;
+        ParticleSystemGradient gradient;
+        ParticleSystemGradient gradientMin;
+        ParticleSystemGradient gradientMax;
+    };
+
+    struct MinMaxCurve {
+        MinMaxState state = MinMaxState::Constant;
+        float constant = 1.0f;
+        AnimationCurve curve;
+        AnimationCurve curveMin;
+        AnimationCurve curveMax;
     };
 
     // --- Modules ---
@@ -94,15 +135,27 @@ namespace ONEngine {
         Vector3 boxScale = { 1.0f, 1.0f, 1.0f };
     };
 
-    // Placeholder for modules that will be implemented in later phases
     struct ParticleSystemColorOverLifetime {
         bool enabled = false;
-        // MinMaxGradient color;
+        MinMaxGradient color;
     };
 
     struct ParticleSystemSizeOverLifetime {
         bool enabled = false;
-        // MinMaxCurve size;
+        MinMaxCurve size;
+    };
+
+    struct ParticleSystemVelocityOverLifetime {
+        bool enabled = false;
+        MinMaxCurve x;
+        MinMaxCurve y;
+        MinMaxCurve z;
+        MinMaxCurve speedModifier;
+        SimulationSpace space = SimulationSpace::Local;
+
+        ParticleSystemVelocityOverLifetime() {
+            speedModifier.constant = 1.0f;
+        }
     };
 
     struct ParticleSystemRenderer {

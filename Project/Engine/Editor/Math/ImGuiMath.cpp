@@ -49,7 +49,7 @@ void DrawMinMaxFloat(const char* label, ONEngine::MinMaxFloat& val) {
     if (val.state == ONEngine::MinMaxState::Constant) {
         ImGui::SetNextItemWidth(itemWidth);
         ImGui::DragFloat("##constant", &val.constant, 0.1f);
-    } else {
+    } else if (val.state == ONEngine::MinMaxState::RandomBetweenTwoConstants) {
         ImGui::SetNextItemWidth(itemWidth * 0.45f);
         ImGui::DragFloat("##min", &val.minVal, 0.1f);
         ImGui::SameLine();
@@ -94,7 +94,7 @@ void DrawMinMaxColor(const char* label, ONEngine::MinMaxColor& val) {
             val.constant.b = editColor.z;
             val.constant.a = editColor.w;
         }
-    } else {
+    } else if (val.state == ONEngine::MinMaxState::RandomBetweenTwoConstants) {
         ONEngine::Vector4 cmin;
         cmin.x = val.minVal.r; cmin.y = val.minVal.g; cmin.z = val.minVal.b; cmin.w = val.minVal.a;
         ONEngine::Vector4 cmax;
@@ -130,6 +130,136 @@ void DrawMinMaxColor(const char* label, ONEngine::MinMaxColor& val) {
     ImGui::PopID();
 }
 
+void DrawGradient(const char* label, ONEngine::ParticleSystemGradient& gradient) {
+    if (ImGui::TreeNode(label)) {
+        if (ImGui::Button("+ Color Key")) gradient.colorKeys.push_back({ Color::kWhite, 1.0f });
+        for (size_t i = 0; i < gradient.colorKeys.size(); ++i) {
+            ImGui::PushID((int)i);
+            ONEngine::Vector4 col = { gradient.colorKeys[i].color.r, gradient.colorKeys[i].color.g, gradient.colorKeys[i].color.b, 1.0f };
+            if (ImGui::ColorEdit3("##col", &col.x)) {
+                gradient.colorKeys[i].color.r = col.x; gradient.colorKeys[i].color.g = col.y; gradient.colorKeys[i].color.b = col.z;
+            }
+            ImGui::SameLine(); ImGui::DragFloat("Time", &gradient.colorKeys[i].time, 0.01f, 0.0f, 1.0f);
+            ImGui::SameLine(); if (ImGui::Button("x")) { gradient.colorKeys.erase(gradient.colorKeys.begin() + i); ImGui::PopID(); break; }
+            ImGui::PopID();
+        }
+        if (ImGui::Button("+ Alpha Key")) gradient.alphaKeys.push_back({ 1.0f, 1.0f });
+        for (size_t i = 0; i < gradient.alphaKeys.size(); ++i) {
+            ImGui::PushID((int)i + 1000);
+            ImGui::DragFloat("Alpha", &gradient.alphaKeys[i].alpha, 0.01f, 0.0f, 1.0f);
+            ImGui::SameLine(); ImGui::DragFloat("Time", &gradient.alphaKeys[i].time, 0.01f, 0.0f, 1.0f);
+            ImGui::SameLine(); if (ImGui::Button("x")) { gradient.alphaKeys.erase(gradient.alphaKeys.begin() + i); ImGui::PopID(); break; }
+            ImGui::PopID();
+        }
+        ImGui::TreePop();
+    }
+}
+
+void DrawMinMaxGradient(const char* label, ONEngine::MinMaxGradient& val) {
+    ImGui::PushID(label);
+    ImGui::TextUnformatted(label);
+    ImGui::SameLine(ImGui::GetWindowWidth() * 0.4f);
+
+    if (val.state == ONEngine::MinMaxState::Constant || val.state == ONEngine::MinMaxState::Curve) {
+        DrawGradient("Gradient", val.gradient);
+    } else {
+        DrawGradient("Min Gradient", val.gradientMin);
+        DrawGradient("Max Gradient", val.gradientMax);
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("v", ImVec2(20, 0))) ImGui::OpenPopup("MinMaxPopup");
+    if (ImGui::BeginPopup("MinMaxPopup")) {
+        if (ImGui::MenuItem("Gradient", nullptr, val.state == ONEngine::MinMaxState::Constant)) val.state = ONEngine::MinMaxState::Constant;
+        if (ImGui::MenuItem("Random Between Two Gradients", nullptr, val.state == ONEngine::MinMaxState::RandomBetweenTwoCurves)) val.state = ONEngine::MinMaxState::RandomBetweenTwoCurves;
+        ImGui::EndPopup();
+    }
+    ImGui::PopID();
+}
+
+void DrawCurve(const char* label, ONEngine::AnimationCurve& curve) {
+    if (ImGui::TreeNode(label)) {
+        if (ImGui::Button("+ Key")) curve.keys.push_back({ 1.0f, 1.0f });
+        for (size_t i = 0; i < curve.keys.size(); ++i) {
+            ImGui::PushID((int)i);
+            ImGui::DragFloat("Time", &curve.keys[i].time, 0.01f, 0.0f, 1.0f); ImGui::SameLine();
+            ImGui::DragFloat("Value", &curve.keys[i].value, 0.01f);
+            ImGui::SameLine(); if (ImGui::Button("x")) { curve.keys.erase(curve.keys.begin() + i); ImGui::PopID(); break; }
+            ImGui::PopID();
+        }
+        ImGui::TreePop();
+    }
+}
+
+void DrawMinMaxCurve(const char* label, ONEngine::MinMaxCurve& val) {
+    ImGui::PushID(label);
+    ImGui::TextUnformatted(label);
+    ImGui::SameLine(ImGui::GetWindowWidth() * 0.4f);
+
+    if (val.state == ONEngine::MinMaxState::Constant) {
+        ImGui::DragFloat("##constant", &val.constant, 0.1f);
+    } else if (val.state == ONEngine::MinMaxState::Curve) {
+        DrawCurve("Curve", val.curve);
+    } else {
+        DrawCurve("Min Curve", val.curveMin);
+        DrawCurve("Max Curve", val.curveMax);
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("v", ImVec2(20, 0))) ImGui::OpenPopup("MinMaxPopup");
+    if (ImGui::BeginPopup("MinMaxPopup")) {
+        if (ImGui::MenuItem("Constant", nullptr, val.state == ONEngine::MinMaxState::Constant)) val.state = ONEngine::MinMaxState::Constant;
+        if (ImGui::MenuItem("Curve", nullptr, val.state == ONEngine::MinMaxState::Curve)) val.state = ONEngine::MinMaxState::Curve;
+        if (ImGui::MenuItem("Random Between Two Curves", nullptr, val.state == ONEngine::MinMaxState::RandomBetweenTwoCurves)) val.state = ONEngine::MinMaxState::RandomBetweenTwoCurves;
+        ImGui::EndPopup();
+    }
+    ImGui::PopID();
+}
+
+void DrawAssetGuidField(const char* label, std::string& guidStr, ONEngine::Asset::AssetType targetType) {
+    ImGui::PushID(label);
+    ImGui::TextUnformatted(label);
+    ImGui::SameLine(ImGui::GetWindowWidth() * 0.4f);
+
+    float itemWidth = ImGui::GetContentRegionAvail().x;
+    
+    std::string displayStr = guidStr;
+    if (displayStr.empty()) displayStr = "(None)";
+    else {
+        auto* assetCollection = Asset::AssetCollection::GetInstance();
+        if (assetCollection) {
+            Guid guid = Guid::FromString(guidStr);
+            if (targetType == Asset::AssetType::Texture) displayStr = assetCollection->GetAssetPath<Asset::Texture>(guid);
+            else if (targetType == Asset::AssetType::Mesh) displayStr = assetCollection->GetAssetPath<Asset::Model>(guid);
+            else if (targetType == Asset::AssetType::Material) {
+                displayStr = assetCollection->GetAssetPath<Asset::Material>(guid);
+                if (displayStr.empty()) displayStr = assetCollection->GetAssetPath<Asset::Texture>(guid); // Fallback to texture path
+            }
+        }
+    }
+
+    ImGui::SetNextItemWidth(itemWidth);
+    if (ImGui::Selectable(displayStr.c_str(), false, ImGuiSelectableFlags_None, ImVec2(itemWidth, 0))) {
+    }
+
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+            AssetPayload* assetPayload = *static_cast<AssetPayload**>(payload->Data);
+            Asset::AssetType droppedType = ONEngine::Asset::GetAssetTypeFromExtension(ONEngine::FileSystem::FileExtension(assetPayload->filePath));
+            
+            bool isCompatible = (droppedType == targetType);
+            if (targetType == Asset::AssetType::Material && droppedType == Asset::AssetType::Texture) isCompatible = true;
+            if (targetType == Asset::AssetType::Mesh && droppedType == Asset::AssetType::Mesh) isCompatible = true; // For mesh, .obj/.gltf are Mesh type
+            
+            if (isCompatible) {
+                guidStr = assetPayload->guid.ToString();
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+    ImGui::PopID();
+}
+
 }	/// unnamed namespace
 
 ImVec4 ImMathf::ToImVec4(const ONEngine::Vector4& _vec) {
@@ -152,6 +282,14 @@ bool ImMathf::InputText(const char* _label, std::string* _text, ImGuiInputTextFl
 
 bool ImMathf::InputFloat(const char* _label, float* _v, float _step, float _step_fast, const char* _format, ImGuiInputTextFlags _flags) {
 	return ImGui::InputFloat(_label, _v, _step, _step_fast, _format, _flags);
+}
+
+bool ImMathf::DragFloat(const char* _label, float* _v, float _speed, float _min, float _max, const char* _format, ImGuiInputTextFlags _flags) {
+	return ImGui::DragFloat(_label, _v, _speed, _min, _max, _format, _flags);
+}
+
+bool ImMathf::DragFloat3(const char* _label, ONEngine::Vector3* _v, float _speed, float _min, float _max, const char* _format, ImGuiInputTextFlags _flags) {
+	return ImGui::DragFloat3(_label, &_v->x, _speed, _min, _max, _format, _flags);
 }
 
 bool ImMathf::MaterialEdit(const char* _label, ONEngine::GPUMaterial* _material, ONEngine::Asset::AssetCollection* _assetCollection) {
@@ -318,7 +456,19 @@ void ONEngine::EndModuleHeader() {
 void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	if (!_ps) return;
 	if (ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen)) {
-		Editor::ImMathf::InputFloat("Duration", &_ps->main.duration);
+		// --- Playback Controls ---
+		ImGui::Text("Status: %s", _ps->IsPlaying() ? (_ps->IsPaused() ? "Paused" : "Playing") : "Stopped");
+		ImGui::Text("Time: %.2f / %.2f", _ps->GetTime(), _ps->main.duration);
+		ImGui::Text("Alive: %llu / %d", _ps->aliveCount, _ps->main.maxParticles);
+
+		if (ImGui::Button("Play")) _ps->Play(); ImGui::SameLine();
+		if (ImGui::Button("Pause")) _ps->Pause(); ImGui::SameLine();
+		if (ImGui::Button("Stop")) _ps->Stop(); ImGui::SameLine();
+		if (ImGui::Button("Restart")) { _ps->Stop(); _ps->Play(); }
+		
+		ImGui::Separator();
+
+		Editor::ImMathf::DragFloat("Duration", &_ps->main.duration);
 		ImGui::Checkbox("Looping", &_ps->main.looping);
 		ImGui::Checkbox("Prewarm", &_ps->main.prewarm);
 		DrawMinMaxFloat("Start Delay", _ps->main.startDelay);
@@ -327,12 +477,12 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 		DrawMinMaxFloat("Start Size", _ps->main.startSize);
 		DrawMinMaxFloat("Start Rotation", _ps->main.startRotation);
 		DrawMinMaxColor("Start Color", _ps->main.startColor);
-		Editor::ImMathf::InputFloat("Gravity Modifier", &_ps->main.gravityModifier);
+		Editor::ImMathf::DragFloat("Gravity Modifier", &_ps->main.gravityModifier);
 		Editor::ImMathf::InputEnum<SimulationSpace>("Simulation Space", &_ps->main.simulationSpace);
 		ImGui::DragInt("Max Particles", &_ps->main.maxParticles, 1, 1, 1000000);
 	}
 	if (BeginModuleHeader("Emission", &_ps->emission.enabled)) {
-		Editor::ImMathf::InputFloat("Rate over Time", &_ps->emission.rateOverTime);
+		Editor::ImMathf::DragFloat("Rate over Time", &_ps->emission.rateOverTime);
 		if (ImGui::TreeNode("Bursts")) {
 			if (ImGui::Button("+")) _ps->emission.bursts.push_back({});
 			for (size_t i = 0; i < _ps->emission.bursts.size(); ++i) {
@@ -348,15 +498,48 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	}
 	EndModuleHeader();
 	if (BeginModuleHeader("Shape", &_ps->shape.enabled)) {
-		Editor::ImMathf::InputEnum<ParticleSystemShapeType>("Shape", &_ps->shape.type);
-		Editor::ImMathf::InputFloat("Radius", &_ps->shape.radius);
+		Editor::ImMathf::InputEnum<ParticleSystemShapeType>("Shape Type", &_ps->shape.type);
+		Editor::ImMathf::DragFloat("Radius", &_ps->shape.radius);
+		Editor::ImMathf::DragFloat("Radius Thickness", &_ps->shape.radiusThickness);
+		Editor::ImMathf::DragFloat("Arc", &_ps->shape.arc);
+		
+		if (_ps->shape.type == ParticleSystemShapeType::Cone) {
+			Editor::ImMathf::DragFloat("Angle", &_ps->shape.angle);
+		} else if (_ps->shape.type == ParticleSystemShapeType::Box) {
+			Editor::ImMathf::DragFloat3("Box Scale", &_ps->shape.boxScale);
+		}
+
 		if (!_ps->shape.enabled) ImGui::EndDisabled();
 	}
 	EndModuleHeader();
+
+	if (BeginModuleHeader("Color over Lifetime", &_ps->colorOverLifetime.enabled)) {
+		DrawMinMaxGradient("Color", _ps->colorOverLifetime.color);
+		if (!_ps->colorOverLifetime.enabled) ImGui::EndDisabled();
+	}
+	EndModuleHeader();
+
+	if (BeginModuleHeader("Size over Lifetime", &_ps->sizeOverLifetime.enabled)) {
+		DrawMinMaxCurve("Size", _ps->sizeOverLifetime.size);
+		if (!_ps->sizeOverLifetime.enabled) ImGui::EndDisabled();
+	}
+	EndModuleHeader();
+
+	if (BeginModuleHeader("Velocity over Lifetime", &_ps->velocityOverLifetime.enabled)) {
+		DrawMinMaxCurve("Linear X", _ps->velocityOverLifetime.x);
+		DrawMinMaxCurve("Linear Y", _ps->velocityOverLifetime.y);
+		DrawMinMaxCurve("Linear Z", _ps->velocityOverLifetime.z);
+		DrawMinMaxCurve("Speed Modifier", _ps->velocityOverLifetime.speedModifier);
+		Editor::ImMathf::InputEnum<SimulationSpace>("Space", &_ps->velocityOverLifetime.space);
+		if (!_ps->velocityOverLifetime.enabled) ImGui::EndDisabled();
+	}
+	EndModuleHeader();
+
 	bool rendererEnabled = true;
 	if (BeginModuleHeader("Renderer", &rendererEnabled)) {
 		Editor::ImMathf::InputEnum<ParticleSystemRenderer::RenderMode>("Render Mode", &_ps->renderer.renderMode);
-		Editor::ImMathf::InputText("Material GUID", &_ps->renderer.materialGuid);
+		DrawAssetGuidField("Material", _ps->renderer.materialGuid, Asset::AssetType::Material);
+		DrawAssetGuidField("Mesh", _ps->renderer.meshGuid, Asset::AssetType::Mesh);
 	}
 	EndModuleHeader();
 }

@@ -1,8 +1,6 @@
 #include "ParticleSystem.hlsli"
 
-#include "../../ConstantBufferData/Material.hlsli"
-
-StructuredBuffer<Material> materials : register(t1);
+StructuredBuffer<float4> materials : register(t1);
 StructuredBuffer<uint> textureIds : register(t2);
 Texture2D<float4> textures[] : register(t3);
 
@@ -10,7 +8,7 @@ SamplerState pointSampler : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET {
     uint instanceIndex = input.instanceId;
-    Material mat = materials[instanceIndex];
+    float4 matColor = materials[instanceIndex];
     uint texID = textureIds[instanceIndex];
 
     float4 texColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -20,7 +18,7 @@ float4 main(VSOutput input) : SV_TARGET {
         texColor = textures[texID].Sample(pointSampler, uv);
     }
 
-    float4 finalColor = texColor * mat.baseColor * input.color;
+    float4 finalColor = texColor * matColor * input.color;
     
     if (finalColor.a <= 0.0f) {
         discard;

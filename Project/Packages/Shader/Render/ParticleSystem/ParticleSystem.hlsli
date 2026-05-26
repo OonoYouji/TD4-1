@@ -11,6 +11,6 @@ struct VSOutput {
     float4 worldPosition : POSITION0;
     float3 normal : NORMAL0;
     float2 uv : TEXCOORD0;
-    uint instanceId : SV_InstanceID;
+    nointerpolation uint instanceId : TEXCOORD1;
     float4 color : COLOR0;
 };

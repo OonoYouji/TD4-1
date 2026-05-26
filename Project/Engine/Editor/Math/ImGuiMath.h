@@ -44,6 +44,12 @@ bool InputText(const char* _label, std::string* _text, ImGuiInputTextFlags _flag
 /// 数値の入力
 bool InputFloat(const char* _label, float* _v, float _step = 0.0f, float _step_fast = 0.0f, const char* _format = "%.3f", ImGuiInputTextFlags _flags = 0);
 
+/// 数値のドラッグ入力
+bool DragFloat(const char* _label, float* _v, float _speed = 0.1f, float _min = 0.0f, float _max = 0.0f, const char* _format = "%.3f", ImGuiInputTextFlags _flags = 0);
+
+/// Vector3のドラッグ入力
+bool DragFloat3(const char* _label, ONEngine::Vector3* _v, float _speed = 0.1f, float _min = 0.0f, float _max = 0.0f, const char* _format = "%.3f", ImGuiInputTextFlags _flags = 0);
+
 /// Enumの入力
 template <typename T>
 bool InputEnum(const char* _label, T* _value) {

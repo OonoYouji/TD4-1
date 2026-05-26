@@ -10,6 +10,9 @@ struct Particle {
     float remainingLifetime;
     float size;
     float rotation;
+    float4 startColor;
+    float startSize;
+    float3 baseVelocity;
 };
 
 struct InstanceOffset {

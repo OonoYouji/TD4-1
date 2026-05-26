@@ -206,9 +206,9 @@
                         }
                     },
                     "renderer": {
-                        "materialGuid": "",
-                        "meshGuid": "",
-                        "renderMode": 0
+                        "materialGuid": "45ad3f7afc0ed9bdf82893d15262444c",
+                        "meshGuid": "bfe7207fb6cdcce101ba2c8b1e23a3c5",
+                        "renderMode": 4
                     },
                     "shape": {
                         "angle": 25.0,
