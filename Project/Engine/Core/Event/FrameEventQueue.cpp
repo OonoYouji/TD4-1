@@ -34,6 +34,13 @@ namespace ONEngine {
                 const auto& payload = std::get<NamedEventPayload>(event.payload);
                 Console::Log("[FrameEventQueue] Triggered Named Event: " + payload.eventName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
                 
+                // --- 追加：特定のイベントに対する処理 ---
+                if (payload.eventName == "ShowIndicator_Line") {
+                    // C#側の InternalCreateEntity と同等の処理をここで行うのが理想的
+                    // 現在はログ出力のみだが、ここにプレハブ生成コードを追加する
+                    Console::Log("[Telegraph] Spawning TelegraphLine for Entity: " + std::to_string(payload.entityId));
+                }
+
                 // 暫定：即座に完了を通知してAIを復帰させるテスト
                 // 本来はアニメーションシステム等が完了時にこれを呼ぶ
                 MonoScriptEngine::GetInstance().NotifyEventCompleted(payload.entityId, payload.eventName);

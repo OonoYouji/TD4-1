@@ -55,7 +55,7 @@
                 }
             ],
             "guid": "408d26d2a00e152eaf70f26aebf335d9",
-            "id": 1,
+            "id": 3,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -104,7 +104,7 @@
                 }
             ],
             "guid": "167fd93f0163b9fcc1985c5b61b02891",
-            "id": 2,
+            "id": 4,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -115,14 +115,14 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
+                        "x": 10.13626480102539,
                         "y": 0.0,
                         "z": 0.0
                     },
                     "rotate": {
                         "w": 1.0,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -0.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -236,19 +236,15 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "AnimationTest"
-                        },
-                        {
-                            "enable": true,
-                            "name": "Test"
+                            "name": "BossAI"
                         }
                     ],
                     "type": "Script"
                 }
             ],
             "guid": "0e1acc9f300d811660634a5af191c136",
-            "id": 3,
-            "name": "TestMesh",
+            "id": 1,
+            "name": "Boss",
             "parent": null,
             "prefabName": ""
         },
@@ -276,122 +272,12 @@
                     "type": "Transform"
                 },
                 {
-                    "animationScale": 1.0,
-                    "debugJointSize": 0.05000000074505806,
-                    "debugRectSize": 0.029999999329447746,
-                    "enable": 1,
-                    "isPlaying": true,
-                    "meshPath": "./Assets/Models/Knight_Golden_Male.gltf",
-                    "texturePath": "./Packages/Textures/white.png",
-                    "type": "SkinMeshRenderer"
-                },
-                {
                     "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "layers": [
-                        {
-                            "boneMaskHash": 0,
-                            "states": [
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                },
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                }
-                            ],
-                            "weight": 1.0
-                        },
-                        {
-                            "boneMaskHash": 0,
-                            "states": [
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                },
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                }
-                            ],
-                            "weight": 1.0
-                        },
-                        {
-                            "boneMaskHash": 0,
-                            "states": [
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                },
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                }
-                            ],
-                            "weight": 1.0
-                        },
-                        {
-                            "boneMaskHash": 0,
-                            "states": [
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                },
-                                {
-                                    "clipId": 0,
-                                    "isLoop": true,
-                                    "playbackSpeed": 1.0,
-                                    "time": 0.0,
-                                    "weight": 0.0
-                                }
-                            ],
-                            "weight": 1.0
-                        }
-                    ],
-                    "type": "Animator"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "AnimationTest"
-                        },
-                        {
-                            "enable": true,
-                            "name": "Test"
-                        }
-                    ],
-                    "type": "Script"
                 }
             ],
-            "guid": "5df7820ccab885c294cd5e19580cad6f",
-            "id": 4,
-            "name": "TestMesh_1",
+            "guid": "a92bcf5b6ab8a09e54b818509fc42968",
+            "id": 2,
+            "name": "Player",
             "parent": null,
             "prefabName": ""
         }

@@ -89,11 +89,19 @@ public class PatrolWaypointsNode : BehaviorNode
             return NodeStatus.Success;
         }
 
-        // 2. 移動方向の設定
+        // 2. 移動方向と回転の設定
         var aiIntent = owner.GetComponent<AgentIntentComponent>();
         if (aiIntent != null)
         {
-            aiIntent.desiredMoveDirection = diff.Normalized();
+            Vector3 dir = diff.Normalized();
+            aiIntent.desiredMoveDirection = dir;
+            
+            // 進行方向を向く
+            if (dir.sqrMagnitude > 0.001f)
+            {
+                aiIntent.desiredRotation = Quaternion.LookRotation(dir, Vector3.up);
+                aiIntent.useDesiredRotation = true;
+            }
         }
 
         return NodeStatus.Running;
@@ -102,6 +110,10 @@ public class PatrolWaypointsNode : BehaviorNode
     public override void OnAbort(Blackboard blackboard, Entity owner)
     {
         var intent = owner.GetComponent<AgentIntentComponent>();
-        if (intent != null) intent.desiredMoveDirection = Vector3.zero;
+        if (intent != null)
+        {
+            intent.desiredMoveDirection = Vector3.zero;
+            intent.useDesiredRotation = false;
+        }
     }
 }
