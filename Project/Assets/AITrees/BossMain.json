@@ -15,10 +15,10 @@
             "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
             "decorators": [],
             "services": [
-                { "id": 201, "className": "HPMonitorService", "name": "HP Monitor", "properties": { "hpRatioKey": "HPRatio", "currentHPKey": "CurrentHP" }, "isService": true },
-                { "id": 202, "className": "HPRegenService", "name": "Auto HP Regen", "properties": { "currentHPKey": "CurrentHP", "maxHP": "1000", "regenPerSecond": "10" }, "isService": true },
-                { "id": 203, "className": "ReinforcementDensitySensingService", "name": "Scan Reinforcements", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "10" }, "isService": true },
-                { "id": 204, "className": "PhysicsPushService", "name": "Push Obstacles", "properties": { "pushForce": "5.0", "detectDistance": "4.0" }, "isService": true }
+                { "id": 201, "className": "HPMonitorService", "name": "HP Monitor", "properties": { "hpRatioKey": "HPRatio", "currentHPKey": "CurrentHP", "Interval": "0.5" }, "isService": true },
+                { "id": 202, "className": "HPRegenService", "name": "Auto HP Regen", "properties": { "currentHPKey": "CurrentHP", "maxHP": "1000", "regenPerSecond": "10", "Interval": "1.0" }, "isService": true },
+                { "id": 203, "className": "ReinforcementDensitySensingService", "name": "Scan Reinforcements", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "10", "Interval": "1.5" }, "isService": true },
+                { "id": 204, "className": "PhysicsPushService", "name": "Push Obstacles", "properties": { "pushForce": "5.0", "detectDistance": "4.0", "Interval": "0.2" }, "isService": true }
             ],
             "pos": [100.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]

@@ -13,8 +13,8 @@
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
         },
         {
-            "id": 3, "className": "WaitNode", "name": "Charge Up (1.0s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "1.0" }, 
+            "id": 3, "className": "ShowIndicatorNode", "name": "Preview Area (1.0s)", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "shape": "1", "targetPosKey": "TargetPosition", "duration": "1.0", "size": "8.0" }, 
             "decorators": [], "services": [], "pos": [600.0, -100.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": []
         },

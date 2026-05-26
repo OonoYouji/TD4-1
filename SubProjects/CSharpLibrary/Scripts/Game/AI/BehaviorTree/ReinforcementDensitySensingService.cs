@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// フィールド上の援軍（Reinforcement）をスキャンし、最も密集している地点を特定して
@@ -34,31 +33,31 @@ public class ReinforcementDensitySensingService : BehaviorService
     {
         var entities = owner.Group.GetEntities();
         
-        // ターゲット候補（援軍）を抽出
-        // 1. 名前が一致するか
-        // 2. もしくは Reinforcement スクリプトを持っているか
-        var targets = entities.Where(e => 
-            e.name.Contains(targetNameFilter) || 
-            e.GetScript<Reinforcement>() != null
-        ).ToList();
-
-        if (targets.Count == 0)
-        {
-            // ターゲットが見つからない場合、何もしない（あるいは特定のデフォルト値を設定）
-            return;
-        }
-
-        // 最も密集している地点を特定するロジック（簡易版：各ユニットの周囲半径内の個数を数える）
+        // 最も密集している地点を特定するロジック
         Vector3 bestPos = Vector3.zero;
         int maxNeighbors = -1;
 
-        foreach (var target in targets)
+        // 全エンティティを走査してターゲット候補を探す
+        foreach (var target in entities)
         {
+            if (target.Id == owner.Id) continue;
+            
+            // フィルタリング
+            bool isTarget = target.name.Contains(targetNameFilter) || target.GetScript<Reinforcement>() != null;
+            if (!isTarget) continue;
+
             Vector3 pos = target.transform.position;
             int neighbors = 0;
 
-            foreach (var other in targets)
+            // 各候補について、周囲の他ユニット数を数える
+            foreach (var other in entities)
             {
+                if (target.Id == other.Id) continue;
+                
+                // neighbors判定時もフィルタリングが必要
+                bool isOtherTarget = other.name.Contains(targetNameFilter) || other.GetScript<Reinforcement>() != null;
+                if (!isOtherTarget) continue;
+
                 if (Vector3.Distance(pos, other.transform.position) <= searchRadius)
                 {
                     neighbors++;
@@ -72,9 +71,9 @@ public class ReinforcementDensitySensingService : BehaviorService
             }
         }
 
-        // 結果をBlackboardに反映
-        blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), bestPos);
-        
-        // Debug.Log($"[Sensing] Found dense area with {maxNeighbors} units at {bestPos}");
+        if (maxNeighbors != -1)
+        {
+            blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), bestPos);
+        }
     }
 }

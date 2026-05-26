@@ -23,9 +23,21 @@ public class ShowIndicatorNode : BehaviorNode
     public float duration = 2.0f;
 
     /// <summary>
+    /// Blackboardから表示時間を取得する場合のキー名。
+    /// </summary>
+    [BlackboardKey]
+    public string durationKey = "";
+
+    /// <summary>
     /// 線の太さや円の半径。
     /// </summary>
     public float size = 1.0f;
+
+    /// <summary>
+    /// Blackboardからサイズを取得する場合のキー名。
+    /// </summary>
+    [BlackboardKey]
+    public string sizeKey = "";
 
     /// <summary>
     /// Blackboard上のターゲット座標キー（そこに向かって線を描く、またはそこに円を描く）。
@@ -37,6 +49,20 @@ public class ShowIndicatorNode : BehaviorNode
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash);
         float currentTime = Time.time;
+
+        float finalDuration = duration;
+        if (!string.IsNullOrEmpty(durationKey))
+        {
+            uint keyHash = BehaviorTreeLoader.HashString(durationKey);
+            finalDuration = blackboard.GetFloat(keyHash, duration);
+        }
+
+        float finalSize = size;
+        if (!string.IsNullOrEmpty(sizeKey))
+        {
+            uint keyHash = BehaviorTreeLoader.HashString(sizeKey);
+            finalSize = blackboard.GetFloat(keyHash, size);
+        }
 
         if (!blackboard.HasKey(startTimeKey))
         {
@@ -73,7 +99,7 @@ public class ShowIndicatorNode : BehaviorNode
                 {
                     // ターゲット位置に円を配置
                     telegraph.transform.position = targetPos;
-                    telegraph.transform.scale = new Vector3(size, 1.0f, size);
+                    telegraph.transform.scale = new Vector3(finalSize, 1.0f, finalSize);
                 }
 
                 // Blackboardに保存（後で消すため）
@@ -82,13 +108,13 @@ public class ShowIndicatorNode : BehaviorNode
 
             blackboard.SetFloat(startTimeKey, currentTime);
 
-            Debug.Log($"<color=cyan>[Indicator]</color> {owner.name} spawned mesh telegraph for {duration}s");
+            Debug.Log($"<color=cyan>[Indicator]</color> {owner.name} spawned mesh telegraph for {finalDuration}s");
             return NodeStatus.Running;
         }
 
         // 待機処理
         float startTime = blackboard.GetFloat(startTimeKey);
-        if (currentTime - startTime >= duration)
+        if (currentTime - startTime >= finalDuration)
         {
             blackboard.Remove(startTimeKey);
             return NodeStatus.Success;

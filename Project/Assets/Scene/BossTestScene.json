@@ -1,0 +1,347 @@
+{
+    "entities": [
+        {
+            "components": [
+                {
+                    "cameraType": 0,
+                    "enable": 1,
+                    "farClip": 1000.0,
+                    "fogColor": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "fogEnd": 10000.0,
+                    "fogStart": 0.0,
+                    "fovY": 0.699999988079071,
+                    "isDrawFrustum": false,
+                    "isMainCamera": false,
+                    "nearClip": 0.10000000149011612,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 35.0,
+                        "z": -60.0
+                    },
+                    "rotate": {
+                        "w": 0.9238795042037964,
+                        "x": 0.3826833963394165,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "f3301490d260735dfc6b4620b64395a9",
+            "id": 1,
+            "name": "Camera",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "color": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "direction": {
+                        "x": 0.5,
+                        "y": -1.0,
+                        "z": 0.5
+                    },
+                    "enable": 1,
+                    "intensity": 1.0,
+                    "type": "DirectionalLight"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "545c4c6071414dab0e6246ebae462081",
+            "id": 2,
+            "name": "Light",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "e6c95d0ab902296314ea2f6985e2817b",
+            "id": 3,
+            "name": "UI Root",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 450.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1000.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "baseTextureGuid": "6d46b53d01009d0166af6d4aee0acb0c",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "type": "SpriteRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossHPGauge"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "fc9c35f3c6655b859b19742a69c96942",
+            "id": 4,
+            "name": "BossHPGauge",
+            "parent": 3,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "maskBits": 36,
+                    "radius": 2.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                }
+            ],
+            "guid": "b055b055b055b055b055b055b055b055",
+            "id": 5,
+            "name": "Boss",
+            "parent": null,
+            "prefabName": "Boss.prefab"
+        },
+        {
+            "components": [
+                {
+                    "cameraType": 1,
+                    "enable": 1,
+                    "farClip": 1000.0,
+                    "fogColor": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "fogEnd": 10000000.0,
+                    "fogStart": 0.0,
+                    "fovY": 0.699999988079071,
+                    "isDrawFrustum": false,
+                    "isMainCamera": true,
+                    "nearClip": 0.10000000149011612,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "d9684fb34dd427f12d0ad6c86ad22221",
+            "id": 6,
+            "name": "2DCamera",
+            "parent": null,
+            "prefabName": ""
+        }
+    ]
+}

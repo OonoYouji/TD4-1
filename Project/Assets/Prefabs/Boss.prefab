@@ -16,7 +16,21 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "BossAI"
+                    "name": "BossAI",
+                    "treePath": "Assets/AITrees/BossMain.json"
+                },
+                {
+                    "enable": true,
+                    "name": "HP",
+                    "MAX_HP": 2000
+                },
+                {
+                    "enable": true,
+                    "name": "DamageHandler"
+                },
+                {
+                    "enable": true,
+                    "name": "Knockback"
                 }
             ],
             "type": "Script"
@@ -24,17 +38,19 @@
         {
             "enable": 1,
             "material": {
-                "baseColor": { "w": 1.0, "x": 0.2, "y": 0.2, "z": 0.2 },
+                "baseColor": { "w": 1.0, "x": 1.0, "y": 1.0, "z": 1.0 },
                 "postEffectFlags": 1
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
             "type": "MeshRenderer"
         },
         {
+            "categoryBits": 8,
             "enable": 1,
-            "currentHp": 1000,
-            "maxHp": 1000,
-            "type": "HPComponent"
+            "maskBits": 36,
+            "radius": 2.5,
+            "state": "Dynamic",
+            "type": "SphereCollider"
         }
     ],
     "guid": "b055b055b055b055b055b055b055b055",

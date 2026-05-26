@@ -7,13 +7,16 @@
                     "enable": 1,
                     "farClip": 1000.0,
                     "fogColor": {
-                        "w": 1.0,
                         "x": 0.5,
                         "y": 0.5,
                         "z": 0.5
                     },
-                    "fov": 45.0,
-                    "nearClip": 0.1,
+                    "fogEnd": 1000.0,
+                    "fogStart": 0.0,
+                    "fovY": 0.699999988079071,
+                    "isDrawFrustum": false,
+                    "isMainCamera": true,
+                    "nearClip": 0.10000000149011612,
                     "type": "CameraComponent"
                 },
                 {
@@ -36,6 +39,9 @@
                         "z": 1.0
                     },
                     "type": "Transform"
+                },
+                {
+                    "type": "Variables"
                 }
             ],
             "guid": "c018251e6005d871788771960965f3f4",
@@ -66,6 +72,9 @@
                         "z": 1.0
                     },
                     "type": "Transform"
+                },
+                {
+                    "type": "Variables"
                 }
             ],
             "guid": "80628e93297a73be2e307779d7f02030",
@@ -75,12 +84,86 @@
             "prefabName": ""
         },
         {
-            "components": [],
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
             "guid": "f63069533965f29774bd19153fe1066e",
             "id": 3,
             "name": "Boss",
             "parent": null,
             "prefabName": "Boss"
+        },
+        {
+            "components": [
+                {
+                    "color": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "direction": {
+                        "x": 0.0,
+                        "y": -1.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "intensity": 1.0,
+                    "type": "DirectionalLight"
+                },
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "520b76038bebc8d83e2ed4786934072b",
+            "id": 4,
+            "name": "Light",
+            "parent": null,
+            "prefabName": ""
         }
     ]
 }

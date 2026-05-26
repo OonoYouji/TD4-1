@@ -3,6 +3,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/Core/Utility/Time/Time.h"
+#include "Engine/Core/Utility/Time/CPUTimeStamp.h"
 #include "Engine/ECS/Component/Array/ComponentArray.h"
 #include "Engine/ECS/Entity/GameEntity/GameEntity.h"
 
@@ -11,6 +12,7 @@ namespace ONEngine {
 MovementSystem::MovementSystem() {}
 
 void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
+    CPUTimeStamp::GetInstance().BeginTimeStamp(CPUTimeStampID::PhysicsUpdate);
     if (!_ecs) {
         return;
     }
@@ -70,16 +72,8 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
         Vector3 oldPos = owner->GetLocalPosition();
         Vector3 newPos = oldPos + velocity;
         owner->SetPosition(newPos);
-
-        // ログを出力して動作を確認 (Bossエンティティを想定)
-        if (owner->GetName().find("Boss") != std::string::npos || owner->GetId() == 1) {
-            Console::Log("C++ MovementSystem: Entity " + owner->GetName() + " moving. Dir: (" + 
-                std::to_string(intent->desiredMoveDirection.x) + ", " + 
-                std::to_string(intent->desiredMoveDirection.y) + ", " + 
-                std::to_string(intent->desiredMoveDirection.z) + "), Pos: (" + 
-                std::to_string(newPos.x) + ", " + std::to_string(newPos.y) + ", " + std::to_string(newPos.z) + ")", LogCategory::Engine);
-        }
     }
+    CPUTimeStamp::GetInstance().EndTimeStamp(CPUTimeStampID::PhysicsUpdate);
 }
 
 }
