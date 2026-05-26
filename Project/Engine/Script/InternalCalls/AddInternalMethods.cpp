@@ -108,6 +108,8 @@ void ONEngine::AddEntityInternalCalls() {
 
 	mono_add_internal_call("ECSGroup::InternalCreateEntity", (void*)InternalCreateEntity);
 	mono_add_internal_call("ECSGroup::InternalDestroyEntity", (void*)InternalDestroyEntity);
+	mono_add_internal_call("ECSGroup::InternalGetRootEntityCount", (void*)InternalGetRootEntityCount);
+	mono_add_internal_call("ECSGroup::InternalGetRootEntityId", (void*)InternalGetRootEntityId);
 
 	// AI Debug
 	mono_add_internal_call("BehaviorTree::Internal_UpdateNodeStatus", (void*)Internal_UpdateNodeStatus);

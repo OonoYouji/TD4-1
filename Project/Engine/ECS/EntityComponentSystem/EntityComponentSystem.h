@@ -197,6 +197,9 @@ void InternalCreateEntity(int32_t* _entityId, MonoString* _prefabName, MonoStrin
 /// @param _entityId 対象のエンティティID
 void InternalDestroyEntity(MonoString* _ecsGroupName, int32_t _entityId);
 
+int32_t InternalGetRootEntityCount(MonoString* _groupName);
+int32_t InternalGetRootEntityId(MonoString* _groupName, int32_t _index);
+
 
 /// @brief エンティティの有効/無効の取得
 /// @param _entityId 対象のエンティティ
