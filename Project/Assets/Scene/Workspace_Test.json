@@ -55,7 +55,7 @@
                 }
             ],
             "guid": "408d26d2a00e152eaf70f26aebf335d9",
-            "id": 1,
+            "id": 3,
             "name": "Camera",
             "parent": null,
             "prefabName": ""
@@ -104,134 +104,8 @@
                 }
             ],
             "guid": "167fd93f0163b9fcc1985c5b61b02891",
-            "id": 2,
+            "id": 4,
             "name": "Light",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "colorOverLifetime": {
-                        "enabled": false
-                    },
-                    "emission": {
-                        "bursts": [],
-                        "enabled": true,
-                        "rateOverDistance": 0.0,
-                        "rateOverTime": 10.0
-                    },
-                    "enable": 1,
-                    "main": {
-                        "duration": 5.0,
-                        "gravityModifier": 0.0,
-                        "looping": true,
-                        "maxParticles": 1000,
-                        "playOnAwake": true,
-                        "prewarm": false,
-                        "startColor": {
-                            "constant": {
-                                "a": 1.0,
-                                "b": 1.0,
-                                "g": 1.0,
-                                "r": 1.0
-                            },
-                            "max": {
-                                "a": 1.0,
-                                "b": 1.0,
-                                "g": 1.0,
-                                "r": 1.0
-                            },
-                            "min": {
-                                "a": 1.0,
-                                "b": 1.0,
-                                "g": 1.0,
-                                "r": 1.0
-                            },
-                            "state": 0
-                        },
-                        "startDelay": {
-                            "constant": 0.0,
-                            "max": 1.0,
-                            "min": 0.0,
-                            "state": 0
-                        },
-                        "startLifetime": {
-                            "constant": 5.0,
-                            "max": 1.0,
-                            "min": 0.0,
-                            "state": 0
-                        },
-                        "startRotation": {
-                            "constant": 0.0,
-                            "max": 1.0,
-                            "min": 0.0,
-                            "state": 0
-                        },
-                        "startSize": {
-                            "constant": 1.0,
-                            "max": 1.0,
-                            "min": 0.0,
-                            "state": 0
-                        },
-                        "startSpeed": {
-                            "constant": 5.0,
-                            "max": 1.0,
-                            "min": 0.0,
-                            "state": 0
-                        }
-                    },
-                    "renderer": {
-                        "materialGuid": "45ad3f7afc0ed9bdf82893d15262444c",
-                        "meshGuid": "bfe7207fb6cdcce101ba2c8b1e23a3c5",
-                        "renderMode": 4
-                    },
-                    "shape": {
-                        "angle": 25.0,
-                        "arc": 360.0,
-                        "boxScale": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "enabled": true,
-                        "radius": 1.0,
-                        "radiusThickness": 1.0,
-                        "type": 0
-                    },
-                    "sizeOverLifetime": {
-                        "enabled": false
-                    },
-                    "type": "ParticleSystem"
-                }
-            ],
-            "guid": "cd6363cbb625c55469a7e9cde266ae6e",
-            "id": 3,
-            "name": "TestParticle",
             "parent": null,
             "prefabName": ""
         }

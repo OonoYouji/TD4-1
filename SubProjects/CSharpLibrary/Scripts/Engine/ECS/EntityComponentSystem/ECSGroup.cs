@@ -261,6 +261,13 @@ public class ECSGroup {
 	}
 
 	/// <summary>
+	/// すべてのエンティティを取得
+	/// </summary>
+	public IEnumerable<Entity> GetEntities() {
+		return entities_.Values;
+	}
+
+	/// <summary>
 	/// エンティティの探索
 	/// </summary>
 	public Entity FindEntity(string _name) {

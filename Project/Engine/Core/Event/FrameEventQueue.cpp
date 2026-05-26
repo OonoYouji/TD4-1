@@ -16,6 +16,43 @@ namespace ONEngine {
         queue_.push_back(event);
     }
 
+    void FrameEventQueue::EnqueueAttackEvent(const std::string& attackName, int32_t ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp) {
+        Event event;
+        event.type = EventType::Attack;
+        AttackEventPayload payload;
+        payload.attackName = attackName;
+        payload.ownerId = ownerId;
+        payload.damage = damage;
+        payload.radius = radius;
+        payload.duration = duration;
+        payload.offsetForward = offsetForward;
+        payload.offsetUp = offsetUp;
+        event.payload = payload;
+        GetInstance().Enqueue(event);
+    }
+
+    void FrameEventQueue::EnqueueEffectEvent(const std::string& effectName, int32_t entityId, float scale, float duration) {
+        Event event;
+        event.type = EventType::Effect;
+        EffectEventPayload payload;
+        payload.effectName = effectName;
+        payload.entityId = entityId;
+        payload.scale = scale;
+        payload.duration = duration;
+        event.payload = payload;
+        GetInstance().Enqueue(event);
+    }
+
+    void FrameEventQueue::EnqueueNamedEvent(const std::string& eventName, int32_t entityId) {
+        Event event;
+        event.type = EventType::NamedEvent;
+        NamedEventPayload payload;
+        payload.eventName = eventName;
+        payload.entityId = entityId;
+        event.payload = payload;
+        GetInstance().Enqueue(event);
+    }
+
     void FrameEventQueue::Flush() {
         // 現在のキューをローカルにスワップして、ロック時間を最小限に抑える
         std::vector<Event> processingQueue;
@@ -34,6 +71,13 @@ namespace ONEngine {
                 const auto& payload = std::get<NamedEventPayload>(event.payload);
                 Console::Log("[FrameEventQueue] Triggered Named Event: " + payload.eventName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
                 
+                // --- 追加：特定のイベントに対する処理 ---
+                if (payload.eventName == "ShowIndicator_Line") {
+                    // C#側の InternalCreateEntity と同等の処理をここで行うのが理想的
+                    // 現在はログ出力のみだが、ここにプレハブ生成コードを追加する
+                    Console::Log("[Telegraph] Spawning TelegraphLine for Entity: " + std::to_string(payload.entityId));
+                }
+
                 // 暫定：即座に完了を通知してAIを復帰させるテスト
                 // 本来はアニメーションシステム等が完了時にこれを呼ぶ
                 MonoScriptEngine::GetInstance().NotifyEventCompleted(payload.entityId, payload.eventName);
