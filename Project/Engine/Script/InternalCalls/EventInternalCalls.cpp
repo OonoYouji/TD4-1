@@ -49,10 +49,26 @@ namespace ONEngine {
         mono_free(name);
     }
 
+    /// <summary>
+    /// C#からエフェクトイベントを発行するための内部呼び出し
+    /// </summary>
+    static void Internal_EnqueueEffectEvent(MonoString* effectName, int32_t entityId, float scale, float duration)
+    {
+        char* name = mono_string_to_utf8(effectName);
+
+        Event e;
+        e.type = EventType::Effect;
+        e.payload = EffectEventPayload{ std::string(name), entityId, scale, duration };
+        FrameEventQueue::GetInstance().Enqueue(e);
+
+        mono_free(name);
+    }
+
     void AddEventInternalCalls()
     {
         mono_add_internal_call("FrameEvent::Internal_EnqueueEntityEvent", (void*)Internal_EnqueueEntityEvent);
         mono_add_internal_call("FrameEvent::Internal_EnqueueNamedEvent", (void*)Internal_EnqueueNamedEvent);
         mono_add_internal_call("FrameEvent::Internal_EnqueueAttackEvent", (void*)Internal_EnqueueAttackEvent);
+        mono_add_internal_call("FrameEvent::Internal_EnqueueEffectEvent", (void*)Internal_EnqueueEffectEvent);
     }
 }

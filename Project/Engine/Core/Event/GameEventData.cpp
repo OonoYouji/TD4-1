@@ -58,6 +58,18 @@ namespace ONEngine {
             }
         }
 
+        effects_.clear();
+        if (data.contains("effects")) {
+            for (auto& item : data["effects"]) {
+                EffectDefinition def;
+                def.name = item["name"];
+                def.effectPath = item["effectPath"];
+                def.duration = item["duration"];
+                def.defaultScale = item["defaultScale"];
+                effects_[def.name] = def;
+            }
+        }
+
         isDirty_ = false;
     }
 
@@ -85,6 +97,16 @@ namespace ONEngine {
             item["speed"] = def.speed;
             item["crossFadeTime"] = def.crossFadeTime;
             data["animations"].push_back(item);
+        }
+
+        data["effects"] = json::array();
+        for (auto& [name, def] : effects_) {
+            json item;
+            item["name"] = def.name;
+            item["effectPath"] = def.effectPath;
+            item["duration"] = def.duration;
+            item["defaultScale"] = def.defaultScale;
+            data["effects"].push_back(item);
         }
 
         std::ofstream file(kConfigPath);
@@ -120,6 +142,20 @@ namespace ONEngine {
 
     void GameEventManager::RemoveAnimation(const std::string& _name) {
         animations_.erase(_name);
+    }
+
+    const EffectDefinition* GameEventManager::GetEffect(const std::string& _name) const {
+        auto it = effects_.find(_name);
+        if (it != effects_.end()) return &it->second;
+        return nullptr;
+    }
+
+    void GameEventManager::AddEffect(const EffectDefinition& _effect) {
+        effects_[_effect.name] = _effect;
+    }
+
+    void GameEventManager::RemoveEffect(const std::string& _name) {
+        effects_.erase(_name);
     }
 
 }

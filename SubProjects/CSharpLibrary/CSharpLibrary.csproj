@@ -131,10 +131,17 @@
     <Compile Include="Scripts\Game\AI\BehaviorTree\PatrolWaypointsNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\PlayAnimationNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\ReinforcementDensitySensingService.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\DropObjectAtTargetNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\PickRandomRockNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\ResolveTargetService.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/SensingService.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/ShowIndicatorNode.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnAttackNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\RotateAndSpawnProjectileNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\ScaleUpAreaEntitiesNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\SensingService.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\ShowIndicatorNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\SpawnAttackNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\SpawnVortexFieldNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\FireBeamNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\PhysicsPushService.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
@@ -171,7 +178,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "$(SolutionDir)RenameDll.bat"
-call "$(SolutionDir)KeepLatest.bat"</PostBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)RenameDll.bat"
+call "$(ProjectDir)KeepLatest.bat"</PostBuildEvent>
   </PropertyGroup>
 </Project>

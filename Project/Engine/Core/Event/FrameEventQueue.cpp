@@ -16,6 +16,43 @@ namespace ONEngine {
         queue_.push_back(event);
     }
 
+    void FrameEventQueue::EnqueueAttackEvent(const std::string& attackName, int32_t ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp) {
+        Event event;
+        event.type = EventType::Attack;
+        AttackEventPayload payload;
+        payload.attackName = attackName;
+        payload.ownerId = ownerId;
+        payload.damage = damage;
+        payload.radius = radius;
+        payload.duration = duration;
+        payload.offsetForward = offsetForward;
+        payload.offsetUp = offsetUp;
+        event.payload = payload;
+        GetInstance().Enqueue(event);
+    }
+
+    void FrameEventQueue::EnqueueEffectEvent(const std::string& effectName, int32_t entityId, float scale, float duration) {
+        Event event;
+        event.type = EventType::Effect;
+        EffectEventPayload payload;
+        payload.effectName = effectName;
+        payload.entityId = entityId;
+        payload.scale = scale;
+        payload.duration = duration;
+        event.payload = payload;
+        GetInstance().Enqueue(event);
+    }
+
+    void FrameEventQueue::EnqueueNamedEvent(const std::string& eventName, int32_t entityId) {
+        Event event;
+        event.type = EventType::NamedEvent;
+        NamedEventPayload payload;
+        payload.eventName = eventName;
+        payload.entityId = entityId;
+        event.payload = payload;
+        GetInstance().Enqueue(event);
+    }
+
     void FrameEventQueue::Flush() {
         // 現在のキューをローカルにスワップして、ロック時間を最小限に抑える
         std::vector<Event> processingQueue;

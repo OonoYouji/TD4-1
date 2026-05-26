@@ -25,7 +25,7 @@ public class FireBeamNode : BehaviorNode
             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} started FIRING beam!");
             
             // 視覚演出の開始イベントを発行
-            FrameEvent.EnqueueNamedEvent("Effect_BossBeam_Start", owner.Id);
+            FrameEvent.EnqueueEffectEvent("BossBeam_Start", owner.Id, beamRadius, duration);
             
             // --- 予測線の削除 ---
             uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID");

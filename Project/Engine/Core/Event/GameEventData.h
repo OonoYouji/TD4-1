@@ -26,6 +26,14 @@ namespace ONEngine {
         float crossFadeTime = 0.1f;
     };
 
+    /// @brief エフェクト（パーティクル等）のパラメータを定義する構造体
+    struct EffectDefinition {
+        std::string name;
+        std::string effectPath; // エフェクトリソース（.prefab等）へのパス
+        float duration = 2.0f;
+        float defaultScale = 1.0f;
+    };
+
     /// @brief ゲーム内の各種イベントデータを管理するクラス
     class GameEventManager {
     public:
@@ -47,6 +55,12 @@ namespace ONEngine {
         void AddAnimation(const AnimationDefinition& _anim);
         void RemoveAnimation(const std::string& _name);
 
+        // エフェクトデータの操作
+        const EffectDefinition* GetEffect(const std::string& _name) const;
+        std::map<std::string, EffectDefinition>& GetEffects() { return effects_; }
+        void AddEffect(const EffectDefinition& _effect);
+        void RemoveEffect(const std::string& _name);
+
         bool IsDirty() const { return isDirty_; }
         void SetDirty(bool _dirty) { isDirty_ = _dirty; }
 
@@ -56,6 +70,7 @@ namespace ONEngine {
 
         std::map<std::string, AttackDefinition> attacks_;
         std::map<std::string, AnimationDefinition> animations_;
+        std::map<std::string, EffectDefinition> effects_;
 
         bool isDirty_ = false;
 

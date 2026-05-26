@@ -14,6 +14,7 @@ public static class FrameEvent
         TestEvent = 0,
         NamedEvent = 1,
         Attack = 2,
+        Effect = 3,
     }
 
     /// <summary>
@@ -40,6 +41,14 @@ public static class FrameEvent
         Internal_EnqueueAttackEvent(attackName, ownerId, damage, radius, duration, offsetForward, offsetUp);
     }
 
+    /// <summary>
+    /// エフェクト（パーティクル・視覚演出）イベントをキューに追加します。
+    /// </summary>
+    public static void EnqueueEffectEvent(string effectName, int entityId, float scale = 1.0f, float duration = 2.0f)
+    {
+        Internal_EnqueueEffectEvent(effectName, entityId, scale, duration);
+    }
+
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern void Internal_EnqueueEntityEvent(Type eventType, int entityId);
 
@@ -48,4 +57,7 @@ public static class FrameEvent
 
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern void Internal_EnqueueAttackEvent(string attackName, int ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp);
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern void Internal_EnqueueEffectEvent(string effectName, int entityId, float scale, float duration);
 }

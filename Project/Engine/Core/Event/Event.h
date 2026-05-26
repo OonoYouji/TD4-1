@@ -20,6 +20,15 @@ namespace ONEngine
         int32_t entityId;
     };
 
+    // エフェクト（パーティクル・視覚演出）用ペイロード
+    struct EffectEventPayload
+    {
+        std::string effectName; // プリセット名
+        int32_t entityId;       // 発生源エンティティ
+        float scale;            // スケール倍率
+        float duration;         // 持続時間
+    };
+
     // 攻撃（当たり判定生成）イベント用ペイロード
     struct AttackEventPayload
     {
@@ -38,6 +47,7 @@ namespace ONEngine
         TestEvent,
         NamedEvent, // 文字列ベースのイベント
         Attack,     // 攻撃発生イベント
+        Effect,     // エフェクト発生イベント
     };
 
     // イベント本体
@@ -48,6 +58,7 @@ namespace ONEngine
         std::variant<
             EntityEventPayload,
             NamedEventPayload,
+            EffectEventPayload,
             AttackEventPayload
         > payload;
     };

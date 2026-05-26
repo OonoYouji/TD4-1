@@ -47,24 +47,33 @@ public class ShowIndicatorNode : BehaviorNode
             Vector3 targetPos = blackboard.GetVector3(keyHash);
             
             // --- プレハブを使用してメッシュベースの予測線を生成 ---
-            // ※ECSGroup.CreateEntity を使用して TelegraphLine.prefab を生成
-            Entity telegraph = owner.Group.CreateEntity("TelegraphLine");
+            string prefabName = (shape == Shape.Line) ? "TelegraphLine" : "TelegraphCircle";
+            Entity telegraph = owner.Group.CreateEntity(prefabName);
             if (telegraph != null)
             {
-                // ボスからターゲットへの方向に配置
-                Vector3 bossPos = owner.transform.position;
-                Vector3 diff = targetPos - bossPos;
-                Vector3 direction = diff.Normalized();
-                
-                telegraph.transform.position = bossPos + (direction * 10.0f); // 20mの線の中心
-                telegraph.transform.rotation = Quaternion.LookRotation(direction);
-                
-                // --- ボス自身もターゲットの方向を向くように設定 ---
-                var intent = owner.GetComponent<AgentIntentComponent>();
-                if (intent != null)
+                if (shape == Shape.Line)
                 {
-                    intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up);
-                    intent.useDesiredRotation = true;
+                    // ボスからターゲットへの方向に配置
+                    Vector3 bossPos = owner.transform.position;
+                    Vector3 diff = targetPos - bossPos;
+                    Vector3 direction = diff.Normalized();
+                    
+                    telegraph.transform.position = bossPos + (direction * 10.0f); // 20mの線の中心
+                    telegraph.transform.rotation = Quaternion.LookRotation(direction);
+                    
+                    // --- ボス自身もターゲットの方向を向くように設定 ---
+                    var intent = owner.GetComponent<AgentIntentComponent>();
+                    if (intent != null)
+                    {
+                        intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up);
+                        intent.useDesiredRotation = true;
+                    }
+                }
+                else if (shape == Shape.Circle)
+                {
+                    // ターゲット位置に円を配置
+                    telegraph.transform.position = targetPos;
+                    telegraph.transform.scale = new Vector3(size, 1.0f, size);
                 }
 
                 // Blackboardに保存（後で消すため）
