@@ -12,7 +12,7 @@
 
 
 /// @brief 最大のログバッファサイズ
-static const size_t MAX_LOG_BUFFER_SIZE = 2147483648;
+static const size_t MAX_LOG_BUFFER_SIZE = 2000;
 
 
 /// ////////////////////////////////////////////////

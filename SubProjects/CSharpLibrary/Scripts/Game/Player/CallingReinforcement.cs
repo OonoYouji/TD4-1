@@ -11,8 +11,6 @@ public class CallingReinforcement : MonoScript
     [SerializeField] public float xOffset = 2.0f;
     // 後方からの出現距離
     [SerializeField] public float spawnBehindDistance = 5.0f;
-    // 援軍の移動速度
-    [SerializeField] public float reinforcementSpeed = 8.0f;
     // スポーン間隔（秒）
     [SerializeField] public float spawnInterval = 3.0f;
 
@@ -127,7 +125,7 @@ public class CallingReinforcement : MonoScript
             return;
         }
 
-        // 初期位置と速度を設定
+        // 初期位置と進行方向を設定
         Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();
 
         // スクリプトが取得できなければ何もしない
@@ -135,7 +133,7 @@ public class CallingReinforcement : MonoScript
             return;
         }
         reinforcement.startPosition = spawnPos;
-        reinforcement.velocity = dir * reinforcementSpeed;
+        reinforcement.direction = dir;
         activeReinforcements.Add(ReinforcementEntity);
     }
 }

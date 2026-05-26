@@ -154,6 +154,9 @@
     <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Light">
       <UniqueIdentifier>{555D3A8C-C144-2582-CA32-27FE3699C844}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem">
+      <UniqueIdentifier>{5653219D-4254-B517-6B1C-229C577C2BD2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Script">
       <UniqueIdentifier>{B29D7323-9E72-BBD6-C721-FBD2B355C9ED}</UniqueIdentifier>
     </Filter>
@@ -249,6 +252,9 @@
     </Filter>
     <Filter Include="Engine\ECS\System\Movement">
       <UniqueIdentifier>{738ABEF0-5F9A-6AC1-C853-CFDFB482595A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ECS\System\ParticleSystemUpdateSystem">
+      <UniqueIdentifier>{09F5F708-F507-F861-9EF1-D44E8AE394AF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ECS\System\ScriptUpdateSystem">
       <UniqueIdentifier>{65CE8BD0-51B5-4DC8-FA05-B4E5E6CBC62E}</UniqueIdentifier>
@@ -429,6 +435,9 @@
     </Filter>
     <Filter Include="Engine\Graphics\Pipelines\Render\Mesh">
       <UniqueIdentifier>{7E4FE4B2-EA13-E3A2-B379-136D1FFD7ED8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Pipelines\Render\ParticleSystem">
+      <UniqueIdentifier>{2ABA7DEC-96F5-DDAF-9FEA-5A3F0BA562E0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Graphics\Pipelines\Render\Primitive">
       <UniqueIdentifier>{6AB335FD-561B-FCCA-BF86-10E1AB0D13B7}</UniqueIdentifier>
@@ -741,6 +750,12 @@
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Light\Light.h">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Light</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem\ParticleSystem.h">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem\ParticleSystemData.h">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\ParticleSystem</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Script\Script.h">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Script</Filter>
     </ClInclude>
@@ -866,6 +881,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ECS\System\Movement\MovementSystem.h">
       <Filter>Engine\ECS\System\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS\System\ParticleSystemUpdateSystem\ParticleSystemUpdateSystem.h">
+      <Filter>Engine\ECS\System\ParticleSystemUpdateSystem</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ECS\System\ScriptUpdateSystem\ScriptUpdateSystem.h">
       <Filter>Engine\ECS\System\ScriptUpdateSystem</Filter>
@@ -1149,6 +1167,9 @@
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshSkeletonRenderingPipeline.h">
       <Filter>Engine\Graphics\Pipelines\Render\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\Pipelines\Render\ParticleSystem\ParticleSystemRenderingPipeline.h">
+      <Filter>Engine\Graphics\Pipelines\Render\ParticleSystem</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Graphics\Pipelines\Render\Primitive\Line2DRenderingPipeline.h">
       <Filter>Engine\Graphics\Pipelines\Render\Primitive</Filter>
     </ClInclude>
@@ -1418,6 +1439,9 @@
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Light\Light.cpp">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Light</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\ParticleSystem\ParticleSystem.cpp">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\ParticleSystem</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Script\Script.cpp">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Script</Filter>
     </ClCompile>
@@ -1534,6 +1558,9 @@
     </ClCompile>
     <ClCompile Include="Engine\ECS\System\Movement\MovementSystem.cpp">
       <Filter>Engine\ECS\System\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ECS\System\ParticleSystemUpdateSystem\ParticleSystemUpdateSystem.cpp">
+      <Filter>Engine\ECS\System\ParticleSystemUpdateSystem</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ECS\System\ScriptUpdateSystem\ScriptUpdateSystem.cpp">
       <Filter>Engine\ECS\System\ScriptUpdateSystem</Filter>
@@ -1768,6 +1795,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Mesh\SkinMeshSkeletonRenderingPipeline.cpp">
       <Filter>Engine\Graphics\Pipelines\Render\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Pipelines\Render\ParticleSystem\ParticleSystemRenderingPipeline.cpp">
+      <Filter>Engine\Graphics\Pipelines\Render\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Pipelines\Render\Primitive\Line2DRenderingPipeline.cpp">
       <Filter>Engine\Graphics\Pipelines\Render\Primitive</Filter>
