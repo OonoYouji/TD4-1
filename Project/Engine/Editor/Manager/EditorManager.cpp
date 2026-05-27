@@ -5,6 +5,7 @@
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/Core/Utility/Input/Input.h"
+#include "Engine/Asset/Collection/AssetCollection.h"
 
 #include "EditCommand.h"
 #include "Engine/Editor/Commands/WorldEditorCommands/WorldEditorCommands.h"
@@ -18,6 +19,9 @@
 #include "Engine/Editor/EditorCompute/Grass/GrassArrangementPipeline.h"
 #include "Engine/Editor/EditorCompute/VoxelTerrainEditor/VoxelTerrainEditorComputePipeline.h"
 #include "Engine/Editor/EditorCompute/GameEntityPicking/GameEntityPickingPipeline.h"
+
+#include "HotReloadManager.h"
+#include "Engine/Script/MonoScriptEngine.h"
 
 using namespace Editor;
 
@@ -44,6 +48,25 @@ void EditorManager::Initialize(ONEngine::DxManager* dxm, ONEngine::ShaderCompile
 }
 
 void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {
+
+	/// ホットリロードリクエストの処理（フレームの開始時に行うことでD3D12の状態整合性を保つ）
+	auto hrRequests = Editor::HotReloadManager::GetInstance().ConsumeRequests();
+	bool isReloaded = false;
+	for (const auto& path : hrRequests.assetPaths) {
+		ONEngine::Console::Log("[HotReload] Reloading asset: " + path, ONEngine::LogCategory::Engine);
+		ac->ReloadAsset(path);
+		isReloaded = true;
+	}
+	if (hrRequests.scriptHotReload) {
+		ONEngine::Console::Log("[HotReload] Script hot-reload requested.", ONEngine::LogCategory::ScriptEngine);
+		ONEngine::MonoScriptEngine::GetInstance().HotReload();
+		isReloaded = true;
+	}
+
+	/// リロードが行われた場合はコマンドリストがリセットされているため、ヒープを再バインドする
+	if (isReloaded) {
+		pDxManager_->HeapBindToCommandList();
+	}
 
 	/// エディタのコマンドを実行する
 	for (auto& compute : editorComputes_) {
