@@ -119,6 +119,10 @@
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
     <Compile Include="Scripts\Game\Common\HP.cs" />
+    <Compile Include="Scripts\Game\Common\RandomUtil.cs" />
+    <Compile Include="Scripts\Game\Common\Transition\SceneTransitionController.cs" />
+    <Compile Include="Scripts\Game\Common\Transition\TransitionIn.cs" />
+    <Compile Include="Scripts\Game\Common\Transition\TransitionOut.cs" />
     <Compile Include="Scripts\Game\Enemy\SampleBossComponent.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/BossPhaseDecorator.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/CheckDistanceNode.cs" />
