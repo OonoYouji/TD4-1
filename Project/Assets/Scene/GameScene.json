@@ -1222,6 +1222,65 @@
             "name": "SpreadUi",
             "parent": 10,
             "prefabName": ""
-        }
-    ]
-}
+            },
+            {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 2000.0,
+                        "y": 2000.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "baseTextureGuid": "a392756831a7a8da258b6ebc5534d3c1",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0
+                    },
+                    "type": "SpriteRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "SceneTransition"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "c4ff339484eae82538e7245fbb9d7d69",
+            "id": 15,
+            "name": "Fader",
+            "parent": null,
+            "prefabName": ""
+            }
+            ]
+            }

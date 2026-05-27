@@ -137,18 +137,7 @@
                         "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
+                        "postEffectFlags": 0
                     },
                     "type": "SpriteRenderer"
                 }
@@ -290,18 +279,7 @@
                         "baseTextureGuid": "1eecfb5b05d3f9c33c093ad1eb18ec97",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
+                        "postEffectFlags": 0
                     },
                     "type": "SpriteRenderer"
                 }
@@ -310,6 +288,65 @@
             "id": 6,
             "name": "PushButton",
             "parent": 5,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 2000.0,
+                        "y": 2000.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "baseTextureGuid": "a392756831a7a8da258b6ebc5534d3c1",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0
+                    },
+                    "type": "SpriteRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "SceneTransition"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "94ff339484eae82538e7245fbb9d7d66",
+            "id": 7,
+            "name": "Fader",
+            "parent": null,
             "prefabName": ""
         }
     ]
