@@ -472,6 +472,37 @@ void MonoInternalMethods::InternalDestroyEntity(MonoString* _ecsGroupName, int32
 	mono_free(cstr);
 }
 
+int32_t MonoInternalMethods::InternalGetRootEntityCount(MonoString* _groupName) {
+	std::string groupName = mono_string_to_utf8(_groupName);
+	ECSGroup* group = gECS->GetECSGroup(groupName);
+	if (!group) return 0;
+
+	int count = 0;
+	for (auto& entity : group->GetEntities()) {
+		if (!entity->GetParent()) {
+			count++;
+		}
+	}
+	return count;
+}
+
+int32_t MonoInternalMethods::InternalGetRootEntityId(MonoString* _groupName, int32_t _index) {
+	std::string groupName = mono_string_to_utf8(_groupName);
+	ECSGroup* group = gECS->GetECSGroup(groupName);
+	if (!group) return -1;
+
+	int currentIndex = 0;
+	for (auto& entity : group->GetEntities()) {
+		if (!entity->GetParent()) {
+			if (currentIndex == _index) {
+				return static_cast<int32_t>(entity->GetId());
+			}
+			currentIndex++;
+		}
+	}
+	return -1;
+}
+
 bool MonoInternalMethods::InternalGetEnable(int32_t _entityId, MonoString* _ecsGroupName) {
 	/// ECSGroupの取得
 	std::string groupName = mono_string_to_utf8(_ecsGroupName);

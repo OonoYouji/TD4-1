@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <numbers>
+#include <algorithm>
 
 /// engine
 #include "Engine/Asset/Guid/Guid.h"
@@ -12,6 +13,7 @@
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Entity/EntityJsonConverter.h"
+#include "Engine/ECS/Entity/Collection/EntityCollection.h"
 
 /// editor
 #include "Engine/Editor/Clipboard/Clipboard.h"
@@ -377,5 +379,55 @@ EDITOR_STATE ChangeEntityParentCommand::Undo() {
 	if (pOldParent_) {
 		pEntity_->SetParent(pOldParent_);
 	}
+	return EDITOR_STATE_FINISH;
+}
+
+/// ///////////////////////////////////////////////////
+/// エンティティの順番を入れ替えるコマンド
+/// ///////////////////////////////////////////////////
+
+ReorderEntityCommand::ReorderEntityCommand(ONEngine::ECSGroup* _ecsGroup, ONEngine::GameEntity* _entity, ONEngine::GameEntity* _newParent, uint32_t _newIndex)
+	: pEcsGroup_(_ecsGroup), pEntity_(_entity), pNewParent_(_newParent), newIndex_(_newIndex) {
+	pOldParent_ = pEntity_->GetParent();
+
+	// 古いインデックスを保存
+	if (pOldParent_) {
+		const auto& children = pOldParent_->GetChildren();
+		auto it = std::find(children.begin(), children.end(), pEntity_);
+		oldIndex_ = static_cast<uint32_t>(std::distance(children.begin(), it));
+	} else {
+		const auto& entities = pEcsGroup_->GetEntities();
+		auto it = std::find_if(entities.begin(), entities.end(), [this](const std::unique_ptr<ONEngine::GameEntity>& e) {
+			return e.get() == pEntity_;
+		});
+		oldIndex_ = static_cast<uint32_t>(std::distance(entities.begin(), it));
+	}
+}
+
+EDITOR_STATE ReorderEntityCommand::Execute() {
+	if (!pEntity_) return EDITOR_STATE_FAILED;
+
+	pEntity_->SetParent(pNewParent_);
+
+	if (pNewParent_) {
+		pNewParent_->MoveChild(pEntity_, newIndex_);
+	} else {
+		pEcsGroup_->GetEntityCollection()->MoveEntity(pEntity_, newIndex_);
+	}
+
+	return EDITOR_STATE_FINISH;
+}
+
+EDITOR_STATE ReorderEntityCommand::Undo() {
+	if (!pEntity_) return EDITOR_STATE_FAILED;
+
+	pEntity_->SetParent(pOldParent_);
+
+	if (pOldParent_) {
+		pOldParent_->MoveChild(pEntity_, oldIndex_);
+	} else {
+		pEcsGroup_->GetEntityCollection()->MoveEntity(pEntity_, oldIndex_);
+	}
+
 	return EDITOR_STATE_FINISH;
 }

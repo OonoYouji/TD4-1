@@ -11,7 +11,8 @@ public class ECSGroup {
 
 	public string groupName;
 	private bool enable_; //!< このGroupの有効/無効フラグ
-	private Dictionary<int, Entity> entities_ = new Dictionary<int, Entity>();
+	private Dictionary<int, Entity> entityMap_ = new Dictionary<int, Entity>();
+	private List<Entity> entities_ = new List<Entity>();
 	public ComponentCollection componentCollection = new ComponentCollection();
 
 	/// 生成処理、初期化処理の呼び出し用リスト
@@ -50,14 +51,15 @@ public class ECSGroup {
 	/// </summary>
 	public void AddEntity(int _id) {
 		//Debug.LogInfo("ECSGroup.AddEntity - Adding entity with ID: " + _id + ", Group Name: " + groupName);
-		if(entities_.ContainsKey(_id)) {
+		if(entityMap_.ContainsKey(_id)) {
 			//Debug.LogError("ECSGroup.AddEntity - Entity already exists with ID: " + _id + ", Group Name: " + groupName);
 			return;
 		}
 
 
 		Entity entity = new Entity(_id, this);
-		entities_.Add(_id, entity);
+		entityMap_.Add(_id, entity);
+		entities_.Add(entity);
 
 		// C++側のデータを同期するために主要なコンポーネントを取得しておく
 		entity.FetchInitialData();
@@ -72,7 +74,7 @@ public class ECSGroup {
 	/// </summary>
 	public void AddScript(int _entityId, MonoScript _behavior, bool _enable) {
 		Entity entity;
-		if (entities_.TryGetValue(_entityId, out entity)) {
+		if (entityMap_.TryGetValue(_entityId, out entity)) {
 			//Debug.LogInfo("ECSGroup.AddScript - Adding script to Entity ID: " + _entityId + ", Script Name: " + _behavior.GetType().Name);
 			_behavior.CreateBehavior(_entityId, _behavior.GetType().Name, this);
 			_behavior.enable = _enable;
@@ -99,7 +101,8 @@ public class ECSGroup {
 		int id = 0;
 		InternalCreateEntity(out id, _prefabName, groupName);
 		Entity entity = new Entity(id, this);
-		entities_.Add(id, entity);
+		entityMap_.Add(id, entity);
+		entities_.Add(entity);
 
 		awakeList_.Add(entity); //!< 生成されたエンティティを生成リストに追加
 		initList_.Add(entity); //!< 初期化リストにも追加
@@ -131,15 +134,14 @@ public class ECSGroup {
 		CallAwake();
 		CallInitialize();
 
-		foreach (Entity entity in entities_.Values) {
-			if (!CheckEnable(entity)) {
-				continue;
-			}
-
-			foreach (MonoScript script in entity.GetScripts()) {
-				if (script.enable) {
-					script.Update();
-				}
+		// ヒエラルキー順（ルートから再帰的）に更新を行う
+		// C#側のentities_リストは作成順であるため、C++側からルートエンティティのIDを順序通りに取得する
+		int rootCount = InternalGetRootEntityCount(groupName);
+		for (int i = 0; i < rootCount; i++) {
+			int rootId = InternalGetRootEntityId(groupName, i);
+			Entity entity = GetEntity(rootId);
+			if (entity != null) {
+				UpdateRecursive(entity);
 			}
 		}
 
@@ -152,6 +154,34 @@ public class ECSGroup {
 		double ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
 		Debug.InternalLog("Update Time (ms): " + ms);
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
+	}
+
+	/// <summary>
+	/// エンティティをヒエラルキー順に再帰的に更新する
+	/// </summary>
+	/// <param name="_entity"></param>
+	private void UpdateRecursive(Entity _entity) {
+		// 自身の有効フラグをチェック
+		// 親の有効状態は呼び出し元（ヒエラルキー順の巡回）ですでに担保されているため、自身のフラグのみ確認すればよい
+		if (!_entity.enable) {
+			return;
+		}
+
+		// 自身のスクリプトを更新
+		foreach (MonoScript script in _entity.GetScripts()) {
+			if (script.enable) {
+				script.Update();
+			}
+		}
+
+		// 子エンティティを再帰的に更新
+		uint childCount = _entity.GetChildCount();
+		for (uint i = 0; i < childCount; i++) {
+			Entity child = _entity.GetChild(i);
+			if (child != null) {
+				UpdateRecursive(child);
+			}
+		}
 	}
 
 
@@ -217,7 +247,7 @@ public class ECSGroup {
 	/// Entityの取得
 	/// </summary>
 	public Entity GetEntity(int _id) {
-		if (entities_.TryGetValue(_id, out Entity entity)) {
+		if (entityMap_.TryGetValue(_id, out Entity entity)) {
 #if DEBUG
 			//Debug.Log("ECSGroup.GetEntity - Entity found with ID: " + entity.Id + ", Entity Name: " + entity.name);
 #endif
@@ -234,8 +264,9 @@ public class ECSGroup {
 	/// エンティティの削除
 	/// </summary>
 	public void DestroyEntity(int _id) {
-		if (entities_.TryGetValue(_id, out Entity entity)) {
-			entities_.Remove(_id);
+		if (entityMap_.TryGetValue(_id, out Entity entity)) {
+			entityMap_.Remove(_id);
+			entities_.Remove(entity);
 			InternalDestroyEntity(groupName, _id);
 #if DEBUG
 			Debug.Log("Entity destroyed with ID: " + _id);
@@ -254,8 +285,8 @@ public class ECSGroup {
 				  + entities_.Count);
 #endif
 
-		var entitiesToDestroy = new Dictionary<int, Entity>(entities_);
-		foreach (var entity in entitiesToDestroy.Values) {
+		var entitiesToDestroy = new List<Entity>(entities_);
+		foreach (var entity in entitiesToDestroy) {
 			entity.Destroy();
 		}
 	}
@@ -264,14 +295,14 @@ public class ECSGroup {
 	/// すべてのエンティティを取得
 	/// </summary>
 	public IEnumerable<Entity> GetEntities() {
-		return entities_.Values;
+		return entities_;
 	}
 
 	/// <summary>
 	/// エンティティの探索
 	/// </summary>
 	public Entity FindEntity(string _name) {
-		foreach (var entity in entities_.Values) {
+		foreach (var entity in entities_) {
 			if (entity.name == _name) {
 				return entity;
 			}
@@ -308,6 +339,12 @@ public class ECSGroup {
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static extern void InternalCreateEntity(out int _id, string _prefabName, string _groupName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	static extern int InternalGetRootEntityCount(string _groupName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	static extern int InternalGetRootEntityId(string _groupName, int _index);
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static extern void InternalDestroyEntity(string _ecsGroupName, int _id);

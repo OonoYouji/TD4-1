@@ -157,6 +157,22 @@ void EntityCollection::RemoveDoNotDestroyEntity(GameEntity* _entity) {
 	}
 }
 
+void EntityCollection::MoveEntity(GameEntity* _entity, size_t _newIndex) {
+	auto it = std::find_if(entities_.begin(), entities_.end(), [_entity](const std::unique_ptr<GameEntity>& e) {
+		return e.get() == _entity;
+	});
+
+	if (it != entities_.end()) {
+		std::unique_ptr<GameEntity> entityPtr = std::move(*it);
+		entities_.erase(it);
+
+		if (_newIndex > entities_.size()) {
+			_newIndex = entities_.size();
+		}
+		entities_.insert(entities_.begin() + _newIndex, std::move(entityPtr));
+	}
+}
+
 int32_t EntityCollection::NewEntityID(bool _isRuntime) {
 	int32_t resultId = 0;
 

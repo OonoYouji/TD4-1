@@ -166,4 +166,24 @@ private:
 	ONEngine::GameEntity* pOldParent_ = nullptr;
 };
 
+/// ///////////////////////////////////////////////////
+/// エンティティの順番を入れ替えるコマンド
+/// ///////////////////////////////////////////////////
+class ReorderEntityCommand : public IEditCommand {
+public:
+	ReorderEntityCommand(ONEngine::ECSGroup* _ecsGroup, ONEngine::GameEntity* _entity, ONEngine::GameEntity* _newParent, uint32_t _newIndex);
+	~ReorderEntityCommand() = default;
+
+	EDITOR_STATE Execute() override;
+	EDITOR_STATE Undo() override;
+
+private:
+	ONEngine::ECSGroup* pEcsGroup_;
+	ONEngine::GameEntity* pEntity_;
+	ONEngine::GameEntity* pNewParent_;
+	ONEngine::GameEntity* pOldParent_;
+	uint32_t newIndex_;
+	uint32_t oldIndex_;
+};
+
 } /// Editor
