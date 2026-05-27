@@ -3,6 +3,7 @@
 using namespace ONEngine;
 
 /// engine
+#include <algorithm>
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Collection/ComponentCollection.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Script/Script.h"
@@ -134,6 +135,13 @@ void GameEntity::SetParent(GameEntity* _parent) {
 		RemoveParent();
 		return;
 	}
+
+	if (parent_ == _parent) {
+		return;
+	}
+
+	RemoveParent();
+
 	_parent->children_.push_back(this);
 	parent_ = _parent;
 }
@@ -147,6 +155,21 @@ void GameEntity::RemoveParent() {
 		);
 		parent_->children_.erase(itr, parent_->children_.end());
 		parent_ = nullptr;
+	}
+}
+
+void GameEntity::MoveChild(GameEntity* _child, size_t _newIndex) {
+	if (!_child || _child->parent_ != this) {
+		return;
+	}
+
+	auto it = std::find(children_.begin(), children_.end(), _child);
+	if (it != children_.end()) {
+		children_.erase(it);
+		if (_newIndex > children_.size()) {
+			_newIndex = children_.size();
+		}
+		children_.insert(children_.begin() + _newIndex, _child);
 	}
 }
 

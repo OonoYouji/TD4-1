@@ -46,5 +46,7 @@ namespace ONEngine {
         static void EnqueueAttackEvent(const std::string& attackName, int32_t ownerId, float damage, float radius, float duration, float offsetForward, float offsetUp);
         static void EnqueueEffectEvent(const std::string& effectName, int32_t entityId, float scale, float duration);
         static void EnqueueNamedEvent(const std::string& eventName, int32_t entityId);
+        static void EnqueueAssetReloadEvent(const std::string& assetPath);
+        static void EnqueueScriptHotReloadEvent();
     };
 }

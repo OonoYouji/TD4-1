@@ -58,6 +58,9 @@ public:
 	void AddDoNotDestroyEntity(GameEntity* _entity);
 	void RemoveDoNotDestroyEntity(GameEntity* _entity);
 
+	/// エンティティの順番を入れ替える
+	void MoveEntity(GameEntity* _entity, size_t _newIndex);
+
 
 
 
