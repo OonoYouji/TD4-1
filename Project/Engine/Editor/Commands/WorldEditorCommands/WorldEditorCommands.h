@@ -41,6 +41,32 @@ private:
 
 
 /// ///////////////////////////////////////////////////
+/// プリミティブなオブジェクトの作成コマンド
+/// ///////////////////////////////////////////////////
+class CreatePrimitiveCommand : public IEditCommand {
+public:
+	enum class Type {
+		Camera,
+		DirectionalLight,
+		Mesh,
+	};
+
+	CreatePrimitiveCommand(ONEngine::ECSGroup* _ecs, Type _type, ONEngine::GameEntity* _parentEntity = nullptr);
+	~CreatePrimitiveCommand() = default;
+
+	EDITOR_STATE Execute() override;
+	EDITOR_STATE Undo() override;
+
+private:
+	ONEngine::ECSGroup* pEcsGroup_ = nullptr;
+	ONEngine::GameEntity* generatedEntity_ = nullptr;
+	ONEngine::Guid generatedGuid_;
+	ONEngine::Guid parentGuid_;
+	Type type_;
+};
+
+
+/// ///////////////////////////////////////////////////
 /// シーンに配置してあるオブジェクトの名前をへんこうする 
 /// ///////////////////////////////////////////////////
 class EntityRenameCommand : public IEditCommand {

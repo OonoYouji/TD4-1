@@ -102,6 +102,19 @@ void HierarchyWindow::DrawMenuEntity() {
 		if(ImGui::MenuItem("create empty object")) {
 			pEditorManager_->ExecuteCommand<CreateGameObjectCommand>(pEcsGroup_);
 		}
+
+		ImGui::Separator();
+
+		if(ImGui::MenuItem("Camera")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Camera);
+		}
+		if(ImGui::MenuItem("Directional Light")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::DirectionalLight);
+		}
+		if(ImGui::MenuItem("Mesh")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Mesh);
+		}
+
 		ImGui::EndMenu();
 	}
 }
@@ -565,6 +578,19 @@ bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 				std::string name = "NewEntity_" + std::to_string(count);
 				pEditorManager_->ExecuteCommand<CreateGameObjectCommand>(pEcsGroup_, name, entity);
 			}
+
+			ImGui::Separator();
+
+			if(ImGui::MenuItem("Camera")) {
+				pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Camera, entity);
+			}
+			if(ImGui::MenuItem("Directional Light")) {
+				pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::DirectionalLight, entity);
+			}
+			if(ImGui::MenuItem("Mesh")) {
+				pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Mesh, entity);
+			}
+
 			ImGui::EndMenu();
 		}
 

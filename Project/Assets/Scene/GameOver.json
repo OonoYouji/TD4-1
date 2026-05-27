@@ -7,11 +7,11 @@
                     "enable": 1,
                     "farClip": 1000.0,
                     "fogColor": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
                     },
-                    "fogEnd": 100000.0,
+                    "fogEnd": 10000000.0,
                     "fogStart": 0.0,
                     "fovY": 0.699999988079071,
                     "isDrawFrustum": false,
@@ -44,7 +44,7 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "0b323d4942311bed1196939a4db8d8e4",
+            "guid": "4f80a8403a4423424b60b9ed00705c93",
             "id": 1,
             "name": "Camera",
             "parent": null,
@@ -93,70 +93,10 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "56a09c4bf4c2f1bc76ee89034164079b",
+            "guid": "0fbcbff0f0fef10cfa21b51cd9263bde",
             "id": 2,
-            "name": "Light",
+            "name": "DirectionalLight",
             "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.06085754185914993,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 128.0,
-                        "y": 72.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                }
-            ],
-            "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",
-            "id": 3,
-            "name": "Title",
-            "parent": 5,
             "prefabName": ""
         },
         {
@@ -203,8 +143,8 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "6a039137ad0ca5e587d14aa7db6b0171",
-            "id": 4,
+            "guid": "b8239d48b120ce577e148c0870d37d33",
+            "id": 3,
             "name": "2DCamera",
             "parent": null,
             "prefabName": ""
@@ -240,16 +180,76 @@
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "TitleSceneController"
+                            "name": "EndSceneController"
                         }
                     ],
                     "type": "Script"
                 }
             ],
-            "guid": "e059d18c3aa6d0577e148c0870d37d31",
-            "id": 5,
-            "name": "TitleSprites",
+            "guid": "e059d18c3aa6d0577e148c0870d37d34",
+            "id": 4,
+            "name": "OverSprites",
             "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.06085754185914993,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 128.0,
+                        "y": 72.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "1476ae40d1dbef533dcb6dc8f3b99a91",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "type": "SpriteRenderer"
+                }
+            ],
+            "guid": "6352579a8b80b8a956bd45eeb7b0c4df",
+            "id": 5,
+            "name": "GameOverText",
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -306,10 +306,10 @@
                     "type": "SpriteRenderer"
                 }
             ],
-            "guid": "74ff339484eae82538e7245fbb9d7d63",
+            "guid": "74ff339484eae82538e7245fbb9d7d65",
             "id": 6,
             "name": "PushButton",
-            "parent": 5,
+            "parent": 4,
             "prefabName": ""
         }
     ]
