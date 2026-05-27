@@ -1,9 +1,9 @@
-#include "BehaviorTreeEditorWindow.h"
+﻿#include "BehaviorTreeEditorWindow.h"
 #include <imgui.h>
 #include <format>
 #include "Engine/Script/MonoScriptEngine.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
-#include "Engine/Core/Utility/Time/Time.h"
+#include "Engine/Core/Utility/Utility.h"
 #include <algorithm>
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -20,12 +20,12 @@ BehaviorTreeEditorWindow::BehaviorTreeEditorWindow(const std::string& title, ONE
     : pEcs_(ecs), m_WindowTitle(title) {
     s_Instance = this;
     ed::Config config;
-    config.SettingsFile = "BehaviorTreeEditor_UI.json";
+    config.SettingsFile = nullptr; // 自動保存によるハングアップの原因を特定するため再度無効化
     m_Editor = ed::CreateEditor(&config);
 
     m_LastAutoSaveTime = ONEngine::Time::GetTime();
 
-    InitializeEditor();
+    // InitializeEditor() は ShowImGui の初回呼び出しまで遅延させる
 }
 
 BehaviorTreeEditorWindow::~BehaviorTreeEditorWindow() {
@@ -36,22 +36,34 @@ BehaviorTreeEditorWindow::~BehaviorTreeEditorWindow() {
 }
 
 void BehaviorTreeEditorWindow::InitializeEditor() {
-    availableNodeClasses_ = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorNodeClasses();
-    auto moduleClasses = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorModuleClasses();
-    availableModuleClasses_.clear();
-    for (const auto& m : moduleClasses) {
-        availableModuleClasses_.push_back({ m.fullName, !m.isDecorator });
+    static bool isInitializing = false;
+    if (isInitializing) return;
+    isInitializing = true;
+
+    try {
+        ONEngine::Console::Log("BTEditor: Starting simplified class scan...");
+        availableNodeClasses_ = ONEngine::MonoScriptEngine::GetInstance().GetBehaviorNodeClasses();
+        // availableModuleClasses_ の検索はハングの疑いがあるため一旦スキップ
+        RefreshFileList();
+        ONEngine::Console::Log("BTEditor: Simplified class scan completed.");
+        m_EditorInitialized = true;
+    } catch (...) {
+        ONEngine::Console::LogError("BTEditor: Fatal error during class scan!");
     }
-    RefreshFileList();
+    
+    isInitializing = false;
 }
 
 void BehaviorTreeEditorWindow::RefreshFileList() {
     m_AvailableTrees.clear();
-    std::string path = "Assets/AITrees";
-    if (std::filesystem::exists(path)) {
-        for (const auto& entry : std::filesystem::directory_iterator(path)) {
-            if (entry.path().extension() == ".json") {
-                m_AvailableTrees.push_back(entry.path().filename().string());
+    std::string basePath = "Assets/AITrees";
+    if (std::filesystem::exists(basePath)) {
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(basePath)) {
+            if (entry.is_regular_file() && entry.path().extension() == ".json") {
+                // basePath からの相対パスを取得して保存
+                std::string fullPath = entry.path().string();
+                std::replace(fullPath.begin(), fullPath.end(), '\\', '/');
+                m_AvailableTrees.push_back(fullPath);
             }
         }
     }
@@ -62,19 +74,29 @@ void BehaviorTreeEditorWindow::DrawFileBrowser() {
     ImGui::Separator();
 
     ImGui::BeginChild("FileList");
-    for (const auto& fileName : m_AvailableTrees) {
-        bool isSelected = (m_CurrentFilePath.find(fileName) != std::string::npos);
-        if (ImGui::Selectable(fileName.c_str(), isSelected)) {
-            m_CurrentFilePath = "Assets/AITrees/" + fileName;
+    for (const auto& filePath : m_AvailableTrees) {
+        bool isSelected = (m_CurrentFilePath == filePath);
+        // 表示用にはファイル名だけ、または短いパスを表示
+        std::string displayName = filePath;
+        if (filePath.find("Assets/AITrees/") == 0) {
+            displayName = filePath.substr(15); // "Assets/AITrees/" を削る
+        }
+
+        if (ImGui::Selectable(displayName.c_str(), isSelected)) {
+            m_CurrentFilePath = filePath;
             LoadTree(m_CurrentFilePath);
         }
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Click to Load: %s", fileName.c_str());
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Click to Load: %s", filePath.c_str());
     }
     ImGui::EndChild();
 }
 
 void BehaviorTreeEditorWindow::ShowImGui() {
     s_Instance = this;
+
+    if (!m_EditorInitialized) {
+        InitializeEditor();
+    }
 
     // オートセーブ処理
     float currentTime = ONEngine::Time::GetTime();
@@ -381,26 +403,49 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
     int currentOrder = 1;
     auto entryIt = std::find_if(m_Nodes.begin(), m_Nodes.end(), [](const Node& n) { return n.className == "Entry"; });
     if (entryIt != m_Nodes.end()) {
-        std::vector<Node*> stack; stack.push_back(&(*entryIt));
+        std::deque<Node*> stack; stack.push_back(&(*entryIt));
         std::set<uintptr_t> visited;
-        while (!stack.empty()) {
+        int safetyCounter = 0;
+        const int MAX_NODES = 1000;
+
+        while (!stack.empty() && safetyCounter++ < MAX_NODES) {
             Node* current = stack.back(); stack.pop_back();
             uintptr_t ptr = (uintptr_t)current->id.AsPointer();
+            
             if (visited.count(ptr)) continue;
             visited.insert(ptr);
+
             if (current->className != "Entry") executionOrder[ptr] = currentOrder++;
+            
+            // 現在のノードからの出力を探す
             std::vector<Node*> children;
             for (const auto& link : m_Links) {
                 bool isOutputOfCurrent = false;
-                for (const auto& pin : current->outputs) if (pin.id == link.startPinId) { isOutputOfCurrent = true; break; }
+                for (const auto& pin : current->outputs) {
+                    if (pin.id == link.startPinId) { isOutputOfCurrent = true; break; }
+                }
+                
                 if (isOutputOfCurrent) {
                     for (auto& targetNode : m_Nodes) {
-                        for (const auto& inPin : targetNode.inputs) if (inPin.id == link.endPinId) { children.push_back(&targetNode); break; }
+                        bool found = false;
+                        for (const auto& inPin : targetNode.inputs) {
+                            if (inPin.id == link.endPinId) {
+                                // 循環参照を防止：既に訪問済みのノードは追加しない
+                                if (visited.find((uintptr_t)targetNode.id.AsPointer()) == visited.end()) {
+                                    children.push_back(&targetNode);
+                                }
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found) break;
                     }
                 }
             }
-            // Y座標でソート（スタックなので降順に積むことで、昇順＝上にあるものが先に処理される）
-            std::sort(children.begin(), children.end(), [](Node* a, Node* b) { return ed::GetNodePosition(a->id).y > ed::GetNodePosition(b->id).y; });
+            // Y座標でソートして実行順を決定（上にあるものが先）
+            std::sort(children.begin(), children.end(), [](Node* a, Node* b) { 
+                return ed::GetNodePosition(a->id).y > ed::GetNodePosition(b->id).y; 
+            });
             for (auto* child : children) stack.push_back(child);
         }
     }
@@ -530,13 +575,40 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
 
     if (ed::BeginDelete()) {
         ed::LinkId linkId;
-        while (ed::QueryDeletedLink(&linkId)) if (ed::AcceptDeletedItem()) { RecordUndo(); auto it = std::remove_if(m_Links.begin(), m_Links.end(), [linkId](const Link& l) { return l.id == linkId; }); m_Links.erase(it, m_Links.end()); }
+        while (ed::QueryDeletedLink(&linkId)) {
+            if (ed::AcceptDeletedItem()) {
+                RecordUndo();
+                auto it = std::remove_if(m_Links.begin(), m_Links.end(), [linkId](const Link& l) { return l.id == linkId; });
+                m_Links.erase(it, m_Links.end());
+            }
+        }
+
         ed::NodeId nodeId;
         while (ed::QueryDeletedNode(&nodeId)) {
             auto it = std::find_if(m_Nodes.begin(), m_Nodes.end(), [nodeId](const Node& n) { return n.id == nodeId; });
-            if (it != m_Nodes.end()) { if (it->className == "Entry") ed::RejectDeletedItem(); else if (ed::AcceptDeletedItem()) { RecordUndo(); m_Nodes.erase(it); } }
-            auto itCb = std::find_if(m_CommentBoxes.begin(), m_CommentBoxes.end(), [nodeId](const CommentBox& cb) { return cb.id == (uint32_t)(uintptr_t)nodeId.AsPointer(); });
-            if (itCb != m_CommentBoxes.end()) if (ed::AcceptDeletedItem()) { RecordUndo(); m_CommentBoxes.erase(itCb); }
+            if (it != m_Nodes.end()) {
+                if (it->className == "Entry") {
+                    ed::RejectDeletedItem();
+                } else if (ed::AcceptDeletedItem()) {
+                    RecordUndo();
+                    m_Nodes.erase(it);
+                }
+                continue;
+            }
+
+            auto itCb = std::find_if(m_CommentBoxes.begin(), m_CommentBoxes.end(), [nodeId](const CommentBox& cb) {
+                return cb.id == (uint32_t)(uintptr_t)nodeId.AsPointer();
+            });
+            if (itCb != m_CommentBoxes.end()) {
+                if (ed::AcceptDeletedItem()) {
+                    RecordUndo();
+                    m_CommentBoxes.erase(itCb);
+                }
+                continue;
+            }
+
+            // 見つからないID（内部的なものなど）に対しても必ずRejectを呼ばないと無限ループになる
+            ed::RejectDeletedItem();
         }
     }
     ed::EndDelete();

@@ -8,41 +8,26 @@
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
         },
         {
-            "id": 2, "className": "Sequence", "name": "Giant Attack Sequence", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [300.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "Giant Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [200.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
         },
         {
-            "id": 3, "className": "RotateToFaceNode", "name": "Aim at Target", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetKey": "TargetPosition", "rotationSpeed": "360.0", "precisionAngle": "5.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, -100.0],
+            "id": 3, "className": "ShowIndicatorNode", "name": "Range Preview", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "shape": "1", "centerType": "1", "duration": "1.0", "size": "15.0", "color": "0.8,0.0,1.0,0.5" }, 
+            "decorators": [], "services": [], "pos": [400.0, -50.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": []
         },
         {
-            "id": 4, "className": "ShowIndicatorNode", "name": "Preview Area (1.5s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "1", "targetPosKey": "TargetPosition", "duration": "1.5", "size": "5.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, 0.0],
+            "id": 4, "className": "ScaleUpAreaEntitiesNode", "name": "Suction & Scale", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "targetPosKey": "TargetPosition", "radius": "10.0", "scaleFactor": "3.0", "duration": "5.0" }, 
+            "decorators": [], "services": [], "pos": [400.0, 50.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 5, "className": "ScaleUpAreaEntitiesNode", "name": "Execute Scale Up", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetPosKey": "TargetPosition", "effectRadius": "5.0", "scaleMultiplier": "3.0", "targetNameFilter": "Reinforcement" }, 
-            "decorators": [], "services": [], "pos": [600.0, 100.0],
-            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 6, "className": "WaitNode", "name": "Cooldown (2.0s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "2.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, 200.0],
-            "inputs": [{ "id": 60, "name": "In" }], "outputs": []
         }
     ],
     "links": [
         { "id": 1001, "startPin": 10, "endPin": 20 },
         { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 40 },
-        { "id": 1004, "startPin": 21, "endPin": 50 },
-        { "id": 1005, "startPin": 21, "endPin": 60 }
+        { "id": 1003, "startPin": 21, "endPin": 40 }
     ],
     "comments": []
 }

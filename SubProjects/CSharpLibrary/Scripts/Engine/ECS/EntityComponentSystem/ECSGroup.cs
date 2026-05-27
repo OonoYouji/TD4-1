@@ -145,13 +145,16 @@ public class ECSGroup {
 
 		ComponentBatchManager.SendAllBatches(componentCollection, groupName);
 
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.InternalLog("ECSGroup.UpdateEntities - Updating entities in group: " + groupName + ", EntityCount: " + entities_.Count);
-		Debug.InternalLog($"gen0:{GC.CollectionCount(0)} gen1:{GC.CollectionCount(1)} gen2:{GC.CollectionCount(2)}");
+        // フレームの終わりに描画データをC++へ送る
+        GizmoBatch.SubmitBatch();
+
+		// Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
+		// Debug.InternalLog("ECSGroup.UpdateEntities - Updating entities in group: " + groupName + ", EntityCount: " + entities_.Count);
+		// Debug.InternalLog($"gen0:{GC.CollectionCount(0)} gen1:{GC.CollectionCount(1)} gen2:{GC.CollectionCount(2)}");
 		sw.Stop();
 		double ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-		Debug.InternalLog("Update Time (ms): " + ms);
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
+		// Debug.InternalLog("Update Time (ms): " + ms);
+		// Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 	}
 
 
@@ -163,11 +166,13 @@ public class ECSGroup {
 			return;
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("");
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("ECSGroup.CallAwake - Awakening entities in group: " + groupName + ", Count: " + awakeList_.Count);
 #endif
+*/
 
 		List<Entity> entitiesToAwake = new List<Entity>(awakeList_);
 		awakeList_.Clear(); // 生成リストをクリア
@@ -177,10 +182,12 @@ public class ECSGroup {
 			}
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("");
 #endif
+*/
 	}
 
 
@@ -192,12 +199,14 @@ public class ECSGroup {
 			return;
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("");
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("ECSGroup.CallInitialize - Initializing entities in group: " + groupName + ", Count: "
 				  + initList_.Count);
 #endif
+*/
 
 		List<Entity> entitiesToInitialize = new List<Entity>(initList_);
 		initList_.Clear();
@@ -207,10 +216,12 @@ public class ECSGroup {
 			}
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("");
 #endif
+*/
 	}
 
 	/// <summary>

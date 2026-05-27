@@ -1,0 +1,20 @@
+{
+    "BossAI": {
+        "treePath": "Assets/AITrees/Test/Test_Vortex.json"
+    },
+    "DamageHandler": {},
+    "HP": {
+        "MAX_HP": 2000,
+        "currentHp": 2000
+    },
+    "Knockback": {
+        "KNOCKBACK_DECAY": 5.0,
+        "KNOCKBACK_FORCE_STRENGTH": 10.0,
+        "knockbackStopThreshold": 0.009999999776482582,
+        "knockbackVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

@@ -55,18 +55,32 @@ public class FireBeamNode : BehaviorNode
 
         // ビームの方向を計算（現在の向き、またはターゲット座標へ）
         Vector3 targetPos = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
-        Vector3 direction = (targetPos - owner.transform.position).Normalized();
+        Vector3 bossPos = owner.transform.position;
+        Vector3 diff = targetPos - bossPos;
+        
+        if (diff.sqrMagnitude > 0.001f)
+        {
+            Vector3 direction = diff.Normalized();
+            
+            // --- ボス自身もターゲットの方向を向くように設定（ビーム中も追従可能にする） ---
+            var intent = owner.GetComponent<AgentIntentComponent>();
+            if (intent != null)
+            {
+                intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up);
+                intent.useDesiredRotation = true;
+            }
 
-        // C++側にビーム攻撃イベントを送信（毎フレームまたは一定間隔）
-        FrameEvent.EnqueueAttackEvent(
-            "BossBeam",
-            owner.Id,
-            damage * Time.deltaTime, // 持続ダメージ
-            beamRadius,
-            0.1f,
-            0.0f,
-            1.0f
-        );
+            // C++側にビーム攻撃イベントを送信（毎フレームまたは一定間隔）
+            FrameEvent.EnqueueAttackEvent(
+                "BossBeam",
+                owner.Id,
+                damage * Time.deltaTime, // 持続ダメージ
+                beamRadius,
+                0.1f,
+                0.0f,
+                1.0f
+            );
+        }
 
         return NodeStatus.Running;
     }

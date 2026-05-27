@@ -7,15 +7,15 @@
                     "enable": 1,
                     "farClip": 1000.0,
                     "fogColor": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": 0.10000000149011612,
+                        "y": 0.10000000149011612,
+                        "z": 0.15000000596046448
                     },
-                    "fogEnd": 10000.0,
+                    "fogEnd": 1000.0,
                     "fogStart": 0.0,
                     "fovY": 0.699999988079071,
                     "isDrawFrustum": false,
-                    "isMainCamera": false,
+                    "isMainCamera": true,
                     "nearClip": 0.10000000149011612,
                     "type": "CameraComponent"
                 },
@@ -24,12 +24,12 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 0.0,
-                        "y": 35.0,
-                        "z": -60.0
+                        "y": 60.0,
+                        "z": -10.0
                     },
                     "rotate": {
-                        "w": 0.9238795042037964,
-                        "x": 0.3826833963394165,
+                        "w": 0.8659999966621399,
+                        "x": 0.5,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -44,7 +44,7 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "f3301490d260735dfc6b4620b64395a9",
+            "guid": "ebcf512b8dda503960f0ad43075d7d04",
             "id": 1,
             "name": "Camera",
             "parent": null,
@@ -65,7 +65,7 @@
                         "z": 0.5
                     },
                     "enable": 1,
-                    "intensity": 1.0,
+                    "intensity": 1.5,
                     "type": "DirectionalLight"
                 },
                 {
@@ -93,7 +93,7 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "545c4c6071414dab0e6246ebae462081",
+            "guid": "ed991d8ae3fbf75b139b325cca3bff44",
             "id": 2,
             "name": "Light",
             "parent": null,
@@ -106,40 +106,7 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                }
-            ],
-            "guid": "e6c95d0ab902296314ea2f6985e2817b",
-            "id": 3,
-            "name": "UI Root",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 450.0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "rotate": {
@@ -150,8 +117,8 @@
                     },
                     "scale": {
                         "x": 1000.0,
-                        "y": 50.0,
-                        "z": 1.0
+                        "y": 1.0,
+                        "z": 1000.0
                     },
                     "type": "Transform"
                 },
@@ -163,11 +130,94 @@
                     "material": {
                         "baseColor": {
                             "w": 1.0,
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224,
+                            "z": 0.20000000298023224
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 100.0,
+                                "y": 100.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/plane.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "64e8c2da9542202868b038a4c0931069",
+            "id": 3,
+            "name": "Floor",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -40.0,
+                        "y": 2.5,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 0.8745322823524475,
+                        "x": -0.01390150561928749,
+                        "y": -0.484706848859787,
+                        "z": 0.007704876363277435
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
                             "x": 1.0,
                             "y": 0.0,
                             "z": 0.0
                         },
-                        "baseTextureGuid": "6d46b53d01009d0166af6d4aee0acb0c",
+                        "baseTextureGuid": "00000000000000000000000000000000",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 1,
@@ -183,23 +233,33 @@
                             }
                         }
                     },
-                    "type": "SpriteRenderer"
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
                 },
                 {
+                    "desiredMoveDirection": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "desiredRotation": {
+                        "w": 0.8745319843292236,
+                        "x": -0.01390151772648096,
+                        "y": -0.4847073256969452,
+                        "z": 0.007704883813858032
+                    },
                     "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "BossHPGauge"
-                        }
-                    ],
-                    "type": "Script"
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": true
                 }
             ],
-            "guid": "fc9c35f3c6655b859b19742a69c96942",
+            "guid": "24f5af7795d0a296fcd6f33968ddb735",
             "id": 4,
-            "name": "BossHPGauge",
-            "parent": 3,
+            "name": "Boss_Beam",
+            "parent": null,
             "prefabName": ""
         },
         {
@@ -208,8 +268,8 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
-                        "y": 0.0,
+                        "x": -20.0,
+                        "y": 2.5,
                         "z": 0.0
                     },
                     "rotate": {
@@ -256,6 +316,210 @@
                         "baseColor": {
                             "w": 1.0,
                             "x": 1.0,
+                            "y": 0.5,
+                            "z": 0.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "desiredMoveDirection": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "desiredRotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": false
+                }
+            ],
+            "guid": "e50e44c88348cf7d62206fcc9b6613a4",
+            "id": 5,
+            "name": "Boss_Bomb",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 2.5,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "desiredMoveDirection": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "desiredRotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": false
+                }
+            ],
+            "guid": "3536c1dd30f7f0e8aae36ef24b56dc1c",
+            "id": 6,
+            "name": "Boss_Giant",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 20.0,
+                        "y": 2.5,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.0,
                             "y": 1.0,
                             "z": 1.0
                         },
@@ -275,50 +539,146 @@
                             }
                         }
                     },
-                    "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
                     "type": "MeshRenderer"
                 },
                 {
-                    "categoryBits": 8,
-                    "enable": 1,
-                    "maskBits": 36,
-                    "radius": 2.5,
-                    "state": "Dynamic",
-                    "type": "SphereCollider"
-                }
-            ],
-            "guid": "b055b055b055b055b055b055b055b055",
-            "id": 5,
-            "name": "Boss",
-            "parent": null,
-            "prefabName": "Boss.prefab"
-        },
-        {
-            "components": [
-                {
-                    "cameraType": 1,
-                    "enable": 1,
-                    "farClip": 1000.0,
-                    "fogColor": {
+                    "desiredMoveDirection": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
                     },
-                    "fogEnd": 10000000.0,
-                    "fogStart": 0.0,
-                    "fovY": 0.699999988079071,
-                    "isDrawFrustum": false,
-                    "isMainCamera": true,
-                    "nearClip": 0.10000000149011612,
-                    "type": "CameraComponent"
+                    "desiredRotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": false
+                }
+            ],
+            "guid": "e353cc758bad3a47a0f671bcccd87fac",
+            "id": 7,
+            "name": "Boss_Rock",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 40.0,
+                        "y": 2.5,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
                 },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageHandler"
+                        },
+                        {
+                            "enable": true,
+                            "name": "Knockback"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.5,
+                            "y": 0.5,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "desiredMoveDirection": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "desiredRotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": false
+                }
+            ],
+            "guid": "11fa7e3b396806de7fbfa79eee1fd645",
+            "id": 8,
+            "name": "Boss_Vortex",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
                 {
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "y": 1.0,
+                        "z": 25.0
                     },
                     "rotate": {
                         "w": 1.0,
@@ -335,11 +695,39 @@
                 },
                 {
                     "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
                 }
             ],
-            "guid": "d9684fb34dd427f12d0ad6c86ad22221",
-            "id": 6,
-            "name": "2DCamera",
+            "guid": "6937334602059b45460010763e1e3563",
+            "id": 9,
+            "name": "Player",
             "parent": null,
             "prefabName": ""
         }

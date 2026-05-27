@@ -105,10 +105,12 @@ void Gizmo::DrawWireCube(const Vector3& _position, const Vector3& _size, const V
 }
 
 void Gizmo::DrawLine(const Vector3& _startPosition, const Vector3& _endPosition, const Vector4& _color) {
+	if (!gGizmoSystem) return;
 	gGizmoSystem->lineData_.push_back({ _startPosition, _endPosition, _color });
 }
 
 void Gizmo::DrawRay(const Vector3& _position, const Vector3& _direction, const Vector4& _color) {
+	if (!gGizmoSystem) return;
 	gGizmoSystem->lineData_.push_back({ _position, _position + _direction, _color });
 }
 

@@ -56,17 +56,29 @@ public static class AIUpdater {
                     nativeData->useDesiredRotation = (byte)(component.useDesiredRotation ? 1 : 0);
                     nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
                     nativeData->targetEntityId = component.targetEntityId;
-                    }
-
- else {
+                }
+                else
+                {
                     // ツリーがない場合は停止を意図する
                     nativeData->desiredMoveDirection = Vector3.zero;
                     nativeData->isAttacking = 0;
                 }
-            } else {
+            }
+            else
+            {
                 // コンポーネントが見つからない場合も停止
                 nativeData->desiredMoveDirection = Vector3.zero;
             }
+        }
+
+        // AIの更新終了後にGizmoデータを一括送信
+        GizmoBatch.SubmitBatch();
+
+        // --- 追加: BT内で更新されたTransformやMeshRendererのデータをC++へ強制同期 ---
+        var group = EntityComponentSystem.GetECSGroup(groupName);
+        if (group != null)
+        {
+            ComponentBatchManager.SendAllBatches(group.componentCollection, groupName);
         }
     }
 

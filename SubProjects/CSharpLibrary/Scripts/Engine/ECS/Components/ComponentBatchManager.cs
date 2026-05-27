@@ -25,6 +25,11 @@ static class ComponentBatchManager {
 				batch[i].rotate = comp.rotate;
 				batch[i].scale = comp.scale;
 				batch[i].matrix = comp.matrix;
+
+                // 特徴的なエンティティ（Telegraph等）の座標をトレース
+                if (comp.entity.name.Contains("Telegraph")) {
+                    Debug.Log($"<color=white>[TRACE:BatchSend]</color> {comp.entity.name}(ID:{comp.entity.Id}) position={Vector3.ToSimpleString(comp.position)}");
+                }
 			}
 			return batch;
 		});

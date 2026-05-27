@@ -23,4 +23,8 @@ public class Transform : Component {
 	public Quaternion rotation { get => rotate; set => rotate = value; }
 	public Vector3 scale = new Vector3(1f, 1f, 1f);
 	public Matrix4x4 matrix = Matrix4x4.kIdentity;
+
+    public Vector3 forward => rotate * Vector3.forward;
+    public Vector3 up => rotate * Vector3.up;
+    public Vector3 right => rotate * Vector3.right;
 }

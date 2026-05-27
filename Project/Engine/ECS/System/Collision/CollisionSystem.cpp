@@ -318,7 +318,7 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 
 				mono_runtime_invoke(script.collisionEventMethods[1], monoBehavior, params, &exc);
 
-				Console::Log("Collision Stay Event Invoked");
+				// Console::Log("Collision Stay Event Invoked");
 
 				/// 例外が発生した場合の処理
 				if(exc) {

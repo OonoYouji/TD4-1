@@ -17,31 +17,37 @@ public class FindPlayerService : BehaviorService
     /// </summary>
     public override void OnTick(Blackboard blackboard, Entity owner)
     {
+        uint idKeyHash = BehaviorTreeLoader.HashString(targetIdKey);
+        
+        // すでに有効なターゲットがいればスキップ（必要に応じて再検索ロジックを入れる）
+        if (blackboard.HasKey(idKeyHash) && blackboard.GetInt(idKeyHash) != 0) return;
+
         // プレイヤーを検索
         Entity player = FindPlayer(owner);
         if (player != null)
         {
-            // 見つかった場合、その一意なID（C++側のEntityId）を保存
-            blackboard.SetInt(BehaviorTreeLoader.HashString(targetIdKey), player.Id);
+            blackboard.SetInt(idKeyHash, player.Id);
+            Debug.Log($"<color=green>[FindPlayer]</color> Found 'Player' (ID:{player.Id}) in group '{player.Group.groupName}'");
+        }
+        else
+        {
+            // 定期的に警告を出す（デバッグ用）
+            // Debug.LogWarning($"<color=red>[FindPlayer]</color> {owner.name} could not find 'Player' in any common groups.");
         }
     }
 
-    /// <summary>
-    /// 複数の主要なECSグループから「Player」という名前のエンティティを探し出す内部メソッド。
-    /// </summary>
     private Entity FindPlayer(Entity owner)
     {
-        // プレイヤーが存在する可能性のある代表的なシーン（ECSグループ）のリスト
-        string[] commonGroups = { "GameScene", "Game", "Debug", "PlayerDevelopScene", "Workspace_PlayerBullet" };
-        
-        foreach (var name in commonGroups)
+        // 1. 自分のグループを最優先
+        Entity pInGroup = owner.Group.FindEntity("Player");
+        if (pInGroup != null) return pInGroup;
+
+        // 2. 全てのグループを検索
+        foreach (var g in EntityComponentSystem.GetAllGroups())
         {
-            var g = EntityComponentSystem.GetECSGroup(name);
-            if (g != null)
-            {
-                var p = g.FindEntity("Player");
-                if (p != null) return p;
-            }
+            if (g.groupName == owner.Group.groupName) continue; // すでに探したのでパス
+            var p = g.FindEntity("Player");
+            if (p != null) return p;
         }
         return null;
     }

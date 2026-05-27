@@ -88,6 +88,7 @@
     <Compile Include="Scripts\Engine\Core\Utility\Input\KeyCode.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Input\Mouse.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Log\Debug.cs" />
+    <Compile Include="Scripts\Engine\Core\Utility\Log\Gizmo.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Ease.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Flag.cs" />
     <Compile Include="Scripts\Engine\Core\Utility\Math\Mathf.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Scripts\Game\AI\BehaviorTree\MoveToPlayerNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\PatrolWaypointsNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\PlayAnimationNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\FixedTargetService.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\ReinforcementDensitySensingService.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\DropObjectAtTargetNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\PickRandomRockNode.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Scripts\Game\AI\BehaviorTree\ShowIndicatorNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\SpawnAttackNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\SpawnVortexFieldNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\UpdateTargetTrackerNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\FireBeamNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\PhysicsPushService.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />

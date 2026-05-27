@@ -89,12 +89,20 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
             // ボスの前方（回転しているので常に変わる）に向けて発射
             Vector3 fireDir = owner.transform.rotate * Vector3.forward;
             
-            // 少し浮かせた位置から発射
-            projectile.transform.position = owner.transform.position + Vector3.up * 1.0f + fireDir * 2.0f;
+            // 弾のスクリプトを取得してパラメータを設定
+            var bullet = projectile.GetScript<EnemyBullet>();
+            if (bullet != null)
+            {
+                bullet.startPosition = owner.transform.position + Vector3.up * 1.5f + fireDir * 2.0f;
+                bullet.velocity = fireDir * projectileSpeed;
+            }
+            else
+            {
+                // スクリプトがない場合のフォールバック
+                projectile.transform.position = owner.transform.position + Vector3.up * 1.5f + fireDir * 2.0f;
+            }
             
-            // 弾のスクリプト等に速度を伝える（名前ベースの簡易実装）
-            // 本来は Projectile コンポーネント等を取得して設定する
-            Debug.Log($"[RotatingAttack] Fired projectile at {fireDir}");
+            Debug.Log($"[RotatingAttack] Fired projectile with speed {projectileSpeed}");
             
             // 演出イベント
             FrameEvent.EnqueueNamedEvent("Effect_BossFire", owner.Id);
