@@ -1,12 +1,22 @@
 {
     "EnemyBulletLauncher": {
         "bulletSpeed": 10.0,
+        "launchDirection": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0
+        },
+        "offset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0
+        },
         "uTurnTypeInt": 0
     },
     "EnemyCollisionHandler": {
         "DAMAGE_COOLDOWN_TIME": 0.5,
         "MAX_HITPOINTS": 1000,
-        "damageCooldown": -256.2617492675781,
+        "damageCooldown": -789.9542236328125,
         "hitpoints": 1000,
         "isDestroy": false,
         "knockbackSafetyThreshold": 0.10000000149011612
@@ -27,6 +37,8 @@
     "TestEnemy": {
         "ENTITY_NAME": "Player",
         "attackRange": 46.0,
+        "fireInterval": 1.0,
+        "fireTimer": 0.16897231340408325,
         "rotateSpeed": 3.0,
         "searchRange": 20.0,
         "speed": 5.0

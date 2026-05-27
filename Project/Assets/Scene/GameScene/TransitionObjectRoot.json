@@ -1,0 +1,25 @@
+{
+    "SceneTransitionController": {
+        "prevState": 1,
+        "state": 2,
+        "test": 0,
+        "transitionState": 1
+    },
+    "TransitionIn": {
+        "OPEN_TIME": 1.0,
+        "SHAKE_MAGNITUDE": 30.0,
+        "screenHalfX": 960.0,
+        "screenQuadX": 480.0,
+        "screenSizeX": 1920.0,
+        "timer": 3.144860029220581
+    },
+    "TransitionOut": {
+        "CLOSE_TIME": 0.30000001192092896,
+        "SHAKE_MAGNITUDE_MAX": 100.0,
+        "SHAKE_TIME": 0.5,
+        "screenHalfX": 960.0,
+        "screenQuadX": 480.0,
+        "screenSizeX": 1920.0,
+        "timer": 48.98208999633789
+    }
+}

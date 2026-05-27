@@ -1,0 +1,11 @@
+{
+    "TransitionIn": {
+        "OPEN_TIME": 1.0,
+        "SHAKE_MAGNITUDE": 30.0
+    },
+    "TransitionOut": {
+        "CLOSE_TIME": 0.30000001192092896,
+        "SHAKE_MAGNITUDE_MAX": 30.0,
+        "SHAKE_TIME": 1.0
+    }
+}
