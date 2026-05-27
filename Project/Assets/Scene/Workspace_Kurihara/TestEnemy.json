@@ -1,7 +1,45 @@
 {
-    "EnemyBulletLauncher": {},
-    "EnemyCollisionHandler": {},
-    "EnemyUIHandler": {},
-    "Knockback": {},
-    "TestEnemy": {}
+    "EnemyBulletLauncher": {
+        "bulletSpeed": 10.0,
+        "launchDirection": {
+            "x": 0.9688074588775635,
+            "y": 0.0,
+            "z": 0.2478145807981491
+        },
+        "offset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0
+        }
+    },
+    "EnemyCollisionHandler": {
+        "DAMAGE_COOLDOWN_TIME": 0.5,
+        "MAX_HITPOINTS": 1000,
+        "damageCooldown": -114.73936462402344,
+        "hitpoints": 1000,
+        "isDestroy": false,
+        "knockbackSafetyThreshold": 0.10000000149011612
+    },
+    "EnemyUIHandler": {
+        "HP_UI_NAME": "HP"
+    },
+    "Knockback": {
+        "KNOCKBACK_DECAY": 5.0,
+        "KNOCKBACK_FORCE_STRENGTH": 10.0,
+        "knockbackStopThreshold": 0.009999999776482582,
+        "knockbackVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
+    "TestEnemy": {
+        "ENTITY_NAME": "Player",
+        "attackRange": 5.0,
+        "fireInterval": 1.0,
+        "fireTimer": 0.0,
+        "rotateSpeed": 3.0,
+        "searchRange": 20.0,
+        "speed": 5.0
+    }
 }

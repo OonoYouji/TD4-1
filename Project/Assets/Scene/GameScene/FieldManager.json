@@ -1,0 +1,8 @@
+{
+    "Field": {
+        "rows": 10,
+        "columns": 10,
+        "cellSize": 4.0,
+        "cellHeight": 1.0
+    }
+}
