@@ -12,6 +12,7 @@ using namespace ONEngine;
 #include "Engine/ECS/Component/Components/ComputeComponents/Script/Script.h"
 #include "Engine/Core/Threading/ThreadPool.h"
 #include "Engine/Core/Event/FrameEventQueue.h"
+#include "Engine/Editor/Manager/HotReloadManager.h"
 
 GameFramework::GameFramework() {}
 GameFramework::~GameFramework() {
@@ -108,6 +109,17 @@ void GameFramework::Run() {
 
 	/// game loopが終了するまで回す
 	while(true) {
+
+		/// ホットリロードリクエストの処理（フレームの開始時に行うことでD3D12の状態整合性を保つ）
+		auto hrRequests = Editor::HotReloadManager::GetInstance().ConsumeRequests();
+		for (const auto& path : hrRequests.assetPaths) {
+			Console::Log("[HotReload] Reloading asset: " + path, LogCategory::Asset);
+			renderingFramework_->GetAssetCollection()->ReloadAsset(path);
+		}
+		if (hrRequests.scriptHotReload) {
+			Console::Log("[HotReload] Script hot-reload requested.", LogCategory::ScriptEngine);
+			MonoScriptEngine::GetInstance().HotReload();
+		}
 
 		/// 更新処理
 		Input::Update();

@@ -15,6 +15,7 @@
 
 /// editor
 #include "Engine/Editor/Manager/EditorManager.h"
+#include "Engine/Editor/Manager/HotReloadManager.h"
 #include "Engine/Editor/Math/AssetPayload.h"
 #include "Engine/Editor/Math/ImGuiMath.h"
 #include "Engine/Editor/Math/ImGuiSelection.h"
@@ -79,6 +80,30 @@ ProjectWindow::~ProjectWindow() {}
 /// プロジェクトウィンドウの表示
 ///
 void ProjectWindow::ShowImGui() {
+	// ファイル監視イベントの処理
+	for(const auto& ev : fileWatcher_.ConsumeEvents()) {
+		if(ev.type == FileEvent::Type::File) {
+			std::string relPath = GetRelativePath(ev.path);
+			if(ev.action == FileEvent::Action::Modified || ev.action == FileEvent::Action::RenamedNew) {
+				// リロードリクエストをキューイング（即時実行するとD3D12のコマンドリスト競合でクラッシュするため）
+				HotReloadManager::GetInstance().RequestAssetReload(relPath);
+
+				// C#スクリプトの場合はホットリロードをリクエスト
+				if(relPath.ends_with(".cs")) {
+					HotReloadManager::GetInstance().RequestScriptHotReload();
+				}
+			}
+		}
+
+		// キャッシュの更新
+		std::filesystem::path parentPath = std::filesystem::path(ev.path).parent_path();
+		UpdateDirectoryCache(parentPath);
+		
+		if(currentPath_ == parentPath) {
+			UpdateFileCache(currentPath_);
+		}
+	}
+
 	if(ImGui::Begin(windowName_.c_str())) {
 		ImGui::Columns(2);
 
@@ -343,7 +368,12 @@ void ProjectWindow::PopupContextMenu(const std::filesystem::path& filepath, std:
 	if(ImGui::BeginPopup("FileContextMenu")) {
 		if(ImGui::MenuItem("Reload")) {
 			std::string path = GetRelativePath(filepath);
-			pAssetCollection_->ReloadAsset(path);
+			HotReloadManager::GetInstance().RequestAssetReload(path);
+
+			// スクリプトならホットリロードも要求
+			if (path.ends_with(".cs")) {
+				HotReloadManager::GetInstance().RequestScriptHotReload();
+			}
 		}
 
 		// --- 削除機能の追加 ---
