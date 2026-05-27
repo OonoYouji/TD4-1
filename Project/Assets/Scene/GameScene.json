@@ -171,7 +171,7 @@
                             "name": "Player"
                         },
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "CallingReinforcement"
                         },
                         {
@@ -752,7 +752,7 @@
                     "enable": 1,
                     "scripts": [
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "TestEnemy"
                         },
                         {
@@ -784,7 +784,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93726",
-            "id": 20,
+            "id": 12,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -827,9 +827,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817c",
-            "id": 12,
+            "id": 13,
             "name": "UI Root",
-            "parent": 20,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -888,9 +888,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96943",
-            "id": 13,
+            "id": 14,
             "name": "HP",
-            "parent": 12,
+            "parent": 13,
             "prefabName": ""
         },
         {
@@ -935,7 +935,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 14,
+            "id": 15,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -978,9 +978,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 15,
+            "id": 16,
             "name": "ShotControl",
-            "parent": 14,
+            "parent": 15,
             "prefabName": ""
         },
         {
@@ -1038,9 +1038,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 16,
+            "id": 17,
             "name": "Gamepad",
-            "parent": 15,
+            "parent": 16,
             "prefabName": ""
         },
         {
@@ -1098,9 +1098,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 17,
+            "id": 18,
             "name": "KBM",
-            "parent": 15,
+            "parent": 16,
             "prefabName": ""
         },
         {
@@ -1158,9 +1158,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 18,
+            "id": 19,
             "name": "TextSprite",
-            "parent": 15,
+            "parent": 16,
             "prefabName": ""
         },
         {
@@ -1218,7 +1218,7 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 19,
+            "id": 20,
             "name": "SpreadUi",
             "parent": 10,
             "prefabName": ""
