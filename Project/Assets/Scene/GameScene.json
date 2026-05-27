@@ -120,9 +120,9 @@
                         "z": 115.08489990234375
                     },
                     "rotate": {
-                        "w": 0.7117887139320374,
+                        "w": 0.6438860893249512,
                         "x": 0.0,
-                        "y": 0.702393651008606,
+                        "y": 0.765121340751648,
                         "z": 0.0
                     },
                     "scale": {
@@ -784,7 +784,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93726",
-            "id": 16,
+            "id": 20,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -827,9 +827,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817c",
-            "id": 17,
+            "id": 12,
             "name": "UI Root",
-            "parent": 16,
+            "parent": 20,
             "prefabName": ""
         },
         {
@@ -888,9 +888,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96943",
-            "id": 18,
+            "id": 13,
             "name": "HP",
-            "parent": 17,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -935,7 +935,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 19,
+            "id": 14,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -978,9 +978,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 20,
+            "id": 15,
             "name": "ShotControl",
-            "parent": 19,
+            "parent": 14,
             "prefabName": ""
         },
         {
@@ -1038,9 +1038,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 12,
+            "id": 16,
             "name": "Gamepad",
-            "parent": 20,
+            "parent": 15,
             "prefabName": ""
         },
         {
@@ -1098,9 +1098,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 13,
+            "id": 17,
             "name": "KBM",
-            "parent": 20,
+            "parent": 15,
             "prefabName": ""
         },
         {
@@ -1158,9 +1158,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 14,
+            "id": 18,
             "name": "TextSprite",
-            "parent": 20,
+            "parent": 15,
             "prefabName": ""
         },
         {
@@ -1218,7 +1218,7 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 15,
+            "id": 19,
             "name": "SpreadUi",
             "parent": 10,
             "prefabName": ""
@@ -1257,11 +1257,11 @@
                             "name": "SceneTransitionController"
                         },
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "TransitionOut"
                         },
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "TransitionIn"
                         }
                     ],
@@ -1291,8 +1291,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 1160.0,
-                        "y": 1280.0,
+                        "x": 1000.0,
+                        "y": 1160.0,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -1356,8 +1356,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 1160.0,
-                        "y": 1280.0,
+                        "x": 1000.0,
+                        "y": 1160.0,
                         "z": 1.0
                     },
                     "type": "Transform"

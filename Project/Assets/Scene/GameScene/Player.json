@@ -11,17 +11,17 @@
         "currentHp": 1000
     },
     "Player": {
-        "<fireCooldownTimer>k__BackingField": 52.899845123291016,
+        "<fireCooldownTimer>k__BackingField": 15.896141052246094,
         "<isGamepadMode>k__BackingField": false,
         "armLength": 2.0,
-        "currentYaw": 1.5575096607208252,
+        "currentYaw": -1.130293607711792,
         "fireCooldownTimer": 90.26615142822266,
         "fireInterval": 0.5,
         "inputDeadZone": 0.0,
         "isGamepadMode": false,
         "lastMousePos": {
-            "x": 1938.0,
-            "y": 344.0
+            "x": 29.0,
+            "y": 72.0
         },
         "maxMoveSpeed": 10.0,
         "mouseIsMovePixel": 0.0,

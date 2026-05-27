@@ -1,25 +1,26 @@
 {
     "SceneTransitionController": {
-        "prevState": 1,
+        "prevState": 2,
         "state": 2,
         "test": 0,
-        "transitionState": 1
+        "transitionState": 2
     },
     "TransitionIn": {
         "OPEN_TIME": 1.0,
-        "SHAKE_MAGNITUDE": 30.0,
+        "SHAKE_MAGNITUDE": 40.0,
         "screenHalfX": 960.0,
         "screenQuadX": 480.0,
         "screenSizeX": 1920.0,
-        "timer": 3.144860029220581
+        "timer": 2.4900963306427
     },
     "TransitionOut": {
-        "CLOSE_TIME": 0.30000001192092896,
-        "SHAKE_MAGNITUDE_MAX": 100.0,
-        "SHAKE_TIME": 0.5,
+        "CLOSE_TIME": 0.3499999940395355,
+        "SHAKE_MAGNITUDE_MAX": 40.0,
+        "SHAKE_START_TIME": 0.30000001192092896,
+        "SHAKE_TIME": 0.20000000298023224,
         "screenHalfX": 960.0,
         "screenQuadX": 480.0,
         "screenSizeX": 1920.0,
-        "timer": 48.98208999633789
+        "timer": 10.140644073486328
     }
 }
