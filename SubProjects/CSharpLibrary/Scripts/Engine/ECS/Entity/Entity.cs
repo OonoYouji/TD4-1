@@ -79,6 +79,7 @@ public class Entity {
 		}
 		set {
 			if (value == null) {
+				InternalSetParent(Id, 0, ecsGroupName_);
 				return;
 			}
 			InternalSetParent(Id, value.Id, ecsGroupName_);

@@ -129,11 +129,10 @@ public class ECSGroup {
 		componentCollection.GetArray<MeshRenderer>();
 		ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
 
-		/// 生成、初期化の呼び出しを行う
 		CallAwake();
 		CallInitialize();
 
-		foreach (Entity entity in entities_.Values) {
+		foreach (Entity entity in entities_.Values.ToList()) {
 			if (!CheckEnable(entity)) {
 				continue;
 			}

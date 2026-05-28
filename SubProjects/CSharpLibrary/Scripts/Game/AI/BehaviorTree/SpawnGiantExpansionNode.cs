@@ -15,6 +15,8 @@ public class SpawnGiantExpansionNode : BehaviorNode
         Entity area = owner.Group.CreateEntity("BossGiantArea");
         if (area != null)
         {
+            area.parent = null; // 独立させる
+            
             // ボスの足元に配置
             area.transform.position = owner.transform.position;
             

@@ -33,6 +33,7 @@ public class SpawnVortexFieldNode : BehaviorNode
             Entity vortex = owner.Group.CreateEntity(vortexPrefab);
             if (vortex != null)
             {
+                vortex.parent = null; // 独立させる
                 vortex.transform.position = targetPos;
                 blackboard.SetInt(entityIdKey, vortex.Id);
             }

@@ -39,6 +39,7 @@ public class FireBeamNode : BehaviorNode
             Entity beamEntity = owner.Group.CreateEntity("BossBeam");
             if (beamEntity != null)
             {
+                beamEntity.parent = null; // 独立させる
                 blackboard.SetInt(BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash), beamEntity.Id);
                 
                 // DamageTriggerのパラメータをノードの設定で上書き

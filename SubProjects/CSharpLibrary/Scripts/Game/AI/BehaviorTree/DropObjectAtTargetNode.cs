@@ -28,6 +28,7 @@ public class DropObjectAtTargetNode : BehaviorNode
             rock = owner.Group.CreateEntity("BossRock");
             if (rock != null)
             {
+                rock.parent = null; // 独立させる
                 rock.transform.position = owner.transform.position;
                 blackboard.SetObject(BehaviorTreeLoader.HashString(objectKey), rock);
                 Debug.Log("[DropRock] Fallback: Created BossRock prefab.");
