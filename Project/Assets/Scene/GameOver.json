@@ -115,7 +115,7 @@
                     "fovY": 0.699999988079071,
                     "isDrawFrustum": false,
                     "isMainCamera": true,
-                    "nearClip": 0.10000000149011612,
+                    "nearClip": -10.0,
                     "type": "CameraComponent"
                 },
                 {
@@ -230,7 +230,18 @@
                         "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "type": "SpriteRenderer"
                 }
@@ -279,7 +290,18 @@
                         "baseTextureGuid": "1eecfb5b05d3f9c33c093ad1eb18ec97",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "type": "SpriteRenderer"
                 }
@@ -298,7 +320,7 @@
                     "position": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": -1.0
                     },
                     "rotate": {
                         "w": 1.0,
@@ -307,8 +329,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 2000.0,
-                        "y": 2000.0,
+                        "x": 5000.0,
+                        "y": 5000.0,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -320,15 +342,26 @@
                     "enable": 1,
                     "material": {
                         "baseColor": {
-                            "w": 1.0,
+                            "w": 0.0,
                             "x": 0.0,
                             "y": 0.0,
                             "z": 0.0
                         },
-                        "baseTextureGuid": "a392756831a7a8da258b6ebc5534d3c1",
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "type": "SpriteRenderer"
                 },

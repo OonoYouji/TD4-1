@@ -590,7 +590,7 @@
                     "fovY": 0.699999988079071,
                     "isDrawFrustum": true,
                     "isMainCamera": true,
-                    "nearClip": 0.0,
+                    "nearClip": -10.0,
                     "type": "CameraComponent"
                 },
                 {
@@ -784,7 +784,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93726",
-            "id": 15,
+            "id": 12,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -827,9 +827,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817c",
-            "id": 16,
+            "id": 13,
             "name": "UI Root",
-            "parent": 15,
+            "parent": 12,
             "prefabName": ""
         },
         {
@@ -888,279 +888,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96943",
-            "id": 17,
+            "id": 14,
             "name": "HP",
-            "parent": 16,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "ConvertTo2D"
-                        },
-                        {
-                            "enable": true,
-                            "name": "UiControlManager"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 18,
-            "name": "Player2DRoot",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 100.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "UiController"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 19,
-            "name": "ShotControl",
-            "parent": 18,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 0.9999992847442627,
-                        "z": 0.9999992847442627
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "a860c73f54106dc5c12653bf2a814800",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                }
-            ],
-            "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 20,
-            "name": "Gamepad",
-            "parent": 19,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "0ade493a51afb647e31fcb4d445d6f2c",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                }
-            ],
-            "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 12,
-            "name": "KBM",
-            "parent": 19,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 125.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 128.0,
-                        "y": 64.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "ff8a1b135f63dc117d4a16c08c20dc1e",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                }
-            ],
-            "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 13,
-            "name": "TextSprite",
-            "parent": 19,
+            "parent": 13,
             "prefabName": ""
         },
         {
@@ -1218,12 +948,12 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 14,
+            "id": 15,
             "name": "SpreadUi",
             "parent": 10,
             "prefabName": ""
-            },
-            {
+        },
+        {
             "components": [
                 {
                     "enable": 1,
@@ -1231,7 +961,7 @@
                     "position": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": -1.0
                     },
                     "rotate": {
                         "w": 1.0,
@@ -1240,8 +970,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 2000.0,
-                        "y": 2000.0,
+                        "x": 5000.0,
+                        "y": 5000.0,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -1253,12 +983,12 @@
                     "enable": 1,
                     "material": {
                         "baseColor": {
-                            "w": 1.0,
+                            "w": 0.0,
                             "x": 0.0,
                             "y": 0.0,
                             "z": 0.0
                         },
-                        "baseTextureGuid": "a392756831a7a8da258b6ebc5534d3c1",
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 0
@@ -1277,10 +1007,53 @@
                 }
             ],
             "guid": "c4ff339484eae82538e7245fbb9d7d69",
-            "id": 15,
+            "id": 16,
             "name": "Fader",
             "parent": null,
             "prefabName": ""
-            }
-            ]
-            }
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "GameController"
+                        }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "d4ff339484eae82538e7245fbb9d7d70",
+            "id": 17,
+            "name": "GameController",
+            "parent": null,
+            "prefabName": ""
+        }
+    ]
+}

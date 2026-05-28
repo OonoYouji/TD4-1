@@ -292,6 +292,29 @@ public class ECSGroup {
 	}
 
 	/// <summary>
+	/// シーン遷移時のクリア処理（C++側のエンティティは削除しない）
+	/// </summary>
+	public void ClearForSceneTransition() {
+#if DEBUG
+		Debug.Log("ECSGroup.ClearForSceneTransition - Clearing C# state for group: " + groupName + ", EntityCount: "
+				  + entities_.Count);
+#endif
+		// スクリプトの破棄イベントを呼ぶ
+		foreach (var entity in entities_) {
+			foreach (var script in entity.GetScripts()) {
+				script.OnDestroy();
+			}
+		}
+
+		// C#側の状態のみをクリアする
+		entities_.Clear();
+		entityMap_.Clear();
+		awakeList_.Clear();
+		initList_.Clear();
+		componentCollection.Clear();
+	}
+
+	/// <summary>
 	/// すべてのエンティティを取得
 	/// </summary>
 	public IEnumerable<Entity> GetEntities() {

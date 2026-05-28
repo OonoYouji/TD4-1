@@ -320,12 +320,12 @@
                     "enable": 1,
                     "material": {
                         "baseColor": {
-                            "w": 1.0,
+                            "w": 0.0,
                             "x": 0.0,
                             "y": 0.0,
                             "z": 0.0
                         },
-                        "baseTextureGuid": "a392756831a7a8da258b6ebc5534d3c1",
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 0
@@ -341,6 +341,21 @@
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "groups": [
+                        {
+                            "name": "SceneTransition",
+                            "variables": [
+                                {
+                                    "name": "fadeInOnStart",
+                                    "type": "bool",
+                                    "value": false
+                                }
+                            ]
+                        }
+                    ],
+                    "type": "Variables"
                 }
             ],
             "guid": "94ff339484eae82538e7245fbb9d7d66",

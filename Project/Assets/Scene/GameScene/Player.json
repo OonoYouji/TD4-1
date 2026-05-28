@@ -6,6 +6,7 @@
         "spawnTimer": 0.4002602994441986,
         "xOffset": 8.0
     },
+    "HP": {},
     "Player": {
         "armLength": 2.0,
         "currentYaw": 14.142304420471191,

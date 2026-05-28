@@ -124,6 +124,11 @@ public class Entity {
 			}
 		}
 
+		// スクリプトの破棄イベントを呼ぶ
+		foreach (var script in scripts_.Values) {
+			script.OnDestroy();
+		}
+
 		/// Entityを削除
 		ecsGroup_.DestroyEntity(entityId_);
 		entityId_ = 0; // IDを無効化

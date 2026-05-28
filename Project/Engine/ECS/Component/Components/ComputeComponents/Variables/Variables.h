@@ -144,6 +144,12 @@ public:
 	/// @brief グループの配列をすべて得る
 	const std::vector<Group>& GetGroups() const;
 
+	/// @brief 変数を設定する（既存なら上書き、なければ追加）
+	/// @param _groupName グループ名
+	/// @param _varName 変数名
+	/// @param _value 値
+	void SetVariable(const std::string& _groupName, const std::string& _varName, const Var& _value);
+
 private:
 	/// ================================================
 	/// private : objects

@@ -118,6 +118,7 @@
     <Compile Include="Scripts\Engine\Graphics\UVTransform.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
+    <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\HP.cs" />
     <Compile Include="Scripts\Game\Enemy\SampleBossComponent.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/BossPhaseDecorator.cs" />

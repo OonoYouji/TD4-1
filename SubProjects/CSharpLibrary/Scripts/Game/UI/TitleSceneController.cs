@@ -8,13 +8,18 @@ public class TitleSceneController : MonoScript {
     }
 
     public override void Update() {
-        // スペースキーまたはゲームパッドのAボタンで遷移
-        if (Input.TriggerKey(KeyCode.Space) || Input.TriggerGamepad(Gamepad.A)) {
+        bool spaceTriggered = Input.TriggerKey(KeyCode.Space);
+        bool gamepadTriggered = Input.TriggerGamepad(Gamepad.A);
+
+        if (spaceTriggered || gamepadTriggered) {
+            Debug.Log(string.Format("TitleSceneController: Input detected! Space: {0}, GamepadA: {1}", spaceTriggered, gamepadTriggered));
+            
             if (SceneTransition.Instance != null) {
-                Debug.Log("TitleSceneController: Transitioning to " + nextSceneName + " via transition.");
+                Debug.Log("TitleSceneController: Calling SceneTransition.Instance.TransitionTo with " + nextSceneName);
                 SceneTransition.Instance.TransitionTo(nextSceneName);
             } else {
-                Debug.Log("TitleSceneController: Transitioning to " + nextSceneName + " immediately.");
+                Debug.LogError("TitleSceneController: SceneTransition.Instance is NULL!");
+                Debug.Log("TitleSceneController: Falling back to immediate LoadScene.");
                 SceneManager.LoadScene(nextSceneName);
             }
         }

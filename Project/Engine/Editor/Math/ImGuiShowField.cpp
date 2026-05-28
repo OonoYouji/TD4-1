@@ -15,9 +15,15 @@
 /// engine
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
+#include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
+#include "Engine/Script/MonoScriptEngine.h"
 
 /// editor
 #include "ImGuiMath.h"
+#include "../Commands/ImGuiCommand/ImGuiCommand.h"
+#include "../Commands/ComponentEditCommands/ModifyScriptVariableCommand.h"
+#include "../Manager/EditorManager.h"
+#include "../Manager/EditCommand.h"
 
 using namespace Editor;
 
@@ -46,7 +52,7 @@ void RegisterFieldDrawers() {
 } /// namespace
 
 
-void CSGui::ShowField(int _type, MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::ShowField(const std::string& _scriptName, int _type, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	if(gFieldDrawers.empty()) {
 		RegisterFieldDrawers();  ///< 初回呼び出し時にフィールドドロワーを登録
 	}
@@ -57,7 +63,7 @@ void CSGui::ShowField(int _type, MonoObject* _obj, MonoClassField* _field, const
 	}
 
 	/// Typeごとに登録されたフィールドドロワーを使用して描画
-	gFieldDrawers[_type]->Draw(_obj, _field, _name);
+	gFieldDrawers[_type]->Draw(_scriptName, _obj, _field, _name);
 }
 
 
@@ -286,66 +292,124 @@ void CSGui::ShowFieldForVariables(ONEngine::Variables* _vars, const std::string&
 
 
 
-void CSGui::IntField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::IntField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	int value = 0;
 	mono_field_get_value(_obj, _field, &value);
+	
+	static int startValue = 0;
+	if (ImGui::IsItemActivated()) {
+		startValue = value;
+		ONEngine::Console::Log(std::format("[UndoDebug] Int field '{}' activated. Start value: {}", _name, startValue));
+	}
+
 	if(ImGui::DragInt(_name, &value)) {
-		/// 編集した値をセットする
 		mono_field_set_value(_obj, _field, &value);
+	}
+
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		ONEngine::Console::Log(std::format("[UndoDebug] Int field '{}' deactivated after edit. End value: {}", _name, value));
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity) {
+			if (startValue != value) {
+				ONEngine::Console::Log(std::format("[UndoDebug] Requesting ModifyScriptVariableCommand for '{}' on entity '{}'", _name, entity->GetName()));
+				EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_I4, startValue, value);
+			} else {
+				ONEngine::Console::Log("[UndoDebug] Value didn't change, skipping command.");
+			}
+		} else {
+			ONEngine::Console::LogError("[UndoDebug] FAILED: Could not find owner entity for MonoObject.");
+		}
 	}
 }
 
-void CSGui::FloatField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::FloatField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	float value = 0.0f;
 	mono_field_get_value(_obj, _field, &value);
+	
+	static float startValue = 0.0f;
+	if (ImGui::IsItemActivated()) {
+		startValue = value;
+		ONEngine::Console::Log(std::format("[UndoDebug] Float field '{}' activated. Start value: {}", _name, startValue));
+	}
+
 	if(ImGui::DragFloat(_name, &value)) {
-		/// 編集した値をセットする
 		mono_field_set_value(_obj, _field, &value);
+	}
+
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		ONEngine::Console::Log(std::format("[UndoDebug] Float field '{}' deactivated after edit. End value: {}", _name, value));
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity) {
+			if (startValue != value) {
+				ONEngine::Console::Log(std::format("[UndoDebug] Requesting ModifyScriptVariableCommand for '{}' on entity '{}'", _name, entity->GetName()));
+				EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_R4, startValue, value);
+			} else {
+				ONEngine::Console::Log("[UndoDebug] Value didn't change, skipping command.");
+			}
+		} else {
+			ONEngine::Console::LogError("[UndoDebug] FAILED: Could not find owner entity for MonoObject.");
+		}
 	}
 }
 
 
-void CSGui::DoubleField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::DoubleField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	double value = 0.0;
 	mono_field_get_value(_obj, _field, &value);
+	double oldValue = value;
 
 	/// ImGuiはfloatしかサポートしていないので、floatにキャストして表示
 	float floatValue = static_cast<float>(value);
 	if(ImGui::DragFloat(_name, &floatValue)) {
 		value = static_cast<double>(floatValue);
-		/// 編集した値をセットする
-		mono_field_set_value(_obj, _field, &value);
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_R8, oldValue, value);
+		} else {
+			mono_field_set_value(_obj, _field, &value);
+		}
 	}
 }
 
 
-void CSGui::BoolField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::BoolField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	bool value = false;
 	mono_field_get_value(_obj, _field, &value);
+	bool oldValue = value;
 	if(ImGui::Checkbox(_name, &value)) {
-		/// 編集した値をセットする
-		mono_field_set_value(_obj, _field, &value);
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_BOOLEAN, oldValue, value);
+		} else {
+			mono_field_set_value(_obj, _field, &value);
+		}
 	}
 }
 
-void CSGui::StringField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::StringField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	MonoString* monoStr = (MonoString*)mono_field_get_value_object(mono_domain_get(), _field, _obj);
 	if(!monoStr) {
 		return;
 	}
 
 	char* utf8 = mono_string_to_utf8(monoStr);
+	std::string oldValue = utf8;
 	std::string value = utf8;
 	mono_free(utf8);
 
 	if(ImGuiInputText(_name, &value, ImGuiInputTextFlags_EnterReturnsTrue)) {
-		MonoString* newStr = mono_string_new(mono_domain_get(), value.c_str());
-		mono_field_set_value(_obj, _field, newStr);
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_STRING, oldValue, value);
+		} else {
+			MonoString* newStr = mono_string_new(mono_domain_get(), value.c_str());
+			mono_field_set_value(_obj, _field, newStr);
+		}
 	}
 }
 
 
-void CSGui::ListField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::ListField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	MonoDomain* domain = mono_domain_get();
 	MonoObject* listObj = mono_field_get_value_object(domain, _field, _obj);
 	if(!listObj) {
@@ -434,13 +498,14 @@ void CSGui::ListField::Draw(MonoObject* _obj, MonoClassField* _field, const char
 }
 
 
-void CSGui::EnumField::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::EnumField::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	MonoType* fieldType = mono_field_get_type(_field);
 	MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
 
 	/// 現在の値を取得
 	int currentValue = 0;
 	mono_field_get_value(_obj, _field, &currentValue);
+	int oldValue = currentValue;
 
 	void* iter = nullptr;
 	MonoClassField* enumField;
@@ -499,19 +564,24 @@ void CSGui::EnumField::Draw(MonoObject* _obj, MonoClassField* _field, const char
 	if(ImGui::Combo(_name, &currentIndex, namePtrs.data(), static_cast<int>(namePtrs.size()))) {
 		/// 編集された場合、インデックスに対応する値をセットする
 		int newValue = values[currentIndex];
-		mono_field_set_value(_obj, _field, &newValue);
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_ENUM, oldValue, newValue);
+		} else {
+			mono_field_set_value(_obj, _field, &newValue);
+		}
 	}
 }
 
 
-void CSGui::StructGui::Draw(MonoObject* _obj, MonoClassField* _field, [[maybe_unused]] const char* _name) {
+void CSGui::StructGui::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, [[maybe_unused]] const char* _name) {
 	MonoType* fieldType = mono_field_get_type(_field);
 	MonoClass* fieldClass = mono_class_from_mono_type(fieldType);
 
 	/// Enumの場合、MONO_TYPE_VALUETYPE として飛んでくることがあるため、安全のために判定
 	if(mono_class_is_enum(fieldClass)) {
 		static EnumField enumDrawer;
-		enumDrawer.Draw(_obj, _field, _name);
+		enumDrawer.Draw(_scriptName, _obj, _field, _name);
 		return;
 	}
 
@@ -528,7 +598,7 @@ void CSGui::StructGui::Draw(MonoObject* _obj, MonoClassField* _field, [[maybe_un
 	}
 
 	/// フィールドドロワーが登録されている場合はそれを使用
-	itr->second->Draw(_obj, _field, _name);
+	itr->second->Draw(_scriptName, _obj, _field, _name);
 }
 
 void CSGui::StructGui::Register() {
@@ -539,32 +609,65 @@ void CSGui::StructGui::Register() {
 }
 
 
-void CSGui::Vector2Field::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::Vector2Field::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	ONEngine::Vector2 structData;
 	mono_field_get_value(_obj, _field, &structData);
+	
+	static ONEngine::Vector2 startValue;
+	if (ImGui::IsItemActivated()) {
+		startValue = structData;
+	}
 
 	if(ImGui::DragFloat2(_name, &structData.x)) {
-		/// 編集した値をセットする
 		mono_field_set_value(_obj, _field, &structData);
+	}
+
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity && (startValue.x != structData.x || startValue.y != structData.y)) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_VALUETYPE, startValue, structData);
+		}
 	}
 }
 
-void CSGui::Vector3Field::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::Vector3Field::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	ONEngine::Vector3 structData;
 	mono_field_get_value(_obj, _field, &structData);
+	
+	static ONEngine::Vector3 startValue;
+	if (ImGui::IsItemActivated()) {
+		startValue = structData;
+	}
 
 	if(ImGui::DragFloat3(_name, &structData.x)) {
-		/// 編集した値をセットする
 		mono_field_set_value(_obj, _field, &structData);
+	}
+
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity && (startValue.x != structData.x || startValue.y != structData.y || startValue.z != structData.z)) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_VALUETYPE, startValue, structData);
+		}
 	}
 }
 
-void CSGui::Vector4Field::Draw(MonoObject* _obj, MonoClassField* _field, const char* _name) {
+void CSGui::Vector4Field::Draw(const std::string& _scriptName, MonoObject* _obj, MonoClassField* _field, const char* _name) {
 	ONEngine::Vector4 structData;
 	mono_field_get_value(_obj, _field, &structData);
 
+	static ONEngine::Vector4 startValue;
+	if (ImGui::IsItemActivated()) {
+		startValue = structData;
+	}
+
 	if(ImGui::DragFloat4(_name, &structData.x)) {
-		/// 編集した値をセットする
 		mono_field_set_value(_obj, _field, &structData);
+	}
+
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		ONEngine::GameEntity* entity = ONEngine::MonoScriptEngine::GetInstance().GetOwnerEntity(_obj);
+		if (entity && (startValue.x != structData.x || startValue.y != structData.y || startValue.z != structData.z || startValue.w != structData.z)) {
+			EditCommand::Execute<ModifyScriptVariableCommand>(entity, _scriptName, _name, MONO_TYPE_VALUETYPE, startValue, structData);
+		}
 	}
 }

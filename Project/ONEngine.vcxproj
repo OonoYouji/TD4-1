@@ -318,6 +318,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Editor\Clipboard\Clipboard.h" />
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentEditCommands.h" />
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.h" />
+    <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ModifyScriptVariableCommand.h" />
     <ClInclude Include="Engine\Editor\Commands\IEditCommand.h" />
     <ClInclude Include="Engine\Editor\Commands\ImGuiCommand\FocusEntityCommand.h" />
     <ClInclude Include="Engine\Editor\Commands\ImGuiCommand\ImGuiCommand.h" />
@@ -335,6 +336,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Editor\EditorUtils.h" />
     <ClInclude Include="Engine\Editor\Manager\EditCommand.h" />
     <ClInclude Include="Engine\Editor\Manager\EditorManager.h" />
+    <ClInclude Include="Engine\Editor\Manager\HotReloadManager.h" />
     <ClInclude Include="Engine\Editor\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\Editor\Math\AssetDebugger.h" />
     <ClInclude Include="Engine\Editor\Math\AssetPayload.h" />
@@ -544,6 +546,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\ECS\System\Transform\TransformUpdateSystem.cpp" />
     <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ComponentEditCommands.cpp" />
     <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.cpp" />
+    <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ModifyScriptVariableCommand.cpp" />
     <ClCompile Include="Engine\Editor\Commands\ImGuiCommand\FocusEntityCommand.cpp" />
     <ClCompile Include="Engine\Editor\Commands\ImGuiCommand\ImGuiCommand.cpp" />
     <ClCompile Include="Engine\Editor\Commands\WorldEditorCommands\WorldEditorCommands.cpp" />

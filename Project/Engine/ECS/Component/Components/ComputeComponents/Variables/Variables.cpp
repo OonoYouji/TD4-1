@@ -764,6 +764,16 @@ const std::vector<Variables::Group>& Variables::GetGroups() const {
 }
 
 
+void Variables::SetVariable(const std::string& _groupName, const std::string& _varName, const Var& _value) {
+	size_t groupIdx = 0;
+	if (!HasGroup(_groupName)) {
+		groupIdx = AddGroup(_groupName);
+	} else {
+		groupIdx = groupKeyMap_.at(_groupName);
+	}
+
+	groups_[groupIdx].Add(_varName, _value);
+}
 
 
 void ComponentDebug::VariablesDebug(Variables* _variables) {

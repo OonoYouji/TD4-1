@@ -81,24 +81,28 @@ void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {
 			ONEngine::Console::Log("editor command is running");
 		}
 
-	} else {
+	}
+
 #ifdef DEBUG_MODE
-		// undo, redo を行う
-		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_Z)) {
+	// undo, redo を行う
+	if (ONEngine::Input::PressKey(DIK_LCONTROL)) {
+		if (ONEngine::Input::TriggerKey(DIK_Z)) {
+			ONEngine::Console::Log("[UndoDebug] Ctrl+Z triggered.");
 			Undo();
 		}
 
-		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_Y)) {
+		if (ONEngine::Input::TriggerKey(DIK_Y)) {
+			ONEngine::Console::Log("[UndoDebug] Ctrl+Y triggered.");
 			Redo();
 		}
 
 		// Ctrl+S でシーンを保存
-		if (ONEngine::Input::PressKey(DIK_LCONTROL) && ONEngine::Input::TriggerKey(DIK_S)) {
+		if (ONEngine::Input::TriggerKey(DIK_S)) {
 			pSceneManager_->SaveCurrentScene();
 			ONEngine::Console::Log("Scene saved via Ctrl+S.");
 		}
-#endif // DEBUG_MODE
 	}
+#endif // DEBUG_MODE
 
 }
 
@@ -106,30 +110,44 @@ void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {
 
 void EditorManager::Undo() {
 	if (commandStack_.empty()) {
+		ONEngine::Console::Log("[UndoDebug] Undo requested but command stack is empty.");
 		return;
 	}
-	std::unique_ptr<IEditCommand> command = std::move(commandStack_.back());
-	command->Undo();
-	redoStack_.push_back(std::move(command));
-	commandStack_.pop_back();
 
-	MarkSceneDirty();
+	std::unique_ptr<IEditCommand> command = std::move(commandStack_.back());
+	commandStack_.pop_back();
+	ONEngine::Console::Log(std::format("[UndoDebug] Popped command for Undo. Remaining stack size: {}", commandStack_.size()));
+
+	EDITOR_STATE result = command->Undo();
+	if (result == EDITOR_STATE_FINISH) {
+		ONEngine::Console::Log("[UndoDebug] Undo execution SUCCESS.");
+		redoStack_.push_back(std::move(command));
+		ONEngine::Console::Log(std::format("[UndoDebug] Command pushed to redo stack. Redo stack size: {}", redoStack_.size()));
+		MarkSceneDirty();
+	} else {
+		ONEngine::Console::Log(std::format("[UndoDebug] Undo execution FAILED (state: {}).", (int)result));
+	}
 }
 
 void EditorManager::Redo() {
 	if (redoStack_.empty()) {
+		ONEngine::Console::Log("[UndoDebug] Redo requested but redo stack is empty.");
 		return;
 	}
 
-	/// stackから実行する
 	std::unique_ptr<IEditCommand> command = std::move(redoStack_.back());
-	command->Execute();
 	redoStack_.pop_back();
+	ONEngine::Console::Log(std::format("[UndoDebug] Popped command for Redo. Remaining redo stack size: {}", redoStack_.size()));
 
-	/// command stackに戻す
-	commandStack_.push_back(std::move(command));
-
-	MarkSceneDirty();
+	EDITOR_STATE result = command->Execute();
+	if (result == EDITOR_STATE_FINISH) {
+		ONEngine::Console::Log("[UndoDebug] Redo execution SUCCESS.");
+		commandStack_.push_back(std::move(command));
+		ONEngine::Console::Log(std::format("[UndoDebug] Command pushed back to command stack. Size: {}", commandStack_.size()));
+		MarkSceneDirty();
+	} else {
+		ONEngine::Console::Log(std::format("[UndoDebug] Redo execution FAILED (state: {}).", (int)result));
+	}
 }
 
 void EditorManager::MarkSceneDirty() {

@@ -18,27 +18,52 @@ static public class EntityComponentSystem {
 	/// 新規グループの追加
 	/// </summary>
 	static public ECSGroup AddECSGroup(string _name) {
-		ECSGroup group = new ECSGroup(_name);
-		groups.Add(_name, group);
-		Debug.LogInfo("EntityComponentSystem.AddECSGroup - added: " + group.groupName + "  GroupCount " + groups.Count);
+		string trimmedName = _name.Trim();
+		if (groups.TryGetValue(trimmedName, out ECSGroup existingGroup)) {
+			// 既に存在する場合は、そのグループを返す（クリアは明示的に行う必要がある）
+			return existingGroup;
+		}
+
+		ECSGroup group = new ECSGroup(trimmedName);
+		groups.Add(trimmedName, group);
+		Debug.LogInfo("EntityComponentSystem.AddECSGroup - added: '" + group.groupName + "'  GroupCount " + groups.Count);
 		return group;
+	}
+
+	/// <summary>
+	/// グループのクリア
+	/// </summary>
+	static public void ClearECSGroup(string _name) {
+		string trimmedName = _name.Trim();
+		if (groups.TryGetValue(trimmedName, out ECSGroup group)) {
+			group.ClearForSceneTransition();
+			Debug.LogInfo("EntityComponentSystem.ClearECSGroup - cleared: '" + group.groupName + "'");
+		}
 	}
 
 	/// <summary>
 	/// ECSGroupの取得
 	/// </summary>
 	static public ECSGroup GetECSGroup(string _name) {
+		string trimmedName = _name.Trim();
 #if DEBUG
-		Debug.LogInfo("EntityComponentSystem.GetECSGroup - Getting ECSGroup: " + _name + "  GroupCount " + groups.Count);
+		Debug.LogInfo("EntityComponentSystem.GetECSGroup - Getting ECSGroup: '" + trimmedName + "'  GroupCount " + groups.Count);
 #endif
 
-		if (groups.TryGetValue(_name, out ECSGroup group)) {
+		if (groups.TryGetValue(trimmedName, out ECSGroup group)) {
 			return group;
 		} else {
+			// キー名に空白が含まれている可能性があるため、全件チェック
+			foreach (var kvp in groups) {
+				if (kvp.Key.Trim() == trimmedName) {
+					return kvp.Value;
+				}
+			}
+
 #if DEBUG
-			Debug.LogError("EntityComponentSystem.GetECSGroup - ECSGroup not found: " + _name + "  GroupCount " + groups.Count);
+			Debug.LogError("EntityComponentSystem.GetECSGroup - ECSGroup not found: '" + trimmedName + "'  GroupCount " + groups.Count);
 			foreach (var ecsGroup in groups) {
-				Debug.LogError("Available ECSGroups: " + ecsGroup.Key);
+				Debug.LogError("Available ECSGroups: '" + ecsGroup.Key + "'");
 			}
 #endif
 			return null;
