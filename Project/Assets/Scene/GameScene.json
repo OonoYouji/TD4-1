@@ -14,7 +14,7 @@
                     "fogEnd": 10000.0,
                     "fogStart": 0.0,
                     "fovY": 0.699999988079071,
-                    "isDrawFrustum": true,
+                    "isDrawFrustum": false,
                     "isMainCamera": true,
                     "nearClip": 0.10000000149011612,
                     "type": "CameraComponent"
@@ -24,8 +24,8 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 127.25533294677734,
-                        "y": 55.0,
-                        "z": 109.08489990234375
+                        "y": 57.19154357910156,
+                        "z": 107.26036071777344
                     },
                     "rotate": {
                         "w": 0.7713119983673096,
@@ -74,7 +74,7 @@
                     "fogEnd": 10000.0,
                     "fogStart": 0.0,
                     "fovY": 0.699999988079071,
-                    "isDrawFrustum": true,
+                    "isDrawFrustum": false,
                     "isMainCamera": true,
                     "nearClip": -10.0,
                     "type": "CameraComponent"
@@ -105,7 +105,7 @@
                 }
             ],
             "guid": "1bfe2134e5bc44573be595efe7705c27",
-            "id": 10,
+            "id": 2,
             "name": "Camera2D",
             "parent": null,
             "prefabName": ""
@@ -154,7 +154,7 @@
                 }
             ],
             "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "id": 11,
+            "id": 9,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -165,15 +165,15 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 127.25533294677734,
+                        "x": -0.19604730606079102,
                         "y": 2.1915438175201416,
-                        "z": 115.08489990234375
+                        "z": -41.80303955078125
                     },
                     "rotate": {
-                        "w": 0.6438862681388855,
-                        "x": -0.7651212215423584,
-                        "y": 2.0855547688825027e-07,
-                        "z": 2.478236069691775e-07
+                        "w": 0.853611171245575,
+                        "x": 0.0,
+                        "y": -0.5209106802940369,
+                        "z": 0.0
                     },
                     "scale": {
                         "x": 1.0000005960464478,
@@ -233,7 +233,7 @@
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 20,
+            "id": 10,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -266,7 +266,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 2,
+            "id": 11,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -339,299 +339,7 @@
             "guid": "aa7af0136ac79da640be7510c63c00f0",
             "id": 12,
             "name": "Field",
-            "parent": 2,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 27.062217712402344
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 14.0,
-                        "y": 4.0,
-                        "z": 2.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "4a4ace7e6223189e4b738f65f9ea39eb",
-            "id": 4,
-            "name": "Wall",
-            "parent": 2,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.795562744140625,
-                        "y": 0.0,
-                        "z": -21.717073440551758
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": -0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 14.0,
-                        "y": 4.0,
-                        "z": 2.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-            "id": 13,
-            "name": "Wall_1",
-            "parent": 2,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 32.127498626708984,
-                        "y": -7.4569275057001505e-06,
-                        "z": -0.026893138885498047
-                    },
-                    "rotate": {
-                        "w": 0.7160019278526306,
-                        "x": 0.0,
-                        "y": 0.6980983018875122,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 14.000031471252441,
-                        "y": 4.000014781951904,
-                        "z": 2.0000054836273193
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "b7478db776da961a761d0059a62fc4a8",
-            "id": 6,
-            "name": "Wall_2",
-            "parent": 2,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -32.60081100463867,
-                        "y": 0.0,
-                        "z": 0.14931297302246094
-                    },
-                    "rotate": {
-                        "w": 0.8835885524749756,
-                        "x": -5.9091355808504886e-08,
-                        "y": -0.468264102935791,
-                        "z": 1.8154409531234705e-08
-                    },
-                    "scale": {
-                        "x": 14.000025749206543,
-                        "y": 4.000010967254639,
-                        "z": 2.000000238418579
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
-                    "type": "MeshRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
-                    "state": "Static",
-                    "type": "BoxCollider"
-                }
-            ],
-            "guid": "2d208766f2b718939769f6857bb262a3",
-            "id": 14,
-            "name": "Wall_3",
-            "parent": 2,
+            "parent": 11,
             "prefabName": ""
         },
         {
@@ -699,9 +407,9 @@
                 }
             ],
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "id": 8,
+            "id": 7,
             "name": "PlayerHP",
-            "parent": 10,
+            "parent": 2,
             "prefabName": ""
         },
         {
@@ -811,8 +519,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 128.0,
-                        "y": 128.0,
+                        "x": 256.0,
+                        "y": 256.0,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -849,7 +557,7 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 3,
+            "id": 17,
             "name": "Gamepad",
             "parent": 16,
             "prefabName": ""
@@ -871,8 +579,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 64.0,
-                        "y": 64.0,
+                        "x": 10.0,
+                        "y": 10.0,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -909,7 +617,7 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 5,
+            "id": 4,
             "name": "KBM",
             "parent": 16,
             "prefabName": ""
@@ -952,7 +660,7 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 7,
+            "id": 6,
             "name": "TextSprite",
             "parent": 16,
             "prefabName": ""
@@ -995,9 +703,9 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 9,
+            "id": 8,
             "name": "SpreadUi",
-            "parent": 10,
+            "parent": 2,
             "prefabName": ""
         },
         {
@@ -1046,7 +754,7 @@
                 }
             ],
             "guid": "1f56d73a44f9f513b3002569ecbb46a6",
-            "id": 21,
+            "id": 18,
             "name": "TransitionObjectRoot",
             "parent": null,
             "prefabName": ""
@@ -1111,9 +819,9 @@
                 }
             ],
             "guid": "92b677a53d8e214b20aef9841c4faf0e",
-            "id": 22,
+            "id": 19,
             "name": "Left",
-            "parent": 21,
+            "parent": 18,
             "prefabName": ""
         },
         {
@@ -1176,9 +884,9 @@
                 }
             ],
             "guid": "5e908571f41bee587496b2a0f61f0048",
-            "id": 23,
+            "id": 20,
             "name": "Right",
-            "parent": 21,
+            "parent": 18,
             "prefabName": ""
         },
         {
@@ -1192,10 +900,10 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "w": 0.8933345675468445,
+                        "x": 0.004976239986717701,
+                        "y": -0.4493577778339386,
+                        "z": -0.0025041333865374327
                     },
                     "scale": {
                         "x": 5.0,
@@ -1267,7 +975,7 @@
                 }
             ],
             "guid": "6190718f20ef1485d978d46962165d02",
-            "id": 24,
+            "id": 21,
             "name": "Boss",
             "parent": null,
             "prefabName": "Boss"
@@ -1300,7 +1008,7 @@
                 }
             ],
             "guid": "9bec876d747d51536a818072ab1eca1f",
-            "id": 17,
+            "id": 22,
             "name": "BossHP",
             "parent": null,
             "prefabName": "BossHP"
@@ -1360,9 +1068,9 @@
                 }
             ],
             "guid": "ee4f2f431ba652f889c0126bb0943ddb",
-            "id": 18,
+            "id": 23,
             "name": "BG",
-            "parent": 17,
+            "parent": 22,
             "prefabName": ""
         },
         {
@@ -1430,9 +1138,9 @@
                 }
             ],
             "guid": "e8e96265127d2553f9681e0c2e8db5ba",
-            "id": 19,
+            "id": 24,
             "name": "FG",
-            "parent": 17,
+            "parent": 22,
             "prefabName": ""
         }
     ]

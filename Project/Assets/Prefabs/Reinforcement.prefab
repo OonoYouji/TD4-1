@@ -30,6 +30,10 @@
                 {
                     "enable": true,
                     "name": "Reinforcement"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
                 }
             ],
             "type": "Script"
@@ -71,7 +75,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "b4052b3e272691851e17bb37eed69980",
+    "guid": "2607cf32555b2e18cec6837445410ab7",
     "id": 2,
     "name": "Reinforcement",
     "parent": null,

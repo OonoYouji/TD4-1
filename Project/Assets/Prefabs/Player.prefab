@@ -38,6 +38,8 @@
                     "name": "CallingReinforcement"
                 },
                 {
+                    "MAX_HP": 100,
+                    "currentHp": 100,
                     "enable": true,
                     "name": "HP"
                 }

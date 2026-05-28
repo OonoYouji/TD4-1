@@ -3,7 +3,7 @@
         "reinforcementSpeed": 79.0,
         "spawnBehindDistance": 37.0,
         "spawnInterval": 0.6000000238418579,
-        "spawnTimer": 0.6000000238418579,
+        "spawnTimer": 0.016289670020341873,
         "xOffset": 8.0
     },
     "HP": {
@@ -11,17 +11,17 @@
         "currentHp": 1000
     },
     "Player": {
-        "<fireCooldownTimer>k__BackingField": 15.896141052246094,
+        "<fireCooldownTimer>k__BackingField": 1.9882047176361084,
         "<isGamepadMode>k__BackingField": false,
         "armLength": 2.0,
-        "currentYaw": -1.130293607711792,
+        "currentYaw": -7.3790202140808105,
         "fireCooldownTimer": 90.26615142822266,
         "fireInterval": 0.5,
         "inputDeadZone": 0.0,
         "isGamepadMode": false,
         "lastMousePos": {
-            "x": 29.0,
-            "y": 72.0
+            "x": 65.0,
+            "y": 67.0
         },
         "maxMoveSpeed": 10.0,
         "mouseIsMovePixel": 0.0,

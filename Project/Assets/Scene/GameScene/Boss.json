@@ -1,7 +1,24 @@
 {
-    "BossAI": {},
-    "DamageHandler": {},
-    "HP": {},
-    "Knockback": {},
+    "BossAI": {
+        "treePath": "./Assets/AITrees/BossMain.json"
+    },
+    "DamageHandler": {
+        "cooldownTimer": 0.0,
+        "damageCooldownTime": 0.10000000149011612
+    },
+    "HP": {
+        "MAX_HP": 1000,
+        "currentHp": 1000
+    },
+    "Knockback": {
+        "KNOCKBACK_DECAY": 0.0,
+        "KNOCKBACK_FORCE_STRENGTH": 0.0,
+        "knockbackStopThreshold": 0.009999999776482582,
+        "knockbackVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
     "SampleBossComponent": {}
 }

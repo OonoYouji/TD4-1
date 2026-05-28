@@ -30,12 +30,12 @@ public class DamageHandler : MonoScript
             cooldownTimer -= Time.deltaTime;
         }
 
-        // デバッグ用: HキーでApplyDamageを呼び出してHPを減らすテスト
-        if (Input.TriggerKey(KeyCode.H))
-        {
-            ApplyDamage(10);
-            Debug.Log($"[Debug] H key pressed. Applied 10 damage to {entity.name}. Current HP: {hp.currentHp}");
-        }
+        //// デバッグ用: HキーでApplyDamageを呼び出してHPを減らすテスト
+        //if (Input.TriggerKey(KeyCode.H))
+        //{
+        //    ApplyDamage(10);
+        //    Debug.Log($"[Debug] H key pressed. Applied 10 damage to {entity.name}. Current HP: {hp.currentHp}");
+        //}
     }
 
     /// <summary>
