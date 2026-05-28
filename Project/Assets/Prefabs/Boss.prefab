@@ -42,10 +42,6 @@
                 {
                     "enable": false,
                     "name": "Knockback"
-                },
-                {
-                    "enable": true,
-                    "name": "SampleBossComponent"
                 }
             ],
             "type": "Script"
@@ -87,8 +83,8 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "fbbd2ff594de2ccc5301149313a28d06",
-    "id": 5,
+    "guid": "6190718f20ef1485d978d46962165d02",
+    "id": 24,
     "name": "Boss",
     "parent": null,
     "prefabName": "Boss"

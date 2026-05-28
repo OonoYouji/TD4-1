@@ -26,36 +26,50 @@ public class GameController : MonoScript {
 
         // デバッグ用キー入力
         if (Input.TriggerKey(KeyCode.K)) {
-            Debug.Log("GameController: Debug Key K pressed - Triggering Game Clear");
+            Debug.Log("[GameController] Debug Key K pressed - Triggering Game Clear");
             TriggerGameClear();
             return;
         }
         if (Input.TriggerKey(KeyCode.L)) {
-            Debug.Log("GameController: Debug Key L pressed - Triggering Game Over");
+            Debug.Log("[GameController] Debug Key L pressed - Triggering Game Over");
             TriggerGameOver();
             return;
         }
 
         // ゲームオーバー判定: プレイヤーのHPが0
         if (playerHp != null && playerHp.currentHp <= 0) {
+            Debug.Log($"[GameController] Player HP is {playerHp.currentHp}. Triggering Game Over.");
             TriggerGameOver();
             return;
         }
 
-        // ゲームクリア判定: TestEnemyを持つエンティティが全滅
-        if (IsAllEnemiesDefeated()) {
+        // ゲームクリア判定: ボスのHPが0
+        if (IsBossDefeated()) {
+            Debug.Log("[GameController] IsBossDefeated returned TRUE. Triggering Game Clear.");
             TriggerGameClear();
         }
     }
 
-    private bool IsAllEnemiesDefeated() {
-        // 全エンティティの中から TestEnemy スクリプトを持っているものを探す
-        foreach (var entity in ecsGroup.GetEntities()) {
-            if (entity.GetScript<TestEnemy>() != null) {
-                return false; // まだ敵がいる
-            }
+    private bool IsBossDefeated() {
+        // "Boss" という名前のエンティティを探す
+        Entity boss = ecsGroup.FindEntity("Boss");
+        if (boss == null) {
+            // Debug.Log("[GameController:IsBossDefeated] Boss entity NOT FOUND.");
+            return false;
         }
-        return true; // 敵がいない
+
+        HP bossHp = boss.GetScript<HP>();
+        if (bossHp != null) {
+            if (bossHp.currentHp <= 0) {
+                Debug.Log($"[GameController:IsBossDefeated] Boss found (ID:{boss.Id}), but HP is {bossHp.currentHp}!");
+                return true;
+            }
+            // 正常にHPが残っている場合はここ
+            return false;
+        }
+
+        // Debug.LogWarning($"[GameController:IsBossDefeated] Boss found (ID:{boss.Id}), but NO HP script attached!");
+        return false;
     }
 
     private void TriggerGameClear() {
