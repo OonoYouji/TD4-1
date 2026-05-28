@@ -148,6 +148,7 @@
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
+    <Compile Include="Scripts\Game\Common\TimedDestruction.cs" />
     <Compile Include="Scripts\Game\DebugEntity\DebugCamera.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyBullet.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyBulletLauncher.cs" />

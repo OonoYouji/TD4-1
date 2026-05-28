@@ -192,7 +192,7 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     ImGuiStyle& style = ImGui::GetStyle();
     float spacing = style.ItemSpacing.x;
     float leftWidth = 220.0f;
-    float rightWidth = 280.0f; 
+    float rightWidth = 450.0f; 
     float centerWidth = ImGui::GetContentRegionAvail().x - leftWidth - rightWidth - (spacing * 2.0f);
 
     if (ImGui::BeginChild("LeftPanel", ImVec2(leftWidth, 0), true)) {
@@ -207,7 +207,7 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     if (ImGui::BeginChild("CenterPanel", ImVec2(centerWidth, 0), true)) DrawGraphEditor();
     ImGui::EndChild();
     ImGui::SameLine();
-    if (ImGui::BeginChild("RightPanel", ImVec2(220, 0), true)) DrawNodeInspector();
+    if (ImGui::BeginChild("RightPanel", ImVec2(rightWidth, 0), true)) DrawNodeInspector();
     ImGui::EndChild();
 
     ImGui::End();
