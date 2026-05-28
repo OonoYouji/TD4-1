@@ -8,7 +8,7 @@ public class Reinforcement : MonoScript
 
     // 移動速度
     [SerializeField] public float moveSpeed = 8.0f;
-    // 質量 
+    // 質量
     [SerializeField] public float mass = 1.0f;
     // 消えるまでの秒数
     [SerializeField] public float lifeTime = 10.0f;
@@ -31,6 +31,15 @@ public class Reinforcement : MonoScript
 
     // 当たり判定有効フラグ
     public bool isCollisionEnabled = false;
+
+    // =========================================================
+    // コールバック
+    // =========================================================
+
+    // 退散でなく死亡した時に呼ばれる
+    public Action<Reinforcement> onDied = null;
+    // ボスを攻撃する時に呼ばれる
+    public Action<int, Vector3> onAttackBoss = null;
 
     // =========================================================
     // 内部状態
@@ -235,6 +244,38 @@ public class Reinforcement : MonoScript
         {
             meshRenderer.color = originalColor;
         }
+    }
+
+    // =========================================================
+    // コールバック発火
+    // =========================================================
+
+    public override void OnDestroy()
+    {
+        // 退散命令で消えた場合は死亡扱いにしない
+        if (!isRetreating)
+        {
+            onDied?.Invoke(this);
+        }
+    }
+
+    // =========================================================
+    // ダメージ
+    // =========================================================
+
+    public void TakeDamage()
+    {
+        entity.Destroy();
+    }
+
+    // =========================================================
+    // 攻撃
+    // =========================================================
+
+    public void AttackBoss()
+    {
+        // ボスを攻撃
+        onAttackBoss?.Invoke((int)damage, transform.position);
     }
 
     // =========================================================
