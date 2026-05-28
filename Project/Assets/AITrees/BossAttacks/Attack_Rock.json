@@ -1,6 +1,7 @@
 {
     "blackboard": [
         { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
+        { "key": "TargetId", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
         { "key": "TargetRock", "type": 4, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
     ],
     "nodes": [
@@ -9,7 +10,13 @@
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
         },
         {
-            "id": 2, "className": "Sequence", "name": "Rock Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [200.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "Rock Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
+            "decorators": [], 
+            "services": [
+                { "id": 201, "className": "FindPlayerService", "name": "Player Finder", "properties": { "targetIdKey": "TargetId" }, "isService": true },
+                { "id": 202, "className": "UpdateTargetTrackerNode", "name": "Pos Updater", "properties": { "targetIdKey": "TargetId", "targetPosKey": "TargetPosition" }, "isService": true }
+            ], 
+            "pos": [200.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
         },
         {
@@ -20,7 +27,7 @@
         },
         {
             "id": 4, "className": "ShowIndicatorNode", "name": "Landing Preview", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "Circle", "duration": "1.5", "size": "4.0", "color": "1.0,0.0,0.0,0.5", "targetPosKey": "TargetPosition" }, 
+            "properties": { "shape": "Circle", "duration": "1.5", "size": "4.0", "color": "1.0,0.0,0.0,0.5", "targetPosKey": "TargetPosition", "lockPosition": "true" }, 
             "decorators": [], "services": [], "pos": [400.0, 0.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
         },

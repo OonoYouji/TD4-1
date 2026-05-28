@@ -59,8 +59,10 @@ public class DropObjectAtTargetNode : BehaviorNode
             if (elapsed >= liftDuration)
             {
                 blackboard.SetInt(stateKey, 1);
-                blackboard.SetFloat(startTimeKey, currentTime); // 状態遷移用にリセット
                 Debug.Log("[DropRock] Rock lifted. Ready to throw.");
+                
+                // 次のフレームですぐに投げるように startTime を更新せず、そのまま state 1 に遷移させる
+                // もしくはここでそのまま処理を続行させることも可能だが、一旦 Running を返す
             }
             return NodeStatus.Running;
         }
@@ -77,7 +79,7 @@ public class DropObjectAtTargetNode : BehaviorNode
                 fallingRock.Launch(targetPos);
                 
                 // 岩をターゲットの真上に瞬間移動させる（演出の簡略化のため）
-                rock.transform.position = targetPos + Vector3.up * 20.0f;
+                rock.transform.position = new Vector3(targetPos.x, targetPos.y + 20.0f, targetPos.z);
             }
             else
             {

@@ -67,6 +67,12 @@ public class ShowIndicatorNode : BehaviorNode
     [BlackboardKey]
     public string targetPosKey = "TargetPosition";
 
+    /// <summary>
+    /// 生成時に位置を固定するかどうか。trueの場合、ターゲットが動いても予兆は追従しません。
+    /// 岩落としなどで着弾地点を確定させる際に使用します。
+    /// </summary>
+    public bool lockPosition = false;
+
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash);
@@ -101,6 +107,8 @@ public class ShowIndicatorNode : BehaviorNode
             Entity telegraph = owner.Group.CreateEntity(prefabName);
             if (telegraph != null)
             {
+                telegraph.parent = null;
+
                 // 色の設定（自身または子供のMeshRendererを探す）
                 var renderer = telegraph.GetComponent<MeshRenderer>();
                 if (renderer == null)
@@ -163,7 +171,10 @@ public class ShowIndicatorNode : BehaviorNode
                         originPos = currentTarget;
                     }
 
-                    UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
+                    if (!lockPosition)
+                    {
+                        UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
+                    }
                 }
             }
         }

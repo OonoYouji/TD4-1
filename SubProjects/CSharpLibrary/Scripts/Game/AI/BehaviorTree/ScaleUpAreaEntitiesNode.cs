@@ -51,14 +51,20 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
 
             // 距離判定
             float dist = Vector3.Distance(targetPos, entity.transform.position);
+            
             if (dist <= effectRadius)
             {
-                // スケールアップ処理
-                entity.transform.scale *= scaleMultiplier;
-                affectedCount++;
+                // 何度も巨大化しないように、現在のスケール値をチェックする
+                // （初期スケールが 1.0 であることを前提とし、すでに倍率以上に大きくなっていたらスキップ）
+                if (entity.transform.scale.x < scaleMultiplier * 0.8f)
+                {
+                    // スケールアップ処理
+                    entity.transform.scale *= scaleMultiplier;
+                    affectedCount++;
 
-                // 巨大化エフェクトのイベント発行（オプション）
-                FrameEvent.EnqueueNamedEvent("Effect_ScaleUp", entity.Id);
+                    // 巨大化エフェクトのイベント発行（オプション）
+                    FrameEvent.EnqueueNamedEvent("Effect_ScaleUp", entity.Id);
+                }
             }
         }
 

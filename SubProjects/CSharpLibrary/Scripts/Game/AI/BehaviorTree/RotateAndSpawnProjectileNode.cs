@@ -79,7 +79,7 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
                     telegraph.parent = null;
 
                     telegraph.transform.position = new Vector3(targetPos.x, 0.05f, targetPos.z);
-                    telegraph.transform.rotation = Quaternion.Identity;
+                    telegraph.transform.rotation = Quaternion.identity;
                     
                     // プレハブがフラットになったため、これ自身のスケールを設定すれば確実に反映される
                     float indicatorSize = 5.0f; 

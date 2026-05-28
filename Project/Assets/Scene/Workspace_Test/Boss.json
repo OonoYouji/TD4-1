@@ -1,6 +1,6 @@
 {
     "BossAI": {
-        "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json"
+        "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json"
     },
     "DamageHandler": {
         "cooldownTimer": 0.0,

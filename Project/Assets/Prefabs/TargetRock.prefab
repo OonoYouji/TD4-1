@@ -4,9 +4,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": 10.0,
                 "y": 0.0,
-                "z": 0.0
+                "z": 10.0
             },
             "rotate": {
                 "w": 1.0,
@@ -15,9 +15,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 5.0,
-                "y": 5.0,
-                "z": 5.0
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "type": "Transform"
         },
@@ -29,19 +29,7 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "BossAI"
-                },
-                {
-                    "enable": true,
-                    "name": "HP"
-                },
-                {
-                    "enable": true,
-                    "name": "DamageHandler"
-                },
-                {
-                    "enable": false,
-                    "name": "Knockback"
+                    "name": "FallingRock"
                 }
             ],
             "type": "Script"
@@ -51,11 +39,11 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 0.4000000059604645,
+                    "y": 0.30000001192092896,
+                    "z": 0.20000000298023224
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -71,21 +59,25 @@
                     }
                 }
             },
-            "meshPath": "./Assets/AssetsWorkspace/models/enemy_main.obj",
+            "meshPath": "./Packages/Models/primitive/cube.obj",
             "type": "MeshRenderer"
         },
         {
-            "categoryBits": 8,
+            "categoryBits": 1,
             "enable": 1,
-            "maskBits": 36,
-            "radius": 2.5,
+            "maskBits": 4294967295,
+            "size": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            },
             "state": "Dynamic",
-            "type": "SphereCollider"
+            "type": "BoxCollider"
         }
     ],
-    "guid": "fbbd2ff594de2ccc5301149313a28d06",
-    "id": 4,
-    "name": "Boss",
+    "guid": "5c9a41e97d1b4b1a8d0b2f567f25e981",
+    "id": 5,
+    "name": "TargetRock",
     "parent": null,
-    "prefabName": "Boss"
+    "prefabName": "BossRock"
 }
