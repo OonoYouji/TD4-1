@@ -58,7 +58,7 @@
                 }
             }
         },
-        "meshPath": "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj",
+        "meshPath": "./Assets/Models/Soldier/soldier.obj",
         "type": "MeshRenderer"
     },
     {

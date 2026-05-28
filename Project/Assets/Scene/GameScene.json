@@ -116,19 +116,19 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 127.25533294677734,
-                        "y": 0.0,
+                        "y": 2.1915438175201416,
                         "z": 115.08489990234375
                     },
                     "rotate": {
-                        "w": 0.6438860893249512,
-                        "x": 0.0,
-                        "y": 0.765121340751648,
-                        "z": 0.0
+                        "w": 0.6438862681388855,
+                        "x": -0.7651212215423584,
+                        "y": 2.0855547688825027e-07,
+                        "z": 2.478236069691775e-07
                     },
                     "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
+                        "x": 1.0000005960464478,
+                        "y": 1.0000001192092896,
+                        "z": 1.000000238418579
                     },
                     "type": "Transform"
                 },
@@ -160,7 +160,7 @@
                             }
                         }
                     },
-                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+                    "meshPath": "./Assets/Models/Soldier/soldier.obj",
                     "type": "MeshRenderer"
                 },
                 {
@@ -784,7 +784,7 @@
                 }
             ],
             "guid": "e4fbf4300183bd4a528834bcd7c93726",
-            "id": 12,
+            "id": 13,
             "name": "TestEnemy",
             "parent": null,
             "prefabName": ""
@@ -827,9 +827,9 @@
                 }
             ],
             "guid": "e6c95d0ab902296314ea2f6985e2817c",
-            "id": 13,
+            "id": 14,
             "name": "UI Root",
-            "parent": 12,
+            "parent": 13,
             "prefabName": ""
         },
         {
@@ -888,9 +888,9 @@
                 }
             ],
             "guid": "fc9c35f3c6655b859b19742a69c96943",
-            "id": 14,
+            "id": 15,
             "name": "HP",
-            "parent": 13,
+            "parent": 14,
             "prefabName": ""
         },
         {
@@ -935,7 +935,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 15,
+            "id": 16,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -978,9 +978,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 16,
+            "id": 17,
             "name": "ShotControl",
-            "parent": 15,
+            "parent": 16,
             "prefabName": ""
         },
         {
@@ -1038,9 +1038,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 17,
+            "id": 18,
             "name": "Gamepad",
-            "parent": 16,
+            "parent": 17,
             "prefabName": ""
         },
         {
@@ -1081,19 +1081,54 @@
                         "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0
+                        "postEffectFlags": 0,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
                     },
                     "type": "SpriteRenderer"
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 18,
+            "id": 19,
             "name": "KBM",
-            "parent": 16,
+            "parent": 17,
             "prefabName": ""
         },
         {
             "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
                 {
                     "enable": 1,
                     "scripts": [
@@ -1106,9 +1141,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 19,
+            "id": 20,
             "name": "TextSprite",
-            "parent": 16,
+            "parent": 17,
             "prefabName": ""
         },
         {
@@ -1149,7 +1184,7 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 20,
+            "id": 12,
             "name": "SpreadUi",
             "parent": 10,
             "prefabName": ""
