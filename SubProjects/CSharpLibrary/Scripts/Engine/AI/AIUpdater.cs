@@ -27,13 +27,21 @@ public static class AIUpdater {
             AgentIntentComponent.BatchData* nativeData = intentsDataPtr + i;
 
             if (_componentCache.TryGetValue(nativeData->compId, out var component)) {
-                // 安全策：Entityが未設定またはIDが無効な場合はスキップ
+                // 安全策：Entityが未設定、IDが無効、または非アクティブな場合はスキップ
                 if (component.entity == null || component.entity.Id == 0) {
+                    continue;
+                }
+
+                // エンティティが非アクティブならスキップ
+                if (!component.entity.enable) {
                     continue;
                 }
 
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
+                    // 調査用ログ: どのAIが動いているか
+                    // Debug.Log($"[AI_TICK] {component.entity.name} (ID:{component.entity.Id}) - Path:{component.behaviorTree.SourcePath}");
+                    
                     // 実行前にIntentをリセット（ツリー内で上書きされなければ停止する）
                     component.desiredMoveDirection = Vector3.zero;
                     component.isAttacking = false;

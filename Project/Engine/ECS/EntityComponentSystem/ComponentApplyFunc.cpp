@@ -198,6 +198,8 @@ void ONEngine::ComponentApplyFuncs::FetchTransform(void* _element, ECSGroup* _ec
 		data->rotate = t->GetRotate();
 		data->scale = t->GetScale();
 		data->matWorld = t->GetMatWorld();
+	} else {
+		Console::LogWarning("[SYNC_ERROR] FetchTransform: Component with ID " + std::to_string(data->compId) + " not found in group " + _ecsGroup->GetGroupName());
 	}
 }
 
@@ -254,6 +256,8 @@ void ONEngine::ComponentApplyFuncs::FetchAgentIntent(void* _element, ECSGroup* _
 		data->desiredMoveDirection = ai->desiredMoveDirection;
 		data->isAttacking = ai->isAttacking;
 		data->targetEntityId = ai->targetEntityId;
+	} else {
+		Console::LogWarning("[SYNC_ERROR] FetchAgentIntent: Component with ID " + std::to_string(data->compId) + " not found in group " + _ecsGroup->GetGroupName());
 	}
 }
 

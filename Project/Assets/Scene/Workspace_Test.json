@@ -58,12 +58,12 @@
                     "position": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": 30.64714813232422
                     },
                     "rotate": {
                         "w": 1.0,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -0.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -127,7 +127,7 @@
                 }
             ],
             "guid": "520b76038bebc8d83e2ed4786934072b",
-            "id": 4,
+            "id": 3,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -162,19 +162,19 @@
                     "enable": 1,
                     "scripts": [
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "BossAI"
                         },
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "HP"
                         },
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "DamageHandler"
                         },
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "Knockback"
                         }
                     ],
@@ -217,8 +217,8 @@
                     "type": "SphereCollider"
                 }
             ],
-            "guid": "68f7da571d8fdc4f864e249ff906b3c5",
-            "id": 3,
+            "guid": "fbbd2ff594de2ccc5301149313a28d06",
+            "id": 4,
             "name": "Boss",
             "parent": null,
             "prefabName": "Boss"

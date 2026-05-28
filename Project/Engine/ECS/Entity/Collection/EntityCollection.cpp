@@ -28,6 +28,7 @@ EntityCollection::EntityCollection(ECSGroup* _ecsGroup, DxManager* _dxm)
 EntityCollection::~EntityCollection() {}
 
 GameEntity* EntityCollection::GenerateEntity(const Guid& _guid, bool _isRuntime) {
+	Console::LogInfo("[SOURCE_DETECTOR] Engine creating Entity (Internal)");
 	auto entity = std::make_unique<GameEntity>();
 	if (entity) {
 		entities_.emplace_back(std::move(entity));
@@ -201,10 +202,8 @@ uint32_t EntityCollection::GetEntityId(const std::string& _name) {
 	return 0;
 }
 
-GameEntity* EntityCollection::GetEntity(size_t _entityId) {
-	/// idを検索
-	auto itr = std::find_if(
-		entities_.begin(), entities_.end(),
+GameEntity* EntityCollection::GetEntity(int32_t _entityId) {
+	auto itr = std::find_if(entities_.begin(), entities_.end(),
 		[_entityId](const std::unique_ptr<GameEntity>& entity) {
 			return entity->GetId() == _entityId;
 		}
@@ -214,7 +213,6 @@ GameEntity* EntityCollection::GetEntity(size_t _entityId) {
 		return (*itr).get();
 	}
 
-	Console::LogWarning("Entity not found for ID: " + std::to_string(_entityId));
 	return nullptr;
 }
 
@@ -247,6 +245,12 @@ void EntityCollection::LoadPrefabAll() {
 void EntityCollection::ReloadPrefab(const std::string& _prefabName) {
 	auto itr = prefabs_.find(_prefabName);
 	if (itr == prefabs_.end()) {
+		// 拡張子なしで検索された場合に備えて ".prefab" を付けて再試行
+		std::string nameWithExt = _prefabName + ".prefab";
+		itr = prefabs_.find(nameWithExt);
+	}
+
+	if (itr == prefabs_.end()) {
 		/// もう一度Fileを探索して確認
 		File file = FileSystem::GetFile("./Assets/Prefabs/", _prefabName);
 
@@ -258,7 +262,7 @@ void EntityCollection::ReloadPrefab(const std::string& _prefabName) {
 		///!< 複数あった場合は最初に見つかったものを使用する
 		prefabs_[file.second] = std::make_unique<EntityPrefab>(file.first);
 
-		itr = prefabs_.find(_prefabName);
+		itr = prefabs_.find(file.second);
 	}
 
 	/// prefabを再読み込み
@@ -269,8 +273,14 @@ GameEntity* EntityCollection::GenerateEntityFromPrefab(const std::string& _prefa
 	/// prefabが存在するかチェック
 	auto prefabItr = prefabs_.find(_prefabName);
 	if (prefabItr == prefabs_.end()) {
-		Console::LogError("Prefab not found: " + _prefabName);
-		return nullptr;
+		// 拡張子なしで検索された場合に備えて ".prefab" を付けて再試行
+		std::string nameWithExt = _prefabName + ".prefab";
+		prefabItr = prefabs_.find(nameWithExt);
+
+		if (prefabItr == prefabs_.end()) {
+			Console::LogError("Prefab not found: " + _prefabName);
+			return nullptr;
+		}
 	}
 
 	/// prefabを取得
@@ -297,8 +307,14 @@ void EntityCollection::ApplyPrefabToEntity(GameEntity* _entity, const std::strin
 	/// prefabが存在するかチェック
 	auto prefabItr = prefabs_.find(_prefabName);
 	if (prefabItr == prefabs_.end()) {
-		Console::LogError("Prefab not found: " + _prefabName);
-		return;
+		// 拡張子なしで検索された場合に備えて ".prefab" を付けて再試行
+		std::string nameWithExt = _prefabName + ".prefab";
+		prefabItr = prefabs_.find(nameWithExt);
+
+		if (prefabItr == prefabs_.end()) {
+			Console::LogError("Prefab not found: " + _prefabName);
+			return;
+		}
 	}
 
 	/// prefabを取得

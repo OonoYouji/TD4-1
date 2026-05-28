@@ -434,12 +434,16 @@ bool MonoInternalMethods::InternalGetScript(int32_t _entityId, MonoString* _scri
 
 void MonoInternalMethods::InternalCreateEntity(int32_t* _entityId, MonoString* _prefabName, MonoString* _groupName) {
 	std::string groupName = mono_string_to_utf8(_groupName);
+	std::string prefabName = mono_string_to_utf8(_prefabName);
+
+	Console::LogInfo("[SOURCE_DETECTOR] C# requested CreateEntity: Prefab = " + prefabName);
+
 	ECSGroup* group = gECS->GetECSGroup(groupName);
 
 	/// prefabを検索
-	std::string prefabName = mono_string_to_utf8(_prefabName);
-	GameEntity* entity = group->GenerateEntityFromPrefab(prefabName + ".prefab");
+	GameEntity* entity = group->GenerateEntityFromPrefab(prefabName);
 	if(!entity) {
+		Console::LogWarning("[SOURCE_DETECTOR] Prefab not found by name, creating blank entity: " + prefabName);
 		entity = group->GenerateEntity(GenerateGuid(), true);
 		if(!entity) {
 			return;

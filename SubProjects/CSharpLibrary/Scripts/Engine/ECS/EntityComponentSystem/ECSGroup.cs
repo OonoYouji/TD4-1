@@ -94,11 +94,13 @@ public class ECSGroup {
 	/// c#側から呼び出すエンティティの生成関数
 	/// </summary>
 	public Entity CreateEntity(string _prefabName) {
-		//Debug.LogInfo("ECSGroup.CreateEntity - Creating entity with prefab: " + _prefabName + ", Group Name: " + groupName);
-
 		int id = 0;
 		InternalCreateEntity(out id, _prefabName, groupName);
 		Entity entity = new Entity(id, this);
+
+		// 誰が生成しているかログを出す
+		Debug.LogInfo($"[ENTITY_SPAWN] Prefab: {_prefabName} spawned by C# script. ID: {id}");
+
 		entities_.Add(id, entity);
 
 		awakeList_.Add(entity); //!< 生成されたエンティティを生成リストに追加
@@ -137,6 +139,7 @@ public class ECSGroup {
 			}
 
 			foreach (MonoScript script in entity.GetScripts()) {
+				// スクリプトが非アクティブならスキップ
 				if (script.enable) {
 					script.Update();
 				}
