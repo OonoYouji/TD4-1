@@ -20,6 +20,7 @@ public class CallingReinforcement : MonoScript
 
     private Player player = null;
     private List<Entity> activeReinforcements = new List<Entity>();
+    private ReinforcementManager reinforcementManager = null;
     private float spawnTimer = 0.0f;
 
     // =========================================================
@@ -35,6 +36,13 @@ public class CallingReinforcement : MonoScript
         if (playerEntity != null)
         {
             player = playerEntity.GetScript<Player>();
+        }
+
+        // ReinforcementManagerを取得
+        Entity managerEntity = ecsGroup.FindEntity("ReinforcementManager");
+        if (managerEntity != null)
+        {
+            reinforcementManager = managerEntity.GetScript<ReinforcementManager>();
         }
 
         spawnTimer = spawnInterval;
@@ -54,8 +62,13 @@ public class CallingReinforcement : MonoScript
 
     private void HandleFiring()
     {
-        if (player == null) { return; }
 
+        //Playerが見つかっていなければ何もしない
+        if (player == null) {
+            return;
+        }
+
+        // 一定間隔で援軍を呼ぶ
         spawnTimer -= Time.deltaTime;
         if (spawnTimer <= 0.0f)
         {
@@ -135,5 +148,8 @@ public class CallingReinforcement : MonoScript
         reinforcement.startPosition = spawnPos;
         reinforcement.direction = dir;
         activeReinforcements.Add(ReinforcementEntity);
+
+        // ReinforcementManagerに登録
+        reinforcementManager?.AddReinforcement(ReinforcementEntity);
     }
 }

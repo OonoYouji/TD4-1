@@ -168,7 +168,7 @@
     <Compile Include="Scripts\Game\Enemy\FallingRock.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
-    <Compile Include="Scripts\Game\Player\CallingReinforcement.cs" />
+    <Compile Include="Scripts\Game\Reinforcement\CallingReinforcement.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerArm.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBullet.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBulletLauncher.cs" />
@@ -184,6 +184,7 @@
     <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
     <Compile Include="Scripts\Game\Field\Field.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement.cs" />
+    <Compile Include="Scripts\Game\Reinforcement\ReinforcementManager.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
     <Compile Include="Scripts\Game\StageObject\StartPoint.cs" />
     <Compile Include="Scripts\Test\DebugEventAI.cs" />

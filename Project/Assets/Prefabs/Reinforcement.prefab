@@ -46,19 +46,32 @@
                 "baseTextureGuid": "bf41deabb8d3b499fda8edb63ccb7c7d",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
-            "meshPath": "./Packages/Models/primitive/cylinder.obj",
+            "meshPath": "./Assets/Models/Soldier/soldier.obj",
             "type": "MeshRenderer"
         },
         {
+            "categoryBits": 1,
             "enable": 1,
+            "maskBits": 4294967295,
             "radius": 1.0,
             "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],
-    "guid": "4395614509eb42b5a73241b158b8dab8",
+    "guid": "b4052b3e272691851e17bb37eed69980",
     "id": 2,
     "name": "Reinforcement",
     "parent": null,
