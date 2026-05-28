@@ -32,7 +32,9 @@ public class FireBeamNode : BehaviorNode
             if (blackboard.HasKey(telegraphKey))
             {
                 int telegraphId = blackboard.GetInt(telegraphKey);
-                owner.Group.DestroyEntity(telegraphId);
+                if (telegraphId != 0) {
+                    owner.Group.DestroyEntity(telegraphId);
+                }
                 blackboard.Remove(telegraphKey);
             }
             

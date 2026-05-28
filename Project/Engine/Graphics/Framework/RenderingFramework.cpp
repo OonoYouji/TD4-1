@@ -172,7 +172,7 @@ void RenderingFramework::DrawShadowMap() {
 	/// ShadowCaster ComponentArrayの取得&確認
 	ComponentArray<ShadowCaster>* shadowCasterArray = currentGroup->GetComponentArray<ShadowCaster>();
 	if(!shadowCasterArray || shadowCasterArray->GetUsedComponents().empty()) {
-		Console::LogError("RenderingFramework::DrawShadowMap: ShadowCaster ComponentArray is null");
+		// Console::LogError("RenderingFramework::DrawShadowMap: ShadowCaster ComponentArray is null");
 		return;
 	}
 

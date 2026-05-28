@@ -162,19 +162,19 @@
                     "enable": 1,
                     "scripts": [
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "BossAI"
                         },
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "HP"
                         },
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "DamageHandler"
                         },
                         {
-                            "enable": false,
+                            "enable": true,
                             "name": "Knockback"
                         }
                     ],

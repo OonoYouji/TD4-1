@@ -71,11 +71,11 @@ namespace ONEngine {
             if (event.type == EventType::NamedEvent)
             {
                 const auto& payload = std::get<NamedEventPayload>(event.payload);
-                Console::Log("[FrameEventQueue] Triggered Named Event: " + payload.eventName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
+                // Console::Log("[FrameEventQueue] Triggered Named Event: " + payload.eventName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
                 
                 // --- 追加：特定のイベントに対する処理 ---
                 if (payload.eventName == "ShowIndicator_Line") {
-                    Console::Log("[Telegraph] Spawning TelegraphLine for Entity: " + std::to_string(payload.entityId));
+                    // Console::Log("[Telegraph] Spawning TelegraphLine for Entity: " + std::to_string(payload.entityId));
                 }
 
                 // 暫定：即座に完了を通知してAIを復帰させるテスト
@@ -93,13 +93,13 @@ namespace ONEngine {
                     }
                 }
 
-                std::string msg = "[AttackEvent] Spawn Attack: Name=" + payload.attackName + ", Damage=" + std::to_string(payload.damage);
-                Console::Log(msg, LogCategory::Application);
+                // std::string msg = "[AttackEvent] Spawn Attack: Name=" + payload.attackName + ", Damage=" + std::to_string(payload.damage);
+                // Console::Log(msg, LogCategory::Application);
             }
             else if (event.type == EventType::Effect)
             {
                 const auto& payload = std::get<EffectEventPayload>(event.payload);
-                Console::Log("[EffectEvent] Triggered: " + payload.effectName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
+                // Console::Log("[EffectEvent] Triggered: " + payload.effectName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
 
                 if (ECSGroup* group = GetEntityComponentSystemPtr()) 
                 {
@@ -115,7 +115,7 @@ namespace ONEngine {
                                 effectEntity->SetPosition(owner->GetPosition());
                                 effectEntity->SetScale(Vector3::One * payload.scale);
                                 
-                                Console::Log("[EffectEvent] Spawned effect: " + def->name + " at owner position", LogCategory::Engine);
+                                // Console::Log("[EffectEvent] Spawned effect: " + def->name + " at owner position", LogCategory::Engine);
                             }
                         }
                     }

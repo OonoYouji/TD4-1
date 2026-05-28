@@ -92,7 +92,7 @@ void MeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _camera,
 
 		/// meshが読み込まれていなければ、デフォルトのメッシュを使用
 		if (!pAssetCollection_->GetModel(meshRenderer->GetMeshPath())) {
-			Console::Log("Mesh not found: " + meshRenderer->GetMeshPath());
+			// Console::Log("Mesh not found: " + meshRenderer->GetMeshPath());
 			pathMeshMap["./Assets/Models/primitive/cube.obj"].push_back(meshRenderer);
 			continue;
 		}

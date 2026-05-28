@@ -207,10 +207,11 @@ public static class BehaviorTreeLoader
                 {
                     object val = ConvertValue(field.FieldType, p.Value.ToString());
                     field.SetValue(instance, val);
+                    // Debug.Log($"BTLoader: Set field {p.Name} = {val} on {instance.GetType().Name}");
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"BTLoader: Failed to set field {p.Name} on {type.Name}. {e.Message}");
+                    Debug.LogWarning($"BTLoader: Failed to set field {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
                 }
             }
             else
@@ -222,11 +223,16 @@ public static class BehaviorTreeLoader
                     {
                         object val = ConvertValue(prop.PropertyType, p.Value.ToString());
                         prop.SetValue(instance, val);
+                        // Debug.Log($"BTLoader: Set property {p.Name} = {val} on {instance.GetType().Name}");
                     }
                     catch (Exception e)
                     {
-                        Debug.LogWarning($"BTLoader: Failed to set property {p.Name} on {type.Name}. {e.Message}");
+                        Debug.LogWarning($"BTLoader: Failed to set property {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
                     }
+                }
+                else
+                {
+                    // Debug.LogWarning($"BTLoader: Field or property {p.Name} not found on {type.Name}");
                 }
             }
         }
@@ -258,7 +264,9 @@ public static class BehaviorTreeLoader
         {
             if (int.TryParse(value, out int intVal))
             {
-                return Enum.ToObject(type, intVal);
+                object result = Enum.ToObject(type, intVal);
+                // Debug.Log($"BTLoader: Enum Convert {value} -> {intVal} -> {result} (Type: {type.Name})");
+                return result;
             }
             return Enum.Parse(type, value, true);
         }

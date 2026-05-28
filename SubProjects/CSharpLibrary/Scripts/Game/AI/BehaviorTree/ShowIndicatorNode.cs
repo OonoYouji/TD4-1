@@ -1,33 +1,33 @@
 using System;
 
+public enum IndicatorShape
+{
+    Line,   // ビーム用予測線
+    Circle  // 落下・範囲用
+}
+
+public enum IndicatorCenterType
+{
+    Target, // ターゲット地点
+    Boss,   // ボスの位置
+    Other   // 自由指定
+}
+
 /// <summary>
 /// 特定の形状の「予兆（Indicator）」を生成または制御するアクションノード。
 /// ビームの予測線や、岩落としの落下地点円などを AI からトリガーするために使用。
 /// </summary>
 public class ShowIndicatorNode : BehaviorNode
 {
-    public enum Shape
-    {
-        Line,   // ビーム用予測線
-        Circle  // 落下・範囲用
-    }
-
-    public enum CenterType
-    {
-        Target, // ターゲット地点
-        Boss,   // ボスの位置
-        Other   // 自由指定
-    }
-
     /// <summary>
     /// 表示する形状。
     /// </summary>
-    public Shape shape = Shape.Line;
+    public IndicatorShape shape = IndicatorShape.Line;
 
     /// <summary>
     /// 中心位置の基準。
     /// </summary>
-    public CenterType centerType = CenterType.Target;
+    public IndicatorCenterType centerType = IndicatorCenterType.Target;
 
     /// <summary>
     /// 表示時間（秒）。0以下の場合は明示的に非表示にするまで継続。
@@ -90,14 +90,14 @@ public class ShowIndicatorNode : BehaviorNode
         {
             // 初回実行
             Vector3 originPos = owner.transform.position;
-            if (centerType == CenterType.Target)
+            if (centerType == IndicatorCenterType.Target)
             {
                 uint keyHash = BehaviorTreeLoader.HashString(targetPosKey);
                 if (blackboard.HasKey(keyHash)) originPos = blackboard.GetVector3(keyHash);
             }
 
             // --- プレハブを使用してメッシュベースの予測線を生成 ---
-            string prefabName = (shape == Shape.Line) ? "TelegraphLine" : "TelegraphCircle";
+            string prefabName = (shape == IndicatorShape.Line) ? "TelegraphLine" : "TelegraphCircle";
             Entity telegraph = owner.Group.CreateEntity(prefabName);
             if (telegraph != null)
             {
@@ -132,8 +132,8 @@ public class ShowIndicatorNode : BehaviorNode
 
                 UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
 
-                // Blackboardに保存（後で消すため）
-                blackboard.SetInt(BehaviorTreeLoader.HashString("TelegraphEntityID"), telegraph.Id);
+                // Blackboardに保存（後で消すため。ノードごとにユニークなキーにする）
+                blackboard.SetInt(BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash), telegraph.Id);
             }
 
             blackboard.SetFloat(startTimeKey, currentTime);
@@ -143,33 +143,44 @@ public class ShowIndicatorNode : BehaviorNode
         }
 
         float startTime = blackboard.GetFloat(startTimeKey);
-        
+
         // 毎フレーム、ターゲット位置とボスの位置関係から予兆を更新する
-        uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID");
+        uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
         if (blackboard.HasKey(telegraphKey))
         {
             int telegraphId = blackboard.GetInt(telegraphKey);
-            Entity telegraph = owner.Group.GetEntity(telegraphId);
-            if (telegraph != null)
+            if (telegraphId != 0)
             {
-                uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
-                Vector3 currentTarget = blackboard.HasKey(targetKeyHash) ? blackboard.GetVector3(targetKeyHash) : owner.transform.position;
-
-                Vector3 originPos = owner.transform.position;
-                if (centerType == CenterType.Target)
+                Entity telegraph = owner.Group.GetEntity(telegraphId);
+                if (telegraph != null)
                 {
-                    originPos = currentTarget;
+                    uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
+                    Vector3 currentTarget = blackboard.HasKey(targetKeyHash) ? blackboard.GetVector3(targetKeyHash) : owner.transform.position;
+
+                    Vector3 originPos = owner.transform.position;
+                    if (centerType == IndicatorCenterType.Target)
+                    {
+                        originPos = currentTarget;
+                    }
+
+                    UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
                 }
-                
-                // 毎フレームログ（多すぎないように一部間引くか考慮）
-                // Debug.Log($"<color=cyan>[TRACE:Indicator-Update]</color> {owner.name} target: {Vector3.ToSimpleString(currentTarget)}");
-                
-                UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
             }
         }
 
         if (currentTime - startTime >= finalDuration)
         {
+            // 終了時にエンティティを削除
+            if (blackboard.HasKey(telegraphKey))
+            {
+                int telegraphId = blackboard.GetInt(telegraphKey);
+                if (telegraphId != 0)
+                {
+                    owner.Group.DestroyEntity(telegraphId);
+                }
+                blackboard.Remove(telegraphKey);
+            }
+
             blackboard.Remove(startTimeKey);
             return NodeStatus.Success;
         }
@@ -177,52 +188,60 @@ public class ShowIndicatorNode : BehaviorNode
         return NodeStatus.Running;
     }
 
-    private void UpdateTelegraphTransform(Entity telegraph, Vector3 bossPos, Vector3 originPos, Vector3 targetPos, float finalSize)
-    {
-        // 高度差を無視した水平方向のベクトルを計算
-        Vector3 diff = new Vector3(targetPos.x - bossPos.x, 0.0f, targetPos.z - bossPos.z);
-        Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : Vector3.forward;
+                private void UpdateTelegraphTransform(Entity telegraph, Vector3 bossPos, Vector3 originPos, Vector3 targetPos, float finalSize)
+                {
+                // 高度差を無視した水平方向のベクトルを計算
+                Vector3 diff = new Vector3(targetPos.x - bossPos.x, 0.0f, targetPos.z - bossPos.z);
+                Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : Vector3.forward;
 
-        if (shape == Shape.Line)
-        {
-            // --- 仕様に基づいた配置：ボスの足元付近からターゲット方向へ ---
-            // ボスの足元中心から少し前方にずらした位置を起点にする
-            Vector3 startPos = new Vector3(bossPos.x, 0.1f, bossPos.z) + direction * 3.0f;
+                if (shape == IndicatorShape.Line)
+                {
+                // --- 仕様に基づいた配置：ボスの足元付近からターゲット方向へ ---
+                // ボスの足元中心から少し前方にずらした位置を起点にする
+                Vector3 startPos = new Vector3(bossPos.x, 0.1f, bossPos.z) + direction * 3.0f;
 
-            telegraph.transform.position = startPos;
-            // 既存の LookRotation は逆回転を返す既知の問題があるため、Conjugate() で反転して正しい向きにする
-            telegraph.transform.rotation = Quaternion.LookRotation(direction).Conjugate();
+                telegraph.transform.position = startPos;
+                // 既存の LookRotation は逆回転を返す既知の問題があるため、Conjugate() で反転して正しい向きにする
+                telegraph.transform.rotation = Quaternion.LookRotation(direction).Conjugate();
 
-            // ターゲットまでの距離を計算（水平距離）
-            float currentDist = (new Vector3(targetPos.x, 0.1f, targetPos.z) - startPos).Length();
-            float finalLength = Math.Max(currentDist, length); 
-            telegraph.transform.scale = new Vector3(finalSize, 1.0f, finalLength);
+                // ターゲットまでの距離を計算（水平距離）
+                float currentDist = (new Vector3(targetPos.x, 0.1f, targetPos.z) - startPos).Length();
+                float finalLength = Math.Max(currentDist, length); 
+                telegraph.transform.scale = new Vector3(finalSize, 1.0f, finalLength);
 
-            // --- デバッグ用描画 ---
-            GizmoBatch.DrawRay(startPos, direction * finalLength, color);
-        }
-        else if (shape == Shape.Circle)
-        {
-            // 円は指定された originPos (Target地点 or ボス地点) の足元に配置
-            telegraph.transform.position = new Vector3(originPos.x, 0.1f, originPos.z);
-            telegraph.transform.scale = new Vector3(finalSize, 1.0f, finalSize);
+                // デバッグログ追加
+                // Debug.Log($"[Indicator:Line] ID:{telegraph.Id} Pos:{Vector3.ToSimpleString(startPos)} Scale:{finalSize},1,{finalLength}");
 
-            // --- デバッグ用描画 ---
-            GizmoBatch.DrawLine(new Vector3(originPos.x - finalSize*0.5f, 0.1f, originPos.z), new Vector3(originPos.x + finalSize*0.5f, 0.1f, originPos.z), color);
-            GizmoBatch.DrawLine(new Vector3(originPos.x, 0.1f, originPos.z - finalSize*0.5f), new Vector3(originPos.x, 0.1f, originPos.z + finalSize*0.5f), color);
-        }
-    }
-    public override void OnAbort(Blackboard blackboard, Entity owner)
-    {
-        blackboard.Remove(BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash));
-        
-        // アボート時も予測線を消す
-        uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID");
-        if (blackboard.HasKey(telegraphKey))
-        {
-            int telegraphId = blackboard.GetInt(telegraphKey);
-            owner.Group.DestroyEntity(telegraphId);
-            blackboard.Remove(telegraphKey);
-        }
-    }
+                // --- デバッグ用描画 ---
+                GizmoBatch.DrawRay(startPos, direction * finalLength, color);
+                }
+                else if (shape == IndicatorShape.Circle)
+                {
+                // 円は指定された originPos (Target地点 or ボス地点) の足元に配置
+                telegraph.transform.position = new Vector3(originPos.x, 0.05f, originPos.z);
+                // Z方向に引き延ばされるのを防ぐため、XZに同じサイズを適用し、Y(高さ)は極めて薄くする
+                telegraph.transform.scale = new Vector3(finalSize, 0.01f, finalSize);
+
+                // デバッグログ追加
+                Debug.Log($"[Indicator:Circle] ID:{telegraph.Id} Name:{name} Pos:{Vector3.ToSimpleString(originPos)} Scale:{finalSize},0.01,{finalSize}");
+
+                // --- デバッグ用描画 ---
+                GizmoBatch.DrawLine(new Vector3(originPos.x - finalSize*0.5f, 0.1f, originPos.z), new Vector3(originPos.x + finalSize*0.5f, 0.1f, originPos.z), color);
+                GizmoBatch.DrawLine(new Vector3(originPos.x, 0.1f, originPos.z - finalSize*0.5f), new Vector3(originPos.x, 0.1f, originPos.z + finalSize*0.5f), color);
+                }
+                }
+
+                public override void OnAbort(Blackboard blackboard, Entity owner)
+                {
+                blackboard.Remove(BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash));
+
+                // アボート時も予測線を消す
+                uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
+                if (blackboard.HasKey(telegraphKey))
+                {
+                int telegraphId = blackboard.GetInt(telegraphKey);
+                owner.Group.DestroyEntity(telegraphId);
+                blackboard.Remove(telegraphKey);
+                }
+                }
 }

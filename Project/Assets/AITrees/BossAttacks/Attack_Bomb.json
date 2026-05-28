@@ -13,7 +13,7 @@
         },
         {
             "id": 3, "className": "ShowIndicatorNode", "name": "Preview", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "1", "centerType": "1", "duration": "1.0", "size": "6.0", "color": "1.0,0.5,0.0,0.5" }, 
+            "properties": { "shape": "Circle", "centerType": "Boss", "duration": "1.0", "size": "6.0", "color": "1.0,0.5,0.0,0.5" }, 
             "decorators": [], "services": [], "pos": [400.0, -50.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": []
         },

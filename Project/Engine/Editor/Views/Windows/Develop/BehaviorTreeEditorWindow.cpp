@@ -385,6 +385,26 @@ void BehaviorTreeEditorWindow::DrawNodeInspector() {
                 char sBuf[128]; strncpy_s(sBuf, currentVal.c_str(), sizeof(sBuf));
                 if (ImGui::InputText(field.name.c_str(), sBuf, sizeof(sBuf))) { (*targetProps)[field.name] = sBuf; }
                 if (ImGui::IsItemActivated()) RecordUndo();
+            } else if (field.typeName.find("Vector4") != std::string::npos || field.typeName.find("Color") != std::string::npos) {
+                // Vector4 または Color と名のつくものは ColorEdit4 で編集できるようにする
+                float col[4] = { 1, 1, 1, 1 };
+                if (!currentVal.empty()) {
+                    std::stringstream ss(currentVal);
+                    std::string segment;
+                    int i = 0;
+                    while (std::getline(ss, segment, ',') && i < 4) {
+                        try { col[i++] = std::stof(segment); } catch (...) {}
+                    }
+                }
+                if (ImGui::ColorEdit4(field.name.c_str(), col)) {
+                    (*targetProps)[field.name] = std::format("{},{},{},{}", col[0], col[1], col[2], col[3]);
+                }
+                if (ImGui::IsItemActivated()) RecordUndo();
+            } else {
+                // 未知の型（Enum等）は現状文字列として編集可能にする
+                char sBuf[128]; strncpy_s(sBuf, currentVal.c_str(), sizeof(sBuf));
+                if (ImGui::InputText(std::format("{} ({})", field.name, field.typeName).c_str(), sBuf, sizeof(sBuf))) { (*targetProps)[field.name] = sBuf; }
+                if (ImGui::IsItemActivated()) RecordUndo();
             }
             ImGui::PopID();
         }
