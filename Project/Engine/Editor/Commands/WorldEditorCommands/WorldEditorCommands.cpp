@@ -82,6 +82,61 @@ EDITOR_STATE CreateGameObjectCommand::Undo() {
 
 
 /// ///////////////////////////////////////////////////
+/// プリミティブなオブジェクトの作成コマンド
+/// ///////////////////////////////////////////////////
+
+CreatePrimitiveCommand::CreatePrimitiveCommand(ONEngine::ECSGroup* _ecs, Type _type, ONEngine::GameEntity* _parentEntity)
+	: type_(_type) {
+	pEcsGroup_ = _ecs;
+	parentGuid_ = ONEngine::Guid::kInvalid;
+	if (_parentEntity) {
+		parentGuid_ = _parentEntity->GetGuid();
+	}
+}
+
+EDITOR_STATE CreatePrimitiveCommand::Execute() {
+	if (!generatedGuid_.CheckValid()) {
+		generatedGuid_ = ONEngine::GenerateGuid();
+	}
+
+	generatedEntity_ = pEcsGroup_->GenerateEntity(generatedGuid_, false);
+	if (!generatedEntity_) return EDITOR_STATE_FAILED;
+
+	switch (type_) {
+	case Type::Camera:
+		generatedEntity_->SetName("Camera");
+		generatedEntity_->AddComponent("CameraComponent");
+		break;
+	case Type::DirectionalLight:
+		generatedEntity_->SetName("DirectionalLight");
+		generatedEntity_->AddComponent("DirectionalLight");
+		break;
+	case Type::Mesh:
+		generatedEntity_->SetName("Mesh");
+		generatedEntity_->AddComponent("MeshRenderer");
+		break;
+	}
+
+	if (parentGuid_.CheckValid()) {
+		ONEngine::GameEntity* parent = pEcsGroup_->GetEntityFromGuid(parentGuid_);
+		if (parent) {
+			generatedEntity_->SetParent(parent);
+		}
+	}
+
+	return EDITOR_STATE_FINISH;
+}
+
+EDITOR_STATE CreatePrimitiveCommand::Undo() {
+	if (generatedEntity_) {
+		pEcsGroup_->RemoveEntity(generatedEntity_);
+		generatedEntity_ = nullptr;
+	}
+	return EDITOR_STATE_FINISH;
+}
+
+
+/// ///////////////////////////////////////////////////
 /// オブジェクトの名前変更コマンド
 /// ///////////////////////////////////////////////////
 EntityRenameCommand::EntityRenameCommand(ONEngine::GameEntity* _entity, const std::string& _newName)

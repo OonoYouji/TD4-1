@@ -1,0 +1,10 @@
+{
+    "SceneTransition": {
+        "fadeDuration": 0.5,
+        "fadeInOnStart": true,
+        "isFadingIn": false,
+        "isFadingOut": false,
+        "nextScene": "",
+        "timer": -0.00977480597794056
+    }
+}

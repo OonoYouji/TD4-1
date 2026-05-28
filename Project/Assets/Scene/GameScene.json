@@ -590,7 +590,7 @@
                     "fovY": 0.699999988079071,
                     "isDrawFrustum": true,
                     "isMainCamera": true,
-                    "nearClip": 0.0,
+                    "nearClip": -10.0,
                     "type": "CameraComponent"
                 },
                 {
@@ -899,8 +899,8 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 0.0,
-                        "y": 0.0,
+                        "x": 720.0,
+                        "y": -320.0,
                         "z": 0.0
                     },
                     "rotate": {
@@ -910,8 +910,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
+                        "x": 512.0,
+                        "y": 512.0004272460938,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -1018,7 +1018,7 @@
                             "y": 1.0,
                             "z": 1.0
                         },
-                        "baseTextureGuid": "a860c73f54106dc5c12653bf2a814800",
+                        "baseTextureGuid": "6bea29fbbc8606c56006ac7d65dbe6e4",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 0,
@@ -1051,7 +1051,7 @@
                     "position": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": -1.0
                     },
                     "rotate": {
                         "w": 1.0,
@@ -1073,26 +1073,15 @@
                     "enable": 1,
                     "material": {
                         "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
+                            "w": 0.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
                         },
-                        "baseTextureGuid": "0ade493a51afb647e31fcb4d445d6f2c",
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
+                        "postEffectFlags": 0
                     },
                     "type": "SpriteRenderer"
                 }
@@ -1107,54 +1096,13 @@
             "components": [
                 {
                     "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 125.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 128.0,
-                        "y": 64.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "ff8a1b135f63dc117d4a16c08c20dc1e",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "SceneTransition"
                         }
-                    },
-                    "type": "SpriteRenderer"
+                    ],
+                    "type": "Script"
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
@@ -1169,8 +1117,8 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 720.0,
-                        "y": -320.0,
+                        "x": 0.0,
+                        "y": 0.0,
                         "z": 0.0
                     },
                     "rotate": {
@@ -1180,8 +1128,8 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 512.0,
-                        "y": 512.0004272460938,
+                        "x": 1.0,
+                        "y": 1.0,
                         "z": 1.0
                     },
                     "type": "Transform"
@@ -1191,30 +1139,13 @@
                 },
                 {
                     "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "6bea29fbbc8606c56006ac7d65dbe6e4",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "GameController"
                         }
-                    },
-                    "type": "SpriteRenderer"
+                    ],
+                    "type": "Script"
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",

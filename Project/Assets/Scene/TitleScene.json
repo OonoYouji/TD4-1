@@ -223,6 +223,16 @@
                 },
                 {
                     "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "TitleSceneController"
+                        }
+                    ],
+                    "type": "Script"
                 }
             ],
             "guid": "e059d18c3aa6d0577e148c0870d37d31",
@@ -278,6 +288,80 @@
             "id": 6,
             "name": "PushButton",
             "parent": 5,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 2000.0,
+                        "y": 2000.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 0.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0
+                    },
+                    "type": "SpriteRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "SceneTransition"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "groups": [
+                        {
+                            "name": "SceneTransition",
+                            "variables": [
+                                {
+                                    "name": "fadeInOnStart",
+                                    "type": "bool",
+                                    "value": false
+                                }
+                            ]
+                        }
+                    ],
+                    "type": "Variables"
+                }
+            ],
+            "guid": "94ff339484eae82538e7245fbb9d7d66",
+            "id": 7,
+            "name": "Fader",
+            "parent": null,
             "prefabName": ""
         }
     ]

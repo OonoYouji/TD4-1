@@ -9,6 +9,7 @@ public interface IComponentArray {
 	int Count {
 		get;
 	}
+	void Clear();
 }
 
 public class ComponentArray<T> : IComponentArray where T : Component {
@@ -18,6 +19,10 @@ public class ComponentArray<T> : IComponentArray where T : Component {
 
 	public T Get(int _index) {
 		return components[_index];
+	}
+
+	public void Clear() {
+		components.Clear();
 	}
 }
 
@@ -41,6 +46,12 @@ public class ComponentCollection {
 
 		ComponentArray<T> array = (ComponentArray<T>)arrays_[typeof(T)];
 		array.components.Remove(_component);
+	}
+
+	public void Clear() {
+		foreach (var array in arrays_.Values) {
+			array.Clear();
+		}
 	}
 
 	public bool TryGetArray(Type _type, out IComponentArray _array) {

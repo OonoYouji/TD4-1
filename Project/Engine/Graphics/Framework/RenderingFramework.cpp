@@ -63,6 +63,7 @@ void RenderingFramework::Initialize(DxManager* _dxm, WindowManager* _windowManag
 
 void RenderingFramework::Draw() {
 	/// ----- 描画全体の処理 ----- ///
+	HeapBindToCommandList();
 	PreDraw(pEntityComponentSystem_->GetCurrentGroup());
 
 #ifdef DEBUG_MODE /// imguiの描画
@@ -126,8 +127,7 @@ void RenderingFramework::PreDraw(ECSGroup* _ecsGroup) {
 
 void RenderingFramework::DrawScene() {
 	CameraComponent* camera = pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera();
-	if(!camera) {
-		Console::Log("[error] RenderingFramework::DrawScene: Main Camera is null");
+	if(!camera || !camera->enable || !camera->IsMakeViewProjection()) {
 		return;
 	}
 
@@ -143,6 +143,10 @@ void RenderingFramework::DrawScene() {
 
 void RenderingFramework::DrawDebug() {
 	CameraComponent* camera = pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera();
+	if (!camera || !camera->enable || !camera->IsMakeViewProjection()) {
+		return;
+	}
+
 	SceneRenderTexture* renderTex = renderTextures_[RENDER_TEXTURE_DEBUG].get();
 
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
@@ -155,6 +159,9 @@ void RenderingFramework::DrawDebug() {
 
 void RenderingFramework::DrawPrefab() {
 	CameraComponent* camera = pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera();
+	if (!camera || !camera->enable || !camera->IsMakeViewProjection()) {
+		return;
+	}
 
 	SceneRenderTexture* renderTex = renderTextures_[RENDER_TEXTURE_PREFAB].get();
 

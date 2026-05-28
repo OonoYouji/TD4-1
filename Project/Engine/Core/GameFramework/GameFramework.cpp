@@ -68,6 +68,7 @@ void GameFramework::Initialize(const GameFrameworkConfig& _startSetting) {
 	windowManager_->GenerateWindow(_startSetting.windowName, _startSetting.windowSize, WindowManager::WindowType::Main);
 #endif // DEBUG_MODE
 
+	MonoScriptEngine::GetInstance().SetEcsPtr(entityComponentSystem_.get());
 	MonoScriptEngine::GetInstance().Initialize();
 
 	/// input systemの初期化

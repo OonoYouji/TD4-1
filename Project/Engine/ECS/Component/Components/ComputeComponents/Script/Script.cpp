@@ -233,8 +233,10 @@ void ComponentDebug::ScriptDebug(Script* _script) {
 						MonoType* fieldType = mono_field_get_type(field);
 						int type = mono_type_get_type(fieldType);
 
+						Console::Log(std::format("[UndoDebug] Found [SerializeField] field: '{}' (type: {}) in script '{}'", fieldName, type, script.scriptName));
+
 						if(safeObj) {
-							ShowField(type, safeObj, field, fieldName);
+							ShowField(script.scriptName, type, safeObj, field, fieldName);
 						} else {
 							Variables* var = entity->GetComponent<Variables>();
 							if (!var) {

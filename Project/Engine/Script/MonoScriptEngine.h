@@ -57,11 +57,16 @@ public:
 	/// CSのHotReloadを行う
 	void HotReload();
 
+	void SetEcsPtr(class EntityComponentSystem* _ecs);
+
 	/// DLLのパスを探す
 	std::optional<std::string> FindLatestDll(const std::string& _dirPath, const std::string& _baseName);
 
 	/// C#側のリセット
 	void ResetCS();
+
+	/// @brief C#側の特定のECSGroupをクリアする
+	void ClearECSGroup(const std::string& _name);
 
 	/// @brief C++で初期化したコンポーネントデータをCS側に同期する
 	void SyncInitialComponentsToCS(ECSGroup* _ecsGroup);
@@ -69,6 +74,21 @@ public:
 	/// C#側のEntityを取得
 	MonoObject* GetEntityFromCS(const std::string& _ecsGroupName, int32_t _entityId);
 	MonoObject* GetMonoBehaviorFromCS(const std::string& _ecsGroupName, int32_t _entityId, const std::string& _behaviorName);
+
+	/// @brief MonoObjectの所有者であるGameEntityを取得する
+	/// @param _obj 
+	/// @return 
+	class GameEntity* GetOwnerEntity(MonoObject* _obj);
+
+	/// @brief GuidからGameEntityを取得する
+	/// @param _guid 
+	/// @return 
+	class GameEntity* GetOwnerEntity(const struct Guid& _guid);
+
+	/// @brief エンティティのGuidから所属しているECSグループ名を取得する
+	/// @param _guid 
+	/// @return 
+	std::string GetGroupNameByEntityGuid(const struct Guid& _guid);
 
 	/// @brief C#側のメソッドを取得する
 	/// @param _namespace 名前空間
@@ -124,11 +144,18 @@ private:
 	/// C#側のメソッドポインタ
 	MonoMethod* receiveAllBatchesMethod_ = nullptr;
 	MonoMethod* getEcsGroupMethod_ = nullptr;
+	MonoMethod* addEcsGroupMethod_ = nullptr;
+	MonoMethod* clearEcsGroupMethod_ = nullptr;
 	MonoMethod* addEntityMethod_ = nullptr;
 	MonoMethod* fetchInitialDataMethod_ = nullptr;
 	MonoClassField* getComponentCollectionField_ = nullptr;
 	MonoMethod* updateAiIntentsMethod_ = nullptr;
 	MonoMethod* notifyEventCompletedMethod_ = nullptr;
+
+	/// SceneManager
+	MonoClassField* sceneNameField_ = nullptr;
+
+	EntityComponentSystem* pEcs_ = nullptr;
 
 public:
 	/// ===================================================

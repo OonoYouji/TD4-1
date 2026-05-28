@@ -39,6 +39,7 @@ void SceneIO::OutputTemporary(ECSGroup* _ecsGroup) {
 }
 
 void SceneIO::InputTemporary(ECSGroup* _ecsGroup) {
+	MonoScriptEngine::GetInstance().ClearECSGroup(_ecsGroup->GetGroupName());
 	LoadSceneFromJson(tempSceneJson_, _ecsGroup);
 }
 
@@ -49,6 +50,8 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 }
 
 void SceneIO::LoadScene(const std::string& _filename, ECSGroup* _ecsGroup) {
+	MonoScriptEngine::GetInstance().ClearECSGroup(_ecsGroup->GetGroupName());
+
 	std::ifstream inputFile(fileDirectory_ + _filename);
 	if (!inputFile.is_open()) {
 		Console::Log("SceneIO: ファイルのオープンに失敗しました: " + fileDirectory_ + _filename);

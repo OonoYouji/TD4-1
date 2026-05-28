@@ -915,6 +915,9 @@
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.h">
       <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ModifyScriptVariableCommand.h">
+      <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\Commands\IEditCommand.h">
       <Filter>Engine\Editor\Commands</Filter>
     </ClInclude>
@@ -964,6 +967,9 @@
       <Filter>Engine\Editor\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Manager\EditorManager.h">
+      <Filter>Engine\Editor\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\Manager\HotReloadManager.h">
       <Filter>Engine\Editor\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Manager\ImGuiManager.h">
@@ -1587,6 +1593,9 @@
       <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.cpp">
+      <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\Commands\ComponentEditCommands\ModifyScriptVariableCommand.cpp">
       <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Commands\ImGuiCommand\FocusEntityCommand.cpp">

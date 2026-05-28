@@ -68,6 +68,8 @@ public:
 	void SetCurrentGroupName(const std::string& _name);
 	const std::string& GetCurrentGroupName() const;
 
+	DxManager* GetDxManager() const { return pDxManager_; }
+
 	/// すべてのECSグループの取得
 	const std::unordered_map<std::string, std::unique_ptr<ECSGroup>>& GetECSGroups() const;
 

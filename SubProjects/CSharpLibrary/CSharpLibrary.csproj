@@ -118,6 +118,7 @@
     <Compile Include="Scripts\Engine\Graphics\UVTransform.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
+    <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\HP.cs" />
     <Compile Include="Scripts\Game\Common\RandomUtil.cs" />
     <Compile Include="Scripts\Game\Common\Transition\SceneTransitionController.cs" />
@@ -164,6 +165,9 @@
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />
     <Compile Include="Scripts\Game\UI\ConvertTo2D.cs" />
+    <Compile Include="Scripts\Game\UI\TitleSceneController.cs" />
+    <Compile Include="Scripts\Game\UI\EndSceneController.cs" />
+    <Compile Include="Scripts\Game\UI\SceneTransition.cs" />
     <Compile Include="Scripts\Game\UI\UiController.cs" />
     <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
     <Compile Include="Scripts\Game\Field\Field.cs" />
