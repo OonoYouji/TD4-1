@@ -1,8 +1,11 @@
 {
     "BossAI": {
-        "treePath": "Assets/AITrees/BossMain.json"
+        "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json"
     },
-    "DamageHandler": {},
+    "DamageHandler": {
+        "cooldownTimer": 0.0,
+        "damageCooldownTime": 0.20000000298023224
+    },
     "HP": {
         "MAX_HP": 1000,
         "currentHp": 1000

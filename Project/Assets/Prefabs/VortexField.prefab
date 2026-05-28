@@ -16,6 +16,17 @@
             },
             "meshPath": "./Packages/Models/primitive/cylinder.obj",
             "type": "MeshRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "SimpleRotation",
+                    "rotationSpeed": 360.0
+                }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "v0r7ex0r7ex0r7ex0r7ex0r7ex0r7ex0",

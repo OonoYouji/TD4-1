@@ -24,11 +24,8 @@ public class FireBeamNode : BehaviorNode
             blackboard.SetFloat(startTimeKey, currentTime);
             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} started FIRING beam!");
             
-            // 視覚演出の開始イベントを発行
-            FrameEvent.EnqueueEffectEvent("BossBeam_Start", owner.Id, beamRadius, duration);
-            
             // --- 予測線の削除 ---
-            uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID");
+            uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
             if (blackboard.HasKey(telegraphKey))
             {
                 int telegraphId = blackboard.GetInt(telegraphKey);
@@ -38,6 +35,20 @@ public class FireBeamNode : BehaviorNode
                 blackboard.Remove(telegraphKey);
             }
             
+            // --- ビームメッシュの生成 ---
+            Entity beamEntity = owner.Group.CreateEntity("BossBeam");
+            if (beamEntity != null)
+            {
+                blackboard.SetInt(BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash), beamEntity.Id);
+                
+                // DamageTriggerのパラメータをノードの設定で上書き
+                var trigger = beamEntity.GetScript<DamageTrigger>();
+                if (trigger != null)
+                {
+                    trigger.damage = (int)damage;
+                }
+            }
+
             return NodeStatus.Running;
         }
 
@@ -46,11 +57,17 @@ public class FireBeamNode : BehaviorNode
 
         if (elapsed >= duration)
         {
+            // --- ビームメッシュの削除 ---
+            uint beamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
+            if (blackboard.HasKey(beamKey))
+            {
+                int beamId = blackboard.GetInt(beamKey);
+                if (beamId != 0) owner.Group.DestroyEntity(beamId);
+                blackboard.Remove(beamKey);
+            }
+
             blackboard.Remove(startTimeKey);
             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} finished FIRING beam.");
-            
-            // 視覚演出の終了イベントを発行
-            FrameEvent.EnqueueNamedEvent("Effect_BossBeam_End", owner.Id);
             
             return NodeStatus.Success;
         }
@@ -72,18 +89,34 @@ public class FireBeamNode : BehaviorNode
                 intent.useDesiredRotation = true;
             }
 
-            // C++側にビーム攻撃イベントを送信（毎フレームまたは一定間隔）
-            FrameEvent.EnqueueAttackEvent(
-                "BossBeam",
-                owner.Id,
-                damage * Time.deltaTime, // 持続ダメージ
-                beamRadius,
-                0.1f,
-                0.0f,
-                1.0f
-            );
+            // --- ビームメッシュのTransform更新 ---
+            uint beamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
+            if (blackboard.HasKey(beamKey))
+            {
+                Entity beamEntity = owner.Group.GetEntity(blackboard.GetInt(beamKey));
+                if (beamEntity != null)
+                {
+                    Vector3 startPos = new Vector3(bossPos.x, 0.5f, bossPos.z) + direction * 3.0f;
+                    beamEntity.transform.position = startPos;
+                    beamEntity.transform.rotation = Quaternion.LookRotation(direction).Conjugate();
+                    beamEntity.transform.scale = new Vector3(beamRadius * 2.0f, beamRadius * 2.0f, beamLength);
+                }
+            }
         }
 
         return NodeStatus.Running;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        blackboard.Remove(BehaviorTreeLoader.HashString("BeamStart_" + NodeIdHash));
+        
+        uint beamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
+        if (blackboard.HasKey(beamKey))
+        {
+            int beamId = blackboard.GetInt(beamKey);
+            if (beamId != 0) owner.Group.DestroyEntity(beamId);
+            blackboard.Remove(beamKey);
+        }
     }
 }

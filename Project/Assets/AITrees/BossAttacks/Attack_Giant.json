@@ -30,6 +30,11 @@
             "endPin": 9,
             "id": 12,
             "startPin": 5
+        },
+        {
+            "endPin": 13,
+            "id": 14,
+            "startPin": 5
         }
     ],
     "nodes": [
@@ -129,10 +134,35 @@
                 50.0
             ],
             "properties": {
-                "duration": "5.0",
-                "radius": "10.0",
-                "scaleFactor": "3.0",
+                "effectRadius": "10.0",
+                "scaleMultiplier": "3.0",
                 "targetPosKey": "TargetPosition"
+            },
+            "services": []
+        },
+        {
+            "className": "SpawnGiantExpansionNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 5,
+            "inputs": [
+                {
+                    "id": 13,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Physical Expansion",
+            "outputs": [],
+            "pos": [
+                400.0,
+                150.0
+            ],
+            "properties": {
+                "damage": "15",
+                "duration": "1.0",
+                "knockbackForce": "20.0",
+                "maxRadius": "15.0"
             },
             "services": []
         }

@@ -174,7 +174,7 @@
                             "name": "DamageHandler"
                         },
                         {
-                            "enable": true,
+                            "enable": false,
                             "name": "Knockback"
                         }
                     ],
@@ -205,7 +205,7 @@
                             }
                         }
                     },
-                    "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
+                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
                     "type": "MeshRenderer"
                 },
                 {

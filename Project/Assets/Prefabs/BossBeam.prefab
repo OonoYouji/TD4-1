@@ -7,6 +7,19 @@
             "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
             "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
             "type": "Transform"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "damage": 50,
+                    "interval": 0.2,
+                    "targetTag": "Player",
+                    "name": "DamageTrigger"
+                }
+            ],
+            "type": "Script"
         }
     ],
     "children": [
@@ -16,7 +29,7 @@
                 {
                     "enable": 1,
                     "matrixCalcFlags": 7,
-                    "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "position": { "x": 0.0, "y": 0.0, "z": 0.5 },
                     "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
                     "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
                     "type": "Transform"
@@ -24,16 +37,24 @@
                 {
                     "enable": 1,
                     "material": {
-                        "baseColor": { "w": 0.5, "x": 1.0, "y": 0.5, "z": 0.0 },
+                        "baseColor": { "w": 1.0, "x": 1.0, "y": 0.2, "z": 0.2 },
                         "postEffectFlags": 1
                     },
                     "meshPath": "./Packages/Models/primitive/cylinder.obj",
                     "type": "MeshRenderer"
+                },
+                {
+                    "center": { "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "enable": 1,
+                    "isTrigger": true,
+                    "size": { "x": 1.0, "y": 1.0, "z": 1.0 },
+                    "state": "Dynamic",
+                    "type": "BoxCollider"
                 }
             ]
         }
     ],
-    "guid": "c1rc1ec1rc1ec1rc1ec1rc1ec1rc1ec1",
-    "name": "TelegraphCircle",
-    "prefabName": "TelegraphCircle"
+    "guid": "b055bea3b055bea3b055bea3b055bea3",
+    "name": "BossBeam",
+    "prefabName": "BossBeam"
 }

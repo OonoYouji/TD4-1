@@ -3,9 +3,22 @@
         {
             "enable": 1,
             "matrixCalcFlags": 7,
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
-            "scale": { "x": 5.0, "y": 5.0, "z": 5.0 },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 5.0,
+                "y": 5.0,
+                "z": 5.0
+            },
             "type": "Transform"
         },
         {
@@ -16,13 +29,11 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "BossAI",
-                    "treePath": "Assets/AITrees/BossMain.json"
+                    "name": "BossAI"
                 },
                 {
                     "enable": true,
-                    "name": "HP",
-                    "MAX_HP": 2000
+                    "name": "HP"
                 },
                 {
                     "enable": true,
@@ -38,10 +49,29 @@
         {
             "enable": 1,
             "material": {
-                "baseColor": { "w": 1.0, "x": 1.0, "y": 1.0, "z": 1.0 },
-                "postEffectFlags": 1
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "00000000000000000000000000000000",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
-            "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
+            "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
             "type": "MeshRenderer"
         },
         {
@@ -53,7 +83,9 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "b055b055b055b055b055b055b055b055",
+    "guid": "fbbd2ff594de2ccc5301149313a28d06",
+    "id": 4,
     "name": "Boss",
+    "parent": null,
     "prefabName": "Boss"
 }
