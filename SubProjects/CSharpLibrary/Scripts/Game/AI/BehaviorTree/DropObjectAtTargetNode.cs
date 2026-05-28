@@ -21,7 +21,23 @@ public class DropObjectAtTargetNode : BehaviorNode
         float currentTime = Time.time;
 
         Entity rock = blackboard.GetEntity(BehaviorTreeLoader.HashString(objectKey));
-        if (rock == null) return NodeStatus.Failure;
+        
+        // フォールバック：岩が指定されていない場合はプレハブから生成
+        if (rock == null)
+        {
+            rock = owner.Group.CreateEntity("BossRock");
+            if (rock != null)
+            {
+                rock.parent = null; // 独立させる
+                rock.transform.position = owner.transform.position;
+                blackboard.SetObject(BehaviorTreeLoader.HashString(objectKey), rock);
+                Debug.Log("[DropRock] Fallback: Created BossRock prefab.");
+            }
+            else
+            {
+                return NodeStatus.Failure;
+            }
+        }
 
         int state = blackboard.GetInt(stateKey, 0); // 0: Lifting, 1: Ready/Telegraph, 2: Thrown
 
@@ -38,28 +54,39 @@ public class DropObjectAtTargetNode : BehaviorNode
         {
             // 岩をボスの頭上に移動させる
             Vector3 targetUpPos = owner.transform.position + Vector3.up * liftHeight;
-            rock.transform.position = Vector3.Lerp(rock.transform.position, targetUpPos, elapsed / liftDuration);
+            rock.transform.position = Vector3.Lerp(rock.transform.position, targetUpPos, Math.Min(elapsed / liftDuration, 1.0f));
 
             if (elapsed >= liftDuration)
             {
                 blackboard.SetInt(stateKey, 1);
-                blackboard.SetFloat(startTimeKey, currentTime); // 状態遷移用にリセット
                 Debug.Log("[DropRock] Rock lifted. Ready to throw.");
+                
+                // 次のフレームですぐに投げるように startTime を更新せず、そのまま state 1 に遷移させる
+                // もしくはここでそのまま処理を続行させることも可能だが、一旦 Running を返す
             }
             return NodeStatus.Running;
         }
-        else if (state == 1) // Ready/Telegraph (SubBT側で待機時間を制御するならここはSuccessでも良いが、簡略化のためここで投げる)
+        else if (state == 1) // Ready/Telegraph
         {
-            // ターゲット位置を再取得
+            // ターゲット位置を取得
             Vector3 targetPos = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
             
-            // 投擲！
-            Vector3 throwDir = (targetPos - rock.transform.position).Normalized();
-            // 本来は物理コンポーネントに初速を与えるが、ここでは簡易的に「位置の更新」の意図をログに
-            Debug.Log($"<color=brown>[DropRock]</color> THROWING {rock.name} towards {targetPos}");
+            // 投擲/落下開始！
+            var fallingRock = rock.GetScript<FallingRock>();
+            if (fallingRock != null)
+            {
+                // 落下開始（垂直落下の要件に合わせ、ターゲット位置を渡す）
+                fallingRock.Launch(targetPos);
+                
+                // 岩をターゲットの真上に瞬間移動させる（演出の簡略化のため）
+                rock.transform.position = new Vector3(targetPos.x, targetPos.y + 20.0f, targetPos.z);
+            }
+            else
+            {
+                // スクリプトがない場合は簡易的に飛ばす演出
+                Debug.Log($"<color=brown>[DropRock]</color> THROWING {rock.name} towards {targetPos}");
+            }
             
-            // 実際の移動はC++側や弾道計算スクリプトに任せるのが理想だが、
-            // ここでは攻撃成功として終了
             FrameEvent.EnqueueNamedEvent("Effect_RockThrow", owner.Id);
             
             blackboard.Remove(stateKey);

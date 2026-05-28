@@ -145,10 +145,11 @@ private:
     Node* CreateNode(const std::string& className, bool isDecorator = false);
     void CreateLink(ed::PinId startPin, ed::PinId endPin);
 
+    bool m_EditorInitialized = false;
     ONEngine::EntityComponentSystem* pEcs_;
     std::vector<ONEngine::MonoScriptEngine::NodeClassInfo> availableNodeClasses_;
     std::vector<ModuleClassInfo> availableModuleClasses_;
-    std::string m_CurrentFilePath = "Assets/AITrees/DefaultTree.json";
+    std::string m_CurrentFilePath = "";
     
     ed::EditorContext* m_Editor = nullptr;
     std::vector<Node> m_Nodes;

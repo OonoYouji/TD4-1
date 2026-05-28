@@ -19,8 +19,6 @@ void GameEntity::Awake() {
 	name_ = name_.substr(strlen("class ONEngine::"));
 	prefabName_ = "";
 
-	pEcsGroup_->LoadComponent(this);
-
 	transform_ = AddComponent<Transform>();
 	AddComponent<Variables>();
 }

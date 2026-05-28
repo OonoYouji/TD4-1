@@ -20,7 +20,10 @@ public static class BehaviorTreeLoader
     {
         // 1. ファイルの読み込みとパース
         string jsonText = Mathf.LoadFile(path);
-        if (string.IsNullOrEmpty(jsonText)) return null;
+        if (string.IsNullOrEmpty(jsonText)) {
+            Debug.LogError($"BTLoader: File not found or empty: {path}");
+            return null;
+        }
 
         var root = JObject.Parse(jsonText);
         BehaviorTree tree = new BehaviorTree(owner);
@@ -29,16 +32,14 @@ public static class BehaviorTreeLoader
         Debug.Log($"BTLoader: Loading tree for {owner.name} from {tree.SourcePath}");
 
         // 2. Blackboard（共有変数）のロード
-        // JSON内の "blackboard" 配列から変数を読み取り、型に応じたディクショナリに格納する。
         if (root["blackboard"] != null)
         {
             foreach (var v in root["blackboard"])
             {
                 string key = (string)v["key"];
-                uint keyHash = HashString(key); // キーは高速化のために常にハッシュ値(uint)として扱う
+                uint keyHash = HashString(key);
                 int type = (int)v["type"];
                 
-                // 型ごとに適切なメソッドを呼び出して初期値を設定
                 switch (type)
                 {
                     case 0: // Int
@@ -52,7 +53,9 @@ public static class BehaviorTreeLoader
                         break;
                     case 3: // Vector3
                         var va = v["vVal"];
-                        tree.Blackboard.SetVector3(keyHash, new Vector3((float)va[0], (float)va[1], (float)va[2]));
+                        Vector3 v3 = new Vector3((float)va[0], (float)va[1], (float)va[2]);
+                        tree.Blackboard.SetVector3(keyHash, v3);
+                        // Debug.Log($"BTLoader: BB SetVector3 {key} = {v3}");
                         break;
                     case 4: // String
                         tree.Blackboard.SetString(keyHash, (string)v["sVal"]);
@@ -64,14 +67,13 @@ public static class BehaviorTreeLoader
         // 3. ノード（タスク・コンポジット）とモジュール（デコレーター・サービス）のインスタンス化
         Dictionary<ulong, BehaviorNode> nodeInstances = new Dictionary<ulong, BehaviorNode>();
         Dictionary<ulong, ulong> pinToNodeMap = new Dictionary<ulong, ulong>();
-        ulong entryNodeId = 0; // ツリーの開始点となる "Entry" ノードのID
+        ulong entryNodeId = 0;
 
         foreach (var n in root["nodes"])
         {
             ulong id = (ulong)n["id"];
             string className = (string)n["className"];
 
-            // Entryノードは実際の実行ロジックを持たないため、ピンの接続関係のみを記録してスキップ
             if (className == "Entry")
             {
                 entryNodeId = id;
@@ -79,8 +81,9 @@ public static class BehaviorTreeLoader
                 continue;
             }
 
-            // クラス名からTypeを取得し、リフレクションでインスタンスを生成
-            Type type = Type.GetType(className) ?? Type.GetType(className + ", CSharpLibrary");
+            Type type = Type.GetType(className);
+            if (type == null) type = Type.GetType(className + ", CSharpLibrary");
+            if (type == null) type = Type.GetType(className + ", Engine");
 
             if (type != null)
             {
@@ -90,25 +93,20 @@ public static class BehaviorTreeLoader
                 if (string.IsNullOrEmpty(node.name)) node.name = className;
 
                 node.Tree = tree;
-                
-                // Debug log
-                // Debug.Log($"BTLoader: Created node {node.name} (ID:{node.NodeIdHash}, Class:{className})");
-
-                // ブレークポイント設定の反映
                 if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
 
                 nodeInstances[id] = node;
 
-                // ノード本体のプロパティ（インスペクターで設定した値）の反映
                 ApplyProperties(type, node, n["properties"]);
 
-                // 4. アタッチされている Decorator（条件）のロード
+                // 4. Decorator のロード
                 if (n["decorators"] is JArray decorators)
                 {
                     foreach (var d in decorators)
                     {
                         string dClassName = (string)d["className"];
-                        Type dType = Type.GetType(dClassName) ?? Type.GetType(dClassName + ", CSharpLibrary");
+                        Type dType = Type.GetType(dClassName);
+                        if (dType == null) dType = Type.GetType(dClassName + ", CSharpLibrary");
                         if (dType != null)
                         {
                             var decorator = (BehaviorDecorator)Activator.CreateInstance(dType);
@@ -119,13 +117,14 @@ public static class BehaviorTreeLoader
                     }
                 }
 
-                // 5. アタッチされている Service（定期実行処理）のロード
+                // 5. Service のロード
                 if (n["services"] is JArray services)
                 {
                     foreach (var s in services)
                     {
                         string sClassName = (string)s["className"];
-                        Type sType = Type.GetType(sClassName) ?? Type.GetType(sClassName + ", CSharpLibrary");
+                        Type sType = Type.GetType(sClassName);
+                        if (sType == null) sType = Type.GetType(sClassName + ", CSharpLibrary");
                         if (sType != null)
                         {
                             var service = (BehaviorService)Activator.CreateInstance(sType);
@@ -136,18 +135,16 @@ public static class BehaviorTreeLoader
                     }
                 }
 
-                // 6. ピンのIDをノードIDに紐付けるマップを作成（後のリンク構築用）
                 if (n["inputs"] != null) foreach (var pin in n["inputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
                 if (n["outputs"] != null) foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
             }
             else
             {
-                Debug.LogError($"BehaviorTreeLoader: Could not find type {className}");
+                Debug.LogError($"BTLoader: Could not find type {className} for node {n["name"]} (ID:{id})");
             }
         }
 
-        // 7. リンク情報に基づいたツリー構造（親子関係）の構築
-        // 実行順序を「高さ（Y座標）」で制御するため、リンクをターゲットノードのY座標でソートする
+        // 7. リンク情報の構築
         var links = new List<JToken>(root["links"]);
         links.Sort((a, b) => {
             ulong childIdA = 0, childIdB = 0;
@@ -155,7 +152,6 @@ public static class BehaviorTreeLoader
             pinToNodeMap.TryGetValue((ulong)b["endPin"], out childIdB);
 
             float yA = 0, yB = 0;
-            // JSONから座標を取得
             foreach (var n in root["nodes"]) {
                 if ((ulong)n["id"] == childIdA) yA = (float)n["pos"][1];
                 if ((ulong)n["id"] == childIdB) yB = (float)n["pos"][1];
@@ -168,11 +164,9 @@ public static class BehaviorTreeLoader
             ulong startPin = (ulong)l["startPin"];
             ulong endPin = (ulong)l["endPin"];
 
-            // リンクの開始ピン・終了ピンがどのノードに属しているかを特定
             if (pinToNodeMap.TryGetValue(startPin, out ulong parentId) &&
                 pinToNodeMap.TryGetValue(endPin, out ulong childId))
             {
-                // 親が "Entry" ノードの場合は、その子ノードをこのツリーの「RootNode（最上位ノード）」として設定
                 if (parentId == entryNodeId)
                 {
                     if (nodeInstances.TryGetValue(childId, out var rootNode))
@@ -180,14 +174,13 @@ public static class BehaviorTreeLoader
                         tree.RootNode = rootNode;
                     }
                 }
-                // それ以外の場合は、親コンポジットノードに子ノードを追加
                 else if (nodeInstances.TryGetValue(parentId, out var parentNode) && 
                          nodeInstances.TryGetValue(childId, out var childNode))
                 {
                     if (parentNode is CompositeNode composite)
                     {
                         composite.AddChild(childNode);
-                        childNode.Parent = parentNode; // NEW: Set parent
+                        childNode.Parent = parentNode;
                     }
                 }
             }
@@ -195,27 +188,18 @@ public static class BehaviorTreeLoader
 
         if (tree.RootNode == null)
         {
-            Debug.LogWarning("BehaviorTreeLoader: Loaded tree has no root connected to ENTRY.");
+            Debug.LogWarning($"BTLoader: Loaded tree from {path} has no root connected to ENTRY.");
         }
 
-        // 8. Observer Abort（監視による割り込み）のための初期化処理を実行
         tree.InitializeMonitoring();
-
         return tree;
     }
 
-    /// <summary>
-    /// リフレクションを使用して、JSON上のプロパティ値をC#インスタンスのフィールドに自動で代入する。
-    /// </summary>
-    /// <param name="type">対象クラスの型情報</param>
-    /// <param name="instance">代入先のインスタンス</param>
-    /// <param name="props">JSON内のプロパティオブジェクト</param>
     private static void ApplyProperties(Type type, object instance, JToken props)
     {
         if (props == null) return;
         foreach (var p in props.Children<JProperty>())
         {
-            // まずはフィールドを探す
             FieldInfo field = type.GetField(p.Name, BindingFlags.Public | BindingFlags.Instance);
             if (field != null)
             {
@@ -223,15 +207,15 @@ public static class BehaviorTreeLoader
                 {
                     object val = ConvertValue(field.FieldType, p.Value.ToString());
                     field.SetValue(instance, val);
+                    // Debug.Log($"BTLoader: Set field {p.Name} = {val} on {instance.GetType().Name}");
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"BehaviorTreeLoader: Failed to set field {p.Name} on {type.Name}. {e.Message}");
+                    Debug.LogWarning($"BTLoader: Failed to set field {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
                 }
             }
             else
             {
-                // フィールドがなければプロパティを探す（AbortPolicyなどがこちらに該当する）
                 PropertyInfo prop = type.GetProperty(p.Name, BindingFlags.Public | BindingFlags.Instance);
                 if (prop != null && prop.CanWrite)
                 {
@@ -239,41 +223,56 @@ public static class BehaviorTreeLoader
                     {
                         object val = ConvertValue(prop.PropertyType, p.Value.ToString());
                         prop.SetValue(instance, val);
+                        // Debug.Log($"BTLoader: Set property {p.Name} = {val} on {instance.GetType().Name}");
                     }
                     catch (Exception e)
                     {
-                        Debug.LogWarning($"BehaviorTreeLoader: Failed to set property {p.Name} on {type.Name}. {e.Message}");
+                        Debug.LogWarning($"BTLoader: Failed to set property {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
                     }
+                }
+                else
+                {
+                    // Debug.LogWarning($"BTLoader: Field or property {p.Name} not found on {type.Name}");
                 }
             }
         }
     }
 
-    /// <summary>
-    /// 文字列データを指定されたC#の型（int, float, bool, enumなど）に変換するユーティリティメソッド。
-    /// </summary>
     private static object ConvertValue(Type type, string value)
     {
         if (type == typeof(string)) return value;
         if (type == typeof(int)) return int.Parse(value);
         if (type == typeof(float)) return float.Parse(value);
         if (type == typeof(bool)) return bool.Parse(value);
+        if (type == typeof(Vector3))
+        {
+            var parts = value.Split(',');
+            if (parts.Length == 3)
+            {
+                return new Vector3(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
+            }
+        }
+        if (type == typeof(Vector4))
+        {
+            var parts = value.Split(',');
+            if (parts.Length == 4)
+            {
+                return new Vector4(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+            }
+        }
         if (type.IsEnum)
         {
-            // 数値文字列（"0", "1" など）か、名前（"Success", "Failure" など）かを判定
             if (int.TryParse(value, out int intVal))
             {
-                return Enum.ToObject(type, intVal);
+                object result = Enum.ToObject(type, intVal);
+                // Debug.Log($"BTLoader: Enum Convert {value} -> {intVal} -> {result} (Type: {type.Name})");
+                return result;
             }
             return Enum.Parse(type, value, true);
         }
         return null;
     }
 
-    /// <summary>
-    /// 文字列を高速な32ビットハッシュ値（FNV-1aアルゴリズム）に変換する。
-    /// BlackboardのキーやノードIDの管理に使用される。
-    /// </summary>
     public static uint HashString(string str)
     {
         if (string.IsNullOrEmpty(str)) return 0;

@@ -10,6 +10,8 @@ void AddInputInternalCalls();
 
 void AddSceneInternalCalls();
 
+void AddGizmoInternalCalls();
+
 void AddWindowInternalCalls();
 
 } /// namespace ONEngine

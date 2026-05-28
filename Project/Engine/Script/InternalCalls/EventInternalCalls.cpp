@@ -1,6 +1,7 @@
 #include "EventInternalCalls.h"
 #include "Engine/Core/Event/FrameEventQueue.h"
 #include <mono/jit/jit.h>
+#include <string>
 
 namespace ONEngine {
 

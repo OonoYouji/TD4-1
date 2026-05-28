@@ -109,7 +109,7 @@ void RenderingPipelineCollection::PreDrawEntities(CameraComponent* _3dCamera, Ca
 			renderer->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 		}
 	} else {
-		Console::LogError("RenderingPipelineCollection::DrawEntities: 3D Camera is null");
+		// Console::LogError("RenderingPipelineCollection::DrawEntities: 3D Camera is null");
 	}
 
 	if (IsEnableCamera(_2dCamera)) {
@@ -117,7 +117,7 @@ void RenderingPipelineCollection::PreDrawEntities(CameraComponent* _3dCamera, Ca
 			renderer->PreDraw(ecsGroup, _2dCamera, pDxManager_->GetDxCommand());
 		}
 	} else {
-		Console::LogError("RenderingPipelineCollection::DrawEntities: 2D Camera is null");
+		// Console::LogError("RenderingPipelineCollection::DrawEntities: 2D Camera is null");
 	}
 }
 
@@ -132,7 +132,7 @@ void RenderingPipelineCollection::DrawEntities(CameraComponent* _3dCamera, Camer
 			renderer->Draw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 		}
 	} else {
-		Console::LogError("RenderingPipelineCollection::DrawEntities: 3D Camera is null");
+		// Console::LogError("RenderingPipelineCollection::DrawEntities: 3D Camera is null");
 	}
 
 	if (IsEnableCamera(_2dCamera)) {
@@ -140,7 +140,7 @@ void RenderingPipelineCollection::DrawEntities(CameraComponent* _3dCamera, Camer
 			renderer->Draw(ecsGroup, _2dCamera, pDxManager_->GetDxCommand());
 		}
 	} else {
-		Console::LogError("RenderingPipelineCollection::DrawEntities: 2D Camera is null");
+		// Console::LogError("RenderingPipelineCollection::DrawEntities: 2D Camera is null");
 	}
 }
 

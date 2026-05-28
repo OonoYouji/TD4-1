@@ -1,0 +1,33 @@
+{
+    "blackboard": [
+        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "nodes": [
+        {
+            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [0.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+        },
+        {
+            "id": 2, "className": "Sequence", "name": "Beam Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [200.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+        },
+        {
+            "id": 3, "className": "ShowIndicatorNode", "name": "Preview", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "shape": "Line", "duration": "1.5", "size": "3.0", "length": "40.0", "color": "0.0,0.5,1.0,0.5", "targetPosKey": "TargetPosition" }, 
+            "decorators": [], "services": [], "pos": [400.0, -50.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 4, "className": "FireBeamNode", "name": "Beam Attack", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "duration": "2.0", "damage": "50.0", "beamRadius": "2.0", "targetPosKey": "TargetPosition" }, 
+            "decorators": [], "services": [], "pos": [400.0, 50.0],
+            "inputs": [{ "id": 40, "name": "In" }], "outputs": []
+        }
+    ],
+    "links": [
+        { "id": 1001, "startPin": 10, "endPin": 20 },
+        { "id": 1002, "startPin": 21, "endPin": 30 },
+        { "id": 1003, "startPin": 21, "endPin": 40 }
+    ],
+    "comments": []
+}

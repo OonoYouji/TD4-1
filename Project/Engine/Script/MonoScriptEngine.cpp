@@ -131,6 +131,7 @@ void MonoScriptEngine::RegisterFunctions() {
 	/// 他のクラスの関数も登録
 	AddInputInternalCalls();
 	AddSceneInternalCalls();
+	AddGizmoInternalCalls();
 	AddWindowInternalCalls();
 	ComponentApplyFuncs::Initialize(image_);
 

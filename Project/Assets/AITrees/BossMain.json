@@ -15,10 +15,10 @@
             "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
             "decorators": [],
             "services": [
-                { "id": 201, "className": "HPMonitorService", "name": "HP Monitor", "properties": { "hpRatioKey": "HPRatio", "currentHPKey": "CurrentHP" }, "isService": true },
-                { "id": 202, "className": "HPRegenService", "name": "Auto HP Regen", "properties": { "currentHPKey": "CurrentHP", "maxHP": "1000", "regenPerSecond": "10" }, "isService": true },
-                { "id": 203, "className": "ReinforcementDensitySensingService", "name": "Scan Reinforcements", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "10" }, "isService": true },
-                { "id": 204, "className": "PhysicsPushService", "name": "Push Obstacles", "properties": { "pushForce": "5.0", "detectDistance": "4.0" }, "isService": true }
+                { "id": 201, "className": "HPMonitorService", "name": "HP Monitor", "properties": { "hpRatioKey": "HPRatio", "currentHPKey": "CurrentHP", "Interval": "0.5" }, "isService": true },
+                { "id": 202, "className": "HPRegenService", "name": "Auto HP Regen", "properties": { "currentHPKey": "CurrentHP", "maxHP": "1000", "regenPerSecond": "10", "Interval": "1.0" }, "isService": true },
+                { "id": 203, "className": "ReinforcementDensitySensingService", "name": "Scan Reinforcements", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "10", "Interval": "1.5" }, "isService": true },
+                { "id": 204, "className": "PhysicsPushService", "name": "Push Obstacles", "properties": { "pushForce": "5.0", "detectDistance": "4.0", "Interval": "0.2" }, "isService": true }
             ],
             "pos": [100.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
@@ -40,33 +40,22 @@
             "inputs": [{ "id": 110, "name": "In" }], "outputs": []
         },
         {
-            "id": 12, "className": "Sequence", "name": "Beam Attack Sequence", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
+            "id": 12, "className": "RunBehaviorNode", "name": "Beam Attack", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" }, 
             "decorators": [], "services": [], "pos": [1000.0, 200.0],
-            "inputs": [{ "id": 120, "name": "In" }], "outputs": [{ "id": 122, "name": "Out" }]
+            "inputs": [{ "id": 120, "name": "In" }], "outputs": []
         },
-        {
-            "id": 13, "className": "ShowIndicatorNode", "name": "Preview (Wait 1.5s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "0", "targetPosKey": "TargetPosition", "duration": "1.5" }, 
-            "decorators": [], "services": [], "pos": [1300.0, 100.0],
-            "inputs": [{ "id": 130, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 14, "className": "FireBeamNode", "name": "Fire Beam (3.0s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetPosKey": "TargetPosition", "damage": "50.0", "duration": "3.0" }, 
-            "decorators": [], "services": [], "pos": [1300.0, 200.0],
-            "inputs": [{ "id": 140, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 15, "className": "WaitNode", "name": "Post-Attack Wait", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "2.0" }, 
-            "decorators": [], "services": [], "pos": [1300.0, 300.0],
-            "inputs": [{ "id": 150, "name": "In" }], "outputs": []
-        }
         {
             "id": 16, "className": "RunBehaviorNode", "name": "Giant Attack", "isDecorator": false, "hasBreakpoint": false, 
             "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Giant.json" }, 
             "decorators": [], "services": [], "pos": [1000.0, 300.0],
             "inputs": [{ "id": 160, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 17, "className": "RunBehaviorNode", "name": "Bomb Attack", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json" }, 
+            "decorators": [], "services": [], "pos": [1000.0, 400.0],
+            "inputs": [{ "id": 170, "name": "In" }], "outputs": []
         },
         {
             "id": 18, "className": "RunBehaviorNode", "name": "Rock Attack", "isDecorator": false, "hasBreakpoint": false, 
@@ -87,9 +76,6 @@
         { "id": 2004, "startPin": 31, "endPin": 100 },
         { "id": 2007, "startPin": 102, "endPin": 110 },
         { "id": 2008, "startPin": 102, "endPin": 120 },
-        { "id": 2009, "startPin": 122, "endPin": 130 },
-        { "id": 2010, "startPin": 122, "endPin": 140 },
-        { "id": 2011, "startPin": 122, "endPin": 150 },
         { "id": 2012, "startPin": 102, "endPin": 160 },
         { "id": 2013, "startPin": 102, "endPin": 170 },
         { "id": 2014, "startPin": 102, "endPin": 180 },

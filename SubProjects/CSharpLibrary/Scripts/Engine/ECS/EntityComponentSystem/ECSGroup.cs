@@ -96,13 +96,15 @@ public class ECSGroup {
 	/// c#側から呼び出すエンティティの生成関数
 	/// </summary>
 	public Entity CreateEntity(string _prefabName) {
-		//Debug.LogInfo("ECSGroup.CreateEntity - Creating entity with prefab: " + _prefabName + ", Group Name: " + groupName);
-
 		int id = 0;
 		InternalCreateEntity(out id, _prefabName, groupName);
 		Entity entity = new Entity(id, this);
 		entityMap_.Add(id, entity);
 		entities_.Add(entity);
+
+		// 誰が生成しているかログを出す
+		Debug.LogInfo($"[ENTITY_SPAWN] Prefab: {_prefabName} spawned by C# script. ID: {id}");
+
 
 		awakeList_.Add(entity); //!< 生成されたエンティティを生成リストに追加
 		initList_.Add(entity); //!< 初期化リストにも追加
@@ -130,7 +132,6 @@ public class ECSGroup {
 		componentCollection.GetArray<MeshRenderer>();
 		ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
 
-		/// 生成、初期化の呼び出しを行う
 		CallAwake();
 		CallInitialize();
 
@@ -147,13 +148,16 @@ public class ECSGroup {
 
 		ComponentBatchManager.SendAllBatches(componentCollection, groupName);
 
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.InternalLog("ECSGroup.UpdateEntities - Updating entities in group: " + groupName + ", EntityCount: " + entities_.Count);
-		Debug.InternalLog($"gen0:{GC.CollectionCount(0)} gen1:{GC.CollectionCount(1)} gen2:{GC.CollectionCount(2)}");
+        // フレームの終わりに描画データをC++へ送る
+        GizmoBatch.SubmitBatch();
+
+		// Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
+		// Debug.InternalLog("ECSGroup.UpdateEntities - Updating entities in group: " + groupName + ", EntityCount: " + entities_.Count);
+		// Debug.InternalLog($"gen0:{GC.CollectionCount(0)} gen1:{GC.CollectionCount(1)} gen2:{GC.CollectionCount(2)}");
 		sw.Stop();
 		double ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-		Debug.InternalLog("Update Time (ms): " + ms);
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
+		// Debug.InternalLog("Update Time (ms): " + ms);
+		// Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 	}
 
 	/// <summary>
@@ -193,11 +197,13 @@ public class ECSGroup {
 			return;
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("");
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("ECSGroup.CallAwake - Awakening entities in group: " + groupName + ", Count: " + awakeList_.Count);
 #endif
+*/
 
 		List<Entity> entitiesToAwake = new List<Entity>(awakeList_);
 		awakeList_.Clear(); // 生成リストをクリア
@@ -207,10 +213,12 @@ public class ECSGroup {
 			}
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("");
 #endif
+*/
 	}
 
 
@@ -222,12 +230,14 @@ public class ECSGroup {
 			return;
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("");
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("ECSGroup.CallInitialize - Initializing entities in group: " + groupName + ", Count: "
 				  + initList_.Count);
 #endif
+*/
 
 		List<Entity> entitiesToInitialize = new List<Entity>(initList_);
 		initList_.Clear();
@@ -237,10 +247,12 @@ public class ECSGroup {
 			}
 		}
 
+/*
 #if DEBUG
 		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 		Debug.InternalLog("");
 #endif
+*/
 	}
 
 	/// <summary>

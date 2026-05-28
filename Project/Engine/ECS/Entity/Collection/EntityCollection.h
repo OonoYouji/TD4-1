@@ -46,7 +46,7 @@ public:
 
 	/// 取得
 	uint32_t GetEntityId(const std::string& _name);
-	GameEntity* GetEntity(size_t _entityId);
+	GameEntity* GetEntity(int32_t _entityId);
 	GameEntity* GetEntityFromGuid(const Guid& _guid);
 
 	/// 削除

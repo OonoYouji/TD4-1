@@ -1,7 +1,23 @@
 {
-    "AnimationTest": {},
     "BossAI": {
-        "treePath": "Assets/AITrees/BossMain.json"
+        "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json"
     },
-    "Test": {}
+    "DamageHandler": {
+        "cooldownTimer": 0.0,
+        "damageCooldownTime": 0.20000000298023224
+    },
+    "HP": {
+        "MAX_HP": 1000,
+        "currentHp": 1000
+    },
+    "Knockback": {
+        "KNOCKBACK_DECAY": 5.0,
+        "KNOCKBACK_FORCE_STRENGTH": 10.0,
+        "knockbackStopThreshold": 0.009999999776482582,
+        "knockbackVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
 }

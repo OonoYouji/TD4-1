@@ -201,12 +201,12 @@ static class ComponentBatchManager {
 
 	// 一括送信
 	public static void SendAllBatches(ComponentCollection _collection, string _ecsGroupName) {
-		Debug.LogInfo("ComponentBatchManager.SendAllBatches: Start sending all batches.");
+		// Debug.LogInfo("ComponentBatchManager.SendAllBatches: Start sending all batches.");
 		// Debug.LogInfo($"ComponentBatchManager.SendAllBatches: Total converters registered: {converters.Count}.");
 
 		foreach (var kv in converters) {
 			if (!_collection.TryGetArray(kv.Key, out IComponentArray array)) {
-				Debug.LogWarning($"ComponentBatchManager.SendAllBatches: ComponentArray for {kv.Key} not found.");
+				// Debug.LogWarning($"ComponentBatchManager.SendAllBatches: ComponentArray for {kv.Key} not found.");
 				continue;
 			}
 
@@ -233,7 +233,7 @@ static class ComponentBatchManager {
 			// 変更点: 配列そのもの(array)を渡して、ID設定済みのBatch配列を受け取る
 			Array batch = kv.Value(array);
 
-			Debug.LogInfo($"ComponentBatchManager.ReceiveAllBatches: Receiving batch for {kv.Key} with count {count}.");
+			// Debug.LogInfo($"ComponentBatchManager.ReceiveAllBatches: Receiving batch for {kv.Key} with count {count}.");
 
 			// batch内には既に compId/nativeHandle が入っているので、C++側で正しく処理可能
 			InternalGetBatch(kv.Key, batch, count, _ecsGroupName);

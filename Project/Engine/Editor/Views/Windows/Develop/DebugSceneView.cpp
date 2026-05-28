@@ -109,15 +109,26 @@ void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
 	}
 
 	{
-		/// C#スクリプト セクション
-		double scriptUpdateTime = ONEngine::CPUTimeStamp::GetInstance().GetElapsedTimeMicroseconds(ONEngine::CPUTimeStampID::CSharpScriptUpdate); // マイクロ秒
-		OverlaySection renderer;
-		renderer.name = "C#スクリプト";
-		renderer.opened = true;
-		renderer.items = {
-			{ "C# Script Update", Format("%f ms", scriptUpdateTime), IM_COL32(255, 255, 255, 255) }
+		/// CPUパフォーマンス セクション
+		auto& cpu = ONEngine::CPUTimeStamp::GetInstance();
+		double scriptUpdateTime = cpu.GetElapsedTimeMicroseconds(ONEngine::CPUTimeStampID::CSharpScriptUpdate) / 1000.0;
+		double ecsUpdateTime = cpu.GetElapsedTimeMicroseconds(ONEngine::CPUTimeStampID::ECSUpdate) / 1000.0;
+		double renderUpdateTime = cpu.GetElapsedTimeMicroseconds(ONEngine::CPUTimeStampID::RenderUpdate) / 1000.0;
+		double physicsUpdateTime = cpu.GetElapsedTimeMicroseconds(ONEngine::CPUTimeStampID::PhysicsUpdate) / 1000.0;
+		double totalCpuTime = scriptUpdateTime + ecsUpdateTime + renderUpdateTime + physicsUpdateTime;
+
+		OverlaySection cpuSection;
+		cpuSection.name = "CPUパフォーマンス";
+		cpuSection.opened = true;
+		cpuSection.items = {
+			{ "Total CPU", Format("%.3f ms", totalCpuTime), IM_COL32(255, 255, 100, 255) },
+			{ "C# Script", Format("%.3f ms", scriptUpdateTime), IM_COL32(255, 255, 255, 255) },
+			{ "ECS Update", Format("%.3f ms", ecsUpdateTime), IM_COL32(255, 255, 255, 255) },
+			{ "Physics", Format("%.3f ms", physicsUpdateTime), IM_COL32(255, 255, 255, 255) },
+			{ "Render Update", Format("%.3f ms", renderUpdateTime), IM_COL32(255, 255, 255, 255) },
+			{ "FPS", Format("%.1f", 1.0f / ONEngine::Time::DeltaTime()), IM_COL32(100, 255, 100, 255) }
 		};
-		sections.push_back(renderer);
+		sections.push_back(cpuSection);
 	}
 
 	// 描画

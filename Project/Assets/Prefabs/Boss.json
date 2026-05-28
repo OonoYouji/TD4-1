@@ -1,0 +1,5 @@
+{
+    "BossAI": {
+        "treePath": "Assets/AITrees/BossMain.json"
+    }
+}

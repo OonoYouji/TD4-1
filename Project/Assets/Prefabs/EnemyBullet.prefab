@@ -30,6 +30,11 @@
                 {
                     "enable": true,
                     "name": "EnemyBullet"
+                },
+                {
+                    "enable": true,
+                    "lifeTime": 5.0,
+                    "name": "TimedDestruction"
                 }
             ],
             "type": "Script"

@@ -7,11 +7,11 @@
                     "enable": 1,
                     "farClip": 1000.0,
                     "fogColor": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
                     },
-                    "fogEnd": 10000000.0,
+                    "fogEnd": 1000.0,
                     "fogStart": 0.0,
                     "fovY": 0.699999988079071,
                     "isDrawFrustum": false,
@@ -24,13 +24,46 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 0.0,
-                        "y": 2.5,
-                        "z": -7.0
+                        "y": 20.0,
+                        "z": -20.0
                     },
                     "rotate": {
-                        "w": 0.9800000190734863,
-                        "x": 0.18000000715255737,
+                        "w": 0.9238795042037964,
+                        "x": 0.3826834559440613,
                         "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "c018251e6005d871788771960965f3f4",
+            "id": 1,
+            "name": "Camera",
+            "parent": null,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 30.64714813232422
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -45,20 +78,56 @@
                 },
                 {
                     "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "enable": 1,
                     "scripts": [
                         {
                             "enable": true,
-                            "name": "Test"
+                            "name": "Player"
+                        },
+                        {
+                            "enable": true,
+                            "name": "CallingReinforcement"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
                         }
                     ],
                     "type": "Script"
                 }
             ],
-            "guid": "408d26d2a00e152eaf70f26aebf335d9",
-            "id": 3,
-            "name": "Camera",
+            "guid": "80628e93297a73be2e307779d7f02030",
+            "id": 2,
+            "name": "Player",
             "parent": null,
-            "prefabName": ""
+            "prefabName": "Player"
         },
         {
             "components": [
@@ -103,11 +172,185 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "167fd93f0163b9fcc1985c5b61b02891",
-            "id": 4,
+            "guid": "520b76038bebc8d83e2ed4786934072b",
+            "id": 3,
             "name": "Light",
             "parent": null,
             "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 5.0,
+                        "z": 5.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossAI"
+                        },
+                        {
+                            "enable": true,
+                            "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageHandler"
+                        },
+                        {
+                            "enable": false,
+                            "name": "Knockback"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Assets/AssetsWorkspace/models_prot/enemy_main.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "maskBits": 36,
+                    "radius": 2.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                }
+            ],
+            "guid": "fbbd2ff594de2ccc5301149313a28d06",
+            "id": 4,
+            "name": "Boss",
+            "parent": null,
+            "prefabName": "Boss"
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 10.0,
+                        "y": 0.0,
+                        "z": 10.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FallingRock"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.4000000059604645,
+                            "y": 0.30000001192092896,
+                            "z": 0.20000000298023224
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 1,
+                    "enable": 1,
+                    "maskBits": 4294967295,
+                    "size": {
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
+                    },
+                    "state": "Dynamic",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "5c9a41e97d1b4b1a8d0b2f567f25e981",
+            "id": 5,
+            "name": "TargetRock",
+            "parent": null,
+            "prefabName": "BossRock"
         }
     ]
 }

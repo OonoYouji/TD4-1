@@ -10,6 +10,7 @@ using namespace ONEngine;
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/Script/MonoScriptEngine.h"
+#include "Engine/Core/Utility/Time/CPUTimeStamp.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Collision/BoxCollider.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Collision/SphereCollider.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Collision/CollisionCheck/CollisionCheck.h"
@@ -67,6 +68,7 @@ CollisionSystem::CollisionSystem() {
 
 
 void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
+	CPUTimeStamp::GetInstance().BeginTimeStamp(CPUTimeStampID::PhysicsUpdate);
 
 	enterPairs_.clear();
 	stayPairs_.clear();
@@ -220,6 +222,7 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 	CallStayFunc(ecsGroupName);
 	CallExitFunc(ecsGroupName);
 
+	CPUTimeStamp::GetInstance().EndTimeStamp(CPUTimeStampID::PhysicsUpdate);
 }
 
 void CollisionSystem::CallEnterFunc(const std::string& _ecsGroupName) {
@@ -315,7 +318,7 @@ void CollisionSystem::CallStayFunc(const std::string& _ecsGroupName) {
 
 				mono_runtime_invoke(script.collisionEventMethods[1], monoBehavior, params, &exc);
 
-				Console::Log("Collision Stay Event Invoked");
+				// Console::Log("Collision Stay Event Invoked");
 
 				/// 例外が発生した場合の処理
 				if(exc) {

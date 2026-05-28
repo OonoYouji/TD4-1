@@ -10,6 +10,13 @@ public class WaitNode : BehaviorNode
     /// </summary>
     public float duration = 1.0f;
 
+    /// <summary>
+    /// Blackboardから待機時間を取得する場合のキー名。
+    /// 指定されている場合は duration よりもこちらが優先される。
+    /// </summary>
+    [BlackboardKey]
+    public string durationKey = "";
+
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("WaitStart_" + NodeIdHash);
@@ -21,8 +28,15 @@ public class WaitNode : BehaviorNode
             return NodeStatus.Running;
         }
 
+        float finalDuration = duration;
+        if (!string.IsNullOrEmpty(durationKey))
+        {
+            uint keyHash = BehaviorTreeLoader.HashString(durationKey);
+            finalDuration = blackboard.GetFloat(keyHash, duration);
+        }
+
         float startTime = blackboard.GetFloat(startTimeKey);
-        if (currentTime - startTime >= duration)
+        if (currentTime - startTime >= finalDuration)
         {
             blackboard.Remove(startTimeKey);
             return NodeStatus.Success;

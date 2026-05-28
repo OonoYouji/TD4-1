@@ -86,13 +86,10 @@ public struct Quaternion {
 			_up = new Vector3(0, 0, 1);
 		}
 
-		// 左手系の LookTo 行列を作る
-		Matrix4x4 view = Matrix4x4.CreateLookToLH(_position, forward, _up);
+		// CreateLookToLH は実際にはローカル->ワールド変換行列（ワールド行列）を返している
+		Matrix4x4 world = Matrix4x4.CreateLookToLH(_position, forward, _up);
 
-		// カメラのワールド行列 = view の逆行列
-		Matrix4x4 world = Matrix4x4.Inverse(view);
-
-		// 回転部分をクォータニオンへ
+		// そのままクォータニオンへ
 		Quaternion rot = Quaternion.CreateFromRotationMatrix(world);
 		return Quaternion.Normalized(rot);
 	}
@@ -180,7 +177,13 @@ public struct Quaternion {
 		}
 
 		float normSquared = norm * norm;    // ノルムの二乗
-		return conjugate / normSquared;
+		float invNormSquared = 1.0f / normSquared;
+		return new Quaternion(
+			conjugate.x * invNormSquared,
+			conjugate.y * invNormSquared,
+			conjugate.z * invNormSquared,
+			conjugate.w * invNormSquared
+		);
 	}
 
 	public Vector3 ToEuler() {
@@ -284,10 +287,10 @@ public struct Quaternion {
 
 	static public Quaternion operator /(Quaternion _q, float _scalar) {
 		return new Quaternion(
-			_q.w / _scalar,
 			_q.x / _scalar,
 			_q.y / _scalar,
-			_q.z / _scalar
+			_q.z / _scalar,
+			_q.w / _scalar
 		);
 	}
 

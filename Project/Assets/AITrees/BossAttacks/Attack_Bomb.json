@@ -8,36 +8,26 @@
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
         },
         {
-            "id": 2, "className": "Sequence", "name": "Bomb Attack Sequence", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [300.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "Bomb Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [200.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
         },
         {
-            "id": 3, "className": "WaitNode", "name": "Charge Up (1.0s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "1.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, -100.0],
+            "id": 3, "className": "ShowIndicatorNode", "name": "Preview", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "shape": "Circle", "centerType": "Boss", "duration": "1.0", "size": "6.0", "color": "1.0,0.5,0.0,0.5" }, 
+            "decorators": [], "services": [], "pos": [400.0, -50.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": []
         },
         {
             "id": 4, "className": "RotateAndSpawnProjectileNode", "name": "Rotate & Fire", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "projectilePrefab": "EnemyBullet", "totalDuration": "3.0", "rotationSpeed": "720.0", "fireInterval": "0.15", "projectileSpeed": "20.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, 0.0],
+            "properties": { "rotationSpeed": "720.0", "fireInterval": "0.15", "totalDuration": "3.0", "projectilePrefab": "BossBomb", "projectileSpeed": "15.0" }, 
+            "decorators": [], "services": [], "pos": [400.0, 50.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 5, "className": "WaitNode", "name": "Post-Fire Wait (1.5s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "1.5" }, 
-            "decorators": [], "services": [], "pos": [600.0, 100.0],
-            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
         }
     ],
     "links": [
         { "id": 1001, "startPin": 10, "endPin": 20 },
         { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 40 },
-        { "id": 1004, "startPin": 21, "endPin": 50 }
+        { "id": 1003, "startPin": 21, "endPin": 40 }
     ],
-    "comments": [
-        { "id": 3001, "text": "BOMB ATTACK SUB-TREE", "pos": [280, -150], "size": [500, 350], "color": [0.8, 0.4, 0, 0.2] }
-    ]
+    "comments": []
 }

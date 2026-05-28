@@ -1,48 +1,170 @@
 {
     "blackboard": [
-        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "TargetPosition",
+            "sVal": "",
+            "type": 3,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ],
+    "comments": [],
+    "links": [
+        {
+            "endPin": 4,
+            "id": 10,
+            "startPin": 2
+        },
+        {
+            "endPin": 7,
+            "id": 11,
+            "startPin": 5
+        },
+        {
+            "endPin": 9,
+            "id": 12,
+            "startPin": 5
+        },
+        {
+            "endPin": 13,
+            "id": 14,
+            "startPin": 5
+        }
     ],
     "nodes": [
         {
-            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [0.0, 0.0],
-            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+            "className": "Entry",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 1,
+            "inputs": [],
+            "isDecorator": false,
+            "name": "Entry",
+            "outputs": [
+                {
+                    "id": 2,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                0.0,
+                0.0
+            ],
+            "properties": {},
+            "services": []
         },
         {
-            "id": 2, "className": "Sequence", "name": "Giant Attack Sequence", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [300.0, 0.0],
-            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+            "className": "Sequence",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 2,
+            "inputs": [
+                {
+                    "id": 4,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Giant Logic",
+            "outputs": [
+                {
+                    "id": 5,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                200.0,
+                0.0
+            ],
+            "properties": {},
+            "services": []
         },
         {
-            "id": 3, "className": "RotateToFaceNode", "name": "Aim at Target", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetKey": "TargetPosition", "rotationSpeed": "360.0", "precisionAngle": "5.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, -100.0],
-            "inputs": [{ "id": 30, "name": "In" }], "outputs": []
+            "className": "ShowIndicatorNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 3,
+            "inputs": [
+                {
+                    "id": 7,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Range Preview",
+            "outputs": [],
+            "pos": [
+                400.0,
+                -50.0
+            ],
+            "properties": {
+                "centerType": "Boss",
+                "color": "0.97849464,0,0,0.5",
+                "duration": "1.0",
+                "durationKey": "",
+                "shape": "Circle",
+                "size": "15.0",
+                "sizeKey": "",
+                "targetPosKey": ""
+            },
+            "services": []
         },
         {
-            "id": 4, "className": "ShowIndicatorNode", "name": "Preview Area (1.5s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "1", "targetPosKey": "TargetPosition", "duration": "1.5", "size": "5.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, 0.0],
-            "inputs": [{ "id": 40, "name": "In" }], "outputs": []
+            "className": "ScaleUpAreaEntitiesNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 4,
+            "inputs": [
+                {
+                    "id": 9,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Suction & Scale",
+            "outputs": [],
+            "pos": [
+                400.0,
+                50.0
+            ],
+            "properties": {
+                "effectRadius": "10.0",
+                "scaleMultiplier": "3.0",
+                "targetPosKey": "TargetPosition"
+            },
+            "services": []
         },
         {
-            "id": 5, "className": "ScaleUpAreaEntitiesNode", "name": "Execute Scale Up", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetPosKey": "TargetPosition", "effectRadius": "5.0", "scaleMultiplier": "3.0", "targetNameFilter": "Reinforcement" }, 
-            "decorators": [], "services": [], "pos": [600.0, 100.0],
-            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 6, "className": "WaitNode", "name": "Cooldown (2.0s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "2.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, 200.0],
-            "inputs": [{ "id": 60, "name": "In" }], "outputs": []
+            "className": "SpawnGiantExpansionNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 5,
+            "inputs": [
+                {
+                    "id": 13,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Physical Expansion",
+            "outputs": [],
+            "pos": [
+                400.0,
+                150.0
+            ],
+            "properties": {
+                "damage": "15",
+                "duration": "1.0",
+                "knockbackForce": "20.0",
+                "maxRadius": "15.0"
+            },
+            "services": []
         }
-    ],
-    "links": [
-        { "id": 1001, "startPin": 10, "endPin": 20 },
-        { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 40 },
-        { "id": 1004, "startPin": 21, "endPin": 50 },
-        { "id": 1005, "startPin": 21, "endPin": 60 }
-    ],
-    "comments": []
+    ]
 }

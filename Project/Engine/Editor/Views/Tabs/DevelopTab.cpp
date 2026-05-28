@@ -34,5 +34,4 @@ DevelopTab::DevelopTab(
 	AddView(std::make_unique<DebugSceneView>(_ecs, _assetCollection, _sceneManager, inspector));
 	AddView(std::make_unique<ConsoleWindow>());
 	AddView(std::make_unique<TexturePreviewWindow>(_assetCollection));
-	AddView(std::make_unique<BehaviorTreeEditorWindow>("Behavior Tree Editor", _ecs));
 }

@@ -78,25 +78,27 @@ void EntityJsonConverter::TransformFromJson(const nlohmann::json& _json, GameEnt
 	/// transformだけjsonから読み込む
 
 	/// コンポーネントを追加
-	for (const auto& componentJson : _json["components"]) {
-		/// jsonにtypeが無ければスキップ
-		if (!componentJson.contains("type")) {
-			continue;
-		}
+	if (_json.contains("components")) {
+		for (const auto& componentJson : _json["components"]) {
+			/// jsonにtypeが無ければスキップ
+			if (!componentJson.contains("type")) {
+				continue;
+			}
 
-		const std::string componentType = componentJson.at("type").get<std::string>();
-		if (componentType != "Transform") {
-			continue; // Transformコンポーネント以外はスキップ
-		}
+			const std::string componentType = componentJson.at("type").get<std::string>();
+			if (componentType != "Transform") {
+				continue; // Transformコンポーネント以外はスキップ
+			}
 
 
-		IComponent* comp = _entity->AddComponent(componentType);
-		if (comp) {
-			ComponentJsonConverter::FromJson(componentJson, comp);
-			comp->SetOwner(_entity);
-		} else {
-			// コンポーネントの追加に失敗した場合のログ
-			Console::LogError("failed add component: " + componentType);
+			IComponent* comp = _entity->AddComponent(componentType);
+			if (comp) {
+				ComponentJsonConverter::FromJson(componentJson, comp);
+				comp->SetOwner(_entity);
+			} else {
+				// コンポーネントの追加に失敗した場合のログ
+				Console::LogError("failed add component: " + componentType);
+			}
 		}
 	}
 }

@@ -8,34 +8,26 @@
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
         },
         {
-            "id": 2, "className": "Sequence", "name": "Vortex Attack Sequence", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [300.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "Vortex Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [200.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
         },
         {
-            "id": 3, "className": "ShowIndicatorNode", "name": "Telegraph Area (1.2s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "1", "targetPosKey": "TargetPosition", "duration": "1.2", "size": "10.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, -100.0],
+            "id": 3, "className": "ShowIndicatorNode", "name": "Vortex Preview", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "shape": "1", "duration": "1.0", "size": "8.0", "color": "0.0,1.0,1.0,0.5", "targetPosKey": "TargetPosition" }, 
+            "decorators": [], "services": [], "pos": [400.0, -50.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": []
         },
         {
-            "id": 4, "className": "SpawnVortexFieldNode", "name": "Activate Vortex", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetPosKey": "TargetPosition", "suctionRadius": "10.0", "suctionForce": "8.0", "duration": "4.0" }, 
-            "decorators": [], "services": [], "pos": [600.0, 0.0],
+            "id": 4, "className": "SpawnVortexFieldNode", "name": "Spawn Vortex", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "targetPosKey": "TargetPosition", "radius": "5.0", "duration": "5.0", "damagePerSecond": "10.0" }, 
+            "decorators": [], "services": [], "pos": [400.0, 50.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 5, "className": "WaitNode", "name": "Recovery (1.5s)", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "1.5" }, 
-            "decorators": [], "services": [], "pos": [600.0, 100.0],
-            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
         }
     ],
     "links": [
         { "id": 1001, "startPin": 10, "endPin": 20 },
         { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 40 },
-        { "id": 1004, "startPin": 21, "endPin": 50 }
+        { "id": 1003, "startPin": 21, "endPin": 40 }
     ],
     "comments": []
 }

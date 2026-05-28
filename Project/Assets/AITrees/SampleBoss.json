@@ -14,14 +14,14 @@
             "id": 2, "className": "Selector", "name": "RootSelector", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [],
             "services": [
                 { "id": 210, "className": "ResolveTargetService", "name": "Resolve Player Entity", "properties": { "targetNameKey": "Target", "resultEntityKey": "Target" }, "isService": true },
-                { "id": 211, "className": "DebugAngerService", "name": "Auto Anger Trigger", "properties": { "delay": "5.0" }, "isService": true }
+                { "id": 211, "className": "HPMonitorService", "name": "HP Monitor", "properties": { "hpRatioKey": "HPRatio", "currentHPKey": "CurrentHP" }, "isService": true }
             ],
             "pos": [100.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
         },
         {
             "id": 3, "className": "Sequence", "name": "Anger Phase Branch", "isDecorator": false, "hasBreakpoint": false, "properties": {},
-            "decorators": [{ "id": 31, "className": "BlackboardDecorator", "name": "Phase == 2?", "properties": { "keyName": "CombatPhase", "queryOperator": "2", "compareValue": "2", "AbortPolicy": "3" }, "isService": false }],
+            "decorators": [{ "id": 31, "className": "BlackboardDecorator", "name": "HP < 50%?", "properties": { "keyName": "HPRatio", "queryOperator": "4", "compareValue": "0.5", "AbortPolicy": "3" }, "isService": false }],
             "services": [], "pos": [450.0, -250.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": [{ "id": 32, "name": "Out" }]
         },

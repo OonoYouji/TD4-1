@@ -123,4 +123,8 @@ public struct Vector3 {
 	static public Vector3 operator -(Vector3 v) {
 		return new Vector3(-v.x, -v.y, -v.z);
 	}
+
+    public override string ToString() {
+        return $"({x:F2}, {y:F2}, {z:F2})";
+    }
 }
