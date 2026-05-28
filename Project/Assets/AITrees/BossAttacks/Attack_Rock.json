@@ -14,7 +14,8 @@
             "decorators": [], 
             "services": [
                 { "id": 201, "className": "FindPlayerService", "name": "Player Finder", "properties": { "targetIdKey": "TargetId" }, "isService": true },
-                { "id": 202, "className": "UpdateTargetTrackerNode", "name": "Pos Updater", "properties": { "targetIdKey": "TargetId", "targetPosKey": "TargetPosition" }, "isService": true }
+                { "id": 202, "className": "UpdateTargetTrackerNode", "name": "Pos Updater", "properties": { "targetIdKey": "TargetId", "targetPosKey": "TargetPosition" }, "isService": true },
+                { "id": 203, "className": "HPRegenService", "name": "HP Regen", "properties": { "currentHPKey": "CurrentHP", "regenPerSecond": "20.0", "Interval": "0.5" }, "isService": true }
             ], 
             "pos": [200.0, 0.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
