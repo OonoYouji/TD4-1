@@ -274,8 +274,8 @@ public class Reinforcement : MonoScript
 
     public void AttackBoss()
     {
-        // ボスを攻撃
         onAttackBoss?.Invoke((int)damage, transform.position);
+        Retreat();
     }
 
     // =========================================================
