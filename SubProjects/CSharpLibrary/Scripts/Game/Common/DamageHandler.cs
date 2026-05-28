@@ -29,6 +29,48 @@ public class DamageHandler : MonoScript
         {
             cooldownTimer -= Time.deltaTime;
         }
+
+        // デバッグ用: HキーでApplyDamageを呼び出してHPを減らすテスト
+        if (Input.TriggerKey(KeyCode.H))
+        {
+            ApplyDamage(10);
+            Debug.Log($"[Debug] H key pressed. Applied 10 damage to {entity.name}. Current HP: {hp.currentHp}");
+        }
+    }
+
+    /// <summary>
+    /// 外部（プレイヤー側）から直接ダメージを与えるための公開メソッド。
+    /// </summary>
+    /// <param name="damage">ダメージ量</param>
+    public void ApplyDamage(int damage)
+    {
+        if (cooldownTimer > 0) return;
+
+        hp.TakeDamage(damage);
+        cooldownTimer = damageCooldownTime;
+    }
+
+    /// <summary>
+    /// 外部（プレイヤー側）から直接ダメージとノックバックを与えるための公開メソッド。
+    /// </summary>
+    /// <param name="damage">ダメージ量</param>
+    /// <param name="attackerPosition">攻撃者の位置（ノックバック方向の計算用）</param>
+    public void ApplyDamage(int damage, Vector3 attackerPosition)
+    {
+        if (cooldownTimer > 0) return;
+
+        hp.TakeDamage(damage);
+        cooldownTimer = damageCooldownTime;
+
+        if (knockback != null)
+        {
+            Vector3 direction = transform.worldPosition - attackerPosition;
+            direction.y = 0;
+            if (direction.Length() > 0.001f)
+            {
+                knockback.ApplyKnockback(direction.Normalized());
+            }
+        }
     }
 
     public override void OnCollisionEnter(Entity other)
