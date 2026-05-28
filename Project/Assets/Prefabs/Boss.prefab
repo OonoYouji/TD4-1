@@ -42,6 +42,10 @@
                 {
                     "enable": false,
                     "name": "Knockback"
+                },
+                {
+                    "enable": true,
+                    "name": "SampleBossComponent"
                 }
             ],
             "type": "Script"
@@ -84,7 +88,7 @@
         }
     ],
     "guid": "fbbd2ff594de2ccc5301149313a28d06",
-    "id": 4,
+    "id": 5,
     "name": "Boss",
     "parent": null,
     "prefabName": "Boss"

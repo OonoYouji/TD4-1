@@ -2,7 +2,7 @@
     "CallingReinforcement": {
         "spawnBehindDistance": 5.0,
         "spawnInterval": 3.0,
-        "spawnTimer": 2.171858549118042,
+        "spawnTimer": 0.09972595423460007,
         "xOffset": 2.0
     },
     "HP": {
@@ -10,15 +10,15 @@
         "currentHp": 1000
     },
     "Player": {
-        "<fireCooldownTimer>k__BackingField": 7.131667137145996,
+        "<fireCooldownTimer>k__BackingField": 15.421317100524902,
         "<isGamepadMode>k__BackingField": false,
         "armLength": 2.0,
-        "currentYaw": -7.408633232116699,
+        "currentYaw": 1.738030195236206,
         "fireInterval": 0.5,
         "inputDeadZone": 0.0,
         "lastMousePos": {
-            "x": 31.0,
-            "y": 70.0
+            "x": 1262.0,
+            "y": 465.0
         },
         "maxMoveSpeed": 10.0,
         "mouseIsMovePixel": 0.0,
