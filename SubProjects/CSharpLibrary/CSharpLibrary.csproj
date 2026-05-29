@@ -168,6 +168,7 @@
     <Compile Include="Scripts\Game\Enemy\FallingRock.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
+    <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />
     <Compile Include="Scripts\Game\Reinforcement\CallingReinforcement.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerArm.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBullet.cs" />

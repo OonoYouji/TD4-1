@@ -37,7 +37,10 @@ public class FieldManager : MonoScript
         // グリッドとタイプの初期化
         cellGrid_ = new Entity[rows, columns];
         cellTypes_ = new FieldCellType[rows, columns];
+
+        // タイプ割り当て
         AssignCellTypes();
+        // グリッド生成
         SpawnGrid();
     }
 
@@ -47,6 +50,8 @@ public class FieldManager : MonoScript
 
     private void AssignCellTypes()
     {
+
+        // ランダムにタイプを割り当てる
         var rng = new System.Random();
         var types = (FieldCellType[])System.Enum.GetValues(typeof(FieldCellType));
 
