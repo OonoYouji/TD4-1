@@ -206,6 +206,7 @@
                     "position": {
                         "x": 69.13257598876953,
                         "y": 2.1915435791015625,
+
                         "z": -4.163891792297363
                     },
                     "rotate": {
@@ -249,7 +250,7 @@
                             }
                         }
                     },
-                    "meshPath": "./Assets/Models/Player/player.obj",
+                    "meshPath": "./Assets/Models/Player/hand.obj",
                     "type": "MeshRenderer"
                 },
                 {
@@ -338,8 +339,8 @@
                     },
                     "scale": {
                         "x": 1000.0,
-                        "y": 1000.0,
-                        "z": 1000.0
+                        "y": 999.9996948242188,
+                        "z": 999.9996948242188
                     },
                     "type": "Transform"
                 },
@@ -560,6 +561,7 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
+
             "id": 6,
             "name": "ShotControl",
             "parent": 4,
@@ -631,9 +633,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -0.18062297999858856,
-                        "y": 0.06149690970778465,
-                        "z": -1.0583702325820923
+                        "x": 0.7053956985473633,
+                        "y": 1.5217820405960083,
+                        "z": -2.884958267211914
                     },
                     "rotate": {
                         "w": 1.0,
@@ -856,6 +858,25 @@
                     "radius": 5.0,
                     "state": "Static",
                     "type": "SphereCollider"
+                },
+                {
+                    "desiredMoveDirection": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "desiredRotation": {
+                        "w": 0.46487972140312195,
+                        "x": 0.0,
+                        "y": 0.8853738903999329,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": false
                 }
             ],
             "guid": "6190718f20ef1485d978d46962165d02",
