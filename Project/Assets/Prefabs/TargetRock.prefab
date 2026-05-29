@@ -4,9 +4,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 11.299240112304688,
-                "y": 6.586009502410889,
-                "z": -42.0762939453125
+                "x": -8.813302040100098,
+                "y": 0.9359276294708252,
+                "z": 38.896297454833984
             },
             "rotate": {
                 "w": 1.0,
@@ -64,17 +64,32 @@
         },
         {
             "categoryBits": 32,
-            "enable": 1,
+            "enable": 0,
             "freezeY": true,
             "maskBits": 38,
+            "mass": 50.0,
             "radius": 4.2870001792907715,
             "state": "Dynamic",
             "type": "SphereCollider"
+        },
+        {
+            "categoryBits": 32,
+            "enable": 1,
+            "freezeY": true,
+            "maskBits": 38,
+            "mass": 50.0,
+            "size": {
+                "x": 6.0,
+                "y": 5.999998092651367,
+                "z": 5.999998092651367
+            },
+            "state": "Dynamic",
+            "type": "BoxCollider"
         }
     ],
-    "guid": "be1e9c92ae6c5361b0128d23bb58ff60",
-    "id": 2,
+    "guid": "28a94ec6613a456916dc233c40fbc746",
+    "id": 18,
     "name": "TargetRock",
     "parent": null,
-    "prefabName": "BossRock"
+    "prefabName": "TargetRock"
 }
