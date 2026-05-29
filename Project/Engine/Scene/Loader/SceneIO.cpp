@@ -14,6 +14,7 @@ using namespace ONEngine;
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/Editor/Commands/ComponentEditCommands/ComponentJsonConverter.h"
 #include "Engine/Script/MonoScriptEngine.h"
+#include "Engine/Core/Utility/FileSystem/FileSystem.h"
 
 SceneIO::SceneIO(EntityComponentSystem* _ecs) : pEcs_(_ecs) {
 	fileName_ = "";
@@ -44,9 +45,45 @@ void SceneIO::InputTemporary(ECSGroup* _ecsGroup) {
 }
 
 void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
-	nlohmann::json outputJson = nlohmann::json::object();
-	SaveSceneToJson(outputJson, _ecsGroup);
-	OutputJson(outputJson, _filename);
+	nlohmann::json sceneJson = nlohmann::json::object();
+	std::string sceneName = FileSystem::FileNameWithoutExtension(_filename);
+	std::string sceneDir = fileDirectory_ + sceneName + "/";
+	std::filesystem::create_directories(sceneDir);
+
+	auto& entities = _ecsGroup->GetEntities();
+	for (auto& entity : entities) {
+		if (entity->GetId() < 0) continue;
+
+		if (Variables* var = entity->GetComponent<Variables>()) {
+			var->ReloadScriptVariables();
+		}
+
+		nlohmann::json entityJson = EntityJsonConverter::ToJson(entity.get());
+		if (entityJson.empty()) continue;
+
+		std::string entityFileName = entity->GetName() + ".entity";
+		std::string entityPath = sceneDir + entityFileName;
+
+		// .entityファイルを保存
+		std::ofstream ofs(entityPath);
+		if (ofs) {
+			ofs << entityJson.dump(4);
+			ofs.close();
+		}
+
+		// シーンファイルには参照を保存
+		nlohmann::json reference;
+		reference["path"] = "./" + sceneName + "/" + entityFileName;
+		reference["id"] = entity->GetId();
+		if (entity->GetParent()) {
+			reference["parent"] = entity->GetParent()->GetId();
+		} else {
+			reference["parent"] = nullptr;
+		}
+		sceneJson["entities"].push_back(reference);
+	}
+
+	OutputJson(sceneJson, _filename);
 }
 
 void SceneIO::LoadScene(const std::string& _filename, ECSGroup* _ecsGroup) {
@@ -58,12 +95,37 @@ void SceneIO::LoadScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 		return;
 	}
 
-	/// json形式に変換
-	nlohmann::json inputJson;
-	inputFile >> inputJson;
+	nlohmann::json sceneJson;
+	inputFile >> sceneJson;
 	inputFile.close();
 
-	LoadSceneFromJson(inputJson, _ecsGroup);
+	if (!sceneJson.contains("entities")) return;
+
+	nlohmann::json fullSceneJson = nlohmann::json::object();
+	for (const auto& entityRef : sceneJson["entities"]) {
+		if (entityRef.contains("path")) {
+			std::string entityPath = entityRef["path"];
+			std::ifstream entityFile(fileDirectory_ + entityPath);
+			if (entityFile.is_open()) {
+				nlohmann::json entityJson;
+				entityFile >> entityJson;
+				entityFile.close();
+
+				// シーンファイル側の情報を優先（親子関係など）
+				if (entityRef.contains("id")) entityJson["id"] = entityRef["id"];
+				if (entityRef.contains("parent")) entityJson["parent"] = entityRef["parent"];
+
+				fullSceneJson["entities"].push_back(entityJson);
+			} else {
+				Console::LogError("SceneIO: Entityファイルの読み込みに失敗しました: " + entityPath);
+			}
+		} else {
+			// 旧フォーマット（直接エンティティデータが入っている場合）への対応
+			fullSceneJson["entities"].push_back(entityRef);
+		}
+	}
+
+	LoadSceneFromJson(fullSceneJson, _ecsGroup);
 }
 
 void SceneIO::SaveSceneToJson(nlohmann::json& _output, ECSGroup* _ecsGroup) {
@@ -76,9 +138,7 @@ void SceneIO::SaveSceneToJson(nlohmann::json& _output, ECSGroup* _ecsGroup) {
 		}
 
 		if (Variables* var = entity->GetComponent<Variables>()) {
-			Console::Log(std::format("SceneIO: Exporting script variables for entity '{}'...", entity->GetName()));
 			var->ReloadScriptVariables();
-			var->SaveJson("Assets/Scene/" + _ecsGroup->GetGroupName() + "/" + entity->GetName() + ".json");
 		}
 
 		nlohmann::json entityJson = EntityJsonConverter::ToJson(entity.get());
@@ -119,15 +179,8 @@ void SceneIO::LoadSceneFromJson(const nlohmann::json& _input, ECSGroup* _ecsGrou
 			entity->prefabName_ = prefabName;
 			entity->name_ = entityName;
 
-			/// prefabがないならシーンに保存されたjsonからエンティティを復元
-			if (prefabName.empty()) {
-				EntityJsonConverter::FromJson(entityJson, entity, _ecsGroup->GetGroupName());
-			} else {
-				EntityJsonConverter::TransformFromJson(entityJson, entity);
-				if (Variables* vars = entity->GetComponent<Variables>()) {
-					vars->LoadJson("./Assets/Scene/" + _ecsGroup->GetGroupName() + "/" + entityName + ".json");
-				}
-			}
+			/// シーンに保存されたjsonからエンティティを復元
+			EntityJsonConverter::FromJson(entityJson, entity, _ecsGroup->GetGroupName());
 
 			entityMap[entityId] = entity;
 		}

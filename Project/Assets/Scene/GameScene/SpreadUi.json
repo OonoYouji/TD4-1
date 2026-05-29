@@ -1,7 +1,0 @@
-{
-    "GameController": {
-        "clearSceneName": "GameClear",
-        "isGameFinished": false,
-        "overSceneName": "GameOver"
-    }
-}

@@ -21,6 +21,7 @@
 #include "Engine/ECS/EntityComponentSystem/ECSGroup.h"
 #include "Engine/ECS/Entity/GameEntity/GameEntity.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Script/Script.h"
+#include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/Editor/Commands/ComponentEditCommands/ComponentJsonConverter.h"
 #include "Engine/Script/MonoScriptEngine.h"
 
@@ -52,54 +53,20 @@ namespace {
 
 
 
-void ONEngine::from_json([[maybe_unused]] const nlohmann::json& _j, [[maybe_unused]] Variables& _v) {
+void ONEngine::from_json(const nlohmann::json& _j, Variables& _v) {
+	_v.groupKeyMap_.clear();
+	_v.groups_.clear();
 
-}
-void ONEngine::to_json(nlohmann::json& _j, [[maybe_unused]] const Variables& _v) {
-	_j = nlohmann::json{
-		{ "type", "Variables" }
-	};
-}
+	for (auto& [groupKey, groupValue] : _j.items()) {
+		if (groupKey == "type") continue;
 
-
-
-
-Variables::Variables() {
-	groupKeyMap_.clear();
-	groups_.clear();
-}
-
-Variables::~Variables() = default;
-
-void Variables::LoadJson(const std::string& _path) {
-	/// .jsonファイルかチェック
-	if (FileSystem::FileExtension(_path) != ".json") {
-		return;
-	}
-
-	/// fileが存在するのかチェック
-	if (!std::filesystem::exists(_path)) {
-		return;
-	}
-
-	groupKeyMap_.clear();
-	groups_.clear();
-	nlohmann::json json;
-
-	{	/// load json
-		std::ifstream ifs(_path);
-		ifs >> json;
-		ifs.close();
-	}
-
-	for (auto& [groupKey, groupValue] : json.items()) {
 		/// グループが存在しない場合は新規追加
-		if (!HasGroup(groupKey)) {
-			AddGroup(groupKey);
+		if (!_v.HasGroup(groupKey)) {
+			_v.AddGroup(groupKey);
 		}
 
 		/// グループを取得
-		Group& group = groups_[groupKeyMap_.at(groupKey)];
+		Variables::Group& group = _v.groups_[_v.groupKeyMap_.at(groupKey)];
 
 		for (auto& [varKey, varValue] : groupValue.items()) {
 			/// ---------------------------------------------------
@@ -152,6 +119,95 @@ void Variables::LoadJson(const std::string& _path) {
 			}
 		}
 	}
+}
+
+void ONEngine::to_json(nlohmann::json& _j, const Variables& _v) {
+	_j = nlohmann::json::object();
+	_j["type"] = "Variables";
+
+	for (const auto& [groupKey, value] : _v.groupKeyMap_) {
+		_j[groupKey] = nlohmann::json::object();
+		for (const auto& [varKey, varValue] : _v.groups_[value].keyMap) {
+
+			std::visit([&_j, &groupKey, &varKey](auto&& _arg) {
+				using T = std::decay_t<decltype(_arg)>;
+				if constexpr (std::is_same_v<T, int>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, float>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, bool>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::string>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, Vector2>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, Vector3>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, Vector4>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<int>>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<float>>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<bool>>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+					_j[groupKey][varKey] = _arg;
+				} else if constexpr (std::is_same_v<T, std::vector<Vector3>>) {
+					_j[groupKey][varKey] = nlohmann::json::array();
+					for (const auto& v : _arg) {
+						_j[groupKey][varKey].push_back(v);
+					}
+				}
+				}, _v.groups_[value].variables[varValue]);
+		}
+	}
+}
+
+
+
+
+Variables::Variables() {
+	groupKeyMap_.clear();
+	groups_.clear();
+}
+
+Variables::~Variables() = default;
+
+void Variables::LoadJson(const std::string& _path) {
+	/// 拡張子チェック (.json または .entity)
+	std::string ext = FileSystem::FileExtension(_path);
+	if (ext != ".json" && ext != ".entity") {
+		return;
+	}
+
+	/// fileが存在するのかチェック
+	if (!std::filesystem::exists(_path)) {
+		return;
+	}
+
+	nlohmann::json j;
+
+	{	/// load json
+		std::ifstream ifs(_path);
+		if (!ifs.is_open()) return;
+		ifs >> j;
+		ifs.close();
+	}
+
+	// もし .entity ファイル（エンティティ全体のデータ）が渡された場合、
+	// Variables コンポーネントのデータ部分だけを抽出する
+	if (j.contains("components")) {
+		for (const auto& compJson : j["components"]) {
+			if (compJson.value("type", "") == "Variables") {
+				from_json(compJson, *this);
+				break;
+			}
+		}
+	} else {
+		// 純粋な変数データの場合
+		from_json(j, *this);
+	}
 
 
 	/// スクリプトの変数を登録
@@ -165,7 +221,7 @@ void Variables::LoadJson(const std::string& _path) {
 
 
 void Variables::SaveJson(const std::string& _path) {
-	nlohmann::json json;
+	nlohmann::json j;
 
 	/// スクリプトごとにgroupを生成する
 	GameEntity* owner = GetOwner();
@@ -174,45 +230,12 @@ void Variables::SaveJson(const std::string& _path) {
 		return;
 	}
 
-
-	for (const auto& [groupKey, value] : groupKeyMap_) {
-		json[groupKey] = nlohmann::json::object();
-		for (const auto& [varKey, varValue] : groups_[value].keyMap) {
-
-			std::visit([&json, &groupKey, &varKey](auto&& _arg) {
-				using T = std::decay_t<decltype(_arg)>;
-				if constexpr (std::is_same_v<T, int>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, float>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, bool>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, std::string>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, Vector2>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, Vector3>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, Vector4>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, std::vector<int>>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, std::vector<float>>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, std::vector<bool>>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
-					json[groupKey][varKey] = _arg;
-				} else if constexpr (std::is_same_v<T, std::vector<Vector3>>) {
-					json[groupKey][varKey] = nlohmann::json::array();
-					for (const auto& v : _arg) {
-						json[groupKey][varKey].push_back(v);
-					}
-				}
-				}, groups_[value].variables[varValue]);
-		}
+	to_json(j, *this);
+	// to_json includes "type", but for the standalone file we might want to remove it if needed,
+	// however, LoadJson uses from_json which ignores "type".
+	if (j.contains("type")) {
+		j.erase("type");
 	}
-
 
 	std::filesystem::path path(_path);
 	std::filesystem::create_directories(path.parent_path());
@@ -221,7 +244,7 @@ void Variables::SaveJson(const std::string& _path) {
 	if (!ofs) {
 		throw std::runtime_error("ファイルを開けませんでした: " + _path);
 	}
-	ofs << json.dump(4);
+	ofs << j.dump(4);
 }
 
 void Variables::RegisterScriptVariables() {
@@ -781,14 +804,28 @@ void ComponentDebug::VariablesDebug(Variables* _variables) {
 		return;
 	}
 
-	if (ImGui::Button("export")) {
+	if (ImGui::Button("export entity")) {
 		GameEntity* entity = _variables->GetOwner();
 		const std::string& ownerName = entity->GetName();
 		const std::string& groupName = entity->GetECSGroup()->GetGroupName();
 
-
 		_variables->ReloadScriptVariables();
-		_variables->SaveJson("Assets/Scene/" + groupName + "/" + ownerName + ".json");
+
+		// エンティティ全体のデータを取得して保存
+		nlohmann::json entityJson = EntityJsonConverter::ToJson(entity);
+		std::string path = "Assets/Scene/" + groupName + "/" + ownerName + ".entity";
+
+		std::filesystem::path fsPath(path);
+		std::filesystem::create_directories(fsPath.parent_path());
+
+		std::ofstream ofs(path);
+		if (ofs) {
+			ofs << entityJson.dump(4);
+			ofs.close();
+			Console::Log("Exported entity to: " + path);
+		} else {
+			Console::LogError("Failed to export entity to: " + path);
+		}
 	}
 }
 
