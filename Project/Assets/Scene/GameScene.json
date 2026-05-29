@@ -25,7 +25,7 @@
                     "position": {
                         "x": 5.834609031677246,
                         "y": 57.19154357910156,
-                        "z": -122.78524780273438
+                        "z": -104.40005493164063
                     },
                     "rotate": {
                         "w": 0.9723570942878723,
@@ -167,18 +167,18 @@
                     "position": {
                         "x": 5.834609031677246,
                         "y": 2.1915435791015625,
-                        "z": -42.785247802734375
+                        "z": -24.400053024291992
                     },
                     "rotate": {
-                        "w": 0.8506529331207275,
+                        "w": 0.8727096319198608,
                         "x": 0.0,
-                        "y": -0.5257276296615601,
+                        "y": 0.4882396161556244,
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 3.7400035858154297,
-                        "y": 3.7400014400482178,
-                        "z": 3.740001678466797
+                        "x": 2.199998617172241,
+                        "y": 2.1999969482421875,
+                        "z": 2.1999969482421875
                     },
                     "type": "Transform"
                 },
@@ -210,7 +210,7 @@
                             }
                         }
                     },
-                    "meshPath": "./Assets/Models/Player/player.obj",
+                    "meshPath": "./Assets/Models/Player/hand.obj",
                     "type": "MeshRenderer"
                 },
                 {
@@ -242,7 +242,7 @@
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 8,
+            "id": 11,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -298,8 +298,8 @@
                     },
                     "scale": {
                         "x": 1000.0,
-                        "y": 1000.0,
-                        "z": 1000.0
+                        "y": 999.9996948242188,
+                        "z": 999.9996948242188
                     },
                     "type": "Transform"
                 },
@@ -346,7 +346,7 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 9,
+            "id": 12,
             "name": "Field",
             "parent": 5,
             "prefabName": ""
@@ -463,7 +463,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 10,
+            "id": 13,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -506,9 +506,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 11,
+            "id": 4,
             "name": "ShotControl",
-            "parent": 10,
+            "parent": 13,
             "prefabName": ""
         },
         {
@@ -566,9 +566,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 12,
+            "id": 6,
             "name": "Gamepad",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -577,9 +577,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -0.18062297999858856,
-                        "y": 0.06149690970778465,
-                        "z": -1.0583702325820923
+                        "x": 0.7053956985473633,
+                        "y": 1.5217820405960083,
+                        "z": -2.884958267211914
                     },
                     "rotate": {
                         "w": 1.0,
@@ -626,9 +626,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 13,
+            "id": 8,
             "name": "KBM",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -669,9 +669,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 4,
+            "id": 9,
             "name": "TextSprite",
-            "parent": 11,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -712,7 +712,7 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 6,
+            "id": 10,
             "name": "SpreadUi",
             "parent": 2,
             "prefabName": ""
@@ -728,10 +728,10 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": -0.13785013556480408,
-                        "x": -0.002739193383604288,
-                        "y": -0.9903156161308289,
-                        "z": -0.016275862231850624
+                        "w": 0.6161848306655884,
+                        "x": 3.05584290510863e-12,
+                        "y": -0.7876006960868835,
+                        "z": -2.0466928932899586e-12
                     },
                     "scale": {
                         "x": 5.0,
@@ -801,6 +801,25 @@
                     "radius": 5.0,
                     "state": "Static",
                     "type": "SphereCollider"
+                },
+                {
+                    "desiredMoveDirection": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "desiredRotation": {
+                        "w": 0.46487972140312195,
+                        "x": 0.0,
+                        "y": 0.8853738903999329,
+                        "z": 0.0
+                    },
+                    "enable": 1,
+                    "isAttacking": false,
+                    "rotationSpeed": 5.0,
+                    "targetEntityId": 0,
+                    "type": "AgentIntentComponent",
+                    "useDesiredRotation": false
                 }
             ],
             "guid": "6190718f20ef1485d978d46962165d02",
@@ -919,7 +938,7 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 792.0,
+                        "x": 800.0,
                         "y": 30.0,
                         "z": 1.0
                     },
@@ -978,9 +997,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 15.007010459899902,
+                        "x": 14.237565040588379,
                         "y": 0.9359276294708252,
-                        "z": -42.0762939453125
+                        "z": -41.80176544189453
                     },
                     "rotate": {
                         "w": 1.0,
@@ -1040,7 +1059,7 @@
                     "categoryBits": 32,
                     "enable": 1,
                     "freezeY": true,
-                    "maskBits": 6,
+                    "maskBits": 38,
                     "radius": 4.2870001792907715,
                     "state": "Dynamic",
                     "type": "SphereCollider"
@@ -1120,7 +1139,7 @@
                     "categoryBits": 32,
                     "enable": 1,
                     "freezeY": true,
-                    "maskBits": 6,
+                    "maskBits": 38,
                     "radius": 4.2870001792907715,
                     "state": "Dynamic",
                     "type": "SphereCollider"
@@ -1138,9 +1157,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -25.743114471435547,
+                        "x": -14.922931671142578,
                         "y": 0.9359283447265625,
-                        "z": -16.6087646484375
+                        "z": -12.484700202941895
                     },
                     "rotate": {
                         "w": 1.0,
@@ -1200,7 +1219,7 @@
                     "categoryBits": 32,
                     "enable": 1,
                     "freezeY": true,
-                    "maskBits": 6,
+                    "maskBits": 38,
                     "radius": 4.2870001792907715,
                     "state": "Dynamic",
                     "type": "SphereCollider"
@@ -1218,9 +1237,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -19.66759490966797,
-                        "y": 0.9359362721443176,
-                        "z": -9.842485427856445
+                        "x": 3.954402446746826,
+                        "y": 5.678344249725342,
+                        "z": -6.798783779144287
                     },
                     "rotate": {
                         "w": 1.0,
@@ -1280,7 +1299,7 @@
                     "categoryBits": 32,
                     "enable": 1,
                     "freezeY": true,
-                    "maskBits": 6,
+                    "maskBits": 38,
                     "radius": 4.2870001792907715,
                     "state": "Dynamic",
                     "type": "SphereCollider"

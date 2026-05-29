@@ -3,7 +3,7 @@
         "treePath": "./Assets/AITrees/BossMain.json"
     },
     "DamageHandler": {
-        "cooldownTimer": -0.018290702253580093,
+        "cooldownTimer": -0.017423495650291443,
         "damageCooldownTime": 0.10000000149011612
     },
     "HP": {
