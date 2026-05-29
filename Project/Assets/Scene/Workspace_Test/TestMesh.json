@@ -1,7 +1,0 @@
-{
-    "AnimationTest": {},
-    "BossAI": {
-        "treePath": "Assets/AITrees/DefaultTree.json"
-    },
-    "Test": {}
-}

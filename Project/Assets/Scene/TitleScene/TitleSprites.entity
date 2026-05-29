@@ -1,0 +1,46 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 10.0,
+                "y": 10.0,
+                "z": 10.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables",
+            "TitleSceneController": {
+                "nextSceneName": "GameScene"
+            }
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "TitleSceneController"
+                }
+            ],
+            "type": "Script"
+        }
+    ],
+    "guid": "e059d18c3aa6d0577e148c0870d37d31",
+    "id": 5,
+    "name": "TitleSprites",
+    "parent": null,
+    "prefabName": ""
+}

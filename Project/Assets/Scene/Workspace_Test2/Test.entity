@@ -1,0 +1,64 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables",
+            "OrderTest1": {},
+            "Test": {
+                "testEnum": 0,
+                "testIntList": [
+                    0,
+                    54
+                ],
+                "testValue": 0.0,
+                "testVectorList": [
+                    {
+                        "x": 33.0,
+                        "y": 24.0,
+                        "z": 30.0
+                    },
+                    {
+                        "x": 13.0,
+                        "y": 39.0,
+                        "z": -35.0
+                    }
+                ]
+            }
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "OrderTest1"
+                }
+            ],
+            "type": "Script"
+        }
+    ],
+    "guid": "e0226dde23141f9c0c99fa77ceefc76b",
+    "id": 2,
+    "name": "Test",
+    "parent": null,
+    "prefabName": ""
+}

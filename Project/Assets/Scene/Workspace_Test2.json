@@ -1,232 +1,29 @@
 {
     "entities": [
         {
-            "components": [
-                {
-                    "cameraType": 0,
-                    "enable": 1,
-                    "farClip": 1000.0,
-                    "fogColor": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "fogEnd": 1000000.0,
-                    "fogStart": 0.0,
-                    "fovY": 0.699999988079071,
-                    "isDrawFrustum": false,
-                    "isMainCamera": true,
-                    "nearClip": 0.10000000149011612,
-                    "type": "CameraComponent"
-                },
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                }
-            ],
-            "guid": "d7b6b61125c4065ffcf5d63c8bdc4927",
+            "path": "./Workspace_Test2/Camera.entity",
             "id": 6,
-            "name": "Camera",
-            "parent": null,
-            "prefabName": ""
+            "parent": null
         },
         {
-            "components": [
-                {
-                    "color": {
-                        "w": 1.0,
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "direction": {
-                        "x": 0.0,
-                        "y": -1.0,
-                        "z": 0.0
-                    },
-                    "enable": 1,
-                    "intensity": 1.0,
-                    "type": "DirectionalLight"
-                },
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                }
-            ],
-            "guid": "dda5b33ebb86718f6e2485b6bf6d73e6",
+            "path": "./Workspace_Test2/Light.entity",
             "id": 1,
-            "name": "Light",
-            "parent": null,
-            "prefabName": ""
+            "parent": null
         },
         {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "OrderTest3"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "5a8fb25a76998eb408f2fb2c40545826",
+            "path": "./Workspace_Test2/Test_2.entity",
             "id": 4,
-            "name": "Test_2",
-            "parent": null,
-            "prefabName": ""
+            "parent": null
         },
         {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "OrderTest2"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "3a268dec2d6112267a4b91e62b843131",
+            "path": "./Workspace_Test2/Test_1.entity",
             "id": 3,
-            "name": "Test_1",
-            "parent": null,
-            "prefabName": ""
+            "parent": null
         },
         {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "OrderTest1"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "e0226dde23141f9c0c99fa77ceefc76b",
+            "path": "./Workspace_Test2/Test.entity",
             "id": 2,
-            "name": "Test",
-            "parent": null,
-            "prefabName": ""
+            "parent": null
         }
     ]
 }
