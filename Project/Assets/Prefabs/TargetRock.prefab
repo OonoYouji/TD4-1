@@ -4,9 +4,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -5.999340057373047,
-                "y": 0.0,
-                "z": 27.713491439819336
+                "x": 11.299240112304688,
+                "y": 6.586009502410889,
+                "z": -42.0762939453125
             },
             "rotate": {
                 "w": 1.0,
@@ -59,24 +59,21 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "meshPath": "./Packages/Models/primitive/sphere.obj",
             "type": "MeshRenderer"
         },
         {
-            "categoryBits": 1,
+            "categoryBits": 32,
             "enable": 1,
-            "maskBits": 4294967295,
-            "size": {
-                "x": 2.0,
-                "y": 2.0,
-                "z": 2.0
-            },
-            "state": "Static",
-            "type": "BoxCollider"
+            "freezeY": true,
+            "maskBits": 6,
+            "radius": 4.2870001792907715,
+            "state": "Dynamic",
+            "type": "SphereCollider"
         }
     ],
-    "guid": "0b2e9b710e098ef90439cc29985ae071",
-    "id": 18,
+    "guid": "48ceafce3abf535279b0a12c21c18451",
+    "id": 2,
     "name": "TargetRock",
     "parent": null,
     "prefabName": "BossRock"

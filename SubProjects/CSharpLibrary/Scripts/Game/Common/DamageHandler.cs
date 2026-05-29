@@ -59,7 +59,7 @@ public class DamageHandler : MonoScript
 
         if (knockback != null)
         {
-            Vector3 direction = transform.worldPosition - attackerPosition;
+            Vector3 direction = transform.position - attackerPosition;
             direction.y = 0;
             if (direction.Length() > 0.001f)
             {
@@ -88,7 +88,7 @@ public class DamageHandler : MonoScript
         if (bullet != null)
         {
             Debug.Log($"[DamageHandler] Hit by PlayerBullet: {other.name}");
-            ApplyDamage(45, other.transform.worldPosition);
+            ApplyDamage(45, other.transform.position);
             return;
         }
 
@@ -96,11 +96,14 @@ public class DamageHandler : MonoScript
         Reinforcement reinforcement = other.GetScript<Reinforcement>();
         if (reinforcement != null)
         {
-            Debug.Log($"[DamageHandler] Hit by Reinforcement: {other.name}, isCollisionEnabled: {reinforcement.isCollisionEnabled}");
-            // ダメージ適用
-            ApplyDamage((int)reinforcement.damage, other.transform.worldPosition);
-            // 援軍側の攻撃後処理（退散など）を呼ぶ
-            reinforcement.AttackBoss();
+            if (reinforcement.isCollisionEnabled)
+            {
+                Debug.Log($"[DamageHandler] Hit by Reinforcement: {other.name}");
+                // ダメージ適用
+                ApplyDamage((int)reinforcement.damage, other.transform.position);
+                // 援軍側の攻撃後処理（退散など）を呼ぶ
+                reinforcement.AttackBoss();
+            }
         }
     }
 }

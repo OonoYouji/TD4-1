@@ -30,6 +30,8 @@ void ComponentDebug::SphereColliderDebug(SphereCollider* _c) {
 		if(ImGui::Combo("CollisionState", &currentIndex, items.data(), (int)items.size())) {
 			_c->collisionState_ = static_cast<CollisionState>(currentIndex);
 		}
+
+		ImGui::Checkbox("Freeze Y", &_c->freezeY_);
 	}
 
 	{	/// CollisionFilter (ImGui側の処理)
@@ -99,6 +101,7 @@ void ComponentDebug::SphereColliderDebug(SphereCollider* _c) {
 void ONEngine::from_json(const nlohmann::json& _j, SphereCollider& _s) {
 	_s.enable = _j.value("enable", 1);
 	_s.radius_ = _j.value("radius", 1.0f);
+	_s.freezeY_ = _j.value("freezeY", false);
 	_s.collisionState_ = magic_enum::enum_cast<CollisionState>(_j.value("state", "Dynamic")).value_or(CollisionState::Dynamic);
 	_s.categoryBits_ = _j.value("categoryBits", static_cast<uint32_t>(CollisionFilter::Default));
 	_s.maskBits_ = _j.value("maskBits", static_cast<uint32_t>(CollisionFilter::ALL));
@@ -109,6 +112,7 @@ void ONEngine::to_json(nlohmann::json& _j, const SphereCollider& _s) {
 		{ "type", "SphereCollider" },
 		{ "enable", _s.enable },
 		{ "radius", _s.GetRadius() },
+		{ "freezeY", _s.freezeY_ },
 		{ "state", magic_enum::enum_name(_s.collisionState_) },
 		{ "categoryBits", _s.categoryBits_ },
 		{ "maskBits", _s.maskBits_ }

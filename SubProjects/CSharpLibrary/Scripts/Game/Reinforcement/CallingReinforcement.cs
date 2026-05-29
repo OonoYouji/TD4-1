@@ -138,6 +138,9 @@ public class CallingReinforcement : MonoScript
             return;
         }
 
+        // 生成直後に座標を設定（原点での衝突防止）
+        ReinforcementEntity.transform.position = spawnPos;
+
         // 初期位置と進行方向を設定
         Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();
 

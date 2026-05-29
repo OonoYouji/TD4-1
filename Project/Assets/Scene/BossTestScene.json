@@ -258,6 +258,7 @@
                 {
                     "categoryBits": 8,
                     "enable": 1,
+                    "freezeY": true,
                     "maskBits": 39,
                     "radius": 3.5,
                     "state": "Dynamic",
@@ -368,6 +369,7 @@
                 {
                     "categoryBits": 8,
                     "enable": 1,
+                    "freezeY": true,
                     "maskBits": 39,
                     "radius": 3.5,
                     "state": "Dynamic",
@@ -478,6 +480,7 @@
                 {
                     "categoryBits": 8,
                     "enable": 1,
+                    "freezeY": true,
                     "maskBits": 39,
                     "radius": 3.5,
                     "state": "Dynamic",
@@ -588,6 +591,7 @@
                 {
                     "categoryBits": 8,
                     "enable": 1,
+                    "freezeY": true,
                     "maskBits": 39,
                     "radius": 3.5,
                     "state": "Dynamic",
@@ -698,6 +702,7 @@
                 {
                     "categoryBits": 8,
                     "enable": 1,
+                    "freezeY": true,
                     "maskBits": 39,
                     "radius": 3.5,
                     "state": "Dynamic",

@@ -8,7 +8,7 @@
     },
     "HP": {
         "MAX_HP": 1000,
-        "currentHp": 990
+        "currentHp": 1000
     },
     "Knockback": {
         "KNOCKBACK_DECAY": 0.0,

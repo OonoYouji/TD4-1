@@ -74,6 +74,18 @@ public:
 		maskBits_ = maskBits;
 	}
 
+	/// @brief Y軸の押し戻しを固定するかどうかを返す
+	/// @return Y軸の押し戻しを固定するかどうか
+	bool IsFreezeY() const {
+		return freezeY_;
+	}
+
+	/// @brief Y軸の押し戻しを固定するかどうかを設定する
+	/// @param _freeze Y軸の押し戻しを固定するかどうか
+	void SetFreezeY(bool _freeze) {
+		freezeY_ = _freeze;
+	}
+
 
 protected:
 	/// ===================================================
@@ -82,6 +94,7 @@ protected:
 
 	Vector3 prevPosition_;
 	bool enablePushBack_ = true;
+	bool freezeY_ = false;
 	CollisionState collisionState_ = CollisionState::Dynamic;
 
 	uint32_t categoryBits_ = static_cast<uint32_t>(CollisionFilter::Default);

@@ -401,6 +401,12 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 		return;
 	}
 
+	// Colliderを取得
+	ICollider* aCol = _a->GetComponent<SphereCollider>();
+	if (!aCol) aCol = _a->GetComponent<BoxCollider>();
+	ICollider* bCol = _b->GetComponent<SphereCollider>();
+	if (!bCol) bCol = _b->GetComponent<BoxCollider>();
+
 	// Dynamic / Static フラグ
 	bool aDynamic = _aState == CollisionState::Dynamic;
 	bool bDynamic = _bState == CollisionState::Dynamic;
@@ -410,17 +416,24 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 
 	if(aDynamic && !bDynamic) {
 		// _aだけ押し戻す
-		_a->SetPosition(_a->GetPosition() - correction);
+		Vector3 pos = _a->GetPosition() - correction;
+		if (aCol && aCol->IsFreezeY()) pos.y = _a->GetPosition().y;
+		_a->SetPosition(pos);
 	} else if(!aDynamic && bDynamic) {
 		// _bだけ押し戻す
-		_b->SetPosition(_b->GetPosition() + correction);
+		Vector3 pos = _b->GetPosition() + correction;
+		if (bCol && bCol->IsFreezeY()) pos.y = _b->GetPosition().y;
+		_b->SetPosition(pos);
 	} else if(aDynamic && bDynamic) {
 		// 両方Dynamicなら半分ずつ押し戻す
-		_a->SetPosition(_a->GetPosition() - correction * 0.5f);
-		_b->SetPosition(_b->GetPosition() + correction * 0.5f);
-	}
-	// 両方Staticなら何もしない
+		Vector3 posA = _a->GetPosition() - correction * 0.5f;
+		if (aCol && aCol->IsFreezeY()) posA.y = _a->GetPosition().y;
+		_a->SetPosition(posA);
 
+		Vector3 posB = _b->GetPosition() + correction * 0.5f;
+		if (bCol && bCol->IsFreezeY()) posB.y = _b->GetPosition().y;
+		_b->SetPosition(posB);
+	}
 }
 
 

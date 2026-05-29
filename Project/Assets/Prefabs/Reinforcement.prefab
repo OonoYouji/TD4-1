@@ -5,7 +5,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 1000.0,
                 "z": 0.0
             },
             "rotate": {
@@ -69,13 +69,13 @@
         {
             "categoryBits": 4,
             "enable": 1,
-            "maskBits": 12,
+            "maskBits": 44,
             "radius": 1.0,
             "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],
-    "guid": "b8d554d34f993538da72eaaab1c6a31d",
+    "guid": "23ec042a92310c55bc73dd2d94a2f692",
     "id": 2,
     "name": "Reinforcement",
     "parent": null,

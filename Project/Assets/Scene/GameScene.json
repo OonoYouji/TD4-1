@@ -154,7 +154,7 @@
                 }
             ],
             "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "id": 3,
+            "id": 5,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -166,19 +166,19 @@
                     "matrixCalcFlags": 7,
                     "position": {
                         "x": 5.834609031677246,
-                        "y": 2.1915438175201416,
+                        "y": 2.1915435791015625,
                         "z": -42.785247802734375
                     },
                     "rotate": {
-                        "w": 0.8501571416854858,
+                        "w": 0.8506529331207275,
                         "x": 0.0,
-                        "y": -0.52652907371521,
+                        "y": -0.5257276296615601,
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 3.740002155303955,
-                        "y": 3.7400004863739014,
-                        "z": 3.7400009632110596
+                        "x": 3.7400035858154297,
+                        "y": 3.7400014400482178,
+                        "z": 3.740001678466797
                     },
                     "type": "Transform"
                 },
@@ -230,10 +230,19 @@
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "categoryBits": 2,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 32,
+                    "radius": 3.200000047683716,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 13,
+            "id": 12,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -266,7 +275,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 5,
+            "id": 7,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -337,9 +346,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 4,
+            "id": 13,
             "name": "Field",
-            "parent": 5,
+            "parent": 7,
             "prefabName": ""
         },
         {
@@ -407,7 +416,7 @@
                 }
             ],
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "id": 7,
+            "id": 3,
             "name": "PlayerHP",
             "parent": 2,
             "prefabName": ""
@@ -454,7 +463,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 6,
+            "id": 4,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -497,9 +506,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 8,
+            "id": 6,
             "name": "ShotControl",
-            "parent": 6,
+            "parent": 4,
             "prefabName": ""
         },
         {
@@ -557,9 +566,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 9,
+            "id": 8,
             "name": "Gamepad",
-            "parent": 8,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -617,9 +626,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 10,
+            "id": 9,
             "name": "KBM",
-            "parent": 8,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -660,9 +669,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 11,
+            "id": 10,
             "name": "TextSprite",
-            "parent": 8,
+            "parent": 6,
             "prefabName": ""
         },
         {
@@ -703,7 +712,7 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 12,
+            "id": 11,
             "name": "SpreadUi",
             "parent": 2,
             "prefabName": ""
@@ -719,10 +728,10 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": -0.5052968263626099,
-                        "x": -0.009095503017306328,
-                        "y": -0.8627583384513855,
-                        "z": -0.015529931522905827
+                        "w": -0.13785013556480408,
+                        "x": -0.002739193383604288,
+                        "y": -0.9903156161308289,
+                        "z": -0.016275862231850624
                     },
                     "scale": {
                         "x": 5.0,
@@ -787,6 +796,7 @@
                 {
                     "categoryBits": 8,
                     "enable": 1,
+                    "freezeY": false,
                     "maskBits": 4,
                     "radius": 5.0,
                     "state": "Static",
@@ -898,7 +908,7 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": -0.1720564067363739,
+                        "x": -4.172052383422852,
                         "y": 0.058580245822668076,
                         "z": -0.08233200758695602
                     },
@@ -909,7 +919,7 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 800.0,
+                        "x": 792.0,
                         "y": 30.0,
                         "z": 1.0
                     },
@@ -968,8 +978,8 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 11.299240112304688,
-                        "y": 6.586009502410889,
+                        "x": 15.007010459899902,
+                        "y": 0.9359276294708252,
                         "z": -42.0762939453125
                     },
                     "rotate": {
@@ -1023,27 +1033,264 @@
                             }
                         }
                     },
-                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "meshPath": "./Packages/Models/primitive/sphere.obj",
                     "type": "MeshRenderer"
                 },
                 {
-                    "categoryBits": 1,
+                    "categoryBits": 32,
                     "enable": 1,
-                    "maskBits": 4294967295,
-                    "size": {
-                        "x": 2.0,
-                        "y": 2.0,
-                        "z": 2.0
-                    },
+                    "freezeY": true,
+                    "maskBits": 6,
+                    "radius": 4.2870001792907715,
                     "state": "Dynamic",
-                    "type": "BoxCollider"
+                    "type": "SphereCollider"
                 }
             ],
-            "guid": "0b2e9b710e098ef90439cc29985ae071",
+            "guid": "28a94ec6613a456916dc233c40fbc746",
             "id": 18,
             "name": "TargetRock",
             "parent": null,
-            "prefabName": "BossRock"
+            "prefabName": "TargetRock"
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 51.79716873168945,
+                        "y": 0.9359273314476013,
+                        "z": 31.973995208740234
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 3.799999952316284,
+                        "y": 3.799999952316284,
+                        "z": 3.799999952316284
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FallingRock"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.4000000059604645,
+                            "y": 0.30000001192092896,
+                            "z": 0.20000000298023224
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/sphere.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 32,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 6,
+                    "radius": 4.2870001792907715,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                }
+            ],
+            "guid": "0fe9328ba6064536dd846dccbb7cb652",
+            "id": 19,
+            "name": "TargetRock_3",
+            "parent": null,
+            "prefabName": "TargetRock"
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -25.743114471435547,
+                        "y": 0.9359283447265625,
+                        "z": -16.6087646484375
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 3.799999952316284,
+                        "y": 3.799999952316284,
+                        "z": 3.799999952316284
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FallingRock"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.4000000059604645,
+                            "y": 0.30000001192092896,
+                            "z": 0.20000000298023224
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/sphere.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 32,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 6,
+                    "radius": 4.2870001792907715,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                }
+            ],
+            "guid": "e297ef3e13efc18b1fc67bc7c69dacfa",
+            "id": 20,
+            "name": "TargetRock_2",
+            "parent": null,
+            "prefabName": "TargetRock"
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -19.66759490966797,
+                        "y": 0.9359362721443176,
+                        "z": -9.842485427856445
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 3.799999952316284,
+                        "y": 3.799999952316284,
+                        "z": 3.799999952316284
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FallingRock"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.4000000059604645,
+                            "y": 0.30000001192092896,
+                            "z": 0.20000000298023224
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/sphere.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 32,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 6,
+                    "radius": 4.2870001792907715,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
+                }
+            ],
+            "guid": "3ca77858e9a60d36167f9ef24f8d5e4e",
+            "id": 21,
+            "name": "TargetRock_1",
+            "parent": null,
+            "prefabName": "TargetRock"
         }
     ]
 }
