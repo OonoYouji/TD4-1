@@ -29,13 +29,6 @@ public class DamageHandler : MonoScript
         {
             cooldownTimer -= Time.deltaTime;
         }
-
-        //// デバッグ用: HキーでApplyDamageを呼び出してHPを減らすテスト
-        //if (Input.TriggerKey(KeyCode.H))
-        //{
-        //    ApplyDamage(10);
-        //    Debug.Log($"[Debug] H key pressed. Applied 10 damage to {entity.name}. Current HP: {hp.currentHp}");
-        //}
     }
 
     /// <summary>
@@ -46,6 +39,7 @@ public class DamageHandler : MonoScript
     {
         if (cooldownTimer > 0) return;
 
+        Debug.Log($"[DamageHandler] Applying {damage} damage to {entity.name}. Current HP: {hp.currentHp}");
         hp.TakeDamage(damage);
         cooldownTimer = damageCooldownTime;
     }
@@ -59,6 +53,7 @@ public class DamageHandler : MonoScript
     {
         if (cooldownTimer > 0) return;
 
+        Debug.Log($"[DamageHandler] Applying {damage} damage (with pos) to {entity.name}. Current HP: {hp.currentHp}");
         hp.TakeDamage(damage);
         cooldownTimer = damageCooldownTime;
 
@@ -75,30 +70,37 @@ public class DamageHandler : MonoScript
 
     public override void OnCollisionEnter(Entity other)
     {
+        Debug.Log($"[DamageHandler] {entity.name} OnCollisionEnter with {other.name}");
+        HandleCollision(other);
+    }
+
+    public override void OnCollisionStay(Entity other)
+    {
+        HandleCollision(other);
+    }
+
+    private void HandleCollision(Entity other)
+    {
         if (cooldownTimer > 0) return;
 
         // プレイヤーの弾との衝突判定
         PlayerBullet bullet = other.GetScript<PlayerBullet>();
         if (bullet != null)
         {
-            Debug.Log($"DamageHandler: {entity.name} hit by PlayerBullet.");
-            
-            // 弾にダメージ値が定義されていない場合は仮の値を設定
-            int damage = 10; 
-            
-            hp.TakeDamage(damage);
-            cooldownTimer = damageCooldownTime;
+            Debug.Log($"[DamageHandler] Hit by PlayerBullet: {other.name}");
+            ApplyDamage(45, other.transform.worldPosition);
+            return;
+        }
 
-            // ノックバック処理
-            if (knockback != null)
-            {
-                Vector3 direction = transform.worldPosition - other.transform.worldPosition;
-                direction.y = 0;
-                knockback.ApplyKnockback(direction.Normalized());
-            }
-
-            // 弾を消滅させる（必要に応じて）
-            // other.Destroy();
+        // 援軍との衝突判定
+        Reinforcement reinforcement = other.GetScript<Reinforcement>();
+        if (reinforcement != null)
+        {
+            Debug.Log($"[DamageHandler] Hit by Reinforcement: {other.name}, isCollisionEnabled: {reinforcement.isCollisionEnabled}");
+            // ダメージ適用
+            ApplyDamage((int)reinforcement.damage, other.transform.worldPosition);
+            // 援軍側の攻撃後処理（退散など）を呼ぶ
+            reinforcement.AttackBoss();
         }
     }
 }

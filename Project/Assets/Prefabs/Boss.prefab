@@ -77,14 +77,14 @@
         {
             "categoryBits": 8,
             "enable": 1,
-            "maskBits": 36,
-            "radius": 2.5,
-            "state": "Dynamic",
+            "maskBits": 4,
+            "radius": 5.0,
+            "state": "Static",
             "type": "SphereCollider"
         }
     ],
-    "guid": "6190718f20ef1485d978d46962165d02",
-    "id": 17,
+    "guid": "85dd2a040941c12d9423e3a32651f078",
+    "id": 2,
     "name": "Boss",
     "parent": null,
     "prefabName": "Boss"

@@ -67,15 +67,15 @@
             "type": "MeshRenderer"
         },
         {
-            "categoryBits": 1,
+            "categoryBits": 4,
             "enable": 1,
-            "maskBits": 4294967295,
+            "maskBits": 12,
             "radius": 1.0,
             "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],
-    "guid": "2607cf32555b2e18cec6837445410ab7",
+    "guid": "b8d554d34f993538da72eaaab1c6a31d",
     "id": 2,
     "name": "Reinforcement",
     "parent": null,

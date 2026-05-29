@@ -12,6 +12,7 @@ class HP : MonoScript
 
     public void TakeDamage(int damage)
     {
+        Debug.Log($"[HP] {entity.name} taking {damage} damage. Current HP: {currentHp} -> {currentHp - damage}");
         currentHp -= damage;
         if (currentHp <= 0)
         {

@@ -1,11 +1,11 @@
 {
     "FallingRock": {
-        "_hasImpacted": true,
+        "_hasImpacted": false,
         "_isFalling": false,
         "_targetPos": {
-            "x": -3.979764223098755,
+            "x": 11.299240112304688,
             "y": 2.1915438175201416,
-            "z": -30.33172607421875
+            "z": -42.27875518798828
         },
         "damage": 40,
         "fallSpeed": 30.0,

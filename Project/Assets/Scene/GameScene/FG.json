@@ -1,6 +1,6 @@
 {
     "BossHPGauge": {
-        "defaultX": 0.0,
+        "defaultX": -0.1720564067363739,
         "height": 30.0,
         "targetEntityName": "Boss",
         "width": 800.0

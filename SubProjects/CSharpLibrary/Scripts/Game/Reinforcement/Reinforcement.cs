@@ -71,7 +71,7 @@ public class Reinforcement : MonoScript
     {
         positionApplied = false;
         isRetreating = false;
-        isCollisionEnabled = false;
+        isCollisionEnabled = true;
         timer = 0.0f;
         colorSaved = false;
         cameraEntity = ecsGroup.FindEntity("Camera");
@@ -153,7 +153,7 @@ public class Reinforcement : MonoScript
 
     private void UpdateFrustumVisibility()
     {
-        // 退散中は当たり判定無効のまま
+        // 退散中は色の変更を行わない
         if (isRetreating)
         {
             return;
@@ -169,8 +169,7 @@ public class Reinforcement : MonoScript
         // 当たり判定の有効化と色の変更
         if (inFrustum)
         {
-            // 画面内なので当たり判定有効化
-            isCollisionEnabled = true;
+            // 画面内なので色を変更
             if (meshRenderer != null)
             {
                 meshRenderer.color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f);
@@ -178,8 +177,7 @@ public class Reinforcement : MonoScript
         }
         else
         {
-            // 画面外なので当たり判定無効化
-            isCollisionEnabled = false;
+            // 画面外なので元の色に戻す
             if (meshRenderer != null && colorSaved)
             {
                 meshRenderer.color = originalColor;
