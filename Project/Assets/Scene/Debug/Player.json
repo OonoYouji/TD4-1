@@ -1,0 +1,17 @@
+{
+    "CallingReinforcement": {
+        "spawnBehindDistance": 37.0,
+        "spawnInterval": 0.6000000238418579,
+        "xOffset": 141.0
+    },
+    "HP": {
+        "MAX_HP": 13,
+        "currentHp": 13
+    },
+    "Player": {
+        "armLength": 2.0,
+        "fireInterval": 0.5,
+        "maxMoveSpeed": 10.0,
+        "rotationSpeed": 8.0
+    }
+}
