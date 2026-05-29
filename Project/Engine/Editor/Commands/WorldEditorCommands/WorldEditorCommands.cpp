@@ -14,6 +14,7 @@
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/ECS/Entity/Collection/EntityCollection.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 
 /// editor
 #include "Engine/Editor/Clipboard/Clipboard.h"
@@ -275,7 +276,7 @@ EDITOR_STATE CreatePrefabCommand::Execute() {
 	}
 
 	/// スクリプトの変数を最新の状態にする
-	if (Variables* var = pEntity_->GetComponent<Variables>()) {
+	if (ONEngine::Variables* var = pEntity_->GetComponent<ONEngine::Variables>()) {
 		var->ReloadScriptVariables();
 	}
 
