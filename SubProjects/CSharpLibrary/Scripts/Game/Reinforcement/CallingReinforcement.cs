@@ -74,7 +74,7 @@ public class CallingReinforcement : MonoScript
         // 一定間隔で援軍を呼ぶ
         spawnTimer -= Time.deltaTime;
         bool wantFire =
-            Input.PressMouse(Mouse.Right) ||
+            Input.PressMouse(Mouse.Left) ||
             Input.PressGamepad(Gamepad.LeftShoulder) ||
             Input.PressGamepad(Gamepad.RightShoulder);
         if (spawnTimer <= 0.0f && wantFire)
