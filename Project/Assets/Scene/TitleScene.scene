@@ -1,0 +1,39 @@
+{
+    "entities": [
+        {
+            "path": "./TitleScene/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./TitleScene/Light.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./TitleScene/Title.entity",
+            "id": 3,
+            "parent": 5
+        },
+        {
+            "path": "./TitleScene/2DCamera.entity",
+            "id": 4,
+            "parent": null
+        },
+        {
+            "path": "./TitleScene/TitleSprites.entity",
+            "id": 5,
+            "parent": null
+        },
+        {
+            "path": "./TitleScene/PushButton.entity",
+            "id": 6,
+            "parent": 5
+        },
+        {
+            "path": "./TitleScene/Fader.entity",
+            "id": 7,
+            "parent": null
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "entities": [
+        {
+            "path": "./GameOver/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./GameOver/DirectionalLight.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./GameOver/2DCamera.entity",
+            "id": 4,
+            "parent": null
+        },
+        {
+            "path": "./GameOver/OverSprites.entity",
+            "id": 5,
+            "parent": null
+        },
+        {
+            "path": "./GameOver/GameOverText.entity",
+            "id": 3,
+            "parent": 5
+        },
+        {
+            "path": "./GameOver/PushButton.entity",
+            "id": 6,
+            "parent": 5
+        },
+        {
+            "path": "./GameOver/Fader.entity",
+            "id": 7,
+            "parent": null
+        }
+    ]
+}

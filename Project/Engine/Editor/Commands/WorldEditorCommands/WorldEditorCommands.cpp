@@ -14,6 +14,7 @@
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/ECS/Entity/Collection/EntityCollection.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 
 /// editor
 #include "Engine/Editor/Clipboard/Clipboard.h"
@@ -272,6 +273,11 @@ EDITOR_STATE CreatePrefabCommand::Execute() {
 	/// ディレクトリがあるのかチェック
 	if (!std::filesystem::exists(prefabPath_)) {
 		std::filesystem::create_directories(prefabPath_);
+	}
+
+	/// スクリプトの変数を最新の状態にする
+	if (ONEngine::Variables* var = pEntity_->GetComponent<ONEngine::Variables>()) {
+		var->ReloadScriptVariables();
 	}
 
 

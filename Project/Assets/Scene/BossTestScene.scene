@@ -1,0 +1,54 @@
+`{
+    "entities": [
+        {
+            "path": "./BossTestScene/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Light.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Floor.entity",
+            "id": 3,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Boss.entity",
+            "id": 4,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Boss_Bomb.entity",
+            "id": 5,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Boss_Giant.entity",
+            "id": 6,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Boss_Rock.entity",
+            "id": 7,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Boss_Vortex.entity",
+            "id": 8,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/Player.entity",
+            "id": 9,
+            "parent": null
+        },
+        {
+            "path": "./BossTestScene/ReinforcementManager.entity",
+            "id": 10,
+            "parent": null
+        }
+    ]
+}

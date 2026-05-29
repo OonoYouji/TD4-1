@@ -1,0 +1,129 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 40.0,
+                "y": 2.5,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 5.0,
+                "y": 5.0,
+                "z": 5.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables",
+            "BossAI": {
+                "treePath": "Assets/AITrees/Test/Test_Vortex.json"
+            },
+            "DamageHandler": {},
+            "HP": {
+                "MAX_HP": 2000,
+                "currentHp": 2000
+            },
+            "Knockback": {
+                "KNOCKBACK_DECAY": 5.0,
+                "KNOCKBACK_FORCE_STRENGTH": 10.0,
+                "knockbackStopThreshold": 0.009999999776482582,
+                "knockbackVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossAI"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "DamageHandler"
+                },
+                {
+                    "enable": true,
+                    "name": "Knockback"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 0.5,
+                    "y": 0.5,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "00000000000000000000000000000000",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "type": "MeshRenderer"
+        },
+        {
+            "desiredMoveDirection": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "desiredRotation": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "enable": 1,
+            "isAttacking": false,
+            "rotationSpeed": 5.0,
+            "targetEntityId": 0,
+            "type": "AgentIntentComponent",
+            "useDesiredRotation": false
+        },
+        {
+            "categoryBits": 8,
+            "enable": 1,
+            "freezeY": true,
+            "maskBits": 39,
+            "radius": 3.5,
+            "state": "Dynamic",
+            "type": "SphereCollider"
+        }
+    ],
+    "guid": "11fa7e3b396806de7fbfa79eee1fd645",
+    "id": 8,
+    "name": "Boss_Vortex",
+    "parent": null,
+    "prefabName": ""
+}

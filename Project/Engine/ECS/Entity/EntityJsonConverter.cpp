@@ -60,12 +60,6 @@ void EntityJsonConverter::FromJson(const nlohmann::json& _json, GameEntity* _ent
 			if (comp) {
 				ComponentJsonConverter::FromJson(componentJson, comp);
 				comp->SetOwner(_entity);
-
-				if (componentType == "Variables") {
-					Variables* vars = static_cast<Variables*>(comp);
-					vars->LoadJson("./Assets/Scene/" + _groupName + "/" + _entity->GetName() + ".json");
-				}
-
 			} else {
 				// コンポーネントの追加に失敗した場合のログ
 				Console::LogError("failed add component: " + componentType);

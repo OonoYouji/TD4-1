@@ -1,0 +1,73 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.795562744140625,
+                "y": 0.0,
+                "z": -21.717073440551758
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": -0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 14.0,
+                "y": 4.0,
+                "z": 2.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "type": "MeshRenderer"
+        },
+        {
+            "categoryBits": 1,
+            "enable": 1,
+            "maskBits": 4294967295,
+            "size": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            },
+            "state": "Static",
+            "type": "BoxCollider"
+        }
+    ],
+    "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
+    "id": 7,
+    "name": "Wall_1",
+    "parent": 4,
+    "prefabName": ""
+}

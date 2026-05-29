@@ -1,0 +1,39 @@
+{
+    "entities": [
+        {
+            "path": "./GameClear/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./GameClear/DirectionalLight.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./GameClear/2DCamera.entity",
+            "id": 3,
+            "parent": null
+        },
+        {
+            "path": "./GameClear/ClearSprites.entity",
+            "id": 4,
+            "parent": null
+        },
+        {
+            "path": "./GameClear/ClearText.entity",
+            "id": 5,
+            "parent": 4
+        },
+        {
+            "path": "./GameClear/PushButton.entity",
+            "id": 6,
+            "parent": 4
+        },
+        {
+            "path": "./GameClear/Fader.entity",
+            "id": 7,
+            "parent": null
+        }
+    ]
+}

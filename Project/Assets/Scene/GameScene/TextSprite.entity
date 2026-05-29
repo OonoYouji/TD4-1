@@ -1,0 +1,51 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": -0.1720564067363739,
+                "y": 0.058580245822668076,
+                "z": -0.08233200758695602
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "type": "Transform"
+        },
+        {
+            "SceneTransition": {
+                "fadeDuration": 0.5,
+                "fadeInOnStart": true,
+                "isFadingIn": false,
+                "isFadingOut": false,
+                "nextScene": "",
+                "timer": -0.011685118079185486
+            },
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "SceneTransition"
+                }
+            ],
+            "type": "Script"
+        }
+    ],
+    "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
+    "id": 10,
+    "name": "TextSprite",
+    "parent": 6,
+    "prefabName": ""
+}
