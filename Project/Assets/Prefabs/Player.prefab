@@ -3,24 +3,76 @@
         {
             "enable": 1,
             "matrixCalcFlags": 7,
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
-            "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
             "type": "Transform"
         },
         {
-            "type": "Variables"
+            "type": "Variables",
+            "CallingReinforcement": {
+                "reinforcementSpeed": 79.0,
+                "spawnBehindDistance": 37.0,
+                "spawnInterval": 0.6000000238418579,
+                "spawnTimer": 0.4618699252605438,
+                "xOffset": 8.0
+            },
+            "HP": {
+                "MAX_HP": 1000,
+                "currentHp": 1000
+            },
+            "Player": {
+                "<fireCooldownTimer>k__BackingField": 31.16332244873047,
+                "<isGamepadMode>k__BackingField": false,
+                "armLength": 2.0,
+                "currentYaw": -1.1064250469207764,
+                "fireCooldownTimer": 90.26615142822266,
+                "fireInterval": 0.5,
+                "inputDeadZone": 0.0,
+                "isGamepadMode": false,
+                "lastMousePos": {
+                    "x": 66.0,
+                    "y": 73.0
+                },
+                "maxMoveSpeed": 10.0,
+                "mouseIsMovePixel": 0.0,
+                "rotationSpeed": 8.0
+            }
         },
         {
             "enable": 1,
             "material": {
-                "baseColor": { "w": 1.0, "x": 1.0, "y": 1.0, "z": 1.0 },
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
                 "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "postEffectFlags": 1,
                 "uvTransform": {
-                    "position": { "x": 0.0, "y": 0.0 },
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
                     "rotate": 0.0,
-                    "scale": { "x": 1.0, "y": 1.0 }
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
                 }
             },
             "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",

@@ -274,6 +274,11 @@ EDITOR_STATE CreatePrefabCommand::Execute() {
 		std::filesystem::create_directories(prefabPath_);
 	}
 
+	/// スクリプトの変数を最新の状態にする
+	if (Variables* var = pEntity_->GetComponent<Variables>()) {
+		var->ReloadScriptVariables();
+	}
+
 
 	/// jsonに変換
 	nlohmann::json entityJson = ONEngine::EntityJsonConverter::ToJson(pEntity_);

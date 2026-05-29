@@ -143,7 +143,7 @@ void HierarchyWindow::DrawMenuScene() {
 		if(ImGui::MenuItem("create scene")) {
 			IGFD::FileDialogConfig config;
 			config.path = "./Assets/Scene";
-			ImGuiFileDialog::Instance()->OpenDialog("save file dialog", "ファイル保存", ".json", config);
+			ImGuiFileDialog::Instance()->OpenDialog("save file dialog", "ファイル保存", ".scene", config);
 		}
 
 		if(ImGui::MenuItem("save scene")) {
@@ -154,7 +154,7 @@ void HierarchyWindow::DrawMenuScene() {
 			if(ImGui::MenuItem("open explorer")) {
 				IGFD::FileDialogConfig config;
 				config.path = "./Assets/Scene";
-				ImGuiFileDialog::Instance()->OpenDialog("Dialog", "Choose File", ".json", config);
+				ImGuiFileDialog::Instance()->OpenDialog("Dialog", "Choose File", ".scene", config);
 			}
 			ImGui::EndMenu();
 		}

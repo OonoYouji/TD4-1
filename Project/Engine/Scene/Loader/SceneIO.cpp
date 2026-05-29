@@ -24,13 +24,13 @@ SceneIO::~SceneIO() {}
 
 void SceneIO::Output(const std::string& _sceneName, ECSGroup* _ecsGroup) {
 	/* sceneをjsonに保存する */
-	fileName_ = _sceneName + ".json";
+	fileName_ = _sceneName + ".scene";
 	SaveScene(fileName_, _ecsGroup);
 }
 
 void SceneIO::Input(const std::string& _sceneName, ECSGroup* _ecsGroup) {
 	/* jsonを読み込んでsceneに変換する */
-	fileName_ = _sceneName + ".json";
+	fileName_ = _sceneName + ".scene";
 	LoadScene(fileName_, _ecsGroup);
 }
 
