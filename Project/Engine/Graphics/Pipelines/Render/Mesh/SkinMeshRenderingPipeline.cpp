@@ -1,4 +1,4 @@
-#include "SkinMeshRenderingPipeline.h"
+﻿#include "SkinMeshRenderingPipeline.h"
 
 using namespace ONEngine;
 
@@ -10,6 +10,7 @@ using namespace ONEngine;
 #include "Engine/ECS/Component/Components/RendererComponents/SkinMesh/SkinMeshRenderer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
+#include "Engine/Core/DirectX12/GPUTimeStamp/GPUTimeStamp.h"
 
 
 SkinMeshRenderingPipeline::SkinMeshRenderingPipeline(Asset::AssetCollection* _assetCollection)
@@ -93,6 +94,7 @@ void SkinMeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _cam
 		return;
 	}
 
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::SkinMeshRendering);
 
 	ID3D12GraphicsCommandList* cmdList = _dxCommand->GetCommandList();
 	auto& textures = pAssetCollection_->GetTextures();
@@ -177,4 +179,5 @@ void SkinMeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _cam
 		}
 	}
 
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::SkinMeshRendering);
 }

@@ -50,6 +50,9 @@ public class CallingReinforcement : MonoScript
 
     public override void Update()
     {
+        // 破棄済みまたは非アクティブなエンティティをリストから除外（リーク防止）
+        activeReinforcements.RemoveAll(e => e == null || !e.enable);
+
         // 発射処理
         HandleFiring();
         // 退散命令

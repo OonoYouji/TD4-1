@@ -39,7 +39,7 @@ public class DamageHandler : MonoScript
     {
         if (cooldownTimer > 0) return;
 
-        Debug.Log($"[DamageHandler] Applying {damage} damage to {entity.name}. Current HP: {hp.currentHp}");
+        // Debug.Log($"[DamageHandler] Applying {damage} damage to {entity.name}. Current HP: {hp.currentHp}");
         hp.TakeDamage(damage);
         cooldownTimer = damageCooldownTime;
     }
@@ -53,7 +53,7 @@ public class DamageHandler : MonoScript
     {
         if (cooldownTimer > 0) return;
 
-        Debug.Log($"[DamageHandler] Applying {damage} damage (with pos) to {entity.name}. Current HP: {hp.currentHp}");
+        // Debug.Log($"[DamageHandler] Applying {damage} damage (with pos) to {entity.name}. Current HP: {hp.currentHp}");
         hp.TakeDamage(damage);
         cooldownTimer = damageCooldownTime;
 
@@ -70,7 +70,7 @@ public class DamageHandler : MonoScript
 
     public override void OnCollisionEnter(Entity other)
     {
-        Debug.Log($"[DamageHandler] {entity.name} OnCollisionEnter with {other.name}");
+        // Debug.Log($"[DamageHandler] {entity.name} OnCollisionEnter with {other.name}");
         HandleCollision(other);
     }
 
@@ -87,7 +87,7 @@ public class DamageHandler : MonoScript
         PlayerBullet bullet = other.GetScript<PlayerBullet>();
         if (bullet != null)
         {
-            Debug.Log($"[DamageHandler] Hit by PlayerBullet: {other.name}");
+            // Debug.Log($"[DamageHandler] Hit by PlayerBullet: {other.name}");
             ApplyDamage(45, other.transform.position);
             return;
         }
@@ -98,7 +98,7 @@ public class DamageHandler : MonoScript
         {
             if (reinforcement.isCollisionEnabled)
             {
-                Debug.Log($"[DamageHandler] Hit by Reinforcement: {other.name}");
+                // Debug.Log($"[DamageHandler] Hit by Reinforcement: {other.name}");
                 // ダメージ適用
                 ApplyDamage((int)reinforcement.damage, other.transform.position);
                 // 援軍側の攻撃後処理（退散など）を呼ぶ
