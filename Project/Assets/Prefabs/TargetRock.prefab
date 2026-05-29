@@ -4,8 +4,8 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 11.299240112304688,
-                "y": 6.586009502410889,
+                "x": 15.007010459899902,
+                "y": 0.9359276294708252,
                 "z": -42.0762939453125
             },
             "rotate": {
@@ -15,9 +15,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 3.799999952316284,
-                "y": 3.799999952316284,
-                "z": 3.799999952316284
+                "x": 10.0,
+                "y": 10.0,
+                "z": 10.0
             },
             "type": "Transform"
         },
@@ -39,11 +39,11 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.4000000059604645,
-                    "y": 0.30000001192092896,
-                    "z": 0.20000000298023224
+                    "x": 0.9534050226211548,
+                    "y": 0.857722818851471,
+                    "z": 0.7620405554771423
                 },
-                "baseTextureGuid": "00000000000000000000000000000000",
+                "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -67,14 +67,14 @@
             "enable": 1,
             "freezeY": true,
             "maskBits": 38,
-            "radius": 4.2870001792907715,
+            "radius": 10.199999809265137,
             "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],
-    "guid": "be1e9c92ae6c5361b0128d23bb58ff60",
-    "id": 2,
+    "guid": "28a94ec6613a456916dc233c40fbc746",
+    "id": 18,
     "name": "TargetRock",
     "parent": null,
-    "prefabName": "BossRock"
+    "prefabName": "TargetRock"
 }
