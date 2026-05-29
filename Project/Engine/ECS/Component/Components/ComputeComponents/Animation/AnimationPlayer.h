@@ -38,15 +38,23 @@ public:
     bool isLooping = true;
     bool autoPlay = true;
 
-    /// アニメーション対象のプロパティを解決したキャッシュ（Phase 2/3で使用）
+    /// アニメーション対象のプロパティを解決したキャッシュ
     struct PropertyBinding {
         IComponent* targetComponent;
         std::string propertyPath;
-        void* dataPtr; // 直接値を書き換えるためのポインタ
-        enum class Type { Float, Vector2, Vector3, Vector4 } type;
+        void* dataPtr = nullptr; // 直接値を書き換えるためのポインタ
+        enum class Type {
+            Float, Vector2, Vector3, Vector4,
+            ScriptVar // Variablesコンポーネント経由
+        } type;
+        std::string scriptGroupName; // ScriptVarの場合のみ使用
+        std::string scriptVarName;   // ScriptVarの場合のみ使用
     };
     std::vector<PropertyBinding> bindings;
     bool isBound = false;
+
+    /// @brief エンティティのコンポーネントに対してプロパティをバインドする
+    void Bind();
 };
 
 void from_json(const nlohmann::json& _j, AnimationPlayer& _a);

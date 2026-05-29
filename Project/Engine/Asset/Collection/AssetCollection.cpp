@@ -35,6 +35,7 @@ void AssetCollection::Initialize(DxManager* dxm) {
 	assetBundles_[static_cast<size_t>(AssetType::Audio)] = std::make_unique<AssetBundle<AudioClip>>();
 	assetBundles_[static_cast<size_t>(AssetType::Material)] = std::make_unique<AssetBundle<Material>>();
 	assetBundles_[static_cast<size_t>(AssetType::Shader)] = std::make_unique<AssetBundle<Shader>>();
+	assetBundles_[static_cast<size_t>(AssetType::AnimationClip)] = std::make_unique<AssetBundle<AnimationClip>>();
 
 	// ヘルパーを使ってセットアップ（キャスト記述が減りスマートになります）
 	auto* meshBundle = GetBundle<Model>(AssetType::Mesh);
@@ -56,6 +57,10 @@ void AssetCollection::Initialize(DxManager* dxm) {
 	auto* shaderBundle = GetBundle<Shader>(AssetType::Shader);
 	shaderBundle->loader = std::make_unique<AssetLoader<Shader>>();
 	shaderBundle->container = std::make_unique<AssetContainer<Shader>>(128); // 適当な数
+
+	auto* animBundle = GetBundle<AnimationClip>(AssetType::AnimationClip);
+	animBundle->loader = std::make_unique<AssetLoader<AnimationClip>>();
+	animBundle->container = std::make_unique<AssetContainer<AnimationClip>>(128);
 
 	LoadResourcesAsync(GetResourceFilePaths("./Packages/"));
 	LoadResourcesAsync(GetResourceFilePaths("./Assets/"));
@@ -147,6 +152,11 @@ void AssetCollection::AddAsset<AudioClip>(const std::string& filepath, AudioClip
 template<>
 void AssetCollection::AddAsset<Material>(const std::string& filepath, Material&& asset) {
 	GetBundle<Material>(AssetType::Material)->container->Add(filepath, std::move(asset));
+}
+
+template<>
+void AssetCollection::AddAsset<AnimationClip>(const std::string& filepath, AnimationClip&& asset) {
+	GetBundle<AnimationClip>(AssetType::AnimationClip)->container->Add(filepath, std::move(asset));
 }
 
 bool AssetCollection::IsAsset(const Guid& guid) const {

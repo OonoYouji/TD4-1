@@ -39,6 +39,7 @@ void to_json(nlohmann::json& _j, const MeshRenderer& _mr);
 /// mesh描画クラス
 /// ///////////////////////////////////////////////////
 class MeshRenderer : public IRenderComponent {
+	friend class AnimationPlayer;
 	/// friend methods
 	friend void ComponentDebug::MeshRendererDebug(MeshRenderer* _mr, Asset::AssetCollection* _assetCollection);
 	friend void from_json(const nlohmann::json& _j, MeshRenderer& _mr);

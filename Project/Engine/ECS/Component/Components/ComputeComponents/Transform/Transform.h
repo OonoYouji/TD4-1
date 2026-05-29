@@ -21,6 +21,7 @@
 namespace ONEngine {
 
 class Transform : public IComponent {
+	friend class AnimationPlayer;
 public:
 
 	/// @brief 親子付けしているTransformの行列計算フラグ

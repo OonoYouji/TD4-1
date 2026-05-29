@@ -11,6 +11,7 @@
 namespace ONEngine {
 
 class DirectionalLight : public IComponent {
+	friend class AnimationPlayer;
 public:
 
 	/// ===================================================

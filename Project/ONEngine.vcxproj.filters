@@ -651,6 +651,9 @@
     <ClInclude Include="Engine\Core\Utility\Math\Color.h">
       <Filter>Engine\Core\Utility\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\Utility\Math\Interpolation.h">
+      <Filter>Engine\Core\Utility\Math</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Core\Utility\Math\Math.h">
       <Filter>Engine\Core\Utility\Math</Filter>
     </ClInclude>
@@ -1047,6 +1050,9 @@
     <ClInclude Include="Engine\Editor\Views\Tabs\AITab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\Views\Tabs\AnimationTab.h">
+      <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Tabs\DevelopTab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClInclude>
@@ -1061,6 +1067,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Tabs\PrefabTab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\AnimationEditorWindow.h">
+      <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.h">
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
@@ -1706,6 +1715,9 @@
     <ClCompile Include="Engine\Editor\Views\Tabs\AITab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\Views\Tabs\AnimationTab.cpp">
+      <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Tabs\DevelopTab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClCompile>
@@ -1720,6 +1732,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Tabs\PrefabTab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\AnimationEditorWindow.cpp">
+      <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.cpp">
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
@@ -1899,6 +1914,9 @@
       <Filter>Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Script\InternalCalls\AddInternalMethods.cpp">
+      <Filter>Engine\Script\InternalCalls</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Script\InternalCalls\AnimationInternalCalls.cpp">
       <Filter>Engine\Script\InternalCalls</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Script\InternalCalls\EventInternalCalls.cpp">

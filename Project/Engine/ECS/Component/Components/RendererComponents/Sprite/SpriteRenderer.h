@@ -40,6 +40,7 @@ void from_json(const nlohmann::json& _j, SpriteRenderer& _sr);
 /// ///////////////////////////////////////////////////
 class SpriteRenderer final : public IComponent {
 	friend class SpriteUpdateSystem;
+	friend class AnimationPlayer;
 
 	friend void ComponentDebug::SpriteDebug(SpriteRenderer* _sr, Asset::AssetCollection* _assetCollection);
 	friend void to_json(nlohmann::json& _j, const SpriteRenderer& _sr);

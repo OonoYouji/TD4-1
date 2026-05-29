@@ -1,4 +1,5 @@
 #include "MonoScriptEngine.h"
+#include "InternalCalls/AddInternalMethods.h"
 
 using namespace ONEngine;
 
@@ -133,6 +134,7 @@ void MonoScriptEngine::RegisterFunctions() {
 	AddSceneInternalCalls();
 	AddGizmoInternalCalls();
 	AddWindowInternalCalls();
+	AddAnimationInternalCalls();
 	ComponentApplyFuncs::Initialize(image_);
 
 	// データ同期用のC#メソッドを取得

@@ -15,6 +15,7 @@
 #include "../Windows/Develop/ConsoleWindow.h"
 #include "../Windows/Develop/TexturePreviewWindow.h"
 #include "../Windows/Develop/BehaviorTreeEditorWindow.h"
+#include "../Windows/Develop/AnimationEditorWindow.h"
 
 using namespace ONEngine;
 using namespace Editor;
