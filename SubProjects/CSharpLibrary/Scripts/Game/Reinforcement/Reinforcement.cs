@@ -1,6 +1,11 @@
 using System;
 public class Reinforcement : MonoScript
 {
+    enum State
+    {
+        Approaching,
+        Retreating,
+    }
 
     // =========================================================
     // パラメーター
@@ -20,6 +25,11 @@ public class Reinforcement : MonoScript
 
     // 画面内判定用のカメラ視野角
     [SerializeField] public float viewAngle = 60.0f;
+
+    // 援軍同士が衝突したときの減速時間
+    [SerializeField] public float SPEED_SLOW_TIME = 1.0f;
+    // 援軍同士が衝突したときの減速倍率
+    [SerializeField] public float SPEED_SLOW_RATE = 0.5f;
 
     // =========================================================
     // 外部から設定
@@ -47,12 +57,10 @@ public class Reinforcement : MonoScript
 
     // 位置適用済みフラグ
     private bool positionApplied = false;
-    // 退散中フラグ
-    private bool isRetreating = false;
+    // 状態
+    private State state = State.Approaching;
     // 退散速度
     private Vector3 retreatVelocity = Vector3.zero;
-    // タイマー
-    private float timer = 0.0f;
     // スポーン時の衝突防止用フレームカウンタ
     private int spawnDelayFrames = 5;
 
@@ -65,6 +73,8 @@ public class Reinforcement : MonoScript
     private Vector4 originalColor = Vector4.one;
     private bool colorSaved = false;
 
+    private float stoppingTimer = 0.0f;
+
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -72,9 +82,8 @@ public class Reinforcement : MonoScript
     public override void Initialize()
     {
         positionApplied = false;
-        isRetreating = false;
-        isCollisionEnabled = false; 
-        timer = 0.0f;
+        state = State.Approaching;
+        isCollisionEnabled = false;
         spawnDelayFrames = 2; // スポーン直後は無効化
         colorSaved = false;
         cameraEntity = ecsGroup.FindEntity("Camera");
@@ -97,15 +106,9 @@ public class Reinforcement : MonoScript
         }
 
         // 退散中でなければ当たり判定を有効にする
-        if (!isRetreating)
+        if (state != State.Retreating)
         {
             isCollisionEnabled = true;
-        }
-
-        // タイマー更新と寿命チェック
-        if (UpdateTimer())
-        {
-            return;
         }
 
         // 画面内判定と色の変更
@@ -142,36 +145,10 @@ public class Reinforcement : MonoScript
         // ここではまだ isCollisionEnabled = true にしない（Update内のフレーム遅延に任せる）
     }
 
-    private bool UpdateTimer()
-    {
-        // タイマー更新
-        timer += Time.deltaTime;
-
-        // 寿命チェック
-        if (timer < lifeTime)
-        {
-            return false;
-        }
-
-        // 寿命切れ
-        if (isCollisionEnabled)
-        {
-            // 退散開始
-            Retreat();
-        }
-        else
-        {
-            // 画面外なのですぐ消す
-            entity.Destroy();
-            return true;
-        }
-        return false;
-    }
-
     private void UpdateFrustumVisibility()
     {
-        // 退散中は色の変更を行わない
-        if (isRetreating)
+        // 退散中は当たり判定無効のまま
+        if (state == State.Retreating)
         {
             return;
         }
@@ -217,15 +194,28 @@ public class Reinforcement : MonoScript
 
     private void UpdateMovement()
     {
-        // 退散中は退散移動
-        if (isRetreating)
+        switch (state)
         {
-            UpdateRetreatMovement();
+            case State.Approaching:
+                UpdateApproachingMovement();
+                break;
+            case State.Retreating:
+                UpdateRetreatMovement();
+                break;
         }
-        else
+    }
+
+    private void UpdateApproachingMovement()
+    {
+        // 通常移動
+        float speed = moveSpeed * (stoppingTimer > 0 ? SPEED_SLOW_RATE : 1.0f);
+        transform.position += direction.Normalized() * speed * Time.deltaTime;
+
+        // 何もせずに画面外に行った
+        // Colliderが有効(つまり、1度以上画面内に入った)かつ画面外に出たら消す
+        if (!isCollisionEnabled && !IsInScreenFrustum())
         {
-            // 通常移動
-            transform.position += direction.Normalized() * moveSpeed * Time.deltaTime;
+            entity.Destroy();
         }
     }
 
@@ -268,7 +258,7 @@ public class Reinforcement : MonoScript
     public override void OnDestroy()
     {
         // 退散命令で消えた場合は死亡扱いにしない
-        if (!isRetreating)
+        if (state != State.Retreating)
         {
             onDied?.Invoke(this);
         }
@@ -300,13 +290,13 @@ public class Reinforcement : MonoScript
     public void Retreat()
     {
         // すでに退散中なら何もしない
-        if (isRetreating)
+        if (state == State.Retreating)
         {
             return;
         }
 
         // 退散開始
-        isRetreating = true;
+        state = State.Retreating;
         retreatVelocity = ComputeRetreatVelocity();
     }
 
@@ -326,6 +316,15 @@ public class Reinforcement : MonoScript
 
         // 退散速度を計算して返す
         return retreatDir * retreatSpeed;
+    }
+
+    // =========================================================
+    // 渋滞時の処理
+    // =========================================================
+
+    private void OnSlow()
+    {
+        stoppingTimer = SPEED_SLOW_TIME;
     }
 
     // =========================================================
@@ -380,5 +379,31 @@ public class Reinforcement : MonoScript
             }
         }
         return new Vector3(0, -1, 0);
+    }
+
+    public override void OnCollisionEnter(Entity collision)
+    {
+        // ボスとの当たり判定
+        SampleBossComponent boss = collision.GetScript<SampleBossComponent>();
+        if (boss != null)
+        {
+            AttackBoss();
+            return;
+        }
+
+        // 援軍同士の当たり判定
+        Reinforcement rhsReinforcement = collision.GetScript<Reinforcement>();
+        if (rhsReinforcement != null && state != State.Retreating)
+        {
+            Vector3 distance = collision.transform.position - transform.position;
+            Vector3 direction = distance.Normalized();
+
+            if (Vector3.Dot(direction, transform.forward) > Mathf.Cos(Mathf.PI / 2))
+            {
+                OnSlow();
+            }
+
+            return;
+        }
     }
 }
