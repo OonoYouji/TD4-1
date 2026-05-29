@@ -272,10 +272,6 @@
                         {
                             "enable": false,
                             "name": "Knockback"
-                        },
-                        {
-                            "enable": true,
-                            "name": "SampleBossComponent"
                         }
                     ],
                     "type": "Script"
@@ -305,15 +301,16 @@
                             }
                         }
                     },
-                    "meshPath": "./Assets/AssetsWorkspace/models_prot/enemy_main.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/boss.obj",
                     "type": "MeshRenderer"
                 },
                 {
                     "categoryBits": 8,
                     "enable": 1,
-                    "maskBits": 36,
-                    "radius": 2.5,
-                    "state": "Dynamic",
+                    "freezeY": true,
+                    "maskBits": 4,
+                    "radius": 5.0,
+                    "state": "Static",
                     "type": "SphereCollider"
                 }
             ],
@@ -390,6 +387,7 @@
                 {
                     "categoryBits": 1,
                     "enable": 1,
+                    "freezeY": false,
                     "maskBits": 4294967295,
                     "size": {
                         "x": 2.0,

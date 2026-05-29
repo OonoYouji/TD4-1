@@ -1,14 +1,14 @@
 {
     "BossAI": {
-        "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json"
+        "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json"
     },
     "DamageHandler": {
-        "cooldownTimer": -0.005718282423913479,
+        "cooldownTimer": 0.00011119619011878967,
         "damageCooldownTime": 0.20000000298023224
     },
     "HP": {
         "MAX_HP": 1000,
-        "currentHp": 1000
+        "currentHp": 990
     },
     "Knockback": {
         "KNOCKBACK_DECAY": 5.0,
@@ -17,7 +17,7 @@
         "knockbackVelocity": {
             "x": 0.0,
             "y": 0.0,
-            "z": 0.0
+            "z": -3.52201771736145
         }
     },
     "SampleBossComponent": {

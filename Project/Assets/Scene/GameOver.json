@@ -144,7 +144,7 @@
                 }
             ],
             "guid": "b8239d48b120ce577e148c0870d37d33",
-            "id": 3,
+            "id": 4,
             "name": "2DCamera",
             "parent": null,
             "prefabName": ""
@@ -187,7 +187,7 @@
                 }
             ],
             "guid": "e059d18c3aa6d0577e148c0870d37d34",
-            "id": 4,
+            "id": 5,
             "name": "OverSprites",
             "parent": null,
             "prefabName": ""
@@ -227,7 +227,7 @@
                             "y": 1.0,
                             "z": 1.0
                         },
-                        "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
+                        "baseTextureGuid": "1476ae40d1dbef533dcb6dc8f3b99a91",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 0,
@@ -247,9 +247,9 @@
                 }
             ],
             "guid": "6352579a8b80b8a956bd45eeb7b0c4df",
-            "id": 5,
+            "id": 3,
             "name": "GameOverText",
-            "parent": 4,
+            "parent": 5,
             "prefabName": ""
         },
         {
@@ -309,7 +309,7 @@
             "guid": "74ff339484eae82538e7245fbb9d7d65",
             "id": 6,
             "name": "PushButton",
-            "parent": 4,
+            "parent": 5,
             "prefabName": ""
         },
         {

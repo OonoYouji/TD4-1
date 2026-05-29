@@ -12,11 +12,20 @@ class HP : MonoScript
 
     public void TakeDamage(int damage)
     {
+        Debug.Log($"[HP] {entity.name} taking {damage} damage. Current HP: {currentHp} -> {currentHp - damage}");
         currentHp -= damage;
-        if (currentHp < 0)
+        if (currentHp <= 0)
         {
             currentHp = 0;
+            OnDead();
         }
+    }
+
+    private void OnDead()
+    {
+        // 死亡時にエンティティを削除
+        // これにより、ReinforcementManager などの OnDestroy コールバックが走る
+        entity.Destroy();
     }
     public void Heal(int healAmount)
     {

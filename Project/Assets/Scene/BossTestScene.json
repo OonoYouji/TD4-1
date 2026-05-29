@@ -254,11 +254,20 @@
                     "targetEntityId": 0,
                     "type": "AgentIntentComponent",
                     "useDesiredRotation": true
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 39,
+                    "radius": 3.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "24f5af7795d0a296fcd6f33968ddb735",
             "id": 4,
-            "name": "Boss_Beam",
+            "name": "Boss",
             "parent": null,
             "prefabName": ""
         },
@@ -356,6 +365,15 @@
                     "targetEntityId": 0,
                     "type": "AgentIntentComponent",
                     "useDesiredRotation": false
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 39,
+                    "radius": 3.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "e50e44c88348cf7d62206fcc9b6613a4",
@@ -458,6 +476,15 @@
                     "targetEntityId": 0,
                     "type": "AgentIntentComponent",
                     "useDesiredRotation": false
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 39,
+                    "radius": 3.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "3536c1dd30f7f0e8aae36ef24b56dc1c",
@@ -560,6 +587,15 @@
                     "targetEntityId": 0,
                     "type": "AgentIntentComponent",
                     "useDesiredRotation": false
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 39,
+                    "radius": 3.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "e353cc758bad3a47a0f671bcccd87fac",
@@ -662,6 +698,15 @@
                     "targetEntityId": 0,
                     "type": "AgentIntentComponent",
                     "useDesiredRotation": false
+                },
+                {
+                    "categoryBits": 8,
+                    "enable": 1,
+                    "freezeY": true,
+                    "maskBits": 39,
+                    "radius": 3.5,
+                    "state": "Dynamic",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "11fa7e3b396806de7fbfa79eee1fd645",

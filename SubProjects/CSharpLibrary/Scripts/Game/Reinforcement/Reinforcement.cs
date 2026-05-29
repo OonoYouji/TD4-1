@@ -53,6 +53,8 @@ public class Reinforcement : MonoScript
     private Vector3 retreatVelocity = Vector3.zero;
     // タイマー
     private float timer = 0.0f;
+    // スポーン時の衝突防止用フレームカウンタ
+    private int spawnDelayFrames = 5;
 
     // カメラのEntity
     private Entity cameraEntity = null;
@@ -71,8 +73,9 @@ public class Reinforcement : MonoScript
     {
         positionApplied = false;
         isRetreating = false;
-        isCollisionEnabled = false;
+        isCollisionEnabled = false; 
         timer = 0.0f;
+        spawnDelayFrames = 2; // スポーン直後は無効化
         colorSaved = false;
         cameraEntity = ecsGroup.FindEntity("Camera");
         playerEntity = ecsGroup.FindEntity("Player");
@@ -82,8 +85,22 @@ public class Reinforcement : MonoScript
     {
         // 取得できてないEntityを再取得しておく
         ReacquireEntities();
+        
         // 初期位置を適用
         ApplyInitialPosition();
+
+        if (spawnDelayFrames > 0)
+        {
+            spawnDelayFrames--;
+            isCollisionEnabled = false;
+            return; 
+        }
+
+        // 退散中でなければ当たり判定を有効にする
+        if (!isRetreating)
+        {
+            isCollisionEnabled = true;
+        }
 
         // タイマー更新と寿命チェック
         if (UpdateTimer())
@@ -91,7 +108,7 @@ public class Reinforcement : MonoScript
             return;
         }
 
-        // 画面内判定と当たり判定の有効化
+        // 画面内判定と色の変更
         UpdateFrustumVisibility();
         // 移動更新
         UpdateMovement();
@@ -115,14 +132,14 @@ public class Reinforcement : MonoScript
 
     private void ApplyInitialPosition()
     {
-        // すでに適用済みなら何もしない
-        if (positionApplied)
-        {
-            return;
-        }
-        //  初期位置の適応
+        if (positionApplied) return;
+
+        // startPositionが(0,0,0)の場合は、まだセットされていない可能性があるため待機
+        if (startPosition.Length() < 0.001f) return;
+
         transform.position = startPosition;
         positionApplied = true;
+        // ここではまだ isCollisionEnabled = true にしない（Update内のフレーム遅延に任せる）
     }
 
     private bool UpdateTimer()
@@ -153,7 +170,7 @@ public class Reinforcement : MonoScript
 
     private void UpdateFrustumVisibility()
     {
-        // 退散中は当たり判定無効のまま
+        // 退散中は色の変更を行わない
         if (isRetreating)
         {
             return;
@@ -169,8 +186,7 @@ public class Reinforcement : MonoScript
         // 当たり判定の有効化と色の変更
         if (inFrustum)
         {
-            // 画面内なので当たり判定有効化
-            isCollisionEnabled = true;
+            // 画面内なので色を変更
             if (meshRenderer != null)
             {
                 meshRenderer.color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f);
@@ -178,8 +194,7 @@ public class Reinforcement : MonoScript
         }
         else
         {
-            // 画面外なので当たり判定無効化
-            isCollisionEnabled = false;
+            // 画面外なので元の色に戻す
             if (meshRenderer != null && colorSaved)
             {
                 meshRenderer.color = originalColor;
