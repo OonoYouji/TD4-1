@@ -52,7 +52,8 @@ public:
 	/// @brief シーンの統計情報の描画
 	void DrawSceneOverlayStats(
 		const ImVec2& imagePos,
-		const std::vector<OverlaySection>& sections
+		const std::vector<OverlaySection>& sections,
+		float xOffset
 	);
 private:
 	/// ===================================================

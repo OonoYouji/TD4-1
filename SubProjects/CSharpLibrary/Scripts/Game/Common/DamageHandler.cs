@@ -70,18 +70,21 @@ public class DamageHandler : MonoScript
 
     public override void OnCollisionEnter(Entity other)
     {
+        if (other == null || other.Id == 0) return;
         // Debug.Log($"[DamageHandler] {entity.name} OnCollisionEnter with {other.name}");
         HandleCollision(other);
     }
 
     public override void OnCollisionStay(Entity other)
     {
+        if (other == null || other.Id == 0) return;
         HandleCollision(other);
     }
 
     private void HandleCollision(Entity other)
     {
         if (cooldownTimer > 0) return;
+        if (other.transform == null) return;
 
         // プレイヤーの弾との衝突判定
         PlayerBullet bullet = other.GetScript<PlayerBullet>();

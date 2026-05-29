@@ -61,6 +61,9 @@ public class Reinforcement : MonoScript
     // プレイヤーのEntity
     private Entity playerEntity = null;
 
+    // 破棄予約フラグ
+    private bool isDestroyReserved = false;
+
     // 元の色を保持
     private Vector4 originalColor = Vector4.one;
     private bool colorSaved = false;
@@ -74,15 +77,31 @@ public class Reinforcement : MonoScript
         positionApplied = false;
         isRetreating = false;
         isCollisionEnabled = false; 
+        isDestroyReserved = false; // 初期化
         timer = 0.0f;
         spawnDelayFrames = 2; // スポーン直後は無効化
         colorSaved = false;
         cameraEntity = ecsGroup.FindEntity("Camera");
         playerEntity = ecsGroup.FindEntity("Player");
+
+        // HPを確実に10に固定
+        HP hp = entity.GetScript<HP>();
+        if (hp != null)
+        {
+            hp.MAX_HP = 10;
+            hp.currentHp = 10;
+        }
     }
 
     public override void Update()
     {
+        // 破棄予約があれば即座に削除して終了
+        if (isDestroyReserved)
+        {
+            entity.Destroy();
+            return;
+        }
+
         // 取得できてないEntityを再取得しておく
         ReacquireEntities();
         
@@ -97,8 +116,9 @@ public class Reinforcement : MonoScript
         }
 
         // 退散中でなければ当たり判定を有効にする
-        if (!isRetreating)
+        if (!isRetreating && !isCollisionEnabled)
         {
+            Debug.Log($"<color=green>[Reinforcement:Enable]</color> Collision enabled for {entity.name} (ID:{entity.Id}) after delay.");
             isCollisionEnabled = true;
         }
 
@@ -139,7 +159,6 @@ public class Reinforcement : MonoScript
 
         transform.position = startPosition;
         positionApplied = true;
-        // ここではまだ isCollisionEnabled = true にしない（Update内のフレーム遅延に任せる）
     }
 
     private bool UpdateTimer()
@@ -270,6 +289,14 @@ public class Reinforcement : MonoScript
         // 退散命令で消えた場合は死亡扱いにしない
         if (!isRetreating)
         {
+            // 死亡演出の生成
+            Debug.Log($"<color=red>[Reinforcement:OnDestroy]</color> Spawning death effect for {entity.name}");
+            Entity effect = ecsGroup.CreateEntity("ReinforcementDeathEffect");
+            if (effect != null)
+            {
+                effect.transform.position = transform.position;
+            }
+
             onDied?.Invoke(this);
         }
     }
@@ -280,9 +307,10 @@ public class Reinforcement : MonoScript
 
     public void TakeDamage()
     {
-        entity.Destroy();
+        if (isDestroyReserved) return;
+        Debug.Log($"<color=red>[Reinforcement:Hit]</color> {entity.name} (ID:{entity.Id}) was DESTROYED by an attack.");
+        isDestroyReserved = true;
     }
-
     // =========================================================
     // 攻撃
     // =========================================================

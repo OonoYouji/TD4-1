@@ -88,6 +88,7 @@ public static class BehaviorTreeLoader
             if (type != null)
             {
                 BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
+                node.NodeId = (int)id; // 生のIDを保存
                 node.NodeIdHash = (uint)id;
                 node.name = (string)n["name"] ?? className;
                 if (string.IsNullOrEmpty(node.name)) node.name = className;

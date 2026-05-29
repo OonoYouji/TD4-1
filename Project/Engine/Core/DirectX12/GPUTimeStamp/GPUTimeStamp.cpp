@@ -81,17 +81,20 @@ void GPUTimeStamp::EndTimeStamp(GPUTimeStampID id) {
 }
 
 double GPUTimeStamp::GetTimeStampMSec(GPUTimeStampID id) {
+	if (resultsMSec_.empty()) return -1.0;
 	CheckOutOfRange(id);
 	return resultsMSec_[static_cast<uint32_t>(id)];
 }
 
 void GPUTimeStamp::FetchResults() {
+	if (!readBackResource_.Get()) return;
+
 	uint64_t* data = nullptr;
 	D3D12_RANGE readRange = { 0, sizeof(uint64_t) * maxTimerCount_ * kTimestampPerTimer };
 
 	HRESULT hr = readBackResource_.Get()->Map(0, &readRange, reinterpret_cast<void**>(&data));
 	if (FAILED(hr)) return;
-
+// ... (rest of the method)
 	for (uint32_t i = 0; i < maxTimerCount_; i++) {
 		uint32_t index = i * kTimestampPerTimer;
 		uint64_t startTime = data[index];

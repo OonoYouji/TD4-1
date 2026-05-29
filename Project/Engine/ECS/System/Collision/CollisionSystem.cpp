@@ -578,9 +578,25 @@ bool CheckMethod::CollisionCheckBoxVsBox(BoxCollider* _b1, BoxCollider* _b2, Col
 
 	Vector3 outNormal;
 	float outPenetration;
+	
+	Transform* t1 = e1->GetTransform();
+	Transform* t2 = e2->GetTransform();
+
+	Vector3 size1 = Vector3(
+		_b1->GetSize().x * t1->scale.x,
+		_b1->GetSize().y * t1->scale.y,
+		_b1->GetSize().z * t1->scale.z
+	);
+
+	Vector3 size2 = Vector3(
+		_b2->GetSize().x * t2->scale.x,
+		_b2->GetSize().y * t2->scale.y,
+		_b2->GetSize().z * t2->scale.z
+	);
+
 	bool collided = CollisionCheck::CubeVsCube(
-		e1->GetPosition(), _b1->GetSize(),
-		e2->GetPosition(), _b2->GetSize(),
+		e1->GetPosition(), size1,
+		e2->GetPosition(), size2,
 		&outNormal, &outPenetration
 	);
 

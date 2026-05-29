@@ -11,57 +11,57 @@
             "path": "./GameScene/Camera2D.entity"
         },
         {
-            "id": 5,
+            "id": 7,
             "parent": null,
             "path": "./GameScene/Light.entity"
         },
         {
-            "id": 12,
+            "id": 10,
             "parent": null,
             "path": "./GameScene/Player.entity"
         },
         {
-            "id": 7,
+            "id": 3,
             "parent": null,
             "path": "./GameScene/Background.entity"
         },
         {
-            "id": 13,
-            "parent": 7,
+            "id": 11,
+            "parent": 3,
             "path": "./GameScene/Field.entity"
         },
         {
-            "id": 3,
+            "id": 5,
             "parent": 2,
             "path": "./GameScene/PlayerHP.entity"
         },
         {
-            "id": 4,
+            "id": 12,
             "parent": null,
             "path": "./GameScene/Player2DRoot.entity"
         },
         {
-            "id": 6,
-            "parent": 4,
+            "id": 13,
+            "parent": 12,
             "path": "./GameScene/ShotControl.entity"
         },
         {
-            "id": 8,
-            "parent": 6,
+            "id": 4,
+            "parent": 13,
             "path": "./GameScene/Gamepad.entity"
         },
         {
-            "id": 9,
-            "parent": 6,
+            "id": 6,
+            "parent": 13,
             "path": "./GameScene/KBM.entity"
         },
         {
-            "id": 10,
-            "parent": 6,
+            "id": 8,
+            "parent": 13,
             "path": "./GameScene/TextSprite.entity"
         },
         {
-            "id": 11,
+            "id": 9,
             "parent": 2,
             "path": "./GameScene/SpreadUi.entity"
         },
