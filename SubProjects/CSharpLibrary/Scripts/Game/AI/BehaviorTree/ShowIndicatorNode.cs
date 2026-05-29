@@ -128,9 +128,6 @@ public class ShowIndicatorNode : BehaviorNode
                 uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
                 Vector3 currentTarget = blackboard.GetVector3(targetKeyHash);
                 
-                // 超詳細ログ
-                Debug.Log($"<color=cyan>[TRACE:Indicator]</color> {owner.name}(ID:{owner.Id}) READ {targetPosKey}({targetKeyHash}) = {Vector3.ToSimpleString(currentTarget)}");
-
                 // サンリティチェック
                 if (currentTarget.sqrMagnitude < 0.0001f)
                 {
@@ -146,7 +143,6 @@ public class ShowIndicatorNode : BehaviorNode
 
             blackboard.SetFloat(startTimeKey, currentTime);
 
-            Debug.Log($"<color=cyan>[Indicator]</color> {owner.name} spawned {shape} telegraph for {finalDuration}s");
             return NodeStatus.Running;
         }
 

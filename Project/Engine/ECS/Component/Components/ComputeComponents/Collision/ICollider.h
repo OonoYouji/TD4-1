@@ -86,6 +86,18 @@ public:
 		freezeY_ = _freeze;
 	}
 
+	/// @brief 質量を返す
+	/// @return 質量
+	float GetMass() const {
+		return mass_;
+	}
+
+	/// @brief 質量を設定する
+	/// @param _mass 質量
+	void SetMass(float _mass) {
+		mass_ = _mass;
+	}
+
 
 protected:
 	/// ===================================================
@@ -95,6 +107,7 @@ protected:
 	Vector3 prevPosition_;
 	bool enablePushBack_ = true;
 	bool freezeY_ = false;
+	float mass_ = 1.0f;
 	CollisionState collisionState_ = CollisionState::Dynamic;
 
 	uint32_t categoryBits_ = static_cast<uint32_t>(CollisionFilter::Default);

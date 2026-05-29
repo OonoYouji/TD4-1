@@ -10,6 +10,7 @@ using namespace ONEngine;
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/CustomMeshRenderer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
+#include "Engine/Core/DirectX12/GPUTimeStamp/GPUTimeStamp.h"
 
 
 MeshRenderingPipeline::MeshRenderingPipeline(Asset::AssetCollection* _assetCollection)
@@ -83,6 +84,8 @@ void MeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _camera,
 		return;
 	}
 
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::MeshRendering);
+
 	/// mesh path ごとに mesh renderer を分類
 	std::unordered_map<std::string, std::list<MeshRenderer*>> pathMeshMap;
 	for (const auto& meshRenderer : meshRendererArray->GetUsedComponents()) {
@@ -117,6 +120,8 @@ void MeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _camera,
 	instanceIndex_ = 0;
 
 	RenderingMesh(cmdList, &pathMeshMap, textures);
+
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::MeshRendering);
 }
 
 void MeshRenderingPipeline::RenderingMesh(ID3D12GraphicsCommandList* _cmdList, std::unordered_map<std::string, std::list<MeshRenderer*>>* _meshRendererPerMesh, const std::vector<Asset::Texture>& _textures) {
@@ -183,3 +188,4 @@ void MeshRenderingPipeline::RenderingMesh(ID3D12GraphicsCommandList* _cmdList, s
 		instanceIndex_ += static_cast<UINT>(renderers.size());
 	}
 }
+

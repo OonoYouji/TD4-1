@@ -131,6 +131,26 @@ void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
 		sections.push_back(cpuSection);
 	}
 
+	{
+		/// GPUパフォーマンス セクション
+		auto& gpu = ONEngine::GPUTimeStamp::GetInstance();
+		OverlaySection gpuSection;
+		gpuSection.name = "GPUパフォーマンス";
+		gpuSection.opened = true;
+		gpuSection.items = {
+			{ "Total GPU", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::RenderingTotal)), IM_COL32(255, 255, 100, 255) },
+			{ "ShadowMap", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::ShadowMap)), IM_COL32(255, 255, 255, 255) },
+			{ "MainScene", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::MainScene)), IM_COL32(255, 255, 255, 255) },
+			{ "PostProcess", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::PostProcess)), IM_COL32(255, 255, 255, 255) },
+			{ "Mesh", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::MeshRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "SkinMesh", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::SkinMeshRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "Dissolve", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::DissolveMeshRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "Sprite", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::SpriteRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "Particle", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::ParticleRendering)), IM_COL32(200, 200, 255, 255) }
+		};
+		sections.push_back(gpuSection);
+	}
+
 	// 描画
 	DrawSceneOverlayStats(imagePos, sections);
 }

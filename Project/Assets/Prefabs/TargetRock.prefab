@@ -4,9 +4,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 15.007010459899902,
+                "x": -8.813302040100098,
                 "y": 0.9359276294708252,
-                "z": -42.0762939453125
+                "z": 38.896297454833984
             },
             "rotate": {
                 "w": 1.0,
@@ -64,12 +64,27 @@
         },
         {
             "categoryBits": 32,
-            "enable": 1,
+            "enable": 0,
             "freezeY": true,
             "maskBits": 38,
+            "mass": 50.0,
             "radius": 10.199999809265137,
             "state": "Dynamic",
             "type": "SphereCollider"
+        },
+        {
+            "categoryBits": 32,
+            "enable": 1,
+            "freezeY": true,
+            "maskBits": 38,
+            "mass": 50.0,
+            "size": {
+                "x": 6.0,
+                "y": 5.999998092651367,
+                "z": 5.999998092651367
+            },
+            "state": "Dynamic",
+            "type": "BoxCollider"
         }
     ],
     "guid": "28a94ec6613a456916dc233c40fbc746",

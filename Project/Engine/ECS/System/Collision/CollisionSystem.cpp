@@ -425,12 +425,20 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 		if (bCol && bCol->IsFreezeY()) pos.y = _b->GetPosition().y;
 		_b->SetPosition(pos);
 	} else if(aDynamic && bDynamic) {
-		// 両方Dynamicなら半分ずつ押し戻す
-		Vector3 posA = _a->GetPosition() - correction * 0.5f;
+		// 両方Dynamicなら重量比で押し戻す
+		float aMass = aCol ? aCol->GetMass() : 1.0f;
+		float bMass = bCol ? bCol->GetMass() : 1.0f;
+		float totalMass = aMass + bMass;
+
+		// 重い方ほど動かない（逆比を掛ける）
+		float aRatio = bMass / totalMass;
+		float bRatio = aMass / totalMass;
+
+		Vector3 posA = _a->GetPosition() - correction * aRatio;
 		if (aCol && aCol->IsFreezeY()) posA.y = _a->GetPosition().y;
 		_a->SetPosition(posA);
 
-		Vector3 posB = _b->GetPosition() + correction * 0.5f;
+		Vector3 posB = _b->GetPosition() + correction * bRatio;
 		if (bCol && bCol->IsFreezeY()) posB.y = _b->GetPosition().y;
 		_b->SetPosition(posB);
 	}

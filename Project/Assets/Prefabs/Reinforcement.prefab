@@ -69,13 +69,15 @@
         {
             "categoryBits": 4,
             "enable": 1,
+            "freezeY": true,
             "maskBits": 44,
+            "mass": 1.0,
             "radius": 1.0,
             "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],
-    "guid": "23ec042a92310c55bc73dd2d94a2f692",
+    "guid": "311115772fcdf96b92ea0cd3fd1a997c",
     "id": 2,
     "name": "Reinforcement",
     "parent": null,
