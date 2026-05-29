@@ -22,6 +22,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/ShadowCaster/ShadowCaster.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Animator/Animator.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Animation/AnimationPlayer.h"
 
 /// engine/renderer
 #include "Engine/ECS/Component/Components/RendererComponents/Skybox/Skybox.h"
@@ -61,6 +62,7 @@ namespace {
 			Register<VoxelTerrain>();
 			Register<AgentIntentComponent>();
 			Register<Animator>();
+			Register<AnimationPlayer>();
 
 			/// renderer
 			Register<SpriteRenderer>();

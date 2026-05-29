@@ -19,6 +19,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/VoxelTerrain/VoxelTerrain.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Animator/Animator.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Animation/AnimationPlayer.h"
 
 /// renderer
 #include "Engine/ECS/Component/Components/RendererComponents/Skybox/Skybox.h"
@@ -50,6 +51,7 @@ inline void AddComponentFactoryFunction(ComponentCollection* _compCollection) {
 	_compCollection->RegisterComponentFactory<VoxelTerrain>();
 	_compCollection->RegisterComponentFactory<AgentIntentComponent>();
 	_compCollection->RegisterComponentFactory<Animator>();
+	_compCollection->RegisterComponentFactory<AnimationPlayer>();
 
 
 	/// renderer
