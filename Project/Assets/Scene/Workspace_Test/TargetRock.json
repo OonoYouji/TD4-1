@@ -1,6 +1,6 @@
 {
     "FallingRock": {
-        "_hasImpacted": true,
+        "_hasImpacted": false,
         "_isFalling": false,
         "_targetPos": {
             "x": 0.0,
