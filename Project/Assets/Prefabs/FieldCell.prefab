@@ -49,12 +49,12 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "meshPath": "./Assets/Models/Block/ruins_block1.obj",
             "type": "MeshRenderer"
         }
     ],
-    "guid": "aabbccddeeff0011aabbccddeeff0001",
-    "id": 0,
+    "guid": "5ae8957cb14c5f83eb37524050003f1c",
+    "id": 2,
     "name": "FieldCell",
     "parent": null,
     "prefabName": "FieldCell"

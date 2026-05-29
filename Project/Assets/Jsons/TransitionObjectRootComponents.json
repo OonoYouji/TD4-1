@@ -22,5 +22,23 @@
     },
     {
         "type": "Variables"
+    },
+    {
+        "enable": 1,
+        "scripts": [
+            {
+                "enable": true,
+                "name": "SceneTransitionController"
+            },
+            {
+                "enable": false,
+                "name": "TransitionOut"
+            },
+            {
+                "enable": true,
+                "name": "TransitionIn"
+            }
+        ],
+        "type": "Script"
     }
 ]

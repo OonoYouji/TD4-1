@@ -1405,11 +1405,21 @@
                 },
                 {
                     "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FieldManager"
+                        }
+                    ],
+                    "type": "Script"
                 }
             ],
             "guid": "6905331cab306480fdc52e2457c803bc",
             "id": 24,
-            "name": "NewEntity",
+            "name": "FieldManager",
             "parent": null,
             "prefabName": ""
         }

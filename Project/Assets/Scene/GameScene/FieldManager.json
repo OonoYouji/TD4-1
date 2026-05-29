@@ -1,8 +1,8 @@
 {
-    "Field": {
-        "rows": 10,
-        "columns": 10,
-        "cellSize": 4.0,
-        "cellHeight": 1.0
+    "FieldManager": {
+        "cellHeight": 1.0,
+        "cellSize": 6.0,
+        "columns": 11,
+        "rows": 11
     }
 }

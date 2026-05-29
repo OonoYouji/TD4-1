@@ -182,7 +182,9 @@
     <Compile Include="Scripts\Game\UI\SceneTransition.cs" />
     <Compile Include="Scripts\Game\UI\UiController.cs" />
     <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
-    <Compile Include="Scripts\Game\Field\Field.cs" />
+    <Compile Include="Scripts\Game\Field\FieldCellType.cs" />
+    <Compile Include="Scripts\Game\Field\FieldCell.cs" />
+    <Compile Include="Scripts\Game\Field\FieldManager.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement.cs" />
     <Compile Include="Scripts\Game\Reinforcement\ReinforcementManager.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
