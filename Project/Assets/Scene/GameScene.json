@@ -23,9 +23,9 @@
                     "enable": 1,
                     "matrixCalcFlags": 7,
                     "position": {
-                        "x": 127.25533294677734,
+                        "x": -0.19604730606079102,
                         "y": 57.19154357910156,
-                        "z": 107.26036071777344
+                        "z": -47.80303955078125
                     },
                     "rotate": {
                         "w": 0.7713119983673096,
@@ -154,7 +154,7 @@
                 }
             ],
             "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "id": 9,
+            "id": 3,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -170,9 +170,9 @@
                         "z": -41.80303955078125
                     },
                     "rotate": {
-                        "w": 0.853611171245575,
+                        "w": 0.8510141968727112,
                         "x": 0.0,
-                        "y": -0.5209106802940369,
+                        "y": -0.5251427292823792,
                         "z": 0.0
                     },
                     "scale": {
@@ -233,7 +233,7 @@
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 10,
+            "id": 4,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -266,7 +266,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 11,
+            "id": 5,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -337,9 +337,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 12,
+            "id": 6,
             "name": "Field",
-            "parent": 11,
+            "parent": 5,
             "prefabName": ""
         },
         {
@@ -454,7 +454,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 15,
+            "id": 8,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -497,9 +497,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 16,
+            "id": 9,
             "name": "ShotControl",
-            "parent": 15,
+            "parent": 8,
             "prefabName": ""
         },
         {
@@ -557,9 +557,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 17,
+            "id": 10,
             "name": "Gamepad",
-            "parent": 16,
+            "parent": 9,
             "prefabName": ""
         },
         {
@@ -617,9 +617,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 4,
+            "id": 11,
             "name": "KBM",
-            "parent": 16,
+            "parent": 9,
             "prefabName": ""
         },
         {
@@ -660,9 +660,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 6,
+            "id": 12,
             "name": "TextSprite",
-            "parent": 16,
+            "parent": 9,
             "prefabName": ""
         },
         {
@@ -703,7 +703,7 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 8,
+            "id": 13,
             "name": "SpreadUi",
             "parent": 2,
             "prefabName": ""
@@ -754,7 +754,7 @@
                 }
             ],
             "guid": "1f56d73a44f9f513b3002569ecbb46a6",
-            "id": 18,
+            "id": 14,
             "name": "TransitionObjectRoot",
             "parent": null,
             "prefabName": ""
@@ -816,12 +816,20 @@
                         }
                     },
                     "type": "SpriteRenderer"
+                },
+                {
+                    "categoryBits": 1,
+                    "enable": 1,
+                    "maskBits": 2,
+                    "radius": 1.0,
+                    "state": "Static",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "92b677a53d8e214b20aef9841c4faf0e",
-            "id": 19,
+            "id": 15,
             "name": "Left",
-            "parent": 18,
+            "parent": 14,
             "prefabName": ""
         },
         {
@@ -852,7 +860,16 @@
                 },
                 {
                     "enable": 1,
-                    "scripts": null,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "BossBomb"
+                        },
+                        {
+                            "enable": true,
+                            "name": "DamageTrigger"
+                        }
+                    ],
                     "type": "Script"
                 },
                 {
@@ -881,12 +898,20 @@
                         }
                     },
                     "type": "SpriteRenderer"
+                },
+                {
+                    "categoryBits": 16,
+                    "enable": 1,
+                    "maskBits": 2,
+                    "radius": 1.0,
+                    "state": "Static",
+                    "type": "SphereCollider"
                 }
             ],
             "guid": "5e908571f41bee587496b2a0f61f0048",
-            "id": 20,
+            "id": 16,
             "name": "Right",
-            "parent": 18,
+            "parent": 14,
             "prefabName": ""
         },
         {
@@ -900,10 +925,10 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": 0.8933345675468445,
-                        "x": 0.004976239986717701,
-                        "y": -0.4493577778339386,
-                        "z": -0.0025041333865374327
+                        "w": -0.9210234880447388,
+                        "x": -0.017753897234797478,
+                        "y": -0.3890303373336792,
+                        "z": -0.007499052211642265
                     },
                     "scale": {
                         "x": 5.0,
@@ -975,7 +1000,7 @@
                 }
             ],
             "guid": "6190718f20ef1485d978d46962165d02",
-            "id": 21,
+            "id": 17,
             "name": "Boss",
             "parent": null,
             "prefabName": "Boss"
@@ -1008,7 +1033,7 @@
                 }
             ],
             "guid": "9bec876d747d51536a818072ab1eca1f",
-            "id": 22,
+            "id": 18,
             "name": "BossHP",
             "parent": null,
             "prefabName": "BossHP"
@@ -1068,9 +1093,9 @@
                 }
             ],
             "guid": "ee4f2f431ba652f889c0126bb0943ddb",
-            "id": 23,
+            "id": 19,
             "name": "BG",
-            "parent": 22,
+            "parent": 18,
             "prefabName": ""
         },
         {
@@ -1138,9 +1163,9 @@
                 }
             ],
             "guid": "e8e96265127d2553f9681e0c2e8db5ba",
-            "id": 24,
+            "id": 20,
             "name": "FG",
-            "parent": 22,
+            "parent": 18,
             "prefabName": ""
         }
     ]
