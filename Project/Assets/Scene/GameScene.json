@@ -25,11 +25,11 @@
                     "position": {
                         "x": -0.19604730606079102,
                         "y": 57.19154357910156,
-                        "z": -47.80303955078125
+                        "z": -49.14804458618164
                     },
                     "rotate": {
-                        "w": 0.7713119983673096,
-                        "x": 0.6364572644233704,
+                        "w": 0.9053602814674377,
+                        "x": 0.4246442914009094,
                         "y": -0.0,
                         "z": 0.0
                     },
@@ -154,7 +154,7 @@
                 }
             ],
             "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "id": 3,
+            "id": 5,
             "name": "Light",
             "parent": null,
             "prefabName": ""
@@ -233,7 +233,7 @@
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",
-            "id": 4,
+            "id": 8,
             "name": "Player",
             "parent": null,
             "prefabName": ""
@@ -266,7 +266,7 @@
                 }
             ],
             "guid": "4b2170a76e7d0236367c96751813e016",
-            "id": 5,
+            "id": 7,
             "name": "Background",
             "parent": null,
             "prefabName": ""
@@ -337,9 +337,9 @@
                 }
             ],
             "guid": "aa7af0136ac79da640be7510c63c00f0",
-            "id": 6,
+            "id": 9,
             "name": "Field",
-            "parent": 5,
+            "parent": 7,
             "prefabName": ""
         },
         {
@@ -407,7 +407,7 @@
                 }
             ],
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "id": 7,
+            "id": 3,
             "name": "PlayerHP",
             "parent": 2,
             "prefabName": ""
@@ -454,7 +454,7 @@
                 }
             ],
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "id": 8,
+            "id": 10,
             "name": "Player2DRoot",
             "parent": null,
             "prefabName": ""
@@ -497,9 +497,9 @@
                 }
             ],
             "guid": "acd3e3950d763de2cf669421024046b6",
-            "id": 9,
+            "id": 11,
             "name": "ShotControl",
-            "parent": 8,
+            "parent": 10,
             "prefabName": ""
         },
         {
@@ -557,9 +557,9 @@
                 }
             ],
             "guid": "4b21f44ef715b86fae07c176e33432f3",
-            "id": 10,
+            "id": 12,
             "name": "Gamepad",
-            "parent": 9,
+            "parent": 11,
             "prefabName": ""
         },
         {
@@ -617,9 +617,9 @@
                 }
             ],
             "guid": "6f4dd6e35752baa7a02f97b42112034e",
-            "id": 11,
+            "id": 13,
             "name": "KBM",
-            "parent": 9,
+            "parent": 11,
             "prefabName": ""
         },
         {
@@ -660,9 +660,9 @@
                 }
             ],
             "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-            "id": 12,
+            "id": 4,
             "name": "TextSprite",
-            "parent": 9,
+            "parent": 11,
             "prefabName": ""
         },
         {
@@ -703,215 +703,9 @@
                 }
             ],
             "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-            "id": 13,
+            "id": 6,
             "name": "SpreadUi",
             "parent": 2,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "SceneTransitionController"
-                        },
-                        {
-                            "enable": false,
-                            "name": "TransitionOut"
-                        },
-                        {
-                            "enable": true,
-                            "name": "TransitionIn"
-                        }
-                    ],
-                    "type": "Script"
-                }
-            ],
-            "guid": "1f56d73a44f9f513b3002569ecbb46a6",
-            "id": 14,
-            "name": "TransitionObjectRoot",
-            "parent": null,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -530.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1000.0,
-                        "y": 1160.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": null,
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                },
-                {
-                    "categoryBits": 1,
-                    "enable": 1,
-                    "maskBits": 2,
-                    "radius": 1.0,
-                    "state": "Static",
-                    "type": "SphereCollider"
-                }
-            ],
-            "guid": "92b677a53d8e214b20aef9841c4faf0e",
-            "id": 15,
-            "name": "Left",
-            "parent": 14,
-            "prefabName": ""
-        },
-        {
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 530.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1000.0,
-                        "y": 1160.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "BossBomb"
-                        },
-                        {
-                            "enable": true,
-                            "name": "DamageTrigger"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                },
-                {
-                    "categoryBits": 16,
-                    "enable": 1,
-                    "maskBits": 2,
-                    "radius": 1.0,
-                    "state": "Static",
-                    "type": "SphereCollider"
-                }
-            ],
-            "guid": "5e908571f41bee587496b2a0f61f0048",
-            "id": 16,
-            "name": "Right",
-            "parent": 14,
             "prefabName": ""
         },
         {
@@ -987,7 +781,7 @@
                             }
                         }
                     },
-                    "meshPath": "./Assets/AssetsWorkspace/models_prot/enemy_main.obj",
+                    "meshPath": "./Assets/AssetsWorkspace/models/boss.obj",
                     "type": "MeshRenderer"
                 },
                 {
@@ -1000,7 +794,7 @@
                 }
             ],
             "guid": "6190718f20ef1485d978d46962165d02",
-            "id": 17,
+            "id": 14,
             "name": "Boss",
             "parent": null,
             "prefabName": "Boss"
@@ -1033,7 +827,7 @@
                 }
             ],
             "guid": "9bec876d747d51536a818072ab1eca1f",
-            "id": 18,
+            "id": 15,
             "name": "BossHP",
             "parent": null,
             "prefabName": "BossHP"
@@ -1093,9 +887,9 @@
                 }
             ],
             "guid": "ee4f2f431ba652f889c0126bb0943ddb",
-            "id": 19,
+            "id": 16,
             "name": "BG",
-            "parent": 18,
+            "parent": 15,
             "prefabName": ""
         },
         {
@@ -1163,10 +957,93 @@
                 }
             ],
             "guid": "e8e96265127d2553f9681e0c2e8db5ba",
-            "id": 20,
+            "id": 17,
             "name": "FG",
-            "parent": 18,
+            "parent": 15,
             "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": -5.999340057373047,
+                        "y": 0.0,
+                        "z": 27.713491439819336
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 3.799999952316284,
+                        "y": 3.799999952316284,
+                        "z": 3.799999952316284
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        {
+                            "enable": true,
+                            "name": "FallingRock"
+                        }
+                    ],
+                    "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 0.4000000059604645,
+                            "y": 0.30000001192092896,
+                            "z": 0.20000000298023224
+                        },
+                        "baseTextureGuid": "00000000000000000000000000000000",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/cube.obj",
+                    "type": "MeshRenderer"
+                },
+                {
+                    "categoryBits": 1,
+                    "enable": 1,
+                    "maskBits": 4294967295,
+                    "size": {
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
+                    },
+                    "state": "Dynamic",
+                    "type": "BoxCollider"
+                }
+            ],
+            "guid": "0b2e9b710e098ef90439cc29985ae071",
+            "id": 18,
+            "name": "TargetRock",
+            "parent": null,
+            "prefabName": "BossRock"
         }
     ]
 }

@@ -9,10 +9,10 @@
                 "z": 0.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "w": -0.9210234880447388,
+                "x": -0.017753897234797478,
+                "y": -0.3890303373336792,
+                "z": -0.007499052211642265
             },
             "scale": {
                 "x": 5.0,
@@ -71,7 +71,7 @@
                     }
                 }
             },
-            "meshPath": "./Assets/AssetsWorkspace/models_prot/enemy_main.obj",
+            "meshPath": "./Assets/AssetsWorkspace/models/boss.obj",
             "type": "MeshRenderer"
         },
         {
@@ -84,7 +84,7 @@
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",
-    "id": 21,
+    "id": 17,
     "name": "Boss",
     "parent": null,
     "prefabName": "Boss"
