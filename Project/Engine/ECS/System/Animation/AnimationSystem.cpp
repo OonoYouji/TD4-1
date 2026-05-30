@@ -46,14 +46,18 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
     auto* ac = Asset::AssetCollection::GetInstance();
 
     for (auto& player : playerArray->GetUsedComponents()) {
-        if (!player || !player->enable || !player->isPlaying) continue;
+        if (!player || !player->enable) continue;
+        
+        // 再生中ではない、かつ強制適用フラグも立っていないならスキップ
+        if (!player->isPlaying && !player->shouldApplyOnce) continue;
 
-        // 時間の進行
-        player->currentTime += _deltaTime * player->speed;
+        // 時間の進行（再生中のみ）
+        if (player->isPlaying) {
+            player->currentTime += _deltaTime * player->speed;
+        }
 
-        // クリップの取得 (パス正規化を適用しつつ取得)
+        // クリップの取得
         std::string path = player->clipPath;
-        // AnimationPlayer::SetClipでも行っているが、ここでも安全のために確認
         if (!path.empty() && !path.starts_with("./") && !path.starts_with("/") && (path.starts_with("Assets") || path.starts_with("Packages"))) {
             path = "./" + path;
         }
@@ -62,30 +66,31 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
         auto* clip = ac->GetAsset<Asset::AnimationClip>(guid);
         
         if (!clip) {
-            static float logTimer = 0;
-            logTimer += _deltaTime;
-            if (logTimer > 2.0f) {
-                ONEngine::Console::LogWarning(std::format("[Anim] Missing clip: '{}' (GUID valid:{}) for '{}'", 
-                    path, guid.CheckValid(), player->GetOwner()->GetName()));
-                logTimer = 0;
-            }
+            player->shouldApplyOnce = false; // クリップがないならフラグを下ろす
             continue;
         }
 
         // バインドの確認
         if (!player->isBound || player->bindings.size() != clip->tracks.size()) {
-            ONEngine::Console::Log(std::format("[Anim] Binding tracks for '{}' using clip '{}'", player->GetOwner()->GetName(), clip->name));
             player->Bind();
         }
 
         // ループ/終了処理
-        if (player->currentTime > clip->duration) {
-            if (player->isLooping) {
-                player->currentTime = std::fmod(player->currentTime, clip->duration);
+        float startTime = clip->startFrame / 60.0f;
+        float endTime = clip->endFrame / 60.0f;
+        float loopDuration = endTime - startTime;
+
+        if (player->isPlaying && player->currentTime > endTime) {
+            if (player->isLooping && loopDuration > 0.0f) {
+                player->currentTime = startTime + std::fmod(player->currentTime - startTime, loopDuration);
             } else {
-                player->currentTime = clip->duration;
+                player->currentTime = endTime;
                 player->isPlaying = false;
             }
+        }
+        
+        if (player->currentTime < startTime) {
+            player->currentTime = startTime;
         }
 
         // 各トラックの値を適用
@@ -123,8 +128,6 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
                 case AnimationPlayer::PropertyBinding::Type::TransformRotationEuler:
                 {
                     Vector3 euler = EvaluateTrack<Vector3>(track.keyframes, player->currentTime);
-                    
-                    // 度数法(Degree)から弧度法(Radian)へ変換
                     Vector3 radians = {
                         euler.x * (std::numbers::pi_v<float> / 180.0f),
                         euler.y * (std::numbers::pi_v<float> / 180.0f),
@@ -136,5 +139,8 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
                 }
             }
         }
+
+        // 強制適用フラグをクリア
+        player->shouldApplyOnce = false;
     }
 }

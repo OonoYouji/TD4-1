@@ -37,6 +37,7 @@ public:
     bool isPlaying = false;
     bool isLooping = true;
     bool autoPlay = true;
+    bool shouldApplyOnce = false; // Stop時などに一度だけ値を適用するためのフラグ
 
     /// アニメーション対象のプロパティを解決したキャッシュ
     struct PropertyBinding {

@@ -42,7 +42,16 @@ void AnimationPlayer::Pause() {
 
 void AnimationPlayer::Stop() {
     isPlaying = false;
-    currentTime = 0.0f;
+    
+    // クリップ情報を取得して開始時間へ戻す
+    auto* ac = Asset::AssetCollection::GetInstance();
+    if (auto* clip = ac->GetAsset<Asset::AnimationClip>(ac->GetAssetGuidFromPath(clipPath))) {
+        currentTime = clip->startFrame / 60.0f;
+    } else {
+        currentTime = 0.0f;
+    }
+    
+    shouldApplyOnce = true;
 }
 
 void AnimationPlayer::SetClip(const std::string& _path) {

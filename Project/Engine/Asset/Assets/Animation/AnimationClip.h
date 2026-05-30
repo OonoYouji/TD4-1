@@ -46,7 +46,9 @@ public:
     ~AnimationClip() override = default;
 
     std::string name;
-    float duration = 0.0f;
+    float duration = 0.0f; // 非推奨化し、endFrameベースに移行予定
+    int startFrame = 0;
+    int endFrame = 60;
     bool isLooping = false;
     std::vector<AnimationTrack> tracks;
 };

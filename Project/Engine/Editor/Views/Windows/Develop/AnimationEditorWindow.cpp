@@ -102,16 +102,6 @@ void AnimationEditorWindow::ShowImGui() {
 
     auto* ac = ONEngine::Asset::AssetCollection::GetInstance();
 
-    // デバッグ用：パスのバリエーションを試す
-    if (ImGui::TreeNode("Path Debug")) {
-        ImGui::Text("Original: %s", currentClipPath.c_str());
-        if (ImGui::Button("Toggle './' prefix")) {
-            if (currentClipPath.starts_with("./")) currentClipPath = currentClipPath.substr(2);
-            else currentClipPath = "./" + currentClipPath;
-        }
-        ImGui::TreePop();
-    }
-
     // ダイアログ処理
     if (ImGuiFileDialog::Instance()->Display("OpenAnimDialog")) {
         if (ImGuiFileDialog::Instance()->IsOk()) {
@@ -139,9 +129,9 @@ void AnimationEditorWindow::ShowImGui() {
 
             nlohmann::json j;
             j["name"] = fsPath.stem().string();
-            j["duration"] = 1.0f;
+            j["startFrame"] = 0;
+            j["endFrame"] = 60;
             j["loop"] = true;
-            // 最初から空のトラックを入れてシークエンサーを表示させる
             j["tracks"] = nlohmann::json::array();
             j["tracks"].push_back({ {"component", "Transform"}, {"property", "position"}, {"keyframes", nlohmann::json::array()} });
 
@@ -160,8 +150,11 @@ void AnimationEditorWindow::ShowImGui() {
     if (clip) {
         ONEngine::Asset::AnimationClip* mutableClip = const_cast<ONEngine::Asset::AnimationClip*>(clip);
         
-        // クリップが切り替わった、またはトラック数が変わった時だけ初期化
-        if (sequence.clip != mutableClip || sequence.GetItemCount() != (int)mutableClip->tracks.size()) {
+        // クリップが切り替わった、またはトラック数・範囲が変わった時だけ初期化
+        if (sequence.clip != mutableClip || sequence.GetItemCount() != (int)mutableClip->tracks.size() || 
+            sequence.mFrameMin != mutableClip->startFrame || sequence.mFrameMax != mutableClip->endFrame) {
+            sequence.mFrameMin = mutableClip->startFrame;
+            sequence.mFrameMax = mutableClip->endFrame;
             sequence.SetClip(mutableClip);
         }
 
@@ -170,7 +163,13 @@ void AnimationEditorWindow::ShowImGui() {
         ImGui::Text("Clip: %s", mutableClip->name.c_str());
 
         ImGui::BeginGroup();
-        if (ImGui::DragFloat("Duration", &mutableClip->duration, 0.1f, 0.0f, 100.0f)) {
+        bool changed = false;
+        changed |= ImGui::DragInt("Start Frame", &mutableClip->startFrame, 1, 0, mutableClip->endFrame - 1);
+        changed |= ImGui::DragInt("End Frame", &mutableClip->endFrame, 1, mutableClip->startFrame + 1, 10000);
+        if (changed) {
+            mutableClip->duration = mutableClip->endFrame / 60.0f;
+            sequence.mFrameMin = mutableClip->startFrame;
+            sequence.mFrameMax = mutableClip->endFrame;
             sequence.SetClip(mutableClip);
         }
         ImGui::Checkbox("Looping", &mutableClip->isLooping);
@@ -184,23 +183,23 @@ void AnimationEditorWindow::ShowImGui() {
 
         if (ImGui::BeginPopup("AddTrackPopup")) {
             if (ImGui::MenuItem("Transform/Position (Vec3)")) {
-                mutableClip->tracks.push_back({ "Transform", "position", { {0.0f, Vector3(0,0,0), "Linear"} } });
+                mutableClip->tracks.push_back({ "Transform", "position", { {mutableClip->startFrame / 60.0f, Vector3(0,0,0), "Linear"} } });
                 sequence.SetClip(mutableClip);
                 selectedEntry = (int)mutableClip->tracks.size() - 1; 
             }
             if (ImGui::MenuItem("Transform/Rotation (Vec3 Euler)")) {
-                mutableClip->tracks.push_back({ "Transform", "rotation", { {0.0f, Vector3(0,0,0), "Linear"} } });
+                mutableClip->tracks.push_back({ "Transform", "rotation", { {mutableClip->startFrame / 60.0f, Vector3(0,0,0), "Linear"} } });
                 sequence.SetClip(mutableClip);
                 selectedEntry = (int)mutableClip->tracks.size() - 1;
             }
             if (ImGui::MenuItem("Transform/Scale (Vec3)")) {
-                mutableClip->tracks.push_back({ "Transform", "scale", { {0.0f, Vector3(1,1,1), "Linear"} } });
+                mutableClip->tracks.push_back({ "Transform", "scale", { {mutableClip->startFrame / 60.0f, Vector3(1,1,1), "Linear"} } });
                 sequence.SetClip(mutableClip);
                 selectedEntry = (int)mutableClip->tracks.size() - 1;
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Custom (Float)")) {
-                mutableClip->tracks.push_back({ "Transform", "position.x", { {0.0f, 0.0f, "Linear"} } });
+                mutableClip->tracks.push_back({ "Transform", "position.x", { {mutableClip->startFrame / 60.0f, 0.0f, "Linear"} } });
                 sequence.SetClip(mutableClip);
                 selectedEntry = (int)mutableClip->tracks.size() - 1;
             }
@@ -210,6 +209,8 @@ void AnimationEditorWindow::ShowImGui() {
         if (ImGui::Button("Save Clip")) {
             nlohmann::json j;
             j["name"] = mutableClip->name;
+            j["startFrame"] = mutableClip->startFrame;
+            j["endFrame"] = mutableClip->endFrame;
             j["duration"] = mutableClip->duration;
             j["loop"] = mutableClip->isLooping;
             j["tracks"] = nlohmann::json::array();
@@ -241,7 +242,7 @@ void AnimationEditorWindow::ShowImGui() {
         // --- トラック選択とタイムラインを横並びにする ---
         ImGui::BeginChild("SequencerRegion", ImVec2(0, 300), true);
         {
-            // 左側：トラック名リスト（確実に選択できるようにする）
+            // 左側：トラック名リスト
             ImGui::BeginGroup();
             ImGui::Text("Tracks");
             ImGui::BeginChild("TrackList", ImVec2(150, 0), true);
@@ -304,7 +305,6 @@ void AnimationEditorWindow::ShowImGui() {
 }
 
 void AnimationEditorWindow::DrawTimeline() {
-    // SEQUENCER_CHANGE_FRAME などを有効にする
     int sequenceOptions = ImSequencer::SEQUENCER_EDIT_ALL | ImSequencer::SEQUENCER_CHANGE_FRAME;
     
     // Timeline GUI 描画

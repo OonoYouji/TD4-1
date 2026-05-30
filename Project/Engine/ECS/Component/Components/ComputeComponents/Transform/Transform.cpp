@@ -1,4 +1,4 @@
-﻿#include "Transform.h"
+#include "Transform.h"
 #include <nlohmann/json.hpp>
 
 #define NOMINMAX
@@ -15,7 +15,9 @@
 
 /// editor
 #include "Engine/Editor/Commands/ComponentEditCommands/ComponentJsonConverter.h"
+#include "Engine/Editor/Commands/ComponentEditCommands/ModifyTransformCommand.h"
 #include "Engine/Editor/EditorUtils.h"
+#include "Engine/Editor/Manager/EditCommand.h"
 
 using namespace ONEngine;
 
@@ -23,6 +25,8 @@ Transform::Transform() {
 	position = Vector3::Zero;
 	rotate = Quaternion::kIdentity;
 	scale = Vector3::One;
+	euler = Vector3::Zero;
+	lastSyncedRotate = Quaternion::kIdentity;
 }
 Transform::~Transform() = default;
 
@@ -35,6 +39,8 @@ void Transform::Reset() {
 	position = Vector3::Zero;
 	rotate = Quaternion::kIdentity;
 	scale = Vector3::One;
+	euler = Vector3::Zero;
+	lastSyncedRotate = Quaternion::kIdentity;
 	matWorld = Matrix4x4::kIdentity;
 }
 
@@ -43,11 +49,13 @@ void Transform::SetPosition(const Vector3& _v) {
 }
 
 void Transform::SetRotate(const Vector3& _v) {
-	rotate = Quaternion::FromEuler(_v);
+	euler = _v; // ここでの _v は度数法を想定
+	SyncQuaternionFromEuler();
 }
 
 void Transform::SetRotate(const Quaternion& _q) {
 	rotate = _q;
+	SyncEulerFromQuaternion();
 }
 
 void Transform::SetScale(const Vector3& _v) {
@@ -68,6 +76,26 @@ const Vector3& Transform::GetScale() const {
 
 const Matrix4x4& Transform::GetMatWorld() const {
 	return matWorld;
+}
+
+void Transform::SyncQuaternionFromEuler() {
+	Vector3 rad = {
+		euler.x * Math::Deg2Rad,
+		euler.y * Math::Deg2Rad,
+		euler.z * Math::Deg2Rad
+	};
+	rotate = Quaternion::FromEuler(rad);
+	lastSyncedRotate = rotate;
+}
+
+void Transform::SyncEulerFromQuaternion() {
+	Vector3 rad = Quaternion::ToEuler(rotate);
+	euler = {
+		rad.x * Math::Rad2Deg,
+		rad.y * Math::Rad2Deg,
+		rad.z * Math::Rad2Deg
+	};
+	lastSyncedRotate = rotate;
 }
 
 
@@ -170,6 +198,7 @@ void ONEngine::InternalSetRotate(uint64_t _nativeHandle, float _x, float _y, flo
 	transform->rotate.y = _y;
 	transform->rotate.z = _z;
 	transform->rotate.w = _w;
+	transform->SyncEulerFromQuaternion(); // Eulerキャッシュを同期
 	UpdateTransform(transform); // 更新を呼び出す
 }
 
@@ -197,45 +226,76 @@ void ComponentDebug::TransformDebug(const std::vector<Transform*>& _transforms) 
 	}
 
 	Transform* first = _transforms[0];
-	bool isEdit = false;
 
-	// 代表値として最初の要素を使用
+	// アニメーションなどで外部から回転が書き換えられていないかチェック
+	if (!(first->rotate == first->lastSyncedRotate)) {
+		first->SyncEulerFromQuaternion();
+	}
+
 	Vector3   pos = first->position;
-	Vector3   euler = Quaternion::ToEuler(first->rotate);
+	Vector3   euler = first->euler; 
 	Vector3   scale = first->scale;
 	int       flags = first->matrixCalcFlags;
 
-	// 複数選択時の差異チェック (Unity風の "-" 表示は DrawVec3Control が対応していないため、
-	// 現状は最初の要素の値を表示し、編集されたら全員に適用する方式をとる)
-	// ※本格的にやるなら DrawVec3Control を拡張して MixedValue 状態を受け取れるようにする必要がある。
+	static Vector3 startPos, startEuler, startScale;
 
 	static bool isUnifieds[3] = { false, false, true };
 	constexpr float minValue = (std::numeric_limits<float>::lowest)();
 	constexpr float maxValue = (std::numeric_limits<float>::max)();
 
-	bool posChanged = Editor::DrawVec3Control("position", pos, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[0]);
-	bool rotChanged = Editor::DrawVec3Control("rotate", euler, Math::PI / 12.0f, minValue, maxValue, 100.0f, &isUnifieds[1]);
-	bool sclChanged = Editor::DrawVec3Control("scale", scale, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[2]);
+	// --- Position ---
+	ImGui::BeginGroup();
+	if (Editor::DrawVec3Control("position", pos, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[0])) {
+		for (auto t : _transforms) { t->position = pos; t->Update(); }
+	}
+	if (ImGui::IsItemActivated()) startPos = first->position;
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		for (auto t : _transforms) {
+			Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(t, Editor::ModifyTransformCommand::Target::Position, startPos, t->position);
+		}
+	}
+	ImGui::EndGroup();
 
-	isEdit |= posChanged | rotChanged | sclChanged;
+	// --- Rotation ---
+	ImGui::BeginGroup();
+	if (Editor::DrawVec3Control("rotation", euler, 0.5f, minValue, maxValue, 100.0f, &isUnifieds[1])) {
+		for (auto t : _transforms) { 
+			t->euler = euler; 
+			t->SyncQuaternionFromEuler(); 
+			t->Update(); 
+		}
+	}
+	if (ImGui::IsItemActivated()) startEuler = first->euler;
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		for (auto t : _transforms) {
+			Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(t, Editor::ModifyTransformCommand::Target::Rotation, startEuler, t->euler);
+		}
+	}
+	ImGui::EndGroup();
+
+	// --- Scale ---
+	ImGui::BeginGroup();
+	if (Editor::DrawVec3Control("scale", scale, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[2])) {
+		for (auto t : _transforms) { t->scale = scale; t->Update(); }
+	}
+	if (ImGui::IsItemActivated()) startScale = first->scale;
+	if (ImGui::IsItemDeactivatedAfterEdit()) {
+		for (auto t : _transforms) {
+			Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(t, Editor::ModifyTransformCommand::Target::Scale, startScale, t->scale);
+		}
+	}
+	ImGui::EndGroup();
 
 	bool flagsChanged = false;
 	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: position", &flags, Transform::kPosition);
 	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: rotate", &flags, Transform::kRotate);
 	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: scale", &flags, Transform::kScale);
-	isEdit |= flagsChanged;
-
-	if(isEdit) {
-		Quaternion rot = Quaternion::FromEuler(euler);
-		
-		for (auto t : _transforms) {
-			if (posChanged) t->position = pos;
-			if (rotChanged) t->rotate = rot;
-			if (sclChanged) t->scale = scale;
-			if (flagsChanged) t->matrixCalcFlags = flags;
-			t->Update();
-		}
+	
+	if (flagsChanged) {
+		for (auto t : _transforms) { t->matrixCalcFlags = flags; t->Update(); }
 	}
+
+	first->lastSyncedRotate = first->rotate;
 }
 
 
@@ -245,7 +305,8 @@ void ONEngine::from_json(const nlohmann::json& _j, Transform& _t) {
 	_t.rotate = _j.at("rotate").get<Quaternion>();
 	_t.scale = _j.at("scale").get<Vector3>();
 	_t.matrixCalcFlags = _j.value("matrixCalcFlags", Transform::kAll);
-	_t.Update(); // 初期化時に更新を呼び出す
+	_t.SyncEulerFromQuaternion(); 
+	_t.Update();
 }
 
 void ONEngine::to_json(nlohmann::json& _j, const Transform& _t) {

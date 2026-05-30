@@ -23,7 +23,16 @@ std::optional<AnimationClip> AssetLoader<AnimationClip>::Load(const std::string&
     AnimationClip clip;
     clip.guid = meta.base.guid; // GUIDをMetaデータから適用
     clip.name = j.value("name", "");
-    clip.duration = j.value("duration", 0.0f);
+    clip.startFrame = j.value("startFrame", 0);
+    
+    // 互換性のため、endFrameがなければdurationから計算する
+    if (j.contains("endFrame")) {
+        clip.endFrame = j.at("endFrame").get<int>();
+    } else {
+        clip.endFrame = static_cast<int>(j.value("duration", 1.0f) * 60.0f);
+    }
+    
+    clip.duration = clip.endFrame / 60.0f; // durationも一応更新
     clip.isLooping = j.value("loop", false);
 
     if (j.contains("tracks")) {
