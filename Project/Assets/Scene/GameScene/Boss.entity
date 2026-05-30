@@ -101,6 +101,7 @@
             "enable": 1,
             "freezeY": true,
             "maskBits": 4,
+            "mass": 1.0,
             "radius": 5.0,
             "state": "Static",
             "type": "SphereCollider"

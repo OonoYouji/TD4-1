@@ -5,6 +5,8 @@ using namespace ONEngine;
 /// std
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
+#include <filesystem>
 
 /// external
 #include <nlohmann/json.hpp>
@@ -50,6 +52,9 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 	std::string sceneDir = fileDirectory_ + sceneName + "/";
 	std::filesystem::create_directories(sceneDir);
 
+	// 現在のシーンに含まれるエンティティのファイル名リスト
+	std::unordered_set<std::string> currentEntityFiles;
+
 	auto& entities = _ecsGroup->GetEntities();
 	for (auto& entity : entities) {
 		if (entity->GetId() < 0) continue;
@@ -63,6 +68,8 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 
 		std::string entityFileName = entity->GetName() + ".entity";
 		std::string entityPath = sceneDir + entityFileName;
+		
+		currentEntityFiles.insert(entityFileName);
 
 		// .entityファイルを保存
 		std::ofstream ofs(entityPath);
@@ -81,6 +88,20 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 			reference["parent"] = nullptr;
 		}
 		sceneJson["entities"].push_back(reference);
+	}
+
+	// 不要になった（削除された）エンティティファイルを物理削除
+	if (std::filesystem::exists(sceneDir)) {
+		for (const auto& entry : std::filesystem::directory_iterator(sceneDir)) {
+			if (entry.is_regular_file()) {
+				std::string fileName = entry.path().filename().string();
+				// .entity 拡張子で、かつ現在のエンティティリストに含まれていないファイルを削除
+				if (fileName.ends_with(".entity") && currentEntityFiles.find(fileName) == currentEntityFiles.end()) {
+					std::filesystem::remove(entry.path());
+					Console::Log("SceneIO: Deleted orphaned entity file: " + fileName);
+				}
+			}
+		}
 	}
 
 	OutputJson(sceneJson, _filename);

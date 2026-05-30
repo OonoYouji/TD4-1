@@ -4,9 +4,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -8.813302040100098,
+                "x": 21.886709213256836,
                 "y": 0.9359276294708252,
-                "z": 38.896297454833984
+                "z": -32.00370407104492
             },
             "rotate": {
                 "w": 1.0,
@@ -15,14 +15,13 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 10.0,
-                "y": 10.0,
-                "z": 10.0
+                "x": 13.800000190734863,
+                "y": 13.7999849319458,
+                "z": 13.7999849319458
             },
             "type": "Transform"
         },
         {
-            "type": "Variables",
             "FallingRock": {
                 "_hasImpacted": false,
                 "_isFalling": false,
@@ -35,7 +34,8 @@
                 "fallSpeed": 30.0,
                 "impactRadius": 3.0,
                 "stunDuration": 2.0
-            }
+            },
+            "type": "Variables"
         },
         {
             "enable": 1,
@@ -100,8 +100,8 @@
             "type": "BoxCollider"
         }
     ],
-    "guid": "28a94ec6613a456916dc233c40fbc746",
-    "id": 18,
+    "guid": "da7863da7cc933d575717b1b38552551",
+    "id": 2,
     "name": "TargetRock",
     "parent": null,
     "prefabName": "TargetRock"
