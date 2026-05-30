@@ -5,6 +5,7 @@
 
 /// std
 #include <limits>
+#include <vector>
 
 /// externals
 #include <imgui.h>
@@ -237,54 +238,108 @@ void ComponentDebug::TransformDebug(const std::vector<Transform*>& _transforms) 
 	Vector3   scale = first->scale;
 	int       flags = first->matrixCalcFlags;
 
-	static Vector3 startPos, startEuler, startScale;
+	static std::vector<Vector3> s_startPos, s_startEuler, s_startScale;
 
 	static bool isUnifieds[3] = { false, false, true };
 	constexpr float minValue = (std::numeric_limits<float>::lowest)();
 	constexpr float maxValue = (std::numeric_limits<float>::max)();
 
 	// --- Position ---
-	ImGui::BeginGroup();
-	if (Editor::DrawVec3Control("position", pos, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[0])) {
+	bool posActivated = false;
+	bool posDeactivated = false;
+	bool posChanged = Editor::DrawVec3Control("position", pos, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[0], false, &posActivated, &posDeactivated);
+
+	if (posActivated) {
+		s_startPos.clear();
+		for (auto t : _transforms) s_startPos.push_back(t->position);
+	}
+
+	if (posChanged) {
 		for (auto t : _transforms) { t->position = pos; t->Update(); }
 	}
-	if (ImGui::IsItemActivated()) startPos = first->position;
-	if (ImGui::IsItemDeactivatedAfterEdit()) {
-		for (auto t : _transforms) {
-			Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(t, Editor::ModifyTransformCommand::Target::Position, startPos, t->position);
+
+	if (posDeactivated) {
+		if (s_startPos.size() == _transforms.size()) {
+			bool changed = false;
+			for (size_t i = 0; i < _transforms.size(); ++i) {
+				if (s_startPos[i] != _transforms[i]->position) { changed = true; break; }
+			}
+
+			if (changed) {
+				std::vector<Editor::ModifyTransformCommand::Data> data;
+				for (size_t i = 0; i < _transforms.size(); ++i) {
+					data.push_back({ _transforms[i], s_startPos[i], _transforms[i]->position });
+				}
+				Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(Editor::ModifyTransformCommand::Target::Position, data);
+			}
 		}
 	}
-	ImGui::EndGroup();
 
 	// --- Rotation ---
-	ImGui::BeginGroup();
-	if (Editor::DrawVec3Control("rotation", euler, 0.5f, minValue, maxValue, 100.0f, &isUnifieds[1])) {
+	bool rotActivated = false;
+	bool rotDeactivated = false;
+	bool rotChanged = Editor::DrawVec3Control("rotation", euler, 0.5f, minValue, maxValue, 100.0f, &isUnifieds[1], false, &rotActivated, &rotDeactivated);
+
+	if (rotActivated) {
+		s_startEuler.clear();
+		for (auto t : _transforms) s_startEuler.push_back(t->euler);
+	}
+
+	if (rotChanged) {
 		for (auto t : _transforms) { 
 			t->euler = euler; 
 			t->SyncQuaternionFromEuler(); 
 			t->Update(); 
 		}
 	}
-	if (ImGui::IsItemActivated()) startEuler = first->euler;
-	if (ImGui::IsItemDeactivatedAfterEdit()) {
-		for (auto t : _transforms) {
-			Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(t, Editor::ModifyTransformCommand::Target::Rotation, startEuler, t->euler);
+
+	if (rotDeactivated) {
+		if (s_startEuler.size() == _transforms.size()) {
+			bool changed = false;
+			for (size_t i = 0; i < _transforms.size(); ++i) {
+				if (s_startEuler[i] != _transforms[i]->euler) { changed = true; break; }
+			}
+
+			if (changed) {
+				std::vector<Editor::ModifyTransformCommand::Data> data;
+				for (size_t i = 0; i < _transforms.size(); ++i) {
+					data.push_back({ _transforms[i], s_startEuler[i], _transforms[i]->euler });
+				}
+				Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(Editor::ModifyTransformCommand::Target::Rotation, data);
+			}
 		}
 	}
-	ImGui::EndGroup();
 
 	// --- Scale ---
-	ImGui::BeginGroup();
-	if (Editor::DrawVec3Control("scale", scale, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[2])) {
+	bool scaleActivated = false;
+	bool scaleDeactivated = false;
+	bool scaleChanged = Editor::DrawVec3Control("scale", scale, 0.1f, minValue, maxValue, 100.0f, &isUnifieds[2], false, &scaleActivated, &scaleDeactivated);
+
+	if (scaleActivated) {
+		s_startScale.clear();
+		for (auto t : _transforms) s_startScale.push_back(t->scale);
+	}
+
+	if (scaleChanged) {
 		for (auto t : _transforms) { t->scale = scale; t->Update(); }
 	}
-	if (ImGui::IsItemActivated()) startScale = first->scale;
-	if (ImGui::IsItemDeactivatedAfterEdit()) {
-		for (auto t : _transforms) {
-			Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(t, Editor::ModifyTransformCommand::Target::Scale, startScale, t->scale);
+
+	if (scaleDeactivated) {
+		if (s_startScale.size() == _transforms.size()) {
+			bool changed = false;
+			for (size_t i = 0; i < _transforms.size(); ++i) {
+				if (s_startScale[i] != _transforms[i]->scale) { changed = true; break; }
+			}
+
+			if (changed) {
+				std::vector<Editor::ModifyTransformCommand::Data> data;
+				for (size_t i = 0; i < _transforms.size(); ++i) {
+					data.push_back({ _transforms[i], s_startScale[i], _transforms[i]->scale });
+				}
+				Editor::EditCommand::Execute<Editor::ModifyTransformCommand>(Editor::ModifyTransformCommand::Target::Scale, data);
+			}
 		}
 	}
-	ImGui::EndGroup();
 
 	bool flagsChanged = false;
 	flagsChanged |= ImGui::CheckboxFlags("matrixCalcFlags: position", &flags, Transform::kPosition);
