@@ -36,5 +36,5 @@ public override void Update()
     GizmoBatch.DrawRay(transform.position + Vector3.up * 2.0f, transform.forward * 5.0f, new Vector4(0, 1, 0, 1));
 
     // デバッグログ：ボスの位置
-    Debug.Log($"[BossAI] {entity.name} at {Vector3.ToSimpleString(transform.position)}");
+    // Debug.Log($"[BossAI] {entity.name} at {Vector3.ToSimpleString(transform.position)}");
     }}

@@ -18,38 +18,75 @@ public class PatrolWaypointsNode : BehaviorNode
     /// ポイント間の移動を完了とみなす距離。
     /// </summary>
     public float stopDistance = 1.0f;
+/// <summary>
+/// 巡回ポイントのEntity名リスト（セミコロン区切りの文字列）。
+/// </summary>
+public string waypointsString = "";
 
-    /// <summary>
-    /// 巡回ポイントのEntity名リスト（セミコロン区切りの文字列）。
-    /// 例: "Waypoint_A; Waypoint_B; Waypoint_C; Waypoint_D"
-    /// </summary>
-    public string waypointNamesString = "";
+/// <summary>
+/// 動的にWaypointを検索するための名前の接頭辞（例: "BossWaypoint_P1_"）。
+/// 指定されている場合、この名前で始まる全てのEntityを名前順で巡回リストに登録します。
+/// </summary>
+public string waypointPrefix = "";
 
-    private List<string> waypointNames_ = new List<string>();
+private List<string> waypointNames_ = new List<string>();
 
-    /// <summary>
-    /// 文字列からEntity名リストを構築。
-    /// </summary>
-    private void EnsureWaypointNames()
+/// <summary>
+/// 巡回リストを構築。
+/// </summary>
+private void EnsureWaypointNames(Entity owner)
+{
+    if (waypointNames_.Count > 0) return;
+
+    // 1. 接頭辞による動的検索を優先
+    if (!string.IsNullOrEmpty(waypointPrefix))
     {
-        if (waypointNames_.Count > 0) return;
-
-        string[] names = waypointNamesString.Split(';');
-        foreach (var n in names)
+        var allEntities = owner.Group.GetEntities();
+        List<string> foundNames = new List<string>();
+        foreach (var e in allEntities)
         {
-            string trimmed = n.Trim();
-            if (!string.IsNullOrEmpty(trimmed))
+            if (e != null && e.name.StartsWith(waypointPrefix))
             {
-                waypointNames_.Add(trimmed);
+                foundNames.Add(e.name);
             }
+        }
+
+        if (foundNames.Count > 0)
+        {
+            // 名前順でソート（Waypoint_01, Waypoint_02... と並ぶことを期待）
+            foundNames.Sort();
+            waypointNames_ = foundNames;
+            Debug.Log($"[PatrolWaypoints] Discovered {waypointNames_.Count} waypoints with prefix '{waypointPrefix}'");
+            return;
         }
     }
 
-    protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
+    // 2. 文字列指定によるフォールバック
+    if (!string.IsNullOrEmpty(waypointsString))
     {
-        EnsureWaypointNames();
+        string[] names = waypointsString.Split(';');
+        foreach (var n in names)
+        {
+            string trimmed = n.Trim();
+            if (!string.IsNullOrEmpty(trimmed)) waypointNames_.Add(trimmed);
+        }
+        Debug.Log($"[PatrolWaypoints] Loaded {waypointNames_.Count} waypoints from string.");
+    }
+}
 
-        if (waypointNames_.Count == 0)
+protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
+{
+    EnsureWaypointNames(owner);
+
+    if (waypointNames_.Count == 0)
+    {
+        return NodeStatus.Failure;
+    }
+            string trimmed = n.Trim();
+            if (!string.IsNullOrEmpty(trimmed)) waypointNames.Add(trimmed);
+        }
+
+        if (waypointNames.Count == 0)
         {
             return NodeStatus.Failure;
         }
@@ -58,58 +95,56 @@ public class PatrolWaypointsNode : BehaviorNode
         int currentIdx = blackboard.GetInt(idxKeyHash, 0);
 
         // インデックスが範囲外の場合はリセット
-        if (currentIdx < 0 || currentIdx >= waypointNames_.Count)
+        if (currentIdx < 0 || currentIdx >= waypointNames.Count)
         {
             currentIdx = 0;
             blackboard.SetInt(idxKeyHash, 0);
         }
 
-        // 対象のEntityを検索して座標を取得
-        string targetName = waypointNames_[currentIdx];
+        // 対象のEntityを検索
+        string targetName = waypointNames[currentIdx];
         Entity waypointEntity = owner.Group.FindEntity(targetName);
         
         if (waypointEntity == null)
         {
-            Debug.LogWarning($"<color=yellow>[PatrolWaypoints]</color> Waypoint entity '{targetName}' NOT FOUND. Skipping to next.");
-            blackboard.SetInt(idxKeyHash, (currentIdx + 1) % waypointNames_.Count);
-            return NodeStatus.Running;
+            Debug.LogWarning($"<color=yellow>[PatrolWaypoints]</color> Waypoint '{targetName}' NOT FOUND. Skipping index.");
+            blackboard.SetInt(idxKeyHash, (currentIdx + 1) % waypointNames.Count);
+            return NodeStatus.Failure;
         }
 
         Vector3 targetPos = waypointEntity.transform.position;
         Vector3 ownerPos = owner.transform.position;
-        
-        // 高度(Y)を無視した距離計算（移動は平面想定）
         Vector3 diff = new Vector3(targetPos.x - ownerPos.x, 0, targetPos.z - ownerPos.z);
         float distance = diff.Length();
 
-        // ログ出力（デバッグ用）
-        if (TickCount % 30 == 0)
+        if (Tree != null && Tree.TickCount % 30 == 0)
         {
-            Debug.Log($"<color=cyan>[PatrolWaypoints]</color> {owner.name} heading to '{targetName}' {Vector3.ToSimpleString(targetPos)}. Dist: {distance:F2}");
+            Debug.Log($"<color=cyan>[PatrolWaypoints]</color> Moving to {targetName} ({currentIdx+1}/{waypointNames.Count}). Dist: {distance:F2}");
         }
 
-        // 1. 到着判定
+        // --- 到着判定 ---
         if (distance <= stopDistance)
         {
-            Debug.Log($"<color=green>[PatrolWaypoints]</color> {owner.name} REACHED '{targetName}'. Moving to next index.");
-            // 次のポイントへ（循環する）
-            int nextIdx = (currentIdx + 1) % waypointNames_.Count;
+            Debug.Log($"<color=green>[PatrolWaypoints]</color> Arrived at '{targetName}'. Success.");
+            
+            // 次回実行時のためにインデックスを次へ進めておく
+            int nextIdx = (currentIdx + 1) % waypointNames.Count;
             blackboard.SetInt(idxKeyHash, nextIdx);
             
+            // 移動停止
             var intent = owner.GetComponent<AgentIntentComponent>();
             if (intent != null) intent.desiredMoveDirection = Vector3.zero;
 
+            //Successを返すことで、Sequenceの次のノード（攻撃等）へ進める
             return NodeStatus.Success;
         }
 
-        // 2. 移動方向と回転の設定
+        // --- 移動継続 ---
         var aiIntent = owner.GetComponent<AgentIntentComponent>();
         if (aiIntent != null)
         {
             Vector3 dir = diff.Normalized();
             aiIntent.desiredMoveDirection = dir;
-            
-            // 進行方向を向く
             if (dir.sqrMagnitude > 0.001f)
             {
                 aiIntent.desiredRotation = Quaternion.LookRotation(dir, Vector3.up);
