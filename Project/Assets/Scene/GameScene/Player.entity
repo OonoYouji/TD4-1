@@ -1,0 +1,117 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 5.834609031677246,
+                "y": 2.1915435791015625,
+                "z": -42.785247802734375
+            },
+            "rotate": {
+                "w": 0.8506529331207275,
+                "x": 0.0,
+                "y": -0.5257276296615601,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 3.7400035858154297,
+                "y": 3.7400014400482178,
+                "z": 3.740001678466797
+            },
+            "type": "Transform"
+        },
+        {
+            "CallingReinforcement": {
+                "reinforcementSpeed": 79.0,
+                "spawnBehindDistance": 37.0,
+                "spawnInterval": 0.6000000238418579,
+                "spawnTimer": 0.4618699252605438,
+                "xOffset": 8.0
+            },
+            "HP": {
+                "MAX_HP": 1000,
+                "currentHp": 1000
+            },
+            "Player": {
+                "<fireCooldownTimer>k__BackingField": 31.16332244873047,
+                "<isGamepadMode>k__BackingField": false,
+                "armLength": 2.0,
+                "currentYaw": -1.1064250469207764,
+                "fireCooldownTimer": 90.26615142822266,
+                "fireInterval": 0.5,
+                "inputDeadZone": 0.0,
+                "isGamepadMode": false,
+                "lastMousePos": {
+                    "x": 66.0,
+                    "y": 73.0
+                },
+                "maxMoveSpeed": 10.0,
+                "mouseIsMovePixel": 0.0,
+                "rotationSpeed": 8.0
+            },
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 0.9354838728904724,
+                    "y": 0.46271246671676636,
+                    "z": 0.46271246671676636
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshPath": "./Assets/Models/Player/hand.obj",
+            "type": "MeshRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "Player"
+                },
+                {
+                    "enable": true,
+                    "name": "CallingReinforcement"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "categoryBits": 2,
+            "enable": 1,
+            "freezeY": true,
+            "maskBits": 32,
+            "mass": 1.0,
+            "radius": 3.200000047683716,
+            "state": "Dynamic",
+            "type": "SphereCollider"
+        }
+    ],
+    "guid": "50ee0d6d6376d262198a7126f641b924",
+    "id": 10,
+    "name": "Player",
+    "parent": null,
+    "prefabName": ""
+}

@@ -50,6 +50,9 @@ public class CallingReinforcement : MonoScript
 
     public override void Update()
     {
+        // 破棄済みまたは非アクティブなエンティティをリストから除外（リーク防止）
+        activeReinforcements.RemoveAll(e => e == null || !e.enable);
+
         // 発射処理
         HandleFiring();
         // 退散命令
@@ -70,7 +73,11 @@ public class CallingReinforcement : MonoScript
 
         // 一定間隔で援軍を呼ぶ
         spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0.0f)
+        bool wantFire =
+            Input.PressMouse(Mouse.Left) ||
+            Input.PressGamepad(Gamepad.LeftShoulder) ||
+            Input.PressGamepad(Gamepad.RightShoulder);
+        if (spawnTimer <= 0.0f && wantFire)
         {
             spawnTimer = spawnInterval;
             SpawnReinforcements();
@@ -137,6 +144,9 @@ public class CallingReinforcement : MonoScript
         if (ReinforcementEntity == null) { 
             return;
         }
+
+        // 生成直後に座標を設定（原点での衝突防止）
+        ReinforcementEntity.transform.position = spawnPos;
 
         // 初期位置と進行方向を設定
         Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();

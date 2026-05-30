@@ -14,6 +14,7 @@
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/ECS/Entity/Collection/EntityCollection.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 
 /// editor
 #include "Engine/Editor/Clipboard/Clipboard.h"
@@ -274,9 +275,14 @@ EDITOR_STATE CreatePrefabCommand::Execute() {
 		std::filesystem::create_directories(prefabPath_);
 	}
 
+	/// スクリプトの変数を最新の状態にする
+	if (ONEngine::Variables* var = pEntity_->GetComponent<ONEngine::Variables>()) {
+		var->ReloadScriptVariables();
+	}
+
 
 	/// jsonに変換
-	nlohmann::json entityJson = ONEngine::EntityJsonConverter::ToJson(pEntity_);
+	nlohmann::json entityJson = ONEngine::EntityJsonConverter::ToJson(pEntity_, true);
 
 	/// 子の要素も入れる
 	SerializeRecursive(pEntity_, entityJson);
@@ -316,7 +322,7 @@ void CreatePrefabCommand::SerializeRecursive(ONEngine::GameEntity* _entity, nloh
 			continue;
 		}
 
-		nlohmann::json childJson = ONEngine::EntityJsonConverter::ToJson(child);
+		nlohmann::json childJson = ONEngine::EntityJsonConverter::ToJson(child, true);
 		SerializeRecursive(child, childJson);
 		_json["children"].push_back(childJson);
 	}
@@ -331,7 +337,7 @@ CopyEntityCommand::CopyEntityCommand(ONEngine::GameEntity* _entity) : pEntity_(_
 
 EDITOR_STATE CopyEntityCommand::Execute() {
 	/// jsonに変換
-	entityJson_ = ONEngine::EntityJsonConverter::ToJson(pEntity_);
+	entityJson_ = ONEngine::EntityJsonConverter::ToJson(pEntity_, true);
 	EditCommand::SetClipboardData(entityJson_);
 
 	/// チェック

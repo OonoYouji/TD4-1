@@ -88,7 +88,7 @@ void DebugSceneView::SetGamePlay(bool _isGamePlay) {
 }
 
 void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
-	std::vector<OverlaySection> sections;
+	std::vector<OverlaySection> leftSections;
 
 	{
 		// 地形描画 セクション
@@ -105,7 +105,7 @@ void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
 			{ "EditorCompute", Format("%f ms", editorComputeTime), IM_COL32(255, 255, 255, 255) },
 			{ "BrushPreview", Format("%f ms", editorComputeBrushPreview), IM_COL32(255, 255, 255, 255) },
 		};
-		sections.push_back(renderer);
+		leftSections.push_back(renderer);
 	}
 
 	{
@@ -128,18 +128,89 @@ void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
 			{ "Render Update", Format("%.3f ms", renderUpdateTime), IM_COL32(255, 255, 255, 255) },
 			{ "FPS", Format("%.1f", 1.0f / ONEngine::Time::DeltaTime()), IM_COL32(100, 255, 100, 255) }
 		};
-		sections.push_back(cpuSection);
+		leftSections.push_back(cpuSection);
 	}
 
-	// 描画
-	DrawSceneOverlayStats(imagePos, sections);
+	{
+		/// GPUパフォーマンス セクション
+		auto& gpu = ONEngine::GPUTimeStamp::GetInstance();
+		OverlaySection gpuSection;
+		gpuSection.name = "GPUパフォーマンス";
+		gpuSection.opened = true;
+		gpuSection.items = {
+			{ "Total GPU", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::RenderingTotal)), IM_COL32(255, 255, 100, 255) },
+			{ "ShadowMap", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::ShadowMap)), IM_COL32(255, 255, 255, 255) },
+			{ "MainScene", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::MainScene)), IM_COL32(255, 255, 255, 255) },
+			{ "PostProcess", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::PostProcess)), IM_COL32(255, 255, 255, 255) },
+			{ "Mesh", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::MeshRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "SkinMesh", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::SkinMeshRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "Dissolve", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::DissolveMeshRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "Sprite", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::SpriteRendering)), IM_COL32(200, 200, 255, 255) },
+			{ "Particle", Format("%.3f ms", gpu.GetTimeStampMSec(ONEngine::GPUTimeStampID::ParticleRendering)), IM_COL32(200, 200, 255, 255) }
+		};
+		leftSections.push_back(gpuSection);
+	}
+
+	// 1カラム目（左側）の描画
+	DrawSceneOverlayStats(imagePos, leftSections, 8.0f);
+
+	// 2カラム目（右側）のデータ作成
+	std::vector<OverlaySection> rightSections;
+	{
+		auto& mono = ONEngine::MonoScriptEngine::GetInstance();
+		auto* image = mono.Image();
+		auto* domain = mono.Domain();
+		if (image && domain) {
+			auto* aiUpdaterClass = mono_class_from_name(image, "", "AIUpdater");
+			if (aiUpdaterClass) {
+				auto* vtable = mono_class_vtable(domain, aiUpdaterClass);
+				auto* nameField = mono_class_get_field_from_name(aiUpdaterClass, "lastBossName");
+				auto* actionField = mono_class_get_field_from_name(aiUpdaterClass, "lastBossAction");
+
+				if (vtable && nameField && actionField) {
+					MonoString* nameStr = nullptr;
+					MonoString* actionStr = nullptr;
+					mono_field_static_get_value(vtable, nameField, &nameStr);
+					mono_field_static_get_value(vtable, actionField, &actionStr);
+
+					std::string bossName = "Unknown";
+					if (nameStr) {
+						char* cstr = mono_string_to_utf8(nameStr);
+						bossName = cstr;
+						mono_free(cstr);
+					}
+
+					std::string bossAction = "Idle";
+					if (actionStr) {
+						char* cstr = mono_string_to_utf8(actionStr);
+						bossAction = cstr;
+						mono_free(cstr);
+					}
+
+					OverlaySection bossSection;
+					bossSection.name = "ボスの状態監視";
+					bossSection.opened = true;
+					bossSection.items = {
+						{ "Entity Name", bossName, IM_COL32(255, 255, 255, 255) },
+						{ "Current Action", bossAction, IM_COL32(100, 255, 255, 255) }
+					};
+					rightSections.push_back(bossSection);
+				}
+			}
+		}
+	}
+
+	// 2カラム目（右側）の描画
+	if (!rightSections.empty()) {
+		DrawSceneOverlayStats(imagePos, rightSections, 250.0f);
+	}
 }
 
-void DebugSceneView::DrawSceneOverlayStats(const ImVec2& imagePos, const std::vector<OverlaySection>& sections) {
+void DebugSceneView::DrawSceneOverlayStats(const ImVec2& imagePos, const std::vector<OverlaySection>& sections, float xOffset) {
 	ImDrawList* drawList = ImGui::GetForegroundDrawList();
 
 	float y = imagePos.y + 8.0f; // 上マージン
-	float x = imagePos.x + 8.0f; // 左マージン
+	float x = imagePos.x + xOffset; // オフセットに基づいた左マージン
 
 	auto DrawSeparator = [&](const std::vector<OverlayItem>& items)
 	{

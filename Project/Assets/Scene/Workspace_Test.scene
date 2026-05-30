@@ -1,0 +1,49 @@
+{
+    "entities": [
+        {
+            "path": "./Workspace_Test/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/2DCamera.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/Player.entity",
+            "id": 3,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/Light.entity",
+            "id": 4,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/Boss.entity",
+            "id": 5,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/TargetRock.entity",
+            "id": 6,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/BossHP.entity",
+            "id": 7,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Test/BG.entity",
+            "id": 8,
+            "parent": 7
+        },
+        {
+            "path": "./Workspace_Test/FG.entity",
+            "id": 9,
+            "parent": 7
+        }
+    ]
+}

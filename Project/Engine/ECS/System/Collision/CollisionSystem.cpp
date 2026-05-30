@@ -401,6 +401,12 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 		return;
 	}
 
+	// Colliderを取得
+	ICollider* aCol = _a->GetComponent<SphereCollider>();
+	if (!aCol) aCol = _a->GetComponent<BoxCollider>();
+	ICollider* bCol = _b->GetComponent<SphereCollider>();
+	if (!bCol) bCol = _b->GetComponent<BoxCollider>();
+
 	// Dynamic / Static フラグ
 	bool aDynamic = _aState == CollisionState::Dynamic;
 	bool bDynamic = _bState == CollisionState::Dynamic;
@@ -410,17 +416,32 @@ void CollisionSystem::PushBack(GameEntity* _a, CollisionState _aState, GameEntit
 
 	if(aDynamic && !bDynamic) {
 		// _aだけ押し戻す
-		_a->SetPosition(_a->GetPosition() - correction);
+		Vector3 pos = _a->GetPosition() - correction;
+		if (aCol && aCol->IsFreezeY()) pos.y = _a->GetPosition().y;
+		_a->SetPosition(pos);
 	} else if(!aDynamic && bDynamic) {
 		// _bだけ押し戻す
-		_b->SetPosition(_b->GetPosition() + correction);
+		Vector3 pos = _b->GetPosition() + correction;
+		if (bCol && bCol->IsFreezeY()) pos.y = _b->GetPosition().y;
+		_b->SetPosition(pos);
 	} else if(aDynamic && bDynamic) {
-		// 両方Dynamicなら半分ずつ押し戻す
-		_a->SetPosition(_a->GetPosition() - correction * 0.5f);
-		_b->SetPosition(_b->GetPosition() + correction * 0.5f);
-	}
-	// 両方Staticなら何もしない
+		// 両方Dynamicなら重量比で押し戻す
+		float aMass = aCol ? aCol->GetMass() : 1.0f;
+		float bMass = bCol ? bCol->GetMass() : 1.0f;
+		float totalMass = aMass + bMass;
 
+		// 重い方ほど動かない（逆比を掛ける）
+		float aRatio = bMass / totalMass;
+		float bRatio = aMass / totalMass;
+
+		Vector3 posA = _a->GetPosition() - correction * aRatio;
+		if (aCol && aCol->IsFreezeY()) posA.y = _a->GetPosition().y;
+		_a->SetPosition(posA);
+
+		Vector3 posB = _b->GetPosition() + correction * bRatio;
+		if (bCol && bCol->IsFreezeY()) posB.y = _b->GetPosition().y;
+		_b->SetPosition(posB);
+	}
 }
 
 
@@ -557,9 +578,25 @@ bool CheckMethod::CollisionCheckBoxVsBox(BoxCollider* _b1, BoxCollider* _b2, Col
 
 	Vector3 outNormal;
 	float outPenetration;
+	
+	Transform* t1 = e1->GetTransform();
+	Transform* t2 = e2->GetTransform();
+
+	Vector3 size1 = Vector3(
+		_b1->GetSize().x * t1->scale.x,
+		_b1->GetSize().y * t1->scale.y,
+		_b1->GetSize().z * t1->scale.z
+	);
+
+	Vector3 size2 = Vector3(
+		_b2->GetSize().x * t2->scale.x,
+		_b2->GetSize().y * t2->scale.y,
+		_b2->GetSize().z * t2->scale.z
+	);
+
 	bool collided = CollisionCheck::CubeVsCube(
-		e1->GetPosition(), _b1->GetSize(),
-		e2->GetPosition(), _b2->GetSize(),
+		e1->GetPosition(), size1,
+		e2->GetPosition(), size2,
 		&outNormal, &outPenetration
 	);
 

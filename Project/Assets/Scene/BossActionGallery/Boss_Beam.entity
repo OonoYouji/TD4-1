@@ -1,0 +1,70 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": -40.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 5.0,
+                "y": 5.0,
+                "z": 5.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossAI",
+                    "treePath": "Assets/AITrees/Test/Test_Beam.json"
+                },
+                {
+                    "enable": true,
+                    "name": "HP",
+                    "MAX_HP": 2000
+                },
+                {
+                    "enable": true,
+                    "name": "DamageHandler"
+                },
+                {
+                    "enable": true,
+                    "name": "Knockback"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "postEffectFlags": 1
+            },
+            "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
+            "type": "MeshRenderer"
+        }
+    ],
+    "id": 10,
+    "name": "Boss_Beam",
+    "parent": null,
+    "prefabName": "Boss.prefab"
+}

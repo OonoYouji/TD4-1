@@ -1,0 +1,84 @@
+{
+    "entities": [
+        {
+            "path": "./Workspace_Kurihara/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/Light.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/Player.entity",
+            "id": 3,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/Background.entity",
+            "id": 4,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/Field.entity",
+            "id": 5,
+            "parent": 4
+        },
+        {
+            "path": "./Workspace_Kurihara/Wall.entity",
+            "id": 6,
+            "parent": 4
+        },
+        {
+            "path": "./Workspace_Kurihara/Wall_1.entity",
+            "id": 7,
+            "parent": 4
+        },
+        {
+            "path": "./Workspace_Kurihara/Wall_2.entity",
+            "id": 8,
+            "parent": 4
+        },
+        {
+            "path": "./Workspace_Kurihara/Wall_3.entity",
+            "id": 9,
+            "parent": 4
+        },
+        {
+            "path": "./Workspace_Kurihara/PlayerCore.entity",
+            "id": 10,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/Camera2D.entity",
+            "id": 11,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/PlayerHP.entity",
+            "id": 12,
+            "parent": 11
+        },
+        {
+            "path": "./Workspace_Kurihara/TestEnemy.entity",
+            "id": 13,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_Kurihara/UI Root.entity",
+            "id": 14,
+            "parent": 13
+        },
+        {
+            "path": "./Workspace_Kurihara/HP.entity",
+            "id": 15,
+            "parent": 14
+        },
+        {
+            "path": "./Workspace_Kurihara/FieldManager.entity",
+            "id": 16,
+            "parent": null
+        }
+    ]
+}

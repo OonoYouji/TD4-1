@@ -7,6 +7,7 @@ using namespace ONEngine;
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Collection/ComponentCollection.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Script/Script.h"
+#include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/Editor/Commands/ComponentEditCommands/ComponentJsonConverter.h"
 
 GameEntity::GameEntity() {
@@ -300,35 +301,10 @@ ECSGroup* GameEntity::GetECSGroup() const {
 
 
 void ONEngine::to_json(nlohmann::json& _j, const GameEntity& _entity) {
-	/// ----- GameEntityからJsonを生成 ----- ///
-
-	nlohmann::json entityJson = nlohmann::json::object();
-	entityJson["prefabName"] = _entity.GetPrefabName();
-	entityJson["name"] = _entity.GetName();
-	entityJson["id"] = _entity.GetId();
-
-	// コンポーネントの情報を追加
-	auto& components = _entity.GetComponents();
-	for (const auto& component : components) {
-		entityJson["components"].push_back(ComponentJsonConverter::ToJson(component.second));
-	}
-
-	/// 親子関係の情報を追加
-	if (_entity.GetParent()) {
-		entityJson["parent"] = _entity.GetParent()->GetId();
-	} else {
-		entityJson["parent"] = nullptr;
-	}
-
-	_j = nlohmann::json{
-		{ "name", _entity.GetName() },
-		{ "prefabName", _entity.GetPrefabName() },
-		{ "active", _entity.active },
-		{ "components", nlohmann::json::array() }
-	};
+	_j = EntityJsonConverter::ToJson(&_entity);
 }
 
-void ONEngine::from_json(const nlohmann::json& /*_j*/, GameEntity& /*_entity*/) {
-	/// ----- JsonからGameEntityを生成 ----- ///
-
+void ONEngine::from_json(const nlohmann::json& _j, GameEntity& _entity) {
+	// GameEntity should already be instantiated and have its ID/Guid set by the collection
+	EntityJsonConverter::FromJson(_j, &_entity, _entity.GetECSGroup()->GetGroupName());
 }

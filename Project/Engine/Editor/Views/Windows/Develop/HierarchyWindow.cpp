@@ -3,6 +3,7 @@
 /// std
 #include <filesystem>
 #include <algorithm>
+#include <fstream>
 
 /// external
 #include <imgui.h>
@@ -14,6 +15,7 @@
 #include "Engine/Core/Utility/Math/Math.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Entity/GameEntity/GameEntity.h"
+#include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/Scene/SceneManager.h"
 
 /// editor
@@ -64,14 +66,30 @@ void HierarchyWindow::PrefabDragAndDrop() {
 				Editor::AssetPayload* assetPayload = *static_cast<Editor::AssetPayload**>(payload->Data);
 				const std::string path = assetPayload->filePath;
 
-				if(path.find(".prefab") != std::string::npos) {
+				if(path.find(".prefab") != std::string::npos || path.find(".entity") != std::string::npos) {
 					// filesystemを使って安全かつシンプルにファイル名を抽出
 					std::string fileName = std::filesystem::path(path).filename().string();
+					std::string ext = std::filesystem::path(path).extension().string();
 
-					pEcsGroup_->GenerateEntityFromPrefab(fileName, ONEngine::DebugConfig::isDebugging);
-					ONEngine::Console::Log(std::format("entity name set to: {}", fileName));
+					if (ext == ".prefab") {
+						pEcsGroup_->GenerateEntityFromPrefab(fileName, ONEngine::DebugConfig::isDebugging);
+					} else {
+						// .entity ファイルの読み込み
+						ONEngine::GameEntity* entity = pEcsGroup_->GenerateEntity(ONEngine::GenerateGuid(), ONEngine::DebugConfig::isDebugging);
+						if (entity) {
+							entity->SetName(std::filesystem::path(path).stem().string());
+							entity->GetComponent<ONEngine::Variables>()->LoadJson(path);
+							// Note: This only loads variables. If we want to load the full entity:
+							nlohmann::json j;
+							std::ifstream ifs(path);
+							if (ifs >> j) {
+								ONEngine::EntityJsonConverter::FromJson(j, entity, pEcsGroup_->GetGroupName());
+							}
+						}
+					}
+					ONEngine::Console::Log(std::format("entity loaded from: {}", fileName));
 				} else {
-					ONEngine::Console::Log("[error] Invalid entity format. Please use \".prefab\"");
+					ONEngine::Console::Log("[error] Invalid entity format. Please use \".prefab\" or \".entity\"");
 				}
 			}
 		}
@@ -125,7 +143,7 @@ void HierarchyWindow::DrawMenuScene() {
 		if(ImGui::MenuItem("create scene")) {
 			IGFD::FileDialogConfig config;
 			config.path = "./Assets/Scene";
-			ImGuiFileDialog::Instance()->OpenDialog("save file dialog", "ファイル保存", ".json", config);
+			ImGuiFileDialog::Instance()->OpenDialog("save file dialog", "ファイル保存", ".scene", config);
 		}
 
 		if(ImGui::MenuItem("save scene")) {
@@ -136,7 +154,7 @@ void HierarchyWindow::DrawMenuScene() {
 			if(ImGui::MenuItem("open explorer")) {
 				IGFD::FileDialogConfig config;
 				config.path = "./Assets/Scene";
-				ImGuiFileDialog::Instance()->OpenDialog("Dialog", "Choose File", ".json", config);
+				ImGuiFileDialog::Instance()->OpenDialog("Dialog", "Choose File", ".scene", config);
 			}
 			ImGui::EndMenu();
 		}

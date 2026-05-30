@@ -54,10 +54,10 @@
                     "type": "SpriteRenderer"
                 }
             ],
-            "guid": "8f209dbe9acee8170a2d03d8eb8fd722",
-            "id": 3,
+            "guid": "ee4f2f431ba652f889c0126bb0943ddb",
+            "id": 18,
             "name": "BG",
-            "parent": 2,
+            "parent": 17,
             "prefabName": ""
         },
         {
@@ -124,10 +124,10 @@
                     "type": "Script"
                 }
             ],
-            "guid": "6daa750bf637b59fa9ceeec3d985a8d8",
-            "id": 4,
+            "guid": "e8e96265127d2553f9681e0c2e8db5ba",
+            "id": 19,
             "name": "FG",
-            "parent": 2,
+            "parent": 17,
             "prefabName": ""
         }
     ],
@@ -157,8 +157,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "e4b17d4eafa93bc3415e7ec131cf7d87",
-    "id": 2,
+    "guid": "9bec876d747d51536a818072ab1eca1f",
+    "id": 17,
     "name": "BossHP",
     "parent": null,
     "prefabName": "BossHP"

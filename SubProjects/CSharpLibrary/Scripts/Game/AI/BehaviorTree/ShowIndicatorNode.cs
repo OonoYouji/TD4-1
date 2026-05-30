@@ -128,9 +128,6 @@ public class ShowIndicatorNode : BehaviorNode
                 uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
                 Vector3 currentTarget = blackboard.GetVector3(targetKeyHash);
                 
-                // 超詳細ログ
-                Debug.Log($"<color=cyan>[TRACE:Indicator]</color> {owner.name}(ID:{owner.Id}) READ {targetPosKey}({targetKeyHash}) = {Vector3.ToSimpleString(currentTarget)}");
-
                 // サンリティチェック
                 if (currentTarget.sqrMagnitude < 0.0001f)
                 {
@@ -146,7 +143,6 @@ public class ShowIndicatorNode : BehaviorNode
 
             blackboard.SetFloat(startTimeKey, currentTime);
 
-            Debug.Log($"<color=cyan>[Indicator]</color> {owner.name} spawned {shape} telegraph for {finalDuration}s");
             return NodeStatus.Running;
         }
 
@@ -201,45 +197,52 @@ public class ShowIndicatorNode : BehaviorNode
 
                 private void UpdateTelegraphTransform(Entity telegraph, Vector3 bossPos, Vector3 originPos, Vector3 targetPos, float finalSize)
                 {
-                // 高度差を無視した水平方向のベクトルを計算
-                Vector3 diff = new Vector3(targetPos.x - bossPos.x, 0.0f, targetPos.z - bossPos.z);
-                Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : Vector3.forward;
+                    // 高度差を無視した水平方向のベクトルを計算
+                    Vector3 diff = new Vector3(targetPos.x - bossPos.x, 0.0f, targetPos.z - bossPos.z);
+                    Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : Vector3.forward;
 
-                if (shape == IndicatorShape.Line)
-                {
-                // --- 仕様に基づいた配置：ボスの足元付近からターゲット方向へ ---
-                // ボスの足元中心から少し前方にずらした位置を起点にする
-                Vector3 startPos = new Vector3(bossPos.x, 0.1f, bossPos.z) + direction * 3.0f;
+                    if (shape == IndicatorShape.Line)
+                    {
+                        // ターゲットまでの距離を計算（水平距離）
+                        Vector3 horizontalTarget = new Vector3(targetPos.x, 0.1f, targetPos.z);
+                        Vector3 horizontalBoss = new Vector3(bossPos.x, 0.1f, bossPos.z);
+                        
+                        // ボスの足元中心から少し前方にずらした位置を「見た目上の起点」にする
+                        Vector3 visualStartPos = horizontalBoss + direction * 3.0f;
+                        
+                        float currentDist = (horizontalTarget - visualStartPos).Length();
+                        float finalLength = Math.Max(currentDist, length); 
 
-                telegraph.transform.position = startPos;
-                // 既存の LookRotation は逆回転を返す既知の問題があるため、Conjugate() で反転して正しい向きにする
-                telegraph.transform.rotation = Quaternion.LookRotation(direction).Conjugate();
+                        // プレハブの構造が変更され、MeshがRootEntityに移動した。
+                        // キューブの原点は中心にあるため、手前の端を起点にするには
+                        // 座標を進行方向に「長さの半分」だけずらす必要がある。
+                        telegraph.transform.position = visualStartPos + direction * (finalLength * 0.5f);
+                        
+                        // 既存の LookRotation は逆回転を返す既知の問題があるため、Conjugate() で反転して正しい向きにする
+                        telegraph.transform.rotation = Quaternion.LookRotation(direction).Conjugate();
 
-                // ターゲットまでの距離を計算（水平距離）
-                float currentDist = (new Vector3(targetPos.x, 0.1f, targetPos.z) - startPos).Length();
-                float finalLength = Math.Max(currentDist, length); 
-                telegraph.transform.scale = new Vector3(finalSize, 1.0f, finalLength);
+                        // ビームの大きさと統一する
+                        // finalSize (太さ) を X, Z に適用。長さは Z に適用 (Cubeメッシュの場合)
+                        // 注意: FireBeamNodeではシリンダーのYを長さとして使っているが、こちらはCubeなのでZを使う
+                        telegraph.transform.scale = new Vector3(finalSize, 0.1f, finalLength);
 
-                // デバッグログ追加
-                // Debug.Log($"[Indicator:Line] ID:{telegraph.Id} Pos:{Vector3.ToSimpleString(startPos)} Scale:{finalSize},1,{finalLength}");
+                        // --- デバッグ用描画 ---
+                        GizmoBatch.DrawRay(visualStartPos, direction * finalLength, color);
+                    }
+                    else if (shape == IndicatorShape.Circle)
+                    {
+                        // 円は指定された originPos (Target地点 or ボス地点) の足元に配置
+                        telegraph.transform.position = new Vector3(originPos.x, 0.05f, originPos.z);
+                        // Z方向に引き延ばされるのを防ぐため、XZに同じサイズを適用し、Y(高さ)は極めて薄くする
+                        telegraph.transform.scale = new Vector3(finalSize, 0.01f, finalSize);
 
-                // --- デバッグ用描画 ---
-                GizmoBatch.DrawRay(startPos, direction * finalLength, color);
-                }
-                else if (shape == IndicatorShape.Circle)
-                {
-                // 円は指定された originPos (Target地点 or ボス地点) の足元に配置
-                telegraph.transform.position = new Vector3(originPos.x, 0.05f, originPos.z);
-                // Z方向に引き延ばされるのを防ぐため、XZに同じサイズを適用し、Y(高さ)は極めて薄くする
-                telegraph.transform.scale = new Vector3(finalSize, 0.01f, finalSize);
+                        // デバッグログ追加
+                        Debug.Log($"[Indicator:Circle] ID:{telegraph.Id} Name:{name} Pos:{Vector3.ToSimpleString(originPos)} Scale:{finalSize},0.01,{finalSize}");
 
-                // デバッグログ追加
-                Debug.Log($"[Indicator:Circle] ID:{telegraph.Id} Name:{name} Pos:{Vector3.ToSimpleString(originPos)} Scale:{finalSize},0.01,{finalSize}");
-
-                // --- デバッグ用描画 ---
-                GizmoBatch.DrawLine(new Vector3(originPos.x - finalSize*0.5f, 0.1f, originPos.z), new Vector3(originPos.x + finalSize*0.5f, 0.1f, originPos.z), color);
-                GizmoBatch.DrawLine(new Vector3(originPos.x, 0.1f, originPos.z - finalSize*0.5f), new Vector3(originPos.x, 0.1f, originPos.z + finalSize*0.5f), color);
-                }
+                        // --- デバッグ用描画 ---
+                        GizmoBatch.DrawLine(new Vector3(originPos.x - finalSize*0.5f, 0.1f, originPos.z), new Vector3(originPos.x + finalSize*0.5f, 0.1f, originPos.z), color);
+                        GizmoBatch.DrawLine(new Vector3(originPos.x, 0.1f, originPos.z - finalSize*0.5f), new Vector3(originPos.x, 0.1f, originPos.z + finalSize*0.5f), color);
+                    }
                 }
 
                 public override void OnAbort(Blackboard blackboard, Entity owner)

@@ -4,24 +4,37 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 10.0,
-                "y": 0.0,
-                "z": 10.0
+                "x": 21.886709213256836,
+                "y": 0.9359276294708252,
+                "z": -32.00370407104492
             },
             "rotate": {
                 "w": 1.0,
                 "x": 0.0,
-                "y": 0.0,
+                "y": -0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 13.800000190734863,
+                "y": 13.7999849319458,
+                "z": 13.7999849319458
             },
             "type": "Transform"
         },
         {
+            "FallingRock": {
+                "_hasImpacted": false,
+                "_isFalling": false,
+                "_targetPos": {
+                    "x": 11.299240112304688,
+                    "y": 2.1915438175201416,
+                    "z": -42.27875518798828
+                },
+                "damage": 40,
+                "fallSpeed": 30.0,
+                "impactRadius": 3.0,
+                "stunDuration": 2.0
+            },
             "type": "Variables"
         },
         {
@@ -39,9 +52,9 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.4000000059604645,
-                    "y": 0.30000001192092896,
-                    "z": 0.20000000298023224
+                    "x": 0.9534050226211548,
+                    "y": 0.857722818851471,
+                    "z": 0.7620405554771423
                 },
                 "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
                 "guid": "00000000000000000000000000000000",
@@ -59,25 +72,37 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "meshPath": "./Packages/Models/primitive/sphere.obj",
             "type": "MeshRenderer"
         },
         {
-            "categoryBits": 1,
+            "categoryBits": 32,
+            "enable": 0,
+            "freezeY": true,
+            "maskBits": 38,
+            "mass": 50.0,
+            "radius": 10.199999809265137,
+            "state": "Dynamic",
+            "type": "SphereCollider"
+        },
+        {
+            "categoryBits": 32,
             "enable": 1,
-            "maskBits": 4294967295,
+            "freezeY": true,
+            "maskBits": 38,
+            "mass": 50.0,
             "size": {
-                "x": 2.0,
-                "y": 2.0,
-                "z": 2.0
+                "x": 6.0,
+                "y": 5.999998092651367,
+                "z": 5.999998092651367
             },
             "state": "Dynamic",
             "type": "BoxCollider"
         }
     ],
-    "guid": "5c9a41e97d1b4b1a8d0b2f567f25e981",
-    "id": 5,
+    "guid": "da7863da7cc933d575717b1b38552551",
+    "id": 2,
     "name": "TargetRock",
     "parent": null,
-    "prefabName": "BossRock"
+    "prefabName": "TargetRock"
 }

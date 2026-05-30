@@ -1,0 +1,109 @@
+{
+    "entities": [
+        {
+            "id": 1,
+            "parent": null,
+            "path": "./GameScene/Camera.entity"
+        },
+        {
+            "id": 2,
+            "parent": null,
+            "path": "./GameScene/Camera2D.entity"
+        },
+        {
+            "id": 7,
+            "parent": null,
+            "path": "./GameScene/Light.entity"
+        },
+        {
+            "id": 10,
+            "parent": null,
+            "path": "./GameScene/Player.entity"
+        },
+        {
+            "id": 3,
+            "parent": null,
+            "path": "./GameScene/Background.entity"
+        },
+        {
+            "id": 11,
+            "parent": 3,
+            "path": "./GameScene/Field.entity"
+        },
+        {
+            "id": 5,
+            "parent": 2,
+            "path": "./GameScene/PlayerHP.entity"
+        },
+        {
+            "id": 12,
+            "parent": null,
+            "path": "./GameScene/Player2DRoot.entity"
+        },
+        {
+            "id": 13,
+            "parent": 12,
+            "path": "./GameScene/ShotControl.entity"
+        },
+        {
+            "id": 4,
+            "parent": 13,
+            "path": "./GameScene/Gamepad.entity"
+        },
+        {
+            "id": 6,
+            "parent": 13,
+            "path": "./GameScene/KBM.entity"
+        },
+        {
+            "id": 8,
+            "parent": 13,
+            "path": "./GameScene/TextSprite.entity"
+        },
+        {
+            "id": 9,
+            "parent": 2,
+            "path": "./GameScene/SpreadUi.entity"
+        },
+        {
+            "id": 14,
+            "parent": null,
+            "path": "./GameScene/Boss.entity"
+        },
+        {
+            "id": 15,
+            "parent": null,
+            "path": "./GameScene/BossHP.entity"
+        },
+        {
+            "id": 16,
+            "parent": 15,
+            "path": "./GameScene/BG.entity"
+        },
+        {
+            "id": 17,
+            "parent": 15,
+            "path": "./GameScene/FG.entity"
+        },
+        {
+            "id": 18,
+            "parent": null,
+            "path": "./GameScene/TargetRock.entity"
+        },
+        {
+            "id": 19,
+            "parent": null,
+            "path": "./GameScene/TargetRock_3.entity"
+        },
+        {
+            "id": 20,
+            "parent": null,
+            "path": "./GameScene/TargetRock_2.entity"
+        },
+        {
+            "id": 21,
+            "parent": null,
+            "path": "./GameScene/TargetRock_1.entity"
+        }
+    ]
+}

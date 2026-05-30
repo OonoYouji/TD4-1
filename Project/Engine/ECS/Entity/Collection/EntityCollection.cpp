@@ -281,8 +281,29 @@ void EntityCollection::ReloadPrefab(const std::string& _prefabName) {
 		itr = prefabs_.find(file.second);
 	}
 
-	/// prefabを再読み込み
+	// 1. 各エンティティの現在の「カスタム変更（差分）」を一時保存する
+	// ※リロード前のPrefab状態と比較して、何がオーバーライドされているかを記録
+	const std::string& actualPrefabName = itr->first;
+	std::unordered_map<GameEntity*, nlohmann::json> entityDiffs;
+	for (auto& entity : entities_) {
+		if (entity->GetPrefabName() == actualPrefabName || 
+			(!actualPrefabName.empty() && entity->GetPrefabName() == FileSystem::FileNameWithoutExtension(actualPrefabName))) {
+			// ToJson(entity, false) は現在の Prefab との差分を返す
+			entityDiffs[entity.get()] = EntityJsonConverter::ToJson(entity.get(), false);
+		}
+	}
+
+	/// 2. prefabをディスクから再読み込み（これでベースラインが更新される）
 	itr->second->Reload();
+
+	/// 3. 更新されたPrefabベースに、保存しておいた差分を再適用する
+	for (auto& [entity, diff] : entityDiffs) {
+		// まず、新しいPrefabを強制的に適用（ベースラインの更新）
+		ApplyPrefabToEntity(entity, actualPrefabName);
+		
+		// 次に、保存しておいたカスタム差分をマージ適用（オーバーライドの復元）
+		EntityJsonConverter::FromJson(diff, entity, pEcsGroup_->GetGroupName(), true);
+	}
 }
 
 GameEntity* EntityCollection::GenerateEntityFromPrefab(const std::string& _prefabName, bool _isRuntime) {
@@ -311,6 +332,12 @@ EntityPrefab* EntityCollection::GetPrefab(const std::string& _fileName) {
 		return prefabs_[_fileName].get();
 	}
 
+	// 拡張子なしで検索された場合に備えて ".prefab" を付けて再試行
+	std::string nameWithExt = _fileName + ".prefab";
+	if (prefabs_.contains(nameWithExt)) {
+		return prefabs_[nameWithExt].get();
+	}
+
 	return nullptr;
 }
 
@@ -336,10 +363,9 @@ void EntityCollection::ApplyPrefabToEntity(GameEntity* _entity, const std::strin
 	/// prefabを取得
 	EntityPrefab* prefab = prefabItr->second.get();
 
-	/// Jsonからコンポーネントを生成
-	EntityJsonConverter::FromJson(prefab->GetJson(), _entity, pEcsGroup_->GetGroupName());
-
-}
+	/// Jsonからコンポーネントを生成 (Prefab適用時はマージではなく上書き)
+	EntityJsonConverter::FromJson(prefab->GetJson(), _entity, pEcsGroup_->GetGroupName(), false);
+	}
 
 GameEntity* EntityCollection::GenerateEntityRecursive(const nlohmann::json& _json, GameEntity* _parent, bool _isRuntime) {
 

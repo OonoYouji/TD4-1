@@ -4,6 +4,7 @@ using namespace ONEngine;
 
 /// engine
 #include "Engine/Core/DirectX12/Manager/DxManager.h"
+#include "Engine/Core/DirectX12/GPUTimeStamp/GPUTimeStamp.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/ShadowCaster/ShadowCaster.h"
@@ -66,6 +67,8 @@ void RenderingFramework::Draw() {
 	HeapBindToCommandList();
 	PreDraw(pEntityComponentSystem_->GetCurrentGroup());
 
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::RenderingTotal);
+
 #ifdef DEBUG_MODE /// imguiの描画
 	/// ----- debug build の描画 ----- ///
 
@@ -97,10 +100,15 @@ void RenderingFramework::Draw() {
 	/// ImGuiの描画後処理
 	pImGuiManager_->GetDebugGameWindow()->PostDraw();
 
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::RenderingTotal);
+
+	// GPUの結果を一括取得（計測の効率化）
+	GPUTimeStamp::GetInstance().FetchResults();
 
 	/// メインウィンドウにImGuiを描画
 	pWindowManager_->MainWindowPreDraw();
 	pImGuiManager_->Draw();
+	
 	pWindowManager_->MainWindowPostDraw();
 
 #else
@@ -109,6 +117,8 @@ void RenderingFramework::Draw() {
 	DrawShadowMap();
 	DrawScene();
 	releaseBuildSubWindow_->PostDraw();
+
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::RenderingTotal);
 
 	pWindowManager_->MainWindowPreDraw();
 	ECSGroup* currentGroup = pEntityComponentSystem_->GetCurrentGroup();
@@ -131,6 +141,8 @@ void RenderingFramework::DrawScene() {
 		return;
 	}
 
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::MainScene);
+
 	SceneRenderTexture* renderTex = renderTextures_[RENDER_TEXTURE_SCENE].get();
 
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
@@ -138,7 +150,11 @@ void RenderingFramework::DrawScene() {
 	renderingPipelineCollection_->DrawEntities(camera, pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera2D());
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::MainScene);
+
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::PostProcess);
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::PostProcess);
 }
 
 void RenderingFramework::DrawDebug() {
@@ -146,6 +162,8 @@ void RenderingFramework::DrawDebug() {
 	if (!camera || !camera->enable || !camera->IsMakeViewProjection()) {
 		return;
 	}
+
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::DebugDraw);
 
 	SceneRenderTexture* renderTex = renderTextures_[RENDER_TEXTURE_DEBUG].get();
 
@@ -155,6 +173,8 @@ void RenderingFramework::DrawDebug() {
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
+
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::DebugDraw);
 }
 
 void RenderingFramework::DrawPrefab() {
@@ -162,6 +182,8 @@ void RenderingFramework::DrawPrefab() {
 	if (!camera || !camera->enable || !camera->IsMakeViewProjection()) {
 		return;
 	}
+
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::PrefabDraw);
 
 	SceneRenderTexture* renderTex = renderTextures_[RENDER_TEXTURE_PREFAB].get();
 
@@ -171,6 +193,8 @@ void RenderingFramework::DrawPrefab() {
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
+
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::PrefabDraw);
 }
 
 void RenderingFramework::DrawShadowMap() {
@@ -197,12 +221,15 @@ void RenderingFramework::DrawShadowMap() {
 		return;
 	}
 
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::ShadowMap);
 
 	SceneRenderTexture* renderTex = renderTextures_[RENDER_TEXTURE_SHADOW_MAP].get();
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap());
 	renderingPipelineCollection_->DrawEntities(shadowCamera, nullptr);
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
+
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::ShadowMap);
 }
 
 void RenderingFramework::ResetCommand() {

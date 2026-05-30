@@ -6,7 +6,7 @@
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
-
+#include "Engine/Core/DirectX12/GPUTimeStamp/GPUTimeStamp.h"
 
 
 using namespace ONEngine;
@@ -76,6 +76,8 @@ void DissolveMeshRenderingPipeline::Draw(ECSGroup* _ecsGroup, CameraComponent* _
 	if(!CheckComponentArrayEnable(dmrArray)) {
 		return;
 	}
+
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::DissolveMeshRendering);
 
 	using DMRList = std::list<DissolveMeshRenderer*>;
 	std::unordered_map<Guid, DMRList> meshCompMap;
@@ -152,4 +154,7 @@ void DissolveMeshRenderingPipeline::Draw(ECSGroup* _ecsGroup, CameraComponent* _
 
 	}
 
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::DissolveMeshRendering);
 }
+
+

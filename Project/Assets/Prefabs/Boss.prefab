@@ -9,10 +9,10 @@
                 "z": 0.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "w": -0.13785013556480408,
+                "x": -0.002739193383604288,
+                "y": -0.9903156161308289,
+                "z": -0.016275862231850624
             },
             "scale": {
                 "x": 5.0,
@@ -22,7 +22,26 @@
             "type": "Transform"
         },
         {
-            "type": "Variables"
+            "type": "Variables",
+            "BossAI": {
+                "treePath": "Assets/AITrees/DefaultTree.json"
+            },
+            "DamageHandler": {},
+            "HP": {
+                "MAX_HP": 1000,
+                "currentHp": 1000
+            },
+            "Knockback": {
+                "KNOCKBACK_DECAY": 5.0,
+                "KNOCKBACK_FORCE_STRENGTH": 10.0,
+                "knockbackStopThreshold": 0.009999999776482582,
+                "knockbackVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "SampleBossComponent": {}
         },
         {
             "enable": 1,
@@ -42,10 +61,6 @@
                 {
                     "enable": false,
                     "name": "Knockback"
-                },
-                {
-                    "enable": true,
-                    "name": "SampleBossComponent"
                 }
             ],
             "type": "Script"
@@ -75,20 +90,21 @@
                     }
                 }
             },
-            "meshPath": "./Assets/AssetsWorkspace/models_prot/enemy_main.obj",
+            "meshPath": "./Assets/AssetsWorkspace/models/boss.obj",
             "type": "MeshRenderer"
         },
         {
             "categoryBits": 8,
             "enable": 1,
-            "maskBits": 36,
-            "radius": 2.5,
-            "state": "Dynamic",
+            "freezeY": true,
+            "maskBits": 4,
+            "radius": 5.0,
+            "state": "Static",
             "type": "SphereCollider"
         }
     ],
-    "guid": "fbbd2ff594de2ccc5301149313a28d06",
-    "id": 5,
+    "guid": "6190718f20ef1485d978d46962165d02",
+    "id": 14,
     "name": "Boss",
     "parent": null,
     "prefabName": "Boss"
