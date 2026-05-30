@@ -45,6 +45,7 @@ public:
         void* dataPtr = nullptr; // 直接値を書き換えるためのポインタ
         enum class Type {
             Float, Vector2, Vector3, Vector4,
+            TransformRotationEuler, // 特殊対応：Vector3 Euler -> Quaternion
             ScriptVar // Variablesコンポーネント経由
         } type;
         std::string scriptGroupName; // ScriptVarの場合のみ使用

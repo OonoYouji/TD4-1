@@ -9,7 +9,7 @@
 
 using namespace ONEngine::Asset;
 
-std::optional<AnimationClip> AssetLoader<AnimationClip>::Load(const std::string& _filepath, typename Meta<AnimationClip::MetaData> /*meta*/) {
+std::optional<AnimationClip> AssetLoader<AnimationClip>::Load(const std::string& _filepath, typename Meta<AnimationClip::MetaData> meta) {
     std::ifstream file(_filepath);
     if (!file.is_open()) return std::nullopt;
 
@@ -21,6 +21,7 @@ std::optional<AnimationClip> AssetLoader<AnimationClip>::Load(const std::string&
     }
 
     AnimationClip clip;
+    clip.guid = meta.base.guid; // GUIDをMetaデータから適用
     clip.name = j.value("name", "");
     clip.duration = j.value("duration", 0.0f);
     clip.isLooping = j.value("loop", false);
@@ -44,6 +45,14 @@ std::optional<AnimationClip> AssetLoader<AnimationClip>::Load(const std::string&
                         if (v.size() == 2) key.value = Vector2(v[0], v[1]);
                         else if (v.size() == 3) key.value = Vector3(v[0], v[1], v[2]);
                         else if (v.size() == 4) key.value = Vector4(v[0], v[1], v[2], v[3]);
+                    } else if (v.is_object()) {
+                        if (v.contains("w")) {
+                            key.value = Vector4(v.value("x", 0.0f), v.value("y", 0.0f), v.value("z", 0.0f), v.value("w", 0.0f));
+                        } else if (v.contains("z")) {
+                            key.value = Vector3(v.value("x", 0.0f), v.value("y", 0.0f), v.value("z", 0.0f));
+                        } else if (v.contains("y")) {
+                            key.value = Vector2(v.value("x", 0.0f), v.value("y", 0.0f));
+                        }
                     }
                     track.keyframes.push_back(key);
                 }
@@ -59,6 +68,8 @@ std::optional<AnimationClip> AssetLoader<AnimationClip>::Reload(const std::strin
     return Load(_filepath, meta);
 }
 
-Meta<typename AnimationClip::MetaData> AssetLoader<AnimationClip>::GetMetaData(const std::string& /*_filepath*/) {
-    return {};
+Meta<typename AnimationClip::MetaData> AssetLoader<AnimationClip>::GetMetaData(const std::string& _filepath) {
+    std::string metaPath = _filepath + ".meta";
+    MetaBase base = LoadOrGenerateMetaBase(metaPath, _filepath);
+    return { base, AnimationClip::MetaData{} };
 }

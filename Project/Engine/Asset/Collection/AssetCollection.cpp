@@ -188,7 +188,11 @@ bool AssetCollection::ReloadAsset(const std::string& filepath) {
 	AssetType type = GetAssetTypeFromExtension(extension);
 
 	if(auto* bundle = GetBaseBundle(type)) {
-		bundle->Reload(filepath);
+		if (bundle->Contains(filepath)) {
+			bundle->Reload(filepath);
+		} else {
+			bundle->Load(filepath);
+		}
 	}
 
 	return true;
@@ -229,6 +233,11 @@ const Guid& AssetCollection::GetAssetGuidFromPath(const std::string& filepath) c
 	AssetType type = GetAssetTypeFromExtension(extension);
 
 	if(auto* bundle = GetBaseBundle(type)) {
+		const Guid& guid = bundle->GetGuid(filepath);
+		if (guid.CheckValid()) return guid;
+
+		// 未登録ならここで一度ロードを試みる (const_castが必要だが安全な範囲)
+		const_cast<AssetCollection*>(this)->ReloadAsset(filepath);
 		return bundle->GetGuid(filepath);
 	}
 
@@ -298,6 +307,14 @@ const AudioClip* AssetCollection::GetAudioClip(const std::string& filepath) cons
 
 AudioClip* AssetCollection::GetAudioClip(const std::string& filepath) {
 	return GetBundle<AudioClip>(AssetType::Audio)->container->Get(filepath);
+}
+
+const AnimationClip* AssetCollection::GetAnimationClip(const std::string& filepath) const {
+	return GetBundle<AnimationClip>(AssetType::AnimationClip)->container->Get(filepath);
+}
+
+AnimationClip* AssetCollection::GetAnimationClip(const std::string& filepath) {
+	return GetBundle<AnimationClip>(AssetType::AnimationClip)->container->Get(filepath);
 }
 
 

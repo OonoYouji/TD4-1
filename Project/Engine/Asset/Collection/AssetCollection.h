@@ -185,6 +185,10 @@ public:
 	const AudioClip* GetAudioClip(const std::string& filepath) const;
 	AudioClip* GetAudioClip(const std::string& filepath);
 
+	/// ゲッタ アニメーションクリップ
+	const AnimationClip* GetAnimationClip(const std::string& filepath) const;
+	AnimationClip* GetAnimationClip(const std::string& filepath);
+
 };
 
 template<IsAsset T>

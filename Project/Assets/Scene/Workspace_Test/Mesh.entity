@@ -59,7 +59,7 @@
         },
         {
             "autoPlay": true,
-            "clipPath": "",
+            "clipPath": "./Assets/Anims/Test.anim",
             "currentTime": 0.0,
             "isLooping": true,
             "isPlaying": false,

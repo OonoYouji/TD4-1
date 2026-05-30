@@ -46,19 +46,33 @@ void AnimationPlayer::Stop() {
 }
 
 void AnimationPlayer::SetClip(const std::string& _path) {
-    clipPath = _path;
+    std::string path = _path;
+    std::replace(path.begin(), path.end(), '\\', '/');
+    if (!path.starts_with("./") && !path.starts_with("/") && (path.starts_with("Assets") || path.starts_with("Packages"))) {
+        path = "./" + path;
+    }
+    clipPath = path;
     isBound = false; // クリップが変わったらバインドをやり直す
 }
 
 void AnimationPlayer::Bind() {
     bindings.clear();
+
+    auto* ac = Asset::AssetCollection::GetInstance();
+    auto guid = ac->GetAssetGuidFromPath(clipPath);
+    auto* clip = ac->GetAsset<Asset::AnimationClip>(guid);
+
+    if (!clip) {
+        // まだロードされていない、またはパスが間違っている場合は次回に回す
+        isBound = false;
+        return;
+    }
+
     isBound = true;
-
-    auto* clip = Asset::AssetCollection::GetInstance()->GetAsset<Asset::AnimationClip>(Asset::AssetCollection::GetInstance()->GetAssetGuidFromPath(clipPath));
-    if (!clip) return;
-
     GameEntity* entity = GetOwner();
     if (!entity) return;
+
+    ONEngine::Console::Log(std::format("AnimationPlayer: Binding to clip '{}' for entity '{}'", clip->name, entity->GetName()));
 
     for (const auto& track : clip->tracks) {
         PropertyBinding binding;
@@ -79,7 +93,7 @@ void AnimationPlayer::Bind() {
             continue;
         }
 
-        // C++ コンポーネントのプロパティ解決（簡易的な手動バインド）
+        // C++ コンポーネントのプロパティ解決
         std::string compName = track.componentName;
         std::string propPath = track.propertyPath;
 
@@ -89,6 +103,7 @@ void AnimationPlayer::Bind() {
             else if (propPath == "position.x") { binding.dataPtr = &t->position.x; binding.type = PropertyBinding::Type::Float; }
             else if (propPath == "position.y") { binding.dataPtr = &t->position.y; binding.type = PropertyBinding::Type::Float; }
             else if (propPath == "position.z") { binding.dataPtr = &t->position.z; binding.type = PropertyBinding::Type::Float; }
+            else if (propPath == "rotation") { binding.dataPtr = &t->rotate; binding.type = PropertyBinding::Type::TransformRotationEuler; }
             else if (propPath == "scale") { binding.dataPtr = &t->scale; binding.type = PropertyBinding::Type::Vector3; }
             else if (propPath == "scale.x") { binding.dataPtr = &t->scale.x; binding.type = PropertyBinding::Type::Float; }
             else if (propPath == "scale.y") { binding.dataPtr = &t->scale.y; binding.type = PropertyBinding::Type::Float; }
@@ -105,7 +120,7 @@ void AnimationPlayer::Bind() {
             auto* r = static_cast<SpriteRenderer*>(binding.targetComponent);
             if (propPath == "color") { binding.dataPtr = &r->material_.baseColor; binding.type = PropertyBinding::Type::Vector4; }
         }
-        else if (compName == "DirectionalLight") {
+        else if (compName == "DirectionalLight" || compName == "Light") {
             auto* l = static_cast<DirectionalLight*>(binding.targetComponent);
             if (propPath == "color") { binding.dataPtr = &l->color_; binding.type = PropertyBinding::Type::Vector4; }
             else if (propPath == "intensity") { binding.dataPtr = &l->intensity_; binding.type = PropertyBinding::Type::Float; }
