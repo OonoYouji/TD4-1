@@ -153,7 +153,6 @@
     <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnVortexFieldNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/UpdateTargetTrackerNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/FireBeamNode.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/PhysicsPushService.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnGiantExpansionNode.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />

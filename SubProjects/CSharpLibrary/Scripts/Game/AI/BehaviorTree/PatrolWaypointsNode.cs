@@ -20,72 +20,85 @@ public class PatrolWaypointsNode : BehaviorNode
     public float stopDistance = 1.0f;
 
     /// <summary>
-    /// 巡回ポイントの座標リスト（セミコロン区切りの文字列）。
-    /// 例: "10,0,10; -10,0,10; -10,0,-10; 10,0,-10"
-    /// ※BTエディタが配列プロパティをサポートしていない場合のための簡易実装。
+    /// 巡回ポイントのEntity名リスト（セミコロン区切りの文字列）。
+    /// 例: "Waypoint_A; Waypoint_B; Waypoint_C; Waypoint_D"
     /// </summary>
-    public string waypointsString = "0,0,0";
+    public string waypointNamesString = "";
 
-    private List<Vector3> waypoints_ = new List<Vector3>();
+    private List<string> waypointNames_ = new List<string>();
 
     /// <summary>
-    /// 文字列から座標リストを構築。
+    /// 文字列からEntity名リストを構築。
     /// </summary>
-    private void EnsureWaypoints()
+    private void EnsureWaypointNames()
     {
-        if (waypoints_.Count > 0) return;
+        if (waypointNames_.Count > 0) return;
 
-        string[] points = waypointsString.Split(';');
-        foreach (var p in points)
+        string[] names = waypointNamesString.Split(';');
+        foreach (var n in names)
         {
-            string[] coords = p.Split(',');
-            if (coords.Length >= 3)
+            string trimmed = n.Trim();
+            if (!string.IsNullOrEmpty(trimmed))
             {
-                if (float.TryParse(coords[0], out float x) &&
-                    float.TryParse(coords[1], out float y) &&
-                    float.TryParse(coords[2], out float z))
-                {
-                    waypoints_.Add(new Vector3(x, y, z));
-                }
+                waypointNames_.Add(trimmed);
             }
-        }
-
-        if (waypoints_.Count == 0)
-        {
-            waypoints_.Add(Vector3.zero);
         }
     }
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        EnsureWaypoints();
+        EnsureWaypointNames();
+
+        if (waypointNames_.Count == 0)
+        {
+            return NodeStatus.Failure;
+        }
 
         uint idxKeyHash = BehaviorTreeLoader.HashString(currentIdxKey);
         int currentIdx = blackboard.GetInt(idxKeyHash, 0);
 
         // インデックスが範囲外の場合はリセット
-        if (currentIdx < 0 || currentIdx >= waypoints_.Count)
+        if (currentIdx < 0 || currentIdx >= waypointNames_.Count)
         {
             currentIdx = 0;
             blackboard.SetInt(idxKeyHash, 0);
         }
 
-        Vector3 targetPos = waypoints_[currentIdx];
+        // 対象のEntityを検索して座標を取得
+        string targetName = waypointNames_[currentIdx];
+        Entity waypointEntity = owner.Group.FindEntity(targetName);
+        
+        if (waypointEntity == null)
+        {
+            Debug.LogWarning($"<color=yellow>[PatrolWaypoints]</color> Waypoint entity '{targetName}' NOT FOUND. Skipping to next.");
+            blackboard.SetInt(idxKeyHash, (currentIdx + 1) % waypointNames_.Count);
+            return NodeStatus.Running;
+        }
+
+        Vector3 targetPos = waypointEntity.transform.position;
         Vector3 ownerPos = owner.transform.position;
-        Vector3 diff = targetPos - ownerPos;
+        
+        // 高度(Y)を無視した距離計算（移動は平面想定）
+        Vector3 diff = new Vector3(targetPos.x - ownerPos.x, 0, targetPos.z - ownerPos.z);
         float distance = diff.Length();
+
+        // ログ出力（デバッグ用）
+        if (TickCount % 30 == 0)
+        {
+            Debug.Log($"<color=cyan>[PatrolWaypoints]</color> {owner.name} heading to '{targetName}' {Vector3.ToSimpleString(targetPos)}. Dist: {distance:F2}");
+        }
 
         // 1. 到着判定
         if (distance <= stopDistance)
         {
+            Debug.Log($"<color=green>[PatrolWaypoints]</color> {owner.name} REACHED '{targetName}'. Moving to next index.");
             // 次のポイントへ（循環する）
-            int nextIdx = (currentIdx + 1) % waypoints_.Count;
+            int nextIdx = (currentIdx + 1) % waypointNames_.Count;
             blackboard.SetInt(idxKeyHash, nextIdx);
             
             var intent = owner.GetComponent<AgentIntentComponent>();
             if (intent != null) intent.desiredMoveDirection = Vector3.zero;
 
-            // 1地点に到着したらSuccessを返し、Sequence等で繋げられるようにする
             return NodeStatus.Success;
         }
 
