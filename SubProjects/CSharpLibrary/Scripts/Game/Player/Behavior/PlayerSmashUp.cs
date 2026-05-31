@@ -68,12 +68,6 @@ public class PlayerSmashUp : MonoScript
 
     private void Rising()
     {
-
-        if (!isRising_)
-        {
-            return;
-        }
-
         // 上昇の動き
         float t = Mathf.Clamp01(timer_ / riseDuration);
         transform.position = originPos_ + new Vector3(0, riseHeight * t, 0);
@@ -81,20 +75,13 @@ public class PlayerSmashUp : MonoScript
         // 上昇が終わってから待機する
         if (timer_ >= riseDuration)
         {
-            timer_ = 0f; isRising_ = false;
+            timer_ = 0f;
             currentPhase_ = Falling;
         }
     }
 
     private void Falling()
     {
-
-        // 上昇が終わるまで待機
-        if (!isFalling_)
-        {
-            return;
-        }
-
         // 落下の動き
         float t = Mathf.Clamp01(timer_ / fallDuration);
         transform.position = originPos_ + new Vector3(0, riseHeight * (1f - t), 0);
