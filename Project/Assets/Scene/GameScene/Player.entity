@@ -94,6 +94,10 @@
                 {
                     "enable": true,
                     "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "PlayerSmashUp"
                 }
             ],
             "type": "Script"
