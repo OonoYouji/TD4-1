@@ -22,6 +22,12 @@
             "type": "Transform"
         },
         {
+            "FieldFall": {
+                "fallDistance": 10.0,
+                "fallDuration": 0.699999988079071,
+                "returnDuration": 0.699999988079071,
+                "waitDuration": 5.0
+            },
             "type": "Variables"
         },
         {
@@ -51,9 +57,19 @@
             },
             "meshPath": "./Assets/Models/Block/ruins_block1.obj",
             "type": "MeshRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "FieldFall"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "5ae8957cb14c5f83eb37524050003f1c",
+    "guid": "954723531e59d2873e81d2d9c6ef1037",
     "id": 2,
     "name": "FieldCell",
     "parent": null,

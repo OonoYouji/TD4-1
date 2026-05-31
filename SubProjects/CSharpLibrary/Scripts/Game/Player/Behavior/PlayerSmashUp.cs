@@ -28,6 +28,7 @@ public class PlayerSmashUp : MonoScript
 
     public bool IsPlaying => isPlaying_;
     private System.Action currentPhase_;
+    private FieldManager fieldManager_;
 
     // =========================================================
     // ライフサイクル
@@ -35,8 +36,9 @@ public class PlayerSmashUp : MonoScript
 
     public override void Initialize()
     {
-
-
+        Entity managerEntity = ecsGroup.FindEntity("FieldManager");
+        if (managerEntity != null)
+            fieldManager_ = managerEntity.GetScript<FieldManager>();
     }
 
     public override void Update()
@@ -91,6 +93,7 @@ public class PlayerSmashUp : MonoScript
         {
             transform.position = originPos_;
             isPlaying_ = false;
+            fieldManager_?.TriggerCellAt(originPos_);
         }
     }
 

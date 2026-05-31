@@ -40,8 +40,8 @@
         }
     ],
     "guid": "acd3e3950d763de2cf669421024046b6",
-    "id": 13,
+    "id": 6,
     "name": "ShotControl",
-    "parent": 12,
+    "parent": 4,
     "prefabName": ""
 }

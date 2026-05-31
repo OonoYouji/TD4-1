@@ -11,57 +11,57 @@
             "path": "./GameScene/Camera2D.entity"
         },
         {
-            "id": 7,
+            "id": 5,
             "parent": null,
             "path": "./GameScene/Light.entity"
         },
         {
-            "id": 10,
+            "id": 12,
             "parent": null,
             "path": "./GameScene/Player.entity"
         },
         {
-            "id": 3,
+            "id": 7,
             "parent": null,
             "path": "./GameScene/Background.entity"
         },
         {
-            "id": 11,
-            "parent": 3,
+            "id": 13,
+            "parent": 7,
             "path": "./GameScene/Field.entity"
         },
         {
-            "id": 5,
+            "id": 3,
             "parent": 2,
             "path": "./GameScene/PlayerHP.entity"
         },
         {
-            "id": 12,
+            "id": 4,
             "parent": null,
             "path": "./GameScene/Player2DRoot.entity"
         },
         {
-            "id": 13,
-            "parent": 12,
+            "id": 6,
+            "parent": 4,
             "path": "./GameScene/ShotControl.entity"
         },
         {
-            "id": 4,
-            "parent": 13,
+            "id": 8,
+            "parent": 6,
             "path": "./GameScene/Gamepad.entity"
         },
         {
-            "id": 6,
-            "parent": 13,
+            "id": 9,
+            "parent": 6,
             "path": "./GameScene/KBM.entity"
         },
         {
-            "id": 8,
-            "parent": 13,
+            "id": 10,
+            "parent": 6,
             "path": "./GameScene/TextSprite.entity"
         },
         {
-            "id": 9,
+            "id": 11,
             "parent": 2,
             "path": "./GameScene/SpreadUi.entity"
         },
@@ -104,6 +104,11 @@
             "id": 21,
             "parent": null,
             "path": "./GameScene/TargetRock_1.entity"
+        },
+        {
+            "id": 22,
+            "parent": null,
+            "path": "./GameScene/FieldManager.entity"
         }
     ]
 }

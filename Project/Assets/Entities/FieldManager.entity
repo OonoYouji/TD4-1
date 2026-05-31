@@ -4,9 +4,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -0.1720564067363739,
-                "y": 0.058580245822668076,
-                "z": -0.08233200758695602
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "rotate": {
                 "w": 1.0,
@@ -22,13 +22,11 @@
             "type": "Transform"
         },
         {
-            "SceneTransition": {
-                "fadeDuration": 0.5,
-                "fadeInOnStart": true,
-                "isFadingIn": false,
-                "isFadingOut": false,
-                "nextScene": "",
-                "timer": -0.011685118079185486
+            "FieldManager": {
+                "cellHeight": 1.0,
+                "cellSize": 12.0,
+                "columns": 15,
+                "rows": 15
             },
             "type": "Variables"
         },
@@ -37,15 +35,15 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "SceneTransition"
+                    "name": "FieldManager"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-    "id": 10,
-    "name": "TextSprite",
-    "parent": 6,
+    "guid": "879d162485a858be132bcade93f885ad",
+    "id": 22,
+    "name": "FieldManager",
+    "parent": null,
     "prefabName": ""
 }

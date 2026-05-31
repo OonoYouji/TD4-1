@@ -91,10 +91,13 @@ public class FieldManager : MonoScript
                 if (mesh != null)
                     mesh.meshPath = GetMeshPath(type);
 
-                var cellScript = cell.AddScript<FieldCell>();
-                cellScript.cellType = type;
-                cellScript.gridRow = r;
-                cellScript.gridCol = c;
+                var cellScript = cell.GetScript<FieldCell>();
+                if (cellScript != null)
+                {
+                    cellScript.cellType = type;
+                    cellScript.gridRow = r;
+                    cellScript.gridCol = c;
+                }
 
                 cells_.Add(cell);
                 cellGrid_[r, c] = cell;
@@ -130,25 +133,61 @@ public class FieldManager : MonoScript
 
     public bool WorldToGrid(Vector3 worldPos, out int row, out int col)
     {
+
+        // 座標の取得
         Vector3 origin = transform.position;
+        // 半分のブロックサイズを計算
         float halfWidth = (columns - 1) * cellSize;
         float halfDepth = (rows - 1) * cellSize;
 
+        // グリッド座標の計算
         col = (int)System.Math.Round((worldPos.x - origin.x + halfWidth) / cellSize);
         row = (int)System.Math.Round((worldPos.z - origin.z + halfDepth) / cellSize);
 
+        // グリッド内かどうかのチェック
         return col >= 0 && col < columns && row >= 0 && row < rows;
     }
 
     public Entity GetCellAt(int row, int col)
     {
-        if (row < 0 || row >= rows || col < 0 || col >= columns) return null;
+
+        // 範囲外チェック
+        if (row < 0 || row >= rows || col < 0 || col >= columns) {
+            return null;
+        }
+
+        // セルエンティティを返す
         return cellGrid_[row, col];
     }
 
     public FieldCellType GetCellType(int row, int col)
     {
-        if (row < 0 || row >= rows || col < 0 || col >= columns) return FieldCellType.TypeA;
+        // 引数の範囲チェック
+        if (row < 0 || row >= rows || col < 0 || col >= columns) { 
+            return FieldCellType.TypeA; 
+        }
+
+        // セルタイプを返す
         return cellTypes_[row, col];
+    }
+
+    public void TriggerCellAt(Vector3 worldPos)
+    {
+        int row, col;
+
+        // 変換した結果が範囲外だったら何もしない
+        if (!WorldToGrid(worldPos, out row, out col))
+        {
+            return;
+        }
+
+        // セルエンティティを取得
+        Entity cellEntity = GetCellAt(row, col);
+        if (cellEntity == null) {
+            return;
+        }
+
+        // セルスクリプトを取得して落下開始
+        cellEntity.GetScript<FieldFall>()?.StartFalling();
     }
 }
