@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "cameraType": 1,
@@ -43,8 +44,7 @@
         }
     ],
     "guid": "485731b9044195e0a1d0105e072bff6c",
-    "id": 2,
     "name": "2DCamera",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

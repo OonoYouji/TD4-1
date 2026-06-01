@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -161,8 +162,7 @@
         }
     ],
     "guid": "7507623143fccb9523b40b4e0107ecbf",
-    "id": 4,
     "name": "Mesh",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }
