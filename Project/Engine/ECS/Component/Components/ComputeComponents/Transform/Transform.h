@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /// std
 #include <memory>
@@ -21,6 +21,7 @@
 namespace ONEngine {
 
 class Transform : public IComponent {
+	friend class AnimationPlayer;
 public:
 
 	/// @brief 親子付けしているTransformの行列計算フラグ
@@ -54,6 +55,11 @@ public:
 	void Update();
 	void Reset() override;
 
+	/// @brief 編集用オイラー角からQuaternionを更新する
+	void SyncQuaternionFromEuler();
+	/// @brief Quaternionから編集用オイラー角を更新する
+	void SyncEulerFromQuaternion();
+
 public:
 	/// ===============================================
 	/// public : objects
@@ -63,6 +69,9 @@ public:
 	Quaternion rotate;
 	Vector3   scale;
 	Matrix4x4 matWorld;
+
+	Vector3   euler; // 編集用のオイラー角キャッシュ (Degree)
+	Quaternion lastSyncedRotate; // 外部からの変更検知用
 
 	int       matrixCalcFlags = kAll;
 

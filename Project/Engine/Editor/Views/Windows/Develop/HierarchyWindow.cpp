@@ -3,6 +3,7 @@
 /// std
 #include <filesystem>
 #include <algorithm>
+#include <fstream>
 
 /// external
 #include <imgui.h>
@@ -14,6 +15,7 @@
 #include "Engine/Core/Utility/Math/Math.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Entity/GameEntity/GameEntity.h"
+#include "Engine/ECS/Entity/EntityJsonConverter.h"
 #include "Engine/Scene/SceneManager.h"
 
 /// editor
@@ -64,14 +66,30 @@ void HierarchyWindow::PrefabDragAndDrop() {
 				Editor::AssetPayload* assetPayload = *static_cast<Editor::AssetPayload**>(payload->Data);
 				const std::string path = assetPayload->filePath;
 
-				if(path.find(".prefab") != std::string::npos) {
+				if(path.find(".prefab") != std::string::npos || path.find(".entity") != std::string::npos) {
 					// filesystemを使って安全かつシンプルにファイル名を抽出
 					std::string fileName = std::filesystem::path(path).filename().string();
+					std::string ext = std::filesystem::path(path).extension().string();
 
-					pEcsGroup_->GenerateEntityFromPrefab(fileName, ONEngine::DebugConfig::isDebugging);
-					ONEngine::Console::Log(std::format("entity name set to: {}", fileName));
+					if (ext == ".prefab") {
+						pEcsGroup_->GenerateEntityFromPrefab(fileName, ONEngine::DebugConfig::isDebugging);
+					} else {
+						// .entity ファイルの読み込み
+						ONEngine::GameEntity* entity = pEcsGroup_->GenerateEntity(ONEngine::GenerateGuid(), ONEngine::DebugConfig::isDebugging);
+						if (entity) {
+							entity->SetName(std::filesystem::path(path).stem().string());
+							entity->GetComponent<ONEngine::Variables>()->LoadJson(path);
+							// Note: This only loads variables. If we want to load the full entity:
+							nlohmann::json j;
+							std::ifstream ifs(path);
+							if (ifs >> j) {
+								ONEngine::EntityJsonConverter::FromJson(j, entity, pEcsGroup_->GetGroupName());
+							}
+						}
+					}
+					ONEngine::Console::Log(std::format("entity loaded from: {}", fileName));
 				} else {
-					ONEngine::Console::Log("[error] Invalid entity format. Please use \".prefab\"");
+					ONEngine::Console::Log("[error] Invalid entity format. Please use \".prefab\" or \".entity\"");
 				}
 			}
 		}
@@ -102,6 +120,19 @@ void HierarchyWindow::DrawMenuEntity() {
 		if(ImGui::MenuItem("create empty object")) {
 			pEditorManager_->ExecuteCommand<CreateGameObjectCommand>(pEcsGroup_);
 		}
+
+		ImGui::Separator();
+
+		if(ImGui::MenuItem("Camera")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Camera);
+		}
+		if(ImGui::MenuItem("Directional Light")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::DirectionalLight);
+		}
+		if(ImGui::MenuItem("Mesh")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Mesh);
+		}
+
 		ImGui::EndMenu();
 	}
 }
@@ -112,7 +143,7 @@ void HierarchyWindow::DrawMenuScene() {
 		if(ImGui::MenuItem("create scene")) {
 			IGFD::FileDialogConfig config;
 			config.path = "./Assets/Scene";
-			ImGuiFileDialog::Instance()->OpenDialog("save file dialog", "ファイル保存", ".json", config);
+			ImGuiFileDialog::Instance()->OpenDialog("save file dialog", "ファイル保存", ".scene", config);
 		}
 
 		if(ImGui::MenuItem("save scene")) {
@@ -123,7 +154,7 @@ void HierarchyWindow::DrawMenuScene() {
 			if(ImGui::MenuItem("open explorer")) {
 				IGFD::FileDialogConfig config;
 				config.path = "./Assets/Scene";
-				ImGuiFileDialog::Instance()->OpenDialog("Dialog", "Choose File", ".json", config);
+				ImGuiFileDialog::Instance()->OpenDialog("Dialog", "Choose File", ".scene", config);
 			}
 			ImGui::EndMenu();
 		}
@@ -170,13 +201,13 @@ void HierarchyWindow::DrawHierarchy() {
 
 	if(ImGui::CollapsingHeader(groupName != "" ? groupName.c_str() : "Unnamed Group", ImGuiTreeNodeFlags_DefaultOpen)) {
 
-		HandleRootDragDrop();
-
 		for(auto& entity : pEcsGroup_->GetEntities()) {
 			if(!entity->GetParent()) {
 				DrawEntity(entity.get());
 			}
 		}
+
+		HandleRootDragDrop();
 
 		ShowInvalidParentPopup();
 	}
@@ -435,10 +466,14 @@ void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 /// 親子関係の解除/ルートへの移動
 ///
 void HierarchyWindow::HandleRootDragDrop() {
+	// 階層の下部にドロップエリアを確保
+	ImGui::Spacing();
+	ImGui::Spacing();
+
 	ImVec2 windowSize = ImGui::GetContentRegionAvail();
-	windowSize.y = 12.0f;
+	windowSize.y = (std::max)(windowSize.y, 20.0f); // 最低20pxのドロップ領域
 	if(windowSize.x == 0.0f) {
-		windowSize.x = 12.0f;
+		windowSize.x = 20.0f;
 	}
 
 	// 階層の隙間に透明な判定エリアを作る
@@ -447,7 +482,10 @@ void HierarchyWindow::HandleRootDragDrop() {
 		if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EntityData")) {
 			ONEngine::GameEntity** srcEntityPtr = static_cast<ONEngine::GameEntity**>(payload->Data);
 			ONEngine::GameEntity* srcEntity = *srcEntityPtr;
-			srcEntity->RemoveParent();
+
+			// ルートの最後に移動
+			uint32_t lastIndex = static_cast<uint32_t>(pEcsGroup_->GetEntities().size());
+			pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, nullptr, lastIndex);
 		}
 		ImGui::EndDragDropTarget();
 	}
@@ -475,13 +513,67 @@ void HierarchyWindow::HandleEntityDragDrop(ONEngine::GameEntity* entity) {
 			// 自分自身や、自分の子孫ノードを親にしようとしていないかチェック
 			if(srcEntity != entity) {
 				if(!IsDescendant(srcEntity, entity)) {
-					EditCommand::Execute<ChangeEntityParentCommand>(srcEntity, entity);
+
+					// ドロップ位置によって、親子関係か並び替えかを判断する
+					float mouseY = ImGui::GetMousePos().y;
+					float itemMinY = ImGui::GetItemRectMin().y;
+					float itemMaxY = ImGui::GetItemRectMax().y;
+					float height = itemMaxY - itemMinY;
+
+					if (mouseY < itemMinY + height * 0.25f) {
+						// 上部にドロップ：ターゲットの前に移動（同階層）
+						uint32_t targetIndex = 0;
+						ONEngine::GameEntity* parent = entity->GetParent();
+						if (parent) {
+							const auto& children = parent->GetChildren();
+							auto it = std::find(children.begin(), children.end(), entity);
+							targetIndex = static_cast<uint32_t>(std::distance(children.begin(), it));
+						} else {
+							const auto& entities = pEcsGroup_->GetEntities();
+							auto it = std::find_if(entities.begin(), entities.end(), [entity](const auto& e) { return e.get() == entity; });
+							targetIndex = static_cast<uint32_t>(std::distance(entities.begin(), it));
+						}
+						pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, parent, targetIndex);
+					} else if (mouseY > itemMinY + height * 0.75f) {
+						// 下部にドロップ：ターゲットの後に移動（同階層）
+						uint32_t targetIndex = 0;
+						ONEngine::GameEntity* parent = entity->GetParent();
+						if (parent) {
+							const auto& children = parent->GetChildren();
+							auto it = std::find(children.begin(), children.end(), entity);
+							targetIndex = static_cast<uint32_t>(std::distance(children.begin(), it)) + 1;
+						} else {
+							const auto& entities = pEcsGroup_->GetEntities();
+							auto it = std::find_if(entities.begin(), entities.end(), [entity](const auto& e) { return e.get() == entity; });
+							targetIndex = static_cast<uint32_t>(std::distance(entities.begin(), it)) + 1;
+						}
+						pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, parent, targetIndex);
+					} else {
+						// 中央にドロップ：ターゲットの子にする
+						pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, entity);
+					}
+
 				} else {
 					showInvalidParentPopup_ = true;
 					ONEngine::Console::LogError("ドロップ先エンティティがドラッグ元エンティティの子であるためドロップできません");
 				}
 			}
 		}
+
+		// プレビューの描画
+		float mouseY = ImGui::GetMousePos().y;
+		float itemMinY = ImGui::GetItemRectMin().y;
+		float itemMaxY = ImGui::GetItemRectMax().y;
+		float height = itemMaxY - itemMinY;
+
+		if (mouseY < itemMinY + height * 0.25f) {
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y), ImVec2(ImGui::GetItemRectMax().x, ImGui::GetItemRectMin().y), ImColor(255, 255, 0), 2.0f);
+		} else if (mouseY > itemMinY + height * 0.75f) {
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(ImGui::GetItemRectMin().x, ImGui::GetItemRectMax().y), ImVec2(ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y), ImColor(255, 255, 0), 2.0f);
+		} else {
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), ImColor(255, 255, 0), 0.0f, 0, 2.0f);
+		}
+
 		ImGui::EndDragDropTarget();
 	}
 }
@@ -504,6 +596,19 @@ bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 				std::string name = "NewEntity_" + std::to_string(count);
 				pEditorManager_->ExecuteCommand<CreateGameObjectCommand>(pEcsGroup_, name, entity);
 			}
+
+			ImGui::Separator();
+
+			if(ImGui::MenuItem("Camera")) {
+				pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Camera, entity);
+			}
+			if(ImGui::MenuItem("Directional Light")) {
+				pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::DirectionalLight, entity);
+			}
+			if(ImGui::MenuItem("Mesh")) {
+				pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Mesh, entity);
+			}
+
 			ImGui::EndMenu();
 		}
 

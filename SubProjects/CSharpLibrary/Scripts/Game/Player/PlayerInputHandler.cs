@@ -14,11 +14,13 @@ class PlayerInputHandler : MonoScript
     [SerializeField] public Mouse launchKey = Mouse.Left;
 
     PlayerBulletLauncher bulletLauncher;
+    Player player_;
 
     public override void Initialize()
     {
         Debug.Log("PlayerInputHandler Initializing");
         bulletLauncher = entity.GetScript<PlayerBulletLauncher>();
+        player_ = entity.GetScript<Player>();
         if (bulletLauncher == null)
         {
             Debug.LogWarning("PlayerBulletLauncher script not found on the entity.");
@@ -29,6 +31,8 @@ class PlayerInputHandler : MonoScript
 
     public override void Update()
     {
+        if (player_ != null && player_.IsFrozen) return;
+
         if (Input.PressMouse(launchKey))
         {
             launchTimer += Time.deltaTime;

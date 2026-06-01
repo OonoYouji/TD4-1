@@ -1,0 +1,46 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 20.0,
+                "y": 0.0,
+                "z": 5.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 0.5,
+                    "y": 0.3,
+                    "z": 0.1
+                },
+                "postEffectFlags": 1
+            },
+            "meshPath": "Assets/Models/Knight_Golden_Male.gltf",
+            "type": "MeshRenderer"
+        }
+    ],
+    "id": 20,
+    "name": "Rock_Sample",
+    "parent": null,
+    "prefabName": ""
+}

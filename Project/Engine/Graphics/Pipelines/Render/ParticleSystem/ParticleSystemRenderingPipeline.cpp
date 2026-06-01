@@ -1,10 +1,11 @@
-#include "ParticleSystemRenderingPipeline.h"
+﻿#include "ParticleSystemRenderingPipeline.h"
 
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/Core/DirectX12/Manager/DxManager.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
 #include "Engine/Core/Utility/Math/Matrix4x4.h"
+#include "Engine/Core/DirectX12/GPUTimeStamp/GPUTimeStamp.h"
 
 namespace ONEngine {
 
@@ -82,6 +83,8 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
     if (!psArray || psArray->GetUsedComponents().empty()) {
         return;
     }
+
+    GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::ParticleRendering);
 
     auto cmdList = _dxCommand->GetCommandList();
 
@@ -209,6 +212,8 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
             );
         }
     }
+
+    GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::ParticleRendering);
 }
 
 }

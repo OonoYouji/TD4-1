@@ -1,0 +1,15 @@
+{
+    "active": true,
+    "components": [
+        {
+            "DamageHandler": {
+                "cooldownTimer": -0.01639770157635212
+            },
+            "type": "Variables"
+        }
+    ],
+    "guid": "6190718f20ef1485d978d46962165d02",
+    "name": "Boss",
+    "parentGuid": null,
+    "prefabName": "Boss"
+}

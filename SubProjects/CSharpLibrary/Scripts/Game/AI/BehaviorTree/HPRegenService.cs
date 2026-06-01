@@ -23,20 +23,37 @@ public class HPRegenService : BehaviorService
     /// </summary>
     public float regenPerSecond = 5.0f;
 
+    private float _accumulatedHeal = 0.0f;
+
     /// <summary>
     /// 定期実行される回復処理。
     /// </summary>
     public override void OnTick(Blackboard blackboard, Entity owner)
     {
-        uint hpKeyHash = BehaviorTreeLoader.HashString(currentHPKey);
-        float currentHP = blackboard.GetFloat(hpKeyHash, maxHP);
+        // 1. 物理的なHPコンポーネントを取得
+        HP hpComp = owner.GetScript<HP>();
+        if (hpComp == null) return;
 
-        // 回復処理（Interval 考慮）
-        if (currentHP < maxHP)
+        // 2. 回復量を計算（端数を蓄積する）
+        _accumulatedHeal += regenPerSecond * Interval;
+        
+        int amountInt = (int)_accumulatedHeal;
+
+        if (amountInt >= 1)
         {
-            float amount = regenPerSecond * Interval;
-            currentHP = Math.Min(maxHP, currentHP + amount);
-            blackboard.SetFloat(hpKeyHash, currentHP);
+            if (hpComp.currentHp < hpComp.MAX_HP)
+            {
+                hpComp.Heal(amountInt);
+                
+                // 3. Blackboard の値を即座に同期
+                uint hpKeyHash = BehaviorTreeLoader.HashString(currentHPKey);
+                blackboard.SetFloat(hpKeyHash, (float)hpComp.currentHp);
+                
+                // Debug.Log($"[HPRegen] {owner.name} healed for {amountInt}. Current: {hpComp.currentHp}/{hpComp.MAX_HP}");
+            }
+            
+            // 消費した分を差し引く（端数は残す）
+            _accumulatedHeal -= amountInt;
         }
     }
 }

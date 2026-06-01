@@ -79,6 +79,7 @@ public class Entity {
 		}
 		set {
 			if (value == null) {
+				InternalSetParent(Id, 0, ecsGroupName_);
 				return;
 			}
 			InternalSetParent(Id, value.Id, ecsGroupName_);
@@ -122,6 +123,11 @@ public class Entity {
 				Debug.LogInfo("Entity.Destroy - Destroying child entity ID: " + child.Id + " of parent entity ID: " + entityId_);
 				child.Destroy();
 			}
+		}
+
+		// スクリプトの破棄イベントを呼ぶ
+		foreach (var script in scripts_.Values) {
+			script.OnDestroy();
 		}
 
 		/// Entityを削除

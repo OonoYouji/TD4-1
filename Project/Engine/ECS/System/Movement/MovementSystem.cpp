@@ -3,6 +3,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/Core/Utility/Time/Time.h"
+#include "Engine/Core/Utility/Time/CPUTimeStamp.h"
 #include "Engine/ECS/Component/Array/ComponentArray.h"
 #include "Engine/ECS/Entity/GameEntity/GameEntity.h"
 
@@ -11,6 +12,7 @@ namespace ONEngine {
 MovementSystem::MovementSystem() {}
 
 void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
+    CPUTimeStamp::GetInstance().BeginTimeStamp(CPUTimeStampID::PhysicsUpdate);
     if (!_ecs) {
         return;
     }
@@ -44,9 +46,9 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
         }
 
         // --- 2. 移動の処理 ---
-        float targetSpeed = 5.0f; // TODO: コンポーネントから取得
-        float acceleration = 20.0f; // TODO: コンポーネントから取得
-        float deceleration = 30.0f; // TODO: コンポーネントから取得
+        float targetSpeed = 8.0f;    // 目標速度 (仕様に合わせて調整)
+        float acceleration = 25.0f;  // 加速度
+        float deceleration = 35.0f;  // 減速度
 
         // 攻撃中、または移動意図がない場合は目標速度を 0 にする
         bool isMovingIntent = !intent->isAttacking && intent->desiredMoveDirection.LengthSquared() > 0.001f;
@@ -70,16 +72,8 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
         Vector3 oldPos = owner->GetLocalPosition();
         Vector3 newPos = oldPos + velocity;
         owner->SetPosition(newPos);
-
-        // ログを出力して動作を確認 (Bossエンティティを想定)
-        if (owner->GetName().find("Boss") != std::string::npos || owner->GetId() == 1) {
-            Console::Log("C++ MovementSystem: Entity " + owner->GetName() + " moving. Dir: (" + 
-                std::to_string(intent->desiredMoveDirection.x) + ", " + 
-                std::to_string(intent->desiredMoveDirection.y) + ", " + 
-                std::to_string(intent->desiredMoveDirection.z) + "), Pos: (" + 
-                std::to_string(newPos.x) + ", " + std::to_string(newPos.y) + ", " + std::to_string(newPos.z) + ")", LogCategory::Engine);
-        }
     }
+    CPUTimeStamp::GetInstance().EndTimeStamp(CPUTimeStampID::PhysicsUpdate);
 }
 
 }

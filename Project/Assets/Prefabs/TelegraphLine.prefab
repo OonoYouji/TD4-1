@@ -3,22 +3,59 @@
         {
             "enable": 1,
             "matrixCalcFlags": 7,
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "rotate": { "w": 0.7071, "x": 0.0, "y": 0.7071, "z": 0.0 },
-            "scale": { "x": 1.0, "y": 1.0, "z": 20.0 },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
             "type": "Transform"
+        },
+        {
+            "type": "Variables"
         },
         {
             "enable": 1,
             "material": {
-                "baseColor": { "w": 0.5, "x": 1.0, "y": 0.0, "z": 0.0 },
-                "postEffectFlags": 1
+                "baseColor": {
+                    "w": 0.5,
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
-            "meshPath": "./Packages/Models/primitive/plane.obj",
+            "meshPath": "./Packages/Models/primitive/cube.obj",
             "type": "MeshRenderer"
         }
     ],
-    "guid": "de1ade1ade1ade1ade1ade1ade1ade1a",
+    "guid": "d9aa05c59881568cfb55bf80531f02bd",
+    "id": 2,
     "name": "TelegraphLine",
+    "parent": null,
     "prefabName": "TelegraphLine"
 }

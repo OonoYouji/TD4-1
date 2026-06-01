@@ -1,0 +1,33 @@
+{
+    "blackboard": [
+        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
+        { "key": "TargetId", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "nodes": [
+        {
+            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [0.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+        },
+        {
+            "id": 2, "className": "Parallel", "name": "Test Root", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
+            "decorators": [],
+            "services": [
+                { "id": 201, "className": "FindPlayerService", "name": "Player Finder", "properties": { "targetIdKey": "TargetId" }, "isService": true },
+                { "id": 202, "className": "UpdateTargetTrackerNode", "name": "Pos Updater", "properties": { "targetIdKey": "TargetId", "targetPosKey": "TargetPosition" }, "isService": true }
+            ],
+            "pos": [300.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+        },
+        {
+            "id": 3, "className": "RunBehaviorNode", "name": "Action", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json" }, 
+            "decorators": [], "services": [], "pos": [600.0, 0.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": []
+        }
+    ],
+    "links": [
+        { "id": 1001, "startPin": 10, "endPin": 20 },
+        { "id": 1002, "startPin": 21, "endPin": 30 }
+    ]
+}

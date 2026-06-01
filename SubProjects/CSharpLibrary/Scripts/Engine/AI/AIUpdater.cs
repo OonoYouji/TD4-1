@@ -5,6 +5,10 @@ using System.Runtime.InteropServices;
 public static class AIUpdater {
     private static readonly Dictionary<uint, AgentIntentComponent> _componentCache = new Dictionary<uint, AgentIntentComponent>();
 
+    // エディタ表示用の状態保持
+    public static string lastBossName = "None";
+    public static string lastBossAction = "Idle";
+
     /// <summary>
     /// C++ から呼び出されるAI更新のメインエントリーポイント
     /// </summary>
@@ -27,13 +31,28 @@ public static class AIUpdater {
             AgentIntentComponent.BatchData* nativeData = intentsDataPtr + i;
 
             if (_componentCache.TryGetValue(nativeData->compId, out var component)) {
-                // 安全策：Entityが未設定またはIDが無効な場合はスキップ
+                // 安全策：Entityが未設定、IDが無効、または非アクティブな場合はスキップ
                 if (component.entity == null || component.entity.Id == 0) {
+                    continue;
+                }
+
+                // エンティティが非アクティブならスキップ
+                if (!component.entity.enable) {
+                    continue;
+                }
+
+                // AIが一時停止中ならスキップ
+                if (component.isPaused) {
+                    nativeData->desiredMoveDirection = Vector3.zero;
+                    nativeData->isAttacking = 0;
                     continue;
                 }
 
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
+                    // 調査用ログ: どのAIが動いているか
+                    // Debug.Log($"[AI_TICK] {component.entity.name} (ID:{component.entity.Id}) - Path:{component.behaviorTree.SourcePath}");
+                    
                     // 実行前にIntentをリセット（ツリー内で上書きされなければ停止する）
                     component.desiredMoveDirection = Vector3.zero;
                     component.isAttacking = false;
@@ -46,6 +65,16 @@ public static class AIUpdater {
 
                     component.behaviorTree.Tick();
 
+                    // ボス状態の記録（エディタ用）
+                    // 名前が "Boss" を含むエンティティを監視対象とする
+                    if (component.entity.name.IndexOf("Boss", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        lastBossName = component.entity.name;
+                        lastBossAction = (component.behaviorTree.ActiveNode != null) 
+                            ? component.behaviorTree.ActiveNode.name 
+                            : "Idle";
+                    }
+
                     // エディタ用：実行状態を同期
                     component.behaviorTree.GetAllNodeStatuses(new Dictionary<uint, NodeStatus>());
 
@@ -56,17 +85,29 @@ public static class AIUpdater {
                     nativeData->useDesiredRotation = (byte)(component.useDesiredRotation ? 1 : 0);
                     nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
                     nativeData->targetEntityId = component.targetEntityId;
-                    }
-
- else {
+                }
+                else
+                {
                     // ツリーがない場合は停止を意図する
                     nativeData->desiredMoveDirection = Vector3.zero;
                     nativeData->isAttacking = 0;
                 }
-            } else {
+            }
+            else
+            {
                 // コンポーネントが見つからない場合も停止
                 nativeData->desiredMoveDirection = Vector3.zero;
             }
+        }
+
+        // AIの更新終了後にGizmoデータを一括送信
+        GizmoBatch.SubmitBatch();
+
+        // --- 追加: BT内で更新されたTransformやMeshRendererのデータをC++へ強制同期 ---
+        var group = EntityComponentSystem.GetECSGroup(groupName);
+        if (group != null)
+        {
+            ComponentBatchManager.SendAllBatches(group.componentCollection, groupName);
         }
     }
 

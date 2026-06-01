@@ -3,10 +3,10 @@ using System;
 /// <summary>
 /// ボスの物理的な状態（HPなど）を管理し、Behavior Treeと連携するコンポーネント。
 /// </summary>
-public class SampleBossComponent : Component
+public class SampleBossComponent : MonoScript
 {
-    public float maxHp = 100.0f;
-    public float currentHp = 100.0f;
+    public float maxHp = 1000.0f;
+    public float currentHp = 1000.0f;
 
     // BTのフェーズ定数
     public const int Phase_Normal = 1;
@@ -14,12 +14,13 @@ public class SampleBossComponent : Component
 
     private bool _isAngerTriggered = false;
 
-    public void Start()
+    public override void Initialize()
     {
+        Debug.Log($"[SampleBoss] Initialized on {entity.name}(ID:{entity.Id})");
         currentHp = maxHp;
     }
 
-    public void Update()
+    public override void Update()
     {
         var agentIntent = entity.GetComponent<AgentIntentComponent>();
         if (agentIntent == null || agentIntent.behaviorTree == null) return;
@@ -36,10 +37,21 @@ public class SampleBossComponent : Component
         }
 
         // デバッグ用：Kキーでダメージを受ける
-        if (Input.TriggerKey(KeyCode.K))
+        if (Input.TriggerKey(KeyCode.K) || Input.TriggerKey(KeyCode.H))
         {
-            currentHp -= 10.0f;
-            Debug.Log($"[Boss] Damaged! HP: {currentHp}/{maxHp}");
+            Debug.Log("[SampleBoss] H/K key TRIGGERED!");
+            float damageAmount = 50.0f;
+            currentHp -= damageAmount;
+            
+            // 物理的なHPコンポーネントがある場合はそちらも同期
+            HP hpComp = entity.GetScript<HP>();
+            if (hpComp != null)
+            {
+                hpComp.TakeDamage((int)damageAmount);
+                Debug.Log($"[SampleBoss] HP.TakeDamage called. New HP: {hpComp.currentHp}");
+            }
+
+            Debug.Log($"[Boss] Damaged by Debug Key! HP: {currentHp}/{maxHp}");
         }
     }
 }

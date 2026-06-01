@@ -68,6 +68,8 @@ public:
 	void SetCurrentGroupName(const std::string& _name);
 	const std::string& GetCurrentGroupName() const;
 
+	DxManager* GetDxManager() const { return pDxManager_; }
+
 	/// すべてのECSグループの取得
 	const std::unordered_map<std::string, std::unique_ptr<ECSGroup>>& GetECSGroups() const;
 
@@ -196,6 +198,9 @@ void InternalCreateEntity(int32_t* _entityId, MonoString* _prefabName, MonoStrin
 /// @param _ecsGroupName ECSGroupの名前
 /// @param _entityId 対象のエンティティID
 void InternalDestroyEntity(MonoString* _ecsGroupName, int32_t _entityId);
+
+int32_t InternalGetRootEntityCount(MonoString* _groupName);
+int32_t InternalGetRootEntityId(MonoString* _groupName, int32_t _index);
 
 
 /// @brief エンティティの有効/無効の取得

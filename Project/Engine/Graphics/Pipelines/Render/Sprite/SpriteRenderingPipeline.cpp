@@ -10,6 +10,7 @@ using namespace ONEngine;
 #include "Engine/ECS/Component/Components/ComputeComponents/Script/Script.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
+#include "Engine/Core/DirectX12/GPUTimeStamp/GPUTimeStamp.h"
 
 
 
@@ -21,7 +22,7 @@ SpriteRenderingPipeline::~SpriteRenderingPipeline() {}
 
 
 void SpriteRenderingPipeline::Initialize(ShaderCompiler* _shaderCompiler, DxManager* _dxm) {
-
+	pDxManager_ = _dxm;
 	{	/// pipeline 
 
 		Shader shader;
@@ -119,6 +120,7 @@ void SpriteRenderingPipeline::Draw(class ECSGroup* _ecsGroup, CameraComponent* _
 		return;
 	}
 
+	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::SpriteRendering);
 
 	/// bufferにデータをセット
 	size_t transformIndex = 0;
@@ -160,10 +162,9 @@ void SpriteRenderingPipeline::Draw(class ECSGroup* _ecsGroup, CameraComponent* _
 	/// ROOT_PARAM_VIEW_PROJECTION : 0
 	_camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, ROOT_PARAM_VIEW_PROJECTION);
 
-	/// 先頭の texture gpu handle をセットする
-	auto& textures = pAssetCollection_->GetTextures();
-	const Asset::Texture* firstTexture = &textures.front();
-	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_TEXTURES, firstTexture->GetSRVGPUHandle());
+	/// テクスチャ記述子ヒープの開始ハンドルをセットする
+	/// (Shader側で textures[material.baseTextureId] としてアクセスするため)
+	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_TEXTURES, pDxManager_->GetDxSRVHeap()->GetSRVStartGPUHandle());
 
 	materialsBuffer.SRVBindForGraphicsCommandList(cmdList, ROOT_PARAM_MATERIAL);
 	transformsBuffer_.SRVBindForGraphicsCommandList(cmdList, ROOT_PARAM_TRANSFORM);
@@ -174,4 +175,7 @@ void SpriteRenderingPipeline::Draw(class ECSGroup* _ecsGroup, CameraComponent* _
 		static_cast<UINT>(transformIndex),
 		0, 0, 0
 	);
+
+	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::SpriteRendering);
 }
+

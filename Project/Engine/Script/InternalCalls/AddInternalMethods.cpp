@@ -29,8 +29,31 @@
 #include "Engine/Core/Window/WindowManager.h"
 
 
+#include "Engine/Core/Utility/Tools/Gizmo.h"
+#include <mutex>
+
+namespace {
+	std::mutex g_GizmoMutex;
+
+	void Internal_SubmitLineBatch(MonoArray* _batch, int _count) {
+		if (!_batch) return;
+		
+		// GizmoSystemが初期化されていない場合は何もしない
+		// (GizmoRenderingPipeline::Initialize で初期化される)
+		
+		std::lock_guard<std::mutex> lock(g_GizmoMutex);
+		for (int i = 0; i < _count; ++i) {
+			ONEngine::Gizmo::LineData* data = (ONEngine::Gizmo::LineData*)mono_array_addr(_batch, ONEngine::Gizmo::LineData, i);
+			if (!data) continue;
+
+			// エンジン側のGizmo::DrawLineを呼び出す
+			// 注意: Gizmo::DrawLineは内部でgGizmoSystemを使用するため、初期化済みである必要がある
+			ONEngine::Gizmo::DrawLine(data->startPosition, data->endPosition, data->color);
+		}
+	}
+}
+
 using namespace ONEngine;
-using namespace MonoInternalMethods;
 using namespace MonoInternalMethods;
 
 void ONEngine::AddWindowInternalCalls() {
@@ -108,6 +131,8 @@ void ONEngine::AddEntityInternalCalls() {
 
 	mono_add_internal_call("ECSGroup::InternalCreateEntity", (void*)InternalCreateEntity);
 	mono_add_internal_call("ECSGroup::InternalDestroyEntity", (void*)InternalDestroyEntity);
+	mono_add_internal_call("ECSGroup::InternalGetRootEntityCount", (void*)InternalGetRootEntityCount);
+	mono_add_internal_call("ECSGroup::InternalGetRootEntityId", (void*)InternalGetRootEntityId);
 
 	// AI Debug
 	mono_add_internal_call("BehaviorTree::Internal_UpdateNodeStatus", (void*)Internal_UpdateNodeStatus);
@@ -137,3 +162,10 @@ void ONEngine::AddInputInternalCalls() {
 void ONEngine::AddSceneInternalCalls() {
 	mono_add_internal_call("SceneManager::InternalLoadScene", (void*)InternalLoadScene);
 }
+
+void ONEngine::AddGizmoInternalCalls() {
+	mono_add_internal_call("GizmoBatch::Internal_SubmitLineBatch", (void*)Internal_SubmitLineBatch);
+}
+
+void ONEngine::AddAnimationInternalCalls(); // implementation in AnimationInternalCalls.cpp
+

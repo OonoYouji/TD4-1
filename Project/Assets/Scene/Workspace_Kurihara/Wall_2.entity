@@ -1,0 +1,73 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 32.127498626708984,
+                "y": -7.4569275057001505e-06,
+                "z": -0.026893138885498047
+            },
+            "rotate": {
+                "w": 0.7160019278526306,
+                "x": 0.0,
+                "y": 0.6980983018875122,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 14.000031471252441,
+                "y": 4.000014781951904,
+                "z": 2.0000054836273193
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "type": "MeshRenderer"
+        },
+        {
+            "categoryBits": 1,
+            "enable": 1,
+            "maskBits": 4294967295,
+            "size": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            },
+            "state": "Static",
+            "type": "BoxCollider"
+        }
+    ],
+    "guid": "b7478db776da961a761d0059a62fc4a8",
+    "id": 8,
+    "name": "Wall_2",
+    "parent": 4,
+    "prefabName": ""
+}

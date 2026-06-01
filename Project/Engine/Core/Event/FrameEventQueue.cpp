@@ -1,6 +1,8 @@
-﻿#include "FrameEventQueue.h"
+#include "FrameEventQueue.h"
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/Script/MonoScriptEngine.h"
+#include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
+#include "Engine/ECS/Entity/GameEntity/GameEntity.h"
 #include "GameEventData.h"
 #include <string>
 
@@ -69,52 +71,61 @@ namespace ONEngine {
             if (event.type == EventType::NamedEvent)
             {
                 const auto& payload = std::get<NamedEventPayload>(event.payload);
-                Console::Log("[FrameEventQueue] Triggered Named Event: " + payload.eventName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
+                // Console::Log("[FrameEventQueue] Triggered Named Event: " + payload.eventName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
                 
                 // --- 追加：特定のイベントに対する処理 ---
                 if (payload.eventName == "ShowIndicator_Line") {
-                    // C#側の InternalCreateEntity と同等の処理をここで行うのが理想的
-                    // 現在はログ出力のみだが、ここにプレハブ生成コードを追加する
-                    Console::Log("[Telegraph] Spawning TelegraphLine for Entity: " + std::to_string(payload.entityId));
+                    // Console::Log("[Telegraph] Spawning TelegraphLine for Entity: " + std::to_string(payload.entityId));
                 }
 
                 // 暫定：即座に完了を通知してAIを復帰させるテスト
-                // 本来はアニメーションシステム等が完了時にこれを呼ぶ
                 MonoScriptEngine::GetInstance().NotifyEventCompleted(payload.entityId, payload.eventName);
             }
             else if (event.type == EventType::Attack)
             {
                 auto payload = std::get<AttackEventPayload>(event.payload);
                 
-                // プリセット名が指定されていれば、マネージャーからデータを取得して上書きする
                 if (!payload.attackName.empty()) {
                     if (auto* def = GameEventManager::GetInstance().GetAttack(payload.attackName)) {
                         payload.damage = def->damage;
                         payload.radius = def->radius;
                         payload.duration = def->duration;
-                        payload.offsetForward = def->offsetForward.z; // TODO: マネージャー側も正規化が必要
-                        payload.offsetUp = def->offsetUp.y;
                     }
                 }
 
-                std::string msg = "[AttackEvent] Entity " + std::to_string(payload.ownerId) + 
-                    " (" + payload.attackName + ") Spawn Attack: Damage=" + std::to_string(payload.damage) + 
-                    ", Radius=" + std::to_string(payload.radius);
-                Console::Log(msg, LogCategory::Application);
+                // std::string msg = "[AttackEvent] Spawn Attack: Name=" + payload.attackName + ", Damage=" + std::to_string(payload.damage);
+                // Console::Log(msg, LogCategory::Application);
+            }
+            else if (event.type == EventType::Effect)
+            {
+                const auto& payload = std::get<EffectEventPayload>(event.payload);
 
-                // ここで HitboxSystem->Create(payload) 等を呼び出す
+                if (ECSGroup* group = GetEntityComponentSystemPtr()) 
+                {
+                    if (GameEntity* owner = group->GetEntity(payload.entityId))
+                    {
+                        if (auto* def = GameEventManager::GetInstance().GetEffect(payload.effectName))
+                        {
+                            GameEntity* effectEntity = group->GenerateEntityFromPrefab(def->effectPath);
+                            if (effectEntity)
+                            {
+                                // 位置、向き、スケールの同期
+                                effectEntity->SetPosition(owner->GetPosition());
+                                effectEntity->SetRotate(owner->GetRotateQuaternion());
+                                effectEntity->SetScale(Vector3::One * payload.scale);
+                                
+                                // C#側のハンドラがあればオーナーIDを伝える
+                                // ※本来は生成直後にスクリプトのメソッドを叩く仕組みが必要だが、
+                                // 現状はスクリプト側でオーナーを探すか、SetOwner等の内部呼び出しを検討
+                            }
+                        }
+                    }
+                }
             }
             else
             {   
-                // 現在はデバッグ用にログ出力するだけ
-                std::string logMessage = "Processing Event Type: " + std::to_string(static_cast<int>(event.type));
-                
-                if (std::holds_alternative<EntityEventPayload>(event.payload))
-                {
-                    logMessage += ", EntityID: " + std::to_string(std::get<EntityEventPayload>(event.payload).entityId);
-                }
-
-                Console::Log(logMessage, LogCategory::Engine);
+                // 未知のイベント型
+                Console::Log("Processing Unknown Event Type", LogCategory::Engine);
             }
         }
     }

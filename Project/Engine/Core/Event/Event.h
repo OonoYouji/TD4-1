@@ -41,6 +41,12 @@ namespace ONEngine
         float offsetUp;         // 上方オフセット
     };
 
+    // アセットリロード用ペイロード
+    struct AssetReloadPayload
+    {
+        std::string assetPath;
+    };
+
     // イベントの種類を定義
     enum class EventType : uint8_t
     {
@@ -48,6 +54,8 @@ namespace ONEngine
         NamedEvent, // 文字列ベースのイベント
         Attack,     // 攻撃発生イベント
         Effect,     // エフェクト発生イベント
+        AssetReload, // アセットリロード
+        ScriptHotReload, // スクリプトホットリロード
     };
 
     // イベント本体
@@ -59,7 +67,8 @@ namespace ONEngine
             EntityEventPayload,
             NamedEventPayload,
             EffectEventPayload,
-            AttackEventPayload
+            AttackEventPayload,
+            AssetReloadPayload
         > payload;
     };
 }

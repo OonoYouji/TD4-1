@@ -190,4 +190,12 @@ inline Quaternion& Quaternion::operator+=(const Quaternion& _other) {
 	return *this;
 }
 
+inline bool operator==(const Quaternion& _q1, const Quaternion& _q2) {
+	return _q1.x == _q2.x && _q1.y == _q2.y && _q1.z == _q2.z && _q1.w == _q2.w;
+}
+
+inline bool operator!=(const Quaternion& _q1, const Quaternion& _q2) {
+	return !(_q1 == _q2);
+}
+
 } /// ONEngine

@@ -18,7 +18,6 @@ public class Player : MonoScript
     // 弾の発射間隔（クールタイム）
     [SerializeField] public float fireInterval = 0.5f;
 
-
     // =========================================================
     // 内部状態
     // =========================================================
@@ -35,6 +34,13 @@ public class Player : MonoScript
     private Vector2 lastMousePos = new Vector2(640f, 360f);
     // 発射クールタイムタイマー
     public float fireCooldownTimer { get; private set; }
+
+    // ゲーム開始時のフリーズ時間
+    [SerializeField] public float startFreezeDuration = 3.0f;
+    private bool isFrozen_ = false;
+    private float freezeTimer_ = 0f;
+    public bool IsFrozen => isFrozen_;
+
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -44,11 +50,22 @@ public class Player : MonoScript
         currentYaw = transform.rotate.ToEuler().y;
         lastMousePos = Input.MousePosition();
         fireCooldownTimer = fireInterval;
-
+        isFrozen_ = true;
+        freezeTimer_ = 0f;
     }
 
     public override void Update()
     {
+        if (isFrozen_)
+        {
+            freezeTimer_ += Time.deltaTime;
+            if (freezeTimer_ >= startFreezeDuration)
+            {
+                isFrozen_ = false;
+            }
+            return;
+        }
+
         // 入力モードの更新
         UpdateInputMode();
         // 移動処理
@@ -103,7 +120,7 @@ public class Player : MonoScript
         {
             // スティック入力で向きの決定
             Vector2 leftStick = Input.GamepadThumb(GamepadAxis.LeftThumb);
-            magnitude = leftStick.Length(); 
+            magnitude = leftStick.Length();
 
             // スティックでの移動を適応
             if (magnitude > 0.001f)

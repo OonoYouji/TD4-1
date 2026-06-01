@@ -1,0 +1,24 @@
+{
+    "entities": [
+        {
+            "guid": "c018251e6005d871788771960965f3f4",
+            "parentGuid": null,
+            "path": "./Workspace_Test/Camera.entity"
+        },
+        {
+            "guid": "485731b9044195e0a1d0105e072bff6c",
+            "parentGuid": null,
+            "path": "./Workspace_Test/2DCamera.entity"
+        },
+        {
+            "guid": "520b76038bebc8d83e2ed4786934072b",
+            "parentGuid": null,
+            "path": "./Workspace_Test/Light.entity"
+        },
+        {
+            "guid": "7507623143fccb9523b40b4e0107ecbf",
+            "parentGuid": null,
+            "path": "./Workspace_Test/Mesh.entity"
+        }
+    ]
+}

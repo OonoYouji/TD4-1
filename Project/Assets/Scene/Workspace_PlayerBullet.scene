@@ -1,0 +1,24 @@
+{
+    "entities": [
+        {
+            "path": "./Workspace_PlayerBullet/Camera.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_PlayerBullet/Light.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_PlayerBullet/Player.entity",
+            "id": 3,
+            "parent": null
+        },
+        {
+            "path": "./Workspace_PlayerBullet/Boss.entity",
+            "id": 5,
+            "parent": null
+        }
+    ]
+}

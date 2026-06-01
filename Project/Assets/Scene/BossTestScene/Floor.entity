@@ -1,0 +1,61 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": -0.5,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1000.0,
+                "y": 1.0,
+                "z": 1000.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 0.9462365508079529,
+                    "y": 0.8176866173744202,
+                    "z": 0.46803098917007446
+                },
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 100.0,
+                        "y": 100.0
+                    }
+                }
+            },
+            "meshPath": "./Packages/Models/primitive/plane.obj",
+            "type": "MeshRenderer"
+        }
+    ],
+    "guid": "64e8c2da9542202868b038a4c0931069",
+    "id": 9,
+    "name": "Floor",
+    "parent": null,
+    "prefabName": ""
+}

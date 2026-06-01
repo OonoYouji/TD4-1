@@ -37,6 +37,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/VoxelTerrain/VoxelTerrain.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Agent/AgentIntentComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Animator/Animator.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Animation/AnimationPlayer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 
 /// renderer
@@ -68,6 +69,7 @@ InspectorWindow::InspectorWindow(const std::string& windowName, DxManager* dxm, 
 	RegisterComponent<DirectionalLight>(ComponentType::Compute, [&](DirectionalLight* comp) { DirectionalLightDebug(comp); });
 	RegisterComponent<AudioSource>(ComponentType::Compute, [&](AudioSource* comp) { ComponentDebug::AudioSourceDebug(comp); });
 	RegisterComponent<Variables>(ComponentType::Compute, [&](Variables* comp) { ComponentDebug::VariablesDebug(comp); });
+	RegisterComponent<AnimationPlayer>(ComponentType::Compute, [&](AnimationPlayer* comp) { ComponentDebug::AnimationPlayerDebug(comp); });
 	RegisterComponent<Effect>(ComponentType::Compute, [&](Effect* comp) { ComponentDebug::EffectDebug(comp); });
 	RegisterComponent<ParticleSystem>(ComponentType::Compute, [&](ParticleSystem* comp) { ONEngine::ParticleSystemDebug(comp); });
 	RegisterComponent<Terrain>(ComponentType::Compute, [&](Terrain* comp) { ComponentDebug::TerrainDebug(comp, pEcs_, pAssetCollection_); });
@@ -191,6 +193,12 @@ GameEntity* InspectorWindow::GetSelectedEntity(const ONEngine::Guid& entityGuid)
 	for(auto& group : pEcs_->GetECSGroups()) {
 		res = group.second->GetEntityFromGuid(entityGuid);
 		if(res) { return res; }
+	}
+
+	// GetECSGroupsに入っていない動的なグループ（Debug用など）も明示的にチェック
+	if (auto debugGroup = pEcs_->GetECSGroup("Debug")) {
+		res = debugGroup->GetEntityFromGuid(entityGuid);
+		if (res) return res;
 	}
 
 	return nullptr;

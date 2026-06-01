@@ -29,6 +29,16 @@
     - [x] `BossMain.json` の作成。
     - [x] `Parallel` ノードを使用し、移動と攻撃が同時進行するツリーを構築。
     - [x] フェーズ遷移ロジックの接続。
+- [ ] **エフェクトシステム連携の強化** (New!)
+    - [ ] `EffectLifecycleHandler.cs` の実装（親子関係・AI通知）。
+    - [ ] C++ `FrameEventQueue` の修正（Rotationの同期）。
+    - [ ] カメラシェイクのパラメータ外部化対応。
+- [ ] **ボス演出シーケンスの完成** (New!)
+    - [ ] `HP.cs` に `disableAutoDestruction` フラグを追加。
+    - [ ] `BossPerformanceDirector.cs` の拡張（撃破演出・エンティティ破棄管理）。
+    - [ ] 開幕演出（Intro）のテスト実装。
+    - [ ] フェーズ遷移（Transition）のテスト実装。
+    - [ ] 撃破演出（Death）のテスト実装。
 - [ ] **パラメータの外部化と調整**
     - [ ] `Variables` コンポーネントを使用し、フェーズごとの速度、攻撃頻度、回復量を調整可能にする。
     - [ ] Ctrl+S による保存機能の動作確認。

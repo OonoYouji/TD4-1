@@ -434,12 +434,16 @@ bool MonoInternalMethods::InternalGetScript(int32_t _entityId, MonoString* _scri
 
 void MonoInternalMethods::InternalCreateEntity(int32_t* _entityId, MonoString* _prefabName, MonoString* _groupName) {
 	std::string groupName = mono_string_to_utf8(_groupName);
+	std::string prefabName = mono_string_to_utf8(_prefabName);
+
+	Console::LogInfo("[SOURCE_DETECTOR] C# requested CreateEntity: Prefab = " + prefabName);
+
 	ECSGroup* group = gECS->GetECSGroup(groupName);
 
 	/// prefabを検索
-	std::string prefabName = mono_string_to_utf8(_prefabName);
-	GameEntity* entity = group->GenerateEntityFromPrefab(prefabName + ".prefab");
+	GameEntity* entity = group->GenerateEntityFromPrefab(prefabName);
 	if(!entity) {
+		Console::LogWarning("[SOURCE_DETECTOR] Prefab not found by name, creating blank entity: " + prefabName);
 		entity = group->GenerateEntity(GenerateGuid(), true);
 		if(!entity) {
 			return;
@@ -470,6 +474,37 @@ void MonoInternalMethods::InternalDestroyEntity(MonoString* _ecsGroupName, int32
 
 
 	mono_free(cstr);
+}
+
+int32_t MonoInternalMethods::InternalGetRootEntityCount(MonoString* _groupName) {
+	std::string groupName = mono_string_to_utf8(_groupName);
+	ECSGroup* group = gECS->GetECSGroup(groupName);
+	if (!group) return 0;
+
+	int count = 0;
+	for (auto& entity : group->GetEntities()) {
+		if (!entity->GetParent()) {
+			count++;
+		}
+	}
+	return count;
+}
+
+int32_t MonoInternalMethods::InternalGetRootEntityId(MonoString* _groupName, int32_t _index) {
+	std::string groupName = mono_string_to_utf8(_groupName);
+	ECSGroup* group = gECS->GetECSGroup(groupName);
+	if (!group) return -1;
+
+	int currentIndex = 0;
+	for (auto& entity : group->GetEntities()) {
+		if (!entity->GetParent()) {
+			if (currentIndex == _index) {
+				return static_cast<int32_t>(entity->GetId());
+			}
+			currentIndex++;
+		}
+	}
+	return -1;
 }
 
 bool MonoInternalMethods::InternalGetEnable(int32_t _entityId, MonoString* _ecsGroupName) {

@@ -5,7 +5,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 1000.0,
                 "z": 0.0
             },
             "rotate": {
@@ -30,6 +30,15 @@
                 {
                     "enable": true,
                     "name": "Reinforcement"
+                },
+                {
+                    "enable": true,
+                    "name": "HP",
+                    "MAX_HP": 10
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementDamageHandler"
                 }
             ],
             "type": "Script"
@@ -46,19 +55,34 @@
                 "baseTextureGuid": "bf41deabb8d3b499fda8edb63ccb7c7d",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
-            "meshPath": "./Packages/Models/primitive/cylinder.obj",
+            "meshPath": "./Assets/Models/Soldier/soldier.obj",
             "type": "MeshRenderer"
         },
         {
+            "categoryBits": 4,
             "enable": 1,
+            "freezeY": true,
+            "maskBits": 60,
+            "mass": 1.0,
             "radius": 1.0,
             "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],
-    "guid": "4395614509eb42b5a73241b158b8dab8",
+    "guid": "311115772fcdf96b92ea0cd3fd1a997c",
     "id": 2,
     "name": "Reinforcement",
     "parent": null,

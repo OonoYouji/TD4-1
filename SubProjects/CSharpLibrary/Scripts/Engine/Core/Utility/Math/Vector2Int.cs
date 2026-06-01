@@ -73,4 +73,13 @@
 		return !(a == b);
 	}
 
+	public override bool Equals(object obj) {
+		if (!(obj is Vector2Int)) return false;
+		return this == (Vector2Int)obj;
+	}
+
+	public override int GetHashCode() {
+		return x.GetHashCode() ^ (y.GetHashCode() << 2);
+	}
+
 }

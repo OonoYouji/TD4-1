@@ -1,0 +1,39 @@
+{
+    "entities": [
+        {
+            "path": "./EnemyTestScene/Camera.entity",
+            "id": 5,
+            "parent": null
+        },
+        {
+            "path": "./EnemyTestScene/Light.entity",
+            "id": 6,
+            "parent": null
+        },
+        {
+            "path": "./EnemyTestScene/TestEnemy.entity",
+            "id": 7,
+            "parent": null
+        },
+        {
+            "path": "./EnemyTestScene/Player.entity",
+            "id": 1,
+            "parent": null
+        },
+        {
+            "path": "./EnemyTestScene/TestBullet.entity",
+            "id": 2,
+            "parent": null
+        },
+        {
+            "path": "./EnemyTestScene/UI Root.entity",
+            "id": 3,
+            "parent": 7
+        },
+        {
+            "path": "./EnemyTestScene/HP.entity",
+            "id": 4,
+            "parent": 3
+        }
+    ]
+}

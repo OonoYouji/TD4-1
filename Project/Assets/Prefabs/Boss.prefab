@@ -1,0 +1,138 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": -0.13785013556480408,
+                "x": -0.002739193383604288,
+                "y": -0.9903156161308289,
+                "z": -0.016275862231850624
+            },
+            "scale": {
+                "x": 5.0,
+                "y": 5.0,
+                "z": 5.0
+            },
+            "type": "Transform"
+        },
+        {
+            "BossAI": {
+                "treePath": "./Assets/AITrees/BossMain.json"
+            },
+            "BossPerformanceDirector": {
+                "deathPerformancePrefabPath": "",
+                "performances": [
+                    {
+                        "__type": "PhasePerformance",
+                        "hpThreshold": 1.100000023841858,
+                        "prefabPath": "BossPhase0Effect.prefab",
+                        "triggered": false
+                    }
+                ]
+            },
+            "BossPerformanceTrigger": {
+                "effectName": "",
+                "shakeCamera": false,
+                "shakeDuration": 0.0,
+                "shakeIntensity": 0.0,
+                "soundPath": ""
+            },
+            "DamageHandler": {
+                "cooldownTimer": -0.018290702253580093,
+                "damageCooldownTime": 0.10000000149011612
+            },
+            "HP": {
+                "MAX_HP": 1200,
+                "_isDead": false,
+                "currentHp": 1200
+            },
+            "Knockback": {
+                "KNOCKBACK_DECAY": 0.0,
+                "KNOCKBACK_FORCE_STRENGTH": 0.0,
+                "knockbackStopThreshold": 0.009999999776482582,
+                "knockbackVelocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "SampleBossComponent": {},
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossAI"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "DamageHandler"
+                },
+                {
+                    "enable": false,
+                    "name": "Knockback"
+                },
+                {
+                    "enable": true,
+                    "name": "BossPerformanceDirector"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshPath": "./Assets/AssetsWorkspace/models/boss.obj",
+            "type": "MeshRenderer"
+        },
+        {
+            "categoryBits": 8,
+            "enable": 1,
+            "freezeY": true,
+            "maskBits": 4,
+            "mass": 1.0,
+            "radius": 5.0,
+            "state": "Static",
+            "type": "SphereCollider"
+        }
+    ],
+    "guid": "6190718f20ef1485d978d46962165d02",
+    "id": 14,
+    "name": "Boss",
+    "parent": null,
+    "prefabName": "Boss"
+}

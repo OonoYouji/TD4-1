@@ -13,6 +13,7 @@ using namespace ONEngine;
 //#include "Scene/Factory/SceneFactory.h"
 #include "Engine/Core/Config/EngineConfig.h"
 #include "Engine/Core/Utility/Tools/Log.h"
+#include "Engine/Core/DirectX12/Manager/DxManager.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
@@ -154,12 +155,16 @@ void SceneManager::SetDirty(bool _isDirty) {
 }
 
 void SceneManager::MoveNextToCurrentScene(bool _isTemporary) {
+	/// GPUの処理が終わるまで待つ（リソース破棄中のアクセスを防ぐ）
+	pEcs_->GetDxManager()->GetDxCommand()->WaitForGpuComplete();
+
 	ECSGroup* prevSceneGroup = pEcs_->GetCurrentGroup();
 	if (prevSceneGroup) {
 		prevSceneGroup->RemoveEntityAll();
 	}
 
 	currentScene_ = std::move(nextScene_);
+	nextScene_.clear();
 
 	ECSGroup* nextSceneGroup = pEcs_->AddECSGroup(GetCurrentSceneName());
 	const std::string& sceneName = nextSceneGroup->GetGroupName();

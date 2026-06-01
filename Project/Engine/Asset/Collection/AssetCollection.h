@@ -17,6 +17,7 @@
 #include "Engine/Asset/Assets/AudioClip/AudioClipLoader.h"
 #include "Engine/Asset/Assets/Material/MaterialLoader.h"
 #include "Engine/Asset/Assets/Shader/ShaderLoader.h"
+#include "Engine/Asset/Assets/Animation/AnimationClipLoader.h"
 #include "Engine/Asset/Guid/Guid.h"
 
 namespace ONEngine {
@@ -183,6 +184,10 @@ public:
 	/// ゲッタ オーディオクリップ
 	const AudioClip* GetAudioClip(const std::string& filepath) const;
 	AudioClip* GetAudioClip(const std::string& filepath);
+
+	/// ゲッタ アニメーションクリップ
+	const AnimationClip* GetAnimationClip(const std::string& filepath) const;
+	AnimationClip* GetAnimationClip(const std::string& filepath);
 
 };
 

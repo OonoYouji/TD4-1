@@ -1,0 +1,16 @@
+{
+    "components": [
+        {
+            "position": {
+                "x": 25.288022994995117,
+                "z": -24.862171173095703
+            },
+            "type": "Transform"
+        }
+    ],
+    "guid": "cacd52fdc06f69e606baed4fe928935b",
+    "id": 2,
+    "name": "BossWaypoint_1",
+    "parent": null,
+    "prefabName": "BossWaypoint"
+}
