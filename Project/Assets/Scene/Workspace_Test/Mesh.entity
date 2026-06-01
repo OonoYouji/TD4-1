@@ -2,31 +2,16 @@
     "active": true,
     "components": [
         {
-            "enable": 1,
-            "matrixCalcFlags": 7,
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "scale": {
+            "dissolveCompare": 1,
+            "dissolveTexture": "a392756831a7a8da258b6ebc5534d3c1",
+            "dissolveThreshold": 0.4399999976158142,
+            "edgeColor": {
+                "w": 0.35686275362968445,
                 "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "y": 0.501960813999176,
+                "z": 0.0
             },
-            "type": "Transform"
-        },
-        {
-            "type": "Variables"
-        },
-        {
-            "enable": 1,
+            "edgeWidth": 0.3400000035762787,
             "material": {
                 "baseColor": {
                     "w": 1.0,
@@ -50,118 +35,36 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
-            "type": "MeshRenderer"
+            "meshGuid": "85ff861041f202676bedd86572603f55",
+            "type": "DissolveMeshRenderer"
         },
         {
             "enable": 1,
-            "scripts": null,
-            "type": "Script"
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": -0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 5.880000114440918,
+                "y": 5.880000114440918,
+                "z": 5.880000114440918
+            },
+            "type": "Transform"
         },
         {
-            "autoPlay": true,
-            "clipPath": "./Assets/Anims/Test.anim",
-            "currentTime": 0.0,
-            "isLooping": true,
-            "isPlaying": false,
-            "speed": 1.0,
-            "type": "AnimationPlayer"
-        },
-        {
-            "colorOverLifetime": {
-                "enabled": false
-            },
-            "emission": {
-                "bursts": [],
-                "enabled": false,
-                "rateOverDistance": 0.0,
-                "rateOverTime": 10.0
-            },
-            "enable": 1,
-            "main": {
-                "duration": 5.0,
-                "gravityModifier": 0.0,
-                "looping": true,
-                "maxParticles": 1000,
-                "playOnAwake": true,
-                "prewarm": false,
-                "startColor": {
-                    "constant": {
-                        "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
-                        "r": 1.0
-                    },
-                    "max": {
-                        "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
-                        "r": 1.0
-                    },
-                    "min": {
-                        "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
-                        "r": 1.0
-                    },
-                    "state": 0
-                },
-                "startDelay": {
-                    "constant": 0.0,
-                    "max": 1.0,
-                    "min": 0.0,
-                    "state": 0
-                },
-                "startLifetime": {
-                    "constant": 5.0,
-                    "max": 1.0,
-                    "min": 0.0,
-                    "state": 0
-                },
-                "startRotation": {
-                    "constant": 0.0,
-                    "max": 1.0,
-                    "min": 0.0,
-                    "state": 0
-                },
-                "startSize": {
-                    "constant": 1.0,
-                    "max": 1.0,
-                    "min": 0.0,
-                    "state": 0
-                },
-                "startSpeed": {
-                    "constant": 5.0,
-                    "max": 1.0,
-                    "min": 0.0,
-                    "state": 0
-                }
-            },
-            "renderer": {
-                "materialGuid": "",
-                "meshGuid": "",
-                "renderMode": 0
-            },
-            "shape": {
-                "angle": 25.0,
-                "arc": 360.0,
-                "boxScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "enabled": true,
-                "radius": 1.0,
-                "radiusThickness": 1.0,
-                "type": 0
-            },
-            "sizeOverLifetime": {
-                "enabled": false
-            },
-            "type": "ParticleSystem"
+            "type": "Variables"
         }
     ],
-    "guid": "7507623143fccb9523b40b4e0107ecbf",
+    "guid": "740be8bd52033c3ae14b0c1b98fdf4da",
+    "id": 4,
     "name": "Mesh",
     "parentGuid": null,
     "prefabName": ""
