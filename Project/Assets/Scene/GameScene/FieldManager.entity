@@ -42,8 +42,7 @@
         }
     ],
     "guid": "879d162485a858be132bcade93f885ad",
-    "id": 22,
     "name": "FieldManager",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

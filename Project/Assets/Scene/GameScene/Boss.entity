@@ -1,32 +1,14 @@
 {
     "components": [
         {
-            "BossAI": {
-                "treePath": "./Assets/AITrees/BossMain.json"
-            },
             "DamageHandler": {
-                "cooldownTimer": -0.01639770157635212,
-                "damageCooldownTime": 0.10000000149011612
-            },
-            "HP": {
-                "MAX_HP": 1200,
-                "_isDead": false,
-                "currentHp": 1200
-            },
-            "Knockback": {
-                "KNOCKBACK_DECAY": 0.0,
-                "KNOCKBACK_FORCE_STRENGTH": 0.0
+                "cooldownTimer": -0.01639770157635212
             },
             "type": "Variables"
-        },
-        {
-            "mass": 1.0,
-            "type": "SphereCollider"
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",
-    "id": 14,
     "name": "Boss",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "Boss"
 }

@@ -40,6 +40,8 @@ GameEntity* EntityCollection::GenerateEntity(const Guid& _guid, bool _isRuntime)
 		entityPtr->guid_ = _guid;
 		entityPtr->Awake();
 
+		guidEntityMap_[_guid] = entityPtr;
+
 		return entities_.back().get();
 	}
 	return nullptr;
@@ -73,6 +75,7 @@ void EntityCollection::RemoveEntity(GameEntity* _entity, bool _deleteChildren) {
 	/// Componentの破棄
 	_entity->RemoveComponentAll();
 
+	guidEntityMap_.erase(_entity->GetGuid());
 	RemoveEntityId(_entity->GetId());
 
 	/// 親子関係の解除

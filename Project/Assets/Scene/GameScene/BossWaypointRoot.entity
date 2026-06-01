@@ -26,8 +26,7 @@
         }
     ],
     "guid": "b68ad31e79ba3b2d205105be9fefb4cd",
-    "id": 18,
     "name": "BossWaypointRoot",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

@@ -43,8 +43,7 @@
         }
     ],
     "guid": "1bfe2134e5bc44573be595efe7705c27",
-    "id": 2,
     "name": "Camera2D",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

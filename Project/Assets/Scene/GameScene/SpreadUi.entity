@@ -41,8 +41,7 @@
         }
     ],
     "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-    "id": 11,
     "name": "SpreadUi",
-    "parent": 2,
+    "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
     "prefabName": ""
 }

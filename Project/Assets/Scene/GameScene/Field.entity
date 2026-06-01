@@ -65,8 +65,7 @@
         }
     ],
     "guid": "aa7af0136ac79da640be7510c63c00f0",
-    "id": 13,
     "name": "Field",
-    "parent": 7,
+    "parentGuid": "4b2170a76e7d0236367c96751813e016",
     "prefabName": ""
 }
