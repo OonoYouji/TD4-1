@@ -26,11 +26,14 @@ public class GameStateManager : MonoScript
     [SerializeField] public GameResult result = GameResult.None;
     [SerializeField] public string clearSceneName = "GameClear";
     [SerializeField] public string overSceneName = "GameOver";
+    [SerializeField] public float sceneTransitionDelay = 3.0f; // 撃破演出後の待ち時間
 
     private Entity _player;
     private HP _playerHp;
     private Entity _boss;
     private HP _bossHp;
+    private AgentIntentComponent _bossIntent;
+    private float _endTimer = 0f;
 
     public override void Initialize()
     {
@@ -38,15 +41,28 @@ public class GameStateManager : MonoScript
         if (_player != null) _playerHp = _player.GetScript<HP>();
 
         _boss = ecsGroup.FindEntity("Boss");
-        if (_boss != null) _bossHp = _boss.GetScript<HP>();
+        if (_boss != null)
+        {
+            _bossHp = _boss.GetScript<HP>();
+            _bossIntent = _boss.GetComponent<AgentIntentComponent>();
+        }
 
         currentPhase = GamePhase.Start;
         result = GameResult.None;
+        _endTimer = 0f;
     }
 
     public override void Update()
     {
-        if (currentPhase == GamePhase.End) return;
+        // デバッグキー（強制終了）
+        if (Input.TriggerKey(KeyCode.K)) { EndGame(GameResult.Clear); return; }
+        if (Input.TriggerKey(KeyCode.L)) { EndGame(GameResult.GameOver); return; }
+
+        if (currentPhase == GamePhase.End)
+        {
+            UpdateEndSequence();
+            return;
+        }
 
         UpdateHealthChecks();
         UpdatePhaseTransitions();
@@ -61,7 +77,7 @@ public class GameStateManager : MonoScript
             return;
         }
 
-        // ゲームクリア判定（ボス撃破）
+        // ゲームクリア判定
         if (_bossHp != null && _bossHp.currentHp <= 0)
         {
             EndGame(GameResult.Clear);
@@ -75,19 +91,22 @@ public class GameStateManager : MonoScript
 
         float hpRatio = _bossHp.CurrentHpRatio();
 
-        // 状態遷移の監視
         switch (currentPhase)
         {
             case GamePhase.Start:
-                // 開幕演出等が終わったらPhase1へ（現在は即時遷移、必要なら演出終了待ちを入れる）
-                currentPhase = GamePhase.BossPhase1;
+                // ボスのAIが再開された（＝開始演出が終わった）らPhase1へ
+                if (_bossIntent != null && !_bossIntent.isPaused)
+                {
+                    currentPhase = GamePhase.BossPhase1;
+                    Debug.Log("<color=gold>[GameStateManager]</color> Intro Finished. Battle Start!");
+                }
                 break;
 
             case GamePhase.BossPhase1:
                 if (hpRatio < 0.7f)
                 {
                     currentPhase = GamePhase.BossPhase2;
-                    Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase2");
+                    Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase2 (HP < 70%)");
                 }
                 break;
 
@@ -95,7 +114,7 @@ public class GameStateManager : MonoScript
                 if (hpRatio < 0.3f)
                 {
                     currentPhase = GamePhase.BossPhase3;
-                    Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase3");
+                    Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase3 (HP < 30%)");
                 }
                 break;
         }
@@ -103,18 +122,31 @@ public class GameStateManager : MonoScript
 
     private void EndGame(GameResult gameResult)
     {
+        if (currentPhase == GamePhase.End) return;
+
         currentPhase = GamePhase.End;
         result = gameResult;
+        _endTimer = 0f;
 
         if (result == GameResult.Clear)
         {
-            Debug.Log("<color=green>[GameStateManager]</color> MISSION COMPLETE! Transitioning to Clear Scene.");
-            Transition(clearSceneName);
+            Debug.Log("<color=green>[GameStateManager]</color> BOSS DEFEATED! Playing death sequence...");
         }
-        else if (result == GameResult.GameOver)
+        else
         {
-            Debug.Log("<color=red>[GameStateManager]</color> MISSION FAILED... Transitioning to Game Over Scene.");
-            Transition(overSceneName);
+            Debug.Log("<color=red>[GameStateManager]</color> PLAYER DIED...");
+        }
+    }
+
+    private void UpdateEndSequence()
+    {
+        _endTimer += Time.deltaTime;
+
+        // 撃破演出や暗転などの時間を待ってからシーン遷移
+        if (_endTimer >= sceneTransitionDelay)
+        {
+            if (result == GameResult.Clear) Transition(clearSceneName);
+            else Transition(overSceneName);
         }
     }
 
