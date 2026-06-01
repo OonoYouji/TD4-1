@@ -1,11 +1,11 @@
 {
     "components": [
         {
-            "enable": 0,
+            "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": -39.19999694824219,
                 "z": 0.0
             },
             "rotate": {

@@ -18,7 +18,6 @@ public class Player : MonoScript
     // 弾の発射間隔（クールタイム）
     [SerializeField] public float fireInterval = 0.5f;
 
-
     // =========================================================
     // 内部状態
     // =========================================================
@@ -103,7 +102,7 @@ public class Player : MonoScript
         {
             // スティック入力で向きの決定
             Vector2 leftStick = Input.GamepadThumb(GamepadAxis.LeftThumb);
-            magnitude = leftStick.Length(); 
+            magnitude = leftStick.Length();
 
             // スティックでの移動を適応
             if (magnitude > 0.001f)

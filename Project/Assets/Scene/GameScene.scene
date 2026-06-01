@@ -104,6 +104,11 @@
             "id": 21,
             "parent": null,
             "path": "./GameScene/TargetRock_1.entity"
+        },
+        {
+            "id": 22,
+            "parent": null,
+            "path": "./GameScene/FieldManager.entity"
         }
     ]
 }

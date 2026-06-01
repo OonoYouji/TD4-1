@@ -22,6 +22,12 @@
             "type": "Transform"
         },
         {
+            "FieldFall": {
+                "fallDistance": 10.0,
+                "fallDuration": 0.699999988079071,
+                "returnDuration": 0.699999988079071,
+                "waitDuration": 5.0
+            },
             "type": "Variables"
         },
         {
@@ -49,12 +55,22 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "meshPath": "./Assets/Models/Block/ruins_block1.obj",
             "type": "MeshRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "FieldFall"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "aabbccddeeff0011aabbccddeeff0001",
-    "id": 0,
+    "guid": "954723531e59d2873e81d2d9c6ef1037",
+    "id": 2,
     "name": "FieldCell",
     "parent": null,
     "prefabName": "FieldCell"

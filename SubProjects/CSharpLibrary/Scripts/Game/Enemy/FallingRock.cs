@@ -48,6 +48,8 @@ public class FallingRock : MonoScript
 
     public override void OnCollisionEnter(Entity collision)
     {
+        if (collision == null || collision.Id == 0) return;
+
         if (_isFalling && !_hasImpacted)
         {
             // 何かに当たったら即着弾（プレイヤーへの直撃も含む）
@@ -64,11 +66,13 @@ public class FallingRock : MonoScript
         // 着弾位置を固定
         transform.position = new Vector3(transform.position.x, _targetPos.y, transform.position.z);
 
-        // 範囲内のプレイヤーにダメージとスタンを与える
+        // 範囲内のプレイヤーや援軍にダメージとスタンを与える
         var entities = entity.Group.GetEntities();
         foreach (var e in entities)
         {
-            if (e.name.Contains("Player"))
+            if (e == null || e.Id == 0) continue;
+
+            if (e.name.Contains("Player") || e.name.Contains("Reinforcement"))
             {
                 float dist = Vector3.Distance(transform.position, e.transform.position);
                 if (dist <= impactRadius)
@@ -81,30 +85,31 @@ public class FallingRock : MonoScript
         // 演出
         FrameEvent.EnqueueNamedEvent("Effect_RockImpact", entity.Id);
         Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
-
-        // 一定時間後に消滅（または残骸を残す）
-        // ここでは簡易的に3秒後に削除
-        // entity.Group.DestroyEntity(entity.Id); // 必要に応じて
     }
 
     private void ApplyImpact(Entity e)
     {
-        // ダメージ
+        // 1. 汎用 DamageHandler 経由
         DamageHandler handler = e.GetScript<DamageHandler>();
         if (handler != null)
         {
             handler.ApplyDamage(damage, transform.position);
+        }
+        else
+        {
+            // 2. 援軍専用 ReinforcementDamageHandler 経由
+            ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
+            if (rHandler != null)
+            {
+                rHandler.ApplyDamage(damage, transform.position);
+            }
         }
 
         // スタン（AgentIntentComponentの移動制限）
         var intent = e.GetComponent<AgentIntentComponent>();
         if (intent != null)
         {
-            // 簡易的なスタンスクリプトをアタッチするか、直接制御する
-            // ここでは1フレームごとに移動ベクトルをクリアするようなバフを想定
-            // 実際には Buff/StatusEffect システムがあるのが理想
             Debug.Log($"[FallingRock] STUNNED {e.name} for {stunDuration}s");
-            // 注意：現在の構成でスタンを汎用的に実装するには、プレイヤー側のUpdateで参照するフラグが必要
         }
     }
 }

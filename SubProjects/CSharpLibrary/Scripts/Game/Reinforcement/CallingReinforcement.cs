@@ -19,6 +19,7 @@ public class CallingReinforcement : MonoScript
     // =========================================================
 
     private Player player = null;
+    private PlayerSmashUp smashUp = null;
     private List<Entity> activeReinforcements = new List<Entity>();
     private ReinforcementManager reinforcementManager = null;
     private float spawnTimer = 0.0f;
@@ -36,6 +37,7 @@ public class CallingReinforcement : MonoScript
         if (playerEntity != null)
         {
             player = playerEntity.GetScript<Player>();
+            smashUp = playerEntity.GetScript<PlayerSmashUp>();
         }
 
         // ReinforcementManagerを取得
@@ -74,13 +76,14 @@ public class CallingReinforcement : MonoScript
         // 一定間隔で援軍を呼ぶ
         spawnTimer -= Time.deltaTime;
         bool wantFire =
-            Input.PressMouse(Mouse.Right) ||
+            Input.PressMouse(Mouse.Left) ||
             Input.PressGamepad(Gamepad.LeftShoulder) ||
             Input.PressGamepad(Gamepad.RightShoulder);
         if (spawnTimer <= 0.0f && wantFire)
         {
             spawnTimer = spawnInterval;
             SpawnReinforcements();
+            smashUp?.Play();
         }
     }
 

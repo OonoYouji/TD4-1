@@ -62,6 +62,8 @@
                     "z": 1.0
                 },
                 "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
@@ -99,7 +101,9 @@
             "type": "Script"
         }
     ],
-    "guid": "p1ay3rp1ay3rp1ay3rp1ay3rp1ay3r00",
+    "guid": "44680a3f87901c65b87744d2b035af78",
+    "id": 2,
     "name": "Player",
+    "parent": null,
     "prefabName": "Player"
 }

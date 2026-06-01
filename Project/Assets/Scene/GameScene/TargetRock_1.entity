@@ -1,18 +1,9 @@
 {
     "components": [
         {
-            "enable": 1,
-            "matrixCalcFlags": 7,
             "position": {
                 "x": -19.66759490966797,
-                "y": 0.9359362721443176,
                 "z": -9.842485427856445
-            },
-            "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": -0.0,
-                "z": 0.0
             },
             "scale": {
                 "x": 3.799999952316284,
@@ -23,65 +14,30 @@
         },
         {
             "FallingRock": {
-                "_hasImpacted": false,
-                "_isFalling": false,
+                "_hasImpacted": true,
                 "_targetPos": {
-                    "x": 11.299240112304688,
-                    "y": 2.1915438175201416,
-                    "z": -42.27875518798828
-                },
-                "damage": 40,
-                "fallSpeed": 30.0,
-                "impactRadius": 3.0,
-                "stunDuration": 2.0
+                    "x": -10.784489631652832,
+                    "z": -47.742488861083984
+                }
             },
             "type": "Variables"
         },
         {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "FallingRock"
-                }
-            ],
-            "type": "Script"
-        },
-        {
-            "enable": 1,
             "material": {
                 "baseColor": {
-                    "w": 1.0,
                     "x": 0.4000000059604645,
                     "y": 0.30000001192092896,
                     "z": 0.20000000298023224
                 },
-                "baseTextureGuid": "00000000000000000000000000000000",
-                "guid": "00000000000000000000000000000000",
-                "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
-                "uvTransform": {
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "rotate": 0.0,
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    }
-                }
+                "baseTextureGuid": "00000000000000000000000000000000"
             },
-            "meshPath": "./Packages/Models/primitive/sphere.obj",
             "type": "MeshRenderer"
         },
         {
-            "categoryBits": 32,
             "enable": 1,
-            "freezeY": true,
             "maskBits": 6,
+            "mass": 1.0,
             "radius": 4.2870001792907715,
-            "state": "Dynamic",
             "type": "SphereCollider"
         }
     ],

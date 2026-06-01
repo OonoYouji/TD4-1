@@ -50,6 +50,7 @@
                 "mouseIsMovePixel": 0.0,
                 "rotationSpeed": 8.0
             },
+            "PlayerSmashUp": {},
             "type": "Variables"
         },
         {
@@ -61,7 +62,7 @@
                     "y": 0.46271246671676636,
                     "z": 0.46271246671676636
                 },
-                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -77,7 +78,7 @@
                     }
                 }
             },
-            "meshPath": "./Assets/Models/Player/player.obj",
+            "meshPath": "./Assets/Models/Player/hand.obj",
             "type": "MeshRenderer"
         },
         {
@@ -94,6 +95,10 @@
                 {
                     "enable": true,
                     "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "PlayerSmashUp"
                 }
             ],
             "type": "Script"
@@ -103,6 +108,7 @@
             "enable": 1,
             "freezeY": true,
             "maskBits": 32,
+            "mass": 1.0,
             "radius": 3.200000047683716,
             "state": "Dynamic",
             "type": "SphereCollider"

@@ -1,0 +1,19 @@
+{
+    "entities": [
+        {
+            "id": 1,
+            "parent": null,
+            "path": "./Test3/Camera.entity"
+        },
+        {
+            "id": 2,
+            "parent": null,
+            "path": "./Test3/DirectionalLight.entity"
+        },
+        {
+            "id": 3,
+            "parent": null,
+            "path": "./Test3/TargetRock.entity"
+        }
+    ]
+}

@@ -19,6 +19,11 @@ public abstract class BehaviorNode
     public uint NodeIdHash { get; set; }
 
     /// <summary>
+    /// エディタ上の生のノードID。
+    /// </summary>
+    public int NodeId { get; set; }
+
+    /// <summary>
     /// このノードが最後に実行された際の結果ステータス（成功、失敗、実行中）。
     /// </summary>
     public NodeStatus LastStatus { get; protected set; } = NodeStatus.Failure;

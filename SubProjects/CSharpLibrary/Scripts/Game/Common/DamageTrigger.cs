@@ -36,6 +36,7 @@ public class DamageTrigger : MonoScript
         {
             if (timer <= 0 && IsTarget(collision))
             {
+                // Debug.Log($"[DamageTrigger] OnCollisionStay hit target: {collision.name}");
                 ApplyDamageTo(collision);
                 timer = interval;
             }
@@ -44,13 +45,25 @@ public class DamageTrigger : MonoScript
 
     public override void OnCollisionEnter(Entity collision)
     {
-        if (interval <= 0 && !hasHit)
+        // Debug.Log($"[DamageTrigger] OnCollisionEnter with: {collision.name}");
+        
+        if (IsTarget(collision))
         {
-            if (IsTarget(collision))
+            if (interval <= 0)
             {
-                ApplyDamageTo(collision);
-                // 貫通するかどうかは要件によるが、とりあえずこのオブジェクト自体は消滅しない前提
-                // hasHit = true; // 1回しかダメージ判定を出さない場合はコメントアウト解除
+                if (!hasHit)
+                {
+                    ApplyDamageTo(collision);
+                }
+            }
+            else
+            {
+                // インターバルがある攻撃でも、最初の接触でダメージを与える
+                if (timer <= 0)
+                {
+                    ApplyDamageTo(collision);
+                    timer = interval;
+                }
             }
         }
     }
@@ -62,7 +75,9 @@ public class DamageTrigger : MonoScript
 
     private void ApplyDamageTo(Entity e)
     {
-        // DamageHandler経由でダメージを与える
+        Debug.Log($"<color=white>[DamageTrigger:Trace]</color> ApplyDamageTo enters for {e.name}");
+        
+        // 1. 汎用 DamageHandler 経由
         DamageHandler handler = e.GetScript<DamageHandler>();
         if (handler != null)
         {
@@ -70,13 +85,35 @@ public class DamageTrigger : MonoScript
             return;
         }
 
-        // 旧PlayerCore等の直接処理（DamageHandlerがない場合のフォールバック）
-        // 実際のプロジェクトの構成に応じて削除してよい
+        // 2. 援軍専用 ReinforcementDamageHandler 経由
+        ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
+        if (rHandler != null)
+        {
+            rHandler.ApplyDamage(damage, transform.position);
+            return;
+        }
+
+        // 3. 援軍（Reinforcement）への直接処理（Handlerがない場合の旧方式フォールバック）
+        Reinforcement reinforcement = e.GetScript<Reinforcement>();
+        if (reinforcement != null)
+        {
+            if (reinforcement.isCollisionEnabled)
+            {
+                Debug.Log($"<color=orange>[DamageTrigger]</color> Hit Reinforcement (Direct): {e.name} from {entity.name}");
+                reinforcement.TakeDamage();
+            }
+            return;
+        }
+
+        // 4. プレイヤーへの直接フォールバック（名前判定）
         if (e.name.Contains("Player"))
         {
-            // PlayerCoreのTakeDamageをリフレクション等で呼ぶか、直接キャストする
-            // ここでは簡易的にメッセージを出すのみとする
-            Debug.Log($"DamageTrigger applied {damage} damage to {e.name}.");
+            // HPコンポーネントを直接探す
+            HP hp = e.GetScript<HP>();
+            if (hp != null)
+            {
+                hp.TakeDamage(damage);
+            }
         }
     }
 }

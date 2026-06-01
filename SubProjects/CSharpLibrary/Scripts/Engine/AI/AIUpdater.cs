@@ -5,6 +5,10 @@ using System.Runtime.InteropServices;
 public static class AIUpdater {
     private static readonly Dictionary<uint, AgentIntentComponent> _componentCache = new Dictionary<uint, AgentIntentComponent>();
 
+    // エディタ表示用の状態保持
+    public static string lastBossName = "None";
+    public static string lastBossAction = "Idle";
+
     /// <summary>
     /// C++ から呼び出されるAI更新のメインエントリーポイント
     /// </summary>
@@ -53,6 +57,16 @@ public static class AIUpdater {
                     }
 
                     component.behaviorTree.Tick();
+
+                    // ボス状態の記録（エディタ用）
+                    // 名前が "Boss" を含むエンティティを監視対象とする
+                    if (component.entity.name.IndexOf("Boss", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        lastBossName = component.entity.name;
+                        lastBossAction = (component.behaviorTree.ActiveNode != null) 
+                            ? component.behaviorTree.ActiveNode.name 
+                            : "Idle";
+                    }
 
                     // エディタ用：実行状態を同期
                     component.behaviorTree.GetAllNodeStatuses(new Dictionary<uint, NodeStatus>());

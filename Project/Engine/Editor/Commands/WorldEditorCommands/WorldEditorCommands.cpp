@@ -282,7 +282,7 @@ EDITOR_STATE CreatePrefabCommand::Execute() {
 
 
 	/// jsonに変換
-	nlohmann::json entityJson = ONEngine::EntityJsonConverter::ToJson(pEntity_);
+	nlohmann::json entityJson = ONEngine::EntityJsonConverter::ToJson(pEntity_, true);
 
 	/// 子の要素も入れる
 	SerializeRecursive(pEntity_, entityJson);
@@ -322,7 +322,7 @@ void CreatePrefabCommand::SerializeRecursive(ONEngine::GameEntity* _entity, nloh
 			continue;
 		}
 
-		nlohmann::json childJson = ONEngine::EntityJsonConverter::ToJson(child);
+		nlohmann::json childJson = ONEngine::EntityJsonConverter::ToJson(child, true);
 		SerializeRecursive(child, childJson);
 		_json["children"].push_back(childJson);
 	}
@@ -337,7 +337,7 @@ CopyEntityCommand::CopyEntityCommand(ONEngine::GameEntity* _entity) : pEntity_(_
 
 EDITOR_STATE CopyEntityCommand::Execute() {
 	/// jsonに変換
-	entityJson_ = ONEngine::EntityJsonConverter::ToJson(pEntity_);
+	entityJson_ = ONEngine::EntityJsonConverter::ToJson(pEntity_, true);
 	EditCommand::SetClipboardData(entityJson_);
 
 	/// チェック
