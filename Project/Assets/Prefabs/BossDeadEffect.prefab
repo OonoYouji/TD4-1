@@ -1,7 +1,7 @@
 {
     "components": [
         {
-            "enable": 0,
+            "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
@@ -22,12 +22,26 @@
             "type": "Transform"
         },
         {
+            "TimedDestruction": {
+                "lifeTime": 6.0,
+                "remainingTime": 0.0
+            },
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "TimedDestruction"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "4b2170a76e7d0236367c96751813e016",
-    "id": 5,
-    "name": "Background",
+    "guid": "b6195055c065c7c0e33255f342db1724",
+    "id": 2,
+    "name": "BossDeadEffect",
     "parent": null,
-    "prefabName": ""
+    "prefabName": "BossDeadEffect"
 }

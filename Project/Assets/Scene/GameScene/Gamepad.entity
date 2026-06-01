@@ -53,8 +53,8 @@
         }
     ],
     "guid": "4b21f44ef715b86fae07c176e33432f3",
-    "id": 8,
+    "id": 10,
     "name": "Gamepad",
-    "parent": 6,
+    "parent": 9,
     "prefabName": ""
 }

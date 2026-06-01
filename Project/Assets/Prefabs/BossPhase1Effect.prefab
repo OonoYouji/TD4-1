@@ -4,7 +4,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 100.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -22,9 +22,12 @@
             "type": "Transform"
         },
         {
-            "UiController": {
-                "gamepadSpriteEntityName": "Gamepad",
-                "kbmSpriteEntityName": "KBM"
+            "CameraLookAt": {
+                "cameraName": ""
+            },
+            "TimedDestruction": {
+                "lifeTime": 6.0,
+                "remainingTime": 0.0
             },
             "type": "Variables"
         },
@@ -33,15 +36,15 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "UiController"
+                    "name": "TimedDestruction"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "acd3e3950d763de2cf669421024046b6",
-    "id": 9,
-    "name": "ShotControl",
-    "parent": 8,
-    "prefabName": ""
+    "guid": "6512006ddc1240359414b031a1f499f5",
+    "id": 2,
+    "name": "BossPhase1Effect",
+    "parent": null,
+    "prefabName": "BossPhase1Effect"
 }

@@ -47,6 +47,30 @@ namespace {
 		return true;
 	}
 
+	bool HasSerializeField(MonoClassField* field) {
+		MonoClass* klass = mono_field_get_parent(field);
+		MonoCustomAttrInfo* attrs = mono_custom_attrs_from_field(klass, field);
+		if (!attrs) return false;
+
+		static MonoClass* serializeFieldAttr = nullptr;
+		if (!serializeFieldAttr) {
+			serializeFieldAttr = mono_class_from_name(MonoScriptEngine::GetInstance().Image(), "", "SerializeField");
+		}
+
+		bool has = serializeFieldAttr && mono_custom_attrs_has_attr(attrs, serializeFieldAttr);
+		mono_custom_attrs_free(attrs);
+		return has;
+	}
+
+	bool IsPublicField(MonoClassField* field) {
+		uint32_t flags = mono_field_get_flags(field);
+		return (flags & 0x0006) == 0x0006; // FIELD_ATTRIBUTE_PUBLIC
+	}
+
+	bool ShouldSerialize(MonoClassField* field) {
+		return IsPublicField(field) || HasSerializeField(field);
+	}
+
 	Variables::Var JsonToVar(const json& varValue);
 	json VarToJson(const Variables::Var& var);
 
@@ -151,18 +175,12 @@ Variables::Var Variables::MonoObjectToVar(void* obj, void* type) {
 			auto gen = std::make_shared<Variables::GenericObject>();
 			gen->typeName = name;
 			void* iter = nullptr; MonoClassField* f;
-			while ((f = mono_class_get_fields(klass, &iter))) gen->fields[mono_field_get_name(f)] = MonoObjectToVar(nullptr, mono_field_get_type(f));
+			while ((f = mono_class_get_fields(klass, &iter))) {
+				if (ShouldSerialize(f)) gen->fields[mono_field_get_name(f)] = MonoObjectToVar(nullptr, mono_field_get_type(f));
+			}
 			return gen;
 		}
-		case MONO_TYPE_CLASS:
-		{
-			MonoClass* klass = mono_class_from_mono_type((MonoType*)type);
-			auto gen = std::make_shared<Variables::GenericObject>();
-			gen->typeName = mono_class_get_name(klass);
-			void* iter = nullptr; MonoClassField* f;
-			while ((f = mono_class_get_fields(klass, &iter))) gen->fields[mono_field_get_name(f)] = MonoObjectToVar(nullptr, mono_field_get_type(f));
-			return gen;
-		}
+		case MONO_TYPE_CLASS: return std::shared_ptr<GenericObject>(nullptr);
 		case MONO_TYPE_GENERICINST: return std::vector<int>();
 		default: return 0;
 		}
@@ -239,9 +257,11 @@ std::shared_ptr<Variables::GenericObject> Variables::MonoObjectToGeneric(void* o
 	void* iter = nullptr;
 	MonoClassField* field = nullptr;
 	while ((field = mono_class_get_fields(klass, &iter))) {
-		const char* name = mono_field_get_name(field);
-		MonoType* type = mono_field_get_type(field);
-		gen->fields[name] = MonoObjectToVar(mono_field_get_value_object(mono_domain_get(), field, (MonoObject*)obj), type);
+		if (ShouldSerialize(field)) {
+			const char* name = mono_field_get_name(field);
+			MonoType* type = mono_field_get_type(field);
+			gen->fields[name] = MonoObjectToVar(mono_field_get_value_object(mono_domain_get(), field, (MonoObject*)obj), type);
+		}
 	}
 	return gen;
 }
@@ -389,6 +409,7 @@ void Variables::RegisterScriptVariables() {
 			void* iter = nullptr;
 			MonoClassField* field = nullptr;
 			while ((field = mono_class_get_fields(monoClass, &iter))) {
+				if (!ShouldSerialize(field)) continue;
 				const char* fieldName = mono_field_get_name(field);
 				if (group.Has(fieldName)) continue;
 				group.Add(fieldName, MonoObjectToVar(mono_field_get_value_object(mono_domain_get(), field, safeObj), mono_field_get_type(field)));
@@ -417,6 +438,7 @@ void Variables::ReloadScriptVariables() {
 			void* iter = nullptr;
 			MonoClassField* field = nullptr;
 			while ((field = mono_class_get_fields(monoClass, &iter))) {
+				if (!ShouldSerialize(field)) continue;
 				group.Add(mono_field_get_name(field), MonoObjectToVar(mono_field_get_value_object(mono_domain_get(), field, safeObj), mono_field_get_type(field)));
 			}
 		}
@@ -438,6 +460,7 @@ void Variables::SetScriptVariables(const std::string& _scriptName) {
 	void* iter = nullptr;
 	MonoClassField* field = nullptr;
 	while ((field = mono_class_get_fields(monoClass, &iter))) {
+		if (!ShouldSerialize(field)) continue;
 		const char* name = mono_field_get_name(field);
 		if (!group.Has(name)) continue;
 		auto& val = group.Get(name);

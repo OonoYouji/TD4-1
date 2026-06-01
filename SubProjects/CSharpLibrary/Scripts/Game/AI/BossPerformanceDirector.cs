@@ -12,14 +12,16 @@ public class BossPerformanceDirector : MonoScript
     {
         public float hpThreshold;
         public string prefabPath;
-        public bool triggered = false;
+        internal bool triggered = false; // 実行済みフラグ（保存しない）
     }
 
     [SerializeField] public List<PhasePerformance> performances = new List<PhasePerformance>();
+    [SerializeField] public string deathPerformancePrefabPath = "";
     
     private HP _hp;
     private AgentIntentComponent _intent;
     private bool _isPerforming = false;
+    private bool _isDead = false;
     private int _activePerformanceEntityId = -1;
 
     public override void Initialize()
@@ -27,8 +29,11 @@ public class BossPerformanceDirector : MonoScript
         _hp = entity.GetScript<HP>();
         _intent = entity.GetComponent<AgentIntentComponent>();
         
-        // 開幕演出があるかチェック（HP 1.0以上で設定されているものを探す）
-        Update(); 
+        // フラグを強制リセット
+        foreach (var p in performances) p.triggered = false;
+
+        // HPスクリプト側で自動消滅を無効化する
+        if (_hp != null) _hp.disableAutoDestruction = true;
     }
 
     public override void Update()
@@ -42,63 +47,86 @@ public class BossPerformanceDirector : MonoScript
             return;
         }
 
+        if (_isDead) return;
+
         float currentRatio = _hp.CurrentHpRatio();
 
+        // 撃破判定
+        if (currentRatio <= 0 && !string.IsNullOrEmpty(deathPerformancePrefabPath))
+        {
+            TriggerDeathPerformance();
+            return;
+        }
+
+        // 開幕・フェーズ遷移判定
         foreach (var p in performances)
         {
             if (!p.triggered && currentRatio <= p.hpThreshold)
             {
                 TriggerPerformance(p);
-                break; // 同時に複数は発生させない
+                break; 
             }
         }
     }
 
     private void TriggerPerformance(PhasePerformance p)
     {
-        Debug.Log($"<color=gold>[BossPerformanceDirector]</color> Triggering performance for threshold {p.hpThreshold} (Prefab: {p.prefabPath})");
-        
+        if (string.IsNullOrEmpty(p.prefabPath))
+        {
+            p.triggered = true;
+            return;
+        }
+
         p.triggered = true;
         _isPerforming = true;
         _intent.isPaused = true;
 
-        // 演出用プレハブの生成
         Entity perfEntity = ecsGroup.CreateEntity(p.prefabPath);
         if (perfEntity != null)
         {
             _activePerformanceEntityId = perfEntity.Id;
             
-            // 演出側にオーナー（ボス）の情報を伝える仕組み
-            // プレハブ内のスクリプトが SetBossId などのメソッドを持っていることを期待
+            // 位置と向きをボスに完全一致させる
+            perfEntity.transform.position = transform.position;
+            perfEntity.transform.rotation = transform.rotation;
         }
         else
         {
-            Debug.LogError($"[BossPerformanceDirector] Failed to spawn performance prefab: {p.prefabPath}");
+            EndPerformance();
+        }
+    }
+
+    private void TriggerDeathPerformance()
+    {
+        _isDead = true;
+        _isPerforming = true;
+        _intent.isPaused = true;
+
+        Entity perfEntity = ecsGroup.CreateEntity(deathPerformancePrefabPath);
+        if (perfEntity != null)
+        {
+            _activePerformanceEntityId = perfEntity.Id;
+            perfEntity.transform.position = transform.position;
+            perfEntity.transform.rotation = transform.rotation;
+        }
+        else
+        {
             EndPerformance();
         }
     }
 
     private void CheckPerformanceFinished()
     {
-        // 演出用エンティティが消滅した、または完了通知キーが立ったら終了とみなす
         bool finished = false;
-
         if (_activePerformanceEntityId != -1)
         {
             Entity perf = ecsGroup.GetEntity(_activePerformanceEntityId);
-            if (perf == null)
-            {
-                finished = true;
-            }
+            if (perf == null) finished = true;
         }
         else
         {
             finished = true;
         }
-
-        // Blackboard経由の明示的な通知もチェック（オプション）
-        // string key = "PerformanceFinished_" + entity.Id;
-        // if (BlackboardManager.Get(entity.Id)?.GetBool(key) == true) finished = true;
 
         if (finished)
         {
@@ -108,9 +136,16 @@ public class BossPerformanceDirector : MonoScript
 
     private void EndPerformance()
     {
-        Debug.Log("<color=gold>[BossPerformanceDirector]</color> Performance finished. Resuming AI.");
         _isPerforming = false;
         _activePerformanceEntityId = -1;
-        _intent.isPaused = false;
+
+        if (_isDead)
+        {
+            entity.Destroy();
+        }
+        else
+        {
+            _intent.isPaused = false;
+        }
     }
 }

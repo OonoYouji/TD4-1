@@ -4,6 +4,8 @@ class HP : MonoScript
     public int MAX_HP = 100;
     [SerializeField]
     public int currentHp = 0;
+    [SerializeField]
+    public bool disableAutoDestruction = false;
 
     private bool _isDead = false;
 
@@ -15,7 +17,7 @@ class HP : MonoScript
 
     public override void Update()
     {
-        if (_isDead)
+        if (_isDead && !disableAutoDestruction)
         {
             entity.Destroy();
         }

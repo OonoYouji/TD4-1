@@ -53,8 +53,8 @@
         }
     ],
     "guid": "6f4dd6e35752baa7a02f97b42112034e",
-    "id": 9,
+    "id": 11,
     "name": "KBM",
-    "parent": 6,
+    "parent": 9,
     "prefabName": ""
 }
