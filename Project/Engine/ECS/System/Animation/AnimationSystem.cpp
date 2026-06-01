@@ -1,11 +1,17 @@
 #include "AnimationSystem.h"
 
+/// external
+#include <mono/metadata/appdomain.h>
+#include <mono/metadata/object.h>
+#include <mono/metadata/class.h>
+
 /// engine
 #include "Engine/ECS/EntityComponentSystem/ECSGroup.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Animation/AnimationPlayer.h"
 #include "Engine/Core/Utility/Time/Time.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/Core/Utility/Math/Interpolation.h"
+#include "Engine/Script/MonoScriptEngine.h"
 
 using namespace ONEngine;
 
@@ -98,7 +104,28 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
             const auto& track = clip->tracks[i];
             auto& binding = player->bindings[i];
 
-            if (binding.type == AnimationPlayer::PropertyBinding::Type::ScriptVar) {
+            if (binding.type == AnimationPlayer::PropertyBinding::Type::None) continue;
+
+            if (binding.type == AnimationPlayer::PropertyBinding::Type::CSField) {
+                if (!binding.monoField || binding.monoGcHandle == 0) continue;
+
+                MonoObject* obj = mono_gchandle_get_target(binding.monoGcHandle);
+                if (!obj) continue;
+
+                if (std::holds_alternative<float>(track.keyframes[0].value)) {
+                    float val = EvaluateTrack<float>(track.keyframes, player->currentTime);
+                    mono_field_set_value(obj, binding.monoField, &val);
+                } else if (std::holds_alternative<Vector2>(track.keyframes[0].value)) {
+                    Vector2 val = EvaluateTrack<Vector2>(track.keyframes, player->currentTime);
+                    mono_field_set_value(obj, binding.monoField, &val);
+                } else if (std::holds_alternative<Vector3>(track.keyframes[0].value)) {
+                    Vector3 val = EvaluateTrack<Vector3>(track.keyframes, player->currentTime);
+                    mono_field_set_value(obj, binding.monoField, &val);
+                } else if (std::holds_alternative<Vector4>(track.keyframes[0].value)) {
+                    Vector4 val = EvaluateTrack<Vector4>(track.keyframes, player->currentTime);
+                    mono_field_set_value(obj, binding.monoField, &val);
+                }
+            } else if (binding.type == AnimationPlayer::PropertyBinding::Type::ScriptVar) {
                 auto* vars = static_cast<Variables*>(binding.targetComponent);
                 if (track.keyframes.empty()) continue;
                 

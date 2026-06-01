@@ -3,14 +3,19 @@
 /// external
 #include <imgui.h>
 #include <nlohmann/json.hpp>
+#include <mono/metadata/appdomain.h>
+#include <mono/metadata/object.h>
+#include <mono/metadata/class.h>
 
 /// engine
+#include "Engine/ECS/EntityComponentSystem/ECSGroup.h"
 #include "Engine/ECS/Entity/GameEntity/GameEntity.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Light/Light.h"
+#include "Engine/Script/MonoScriptEngine.h"
 
 using namespace ONEngine;
 
@@ -18,15 +23,27 @@ AnimationPlayer::AnimationPlayer() {
     Reset();
 }
 
-AnimationPlayer::~AnimationPlayer() = default;
+AnimationPlayer::~AnimationPlayer() {
+    ClearBindings();
+}
 
 void AnimationPlayer::Reset() {
+    ClearBindings();
     clipPath = "";
     currentTime = 0.0f;
     speed = 1.0f;
     isPlaying = false;
     isLooping = true;
     autoPlay = true;
+    isBound = false;
+}
+
+void AnimationPlayer::ClearBindings() {
+    for (auto& b : bindings) {
+        if (b.monoGcHandle != 0) {
+            mono_gchandle_free(b.monoGcHandle);
+        }
+    }
     bindings.clear();
     isBound = false;
 }
@@ -61,11 +78,11 @@ void AnimationPlayer::SetClip(const std::string& _path) {
         path = "./" + path;
     }
     clipPath = path;
-    isBound = false; // クリップが変わったらバインドをやり直す
+    ClearBindings(); // クリップが変わったらバインドをやり直す
 }
 
 void AnimationPlayer::Bind() {
-    bindings.clear();
+    ClearBindings();
 
     auto* ac = Asset::AssetCollection::GetInstance();
     auto guid = ac->GetAssetGuidFromPath(clipPath);
@@ -86,23 +103,53 @@ void AnimationPlayer::Bind() {
     for (const auto& track : clip->tracks) {
         PropertyBinding binding;
         binding.propertyPath = track.propertyPath;
-        binding.targetComponent = entity->GetComponent(track.componentName);
+        binding.type = PropertyBinding::Type::None; // Default to None
 
-        if (!binding.targetComponent) {
-            // "Script:MyScript" の形式をチェック
-            if (track.componentName.find("Script:") == 0) {
-                binding.targetComponent = entity->GetComponent<Variables>();
-                if (binding.targetComponent) {
-                    binding.type = PropertyBinding::Type::ScriptVar;
-                    binding.scriptGroupName = track.componentName.substr(7);
+        // 空のプロパティ名はスキップ（Noneとして扱う）
+        if (track.propertyPath.empty()) {
+            bindings.push_back(binding);
+            continue;
+        }
+        
+        // --- C# Script direct access ---
+        if (track.componentName.find("Script:") == 0 && track.componentName.length() > 7) {
+            std::string className = track.componentName.substr(7);
+            std::string ecsGroupName = entity->GetECSGroup()->GetGroupName();
+            
+            MonoObject* scriptInstance = MonoScriptEngine::GetInstance().GetMonoBehaviorFromCS(ecsGroupName, entity->GetId(), className);
+            if (scriptInstance) {
+                MonoClass* monoClass = mono_object_get_class(scriptInstance);
+                MonoClassField* field = MonoScriptEngineUtils::FindFieldRecursive(monoClass, track.propertyPath.c_str());
+                
+                if (field) {
+                    binding.type = PropertyBinding::Type::CSField;
+                    binding.monoField = field;
+                    binding.monoGcHandle = mono_gchandle_new(scriptInstance, false); // GCから保護
+                    binding.scriptGroupName = className;
                     binding.scriptVarName = track.propertyPath;
                     bindings.push_back(binding);
+                    continue;
                 }
             }
+
+            // Fallback: Variablesコンポーネント経由 (従来通り)
+            binding.targetComponent = entity->GetComponent<Variables>();
+            if (binding.targetComponent) {
+                binding.type = PropertyBinding::Type::ScriptVar;
+                binding.scriptGroupName = className;
+                binding.scriptVarName = track.propertyPath;
+            }
+            bindings.push_back(binding);
             continue;
         }
 
-        // C++ コンポーネントのプロパティ解決
+        // --- C++ Component access ---
+        binding.targetComponent = entity->GetComponent(track.componentName);
+        if (!binding.targetComponent) {
+            bindings.push_back(binding);
+            continue;
+        }
+
         std::string compName = track.componentName;
         std::string propPath = track.propertyPath;
 
@@ -135,9 +182,8 @@ void AnimationPlayer::Bind() {
             else if (propPath == "intensity") { binding.dataPtr = &l->intensity_; binding.type = PropertyBinding::Type::Float; }
         }
 
-        if (binding.dataPtr) {
-            bindings.push_back(binding);
-        }
+        // dataPtrが解決できなければNoneのまま
+        bindings.push_back(binding);
     }
 }
 

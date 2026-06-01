@@ -54,28 +54,27 @@ struct AnimationSequenceWrapper : public ImSequencer::SequenceInterface {
         if (color) *color = 0xFFAA8080;
     }
 
-    void Add(int type) override {
-        if (clip) {
-            clip->tracks.push_back({"Transform", "position.x", {}});
-            itemFrames.push_back({0, mFrameMax});
-        }
-    }
-    void Del(int index) override {
-        if (clip && index >= 0 && index < clip->tracks.size()) {
-            clip->tracks.erase(clip->tracks.begin() + index);
-            itemFrames.erase(itemFrames.begin() + index);
-        }
-    }
-    void Duplicate(int index) override {
-        if (clip && index >= 0 && index < clip->tracks.size()) {
-            clip->tracks.push_back(clip->tracks[index]);
-            itemFrames.push_back(itemFrames[index]);
-        }
-    }
+    void Add(int type) override;
+    void Del(int index) override;
+    void Duplicate(int index) override;
     
     // カスタム描画でキーフレームをプロットする
     size_t GetCustomHeight(int index) override { return 15; }
     void CustomDraw(int index, ImDrawList* draw_list, const ImRect& rc, const ImRect& legendRect, const ImRect& clippingRect, const ImRect& legendClippingRect) override;
+
+    // --- Interaction State ---
+    int draggingTrackIndex = -1;
+    int draggingKeyframeIndex = -1;
+    int selectedKeyframeIndex = -1;
+    int* pSelectedEntry = nullptr; // AnimationEditorWindowのselectedEntryへのポインタ
+
+    // Context menu state
+    int contextTrackIndex = -1;
+    int contextKeyframeIndex = -1;
+    float contextKeyTime = 0.0f;
+
+    // Undo support
+    ONEngine::Asset::AnimationClip clipCopy;
 };
 
 /// ///////////////////////////////////////////////////

@@ -8,6 +8,8 @@
 #include "../../Interface/IComponent.h"
 #include "Engine/Asset/Guid/Guid.h"
 
+struct _MonoClassField;
+
 namespace ONEngine {
 
 class AnimationPlayer : public IComponent {
@@ -44,19 +46,29 @@ public:
         IComponent* targetComponent;
         std::string propertyPath;
         void* dataPtr = nullptr; // 直接値を書き換えるためのポインタ
+        
+        // --- C# Script Support ---
+        uint32_t monoGcHandle = 0; // MonoObjectのGCハンドル (0は無効)
+        struct _MonoClassField* monoField = nullptr;
+
         enum class Type {
+            None = 0,
             Float, Vector2, Vector3, Vector4,
             TransformRotationEuler, // 特殊対応：Vector3 Euler -> Quaternion
-            ScriptVar // Variablesコンポーネント経由
-        } type;
-        std::string scriptGroupName; // ScriptVarの場合のみ使用
-        std::string scriptVarName;   // ScriptVarの場合のみ使用
+            ScriptVar, // 従来のVariablesコンポーネント経由 (後方互換用)
+            CSField    // C#スクリプトのフィールド直書き
+        } type = Type::None;
+        std::string scriptGroupName; // ScriptVar/CSField のクラス名
+        std::string scriptVarName;   // ScriptVar/CSField の変数名
     };
     std::vector<PropertyBinding> bindings;
     bool isBound = false;
 
     /// @brief エンティティのコンポーネントに対してプロパティをバインドする
     void Bind();
+
+    /// @brief バインド情報をクリアし、GCハンドルを解放する
+    void ClearBindings();
 };
 
 void from_json(const nlohmann::json& _j, AnimationPlayer& _a);

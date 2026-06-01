@@ -32,35 +32,239 @@ namespace {
     }
 }
 
+#include "Engine/Editor/Manager/EditCommand.h"
+
+namespace {
+    // AnimationClip全体の変更を記録するコマンド
+    class ModifyAnimationClipCommand : public IEditCommand {
+    public:
+        ModifyAnimationClipCommand(ONEngine::Asset::AnimationClip* _clip, const ONEngine::Asset::AnimationClip& _old, const ONEngine::Asset::AnimationClip& _new)
+            : pClip_(_clip), oldClip_(_old), newClip_(_new) {}
+        
+        EDITOR_STATE Execute() override {
+            if (pClip_) *pClip_ = newClip_;
+            return EDITOR_STATE_FINISH;
+        }
+        EDITOR_STATE Undo() override {
+            if (pClip_) *pClip_ = oldClip_;
+            return EDITOR_STATE_FINISH;
+        }
+    private:
+        ONEngine::Asset::AnimationClip* pClip_;
+        ONEngine::Asset::AnimationClip oldClip_, newClip_;
+    };
+}
+
+// -------------------------------------------------------------
+// Sequence Wrapper Interface Implementation
+// -------------------------------------------------------------
+void AnimationSequenceWrapper::Add(int type) {
+    if (clip) {
+        clipCopy = *clip;
+        clip->tracks.push_back({ "Transform", "position.x", {} });
+        itemFrames.push_back({ 0, mFrameMax });
+        EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+    }
+}
+
+void AnimationSequenceWrapper::Del(int index) {
+    if (clip && index >= 0 && index < (int)clip->tracks.size()) {
+        clipCopy = *clip;
+        clip->tracks.erase(clip->tracks.begin() + index);
+        itemFrames.erase(itemFrames.begin() + index);
+        EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+    }
+}
+
+void AnimationSequenceWrapper::Duplicate(int index) {
+    if (clip && index >= 0 && index < (int)clip->tracks.size()) {
+        clipCopy = *clip;
+        clip->tracks.push_back(clip->tracks[index]);
+        itemFrames.push_back(itemFrames[index]);
+        EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+    }
+}
+
 // -------------------------------------------------------------
 // Sequence Wrapper Custom Draw for Keyframes
 // -------------------------------------------------------------
 void AnimationSequenceWrapper::CustomDraw(int index, ImDrawList* draw_list, const ImRect& rc, const ImRect& /*legendRect*/, const ImRect& clippingRect, const ImRect& /*legendClippingRect*/) {
     if (!clip || index < 0 || index >= (int)clip->tracks.size()) return;
     
-    const auto& track = clip->tracks[index];
+    auto& track = clip->tracks[index];
     
     // X軸のピクセルからフレーム/時間への変換
     float framesPerPixel = (float)(mFrameMax - mFrameMin) / rc.GetWidth();
     
     draw_list->PushClipRect(clippingRect.Min, clippingRect.Max, true);
     
-    for (const auto& key : track.keyframes) {
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec2 mousePos = io.MousePos;
+
+    bool anyKeyframeHovered = false;
+
+    for (int i = 0; i < (int)track.keyframes.size(); ++i) {
+        auto& key = track.keyframes[i];
         // time to frame
         int frame = static_cast<int>(key.time * 60.0f); // 60fps
         float pX = rc.Min.x + (frame - mFrameMin) / framesPerPixel;
         
-        if (pX >= clippingRect.Min.x && pX <= clippingRect.Max.x) {
+        if (pX >= clippingRect.Min.x - 5.0f && pX <= clippingRect.Max.x + 5.0f) {
             // Draw diamond for keyframe
             ImVec2 center(pX, rc.Min.y + rc.GetHeight() * 0.5f);
             float s = 4.0f;
+            
+            // Hit Test
+            bool isHovered = false;
+            if (clippingRect.Contains(mousePos)) {
+                float dx = mousePos.x - center.x;
+                float dy = mousePos.y - center.y;
+                if (std::abs(dx) < s + 3.0f && std::abs(dy) < s + 3.0f) {
+                    isHovered = true;
+                    anyKeyframeHovered = true;
+                }
+            }
+
+            if (isHovered) {
+                if (ImGui::IsMouseClicked(0)) {
+                    draggingTrackIndex = index;
+                    draggingKeyframeIndex = i;
+                    selectedKeyframeIndex = i;
+                    if (pSelectedEntry) *pSelectedEntry = index;
+                    clipCopy = *clip; // Start drag: save state
+                } else if (ImGui::IsMouseClicked(1)) {
+                    // Right-click to select and open menu
+                    selectedKeyframeIndex = i;
+                    if (pSelectedEntry) *pSelectedEntry = index;
+                    contextTrackIndex = index;
+                    contextKeyframeIndex = i;
+                    contextKeyTime = key.time;
+                    ImGui::OpenPopup("KeyframeContextMenu");
+                }
+            }
+
             ImVec2 pts[4] = {
                 {center.x, center.y - s},
                 {center.x + s, center.y},
                 {center.x, center.y + s},
                 {center.x - s, center.y}
             };
-            draw_list->AddConvexPolyFilled(pts, 4, IM_COL32(255, 255, 0, 255));
+            
+            ImU32 color = IM_COL32(255, 255, 0, 255);
+            if (pSelectedEntry && *pSelectedEntry == index && selectedKeyframeIndex == i) {
+                color = IM_COL32(255, 255, 255, 255);
+                s += 1.5f;
+                pts[0] = {center.x, center.y - s};
+                pts[1] = {center.x + s, center.y};
+                pts[2] = {center.x, center.y + s};
+                pts[3] = {center.x - s, center.y};
+                
+                // Blender-like 'X' key deletion for selected keyframe
+                if (ImGui::IsKeyPressed(ImGuiKey_X)) {
+                    clipCopy = *clip;
+                    track.keyframes.erase(track.keyframes.begin() + i);
+                    EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+                    selectedKeyframeIndex = -1;
+                    continue;
+                }
+            } else if (isHovered) {
+                color = IM_COL32(255, 200, 0, 255);
+            }
+
+            draw_list->AddConvexPolyFilled(pts, 4, color);
+        }
+    }
+
+    // --- Add Keyframe (K key or Double Click) ---
+    if (clippingRect.Contains(mousePos) && !anyKeyframeHovered) {
+        bool doubleClicked = ImGui::IsMouseDoubleClicked(0);
+        bool kPressed = ImGui::IsKeyPressed(ImGuiKey_K);
+        
+        if (doubleClicked || kPressed) {
+            float newFrame = (mousePos.x - rc.Min.x) * framesPerPixel + mFrameMin;
+            float newTime = std::clamp(newFrame / 60.0f, 0.0f, (float)mFrameMax / 60.0f);
+            
+            // Check for existing key at this time
+            bool found = false;
+            for (auto& k : track.keyframes) {
+                if (std::abs(k.time - newTime) < 0.001f) {
+                    found = true; break;
+                }
+            }
+            
+            if (!found) {
+                clipCopy = *clip;
+                std::variant<float, Vector2, Vector3, Vector4> defaultValue = 0.0f;
+                if (!track.keyframes.empty()) defaultValue = track.keyframes[0].value;
+                
+                track.keyframes.push_back({newTime, defaultValue, "Linear"});
+                std::sort(track.keyframes.begin(), track.keyframes.end(), [](const auto& a, const auto& b) {
+                    return a.time < b.time;
+                });
+                
+                EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+
+                // Select the new keyframe
+                for (int i = 0; i < (int)track.keyframes.size(); ++i) {
+                    if (std::abs(track.keyframes[i].time - newTime) < 0.0001f) {
+                        selectedKeyframeIndex = i;
+                        if (pSelectedEntry) *pSelectedEntry = index;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    // --- Context Menu Content ---
+    // Note: This logic should ideally be called once per frame outside this track loop,
+    // but to keep it simple, we only allow the track matching contextTrackIndex to draw it.
+    if (contextTrackIndex == index && ImGui::BeginPopup("KeyframeContextMenu")) {
+        if (ImGui::MenuItem("Delete Keyframe")) {
+            if (contextKeyframeIndex != -1) {
+                clipCopy = *clip;
+                // Since index might have changed due to sorting, find key by time
+                auto it = std::find_if(track.keyframes.begin(), track.keyframes.end(), [this](const auto& k) {
+                    return std::abs(k.time - contextKeyTime) < 0.0001f;
+                });
+                if (it != track.keyframes.end()) {
+                    track.keyframes.erase(it);
+                    EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+                }
+                selectedKeyframeIndex = -1;
+                contextKeyframeIndex = -1;
+                contextTrackIndex = -1;
+            }
+        }
+        ImGui::EndPopup();
+    }
+    
+    // Dragging Logic
+    if (draggingTrackIndex == index && draggingKeyframeIndex != -1) {
+        if (ImGui::IsMouseDragging(0)) {
+            float newFrame = (mousePos.x - rc.Min.x) * framesPerPixel + mFrameMin;
+            track.keyframes[draggingKeyframeIndex].time = std::clamp(newFrame / 60.0f, 0.0f, (float)mFrameMax / 60.0f);
+        }
+        
+        if (ImGui::IsMouseReleased(0)) {
+            // Sort and update selectedKeyframeIndex
+            auto selectedKeyTime = track.keyframes[draggingKeyframeIndex].time;
+            std::sort(track.keyframes.begin(), track.keyframes.end(), [](const auto& a, const auto& b) {
+                return a.time < b.time;
+            });
+            
+            EditCommand::Execute<ModifyAnimationClipCommand>(clip, clipCopy, *clip);
+
+            // Find new index of selected keyframe
+            for (int i = 0; i < (int)track.keyframes.size(); ++i) {
+                if (std::abs(track.keyframes[i].time - selectedKeyTime) < 0.0001f) {
+                    selectedKeyframeIndex = i;
+                    break;
+                }
+            }
+            
+            draggingTrackIndex = -1;
+            draggingKeyframeIndex = -1;
         }
     }
     
@@ -71,6 +275,7 @@ void AnimationSequenceWrapper::CustomDraw(int index, ImDrawList* draw_list, cons
 // Animation Editor Window
 // -------------------------------------------------------------
 AnimationEditorWindow::AnimationEditorWindow() {
+    sequence.pSelectedEntry = &selectedEntry;
 }
 
 void AnimationEditorWindow::ShowImGui() {
@@ -163,16 +368,31 @@ void AnimationEditorWindow::ShowImGui() {
         ImGui::Text("Clip: %s", mutableClip->name.c_str());
 
         ImGui::BeginGroup();
-        bool changed = false;
-        changed |= ImGui::DragInt("Start Frame", &mutableClip->startFrame, 1, 0, mutableClip->endFrame - 1);
-        changed |= ImGui::DragInt("End Frame", &mutableClip->endFrame, 1, mutableClip->startFrame + 1, 10000);
-        if (changed) {
+        bool rangeChanged = false;
+        int oldStart = mutableClip->startFrame;
+        int oldEnd = mutableClip->endFrame;
+        
+        rangeChanged |= ImGui::DragInt("Start Frame", &mutableClip->startFrame, 1, 0, mutableClip->endFrame - 1);
+        if (ImGui::IsItemActivated()) sequence.clipCopy = *mutableClip;
+        if (ImGui::IsItemDeactivatedAfterEdit()) EditCommand::Execute<ModifyAnimationClipCommand>(mutableClip, sequence.clipCopy, *mutableClip);
+
+        rangeChanged |= ImGui::DragInt("End Frame", &mutableClip->endFrame, 1, mutableClip->startFrame + 1, 10000);
+        if (ImGui::IsItemActivated()) sequence.clipCopy = *mutableClip;
+        if (ImGui::IsItemDeactivatedAfterEdit()) EditCommand::Execute<ModifyAnimationClipCommand>(mutableClip, sequence.clipCopy, *mutableClip);
+
+        if (rangeChanged) {
             mutableClip->duration = mutableClip->endFrame / 60.0f;
             sequence.mFrameMin = mutableClip->startFrame;
             sequence.mFrameMax = mutableClip->endFrame;
             sequence.SetClip(mutableClip);
         }
-        ImGui::Checkbox("Looping", &mutableClip->isLooping);
+        
+        bool loopChanged = ImGui::Checkbox("Looping", &mutableClip->isLooping);
+        if (loopChanged) {
+            auto oldClip = *mutableClip;
+            oldClip.isLooping = !mutableClip->isLooping; // checkbox already flipped it
+            EditCommand::Execute<ModifyAnimationClipCommand>(mutableClip, oldClip, *mutableClip);
+        }
         ImGui::EndGroup();
 
         ImGui::SameLine();
@@ -182,27 +402,19 @@ void AnimationEditorWindow::ShowImGui() {
         }
 
         if (ImGui::BeginPopup("AddTrackPopup")) {
-            if (ImGui::MenuItem("Transform/Position (Vec3)")) {
-                mutableClip->tracks.push_back({ "Transform", "position", { {mutableClip->startFrame / 60.0f, Vector3(0,0,0), "Linear"} } });
-                sequence.SetClip(mutableClip);
-                selectedEntry = (int)mutableClip->tracks.size() - 1; 
-            }
-            if (ImGui::MenuItem("Transform/Rotation (Vec3 Euler)")) {
-                mutableClip->tracks.push_back({ "Transform", "rotation", { {mutableClip->startFrame / 60.0f, Vector3(0,0,0), "Linear"} } });
+            auto addTrack = [&](const std::string& comp, const std::string& prop, const std::variant<float, Vector2, Vector3, Vector4>& val) {
+                sequence.clipCopy = *mutableClip;
+                mutableClip->tracks.push_back({ comp, prop, { {mutableClip->startFrame / 60.0f, val, "Linear"} } });
                 sequence.SetClip(mutableClip);
                 selectedEntry = (int)mutableClip->tracks.size() - 1;
-            }
-            if (ImGui::MenuItem("Transform/Scale (Vec3)")) {
-                mutableClip->tracks.push_back({ "Transform", "scale", { {mutableClip->startFrame / 60.0f, Vector3(1,1,1), "Linear"} } });
-                sequence.SetClip(mutableClip);
-                selectedEntry = (int)mutableClip->tracks.size() - 1;
-            }
+                EditCommand::Execute<ModifyAnimationClipCommand>(mutableClip, sequence.clipCopy, *mutableClip);
+            };
+
+            if (ImGui::MenuItem("Transform/Position (Vec3)")) addTrack("Transform", "position", Vector3(0,0,0));
+            if (ImGui::MenuItem("Transform/Rotation (Vec3 Euler)")) addTrack("Transform", "rotation", Vector3(0,0,0));
+            if (ImGui::MenuItem("Transform/Scale (Vec3)")) addTrack("Transform", "scale", Vector3(1,1,1));
             ImGui::Separator();
-            if (ImGui::MenuItem("Custom (Float)")) {
-                mutableClip->tracks.push_back({ "Transform", "position.x", { {mutableClip->startFrame / 60.0f, 0.0f, "Linear"} } });
-                sequence.SetClip(mutableClip);
-                selectedEntry = (int)mutableClip->tracks.size() - 1;
-            }
+            if (ImGui::MenuItem("Custom (Float)")) addTrack("Transform", "position.x", 0.0f);
             ImGui::EndPopup();
         }
 
@@ -248,8 +460,14 @@ void AnimationEditorWindow::ShowImGui() {
             ImGui::BeginChild("TrackList", ImVec2(150, 0), true);
             for (int i = 0; i < (int)mutableClip->tracks.size(); ++i) {
                 bool isSelected = (selectedEntry == i);
-                if (ImGui::Selectable(mutableClip->tracks[i].propertyPath.c_str(), isSelected)) {
-                    selectedEntry = i;
+                const std::string& propName = mutableClip->tracks[i].propertyPath;
+                std::string displayName = propName.empty() ? "(Empty Property)" : propName;
+                
+                if (ImGui::Selectable(displayName.c_str(), isSelected)) {
+                    if (selectedEntry != i) {
+                        selectedEntry = i;
+                        sequence.selectedKeyframeIndex = -1;
+                    }
                 }
             }
             ImGui::EndChild();
@@ -269,6 +487,7 @@ void AnimationEditorWindow::ShowImGui() {
             ImGui::Separator();
 
             if (ImGui::Button("Add Keyframe at Current Time", ImVec2(-1, 35))) {
+                sequence.clipCopy = *mutableClip;
                 auto& track = mutableClip->tracks[selectedEntry];
                 std::variant<float, Vector2, Vector3, Vector4> defaultValue = 0.0f;
                 if (!track.keyframes.empty()) defaultValue = track.keyframes[0].value;
@@ -284,6 +503,7 @@ void AnimationEditorWindow::ShowImGui() {
                     std::sort(track.keyframes.begin(), track.keyframes.end(), [](const ONEngine::Asset::AnimationKeyframe& a, const ONEngine::Asset::AnimationKeyframe& b) {
                         return a.time < b.time;
                     });
+                    EditCommand::Execute<ModifyAnimationClipCommand>(mutableClip, sequence.clipCopy, *mutableClip);
                 }
             }
 
@@ -315,12 +535,39 @@ void AnimationEditorWindow::DrawTimeline() {
 }
 
 void AnimationEditorWindow::DrawTrackProperties(ONEngine::Asset::AnimationTrack& track) {
+    auto* clip = sequence.clip;
+    if (!clip) return;
+
     char compBuf[64], propBuf[64];
     strncpy_s(compBuf, track.componentName.c_str(), sizeof(compBuf));
     strncpy_s(propBuf, track.propertyPath.c_str(), sizeof(propBuf));
 
-    if (ImGui::InputText("Component", compBuf, sizeof(compBuf))) track.componentName = compBuf;
-    if (ImGui::InputText("Property", propBuf, sizeof(propBuf))) track.propertyPath = propBuf;
+    if (ImGui::InputText("Component", compBuf, sizeof(compBuf), ImGuiInputTextFlags_EnterReturnsTrue)) {
+        sequence.clipCopy = *clip;
+        track.componentName = compBuf;
+        EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
+    }
+    if (ImGui::IsItemDeactivatedAfterEdit()) {
+        // Handle case where they clicked away without pressing Enter
+        if (track.componentName != compBuf) {
+            sequence.clipCopy = *clip;
+            track.componentName = compBuf;
+            EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
+        }
+    }
+
+    if (ImGui::InputText("Property", propBuf, sizeof(propBuf), ImGuiInputTextFlags_EnterReturnsTrue)) {
+        sequence.clipCopy = *clip;
+        track.propertyPath = propBuf;
+        EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
+    }
+    if (ImGui::IsItemDeactivatedAfterEdit()) {
+        if (track.propertyPath != propBuf) {
+            sequence.clipCopy = *clip;
+            track.propertyPath = propBuf;
+            EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
+        }
+    }
 
     // 型の切り替え機能
     const char* typeItems[] = { "Float", "Vector2", "Vector3", "Vector4" };
@@ -333,12 +580,14 @@ void AnimationEditorWindow::DrawTrackProperties(ONEngine::Asset::AnimationTrack&
     }
 
     if (ImGui::Combo("Value Type", &currentType, typeItems, IM_ARRAYSIZE(typeItems))) {
+        sequence.clipCopy = *clip;
         for (auto& key : track.keyframes) {
             if (currentType == 0) key.value = 0.0f;
             else if (currentType == 1) key.value = Vector2(0, 0);
             else if (currentType == 2) key.value = Vector3(0, 0, 0);
             else if (currentType == 3) key.value = Vector4(0, 0, 0, 1);
         }
+        EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
     }
 
     if (ImGui::TreeNodeEx("Keyframes Detail", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -346,33 +595,51 @@ void AnimationEditorWindow::DrawTrackProperties(ONEngine::Asset::AnimationTrack&
             ImGui::PushID(i);
             auto& key = track.keyframes[i];
             
+            bool isSelected = (sequence.selectedKeyframeIndex == i);
+            char keyLabel[64];
+            sprintf_s(keyLabel, "Keyframe %d (Frame: %d)", i, static_cast<int>(key.time * 60.0f));
+            
+            if (ImGui::Selectable(keyLabel, isSelected)) {
+                sequence.selectedKeyframeIndex = i;
+            }
+            if (isSelected) ImGui::Separator();
+
             int frame = static_cast<int>(key.time * 60.0f);
             if (ImGui::DragInt("Frame", &frame, 1.0f, 0, sequence.mFrameMax)) {
                 key.time = (float)frame / 60.0f;
             }
+            if (ImGui::IsItemActivated()) sequence.clipCopy = *clip;
+            if (ImGui::IsItemDeactivatedAfterEdit()) EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
             
+            bool valueChanged = false;
             if (std::holds_alternative<float>(key.value)) {
                 float v = std::get<float>(key.value);
-                if (ImGui::DragFloat("Value", &v, 0.1f)) key.value = v;
+                if (ImGui::DragFloat("Value", &v, 0.1f)) { key.value = v; valueChanged = true; }
             } else if (std::holds_alternative<Vector3>(key.value)) {
                 Vector3 v = std::get<Vector3>(key.value);
-                if (ImGui::DragFloat3("Value", &v.x, 0.1f)) key.value = v;
+                if (ImGui::DragFloat3("Value", &v.x, 0.1f)) { key.value = v; valueChanged = true; }
             } else if (std::holds_alternative<Vector2>(key.value)) {
                 Vector2 v = std::get<Vector2>(key.value);
-                if (ImGui::DragFloat2("Value", &v.x, 0.1f)) key.value = v;
+                if (ImGui::DragFloat2("Value", &v.x, 0.1f)) { key.value = v; valueChanged = true; }
             } else if (std::holds_alternative<Vector4>(key.value)) {
                 Vector4 v = std::get<Vector4>(key.value);
-                if (ImGui::DragFloat4("Value", &v.x, 0.1f)) key.value = v;
+                if (ImGui::DragFloat4("Value", &v.x, 0.1f)) { key.value = v; valueChanged = true; }
             }
+            if (ImGui::IsItemActivated()) sequence.clipCopy = *clip;
+            if (ImGui::IsItemDeactivatedAfterEdit()) EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
             
             const char* items[] = { "Linear", "Step" };
             int current_item = (key.interpolation == "Step") ? 1 : 0;
             if (ImGui::Combo("Interpolation", &current_item, items, IM_ARRAYSIZE(items))) {
+                sequence.clipCopy = *clip;
                 key.interpolation = items[current_item];
+                EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
             }
 
             if (ImGui::Button("Remove")) {
+                sequence.clipCopy = *clip;
                 track.keyframes.erase(track.keyframes.begin() + i);
+                EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);
                 ImGui::PopID();
                 break;
             }
