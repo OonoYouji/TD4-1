@@ -14,6 +14,7 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
+#include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/ParticleSystem/ParticleSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Light/Light.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
@@ -61,6 +62,20 @@ namespace {
         mr["uvOffset"] = mr["material.uvTransform.position"];
         mr["uvScale"] = mr["material.uvTransform.scale"];
         mr["uvRotation"] = mr["material.uvTransform.rotate"];
+
+        // --- DissolveMeshRenderer ---
+        auto& dmr = g_PropRegistry["DissolveMeshRenderer"];
+        dmr["material.uvTransform.position"] = { Type::Vector2, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.position; } };
+        dmr["material.uvTransform.scale"] = { Type::Vector2, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.scale; } };
+        dmr["material.uvTransform.rotate"] = { Type::Float, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.rotate; } };
+        dmr["material.baseColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().baseColor; } };
+        dmr["threshold"] = { Type::Float, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetThresholdForAnimation(); } };
+        dmr["edgeWidth"] = { Type::Float, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetEdgeWidthForAnimation(); } };
+        dmr["edgeColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetEdgeColorForAnimation(); } };
+        dmr["color"] = dmr["material.baseColor"];
+        dmr["uvOffset"] = dmr["material.uvTransform.position"];
+        dmr["uvScale"] = dmr["material.uvTransform.scale"];
+        dmr["uvRotation"] = dmr["material.uvTransform.rotate"];
 
         // --- SpriteRenderer ---
         auto& sr = g_PropRegistry["SpriteRenderer"];

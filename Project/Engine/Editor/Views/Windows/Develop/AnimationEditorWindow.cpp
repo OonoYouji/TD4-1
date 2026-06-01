@@ -418,6 +418,11 @@ void AnimationEditorWindow::ShowImGui() {
             if (ImGui::MenuItem("MeshRenderer/UV Scale (Vec2)")) addTrack("MeshRenderer", "uvScale", Vector2(1, 1));
             if (ImGui::MenuItem("MeshRenderer/UV Rotation (Float)")) addTrack("MeshRenderer", "uvRotation", 0.0f);
             ImGui::Separator();
+            if (ImGui::MenuItem("DissolveMesh/Threshold (Float)")) addTrack("DissolveMeshRenderer", "threshold", 0.5f);
+            if (ImGui::MenuItem("DissolveMesh/Edge Width (Float)")) addTrack("DissolveMeshRenderer", "edgeWidth", 0.05f);
+            if (ImGui::MenuItem("DissolveMesh/Edge Color (Vec4)")) addTrack("DissolveMeshRenderer", "edgeColor", Vector4(1, 0.5f, 0, 1));
+            if (ImGui::MenuItem("DissolveMesh/UV Offset (Vec2)")) addTrack("DissolveMeshRenderer", "uvOffset", Vector2(0, 0));
+            ImGui::Separator();
             if (ImGui::MenuItem("SpriteRenderer/UV Offset (Vec2)")) addTrack("SpriteRenderer", "uvOffset", Vector2(0, 0));
             if (ImGui::MenuItem("SpriteRenderer/Color (Vec4)")) addTrack("SpriteRenderer", "color", Vector4(1, 1, 1, 1));
             ImGui::Separator();
