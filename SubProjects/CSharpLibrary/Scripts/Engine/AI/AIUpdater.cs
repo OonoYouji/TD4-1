@@ -41,6 +41,13 @@ public static class AIUpdater {
                     continue;
                 }
 
+                // AIが一時停止中ならスキップ
+                if (component.isPaused) {
+                    nativeData->desiredMoveDirection = Vector3.zero;
+                    nativeData->isAttacking = 0;
+                    continue;
+                }
+
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
                     // 調査用ログ: どのAIが動いているか

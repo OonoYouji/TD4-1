@@ -119,6 +119,8 @@
     <Compile Include="Scripts\Engine\Graphics\UVTransform.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
+    <Compile Include="Scripts\Game\AI\BossPerformanceDirector.cs" />
+    <Compile Include="Scripts\Game\AI\BossPerformanceTrigger.cs" />
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\DamageHandler.cs" />

@@ -22,9 +22,16 @@
             "type": "Transform"
         },
         {
-            "type": "Variables",
             "BossAI": {
                 "treePath": "Assets/AITrees/DefaultTree.json"
+            },
+            "BossPerformanceDirector": {},
+            "BossPerformanceTrigger": {
+                "effectName": "",
+                "shakeCamera": false,
+                "shakeDuration": 0.0,
+                "shakeIntensity": 0.0,
+                "soundPath": ""
             },
             "DamageHandler": {},
             "HP": {
@@ -41,7 +48,8 @@
                     "z": 0.0
                 }
             },
-            "SampleBossComponent": {}
+            "SampleBossComponent": {},
+            "type": "Variables"
         },
         {
             "enable": 1,
@@ -61,6 +69,10 @@
                 {
                     "enable": false,
                     "name": "Knockback"
+                },
+                {
+                    "enable": true,
+                    "name": "BossPerformanceDirector"
                 }
             ],
             "type": "Script"
@@ -98,13 +110,14 @@
             "enable": 1,
             "freezeY": true,
             "maskBits": 4,
+            "mass": 1.0,
             "radius": 5.0,
             "state": "Static",
             "type": "SphereCollider"
         }
     ],
-    "guid": "6190718f20ef1485d978d46962165d02",
-    "id": 14,
+    "guid": "0a559a98609e77d07d99d68a278f2848",
+    "id": 2,
     "name": "Boss",
     "parent": null,
     "prefabName": "Boss"
