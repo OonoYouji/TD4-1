@@ -44,8 +44,8 @@
         }
     ],
     "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
-    "id": 8,
+    "id": 10,
     "name": "TextSprite",
-    "parent": 13,
+    "parent": 6,
     "prefabName": ""
 }

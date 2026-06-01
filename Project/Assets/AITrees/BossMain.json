@@ -28,7 +28,8 @@
             "inputs": [{ "id": 30, "name": "In" }], "outputs": [{ "id": 31, "name": "Out" }]
         },
         {
-            "id": 10, "className": "Sequence", "name": "Phase 0 Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
+            "id": 10, "className": "Parallel", "name": "Phase 0 Loop", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
             "decorators": [
                 { "id": 1001, "className": "BossPhaseDecorator", "name": "HP > 70%", "properties": { "minHP": "0.7", "maxHP": "1.1", "hpRatioKey": "HPRatio" } }
             ], 
@@ -36,7 +37,8 @@
             "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 102, "name": "Out" }]
         },
         {
-            "id": 20, "className": "Sequence", "name": "Phase 1 Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
+            "id": 20, "className": "Parallel", "name": "Phase 1 Loop", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
             "decorators": [
                 { "id": 2001, "className": "BossPhaseDecorator", "name": "HP 30%-70%", "properties": { "minHP": "0.3", "maxHP": "0.7", "hpRatioKey": "HPRatio" } }
             ], 
@@ -44,7 +46,8 @@
             "inputs": [{ "id": 200, "name": "In" }], "outputs": [{ "id": 202, "name": "Out" }]
         },
         {
-            "id": 30, "className": "Sequence", "name": "Phase 2 Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
+            "id": 30, "className": "Parallel", "name": "Phase 2 Loop", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
             "decorators": [
                 { "id": 3001, "className": "BossPhaseDecorator", "name": "HP < 30%", "properties": { "minHP": "0.0", "maxHP": "0.3", "hpRatioKey": "HPRatio" } }
             ], 
@@ -58,10 +61,15 @@
             "inputs": [{ "id": 110, "name": "In" }], "outputs": []
         },
         {
-            "id": 12, "className": "RunBehaviorNode", "name": "P0: Attack", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json" }, 
+            "id": 12, "className": "Sequence", "name": "P0: Attack Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
             "decorators": [], "services": [], "pos": [1000.0, -50.0],
-            "inputs": [{ "id": 120, "name": "In" }], "outputs": []
+            "inputs": [{ "id": 120, "name": "In" }], "outputs": [{ "id": 122, "name": "Out" }]
+        },
+        {
+            "id": 13, "className": "RunBehaviorNode", "name": "P0: Bomb", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json" }, 
+            "decorators": [], "services": [], "pos": [1200.0, -50.0],
+            "inputs": [{ "id": 130, "name": "In" }], "outputs": []
         },
         {
             "id": 21, "className": "PatrolWaypointsNode", "name": "P1: Move", "isDecorator": false, "hasBreakpoint": false, 
@@ -70,10 +78,15 @@
             "inputs": [{ "id": 210, "name": "In" }], "outputs": []
         },
         {
-            "id": 22, "className": "RunBehaviorNode", "name": "P1: Attack", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" }, 
+            "id": 22, "className": "Sequence", "name": "P1: Attack Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
             "decorators": [], "services": [], "pos": [1000.0, 250.0],
-            "inputs": [{ "id": 220, "name": "In" }], "outputs": []
+            "inputs": [{ "id": 220, "name": "In" }], "outputs": [{ "id": 222, "name": "Out" }]
+        },
+        {
+            "id": 23, "className": "RunBehaviorNode", "name": "P1: Beam", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" }, 
+            "decorators": [], "services": [], "pos": [1200.0, 250.0],
+            "inputs": [{ "id": 230, "name": "In" }], "outputs": []
         },
         {
             "id": 31, "className": "PatrolWaypointsNode", "name": "P2: Move", "isDecorator": false, "hasBreakpoint": false, 
@@ -82,10 +95,15 @@
             "inputs": [{ "id": 310, "name": "In" }], "outputs": []
         },
         {
-            "id": 32, "className": "RunBehaviorNode", "name": "P2: Attack", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json" }, 
+            "id": 32, "className": "Sequence", "name": "P2: Attack Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
             "decorators": [], "services": [], "pos": [1000.0, 550.0],
-            "inputs": [{ "id": 320, "name": "In" }], "outputs": []
+            "inputs": [{ "id": 320, "name": "In" }], "outputs": [{ "id": 322, "name": "Out" }]
+        },
+        {
+            "id": 33, "className": "RunBehaviorNode", "name": "P2: Vortex", "isDecorator": false, "hasBreakpoint": false, 
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json" }, 
+            "decorators": [], "services": [], "pos": [1200.0, 550.0],
+            "inputs": [{ "id": 330, "name": "In" }], "outputs": []
         }
     ],
     "links": [
@@ -96,10 +114,13 @@
         { "id": 5005, "startPin": 31, "endPin": 300 },
         { "id": 5006, "startPin": 102, "endPin": 110 },
         { "id": 5007, "startPin": 102, "endPin": 120 },
-        { "id": 5008, "startPin": 202, "endPin": 210 },
-        { "id": 5009, "startPin": 202, "endPin": 220 },
-        { "id": 5010, "startPin": 302, "endPin": 310 },
-        { "id": 5011, "startPin": 302, "endPin": 320 }
+        { "id": 5008, "startPin": 122, "endPin": 130 },
+        { "id": 5009, "startPin": 202, "endPin": 210 },
+        { "id": 5010, "startPin": 202, "endPin": 220 },
+        { "id": 5011, "startPin": 222, "endPin": 230 },
+        { "id": 5012, "startPin": 302, "endPin": 310 },
+        { "id": 5013, "startPin": 302, "endPin": 320 },
+        { "id": 5014, "startPin": 322, "endPin": 330 }
     ],
     "comments": [
         { "id": 4001, "text": "CORE SYSTEMS", "pos": [80, -180], "size": [280, 500], "color": [0, 0.5, 0.5, 0.2] },

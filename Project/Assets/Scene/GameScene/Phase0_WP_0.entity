@@ -4,7 +4,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 100.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -22,26 +22,12 @@
             "type": "Transform"
         },
         {
-            "UiController": {
-                "gamepadSpriteEntityName": "Gamepad",
-                "kbmSpriteEntityName": "KBM"
-            },
             "type": "Variables"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "UiController"
-                }
-            ],
-            "type": "Script"
         }
     ],
-    "guid": "acd3e3950d763de2cf669421024046b6",
-    "id": 6,
-    "name": "ShotControl",
-    "parent": 4,
+    "guid": "e823ff576f76007c3601eeca2969db33",
+    "id": 23,
+    "name": "Phase0_WP_0",
+    "parent": 22,
     "prefabName": ""
 }

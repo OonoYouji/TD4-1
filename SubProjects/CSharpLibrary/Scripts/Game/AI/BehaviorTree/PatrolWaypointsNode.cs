@@ -18,75 +18,68 @@ public class PatrolWaypointsNode : BehaviorNode
     /// ポイント間の移動を完了とみなす距離。
     /// </summary>
     public float stopDistance = 1.0f;
-/// <summary>
-/// 巡回ポイントのEntity名リスト（セミコロン区切りの文字列）。
-/// </summary>
-public string waypointsString = "";
 
-/// <summary>
-/// 動的にWaypointを検索するための名前の接頭辞（例: "BossWaypoint_P1_"）。
-/// 指定されている場合、この名前で始まる全てのEntityを名前順で巡回リストに登録します。
-/// </summary>
-public string waypointPrefix = "";
+    /// <summary>
+    /// 巡回ポイントのEntity名リスト（セミコロン区切りの文字列）。
+    /// </summary>
+    public string waypointsString = "";
 
-private List<string> waypointNames_ = new List<string>();
+    /// <summary>
+    /// 動的にWaypointを検索するための名前の接頭辞（例: "BossWaypoint_P1_"）。
+    /// 指定されている場合、この名前で始まる全てのEntityを名前順で巡回リストに登録します。
+    /// </summary>
+    public string waypointPrefix = "";
 
-/// <summary>
-/// 巡回リストを構築。
-/// </summary>
-private void EnsureWaypointNames(Entity owner)
-{
-    if (waypointNames_.Count > 0) return;
+    private List<string> waypointNames_ = new List<string>();
 
-    // 1. 接頭辞による動的検索を優先
-    if (!string.IsNullOrEmpty(waypointPrefix))
+    /// <summary>
+    /// 巡回リストを構築。
+    /// </summary>
+    private void EnsureWaypointNames(Entity owner)
     {
-        var allEntities = owner.Group.GetEntities();
-        List<string> foundNames = new List<string>();
-        foreach (var e in allEntities)
+        if (waypointNames_.Count > 0) return;
+
+        // 1. 接頭辞による動的検索を優先
+        if (!string.IsNullOrEmpty(waypointPrefix))
         {
-            if (e != null && e.name.StartsWith(waypointPrefix))
+            var allEntities = owner.Group.GetEntities();
+            List<string> foundNames = new List<string>();
+            foreach (var e in allEntities)
             {
-                foundNames.Add(e.name);
+                if (e != null && e.name.StartsWith(waypointPrefix))
+                {
+                    foundNames.Add(e.name);
+                }
+            }
+
+            if (foundNames.Count > 0)
+            {
+                // 名前順でソート（Waypoint_01, Waypoint_02... と並ぶことを期待）
+                foundNames.Sort();
+                waypointNames_ = foundNames;
+                Debug.Log($"[PatrolWaypoints] Discovered {waypointNames_.Count} waypoints with prefix '{waypointPrefix}'");
+                return;
             }
         }
 
-        if (foundNames.Count > 0)
+        // 2. 文字列指定によるフォールバック
+        if (!string.IsNullOrEmpty(waypointsString))
         {
-            // 名前順でソート（Waypoint_01, Waypoint_02... と並ぶことを期待）
-            foundNames.Sort();
-            waypointNames_ = foundNames;
-            Debug.Log($"[PatrolWaypoints] Discovered {waypointNames_.Count} waypoints with prefix '{waypointPrefix}'");
-            return;
+            string[] names = waypointsString.Split(';');
+            foreach (var n in names)
+            {
+                string trimmed = n.Trim();
+                if (!string.IsNullOrEmpty(trimmed)) waypointNames_.Add(trimmed);
+            }
+            Debug.Log($"[PatrolWaypoints] Loaded {waypointNames_.Count} waypoints from string.");
         }
     }
 
-    // 2. 文字列指定によるフォールバック
-    if (!string.IsNullOrEmpty(waypointsString))
+    protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        string[] names = waypointsString.Split(';');
-        foreach (var n in names)
-        {
-            string trimmed = n.Trim();
-            if (!string.IsNullOrEmpty(trimmed)) waypointNames_.Add(trimmed);
-        }
-        Debug.Log($"[PatrolWaypoints] Loaded {waypointNames_.Count} waypoints from string.");
-    }
-}
+        EnsureWaypointNames(owner);
 
-protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
-{
-    EnsureWaypointNames(owner);
-
-    if (waypointNames_.Count == 0)
-    {
-        return NodeStatus.Failure;
-    }
-            string trimmed = n.Trim();
-            if (!string.IsNullOrEmpty(trimmed)) waypointNames.Add(trimmed);
-        }
-
-        if (waypointNames.Count == 0)
+        if (waypointNames_.Count == 0)
         {
             return NodeStatus.Failure;
         }
@@ -95,20 +88,20 @@ protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
         int currentIdx = blackboard.GetInt(idxKeyHash, 0);
 
         // インデックスが範囲外の場合はリセット
-        if (currentIdx < 0 || currentIdx >= waypointNames.Count)
+        if (currentIdx < 0 || currentIdx >= waypointNames_.Count)
         {
             currentIdx = 0;
             blackboard.SetInt(idxKeyHash, 0);
         }
 
         // 対象のEntityを検索
-        string targetName = waypointNames[currentIdx];
+        string targetName = waypointNames_[currentIdx];
         Entity waypointEntity = owner.Group.FindEntity(targetName);
         
         if (waypointEntity == null)
         {
             Debug.LogWarning($"<color=yellow>[PatrolWaypoints]</color> Waypoint '{targetName}' NOT FOUND. Skipping index.");
-            blackboard.SetInt(idxKeyHash, (currentIdx + 1) % waypointNames.Count);
+            blackboard.SetInt(idxKeyHash, (currentIdx + 1) % waypointNames_.Count);
             return NodeStatus.Failure;
         }
 
@@ -119,7 +112,7 @@ protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
 
         if (Tree != null && Tree.TickCount % 30 == 0)
         {
-            Debug.Log($"<color=cyan>[PatrolWaypoints]</color> Moving to {targetName} ({currentIdx+1}/{waypointNames.Count}). Dist: {distance:F2}");
+            Debug.Log($"<color=cyan>[PatrolWaypoints]</color> Moving to {targetName} ({currentIdx+1}/{waypointNames_.Count}). Dist: {distance:F2}");
         }
 
         // --- 到着判定 ---
@@ -128,14 +121,13 @@ protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
             Debug.Log($"<color=green>[PatrolWaypoints]</color> Arrived at '{targetName}'. Success.");
             
             // 次回実行時のためにインデックスを次へ進めておく
-            int nextIdx = (currentIdx + 1) % waypointNames.Count;
+            int nextIdx = (currentIdx + 1) % waypointNames_.Count;
             blackboard.SetInt(idxKeyHash, nextIdx);
             
             // 移動停止
             var intent = owner.GetComponent<AgentIntentComponent>();
             if (intent != null) intent.desiredMoveDirection = Vector3.zero;
 
-            //Successを返すことで、Sequenceの次のノード（攻撃等）へ進める
             return NodeStatus.Success;
         }
 
