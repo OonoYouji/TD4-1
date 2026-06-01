@@ -83,26 +83,25 @@ void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {
 
 	}
 
-#ifdef DEBUG_MODE
 	// undo, redo を行う
 	if (ONEngine::Input::PressKey(DIK_LCONTROL)) {
 		if (ONEngine::Input::TriggerKey(DIK_Z)) {
-			ONEngine::Console::Log("[UndoDebug] Ctrl+Z triggered.");
-			Undo();
+			if (ONEngine::Input::PressKey(DIK_LSHIFT)) {
+				Redo();
+			} else {
+				Undo();
+			}
 		}
 
 		if (ONEngine::Input::TriggerKey(DIK_Y)) {
-			ONEngine::Console::Log("[UndoDebug] Ctrl+Y triggered.");
 			Redo();
 		}
 
 		// Ctrl+S でシーンを保存
 		if (ONEngine::Input::TriggerKey(DIK_S)) {
 			pSceneManager_->SaveCurrentScene();
-			ONEngine::Console::Log("Scene saved via Ctrl+S.");
 		}
 	}
-#endif // DEBUG_MODE
 
 }
 

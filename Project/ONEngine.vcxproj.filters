@@ -10,6 +10,9 @@
     <Filter Include="Engine\Asset\Assets">
       <UniqueIdentifier>{4CD8F14A-B839-CF58-41A7-150BAD070618}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Asset\Assets\Animation">
+      <UniqueIdentifier>{3B607AAA-A778-61D4-7025-F16DDCFCF56D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Asset\Assets\AudioClip">
       <UniqueIdentifier>{95E4F196-01FD-D8C0-CAA9-685A36816D5A}</UniqueIdentifier>
     </Filter>
@@ -127,6 +130,9 @@
     <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Agent">
       <UniqueIdentifier>{4C2F728B-B816-5D81-C104-5FFD2D6B0044}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Animation">
+      <UniqueIdentifier>{9D299BF2-09E7-4329-92B1-2F91FE6DB67D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\ECS\Component\Components\ComputeComponents\Animator">
       <UniqueIdentifier>{1840336C-0400-C410-6D1D-AC1B59FCD622}</UniqueIdentifier>
     </Filter>
@@ -225,6 +231,9 @@
     </Filter>
     <Filter Include="Engine\ECS\System\AI">
       <UniqueIdentifier>{121F6E84-FEAD-F74D-A7CC-0B49933A08F4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ECS\System\Animation">
+      <UniqueIdentifier>{48E59BCF-B4F2-C9B5-3DD9-C5A0A9E5956C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ECS\System\Animator">
       <UniqueIdentifier>{63B2E572-4FC2-9143-B87B-F661A4AA80DC}</UniqueIdentifier>
@@ -480,6 +489,12 @@
     <ClInclude Include="Engine\Asset\AssetType.h">
       <Filter>Engine\Asset</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Asset\Assets\Animation\AnimationClip.h">
+      <Filter>Engine\Asset\Assets\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Asset\Assets\Animation\AnimationClipLoader.h">
+      <Filter>Engine\Asset\Assets\Animation</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Asset\Assets\AudioClip\AudioClip.h">
       <Filter>Engine\Asset\Assets\AudioClip</Filter>
     </ClInclude>
@@ -636,6 +651,9 @@
     <ClInclude Include="Engine\Core\Utility\Math\Color.h">
       <Filter>Engine\Core\Utility\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\Utility\Math\Interpolation.h">
+      <Filter>Engine\Core\Utility\Math</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Core\Utility\Math\Math.h">
       <Filter>Engine\Core\Utility\Math</Filter>
     </ClInclude>
@@ -713,6 +731,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.h">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Animation\AnimationPlayer.h">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.h">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Animator</Filter>
@@ -851,6 +872,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ECS\System\AI\AISystem.h">
       <Filter>Engine\ECS\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS\System\Animation\AnimationSystem.h">
+      <Filter>Engine\ECS\System\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.h">
       <Filter>Engine\ECS\System\Animator</Filter>
@@ -1026,6 +1050,9 @@
     <ClInclude Include="Engine\Editor\Views\Tabs\AITab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\Views\Tabs\AnimationTab.h">
+      <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Tabs\DevelopTab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClInclude>
@@ -1040,6 +1067,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Tabs\PrefabTab.h">
       <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\AnimationEditorWindow.h">
+      <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.h">
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
@@ -1250,6 +1280,9 @@
     <ClCompile Include="Engine\Asset\AssetType.cpp">
       <Filter>Engine\Asset</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Asset\Assets\Animation\AnimationClipLoader.cpp">
+      <Filter>Engine\Asset\Assets\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Asset\Assets\AudioClip\AudioClip.cpp">
       <Filter>Engine\Asset\Assets\AudioClip</Filter>
     </ClCompile>
@@ -1412,6 +1445,9 @@
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.cpp">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Agent</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Animation\AnimationPlayer.cpp">
+      <Filter>Engine\ECS\Component\Components\ComputeComponents\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.cpp">
       <Filter>Engine\ECS\Component\Components\ComputeComponents\Animator</Filter>
     </ClCompile>
@@ -1537,6 +1573,9 @@
     </ClCompile>
     <ClCompile Include="Engine\ECS\System\AI\AISystem.cpp">
       <Filter>Engine\ECS\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ECS\System\Animation\AnimationSystem.cpp">
+      <Filter>Engine\ECS\System\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.cpp">
       <Filter>Engine\ECS\System\Animator</Filter>
@@ -1676,6 +1715,9 @@
     <ClCompile Include="Engine\Editor\Views\Tabs\AITab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\Views\Tabs\AnimationTab.cpp">
+      <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Tabs\DevelopTab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
     </ClCompile>
@@ -1690,6 +1732,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Tabs\PrefabTab.cpp">
       <Filter>Engine\Editor\Views\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\AnimationEditorWindow.cpp">
+      <Filter>Engine\Editor\Views\Windows\Develop</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.cpp">
       <Filter>Engine\Editor\Views\Windows\Develop</Filter>
@@ -1869,6 +1914,9 @@
       <Filter>Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Script\InternalCalls\AddInternalMethods.cpp">
+      <Filter>Engine\Script\InternalCalls</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Script\InternalCalls\AnimationInternalCalls.cpp">
       <Filter>Engine\Script\InternalCalls</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Script\InternalCalls\EventInternalCalls.cpp">

@@ -173,6 +173,8 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Asset\AssetType.h" />
+    <ClInclude Include="Engine\Asset\Assets\Animation\AnimationClip.h" />
+    <ClInclude Include="Engine\Asset\Assets\Animation\AnimationClipLoader.h" />
     <ClInclude Include="Engine\Asset\Assets\AudioClip\AudioClip.h" />
     <ClInclude Include="Engine\Asset\Assets\AudioClip\AudioClipLoader.h" />
     <ClInclude Include="Engine\Asset\Assets\IAsset.h" />
@@ -225,6 +227,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Core\Utility\Input\Keyboard.h" />
     <ClInclude Include="Engine\Core\Utility\Input\Mouse.h" />
     <ClInclude Include="Engine\Core\Utility\Math\Color.h" />
+    <ClInclude Include="Engine\Core\Utility\Math\Interpolation.h" />
     <ClInclude Include="Engine\Core\Utility\Math\Math.h" />
     <ClInclude Include="Engine\Core\Utility\Math\Matrix4x4.h" />
     <ClInclude Include="Engine\Core\Utility\Math\Primitive.h" />
@@ -251,6 +254,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\ECS\Component\Collection\ComponentCollection.h" />
     <ClInclude Include="Engine\ECS\Component\Collection\ComponentHash.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.h" />
+    <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Animation\AnimationPlayer.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.h" />
     <ClInclude Include="Engine\ECS\Component\Components\ComputeComponents\Camera\CameraComponent.h" />
@@ -297,6 +301,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\ECS\EntityComponentSystem\ECSGroup.h" />
     <ClInclude Include="Engine\ECS\EntityComponentSystem\EntityComponentSystem.h" />
     <ClInclude Include="Engine\ECS\System\AI\AISystem.h" />
+    <ClInclude Include="Engine\ECS\System\Animation\AnimationSystem.h" />
     <ClInclude Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.h" />
     <ClInclude Include="Engine\ECS\System\Audio\AudioPlaybackSystem.h" />
     <ClInclude Include="Engine\ECS\System\CameraUpdate\CameraUpdateSystem.h" />
@@ -355,11 +360,13 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Editor\Math\Widget\VectorWidget.h" />
     <ClInclude Include="Engine\Editor\Views\EditorViewCollection.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\AITab.h" />
+    <ClInclude Include="Engine\Editor\Views\Tabs\AnimationTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\DevelopTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\EditorTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\EventTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\GameTab.h" />
     <ClInclude Include="Engine\Editor\Views\Tabs\PrefabTab.h" />
+    <ClInclude Include="Engine\Editor\Views\Windows\Develop\AnimationEditorWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\ConsoleWindow.h" />
     <ClInclude Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.h" />
@@ -431,6 +438,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Asset\AssetType.cpp" />
+    <ClCompile Include="Engine\Asset\Assets\Animation\AnimationClipLoader.cpp" />
     <ClCompile Include="Engine\Asset\Assets\AudioClip\AudioClip.cpp" />
     <ClCompile Include="Engine\Asset\Assets\AudioClip\AudioClipLoader.cpp" />
     <ClCompile Include="Engine\Asset\Assets\Material\Material.cpp" />
@@ -485,6 +493,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Core\Window\WindowManager.cpp" />
     <ClCompile Include="Engine\ECS\Component\Collection\ComponentCollection.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Agent\AgentIntentComponent.cpp" />
+    <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Animation\AnimationPlayer.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Animator\Animator.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Audio\AudioSource.cpp" />
     <ClCompile Include="Engine\ECS\Component\Components\ComputeComponents\Camera\CameraComponent.cpp" />
@@ -527,6 +536,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\ECS\EntityComponentSystem\ECSGroup.cpp" />
     <ClCompile Include="Engine\ECS\EntityComponentSystem\EntityComponentSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\AI\AISystem.cpp" />
+    <ClCompile Include="Engine\ECS\System\Animation\AnimationSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\Animator\AnimatorUpdateSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\Audio\AudioPlaybackSystem.cpp" />
     <ClCompile Include="Engine\ECS\System\CameraUpdate\CameraUpdateSystem.cpp" />
@@ -573,11 +583,13 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Editor\Math\Widget\VectorWidget.cpp" />
     <ClCompile Include="Engine\Editor\Views\EditorViewCollection.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\AITab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Tabs\AnimationTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\DevelopTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\EditorTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\EventTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\GameTab.cpp" />
     <ClCompile Include="Engine\Editor\Views\Tabs\PrefabTab.cpp" />
+    <ClCompile Include="Engine\Editor\Views\Windows\Develop\AnimationEditorWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\BehaviorTreeEditorWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\ConsoleWindow.cpp" />
     <ClCompile Include="Engine\Editor\Views\Windows\Develop\DebugSceneView.cpp" />
@@ -640,6 +652,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClCompile Include="Engine\Scene\Loader\SceneIO.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Script\InternalCalls\AddInternalMethods.cpp" />
+    <ClCompile Include="Engine\Script\InternalCalls\AnimationInternalCalls.cpp" />
     <ClCompile Include="Engine\Script\InternalCalls\EventInternalCalls.cpp" />
     <ClCompile Include="Engine\Script\MonoScriptEngine.cpp" />
     <ClCompile Include="main.cpp" />

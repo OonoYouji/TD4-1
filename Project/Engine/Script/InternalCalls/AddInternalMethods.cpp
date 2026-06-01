@@ -166,3 +166,6 @@ void ONEngine::AddSceneInternalCalls() {
 void ONEngine::AddGizmoInternalCalls() {
 	mono_add_internal_call("GizmoBatch::Internal_SubmitLineBatch", (void*)Internal_SubmitLineBatch);
 }
+
+void ONEngine::AddAnimationInternalCalls(); // implementation in AnimationInternalCalls.cpp
+

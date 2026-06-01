@@ -14,4 +14,6 @@ void AddGizmoInternalCalls();
 
 void AddWindowInternalCalls();
 
+void AddAnimationInternalCalls();
+
 } /// namespace ONEngine

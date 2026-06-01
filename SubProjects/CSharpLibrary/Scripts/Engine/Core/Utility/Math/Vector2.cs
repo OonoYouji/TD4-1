@@ -116,5 +116,13 @@ public struct Vector2 {
 		return !(a == b);
 	}
 
+	public override bool Equals(object obj) {
+		if (!(obj is Vector2)) return false;
+		return this == (Vector2)obj;
+	}
+
+	public override int GetHashCode() {
+		return x.GetHashCode() ^ (y.GetHashCode() << 2);
+	}
 
 }
