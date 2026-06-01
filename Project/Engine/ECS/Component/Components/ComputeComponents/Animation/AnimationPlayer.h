@@ -53,7 +53,7 @@ public:
 
         enum class Type {
             None = 0,
-            Float, Vector2, Vector3, Vector4, Bool,
+            Float, Vector2, Vector3, Vector4, Bool, Int,
             TransformRotationEuler, // 特殊対応：Vector3 Euler -> Quaternion
             ScriptVar, // 従来のVariablesコンポーネント経由 (後方互換用)
             CSField    // C#スクリプトのフィールド直書き

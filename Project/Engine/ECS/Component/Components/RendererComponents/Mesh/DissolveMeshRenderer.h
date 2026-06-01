@@ -32,6 +32,7 @@ enum class DissolveCompare {
 /// メッシュをディゾルブ表現で表示するためのコンポーネント
 /// ///////////////////////////////////////////////////
 class DissolveMeshRenderer : public IRenderComponent {
+	friend class AnimationPlayer;
 	friend void ShowGUI(DissolveMeshRenderer* _dmr, Asset::AssetCollection* _ac);
 	friend void from_json(const nlohmann::json& _j, DissolveMeshRenderer& _dmr);
 	friend void to_json(nlohmann::json& _j, const DissolveMeshRenderer& _dmr);
@@ -83,6 +84,9 @@ public:
 	const UVTransform& GetUVTransform() const {
 		return material_.uvTransform;
 	}
+
+	Asset::Material& GetMaterialForAnimation() { return material_; }
+	float& GetThresholdForAnimation() { return dissolveThreshold_; }
 
 };
 

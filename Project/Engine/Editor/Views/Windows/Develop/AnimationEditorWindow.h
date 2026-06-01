@@ -100,6 +100,8 @@ private:
     bool expanded = true;
     int selectedEntry = -1;
     int firstFrame = 0;
+
+    char addTrackSearchBuf[128] = ""; // New: Search filter for Add Track popup
 };
 
 } /// namespace Editor
