@@ -1,0 +1,33 @@
+{
+    "duration": 1.0,
+    "endFrame": 60,
+    "loop": true,
+    "name": "explode",
+    "startFrame": 0,
+    "tracks": [
+        {
+            "component": "Transform",
+            "keyframes": [
+                {
+                    "in": "Linear",
+                    "t": 0.0,
+                    "v": {
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 2.0
+                    }
+                },
+                {
+                    "in": "Linear",
+                    "t": 0.9901639223098755,
+                    "v": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                }
+            ],
+            "property": "scale"
+        }
+    ]
+}

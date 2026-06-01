@@ -42,8 +42,7 @@
         }
     ],
     "guid": "dda5b33ebb86718f6e2485b6bf6d73e6",
-    "id": 1,
     "name": "Light",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }
