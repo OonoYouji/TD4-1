@@ -120,6 +120,9 @@
     <Compile Include="Scripts\Engine\Graphics\UVTransform.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
+    <Compile Include="Scripts\Game\AI\BossPerformanceDirector.cs" />
+    <Compile Include="Scripts\Game\AI\BossPerformanceTrigger.cs" />
+    <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\DamageHandler.cs" />
     <Compile Include="Scripts\Game\Common\ReinforcementDamageHandler.cs" />
@@ -154,7 +157,6 @@
     <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnVortexFieldNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/UpdateTargetTrackerNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/FireBeamNode.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/PhysicsPushService.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnGiantExpansionNode.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />

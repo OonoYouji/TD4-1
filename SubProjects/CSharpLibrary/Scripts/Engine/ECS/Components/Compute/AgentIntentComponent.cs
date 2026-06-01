@@ -27,6 +27,7 @@ public class AgentIntentComponent : Component {
     public bool useDesiredRotation = false;
     public bool isAttacking = false;
     public int targetEntityId = 0; // 0 is considered an invalid ID
+    public bool isPaused = false; // New: Pause AI update during performances
 
     /// <summary>
     /// このコンポーネントに関連付けられたビヘイビアツリー

@@ -48,13 +48,35 @@ public:
 		kBoolList,
 		kStringList,
 		kVector3List,
+		kObject,
+		kObjectList,
 		Unknown
 	};
 
+	struct GenericObject;
+
 	using Var = std::variant<
 		int, float, bool, std::string, Vector2, Vector3, Vector4,
-		std::vector<int>, std::vector<float>, std::vector<bool>, std::vector<std::string>, std::vector<Vector3>
+		std::vector<int>, std::vector<float>, std::vector<bool>, std::vector<std::string>, std::vector<Vector3>,
+		std::shared_ptr<GenericObject>, std::vector<std::shared_ptr<GenericObject>>
 	>;
+
+	struct GenericObject {
+		std::string typeName;
+		std::map<std::string, Var> fields;
+
+		void Add(const std::string& _name, const Var& _value) {
+			fields[_name] = _value;
+		}
+
+		bool Has(const std::string& _name) const {
+			return fields.contains(_name);
+		}
+	};
+
+	static Var MonoObjectToVar(void* obj, void* type);
+	static std::shared_ptr<GenericObject> MonoObjectToGeneric(void* obj);
+	static void VarToMonoObject(void* obj, void* klass, const Var& var);
 
 
 	/// @brief 変数のグループ、スクリプトごとに使用する予定

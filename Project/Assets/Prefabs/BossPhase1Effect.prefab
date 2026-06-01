@@ -22,23 +22,29 @@
             "type": "Transform"
         },
         {
-            "type": "Variables",
-            "ReinforcementManager": {}
+            "CameraLookAt": {
+                "cameraName": ""
+            },
+            "TimedDestruction": {
+                "lifeTime": 6.0,
+                "remainingTime": 0.0
+            },
+            "type": "Variables"
         },
         {
             "enable": 1,
             "scripts": [
                 {
                     "enable": true,
-                    "name": "ReinforcementManager"
+                    "name": "TimedDestruction"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
-    "id": 10,
-    "name": "ReinforcementManager",
+    "guid": "6512006ddc1240359414b031a1f499f5",
+    "id": 2,
+    "name": "BossPhase1Effect",
     "parent": null,
-    "prefabName": ""
+    "prefabName": "BossPhase1Effect"
 }

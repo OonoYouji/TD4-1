@@ -88,20 +88,25 @@
         {
             "id": 18,
             "parent": null,
-            "path": "./GameScene/TargetRock.entity"
+            "path": "./GameScene/BossWaypointRoot.entity"
         },
         {
             "id": 19,
             "parent": null,
-            "path": "./GameScene/TargetRock_3.entity"
+            "path": "./GameScene/TargetRock.entity"
         },
         {
             "id": 20,
             "parent": null,
-            "path": "./GameScene/TargetRock_2.entity"
+            "path": "./GameScene/TargetRock_3.entity"
         },
         {
             "id": 21,
+            "parent": null,
+            "path": "./GameScene/TargetRock_2.entity"
+        },
+        {
+            "id": 22,
             "parent": null,
             "path": "./GameScene/TargetRock_1.entity"
         },

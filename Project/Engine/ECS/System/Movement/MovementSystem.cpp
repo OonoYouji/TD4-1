@@ -46,9 +46,9 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
         }
 
         // --- 2. 移動の処理 ---
-        float targetSpeed = 5.0f; // TODO: コンポーネントから取得
-        float acceleration = 20.0f; // TODO: コンポーネントから取得
-        float deceleration = 30.0f; // TODO: コンポーネントから取得
+        float targetSpeed = 8.0f;    // 目標速度 (仕様に合わせて調整)
+        float acceleration = 25.0f;  // 加速度
+        float deceleration = 35.0f;  // 減速度
 
         // 攻撃中、または移動意図がない場合は目標速度を 0 にする
         bool isMovingIntent = !intent->isAttacking && intent->desiredMoveDirection.LengthSquared() > 0.001f;

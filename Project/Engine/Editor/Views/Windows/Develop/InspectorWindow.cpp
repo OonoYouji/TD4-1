@@ -195,6 +195,12 @@ GameEntity* InspectorWindow::GetSelectedEntity(const ONEngine::Guid& entityGuid)
 		if(res) { return res; }
 	}
 
+	// GetECSGroupsに入っていない動的なグループ（Debug用など）も明示的にチェック
+	if (auto debugGroup = pEcs_->GetECSGroup("Debug")) {
+		res = debugGroup->GetEntityFromGuid(entityGuid);
+		if (res) return res;
+	}
+
 	return nullptr;
 }
 

@@ -1,22 +1,6 @@
 {
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.5,
-                "y": -1.0,
-                "z": 0.5
-            },
-            "enable": 1,
-            "intensity": 1.5,
-            "type": "DirectionalLight"
-        },
-        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
@@ -41,9 +25,9 @@
             "type": "Variables"
         }
     ],
-    "guid": "ed991d8ae3fbf75b139b325cca3bff44",
-    "id": 5,
-    "name": "Light",
+    "guid": "a1c9a50a2e8274cecabf8b2d87486cfa",
+    "id": 2,
+    "name": "BossWaypoint",
     "parent": null,
-    "prefabName": ""
+    "prefabName": "BossWaypoint"
 }

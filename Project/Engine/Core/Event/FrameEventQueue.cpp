@@ -99,7 +99,6 @@ namespace ONEngine {
             else if (event.type == EventType::Effect)
             {
                 const auto& payload = std::get<EffectEventPayload>(event.payload);
-                // Console::Log("[EffectEvent] Triggered: " + payload.effectName + " for Entity: " + std::to_string(payload.entityId), LogCategory::Engine);
 
                 if (ECSGroup* group = GetEntityComponentSystemPtr()) 
                 {
@@ -107,15 +106,17 @@ namespace ONEngine {
                     {
                         if (auto* def = GameEventManager::GetInstance().GetEffect(payload.effectName))
                         {
-                            // 演出実体の生成
                             GameEntity* effectEntity = group->GenerateEntityFromPrefab(def->effectPath);
                             if (effectEntity)
                             {
-                                // 発生源の位置に合わせる
+                                // 位置、向き、スケールの同期
                                 effectEntity->SetPosition(owner->GetPosition());
+                                effectEntity->SetRotate(owner->GetRotateQuaternion());
                                 effectEntity->SetScale(Vector3::One * payload.scale);
                                 
-                                // Console::Log("[EffectEvent] Spawned effect: " + def->name + " at owner position", LogCategory::Engine);
+                                // C#側のハンドラがあればオーナーIDを伝える
+                                // ※本来は生成直後にスクリプトのメソッドを叩く仕組みが必要だが、
+                                // 現状はスクリプト側でオーナーを探すか、SetOwner等の内部呼び出しを検討
                             }
                         }
                     }
