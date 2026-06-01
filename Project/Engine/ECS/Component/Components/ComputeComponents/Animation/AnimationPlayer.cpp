@@ -14,13 +14,89 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/ParticleSystem/ParticleSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Light/Light.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 #include "Engine/Script/MonoScriptEngine.h"
+#include <functional>
 
 using namespace ONEngine;
 
+namespace {
+    // --- Property Registry for Cleaner Binding ---
+    struct PropertyDef {
+        AnimationPlayer::PropertyBinding::Type type;
+        std::function<void*(IComponent*)> getPtr;
+    };
+
+    std::unordered_map<std::string, std::unordered_map<std::string, PropertyDef>> g_PropRegistry;
+    bool g_RegistryInitialized = false;
+
+    void InitializeRegistry() {
+        if (g_RegistryInitialized) return;
+        g_RegistryInitialized = true;
+
+        using Type = AnimationPlayer::PropertyBinding::Type;
+
+        // --- Transform ---
+        auto& t = g_PropRegistry["Transform"];
+        t["position"] = { Type::Vector3, [](IComponent* c) { return &static_cast<Transform*>(c)->position; } };
+        t["position.x"] = { Type::Float, [](IComponent* c) { return &static_cast<Transform*>(c)->position.x; } };
+        t["position.y"] = { Type::Float, [](IComponent* c) { return &static_cast<Transform*>(c)->position.y; } };
+        t["position.z"] = { Type::Float, [](IComponent* c) { return &static_cast<Transform*>(c)->position.z; } };
+        t["rotation"] = { Type::TransformRotationEuler, [](IComponent* c) { return &static_cast<Transform*>(c)->rotate; } };
+        t["scale"] = { Type::Vector3, [](IComponent* c) { return &static_cast<Transform*>(c)->scale; } };
+        t["scale.x"] = { Type::Float, [](IComponent* c) { return &static_cast<Transform*>(c)->scale.x; } };
+        t["scale.y"] = { Type::Float, [](IComponent* c) { return &static_cast<Transform*>(c)->scale.y; } };
+        t["scale.z"] = { Type::Float, [](IComponent* c) { return &static_cast<Transform*>(c)->scale.z; } };
+
+        // --- MeshRenderer ---
+        auto& mr = g_PropRegistry["MeshRenderer"];
+        mr["material.uvTransform.position"] = { Type::Vector2, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.position; } };
+        mr["material.uvTransform.position.x"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.position.x; } };
+        mr["material.uvTransform.position.y"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.position.y; } };
+        mr["material.uvTransform.scale"] = { Type::Vector2, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.scale; } };
+        mr["material.uvTransform.rotate"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.rotate; } };
+        mr["material.baseColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().baseColor; } };
+        mr["uvOffset"] = mr["material.uvTransform.position"];
+        mr["uvScale"] = mr["material.uvTransform.scale"];
+        mr["uvRotation"] = mr["material.uvTransform.rotate"];
+
+        // --- SpriteRenderer ---
+        auto& sr = g_PropRegistry["SpriteRenderer"];
+        sr["material.uvTransform.position"] = { Type::Vector2, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().uvTransform.position; } };
+        sr["material.uvTransform.scale"] = { Type::Vector2, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().uvTransform.scale; } };
+        sr["material.uvTransform.rotate"] = { Type::Float, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().uvTransform.rotate; } };
+        sr["material.baseColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().baseColor; } };
+        sr["color"] = sr["material.baseColor"];
+        sr["uvOffset"] = sr["material.uvTransform.position"];
+        sr["uvScale"] = sr["material.uvTransform.scale"];
+        sr["uvRotation"] = sr["material.uvTransform.rotate"];
+
+        // --- Light ---
+        auto& l = g_PropRegistry["DirectionalLight"];
+        l["color"] = { Type::Vector4, [](IComponent* c) { return &static_cast<DirectionalLight*>(c)->GetColorForAnimation(); } };
+        l["intensity"] = { Type::Float, [](IComponent* c) { return &static_cast<DirectionalLight*>(c)->GetIntensityForAnimation(); } };
+        g_PropRegistry["Light"] = l;
+
+        // --- ParticleSystem ---
+        auto& ps = g_PropRegistry["ParticleSystem"];
+        ps["main.startLifetime"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->main.startLifetime.constant; } };
+        ps["main.startSpeed"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->main.startSpeed.constant; } };
+        ps["main.startSize"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->main.startSize.constant; } };
+        ps["main.startRotation"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->main.startRotation.constant; } };
+        ps["main.startColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->main.startColor.constant; } };
+        ps["main.gravityModifier"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->main.gravityModifier; } };
+        ps["emission.enabled"] = { Type::Bool, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->emission.enabled; } };
+        ps["emission.rateOverTime"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->emission.rateOverTime; } };
+        ps["shape.radius"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->shape.radius; } };
+        ps["shape.angle"] = { Type::Float, [](IComponent* c) { return &static_cast<ParticleSystem*>(c)->shape.angle; } };
+    }
+}
+
 AnimationPlayer::AnimationPlayer() {
     Reset();
+    InitializeRegistry();
 }
 
 AnimationPlayer::~AnimationPlayer() {
@@ -50,7 +126,7 @@ void AnimationPlayer::ClearBindings() {
 
 void AnimationPlayer::Play() {
     isPlaying = true;
-    if (!isBound) Bind();
+    Bind();
 }
 
 void AnimationPlayer::Pause() {
@@ -89,7 +165,6 @@ void AnimationPlayer::Bind() {
     auto* clip = ac->GetAsset<Asset::AnimationClip>(guid);
 
     if (!clip) {
-        // まだロードされていない、またはパスが間違っている場合は次回に回す
         isBound = false;
         return;
     }
@@ -98,14 +173,11 @@ void AnimationPlayer::Bind() {
     GameEntity* entity = GetOwner();
     if (!entity) return;
 
-    ONEngine::Console::Log(std::format("AnimationPlayer: Binding to clip '{}' for entity '{}'", clip->name, entity->GetName()));
-
     for (const auto& track : clip->tracks) {
         PropertyBinding binding;
         binding.propertyPath = track.propertyPath;
-        binding.type = PropertyBinding::Type::None; // Default to None
+        binding.type = PropertyBinding::Type::None;
 
-        // 空のプロパティ名はスキップ（Noneとして扱う）
         if (track.propertyPath.empty()) {
             bindings.push_back(binding);
             continue;
@@ -124,15 +196,12 @@ void AnimationPlayer::Bind() {
                 if (field) {
                     binding.type = PropertyBinding::Type::CSField;
                     binding.monoField = field;
-                    binding.monoGcHandle = mono_gchandle_new(scriptInstance, false); // GCから保護
-                    binding.scriptGroupName = className;
-                    binding.scriptVarName = track.propertyPath;
+                    binding.monoGcHandle = mono_gchandle_new(scriptInstance, false);
                     bindings.push_back(binding);
                     continue;
                 }
             }
 
-            // Fallback: Variablesコンポーネント経由 (従来通り)
             binding.targetComponent = entity->GetComponent<Variables>();
             if (binding.targetComponent) {
                 binding.type = PropertyBinding::Type::ScriptVar;
@@ -144,45 +213,30 @@ void AnimationPlayer::Bind() {
         }
 
         // --- C++ Component access ---
-        binding.targetComponent = entity->GetComponent(track.componentName);
-        if (!binding.targetComponent) {
-            bindings.push_back(binding);
-            continue;
-        }
-
         std::string compName = track.componentName;
-        std::string propPath = track.propertyPath;
+        binding.targetComponent = entity->GetComponent(compName);
 
-        if (compName == "Transform") {
-            auto* t = static_cast<Transform*>(binding.targetComponent);
-            if (propPath == "position") { binding.dataPtr = &t->position; binding.type = PropertyBinding::Type::Vector3; }
-            else if (propPath == "position.x") { binding.dataPtr = &t->position.x; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "position.y") { binding.dataPtr = &t->position.y; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "position.z") { binding.dataPtr = &t->position.z; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "rotation") { binding.dataPtr = &t->rotate; binding.type = PropertyBinding::Type::TransformRotationEuler; }
-            else if (propPath == "scale") { binding.dataPtr = &t->scale; binding.type = PropertyBinding::Type::Vector3; }
-            else if (propPath == "scale.x") { binding.dataPtr = &t->scale.x; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "scale.y") { binding.dataPtr = &t->scale.y; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "scale.z") { binding.dataPtr = &t->scale.z; binding.type = PropertyBinding::Type::Float; }
-        }
-        else if (compName == "MeshRenderer") {
-            auto* r = static_cast<MeshRenderer*>(binding.targetComponent);
-            if (propPath == "material.uvTransform.position") { binding.dataPtr = &r->material_.uvTransform.position; binding.type = PropertyBinding::Type::Vector2; }
-            else if (propPath == "material.uvTransform.position.x") { binding.dataPtr = &r->material_.uvTransform.position.x; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "material.uvTransform.position.y") { binding.dataPtr = &r->material_.uvTransform.position.y; binding.type = PropertyBinding::Type::Float; }
-            else if (propPath == "material.baseColor") { binding.dataPtr = &r->material_.baseColor; binding.type = PropertyBinding::Type::Vector4; }
-        }
-        else if (compName == "SpriteRenderer") {
-            auto* r = static_cast<SpriteRenderer*>(binding.targetComponent);
-            if (propPath == "color") { binding.dataPtr = &r->material_.baseColor; binding.type = PropertyBinding::Type::Vector4; }
-        }
-        else if (compName == "DirectionalLight" || compName == "Light") {
-            auto* l = static_cast<DirectionalLight*>(binding.targetComponent);
-            if (propPath == "color") { binding.dataPtr = &l->color_; binding.type = PropertyBinding::Type::Vector4; }
-            else if (propPath == "intensity") { binding.dataPtr = &l->intensity_; binding.type = PropertyBinding::Type::Float; }
+        // Fallback: If component is "Material" or empty, try to find any renderer
+        if (!binding.targetComponent && (compName == "Material" || compName == "Renderer" || compName == "")) {
+            binding.targetComponent = entity->GetComponent<MeshRenderer>();
+            if (binding.targetComponent) compName = "MeshRenderer";
+            else {
+                binding.targetComponent = entity->GetComponent<SpriteRenderer>();
+                if (binding.targetComponent) compName = "SpriteRenderer";
+            }
         }
 
-        // dataPtrが解決できなければNoneのまま
+        if (binding.targetComponent) {
+            auto compIt = g_PropRegistry.find(compName);
+            if (compIt != g_PropRegistry.end()) {
+                auto propIt = compIt->second.find(track.propertyPath);
+                if (propIt != compIt->second.end()) {
+                    binding.dataPtr = propIt->second.getPtr(binding.targetComponent);
+                    binding.type = propIt->second.type;
+                }
+            }
+        }
+
         bindings.push_back(binding);
     }
 }

@@ -82,6 +82,9 @@ public:
 
 	Vector2 GetTextureSize(Asset::AssetCollection* _assetCollection) const;
 
+	/// @brief アニメーション制御用マテリアルへの参照取得
+	Asset::Material& GetMaterialForAnimation() { return material_; }
+
 };
 
 

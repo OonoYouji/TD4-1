@@ -414,6 +414,19 @@ void AnimationEditorWindow::ShowImGui() {
             if (ImGui::MenuItem("Transform/Rotation (Vec3 Euler)")) addTrack("Transform", "rotation", Vector3(0,0,0));
             if (ImGui::MenuItem("Transform/Scale (Vec3)")) addTrack("Transform", "scale", Vector3(1,1,1));
             ImGui::Separator();
+            if (ImGui::MenuItem("MeshRenderer/UV Offset (Vec2)")) addTrack("MeshRenderer", "uvOffset", Vector2(0, 0));
+            if (ImGui::MenuItem("MeshRenderer/UV Scale (Vec2)")) addTrack("MeshRenderer", "uvScale", Vector2(1, 1));
+            if (ImGui::MenuItem("MeshRenderer/UV Rotation (Float)")) addTrack("MeshRenderer", "uvRotation", 0.0f);
+            ImGui::Separator();
+            if (ImGui::MenuItem("SpriteRenderer/UV Offset (Vec2)")) addTrack("SpriteRenderer", "uvOffset", Vector2(0, 0));
+            if (ImGui::MenuItem("SpriteRenderer/Color (Vec4)")) addTrack("SpriteRenderer", "color", Vector4(1, 1, 1, 1));
+            ImGui::Separator();
+            if (ImGui::MenuItem("ParticleSystem/Emission Rate (Float)")) addTrack("ParticleSystem", "emission.rateOverTime", 10.0f);
+            if (ImGui::MenuItem("ParticleSystem/Emission Enabled (Bool)")) addTrack("ParticleSystem", "emission.enabled", 1.0f);
+            if (ImGui::MenuItem("ParticleSystem/Start Color (Vec4)")) addTrack("ParticleSystem", "main.startColor", Vector4(1, 1, 1, 1));
+            if (ImGui::MenuItem("ParticleSystem/Start Speed (Float)")) addTrack("ParticleSystem", "main.startSpeed", 5.0f);
+            if (ImGui::MenuItem("ParticleSystem/Start Size (Float)")) addTrack("ParticleSystem", "main.startSize", 1.0f);
+            ImGui::Separator();
             if (ImGui::MenuItem("Custom (Float)")) addTrack("Transform", "position.x", 0.0f);
             ImGui::EndPopup();
         }
@@ -468,6 +481,14 @@ void AnimationEditorWindow::ShowImGui() {
                         selectedEntry = i;
                         sequence.selectedKeyframeIndex = -1;
                     }
+                }
+
+                if (ImGui::BeginPopupContextItem()) {
+                    if (ImGui::MenuItem("Delete Track")) {
+                        sequence.Del(i);
+                        selectedEntry = -1;
+                    }
+                    ImGui::EndPopup();
                 }
             }
             ImGui::EndChild();
@@ -623,7 +644,14 @@ void AnimationEditorWindow::DrawTrackProperties(ONEngine::Asset::AnimationTrack&
                 if (ImGui::DragFloat2("Value", &v.x, 0.1f)) { key.value = v; valueChanged = true; }
             } else if (std::holds_alternative<Vector4>(key.value)) {
                 Vector4 v = std::get<Vector4>(key.value);
-                if (ImGui::DragFloat4("Value", &v.x, 0.1f)) { key.value = v; valueChanged = true; }
+                std::string propLower = track.propertyPath;
+                std::transform(propLower.begin(), propLower.end(), propLower.begin(), ::tolower);
+                
+                if (propLower.find("color") != std::string::npos) {
+                    if (ImGui::ColorEdit4("Color", &v.x)) { key.value = v; valueChanged = true; }
+                } else {
+                    if (ImGui::DragFloat4("Value", &v.x, 0.1f)) { key.value = v; valueChanged = true; }
+                }
             }
             if (ImGui::IsItemActivated()) sequence.clipCopy = *clip;
             if (ImGui::IsItemDeactivatedAfterEdit()) EditCommand::Execute<ModifyAnimationClipCommand>(clip, sequence.clipCopy, *clip);

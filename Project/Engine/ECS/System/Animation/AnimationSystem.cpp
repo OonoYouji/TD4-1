@@ -140,6 +140,13 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
                 }
             } else if (binding.dataPtr) {
                 switch (binding.type) {
+                case AnimationPlayer::PropertyBinding::Type::Bool:
+                {
+                    // Evaluate as float and convert to bool (e.g. > 0.5 is true)
+                    float floatVal = EvaluateTrack<float>(track.keyframes, player->currentTime);
+                    *static_cast<bool*>(binding.dataPtr) = (floatVal >= 0.5f);
+                    break;
+                }
                 case AnimationPlayer::PropertyBinding::Type::Float:
                     *static_cast<float*>(binding.dataPtr) = EvaluateTrack<float>(track.keyframes, player->currentTime);
                     break;

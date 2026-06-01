@@ -107,6 +107,9 @@ public:
 	/// @brief テクスチャのGuidを返す
 	const Guid& GetTextureGuid() const;
 
+	/// @brief アニメーション制御用マテリアルへの参照取得
+	Asset::Material& GetMaterialForAnimation() { return material_; }
+
 };
 
 

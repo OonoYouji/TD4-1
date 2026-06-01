@@ -7,35 +7,7 @@
     "tracks": [
         {
             "component": "Transform",
-            "keyframes": [
-                {
-                    "in": "Linear",
-                    "t": 0.0,
-                    "v": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    }
-                },
-                {
-                    "in": "Linear",
-                    "t": 0.2704918086528778,
-                    "v": {
-                        "x": 0.0,
-                        "y": -160.0,
-                        "z": 0.0
-                    }
-                },
-                {
-                    "in": "Linear",
-                    "t": 1.0,
-                    "v": {
-                        "x": 0.0,
-                        "y": 360.0,
-                        "z": 0.0
-                    }
-                }
-            ],
+            "keyframes": [],
             "property": "rotation"
         },
         {
@@ -44,6 +16,11 @@
                 {
                     "in": "Linear",
                     "t": 0.0,
+                    "v": 0.0
+                },
+                {
+                    "in": "Linear",
+                    "t": 0.1180327907204628,
                     "v": 0.0
                 }
             ],
@@ -81,6 +58,117 @@
                 }
             ],
             "property": "scale"
+        },
+        {
+            "component": "Material",
+            "keyframes": [
+                {
+                    "in": "Linear",
+                    "t": 0.0,
+                    "v": {
+                        "x": 0.0,
+                        "y": 0.0
+                    }
+                },
+                {
+                    "in": "Linear",
+                    "t": 1.0,
+                    "v": {
+                        "x": 7.0,
+                        "y": 0.0
+                    }
+                }
+            ],
+            "property": "uvOffset"
+        },
+        {
+            "component": "ParticleSystem",
+            "keyframes": [
+                {
+                    "in": "Linear",
+                    "t": 0.0,
+                    "v": 1.0
+                },
+                {
+                    "in": "Linear",
+                    "t": 0.5131147503852844,
+                    "v": 12.0
+                },
+                {
+                    "in": "Linear",
+                    "t": 1.0,
+                    "v": 1.0
+                }
+            ],
+            "property": "main.startSize"
+        },
+        {
+            "component": "ParticleSystem",
+            "keyframes": [
+                {
+                    "in": "Step",
+                    "t": 0.0,
+                    "v": 0.0
+                },
+                {
+                    "in": "Step",
+                    "t": 0.5049180388450623,
+                    "v": 1.0
+                }
+            ],
+            "property": "emission.enabled"
+        },
+        {
+            "component": "ParticleSystem",
+            "keyframes": [
+                {
+                    "in": "Linear",
+                    "t": 0.0,
+                    "v": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "in": "Linear",
+                    "t": 0.5,
+                    "v": {
+                        "w": 1.0,
+                        "x": 0.2580646276473999,
+                        "y": 1.0,
+                        "z": 0.0
+                    }
+                },
+                {
+                    "in": "Linear",
+                    "t": 1.0,
+                    "v": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                }
+            ],
+            "property": "main.startColor"
+        },
+        {
+            "component": "ParticleSystem",
+            "keyframes": [
+                {
+                    "in": "Linear",
+                    "t": 0.0,
+                    "v": 10.0
+                },
+                {
+                    "in": "Linear",
+                    "t": 0.77704918384552,
+                    "v": 117.80000305175781
+                }
+            ],
+            "property": "emission.rateOverTime"
         }
     ]
 }
