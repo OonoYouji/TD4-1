@@ -68,8 +68,7 @@
         }
     ],
     "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
-    "id": 3,
     "name": "PlayerHP",
-    "parent": 2,
+    "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
     "prefabName": ""
 }

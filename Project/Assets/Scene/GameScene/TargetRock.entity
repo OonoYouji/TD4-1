@@ -32,8 +32,7 @@
         }
     ],
     "guid": "28a94ec6613a456916dc233c40fbc746",
-    "id": 19,
     "name": "TargetRock",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "TargetRock"
 }

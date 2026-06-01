@@ -53,8 +53,7 @@
         }
     ],
     "guid": "ee4f2f431ba652f889c0126bb0943ddb",
-    "id": 16,
     "name": "BG",
-    "parent": 15,
+    "parentGuid": "9bec876d747d51536a818072ab1eca1f",
     "prefabName": ""
 }

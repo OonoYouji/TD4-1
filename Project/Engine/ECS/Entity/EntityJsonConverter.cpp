@@ -81,8 +81,8 @@ nlohmann::json EntityJsonConverter::ToJson(const GameEntity* _entity, bool _forc
 	nlohmann::json entityJson = nlohmann::json::object();
 	entityJson["prefabName"] = _entity->GetPrefabName();
 	entityJson["name"] = _entity->GetName();
-	entityJson["id"] = _entity->GetId();
-	entityJson["guid"] = _entity->GetGuid();
+	// entityJson["id"] = _entity->GetId(); // DEPRECATED: id is now runtime-only
+	entityJson["guid"] = _entity->GetGuid().ToString();
 
 	// Prefabがある場合は差分のみを書き出す (forceFullがfalseの場合のみ)
 	nlohmann::json prefabComponents;
@@ -124,9 +124,9 @@ nlohmann::json EntityJsonConverter::ToJson(const GameEntity* _entity, bool _forc
 
 	/// 親子関係の情報を追加
 	if (_entity->GetParent()) {
-		entityJson["parent"] = _entity->GetParent()->GetId();
+		entityJson["parentGuid"] = _entity->GetParent()->GetGuid().ToString();
 	} else {
-		entityJson["parent"] = nullptr;
+		entityJson["parentGuid"] = nullptr;
 	}
 
 	return entityJson;

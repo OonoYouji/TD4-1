@@ -81,11 +81,12 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 		// シーンファイルには参照を保存
 		nlohmann::json reference;
 		reference["path"] = "./" + sceneName + "/" + entityFileName;
-		reference["id"] = entity->GetId();
+		// reference["id"] = entity->GetId(); // DEPRECATED
+		reference["guid"] = entity->GetGuid().ToString();
 		if (entity->GetParent()) {
-			reference["parent"] = entity->GetParent()->GetId();
+			reference["parentGuid"] = entity->GetParent()->GetGuid().ToString();
 		} else {
-			reference["parent"] = nullptr;
+			reference["parentGuid"] = nullptr;
 		}
 		sceneJson["entities"].push_back(reference);
 	}
@@ -133,8 +134,12 @@ void SceneIO::LoadScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 				entityFile.close();
 
 				// シーンファイル側の情報を優先（親子関係など）
-				if (entityRef.contains("id")) entityJson["id"] = entityRef["id"];
-				if (entityRef.contains("parent")) entityJson["parent"] = entityRef["parent"];
+				if (entityRef.contains("guid")) entityJson["guid"] = entityRef["guid"];
+				if (entityRef.contains("parentGuid")) entityJson["parentGuid"] = entityRef["parentGuid"];
+				
+				// 互換性維持: 旧フォーマットの読み込み
+				if (entityRef.contains("id") && !entityJson.contains("id")) entityJson["id"] = entityRef["id"];
+				if (entityRef.contains("parent") && !entityJson.contains("parentGuid")) entityJson["parent"] = entityRef["parent"];
 
 				fullSceneJson["entities"].push_back(entityJson);
 			} else {
@@ -173,7 +178,8 @@ void SceneIO::SaveSceneToJson(nlohmann::json& _output, ECSGroup* _ecsGroup) {
 }
 
 void SceneIO::LoadSceneFromJson(const nlohmann::json& _input, ECSGroup* _ecsGroup) {
-	std::unordered_map<uint32_t, GameEntity*> entityMap;
+	std::unordered_map<Guid, GameEntity*> entityMap;
+	std::unordered_map<uint32_t, GameEntity*> oldIdMap; // 互換性用
 
 	if (!_input.contains("entities")) {
 		return;
@@ -183,10 +189,13 @@ void SceneIO::LoadSceneFromJson(const nlohmann::json& _input, ECSGroup* _ecsGrou
 	for (const auto& entityJson : _input["entities"]) {
 		const std::string& prefabName = entityJson.value("prefabName", "");
 		const std::string& entityName = entityJson.value("name", "");
-		const uint32_t entityId = entityJson.value("id", 0);
-
+		
 		/// guidの取得、無効値なら新規生成
-		Guid guid = entityJson.value("guid", GenerateGuid());
+		Guid guid = Guid::kInvalid;
+		if (entityJson.contains("guid")) {
+			guid = Guid::FromString(entityJson["guid"].get<std::string>());
+		}
+
 		if (guid == Guid::kInvalid) {
 			guid = GenerateGuid();
 		}
@@ -203,23 +212,37 @@ void SceneIO::LoadSceneFromJson(const nlohmann::json& _input, ECSGroup* _ecsGrou
 			/// シーンに保存されたjsonからエンティティを復元
 			EntityJsonConverter::FromJson(entityJson, entity, _ecsGroup->GetGroupName());
 
-			entityMap[entityId] = entity;
+			entityMap[guid] = entity;
+			if (entityJson.contains("id")) {
+				oldIdMap[entityJson["id"].get<uint32_t>()] = entity;
+			}
 		}
 	}
 
 
 	/// エンティティの親子関係を設定
 	for (const auto& entityJson : _input["entities"]) {
-		int32_t entityId = entityJson["id"];
-		if (entityMap.find(entityId) == entityMap.end()) {
-			continue; // エンティティが見つからない場合はスキップ
+		GameEntity* entity = nullptr;
+		if (entityJson.contains("guid")) {
+			entity = entityMap[Guid::FromString(entityJson["guid"])];
+		} else if (entityJson.contains("id")) {
+			entity = oldIdMap[entityJson["id"]];
 		}
+		
+		if (!entity) continue;
 
-		GameEntity* entity = entityMap[entityId];
-		if (entityJson.contains("parent") && !entityJson["parent"].is_null()) {
-			int32_t parentId = entityJson["parent"];
-			if (entityMap.find(parentId) != entityMap.end()) {
-				entity->SetParent(entityMap[parentId]);
+		// 新フォーマット (parentGuid) を優先
+		if (entityJson.contains("parentGuid") && !entityJson["parentGuid"].is_null()) {
+			Guid parentGuid = Guid::FromString(entityJson["parentGuid"]);
+			if (entityMap.contains(parentGuid)) {
+				entity->SetParent(entityMap[parentGuid]);
+			}
+		}
+		// 旧フォーマット (parent ID) もサポート
+		else if (entityJson.contains("parent") && !entityJson["parent"].is_null()) {
+			uint32_t parentId = entityJson["parent"];
+			if (oldIdMap.contains(parentId)) {
+				entity->SetParent(oldIdMap[parentId]);
 			}
 		}
 	}

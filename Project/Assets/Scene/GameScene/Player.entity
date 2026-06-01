@@ -115,8 +115,7 @@
         }
     ],
     "guid": "50ee0d6d6376d262198a7126f641b924",
-    "id": 12,
     "name": "Player",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

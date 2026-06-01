@@ -26,8 +26,7 @@
         }
     ],
     "guid": "4b2170a76e7d0236367c96751813e016",
-    "id": 7,
     "name": "Background",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

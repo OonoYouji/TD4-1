@@ -69,8 +69,7 @@
         }
     ],
     "guid": "e8e96265127d2553f9681e0c2e8db5ba",
-    "id": 17,
     "name": "FG",
-    "parent": 15,
+    "parentGuid": "9bec876d747d51536a818072ab1eca1f",
     "prefabName": ""
 }

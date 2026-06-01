@@ -60,8 +60,7 @@
         }
     ],
     "guid": "1d9ec6292e550cf2c7b90213b3e7002b",
-    "id": 1,
     "name": "Camera",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }
