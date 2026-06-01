@@ -81,6 +81,7 @@ nlohmann::json EntityJsonConverter::ToJson(const GameEntity* _entity, bool _forc
 	nlohmann::json entityJson = nlohmann::json::object();
 	entityJson["prefabName"] = _entity->GetPrefabName();
 	entityJson["name"] = _entity->GetName();
+	entityJson["active"] = _entity->active;
 	// entityJson["id"] = _entity->GetId(); // DEPRECATED: id is now runtime-only
 	entityJson["guid"] = _entity->GetGuid().ToString();
 
@@ -144,6 +145,10 @@ void EntityJsonConverter::FromJson(const nlohmann::json& _json, GameEntity* _ent
 		if (prefabName != "") {
 			_entity->SetPrefabName(prefabName);
 		}
+	}
+
+	if (_json.contains("active")) {
+		_entity->active = _json.at("active").get<bool>();
 	}
 
 	/// コンポーネントを追加
