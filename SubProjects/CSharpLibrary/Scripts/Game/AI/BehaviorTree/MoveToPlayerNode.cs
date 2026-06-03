@@ -2,7 +2,7 @@ using System;
 
 /// <summary>
 /// プレイヤー（または指定された対象）に向かって移動を試みるアクションノード。
-/// 拡張：アニメーションクリップの時間に基づいた自動待機に対応。
+/// 拡張：一定時間到達できなければ諦めるタイムアウト機能を追加。
 /// </summary>
 public class MoveToPlayerNode : BehaviorNode
 {
@@ -19,6 +19,11 @@ public class MoveToPlayerNode : BehaviorNode
     public bool useClipDuration = true;
     public float startWaitTime = 0.0f;
     public float endWaitTime = 0.0f;
+    
+    /// <summary>
+    /// 指定された秒数だけ追いかけて到達できなければ、移動を終了して次のノードへ進む。
+    /// </summary>
+    public float timeout = 5.0f;
 
     private enum MoveState
     {
@@ -39,6 +44,7 @@ public class MoveToPlayerNode : BehaviorNode
         uint stateKey = BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash);
         uint timerKey = BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash);
         uint durationKey = BehaviorTreeLoader.HashString("WaitDur_" + NodeIdHash);
+        uint chaseStartTimeKey = BehaviorTreeLoader.HashString("ChaseStart_" + NodeIdHash);
 
         MoveState state = (MoveState)blackboard.GetInt(stateKey, (int)MoveState.Start);
         float currentTime = Time.time;
@@ -81,6 +87,9 @@ public class MoveToPlayerNode : BehaviorNode
                 blackboard.SetInt(stateKey, (int)MoveState.Moving);
                 state = MoveState.Moving;
                 
+                // 実際の移動開始時刻を記録
+                blackboard.SetFloat(chaseStartTimeKey, currentTime);
+
                 if (!string.IsNullOrEmpty(loopAnim))
                 {
                     if (animator != null) animator.CrossFade(loopAnim, 0.2f);
@@ -101,8 +110,18 @@ public class MoveToPlayerNode : BehaviorNode
         // 2. 移動フェーズ
         if (state == MoveState.Moving)
         {
-            if (distance <= stopDistance)
+            float chaseTime = currentTime - blackboard.GetFloat(chaseStartTimeKey);
+
+            // 到着判定、またはタイムアウト判定
+            if (distance <= stopDistance || chaseTime >= timeout)
             {
+                if (chaseTime >= timeout) {
+                    Debug.Log($"[MoveToPlayer] Chase TIMEOUT after {chaseTime:F1}s. Giving up and stopping.");
+                } else {
+                    Debug.Log($"[MoveToPlayer] Arrived at target distance: {distance:F2}");
+                }
+
+                blackboard.Remove(chaseStartTimeKey);
                 blackboard.SetInt(stateKey, (int)MoveState.End);
                 state = MoveState.End;
                 
@@ -179,6 +198,7 @@ public class MoveToPlayerNode : BehaviorNode
         blackboard.Remove(BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash));
         blackboard.Remove(BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash));
         blackboard.Remove(BehaviorTreeLoader.HashString("WaitDur_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("ChaseStart_" + NodeIdHash));
 
         var intent = owner.GetComponent<AgentIntentComponent>();
         if (intent != null)

@@ -15,6 +15,7 @@ public class FireBeamNode : BehaviorNode
     public float beamLength = 20.0f;
     public float beamRadius = 1.0f;
     public float duration = 2.0f;
+    public float trackingRotationSpeed = 1.0f; // 照射中の追従速度
 
     public float slowMultiplier = 0.8f; // 20%低下
     public float slowDuration = 1.0f;
@@ -109,6 +110,7 @@ public class FireBeamNode : BehaviorNode
         if (intent != null)
         {
             intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up);
+            intent.rotationSpeed = trackingRotationSpeed; // 追従速度を設定
             intent.useDesiredRotation = true;
         }
 

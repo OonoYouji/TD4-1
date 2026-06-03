@@ -8,8 +8,6 @@ public class BossAI : MonoScript {
 	public string treePath = "Assets/AITrees/DefaultTree.json";
 
 	private AgentIntentComponent _intent;
-	private float _combatTimer = 0.0f;
-	private bool _isEnraged = false;
 
 	public override void Initialize() {
 		Debug.Log($"BossAI: Initializing for entity {entity.name} (ID:{entity.Id})");
@@ -31,18 +29,14 @@ public class BossAI : MonoScript {
 
 public override void Update()
 {
-    // --- 憤怒（Enrage）タイマーの更新 ---
-    if (_intent != null && _intent.behaviorTree != null)
+    // --- デバッグ用：HキーでHPを10%減らす ---
+    if (Input.TriggerKey(KeyCode.H))
     {
-        _combatTimer += Time.deltaTime;
-        if (!_isEnraged && _combatTimer >= 300.0f)
+        var hp = entity.GetScript<HP>();
+        if (hp != null)
         {
-            _isEnraged = true;
-            _intent.behaviorTree.Blackboard.SetBool(BehaviorTreeLoader.HashString("IsEnraged"), true);
-            Debug.Log("<color=red>[BossAI] ENRAGED!</color> 300 seconds passed. Boss speed and attack rate increased!");
-            
-            // 視覚的フィードバック（赤いオーラ等）のイベント発行
-            FrameEvent.EnqueueNamedEvent("Effect_BossEnrage", entity.Id);
+            hp.TakeDamage(120); // 1200の10%
+            Debug.Log($"<color=orange>[Debug]</color> Boss HP reduced. Current: {hp.currentHp}/{hp.MAX_HP} ({hp.CurrentHpRatio()*100:F1}%)");
         }
     }
 

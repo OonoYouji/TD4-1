@@ -2,12 +2,8 @@
     "active": true,
     "components": [
         {
-            "scale": {
-                "x": 2.299999952316284,
-                "y": 2.3000001907348633,
-                "z": 2.299999952316284
-            },
-            "type": "Transform"
+            "maxSpeed": 8.0,
+            "type": "AgentIntentComponent"
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",

@@ -2,45 +2,39 @@
     "blackboard": [],
     "nodes": [
         {
-            "id": 1, "className": "Entry", "name": "Phase 2 Entry", "pos": [-200.0, 0.0],
+            "id": 1, "className": "Entry", "name": "Phase 3 Entry", "pos": [-200.0, 0.0],
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 2, "className": "Sequence", "name": "P2: Root Sequence", "pos": [100.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "P3: Root Sequence", "pos": [100.0, 0.0],
             "inputs": [{ "id": 11, "name": "In" }], "outputs": [{ "id": 12, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 3, "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [400.0, -100.0],
+            "id": 3, "className": "PatrolWaypointsNode", "name": "P3: Go to Center", "pos": [400.0, -100.0],
             "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
             "properties": {
-                "stopDistance": "5.0",
-                "startAnim": "movement_start",
-                "loopAnim": "movement",
-                "endAnim": "movement_end",
-                "useClipDuration": "true",
-                "trackingRotationSpeed": "2.0"
+                "currentIdxKey": "PatrolIndex", "waypointPrefix": "Boss_Center", "stopDistance": "1.0",
+                "startAnim": "movement_start", "loopAnim": "movement", "endAnim": "movement_end", "useClipDuration": "true"
             },
             "decorators": [], "services": []
         },
         {
-            "id": 4, "className": "Sequence", "name": "P2: Attack Sequence", "pos": [400.0, 100.0],
+            "id": 4, "className": "Sequence", "name": "P3: Attack Sequence", "pos": [400.0, 100.0],
             "inputs": [{ "id": 14, "name": "In" }], "outputs": [{ "id": 15, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
             "id": 5, "className": "WaitNode", "name": "Attack Interval", "pos": [700.0, 100.0],
             "inputs": [{ "id": 16, "name": "In" }], "outputs": [],
-            "properties": { "duration": "4.0" },
+            "properties": { "duration": "5.0" },
             "decorators": [], "services": []
         },
         {
-            "id": 6, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [700.0, 200.0],
+            "id": 6, "className": "RunBehaviorNode", "name": "Execute Vortex", "pos": [700.0, 200.0],
             "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
-            "properties": { 
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json"
-            },
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json" },
             "decorators": [], "services": []
         }
     ],
