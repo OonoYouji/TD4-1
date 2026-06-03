@@ -83,6 +83,12 @@ public class PatrolWaypointsNode : BehaviorNode
 
         var animator = owner.GetComponent<Animator>();
         var aiIntent = owner.GetComponent<AgentIntentComponent>();
+        var animPlayer = owner.GetComponent<ONEngine.AnimationPlayer>();
+
+        if (animator == null && animPlayer == null)
+        {
+            if (Tree != null && Tree.TickCount % 100 == 0) Debug.LogError($"[PatrolWaypoints] No animation component found on '{owner.name}'!");
+        }
 
         // 1. 開始演出フェーズ
         if (state == MoveState.Start)
@@ -90,10 +96,16 @@ public class PatrolWaypointsNode : BehaviorNode
             if (!blackboard.HasKey(timerKey))
             {
                 float waitTime = startWaitTime;
-                if (!string.IsNullOrEmpty(startAnim) && animator != null)
+                if (!string.IsNullOrEmpty(startAnim))
                 {
-                    animator.CrossFade(startAnim, 0.1f);
-                    if (useClipDuration) waitTime = animator.GetAnimationDuration(startAnim);
+                    if (animator != null) {
+                        Debug.Log($"[PatrolWaypoints] '{owner.name}' playing StartAnim: '{startAnim}' via Animator");
+                        animator.CrossFade(startAnim, 0.1f);
+                        if (useClipDuration) waitTime = animator.GetAnimationDuration(startAnim);
+                    } else if (animPlayer != null) {
+                        Debug.Log($"[PatrolWaypoints] '{owner.name}' playing StartAnim via AnimationPlayer (Fallback)");
+                        animPlayer.Play();
+                    }
                 }
                 blackboard.SetFloat(timerKey, currentTime);
                 blackboard.SetFloat(durationKey, waitTime);
@@ -101,14 +113,16 @@ public class PatrolWaypointsNode : BehaviorNode
 
             if (currentTime - blackboard.GetFloat(timerKey) >= blackboard.GetFloat(durationKey))
             {
+                Debug.Log($"[PatrolWaypoints] Start animation finished. Moving.");
                 blackboard.Remove(timerKey);
                 blackboard.Remove(durationKey);
                 blackboard.SetInt(stateKey, (int)MoveState.Moving);
                 state = MoveState.Moving;
                 
-                if (!string.IsNullOrEmpty(loopAnim) && animator != null)
+                if (!string.IsNullOrEmpty(loopAnim))
                 {
-                    animator.CrossFade(loopAnim, 0.2f);
+                    if (animator != null) animator.CrossFade(loopAnim, 0.2f);
+                    else if (animPlayer != null) animPlayer.Play();
                 }
             }
             else return NodeStatus.Running;

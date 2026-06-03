@@ -9,7 +9,7 @@ public class BossBomb : MonoScript
     public Vector3 targetPosition = Vector3.zero;
     public float travelTime = 1.5f; // 目標地点までにかける時間
     public float arcHeight = 5.0f;  // 弧の高さ（最大高度）
-    public float explosionScale = 5.0f;
+    public float explosionScale = 7.0f;
     public float explosionDuration = 0.3f;
     public int damage = 20;
 

@@ -1,15 +1,17 @@
 {
     "blackboard": [
-        { "key": "CurrentHP", "type": 2, "iVal": 0, "fVal": 1000.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
+        { "key": "CurrentHP", "type": 2, "iVal": 0, "fVal": 1200.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
         { "key": "HPRatio", "type": 2, "iVal": 0, "fVal": 1.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
-        { "key": "PatrolIndex", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+        { "key": "PatrolIndex", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
+        { "key": "IsEnraged", "type": 1, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
     ],
     "links": [
         { "id": 1, "startPin": 2, "endPin": 4 },
         { "id": 2, "startPin": 5, "endPin": 10 },
-        { "id": 3, "startPin": 11, "endPin": 13 },
-        { "id": 4, "startPin": 11, "endPin": 17 },
-        { "id": 5, "startPin": 11, "endPin": 21 }
+        { "id": 3, "startPin": 11, "endPin": 6 },
+        { "id": 4, "startPin": 11, "endPin": 13 },
+        { "id": 5, "startPin": 11, "endPin": 17 },
+        { "id": 6, "startPin": 11, "endPin": 21 }
     ],
     "nodes": [
         {
@@ -29,7 +31,11 @@
                 },
                 {
                     "className": "HPRegenService", "name": "Auto HP Regen",
-                    "properties": { "Interval": "1.0", "currentHPKey": "CurrentHP", "maxHP": "2000", "regenPerSecond": "5" }
+                    "properties": { "Interval": "1.0", "currentHPKey": "CurrentHP", "maxHP": "1200", "regenPerSecond": "5" }
+                },
+                {
+                    "className": "EnrageService", "name": "Enrage Manager",
+                    "properties": { "normalSpeed": "8.0", "enragedSpeed": "12.0" }
                 }
             ]
         },
@@ -39,35 +45,50 @@
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "className": "RunBehaviorNode", "id": 10, "name": "Phase 0 (HP > 70%)", "pos": [700.0, -150.0],
-            "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
-            "properties": { "treePath": "Assets/AITrees/BossPhase0.json" },
+            "className": "RunBehaviorNode", "id": 5, "name": "Intro (HP > 100%)",
+            "pos": [700.0, -300.0],
+            "inputs": [{ "id": 6, "name": "In" }],
+            "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/DefaultTree.json" },
             "decorators": [
                 {
-                    "className": "BossPhaseDecorator", "name": "HP > 70%",
-                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "1.1", "minHP": "0.7" }
+                    "className": "BossPhaseDecorator", "name": "HP > 100%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "2.0", "minHP": "1.001" }
                 }
             ], "services": []
         },
         {
-            "className": "RunBehaviorNode", "id": 20, "name": "Phase 1 (HP 30-70%)", "pos": [700.0, 0.0],
+            "className": "RunBehaviorNode", "id": 10, "name": "Phase 1 (HP 70-100%)",
+            "pos": [700.0, -150.0],
+            "inputs": [{ "id": 13, "name": "In" }],
+            "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossPhase0.json" },
+            "decorators": [
+                {
+                    "className": "BossPhaseDecorator", "name": "HP 70-100%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "1.001", "minHP": "0.7" }
+                }
+            ], "services": []
+        },
+        {
+            "className": "RunBehaviorNode", "id": 20, "name": "Phase 2 (HP 40-70%)", "pos": [700.0, 0.0],
             "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
             "properties": { "treePath": "Assets/AITrees/BossPhase1.json" },
             "decorators": [
                 {
-                    "className": "BossPhaseDecorator", "name": "HP 30%-70%",
-                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "0.7", "minHP": "0.3" }
+                    "className": "BossPhaseDecorator", "name": "HP 40%-70%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "0.7", "minHP": "0.4" }
                 }
             ], "services": []
         },
         {
-            "className": "RunBehaviorNode", "id": 30, "name": "Phase 2 (HP < 30%)", "pos": [700.0, 150.0],
+            "className": "RunBehaviorNode", "id": 30, "name": "Phase 3 (HP < 40%)", "pos": [700.0, 150.0],
             "inputs": [{ "id": 21, "name": "In" }], "outputs": [],
             "properties": { "treePath": "Assets/AITrees/BossPhase2.json" },
             "decorators": [
                 {
-                    "className": "BossPhaseDecorator", "name": "HP < 30%",
-                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "0.3", "minHP": "0.0" }
+                    "className": "BossPhaseDecorator", "name": "HP < 40%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "0.4", "minHP": "0.0" }
                 }
             ], "services": []
         }

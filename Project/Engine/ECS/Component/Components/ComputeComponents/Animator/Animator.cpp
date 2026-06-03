@@ -39,6 +39,8 @@ void Animator::Play(uint32_t _clipId, uint32_t _layerIndex) {
 void Animator::CrossFade(uint32_t _clipId, float _duration, uint32_t _layerIndex) {
     if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
 
+    Console::LogInfo(std::format("Animator::CrossFade - ClipId: {}, Duration: {}, Layer: {}", _clipId, _duration, _layerIndex));
+
     AnimationLayer& layer = layers[_layerIndex];
 
     // すでに同じクリップを再生しようとしている場合は無視（またはリセット）
@@ -83,9 +85,11 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
     const auto& clips = model->GetAnimationClips();
     auto it = clips.find(_clipId);
     if (it != clips.end()) {
+        Console::LogInfo(std::format("Animator::GetAnimationDuration - ClipId: {}, Duration: {}", _clipId, it->second.duration));
         return it->second.duration;
     }
 
+    Console::LogWarning(std::format("Animator::GetAnimationDuration - ClipId: {} NOT FOUND", _clipId));
     return 0.0f;
 }
 

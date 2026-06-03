@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /// std
 #include <nlohmann/json_fwd.hpp>
@@ -37,6 +37,7 @@ public:
 	    Vector3 desiredMoveDirection;
 	    Quaternion desiredRotation;
 	    float rotationSpeed;
+	    float maxSpeed;
 	    uint8_t useDesiredRotation; // bool interop
 	    uint8_t isAttacking; // boolの代わりにuint8_tを使用して互換性を確保
 	    int32_t targetEntityId;
@@ -57,6 +58,7 @@ public:
 		desiredMoveDirection = Vector3::Zero;
 		desiredRotation = Quaternion::kIdentity;
 		rotationSpeed = 5.0f; // Default rotation speed
+		maxSpeed = 8.0f;      // Default movement speed
 		useDesiredRotation = false;
 		isAttacking = false;
 		targetEntityId = 0; // 0: invalid id
@@ -76,6 +78,9 @@ public:
 	/// @brief 旋回速度 (rad/s 相当の Lerp 係数)
 	float rotationSpeed;
 
+	/// @brief 最大移動速度 (C#側から設定可能)
+	float maxSpeed;
+
 	/// @brief 現在の移動速度（加減速計算用、C++内部保持）
 	float currentSpeed = 0.0f;
 
@@ -90,4 +95,3 @@ public:
 };
 
 } /// ONEngine
-

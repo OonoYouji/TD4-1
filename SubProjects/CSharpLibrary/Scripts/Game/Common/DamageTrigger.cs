@@ -4,6 +4,8 @@ using System;
 /// 攻撃の判定（メッシュやコライダー）にアタッチし、
 /// 接触した対象にダメージを与える汎用スクリプト。
 /// ボスの攻撃全般（ビーム、爆発、竜巻など）で使用可能。
+/// 
+/// 仕様書v2対応：ヒット時のデバフ（スロウ）効果を追加。
 /// </summary>
 public class DamageTrigger : MonoScript
 {
@@ -15,6 +17,9 @@ public class DamageTrigger : MonoScript
 
     [SerializeField]
     public string targetTag = "Player"; // 当てる対象 (Player, Reinforcement など)
+
+    public float slowMultiplier = 1.0f; // 1.0なら等速、0.8なら20%低下
+    public float slowDuration = 0.0f;
 
     private float timer = 0f;
     private bool hasHit = false; // 単発ダメージ用
@@ -36,7 +41,6 @@ public class DamageTrigger : MonoScript
         {
             if (timer <= 0 && IsTarget(collision))
             {
-                // Debug.Log($"[DamageTrigger] OnCollisionStay hit target: {collision.name}");
                 ApplyDamageTo(collision);
                 timer = interval;
             }
@@ -45,8 +49,6 @@ public class DamageTrigger : MonoScript
 
     public override void OnCollisionEnter(Entity collision)
     {
-        // Debug.Log($"[DamageTrigger] OnCollisionEnter with: {collision.name}");
-        
         if (IsTarget(collision))
         {
             if (interval <= 0)
@@ -58,7 +60,6 @@ public class DamageTrigger : MonoScript
             }
             else
             {
-                // インターバルがある攻撃でも、最初の接触でダメージを与える
                 if (timer <= 0)
                 {
                     ApplyDamageTo(collision);
@@ -75,44 +76,42 @@ public class DamageTrigger : MonoScript
 
     private void ApplyDamageTo(Entity e)
     {
-        Debug.Log($"<color=white>[DamageTrigger:Trace]</color> ApplyDamageTo enters for {e.name}");
+        Debug.Log($"[DamageTrigger] ApplyDamageTo: {e.name}");
         
-        // 1. 汎用 DamageHandler 経由
         DamageHandler handler = e.GetScript<DamageHandler>();
         if (handler != null)
         {
             handler.ApplyDamage(damage, transform.position);
-            return;
         }
-
-        // 2. 援軍専用 ReinforcementDamageHandler 経由
-        ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
-        if (rHandler != null)
+        else
         {
-            rHandler.ApplyDamage(damage, transform.position);
-            return;
-        }
-
-        // 3. 援軍（Reinforcement）への直接処理（Handlerがない場合の旧方式フォールバック）
-        Reinforcement reinforcement = e.GetScript<Reinforcement>();
-        if (reinforcement != null)
-        {
-            if (reinforcement.isCollisionEnabled)
+            ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
+            if (rHandler != null)
             {
-                Debug.Log($"<color=orange>[DamageTrigger]</color> Hit Reinforcement (Direct): {e.name} from {entity.name}");
-                reinforcement.TakeDamage();
+                rHandler.ApplyDamage(damage, transform.position);
             }
-            return;
+            else
+            {
+                Reinforcement reinforcement = e.GetScript<Reinforcement>();
+                if (reinforcement != null && reinforcement.isCollisionEnabled)
+                {
+                    reinforcement.TakeDamage();
+                }
+                else if (e.name.Contains("Player"))
+                {
+                    HP hp = e.GetScript<HP>();
+                    if (hp != null) hp.TakeDamage(damage);
+                }
+            }
         }
 
-        // 4. プレイヤーへの直接フォールバック（名前判定）
-        if (e.name.Contains("Player"))
+        // --- デバフ効果の適用 (Spec v2) ---
+        if (e.name.Contains("Player") && slowDuration > 0.001f)
         {
-            // HPコンポーネントを直接探す
-            HP hp = e.GetScript<HP>();
-            if (hp != null)
+            Player player = e.GetScript<Player>();
+            if (player != null)
             {
-                hp.TakeDamage(damage);
+                player.ApplySlow(slowMultiplier, slowDuration);
             }
         }
     }

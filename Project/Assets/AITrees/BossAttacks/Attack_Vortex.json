@@ -19,15 +19,29 @@
         },
         {
             "id": 4, "className": "SpawnVortexFieldNode", "name": "Spawn Vortex", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "targetPosKey": "TargetPosition", "radius": "5.0", "duration": "5.0", "damagePerSecond": "10.0" }, 
+            "properties": { 
+                "targetPosKey": "TargetPosition", 
+                "suctionRadius": "15.0", 
+                "suctionForce": "30.0",
+                "duration": "5.0", 
+                "centerDamage": "50",
+                "centerDamageRadius": "3.0"
+            }, 
             "decorators": [], "services": [], "pos": [400.0, 50.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
+        },
+        {
+            "id": 5, "className": "InvokeEventNode", "name": "Vortex Finish Explosion", "isDecorator": false, "hasBreakpoint": false,
+            "properties": { "eventName": "Effect_Vortex_Explosion", "waitUntilComplete": "true" },
+            "decorators": [], "services": [], "pos": [400.0, 150.0],
+            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
         }
     ],
     "links": [
         { "id": 1001, "startPin": 10, "endPin": 20 },
         { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 40 }
+        { "id": 1003, "startPin": 21, "endPin": 40 },
+        { "id": 1004, "startPin": 21, "endPin": 50 }
     ],
     "comments": []
 }

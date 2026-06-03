@@ -83,6 +83,7 @@ public static class AIUpdater {
                     nativeData->desiredMoveDirection = component.desiredMoveDirection;
                     nativeData->desiredRotation = component.desiredRotation;
                     nativeData->rotationSpeed = component.rotationSpeed;
+                    nativeData->maxSpeed = component.maxSpeed;
                     nativeData->useDesiredRotation = (byte)(component.useDesiredRotation ? 1 : 0);
                     nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
                     nativeData->targetEntityId = component.targetEntityId;
