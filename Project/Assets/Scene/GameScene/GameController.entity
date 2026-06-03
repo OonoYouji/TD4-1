@@ -1,16 +1,5 @@
 {
     "active": true,
-    "components": [
-        {
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "GameController"
-                }
-            ],
-            "type": "Script"
-        }
-    ],
     "guid": "13710f0772c050eda45cdb385fabe59f",
     "name": "GameController",
     "parentGuid": null,
