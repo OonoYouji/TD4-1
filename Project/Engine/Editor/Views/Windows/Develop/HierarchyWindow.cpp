@@ -51,6 +51,10 @@ void HierarchyWindow::ShowImGui() {
 		return;
 	}
 
+	/// メニューバーの描画
+	DrawMenuBar();
+	ImGui::Separator();
+
 	/// ヒエラルキーの描画
 	DrawHierarchy();
 
@@ -63,6 +67,89 @@ void HierarchyWindow::ShowImGui() {
 	ShowInvalidParentPopup();
 	DrawDialog();
 	DrawSceneSaveDialog();
+
+	// 新規シーン作成ポップアップ
+	if (showNewScenePopup_) {
+		ImGui::OpenPopup("New Scene Name");
+		showNewScenePopup_ = false;
+	}
+
+	if (ImGui::BeginPopupModal("New Scene Name", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::Text("Enter new scene name:");
+		ImGuiInputText("##newSceneName", &newSceneName_);
+
+		if (ImGui::Button("Create", ImVec2(120, 0)) || (ImGui::IsKeyPressed(ImGuiKey_Enter))) {
+			if (!newSceneName_.empty()) {
+				// 1. 空のシーンを保存（ファイル作成）
+				pSceneManager_->SaveScene(newSceneName_, pEcs_->AddECSGroup(newSceneName_));
+				// 2. そのシーンをロードして切り替え
+				pSceneManager_->LoadScene(newSceneName_);
+				ImGui::CloseCurrentPopup();
+			}
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void HierarchyWindow::DrawMenuBar() {
+	if (ImGui::Button("+")) {
+		ImGui::OpenPopup("HierarchyAddPopup");
+	}
+
+	if (ImGui::BeginPopup("HierarchyAddPopup")) {
+		DrawMenuEntity();
+		ImGui::Separator();
+		DrawMenuScene();
+		ImGui::EndPopup();
+	}
+}
+
+void HierarchyWindow::DrawMenuEntity() {
+	if (ImGui::BeginMenu("Create Entity")) {
+		if (ImGui::MenuItem("Empty Object")) {
+			pEditorManager_->ExecuteCommand<CreateGameObjectCommand>(pEcsGroup_, "NewEntity", nullptr);
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Camera")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Camera, nullptr);
+		}
+		if (ImGui::MenuItem("Directional Light")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::DirectionalLight, nullptr);
+		}
+		if (ImGui::MenuItem("Mesh")) {
+			pEditorManager_->ExecuteCommand<CreatePrimitiveCommand>(pEcsGroup_, CreatePrimitiveCommand::Type::Mesh, nullptr);
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void HierarchyWindow::DrawMenuScene() {
+	if (ImGui::BeginMenu("Scene")) {
+		if (ImGui::MenuItem("New Scene")) {
+			showNewScenePopup_ = true;
+			newSceneName_ = "NewScene";
+		}
+		if (ImGui::MenuItem("Save Scene")) {
+			pSceneManager_->SaveCurrentScene();
+		}
+		if (ImGui::MenuItem("Load Scene")) {
+			std::filesystem::path scenePath = std::filesystem::absolute("./Assets/Scene");
+			std::filesystem::create_directories(scenePath);
+
+			IGFD::FileDialogConfig config;
+			config.path = scenePath.string();
+			// ディレクトリを表示しないように設定
+			config.userFileAttributes = [](IGFD::FileInfos* infos, IGFD::UserDatas userDatas) -> bool {
+				return !infos->fileType.isDir();
+			};
+			ImGuiFileDialog::Instance()->OpenDialog("LoadSceneDialog", "Choose Scene", ".scene", config);
+		}
+		ImGui::EndMenu();
+	}
 }
 
 void HierarchyWindow::DrawHierarchy() {
@@ -70,57 +157,90 @@ void HierarchyWindow::DrawHierarchy() {
 	const auto& entities = pEcsGroup_->GetEntities();
 
 	// ---------------------------------------------------
-	// 1. 各エンティティの描画
+	// 0. シーンヘッダーの描画
 	// ---------------------------------------------------
-	for(const auto& entity : entities) {
-		// ルートエンティティのみ開始
-		if(!entity->GetParent()) {
-			DrawEntity(entity.get());
+	std::string sceneName = pSceneManager_->GetCurrentSceneName();
+	if (sceneName.empty()) sceneName = "Untitled Scene";
+
+	// dirtyならアスタリスクをつける
+	if (pSceneManager_->IsDirty()) {
+		sceneName += " *";
+	}
+
+	ImGuiTreeNodeFlags sceneFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
+	bool sceneNodeOpen = ImGui::CollapsingHeader(sceneName.c_str(), sceneFlags);
+
+	// シーンヘッダーへのドラッグ＆ドロップ（ルートへの移動）
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EntityData")) {
+			ONEngine::GameEntity** srcEntityPtr = static_cast<ONEngine::GameEntity**>(payload->Data);
+			ONEngine::GameEntity* srcEntity = *srcEntityPtr;
+			pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, nullptr);
 		}
+		ImGui::EndDragDropTarget();
 	}
 
-	// ---------------------------------------------------
-	// 2. 背景クリックで選択解除
-	// ---------------------------------------------------
-	if(ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemActive() && !ImGui::GetIO().KeyCtrl) {
-		ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
+	// 右クリックでコンテキストメニュー
+	if (ImGui::BeginPopupContextItem("SceneHeaderContext")) {
+		DrawMenuEntity();
+		ImGui::Separator();
+		DrawMenuScene();
+		ImGui::EndPopup();
 	}
 
-	// ---------------------------------------------------
-	// 3. ボックス選択 (Marquee Selection)
-	// ---------------------------------------------------
-	if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered()) {
-		isMarqueeSelecting_ = true;
-		marqueeStartPos_ = ImGui::GetMousePos();
-		if (!ImGui::GetIO().KeyCtrl) {
-			ImGuiSelection::ClearSelection();
-		}
-	}
-
-	if (isMarqueeSelecting_) {
-		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
-			isMarqueeSelecting_ = false;
-		} else {
-			ImVec2 mousePos = ImGui::GetMousePos();
-			marqueeMin_ = ImVec2((std::min)(marqueeStartPos_.x, mousePos.x), (std::min)(marqueeStartPos_.y, mousePos.y));
-			marqueeMax_ = ImVec2((std::max)(marqueeStartPos_.x, mousePos.x), (std::max)(marqueeStartPos_.y, mousePos.y));
-
-			// 選択範囲の可視化
-			ImGui::GetForegroundDrawList()->AddRectFilled(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 50));
-			ImGui::GetForegroundDrawList()->AddRect(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 200));
-		}
-	}
-
-	/// 遅延削除の実行
-	if(!deleteQueue_.empty()) {
-		for(const auto& guid : deleteQueue_) {
-			ONEngine::GameEntity* entity = pEcsGroup_->GetEntityFromGuid(guid);
-			if(entity) {
-				pEditorManager_->ExecuteCommand<DeleteEntityCommand>(pEcsGroup_, entity);
+	if (sceneNodeOpen) {
+		// ---------------------------------------------------
+		// 1. 各エンティティの描画
+		// ---------------------------------------------------
+		for (const auto& entity : entities) {
+			// ルートエンティティのみ開始
+			if (!entity->GetParent()) {
+				DrawEntity(entity.get());
 			}
 		}
-		deleteQueue_.clear();
 	}
+// ---------------------------------------------------
+// 2. 背景クリックで選択解除
+// ---------------------------------------------------
+if(ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemActive() && !ImGui::GetIO().KeyCtrl) {
+	ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
+}
+
+// ---------------------------------------------------
+// 3. ボックス選択 (Marquee Selection)
+// ---------------------------------------------------
+if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered()) {
+	isMarqueeSelecting_ = true;
+	marqueeStartPos_ = ImGui::GetMousePos();
+	if (!ImGui::GetIO().KeyCtrl) {
+		ImGuiSelection::ClearSelection();
+	}
+}
+
+if (isMarqueeSelecting_) {
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+		isMarqueeSelecting_ = false;
+	} else {
+		ImVec2 mousePos = ImGui::GetMousePos();
+		marqueeMin_ = ImVec2((std::min)(marqueeStartPos_.x, mousePos.x), (std::min)(marqueeStartPos_.y, mousePos.y));
+		marqueeMax_ = ImVec2((std::max)(marqueeStartPos_.x, mousePos.x), (std::max)(marqueeStartPos_.y, mousePos.y));
+
+		// 選択範囲の可視化
+		ImGui::GetForegroundDrawList()->AddRectFilled(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 50));
+		ImGui::GetForegroundDrawList()->AddRect(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 200));
+	}
+}
+
+/// 遅延削除の実行
+if(!deleteQueue_.empty()) {
+	for(const auto& guid : deleteQueue_) {
+		ONEngine::GameEntity* entity = pEcsGroup_->GetEntityFromGuid(guid);
+		if(entity) {
+			pEditorManager_->ExecuteCommand<DeleteEntityCommand>(pEcsGroup_, entity);
+		}
+	}
+	deleteQueue_.clear();
+}
 }
 
 void HierarchyWindow::EntityRename(ONEngine::GameEntity* entity) {
@@ -136,12 +256,11 @@ void HierarchyWindow::EntityRename(ONEngine::GameEntity* entity) {
 }
 
 void HierarchyWindow::DrawDialog() {
-	if(ImGuiFileDialog::Instance()->Display("Dialog", ImGuiWindowFlags_NoDocking)) {
+	if(ImGuiFileDialog::Instance()->Display("LoadSceneDialog", ImGuiWindowFlags_NoDocking)) {
 		if(ImGuiFileDialog::Instance()->IsOk()) {
 			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
 			std::string sceneName = std::filesystem::path(filePathName).stem().string();
-			pEcsGroup_->RemoveEntityAll();
-			pSceneManager_->GetSceneIO()->Input(sceneName, pEcsGroup_);
+			pSceneManager_->LoadScene(sceneName);
 		}
 		ImGuiFileDialog::Instance()->Close();
 	}

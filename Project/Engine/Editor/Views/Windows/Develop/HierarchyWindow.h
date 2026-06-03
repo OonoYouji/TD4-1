@@ -132,6 +132,10 @@ protected:
 	/// ----- test objects ----- ///
 	bool showInvalidParentPopup_ = false;
 
+	/// ----- new scene ----- ///
+	bool showNewScenePopup_ = false;
+	std::string newSceneName_ = "NewScene";
+
 };
 
 /// ///////////////////////////////////////////////////
