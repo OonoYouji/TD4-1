@@ -77,6 +77,7 @@ public static class BehaviorTreeLoader
             if (className == "Entry")
             {
                 entryNodeId = id;
+                tree.EntryNodeId = (uint)id;
                 foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
                 continue;
             }

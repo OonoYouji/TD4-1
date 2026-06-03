@@ -147,6 +147,13 @@ void AnimationSystem::Update(ECSGroup* _ecs, float _deltaTime) {
                     *static_cast<bool*>(binding.dataPtr) = (floatVal >= 0.5f);
                     break;
                 }
+                case AnimationPlayer::PropertyBinding::Type::Int:
+                {
+                    // Evaluate as float and cast to int
+                    float floatVal = EvaluateTrack<float>(track.keyframes, player->currentTime);
+                    *static_cast<int*>(binding.dataPtr) = static_cast<int>(floatVal);
+                    break;
+                }
                 case AnimationPlayer::PropertyBinding::Type::Float:
                     *static_cast<float*>(binding.dataPtr) = EvaluateTrack<float>(track.keyframes, player->currentTime);
                     break;

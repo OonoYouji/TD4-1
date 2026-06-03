@@ -103,20 +103,28 @@ EDITOR_STATE CreatePrimitiveCommand::Execute() {
 	generatedEntity_ = pEcsGroup_->GenerateEntity(generatedGuid_, false);
 	if (!generatedEntity_) return EDITOR_STATE_FAILED;
 
+	std::string baseName;
 	switch (type_) {
 	case Type::Camera:
-		generatedEntity_->SetName("Camera");
+		baseName = "Camera";
 		generatedEntity_->AddComponent("CameraComponent");
 		break;
 	case Type::DirectionalLight:
-		generatedEntity_->SetName("DirectionalLight");
+		baseName = "DirectionalLight";
 		generatedEntity_->AddComponent("DirectionalLight");
 		break;
 	case Type::Mesh:
-		generatedEntity_->SetName("Mesh");
+		baseName = "Mesh";
 		generatedEntity_->AddComponent("MeshRenderer");
 		break;
 	}
+
+	uint32_t count = pEcsGroup_->CountEntity(baseName);
+	std::string newName = baseName;
+	if (count > 0) {
+		newName += "_" + std::to_string(count);
+	}
+	generatedEntity_->SetName(newName);
 
 	if (parentGuid_.CheckValid()) {
 		ONEngine::GameEntity* parent = pEcsGroup_->GetEntityFromGuid(parentGuid_);
@@ -372,7 +380,6 @@ EDITOR_STATE PasteEntityCommand::Execute() {
 	/// jsonからエンティティを生成
 	std::string originalName = (*copiedEntity)["name"].get<std::string>();
 
-	uint32_t count = pEcsGroup_->CountEntity(originalName);
 	pastedEntity_ = pEcsGroup_->GenerateEntity(ONEngine::GenerateGuid(), ONEngine::DebugConfig::isDebugging);
 	ONEngine::EntityJsonConverter::FromJson(*copiedEntity, pastedEntity_, pEcsGroup_->GetGroupName());
 	if (!pastedEntity_) {
@@ -380,14 +387,20 @@ EDITOR_STATE PasteEntityCommand::Execute() {
 		return EDITOR_STATE_FAILED;
 	}
 
-	/// 新しい名前を設定
-	std::string newName = originalName;
-	if (count > 0) {
-		newName += "_" + std::to_string(count);
-	}
+	/// 新しい名前を設定 (名前被りを回避)
+	std::string baseName = originalName;
+	std::string newName = baseName;
+	int suffixCount = 1;
 
-	if (ONEngine::DebugConfig::isDebugging) {
-		newName += "(Clone)";
+	auto nameExists = [&](const std::string& name) {
+		for (auto& e : pEcsGroup_->GetEntities()) {
+			if (e->GetName() == name) return true;
+		}
+		return false;
+	};
+
+	while (nameExists(newName)) {
+		newName = std::format("{}_{}", baseName, suffixCount++);
 	}
 
 	pastedEntity_->SetName(newName);

@@ -2,50 +2,12 @@
     "active": true,
     "components": [
         {
-            "rotate": {
-                "w": -0.18970488011837006,
-                "x": 0.0,
-                "y": -0.9818412065505981,
-                "z": 0.0
+            "scale": {
+                "x": 2.299999952316284,
+                "y": 2.3000001907348633,
+                "z": 2.299999952316284
             },
             "type": "Transform"
-        },
-        {
-            "BossPerformanceDirector": {
-                "performances": [
-                    {
-                        "__type": "PhasePerformance",
-                        "hpThreshold": 1.100000023841858,
-                        "prefabPath": "BossPhase0Effect.prefab"
-                    }
-                ]
-            },
-            "DamageHandler": {
-                "cooldownTimer": -0.01639770157635212
-            },
-            "HP": {
-                "disableAutoDestruction": true
-            },
-            "type": "Variables"
-        },
-        {
-            "desiredMoveDirection": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "desiredRotation": {
-                "w": 0.19141845405101776,
-                "x": 0.0,
-                "y": 0.9815085530281067,
-                "z": 0.0
-            },
-            "enable": 1,
-            "isAttacking": false,
-            "rotationSpeed": 5.0,
-            "targetEntityId": 0,
-            "type": "AgentIntentComponent",
-            "useDesiredRotation": true
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",

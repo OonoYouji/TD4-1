@@ -16,6 +16,11 @@
             "path": "./GameScene/Light.entity"
         },
         {
+            "guid": "13710f0772c050eda45cdb385fabe59f",
+            "parentGuid": null,
+            "path": "./GameScene/GameController.entity"
+        },
+        {
             "guid": "50ee0d6d6376d262198a7126f641b924",
             "parentGuid": null,
             "path": "./GameScene/Player.entity"
@@ -114,6 +119,26 @@
             "guid": "879d162485a858be132bcade93f885ad",
             "parentGuid": null,
             "path": "./GameScene/FieldManager.entity"
+        },
+        {
+            "guid": "69380c54338c5316895cb905a14267b6",
+            "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
+            "path": "./GameScene/Phase0_WP.entity"
+        },
+        {
+            "guid": "1f6603a52f4d4bf11fca075892d8affc",
+            "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
+            "path": "./GameScene/Phase0_WP_1.entity"
+        },
+        {
+            "guid": "fb787edf9906f6e771822faea8f80112",
+            "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
+            "path": "./GameScene/Phase0_WP_2.entity"
+        },
+        {
+            "guid": "c757553477e6ca25971ea23fac2bf11e",
+            "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
+            "path": "./GameScene/Phase0_WP_3.entity"
         }
     ]
 }

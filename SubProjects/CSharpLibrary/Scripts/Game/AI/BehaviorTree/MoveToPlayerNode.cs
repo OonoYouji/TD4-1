@@ -2,15 +2,30 @@ using System;
 
 /// <summary>
 /// プレイヤー（または指定された対象）に向かって移動を試みるアクションノード。
-/// Transformを直接操作するのではなく、AIの「意図（AgentIntentComponent）」に移動方向を書き込み、
-/// 実際の移動処理はC++側のMovementSystemに委譲するアーキテクチャを採用している。
+/// 拡張：アニメーションクリップの時間に基づいた自動待機に対応。
 /// </summary>
 public class MoveToPlayerNode : BehaviorNode
 {
-    /// <summary>
-    /// ターゲットにどれだけ近づいたら移動を完了（Success）とみなすかの距離。
-    /// </summary>
     public float stopDistance = 2.0f;
+
+    public string startAnim = "";
+    public string loopAnim = "";
+    public string endAnim = "";
+
+    /// <summary>
+    /// trueの場合、インスペクタでの待機時間を無視し、
+    /// アニメーションクリップの実際の長さを使用します。
+    /// </summary>
+    public bool useClipDuration = true;
+    public float startWaitTime = 0.0f;
+    public float endWaitTime = 0.0f;
+
+    private enum MoveState
+    {
+        Start,
+        Moving,
+        End
+    }
 
     public MoveToPlayerNode() { }
 
@@ -19,72 +34,135 @@ public class MoveToPlayerNode : BehaviorNode
         this.stopDistance = stopDistance;
     }
 
-    /// <summary>
-    /// プレイヤーの位置を特定し、そこへの方向ベクトルを計算してIntentに設定する。
-    /// </summary>
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        // 1. プレイヤーエンティティを検索
-        Entity player = FindPlayer(owner);
-        if (player == null) {
-            Debug.LogWarning($"MoveToPlayerNode: Player not found from owner {owner.Id}");
-            return NodeStatus.Failure;
+        uint stateKey = BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash);
+        uint timerKey = BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash);
+        uint durationKey = BehaviorTreeLoader.HashString("WaitDur_" + NodeIdHash);
+
+        MoveState state = (MoveState)blackboard.GetInt(stateKey, (int)MoveState.Start);
+        float currentTime = Time.time;
+
+        var animator = owner.GetComponent<Animator>();
+        var aiIntent = owner.GetComponent<AgentIntentComponent>();
+        var animPlayer = owner.GetComponent<ONEngine.AnimationPlayer>();
+
+        if (animator == null && animPlayer == null)
+        {
+            if (Tree != null && Tree.TickCount % 100 == 0) Debug.LogError($"[MoveToPlayer] No animation component found on '{owner.name}'!");
         }
+
+        // 1. 開始演出フェーズ
+        if (state == MoveState.Start)
+        {
+            if (!blackboard.HasKey(timerKey))
+            {
+                float waitTime = startWaitTime;
+                if (!string.IsNullOrEmpty(startAnim))
+                {
+                    if (animator != null) {
+                        Debug.Log($"[MoveToPlayer] '{owner.name}' playing StartAnim: '{startAnim}' via Animator");
+                        animator.CrossFade(startAnim, 0.1f);
+                        if (useClipDuration) waitTime = animator.GetAnimationDuration(startAnim);
+                    } else if (animPlayer != null) {
+                        Debug.Log($"[MoveToPlayer] '{owner.name}' playing StartAnim via AnimationPlayer (Fallback)");
+                        animPlayer.Play();
+                    }
+                }
+                blackboard.SetFloat(timerKey, currentTime);
+                blackboard.SetFloat(durationKey, waitTime);
+            }
+
+            if (currentTime - blackboard.GetFloat(timerKey) >= blackboard.GetFloat(durationKey))
+            {
+                Debug.Log($"[MoveToPlayer] Start animation finished. Moving.");
+                blackboard.Remove(timerKey);
+                blackboard.Remove(durationKey);
+                blackboard.SetInt(stateKey, (int)MoveState.Moving);
+                state = MoveState.Moving;
+                
+                if (!string.IsNullOrEmpty(loopAnim))
+                {
+                    if (animator != null) animator.CrossFade(loopAnim, 0.2f);
+                    else if (animPlayer != null) animPlayer.Play();
+                }
+            }
+            else return NodeStatus.Running;
+        }
+
+        Entity player = FindPlayer(owner);
+        if (player == null) return NodeStatus.Failure;
 
         Vector3 playerPos = player.transform.position;
         Vector3 ownerPos = owner.transform.position;
-
-        // 2. プレイヤーへのベクトルと距離を計算
         Vector3 diff = playerPos - ownerPos;
         float distance = diff.Length();
 
-        // （デバッグ用のログ出力）
-        Debug.Log($"MoveToPlayerNode: [Owner:{owner.name} ID:{owner.Id}] Pos={ownerPos}");
-        Debug.Log($"MoveToPlayerNode: [Player:{player.name} ID:{player.Id}] Pos={playerPos}");
-        Debug.Log($"MoveToPlayerNode: Diff={diff}, Dist={distance}");
-
-        // 3. 到着判定
-        if (distance <= stopDistance)
+        // 2. 移動フェーズ
+        if (state == MoveState.Moving)
         {
-            Debug.Log($"MoveToPlayerNode: Arrived at player.");
-            
-            // 到着したため、移動の意図をリセットして停止させる
-            var intent = owner.GetComponent<AgentIntentComponent>();
-            if (intent != null)
+            if (distance <= stopDistance)
             {
-                intent.desiredMoveDirection = Vector3.zero;
+                blackboard.SetInt(stateKey, (int)MoveState.End);
+                state = MoveState.End;
+                
+                if (!string.IsNullOrEmpty(endAnim) && animator != null)
+                {
+                    animator.CrossFade(endAnim, 0.1f);
+                }
+                
+                if (aiIntent != null) aiIntent.desiredMoveDirection = Vector3.zero;
             }
-            return NodeStatus.Success;
+            else
+            {
+                if (aiIntent != null)
+                {
+                    Vector3 dir = diff.Normalized();
+                    aiIntent.desiredMoveDirection = dir;
+                    if (dir.sqrMagnitude > 0.001f)
+                    {
+                        aiIntent.desiredRotation = Quaternion.LookRotation(dir, Vector3.up);
+                        aiIntent.useDesiredRotation = true;
+                    }
+                }
+                return NodeStatus.Running;
+            }
         }
 
-        // 4. 移動方向の設定（Running状態）
-        var aiIntent = owner.GetComponent<AgentIntentComponent>();
-        if (aiIntent != null)
+        // 3. 終了演出フェーズ
+        if (state == MoveState.End)
         {
-            // プレイヤーの方向へ向かう正規化ベクトルをIntentに書き込む
-            Vector3 dir = diff.Normalized();
-            aiIntent.desiredMoveDirection = dir;
-            Debug.Log($"MoveToPlayerNode: SET INTENT DIRECTION: {aiIntent.desiredMoveDirection}");
+            if (!blackboard.HasKey(timerKey))
+            {
+                float waitTime = endWaitTime;
+                if (!string.IsNullOrEmpty(endAnim) && animator != null && useClipDuration)
+                {
+                    waitTime = animator.GetAnimationDuration(endAnim);
+                }
+                blackboard.SetFloat(timerKey, currentTime);
+                blackboard.SetFloat(durationKey, waitTime);
+            }
+
+            if (currentTime - blackboard.GetFloat(timerKey) >= blackboard.GetFloat(durationKey))
+            {
+                blackboard.Remove(stateKey);
+                blackboard.Remove(timerKey);
+                blackboard.Remove(durationKey);
+                return NodeStatus.Success;
+            }
+            else return NodeStatus.Running;
         }
 
-        // まだ到着していないため、次フレームも継続して評価する
         return NodeStatus.Running;
-
     }
 
-    /// <summary>
-    /// プレイヤーエンティティをECSグループから検索する内部メソッド。
-    /// </summary>
     private Entity FindPlayer(Entity owner)
     {
-        // まず、オーナーと同じグループから探す
         var group = owner.Group;
         if (group != null) {
             var p = group.FindEntity("Player");
             if (p != null) return p;
         }
-
-        // 見つからなければ、一般的なゲームシーンのグループから探す
         string[] commonGroups = { "GameScene", "Game", "Debug", "PlayerDevelopScene", "Workspace_PlayerBullet" };
         foreach (var name in commonGroups) {
             var g = EntityComponentSystem.GetECSGroup(name);
@@ -93,7 +171,20 @@ public class MoveToPlayerNode : BehaviorNode
                 if (p != null) return p;
             }
         }
-
         return null;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        blackboard.Remove(BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("WaitDur_" + NodeIdHash));
+
+        var intent = owner.GetComponent<AgentIntentComponent>();
+        if (intent != null)
+        {
+            intent.desiredMoveDirection = Vector3.zero;
+            intent.useDesiredRotation = false;
+        }
     }
 }

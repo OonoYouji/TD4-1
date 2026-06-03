@@ -324,6 +324,7 @@ copy "$(ProjectDir)Packages\Scripts\lib\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentEditCommands.h" />
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ComponentJsonConverter.h" />
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ModifyScriptVariableCommand.h" />
+    <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ModifyTransformCommand.h" />
     <ClInclude Include="Engine\Editor\Commands\IEditCommand.h" />
     <ClInclude Include="Engine\Editor\Commands\ImGuiCommand\FocusEntityCommand.h" />
     <ClInclude Include="Engine\Editor\Commands\ImGuiCommand\ImGuiCommand.h" />

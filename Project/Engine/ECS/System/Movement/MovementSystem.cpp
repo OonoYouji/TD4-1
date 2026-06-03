@@ -46,7 +46,7 @@ void MovementSystem::RuntimeUpdate(ECSGroup* _ecs) {
         }
 
         // --- 2. 移動の処理 ---
-        float targetSpeed = 8.0f;    // 目標速度 (仕様に合わせて調整)
+        float targetSpeed = intent->maxSpeed;    // コンポーネントから目標速度を取得
         float acceleration = 25.0f;  // 加速度
         float deceleration = 35.0f;  // 減速度
 
