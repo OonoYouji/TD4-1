@@ -103,20 +103,28 @@ EDITOR_STATE CreatePrimitiveCommand::Execute() {
 	generatedEntity_ = pEcsGroup_->GenerateEntity(generatedGuid_, false);
 	if (!generatedEntity_) return EDITOR_STATE_FAILED;
 
+	std::string baseName;
 	switch (type_) {
 	case Type::Camera:
-		generatedEntity_->SetName("Camera");
+		baseName = "Camera";
 		generatedEntity_->AddComponent("CameraComponent");
 		break;
 	case Type::DirectionalLight:
-		generatedEntity_->SetName("DirectionalLight");
+		baseName = "DirectionalLight";
 		generatedEntity_->AddComponent("DirectionalLight");
 		break;
 	case Type::Mesh:
-		generatedEntity_->SetName("Mesh");
+		baseName = "Mesh";
 		generatedEntity_->AddComponent("MeshRenderer");
 		break;
 	}
+
+	uint32_t count = pEcsGroup_->CountEntity(baseName);
+	std::string newName = baseName;
+	if (count > 0) {
+		newName += "_" + std::to_string(count);
+	}
+	generatedEntity_->SetName(newName);
 
 	if (parentGuid_.CheckValid()) {
 		ONEngine::GameEntity* parent = pEcsGroup_->GetEntityFromGuid(parentGuid_);

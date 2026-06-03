@@ -402,32 +402,69 @@ void AnimationEditorWindow::ShowImGui() {
         }
 
         if (ImGui::BeginPopup("AddTrackPopup")) {
+            ImGui::SetNextItemWidth(200);
+            if (ImGui::InputText("Search", addTrackSearchBuf, sizeof(addTrackSearchBuf))) {
+                // 自動で小文字にするなどの処理が必要ならここで行う
+            }
+            ImGui::Separator();
+
             auto addTrack = [&](const std::string& comp, const std::string& prop, const std::variant<float, Vector2, Vector3, Vector4>& val) {
                 sequence.clipCopy = *mutableClip;
                 mutableClip->tracks.push_back({ comp, prop, { {mutableClip->startFrame / 60.0f, val, "Linear"} } });
                 sequence.SetClip(mutableClip);
                 selectedEntry = (int)mutableClip->tracks.size() - 1;
                 EditCommand::Execute<ModifyAnimationClipCommand>(mutableClip, sequence.clipCopy, *mutableClip);
+                addTrackSearchBuf[0] = '\0'; // 成功したらクリア
+                ImGui::CloseCurrentPopup();
             };
 
-            if (ImGui::MenuItem("Transform/Position (Vec3)")) addTrack("Transform", "position", Vector3(0,0,0));
-            if (ImGui::MenuItem("Transform/Rotation (Vec3 Euler)")) addTrack("Transform", "rotation", Vector3(0,0,0));
-            if (ImGui::MenuItem("Transform/Scale (Vec3)")) addTrack("Transform", "scale", Vector3(1,1,1));
-            ImGui::Separator();
-            if (ImGui::MenuItem("MeshRenderer/UV Offset (Vec2)")) addTrack("MeshRenderer", "uvOffset", Vector2(0, 0));
-            if (ImGui::MenuItem("MeshRenderer/UV Scale (Vec2)")) addTrack("MeshRenderer", "uvScale", Vector2(1, 1));
-            if (ImGui::MenuItem("MeshRenderer/UV Rotation (Float)")) addTrack("MeshRenderer", "uvRotation", 0.0f);
-            ImGui::Separator();
-            if (ImGui::MenuItem("SpriteRenderer/UV Offset (Vec2)")) addTrack("SpriteRenderer", "uvOffset", Vector2(0, 0));
-            if (ImGui::MenuItem("SpriteRenderer/Color (Vec4)")) addTrack("SpriteRenderer", "color", Vector4(1, 1, 1, 1));
-            ImGui::Separator();
-            if (ImGui::MenuItem("ParticleSystem/Emission Rate (Float)")) addTrack("ParticleSystem", "emission.rateOverTime", 10.0f);
-            if (ImGui::MenuItem("ParticleSystem/Emission Enabled (Bool)")) addTrack("ParticleSystem", "emission.enabled", 1.0f);
-            if (ImGui::MenuItem("ParticleSystem/Start Color (Vec4)")) addTrack("ParticleSystem", "main.startColor", Vector4(1, 1, 1, 1));
-            if (ImGui::MenuItem("ParticleSystem/Start Speed (Float)")) addTrack("ParticleSystem", "main.startSpeed", 5.0f);
-            if (ImGui::MenuItem("ParticleSystem/Start Size (Float)")) addTrack("ParticleSystem", "main.startSize", 1.0f);
-            ImGui::Separator();
-            if (ImGui::MenuItem("Custom (Float)")) addTrack("Transform", "position.x", 0.0f);
+            std::string search = addTrackSearchBuf;
+            auto matches = [&](const std::string& text) {
+                if (search.empty()) return true;
+                std::string t = text;
+                std::transform(t.begin(), t.end(), t.begin(), ::tolower);
+                std::string s = search;
+                std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+                return t.find(s) != std::string::npos;
+            };
+
+            // --- Define all possible tracks ---
+            struct TrackTemplate { std::string label; std::string comp; std::string prop; std::variant<float, Vector2, Vector3, Vector4> val; };
+            std::vector<TrackTemplate> templates = {
+                { "Transform/Position (Vec3)", "Transform", "position", Vector3(0,0,0) },
+                { "Transform/Rotation (Euler)", "Transform", "rotation", Vector3(0,0,0) },
+                { "Transform/Scale (Vec3)", "Transform", "scale", Vector3(1,1,1) },
+                { "MeshRenderer/UV Offset (Vec2)", "MeshRenderer", "uvOffset", Vector2(0,0) },
+                { "MeshRenderer/UV Scale (Vec2)", "MeshRenderer", "uvScale", Vector2(1,1) },
+                { "MeshRenderer/UV Rotation (Float)", "MeshRenderer", "uvRotation", 0.0f },
+                { "MeshRenderer/Color (Vec4)", "MeshRenderer", "color", Vector4(1,1,1,1) },
+                { "DissolveMesh/Threshold (Float)", "DissolveMeshRenderer", "threshold", 1.0f },
+                { "DissolveMesh/Edge Width (Float)", "DissolveMeshRenderer", "edgeWidth", 0.05f },
+                { "DissolveMesh/Edge Color (Vec4)", "DissolveMeshRenderer", "edgeColor", Vector4(1,0.5f,0,1) },
+                { "DissolveMesh/UV Offset (Vec2)", "DissolveMeshRenderer", "uvOffset", Vector2(0,0) },
+                { "SpriteRenderer/UV Offset (Vec2)", "SpriteRenderer", "uvOffset", Vector2(0,0) },
+                { "SpriteRenderer/Color (Vec4)", "SpriteRenderer", "color", Vector4(1,1,1,1) },
+                { "Particle/Emission Rate (Float)", "ParticleSystem", "emission.rateOverTime", 10.0f },
+                { "Particle/Emission Enabled (Bool)", "ParticleSystem", "emission.enabled", 1.0f },
+                { "Particle/Start Color (Vec4)", "ParticleSystem", "main.startColor", Vector4(1,1,1,1) },
+                { "Particle/Start Speed (Float)", "ParticleSystem", "main.startSpeed", 5.0f },
+                { "Particle/Start Size (Float)", "ParticleSystem", "main.startSize", 1.0f },
+                { "Light/Intensity (Float)", "Light", "intensity", 1.0f },
+                { "Light/Color (Vec4)", "Light", "color", Vector4(1,1,1,1) },
+                { "Custom (Float)", "Transform", "position.x", 0.0f }
+            };
+
+            std::string lastGroup = "";
+            for (const auto& t : templates) {
+                if (matches(t.label)) {
+                    std::string group = t.label.substr(0, t.label.find('/'));
+                    if (lastGroup != "" && group != lastGroup) ImGui::Separator();
+                    lastGroup = group;
+
+                    if (ImGui::MenuItem(t.label.c_str())) addTrack(t.comp, t.prop, t.val);
+                }
+            }
+            
             ImGui::EndPopup();
         }
 

@@ -34,11 +34,14 @@ public class PlayerSmashUp : MonoScript
     // ライフサイクル
     // =========================================================
 
+    private Player player_;
+
     public override void Initialize()
     {
         Entity managerEntity = ecsGroup.FindEntity("FieldManager");
         if (managerEntity != null)
             fieldManager_ = managerEntity.GetScript<FieldManager>();
+        player_ = entity.GetScript<Player>();
     }
 
     public override void Update()
@@ -56,6 +59,9 @@ public class PlayerSmashUp : MonoScript
     }
     public void Play()
     {
+        if (player_ != null && player_.IsFrozen) {
+            return;
+        }
 
         // 元の位置を保存
         originPos_ = transform.position;

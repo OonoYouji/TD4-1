@@ -1,4 +1,4 @@
-#include "AnimationPlayer.h"
+﻿#include "AnimationPlayer.h"
 
 /// external
 #include <imgui.h>
@@ -14,11 +14,18 @@
 #include "Engine/ECS/Component/Components/ComputeComponents/Transform/Transform.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Mesh/MeshRenderer.h"
 #include "Engine/ECS/Component/Components/RendererComponents/Sprite/SpriteRenderer.h"
+#include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/ParticleSystem/ParticleSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Light/Light.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Variables/Variables.h"
 #include "Engine/Script/MonoScriptEngine.h"
+#include "Engine/ECS/Component/Components/RendererComponents/Mesh/DissolveMeshRenderer.h"
 #include <functional>
+
+/// editor
+#include "Engine/Editor/Math/ImGuiMath.h"
+#include "Engine/Editor/Math/AssetDebugger.h"
+#include "Engine/Editor/Math/AssetPayload.h"
 
 using namespace ONEngine;
 
@@ -58,9 +65,34 @@ namespace {
         mr["material.uvTransform.scale"] = { Type::Vector2, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.scale; } };
         mr["material.uvTransform.rotate"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.rotate; } };
         mr["material.baseColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().baseColor; } };
+        mr["material.baseColor.r"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().baseColor.x; } };
+        mr["material.baseColor.g"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().baseColor.y; } };
+        mr["material.baseColor.b"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().baseColor.z; } };
+        mr["material.baseColor.a"] = { Type::Float, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().baseColor.w; } };
+        mr["color"] = mr["material.baseColor"];
+        mr["color.r"] = mr["material.baseColor.r"];
+        mr["color.g"] = mr["material.baseColor.g"];
+        mr["color.b"] = mr["material.baseColor.b"];
+        mr["color.a"] = mr["material.baseColor.a"];
+        mr["Color"] = mr["color"]; // 大文字対応
         mr["uvOffset"] = mr["material.uvTransform.position"];
         mr["uvScale"] = mr["material.uvTransform.scale"];
         mr["uvRotation"] = mr["material.uvTransform.rotate"];
+        mr["postEffectFlags"] = { Type::Int, [](IComponent* c) { return &static_cast<MeshRenderer*>(c)->GetMaterialForAnimation().postEffectFlags; } };
+
+        // --- DissolveMeshRenderer ---
+        auto& dmr = g_PropRegistry["DissolveMeshRenderer"];
+        dmr["material.uvTransform.position"] = { Type::Vector2, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.position; } };
+        dmr["material.uvTransform.scale"] = { Type::Vector2, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.scale; } };
+        dmr["material.uvTransform.rotate"] = { Type::Float, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().uvTransform.rotate; } };
+        dmr["material.baseColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetMaterialForAnimation().baseColor; } };
+        dmr["threshold"] = { Type::Float, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetThresholdForAnimation(); } };
+        dmr["edgeWidth"] = { Type::Float, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetEdgeWidthForAnimation(); } };
+        dmr["edgeColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<DissolveMeshRenderer*>(c)->GetEdgeColorForAnimation(); } };
+        dmr["color"] = dmr["material.baseColor"];
+        dmr["uvOffset"] = dmr["material.uvTransform.position"];
+        dmr["uvScale"] = dmr["material.uvTransform.scale"];
+        dmr["uvRotation"] = dmr["material.uvTransform.rotate"];
 
         // --- SpriteRenderer ---
         auto& sr = g_PropRegistry["SpriteRenderer"];
@@ -68,7 +100,16 @@ namespace {
         sr["material.uvTransform.scale"] = { Type::Vector2, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().uvTransform.scale; } };
         sr["material.uvTransform.rotate"] = { Type::Float, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().uvTransform.rotate; } };
         sr["material.baseColor"] = { Type::Vector4, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().baseColor; } };
+        sr["material.baseColor.r"] = { Type::Float, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().baseColor.x; } };
+        sr["material.baseColor.g"] = { Type::Float, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().baseColor.y; } };
+        sr["material.baseColor.b"] = { Type::Float, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().baseColor.z; } };
+        sr["material.baseColor.a"] = { Type::Float, [](IComponent* c) { return &static_cast<SpriteRenderer*>(c)->GetMaterialForAnimation().baseColor.w; } };
         sr["color"] = sr["material.baseColor"];
+        sr["color.r"] = sr["material.baseColor.r"];
+        sr["color.g"] = sr["material.baseColor.g"];
+        sr["color.b"] = sr["material.baseColor.b"];
+        sr["color.a"] = sr["material.baseColor.a"];
+        sr["Color"] = sr["color"];
         sr["uvOffset"] = sr["material.uvTransform.position"];
         sr["uvScale"] = sr["material.uvTransform.scale"];
         sr["uvRotation"] = sr["material.uvTransform.rotate"];
@@ -271,6 +312,17 @@ void ComponentDebug::AnimationPlayerDebug(AnimationPlayer* _player) {
     strncpy_s(pathBuf, _player->clipPath.c_str(), sizeof(pathBuf));
     if (ImGui::InputText("Clip Path", pathBuf, sizeof(pathBuf))) {
         _player->SetClip(pathBuf);
+    }
+
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+            if (payload->Data) {
+                Editor::AssetPayload* assetPayload = *static_cast<Editor::AssetPayload**>(payload->Data);
+                std::string path = assetPayload->filePath;
+                _player->SetClip(path);
+            }
+        }
+        ImGui::EndDragDropTarget();
     }
 
     ImGui::DragFloat("Current Time", &_player->currentTime, 0.01f);

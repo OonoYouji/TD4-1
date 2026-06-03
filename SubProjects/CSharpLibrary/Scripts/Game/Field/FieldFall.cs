@@ -11,15 +11,19 @@ public class FieldFall : MonoScript
     [SerializeField] public float returnDuration = 0.3f;
 
     // 内部状態
+    private float originX_;
     private float originY_;
+    private float originZ_;
     private float timer_;
     private bool isPlaying_;
     private System.Action currentPhase_;
 
     public override void Initialize()
     {
-
-        originY_ = transform.position.y;
+        Vector3 p = transform.position;
+        originX_ = p.x;
+        originY_ = p.y;
+        originZ_ = p.z;
         isPlaying_ = false;
         currentPhase_ = null;
     }
@@ -44,7 +48,10 @@ public class FieldFall : MonoScript
         }
 
         // 元の位置を保存
-        originY_ = transform.position.y;
+        Vector3 origin = transform.position;
+        originX_ = origin.x;
+        originY_ = origin.y;
+        originZ_ = origin.z;
 
         // タイマーをリセットして再生開始
         timer_ = 0f;
@@ -55,11 +62,9 @@ public class FieldFall : MonoScript
     private void Falling()
     {
 
-        // 落下する動き
+        // 落下する動き（XZ は origin に固定して Y のみ変化させる）
         float t = Mathf.Clamp01(timer_ / fallDuration);
-        Vector3 pos = transform.position;
-        pos.y = originY_ - fallDistance * t;
-        transform.position = pos;
+        transform.position = new Vector3(originX_, originY_ - fallDistance * t, originZ_);
 
 
         // 落下が終わったら待機フェーズに移行
@@ -84,18 +89,14 @@ public class FieldFall : MonoScript
     private void Returning()
     {
 
-        // 元に戻る動き
+        // 元に戻る動き（XZ は origin に固定して Y のみ変化させる）
         float t = Mathf.Clamp01(timer_ / returnDuration);
-        Vector3 pos = transform.position;
-        pos.y = (originY_ - fallDistance) + fallDistance * t;
-        transform.position = pos;
-
+        transform.position = new Vector3(originX_, (originY_ - fallDistance) + fallDistance * t, originZ_);
 
         // 元に戻ったら再生終了
         if (timer_ >= returnDuration)
         {
-            pos.y = originY_;
-            transform.position = pos;
+            transform.position = new Vector3(originX_, originY_, originZ_);
             isPlaying_ = false;
             currentPhase_ = null;
         }
