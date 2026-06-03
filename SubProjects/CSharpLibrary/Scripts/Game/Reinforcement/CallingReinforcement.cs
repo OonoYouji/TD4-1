@@ -47,7 +47,7 @@ public class CallingReinforcement : MonoScript
     public override void Update()
     {
         // 消えた援軍をリストから掃除する
-        activeReinforcements.RemoveAll(e => e == null || !e.enable);
+        activeReinforcements.RemoveAll(e => e == null || e.Id == 0 || !e.enable);
         HandleFiring();
         HandleRetreat();
     }

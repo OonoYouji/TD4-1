@@ -21,6 +21,12 @@ public class ReinforcementDamageHandler : MonoScript
 
     public override void Update()
     {
+        // すでにDestroy済みなら何もしない
+        if (entity.Id == 0)
+        {
+            return;
+        }
+
         if (cooldownTimer > 0)
         {
             cooldownTimer -= Time.deltaTime;

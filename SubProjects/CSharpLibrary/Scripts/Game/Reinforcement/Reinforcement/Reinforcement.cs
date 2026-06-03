@@ -83,6 +83,8 @@ public partial class Reinforcement : MonoScript
     private bool    supportBuffApplied_ = false;
     // スケール変化のログを1回だけ出すためのフラグ
     private bool    scaleLoggedOnce_    = false;
+    // 前回のスケール適用状態
+    private ReinforcementState lastAppliedState_ = ReinforcementState.Normal;
 
     // 各種参照
     private Entity              cameraEntity  = null;
@@ -106,8 +108,9 @@ public partial class Reinforcement : MonoScript
         isCollisionEnabled  = false;
         isDestroyReserved   = false;
         supportBuffApplied_ = false;
-        scaleLoggedOnce_    = false;
-        state_              = ReinforcementState.Normal;
+        scaleLoggedOnce_     = false;
+        lastAppliedState_    = ReinforcementState.Normal;
+        state_               = ReinforcementState.Normal;
         timer               = 0.0f;
         spawnDelayFrames    = 2;
         colorSaved          = false;
@@ -136,6 +139,12 @@ public partial class Reinforcement : MonoScript
 
     public override void Update()
     {
+        // すでにDestroy済みなら何もしない
+        if (entity.Id == 0)
+        {
+            return;
+        }
+
         // Destroy予約済みなら即削除
         if (isDestroyReserved)
         {
@@ -245,15 +254,19 @@ public partial class Reinforcement : MonoScript
         return false;
     }
 
-    // 状態に応じたスケールを毎フレーム強制セット
+    // 状態が変化した時だけスケールを書き込む（毎フレーム書くとエディタのコマンド履歴がたまってクラッシュする）
     private void ApplyStateScale()
     {
+        if (state_ == lastAppliedState_)
+        {
+            return;
+        }
+
         float target = 1.0f;
         if (state_ == ReinforcementState.Supported)
         {
             target = supportedScale;
 
-            // 初回だけスケール適用のログを出す
             if (!scaleLoggedOnce_)
             {
                 Debug.Log($"<color=orange>[ApplyStateScale]</color> {entity.name} scale → {supportedScale}");
@@ -262,6 +275,7 @@ public partial class Reinforcement : MonoScript
         }
 
         transform.scale = new Vector3(target, target, target);
+        lastAppliedState_ = state_;
     }
 
     // =========================================================

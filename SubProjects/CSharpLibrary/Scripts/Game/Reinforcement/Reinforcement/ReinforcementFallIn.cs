@@ -47,8 +47,20 @@ public class ReinforcementFallIn : MonoScript
 
     public override void Update()
     {
+        // すでにDestroy済みなら何もしない
+        if (entity.Id == 0)
+        {
+            return;
+        }
+
         // 何もしていない時は早期リターン
         if (!isActive_ && !isLaunched_)
+        {
+            return;
+        }
+
+        // transformがnullの場合もスキップ
+        if (transform == null)
         {
             return;
         }

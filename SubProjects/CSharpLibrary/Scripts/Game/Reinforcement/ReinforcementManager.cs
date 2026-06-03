@@ -27,7 +27,7 @@ public class ReinforcementManager : MonoScript
     public override void Update()
     {
         // 死んだEntityは毎フレームリストから除く
-        reinforcements.RemoveAll(e => e == null);
+        reinforcements.RemoveAll(e => e == null || e.Id == 0);
 
         if (playerEntity == null)
         {

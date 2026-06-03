@@ -24,9 +24,9 @@
         },
         {
             "HP": {
-                "MAX_HP": 0,
-                "currentHp": 0,
-                "disableAutoDestruction": false
+                "MAX_HP": 10,
+                "currentHp": 10,
+                "disableAutoDestruction": true
             },
             "Reinforcement": {
                 "damage": 10.0,

@@ -107,9 +107,9 @@ public class ShowIndicatorNode : BehaviorNode
             Entity telegraph = owner.Group.CreateEntity(prefabName);
             if (telegraph != null)
             {
-                telegraph.parent = null;
+    
 
-                // 色の設定（自身または子供のMeshRendererを探す）
+                // 色の設定
                 var renderer = telegraph.GetComponent<MeshRenderer>();
                 if (renderer == null)
                 {
