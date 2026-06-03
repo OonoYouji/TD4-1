@@ -84,6 +84,8 @@ protected:
 	/// @param entity 表示対象のエンティティ
 	void DrawEntity(ONEngine::GameEntity* entity);
 
+	void DrawReorderSeparator(ONEngine::GameEntity* parent, uint32_t index);
+
 	void HandleRootDragDrop();
 
 	void HandleEntityDragDrop(ONEngine::GameEntity* entity);

@@ -55,11 +55,16 @@ void HierarchyWindow::ShowImGui() {
 	DrawMenuBar();
 	ImGui::Separator();
 
+	// スクロール可能なエリアを開始
+	ImGui::BeginChild("HierarchyScrollArea", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+
 	/// ヒエラルキーの描画
 	DrawHierarchy();
 
 	/// ドラッグ＆ドロップの受け入れ（ルートへの移動用余白を確保）
 	HandleRootDragDrop();
+
+	ImGui::EndChild();
 
 	ImGui::End();
 
@@ -175,7 +180,8 @@ void HierarchyWindow::DrawHierarchy() {
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EntityData")) {
 			ONEngine::GameEntity** srcEntityPtr = static_cast<ONEngine::GameEntity**>(payload->Data);
 			ONEngine::GameEntity* srcEntity = *srcEntityPtr;
-			pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, nullptr);
+			// ルートの先頭に配置
+			pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, nullptr, 0);
 		}
 		ImGui::EndDragDropTarget();
 	}
@@ -192,55 +198,92 @@ void HierarchyWindow::DrawHierarchy() {
 		// ---------------------------------------------------
 		// 1. 各エンティティの描画
 		// ---------------------------------------------------
+		uint32_t rootIndex = 0;
 		for (const auto& entity : entities) {
 			// ルートエンティティのみ開始
 			if (!entity->GetParent()) {
+				DrawReorderSeparator(nullptr, rootIndex);
 				DrawEntity(entity.get());
+				rootIndex++;
 			}
 		}
+		// 最後の隙間
+		DrawReorderSeparator(nullptr, rootIndex);
 	}
-// ---------------------------------------------------
-// 2. 背景クリックで選択解除
-// ---------------------------------------------------
-if(ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemActive() && !ImGui::GetIO().KeyCtrl) {
-	ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
-}
 
-// ---------------------------------------------------
-// 3. ボックス選択 (Marquee Selection)
-// ---------------------------------------------------
-if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered()) {
-	isMarqueeSelecting_ = true;
-	marqueeStartPos_ = ImGui::GetMousePos();
-	if (!ImGui::GetIO().KeyCtrl) {
-		ImGuiSelection::ClearSelection();
+	// ---------------------------------------------------
+	// 2. 背景クリックで選択解除
+	// ---------------------------------------------------
+	if(ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemActive() && !ImGui::GetIO().KeyCtrl) {
+		ImGuiSelection::SetSelectedObject(ONEngine::Guid::kInvalid, SelectionType::None);
 	}
-}
 
-if (isMarqueeSelecting_) {
-	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
-		isMarqueeSelecting_ = false;
-	} else {
-		ImVec2 mousePos = ImGui::GetMousePos();
-		marqueeMin_ = ImVec2((std::min)(marqueeStartPos_.x, mousePos.x), (std::min)(marqueeStartPos_.y, mousePos.y));
-		marqueeMax_ = ImVec2((std::max)(marqueeStartPos_.x, mousePos.x), (std::max)(marqueeStartPos_.y, mousePos.y));
-
-		// 選択範囲の可視化
-		ImGui::GetForegroundDrawList()->AddRectFilled(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 50));
-		ImGui::GetForegroundDrawList()->AddRect(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 200));
-	}
-}
-
-/// 遅延削除の実行
-if(!deleteQueue_.empty()) {
-	for(const auto& guid : deleteQueue_) {
-		ONEngine::GameEntity* entity = pEcsGroup_->GetEntityFromGuid(guid);
-		if(entity) {
-			pEditorManager_->ExecuteCommand<DeleteEntityCommand>(pEcsGroup_, entity);
+	// ---------------------------------------------------
+	// 3. ボックス選択 (Marquee Selection)
+	// ---------------------------------------------------
+	if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered()) {
+		isMarqueeSelecting_ = true;
+		marqueeStartPos_ = ImGui::GetMousePos();
+		if (!ImGui::GetIO().KeyCtrl) {
+			ImGuiSelection::ClearSelection();
 		}
 	}
-	deleteQueue_.clear();
+
+	if (isMarqueeSelecting_) {
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+			isMarqueeSelecting_ = false;
+		} else {
+			ImVec2 mousePos = ImGui::GetMousePos();
+			marqueeMin_ = ImVec2((std::min)(marqueeStartPos_.x, mousePos.x), (std::min)(marqueeStartPos_.y, mousePos.y));
+			marqueeMax_ = ImVec2((std::max)(marqueeStartPos_.x, mousePos.x), (std::max)(marqueeStartPos_.y, mousePos.y));
+
+			// 選択範囲の可視化
+			ImGui::GetForegroundDrawList()->AddRectFilled(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 50));
+			ImGui::GetForegroundDrawList()->AddRect(marqueeMin_, marqueeMax_, ImColor(100, 150, 255, 200));
+		}
+	}
+
+	/// 遅延削除の実行
+	if(!deleteQueue_.empty()) {
+		for(const auto& guid : deleteQueue_) {
+			ONEngine::GameEntity* entity = pEcsGroup_->GetEntityFromGuid(guid);
+			if(entity) {
+				pEditorManager_->ExecuteCommand<DeleteEntityCommand>(pEcsGroup_, entity);
+			}
+		}
+		deleteQueue_.clear();
+	}
 }
+
+void HierarchyWindow::DrawReorderSeparator(ONEngine::GameEntity* parent, uint32_t index) {
+	ImGui::PushID(index);
+	if (parent) ImGui::PushID(parent->GetId());
+	else ImGui::PushID("root");
+
+	// 非常に薄い不可視のボタンを配置
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 2.0f);
+	ImGui::InvisibleButton("##reorder_target", ImVec2(-1, 4.0f));
+
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EntityData")) {
+			ONEngine::GameEntity** srcEntityPtr = static_cast<ONEngine::GameEntity**>(payload->Data);
+			ONEngine::GameEntity* srcEntity = *srcEntityPtr;
+
+			pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, parent, index);
+		}
+
+		// ホバー中にラインを表示
+		ImVec2 min = ImGui::GetItemRectMin();
+		ImVec2 max = ImGui::GetItemRectMax();
+		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(min.x, min.y + 1.0f), ImVec2(max.x, min.y + 3.0f), ImColor(100, 150, 255, 255));
+
+		ImGui::EndDragDropTarget();
+	}
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 2.0f);
+
+	ImGui::PopID();
+	ImGui::PopID();
 }
 
 void HierarchyWindow::EntityRename(ONEngine::GameEntity* entity) {
@@ -371,7 +414,15 @@ void HierarchyWindow::DrawEntity(ONEngine::GameEntity* entity) {
 	ImGui::PopID();
 
 	if(hasChildren && nodeOpen) {
-		for(auto* child : entity->GetChildren()) DrawEntity(child);
+		uint32_t childIndex = 0;
+		for(auto* child : entity->GetChildren()) {
+			DrawReorderSeparator(entity, childIndex);
+			DrawEntity(child);
+			childIndex++;
+		}
+		// 最後の隙間
+		DrawReorderSeparator(entity, childIndex);
+
 		ImGui::TreePop();
 	}
 }
@@ -389,7 +440,10 @@ void HierarchyWindow::HandleRootDragDrop() {
 		if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EntityData")) {
 			ONEngine::GameEntity** srcEntityPtr = static_cast<ONEngine::GameEntity**>(payload->Data);
 			ONEngine::GameEntity* srcEntity = *srcEntityPtr;
-			pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, nullptr);
+			
+			// ルートの最後に配置
+			const auto& entities = pEcsGroup_->GetEntities();
+			pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, nullptr, static_cast<uint32_t>(entities.size()));
 		}
 		ImGui::EndDragDropTarget();
 	}
@@ -409,16 +463,8 @@ void HierarchyWindow::HandleEntityDragDrop(ONEngine::GameEntity* entity) {
 			ONEngine::GameEntity* srcEntity = *srcEntityPtr;
 			if(srcEntity != entity) {
 				if(!IsDescendant(srcEntity, entity)) {
-					float mouseY = ImGui::GetMousePos().y;
-					float itemMinY = ImGui::GetItemRectMin().y;
-					float itemMaxY = ImGui::GetItemRectMax().y;
-					float height = itemMaxY - itemMinY;
-					if (mouseY < itemMinY + height * 0.25f || mouseY > itemMinY + height * 0.75f) {
-						// Reorder logic (simplified)
-						pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, entity->GetParent());
-					} else {
-						pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, entity);
-					}
+					// 項目本体へのドロップは常に「子」にする
+					pEditorManager_->ExecuteCommand<ChangeEntityParentCommand>(srcEntity, entity);
 				} else {
 					showInvalidParentPopup_ = true;
 				}

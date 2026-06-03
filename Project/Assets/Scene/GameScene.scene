@@ -16,6 +16,11 @@
             "path": "./GameScene/Light.entity"
         },
         {
+            "guid": "13710f0772c050eda45cdb385fabe59f",
+            "parentGuid": null,
+            "path": "./GameScene/GameController.entity"
+        },
+        {
             "guid": "50ee0d6d6376d262198a7126f641b924",
             "parentGuid": null,
             "path": "./GameScene/Player.entity"
