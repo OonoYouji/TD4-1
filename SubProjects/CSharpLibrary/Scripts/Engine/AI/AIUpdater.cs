@@ -71,9 +71,10 @@ public static class AIUpdater {
                     if (component.entity.name.IndexOf("Boss", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         lastBossName = component.entity.name;
-                        lastBossAction = (component.behaviorTree.ActiveNode != null) 
-                            ? component.behaviorTree.ActiveNode.name 
-                            : "Idle";
+                        
+                        // 最も深いノード（実行中の末端アクション）を取得
+                        var deepest = component.behaviorTree.DeepestActiveNode;
+                        lastBossAction = (deepest != null) ? deepest.name : "Idle";
 
                         // フェーズの特定 (BossMain.jsonの構成に準拠)
                         float hpRatio = component.behaviorTree.Blackboard.GetFloat(BehaviorTreeLoader.HashString("HPRatio"), 1.0f);

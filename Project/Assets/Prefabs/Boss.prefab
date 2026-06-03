@@ -126,6 +126,7 @@
             },
             "enable": 1,
             "isAttacking": false,
+            "maxSpeed": 8.0,
             "rotationSpeed": 5.0,
             "targetEntityId": 0,
             "type": "AgentIntentComponent",
