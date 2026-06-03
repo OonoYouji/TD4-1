@@ -7,41 +7,39 @@
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 2, "className": "Parallel", "name": "P2: Root Loop", "pos": [100.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "P2: Root Sequence", "pos": [100.0, 0.0],
             "inputs": [{ "id": 11, "name": "In" }], "outputs": [{ "id": 12, "name": "Out" }],
-            "properties": { "successPolicy": "1", "failurePolicy": "0" },
-            "decorators": [], "services": []
+            "properties": {}, "decorators": [], "services": []
         },
         {
-            "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [400.0, -100.0],
+            "id": 3, "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [400.0, -100.0],
             "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
             "properties": {
                 "stopDistance": "5.0",
                 "startAnim": "movement_start",
                 "loopAnim": "movement",
                 "endAnim": "movement_end",
-                "useClipDuration": "true"
+                "useClipDuration": "true",
+                "trackingRotationSpeed": "2.0"
             },
             "decorators": [], "services": []
         },
         {
-            "id": 4, "className": "Sequence", "name": "P2: Attack Loop", "pos": [400.0, 100.0],
+            "id": 4, "className": "Sequence", "name": "P2: Attack Sequence", "pos": [400.0, 100.0],
             "inputs": [{ "id": 14, "name": "In" }], "outputs": [{ "id": 15, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
             "id": 5, "className": "WaitNode", "name": "Attack Interval", "pos": [700.0, 100.0],
             "inputs": [{ "id": 16, "name": "In" }], "outputs": [],
-            "properties": { "waitTime": "4.0" },
+            "properties": { "duration": "4.0" },
             "decorators": [], "services": []
         },
         {
             "id": 6, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [700.0, 200.0],
             "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
             "properties": { 
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json",
-                "slowMultiplier": "0.8",
-                "slowDuration": "2.0"
+                "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json"
             },
             "decorators": [], "services": []
         }

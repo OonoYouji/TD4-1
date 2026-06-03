@@ -11,6 +11,7 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
     public float rotationSpeed = 360.0f;
     public float fireInterval = 0.2f;
     public float projectileSpeed = 15.0f;
+    public float indicatorSize = 7.0f;
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
@@ -81,8 +82,7 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
                     telegraph.transform.position = new Vector3(targetPos.x, 0.05f, targetPos.z);
                     telegraph.transform.rotation = Quaternion.identity;
                     
-                    // プレハブがフラットになったため、これ自身のスケールを設定すれば確実に反映される
-                    float indicatorSize = 5.0f; 
+                    // 仕様書v2に基づき、爆発範囲(7.0)と同期させる
                     telegraph.transform.scale = new Vector3(indicatorSize, 0.05f, indicatorSize);
 
                     var timedDestruction = telegraph.GetScript<TimedDestruction>();

@@ -19,7 +19,14 @@
         },
         {
             "id": 4, "className": "RotateAndSpawnProjectileNode", "name": "Rotate & Fire", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "rotationSpeed": "720.0", "fireInterval": "0.15", "totalDuration": "3.0", "projectilePrefab": "BossBomb", "projectileSpeed": "15.0" }, 
+            "properties": { 
+                "rotationSpeed": "720.0", 
+                "fireInterval": "0.15", 
+                "totalDuration": "3.0", 
+                "projectilePrefab": "BossBomb", 
+                "projectileSpeed": "15.0",
+                "indicatorSize": "7.0"
+            }, 
             "decorators": [], "services": [], "pos": [400.0, 50.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
         }

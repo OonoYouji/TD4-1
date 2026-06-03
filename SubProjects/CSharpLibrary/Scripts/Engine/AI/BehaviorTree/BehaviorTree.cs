@@ -72,6 +72,23 @@ public class BehaviorTree
     public BehaviorNode ActiveNode { get; set; }
 
     /// <summary>
+    /// サブツリーを含め、現在実際に実行されている最も深いノードを取得する。
+    /// </summary>
+    public BehaviorNode DeepestActiveNode
+    {
+        get
+        {
+            if (ActiveNode == null) return null;
+            if (ActiveNode is RunBehaviorNode runBehavior && runBehavior.SubTree != null)
+            {
+                var deepest = runBehavior.SubTree.DeepestActiveNode;
+                return deepest ?? ActiveNode;
+            }
+            return ActiveNode;
+        }
+    }
+
+    /// <summary>
     /// 現在のTick回数。ノードが今フレーム実行されたかを判定するために使用される。
     /// </summary>
     public uint TickCount { get; private set; } = 0;

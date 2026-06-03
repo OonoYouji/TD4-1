@@ -7,13 +7,12 @@
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 2, "className": "Parallel", "name": "P3: Root Loop", "pos": [100.0, 0.0],
+            "id": 2, "className": "Sequence", "name": "P3: Root Sequence", "pos": [100.0, 0.0],
             "inputs": [{ "id": 11, "name": "In" }], "outputs": [{ "id": 12, "name": "Out" }],
-            "properties": { "successPolicy": "1", "failurePolicy": "0" },
-            "decorators": [], "services": []
+            "properties": {}, "decorators": [], "services": []
         },
         {
-            "className": "PatrolWaypointsNode", "name": "P3: Go to Center", "pos": [400.0, -100.0],
+            "id": 3, "className": "PatrolWaypointsNode", "name": "P3: Go to Center", "pos": [400.0, -100.0],
             "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
             "properties": {
                 "currentIdxKey": "PatrolIndex", "waypointPrefix": "Boss_Center", "stopDistance": "1.0",
@@ -22,14 +21,14 @@
             "decorators": [], "services": []
         },
         {
-            "id": 4, "className": "Sequence", "name": "P3: Attack Loop", "pos": [400.0, 100.0],
+            "id": 4, "className": "Sequence", "name": "P3: Attack Sequence", "pos": [400.0, 100.0],
             "inputs": [{ "id": 14, "name": "In" }], "outputs": [{ "id": 15, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
             "id": 5, "className": "WaitNode", "name": "Attack Interval", "pos": [700.0, 100.0],
             "inputs": [{ "id": 16, "name": "In" }], "outputs": [],
-            "properties": { "waitTime": "5.0" },
+            "properties": { "duration": "5.0" },
             "decorators": [], "services": []
         },
         {
