@@ -8,6 +8,7 @@ public static class AIUpdater {
     // エディタ表示用の状態保持
     public static string lastBossName = "None";
     public static string lastBossAction = "Idle";
+    public static string lastBossPhase = "Intro";
 
     /// <summary>
     /// C++ から呼び出されるAI更新のメインエントリーポイント
@@ -73,6 +74,13 @@ public static class AIUpdater {
                         lastBossAction = (component.behaviorTree.ActiveNode != null) 
                             ? component.behaviorTree.ActiveNode.name 
                             : "Idle";
+
+                        // フェーズの特定 (BossMain.jsonの構成に準拠)
+                        float hpRatio = component.behaviorTree.Blackboard.GetFloat(BehaviorTreeLoader.HashString("HPRatio"), 1.0f);
+                        if (hpRatio > 1.0f) lastBossPhase = "Intro";
+                        else if (hpRatio >= 0.7f) lastBossPhase = "Phase 1";
+                        else if (hpRatio >= 0.4f) lastBossPhase = "Phase 2";
+                        else lastBossPhase = "Phase 3";
                     }
 
                     // エディタ用：実行状態を同期

@@ -35,13 +35,6 @@ public class WaitNode : BehaviorNode
             finalDuration = blackboard.GetFloat(keyHash, duration);
         }
 
-        // --- 倍率の適用 ---
-        uint multiplierKey = BehaviorTreeLoader.HashString("AttackIntervalMultiplier");
-        if (blackboard.HasKey(multiplierKey))
-        {
-            finalDuration *= blackboard.GetFloat(multiplierKey);
-        }
-
         float startTime = blackboard.GetFloat(startTimeKey);
         if (currentTime - startTime >= finalDuration)
         {
