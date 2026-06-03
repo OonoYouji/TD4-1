@@ -57,7 +57,7 @@
             "pos": [700.0, -150.0],
             "inputs": [{ "id": 13, "name": "In" }],
             "outputs": [],
-            "properties": { "treePath": "Assets/AITrees/BossPhase0.json" },
+            "properties": { "treePath": "Assets/AITrees/BossPhase1.json" },
             "decorators": [
                 {
                     "className": "BossPhaseDecorator", "name": "HP 70-100%",
@@ -66,9 +66,11 @@
             ], "services": []
         },
         {
-            "className": "RunBehaviorNode", "id": 20, "name": "Phase 2 (HP 40-70%)", "pos": [700.0, 0.0],
-            "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
-            "properties": { "treePath": "Assets/AITrees/BossPhase1.json" },
+            "className": "RunBehaviorNode", "id": 20, "name": "Phase 2 (HP 40-70%)",
+            "pos": [700.0, 0.0],
+            "inputs": [{ "id": 17, "name": "In" }],
+            "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossPhase2.json" },
             "decorators": [
                 {
                     "className": "BossPhaseDecorator", "name": "HP 40%-70%",
@@ -77,9 +79,11 @@
             ], "services": []
         },
         {
-            "className": "RunBehaviorNode", "id": 30, "name": "Phase 3 (HP < 40%)", "pos": [700.0, 150.0],
-            "inputs": [{ "id": 21, "name": "In" }], "outputs": [],
-            "properties": { "treePath": "Assets/AITrees/BossPhase2.json" },
+            "className": "RunBehaviorNode", "id": 30, "name": "Phase 3 (HP < 40%)",
+            "pos": [700.0, 150.0],
+            "inputs": [{ "id": 21, "name": "In" }],
+            "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossPhase3.json" },
             "decorators": [
                 {
                     "className": "BossPhaseDecorator", "name": "HP < 40%",

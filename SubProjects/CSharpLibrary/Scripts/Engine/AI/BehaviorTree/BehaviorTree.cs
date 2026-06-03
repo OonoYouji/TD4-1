@@ -91,7 +91,7 @@ public class BehaviorTree
     /// <summary>
     /// 現在のTick回数。ノードが今フレーム実行されたかを判定するために使用される。
     /// </summary>
-    public uint TickCount { get; private set; } = 0;
+    public uint TickCount { get; set; } = 0;
 
     /// <summary>
     /// 新しいビヘイビアツリーのインスタンスを生成する。
@@ -191,11 +191,6 @@ public class BehaviorTree
     {
         if (RootNode == null || Owner == null) return;
 
-        // デバッグ用：現在実行中であることをログに出力 (60フレームに1回)
-        if (TickCount % 60 == 0) {
-            Debug.Log($"[BT] Ticking tree for {Owner.name}. Root: {RootNode.name}");
-        }
-
         // Tick回数をインクリメント
         TickCount++;
 
@@ -215,10 +210,8 @@ public class BehaviorTree
         NodeStatus status = RootNode.Tick(Blackboard, Owner);
 
         // 3. 実行中ノードの追跡
-        // ツリーの走査結果、Runningになった末端ノードをActiveNodeとして保持する。
-        _newActiveNode = null;
+        ActiveNode = null;
         UpdateActiveNodeRecursive(RootNode);
-        ActiveNode = _newActiveNode;
 
         // ツリー全体が完了した場合はリセット
         if (status != NodeStatus.Running)
@@ -227,16 +220,14 @@ public class BehaviorTree
         }
     }
 
-    private BehaviorNode _newActiveNode = null;
-
     /// <summary>
     /// ツリーを再帰的に探索し、現在Running状態にある最も深いノードを実行ポインタとして記録する。
     /// </summary>
-    private void UpdateActiveNodeRecursive(BehaviorNode node)
+    public void UpdateActiveNodeRecursive(BehaviorNode node)
     {
         if (node == null || node.LastStatus != NodeStatus.Running) return;
 
-        _newActiveNode = node; // より深いノードが見つかるたびに更新
+        ActiveNode = node; // より深いノードが見つかるたびに更新
 
         if (node is CompositeNode composite)
         {
@@ -245,8 +236,6 @@ public class BehaviorTree
                 if (child.LastStatus == NodeStatus.Running)
                 {
                     UpdateActiveNodeRecursive(child);
-                    // Parallelの場合は複数の子がRunningになり得るが、
-                    // エディタ表示用には最初に見つかったアクティブなブランチを優先する
                 }
             }
         }

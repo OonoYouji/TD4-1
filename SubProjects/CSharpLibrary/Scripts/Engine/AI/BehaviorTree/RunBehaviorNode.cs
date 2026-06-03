@@ -57,7 +57,13 @@ public class RunBehaviorNode : BehaviorNode
         if (_subTree == null || _subTree.RootNode == null) return NodeStatus.Failure;
 
         // 2. サブツリーの実行
+        _subTree.TickCount = this.Tree.TickCount; // Tick回数を同期
         var status = _subTree.RootNode.Tick(blackboard, owner);
+        
+        // サブツリー内の実行中ノードを更新（DeepestActiveNodeで追跡可能にするため）
+        _subTree.ActiveNode = null;
+        _subTree.UpdateActiveNodeRecursive(_subTree.RootNode);
+        
         return status;
     }
 }
