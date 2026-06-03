@@ -139,6 +139,8 @@ public class CallingReinforcement : MonoScript
     // 1体スポーンしてマネージャーに登録する
     private void SpawnOne(Vector3 spawnPos, Vector3 dir)
     {
+
+        // Reinforcementエンティティの生成
         Entity reinforcementEntity = ecsGroup.CreateEntity("Reinforcement");
         if (reinforcementEntity == null)
         {
@@ -148,12 +150,14 @@ public class CallingReinforcement : MonoScript
         // 原点での衝突を防ぐために生成直後に座標をセット
         reinforcementEntity.transform.position = spawnPos;
 
+        // Reinforcementスクリプトを取得
         Reinforcement reinforcement = reinforcementEntity.GetScript<Reinforcement>();
         if (reinforcement == null)
         {
             return;
         }
 
+        // スポーン位置と移動方向をセット
         reinforcement.startPosition = spawnPos;
         reinforcement.direction     = dir;
 

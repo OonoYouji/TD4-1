@@ -35,10 +35,10 @@ public partial class Reinforcement
             }
 
             // バフを付与
-            Reinforcement r = e.GetScript<Reinforcement>();
-            if (r != null)
+            Reinforcement reinforcement = e.GetScript<Reinforcement>();
+            if (reinforcement != null)
             {
-                r.ReceiveSupportBuff();
+                reinforcement.ReceiveSupportBuff();
                 buffed++;
             }
         }
