@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -22,6 +23,29 @@
             "type": "Transform"
         },
         {
+            "HP": {
+                "MAX_HP": 0,
+                "currentHp": 0,
+                "disableAutoDestruction": false
+            },
+            "Reinforcement": {
+                "damage": 10.0,
+                "lifeTime": 10.0,
+                "mass": 1.0,
+                "moveSpeed": 8.0,
+                "retreatSpeed": 20.0,
+                "supportBuffRadius": 29.0,
+                "supportedDamage": 15.0,
+                "supportedScale": 2.0,
+                "viewAngle": 60.0
+            },
+            "ReinforcementFallIn": {
+                "lerpDuration": 0.3,
+                "launchSpeed": 20.0
+            },
+            "ReinforcementDamageHandler": {
+                "damageCooldownTime": 0.0
+            },
             "type": "Variables"
         },
         {
@@ -33,8 +57,11 @@
                 },
                 {
                     "enable": true,
-                    "name": "HP",
-                    "MAX_HP": 10
+                    "name": "ReinforcementFallIn"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
                 },
                 {
                     "enable": true,
@@ -82,9 +109,8 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "311115772fcdf96b92ea0cd3fd1a997c",
-    "id": 2,
+    "guid": "e3ea71933e003f2c01519bcc060f78a1",
     "name": "Reinforcement",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "Reinforcement"
 }
