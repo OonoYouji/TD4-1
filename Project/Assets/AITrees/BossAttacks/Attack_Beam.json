@@ -25,7 +25,10 @@
         },
         {
             "id": 4, "className": "FireBeamNode", "name": "Beam Attack", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "duration": "2.0", "damage": "50.0", "beamRadius": "2.0", "targetPosKey": "TargetPosition" }, 
+            "properties": { 
+                "duration": "2.0", "damage": "50.0", "beamRadius": "2.0", "targetPosKey": "TargetPosition",
+                "slowMultiplier": "0.8", "slowDuration": "2.0" 
+            }, 
             "decorators": [], "services": [], "pos": [400.0, 100.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
         }

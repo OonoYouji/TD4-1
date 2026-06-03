@@ -45,11 +45,18 @@ public class BehaviorTree
             if (value != null) {
                 // パス形式を統一（スラッシュ、小文字化など）
                 _sourcePath = value.Replace("\\", "/").Trim();
+                if (_sourcePath.StartsWith("./")) _sourcePath = _sourcePath.Substring(2);
             } else {
                 _sourcePath = null;
             }
         }
     }
+
+    /// <summary>
+    /// エディタ上の「Entry」ノードのID。
+    /// デバッグ表示（フロー）のために使用される。
+    /// </summary>
+    public uint EntryNodeId { get; set; }
 
     /// <summary>
     /// Blackboardの変数が書き換わった際、ツリーの再評価（割り込み処理）が必要かどうかを示すフラグ
@@ -236,6 +243,15 @@ public class BehaviorTree
     public void GetAllNodeStatuses(Dictionary<uint, NodeStatus> outStatuses)
     {
         if (RootNode == null) return;
+
+        // Entryノードの状態を報告
+        if (EntryNodeId != 0)
+        {
+            // ルートがTickされたならEntryもアクティブとみなす
+            bool wasRootTicked = (RootNode.LastTickCount == TickCount);
+            Internal_UpdateNodeStatus(EntryNodeId, wasRootTicked ? (int)NodeStatus.Success : 4, SourcePath ?? "");
+        }
+
         CollectStatusRecursive(RootNode, outStatuses);
     }
 

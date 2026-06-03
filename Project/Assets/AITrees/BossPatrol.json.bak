@@ -64,8 +64,15 @@
             ],
             "properties": {
                 "currentIdxKey": "PatrolIndex",
+                "endAnim": "",
+                "endWaitTime": "",
+                "loopAnim": "",
+                "startAnim": "",
+                "startWaitTime": "",
                 "stopDistance": "2.0",
+                "useClipDuration": "",
                 "waypointNamesString": "BossWaypoint_1; BossWaypoint_2; BossWaypoint_3; BossWaypoint_4",
+                "waypointPrefix": "",
                 "waypointsString": "BossWaypoint"
             },
             "services": []

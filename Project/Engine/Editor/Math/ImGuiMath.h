@@ -84,6 +84,7 @@ ImVec2 CalculateAspectFitSize(const ONEngine::Vector2& _textureSize, const ImVec
 /// -----------------------------------------------
 
 bool ImGuiInputText(const char* _label, std::string* _text, ImGuiInputTextFlags _flags = 0);
+bool ImGuiInputText(const char* _label, std::string* _text, ImGuiInputTextFlags _flags, const char* _hint);
 
 void ImGuiInputTextReadOnly(const char* _label, const std::string& _text);
 
