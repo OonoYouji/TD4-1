@@ -2,128 +2,74 @@
     "blackboard": [
         { "key": "CurrentHP", "type": 2, "iVal": 0, "fVal": 1000.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
         { "key": "HPRatio", "type": 2, "iVal": 0, "fVal": 1.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
-        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
-        { "key": "TargetEntity", "type": 4, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
         { "key": "PatrolIndex", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "links": [
+        { "id": 1, "startPin": 2, "endPin": 4 },
+        { "id": 2, "startPin": 5, "endPin": 10 },
+        { "id": 3, "startPin": 11, "endPin": 13 },
+        { "id": 4, "startPin": 11, "endPin": 17 },
+        { "id": 5, "startPin": 11, "endPin": 21 }
     ],
     "nodes": [
         {
-            "id": 1, "className": "Entry", "name": "Boss Root Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [-200.0, 0.0],
-            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+            "className": "Entry", "id": 1, "name": "Boss Root Entry", "pos": [-200.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 2, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 2, "className": "Parallel", "name": "Boss Core Systems", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
+            "className": "Parallel", "id": 2, "name": "Boss Core Systems", "pos": [100.0, 0.0],
+            "inputs": [{ "id": 4, "name": "In" }], "outputs": [{ "id": 5, "name": "Out" }],
+            "properties": { "failurePolicy": "0", "successPolicy": "1" },
             "decorators": [],
             "services": [
-                { "id": 201, "className": "HPMonitorService", "name": "HP Monitor", "properties": { "hpRatioKey": "HPRatio", "currentHPKey": "CurrentHP", "Interval": "0.5" }, "isService": true },
-                { "id": 202, "className": "HPRegenService", "name": "Auto HP Regen", "properties": { "currentHPKey": "CurrentHP", "maxHP": "2000", "regenPerSecond": "5", "Interval": "1.0" }, "isService": true },
-                { "id": 203, "className": "ReinforcementDensitySensingService", "name": "Scan Reinforcements", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "25", "Interval": "1.0" }, "isService": true }
-            ],
-            "pos": [100.0, 0.0],
-            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+                {
+                    "className": "HPMonitorService", "name": "HP Monitor",
+                    "properties": { "Interval": "0.5", "currentHPKey": "CurrentHP", "hpRatioKey": "HPRatio" }
+                },
+                {
+                    "className": "HPRegenService", "name": "Auto HP Regen",
+                    "properties": { "Interval": "1.0", "currentHPKey": "CurrentHP", "maxHP": "2000", "regenPerSecond": "5" }
+                }
+            ]
         },
         {
-            "id": 3, "className": "Selector", "name": "Phase Selector", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [400.0, 0.0],
-            "inputs": [{ "id": 30, "name": "In" }], "outputs": [{ "id": 31, "name": "Out" }]
+            "className": "Selector", "id": 3, "name": "Phase Selector", "pos": [400.0, 0.0],
+            "inputs": [{ "id": 10, "name": "In" }], "outputs": [{ "id": 11, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 10, "className": "Parallel", "name": "Phase 0 Loop", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
+            "className": "RunBehaviorNode", "id": 10, "name": "Phase 0 (HP > 70%)", "pos": [700.0, -150.0],
+            "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossPhase0.json" },
             "decorators": [
-                { "id": 1001, "className": "BossPhaseDecorator", "name": "HP > 70%", "properties": { "minHP": "0.7", "maxHP": "1.1", "hpRatioKey": "HPRatio" } }
-            ], 
-            "services": [], "pos": [700.0, -100.0],
-            "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 102, "name": "Out" }]
+                {
+                    "className": "BossPhaseDecorator", "name": "HP > 70%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "1.1", "minHP": "0.7" }
+                }
+            ], "services": []
         },
         {
-            "id": 20, "className": "Parallel", "name": "Phase 1 Loop", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
+            "className": "RunBehaviorNode", "id": 20, "name": "Phase 1 (HP 30-70%)", "pos": [700.0, 0.0],
+            "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossPhase1.json" },
             "decorators": [
-                { "id": 2001, "className": "BossPhaseDecorator", "name": "HP 30%-70%", "properties": { "minHP": "0.3", "maxHP": "0.7", "hpRatioKey": "HPRatio" } }
-            ], 
-            "services": [], "pos": [700.0, 200.0],
-            "inputs": [{ "id": 200, "name": "In" }], "outputs": [{ "id": 202, "name": "Out" }]
+                {
+                    "className": "BossPhaseDecorator", "name": "HP 30%-70%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "0.7", "minHP": "0.3" }
+                }
+            ], "services": []
         },
         {
-            "id": 30, "className": "Parallel", "name": "Phase 2 Loop", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "successPolicy": "1", "failurePolicy": "0" }, 
+            "className": "RunBehaviorNode", "id": 30, "name": "Phase 2 (HP < 30%)", "pos": [700.0, 150.0],
+            "inputs": [{ "id": 21, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossPhase2.json" },
             "decorators": [
-                { "id": 3001, "className": "BossPhaseDecorator", "name": "HP < 30%", "properties": { "minHP": "0.0", "maxHP": "0.3", "hpRatioKey": "HPRatio" } }
-            ], 
-            "services": [], "pos": [700.0, 500.0],
-            "inputs": [{ "id": 300, "name": "In" }], "outputs": [{ "id": 302, "name": "Out" }]
-        },
-        {
-            "id": 11, "className": "PatrolWaypointsNode", "name": "P0: Move", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "currentIdxKey": "PatrolIndex", "stopDistance": "3.0", "waypointPrefix": "Phase0_WP" }, 
-            "decorators": [], "services": [], "pos": [1000.0, -150.0],
-            "inputs": [{ "id": 110, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 12, "className": "Sequence", "name": "P0: Attack Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [1000.0, -50.0],
-            "inputs": [{ "id": 120, "name": "In" }], "outputs": [{ "id": 122, "name": "Out" }]
-        },
-        {
-            "id": 13, "className": "RunBehaviorNode", "name": "P0: Bomb", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json" }, 
-            "decorators": [], "services": [], "pos": [1200.0, -50.0],
-            "inputs": [{ "id": 130, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 21, "className": "PatrolWaypointsNode", "name": "P1: Move", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "currentIdxKey": "PatrolIndex", "stopDistance": "3.0", "waypointPrefix": "Phase1_WP" }, 
-            "decorators": [], "services": [], "pos": [1000.0, 150.0],
-            "inputs": [{ "id": 210, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 22, "className": "Sequence", "name": "P1: Attack Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [1000.0, 250.0],
-            "inputs": [{ "id": 220, "name": "In" }], "outputs": [{ "id": 222, "name": "Out" }]
-        },
-        {
-            "id": 23, "className": "RunBehaviorNode", "name": "P1: Beam", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" }, 
-            "decorators": [], "services": [], "pos": [1200.0, 250.0],
-            "inputs": [{ "id": 230, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 31, "className": "PatrolWaypointsNode", "name": "P2: Move", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "currentIdxKey": "PatrolIndex", "stopDistance": "3.0", "waypointPrefix": "Phase2_WP" }, 
-            "decorators": [], "services": [], "pos": [1000.0, 450.0],
-            "inputs": [{ "id": 310, "name": "In" }], "outputs": []
-        },
-        {
-            "id": 32, "className": "Sequence", "name": "P2: Attack Loop", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], "services": [], "pos": [1000.0, 550.0],
-            "inputs": [{ "id": 320, "name": "In" }], "outputs": [{ "id": 322, "name": "Out" }]
-        },
-        {
-            "id": 33, "className": "RunBehaviorNode", "name": "P2: Vortex", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json" }, 
-            "decorators": [], "services": [], "pos": [1200.0, 550.0],
-            "inputs": [{ "id": 330, "name": "In" }], "outputs": []
+                {
+                    "className": "BossPhaseDecorator", "name": "HP < 30%",
+                    "properties": { "hpRatioKey": "HPRatio", "maxHP": "0.3", "minHP": "0.0" }
+                }
+            ], "services": []
         }
-    ],
-    "links": [
-        { "id": 5001, "startPin": 10, "endPin": 20 },
-        { "id": 5002, "startPin": 21, "endPin": 30 },
-        { "id": 5003, "startPin": 31, "endPin": 100 },
-        { "id": 5004, "startPin": 31, "endPin": 200 },
-        { "id": 5005, "startPin": 31, "endPin": 300 },
-        { "id": 5006, "startPin": 102, "endPin": 110 },
-        { "id": 5007, "startPin": 102, "endPin": 120 },
-        { "id": 5008, "startPin": 122, "endPin": 130 },
-        { "id": 5009, "startPin": 202, "endPin": 210 },
-        { "id": 5010, "startPin": 202, "endPin": 220 },
-        { "id": 5011, "startPin": 222, "endPin": 230 },
-        { "id": 5012, "startPin": 302, "endPin": 310 },
-        { "id": 5013, "startPin": 302, "endPin": 320 },
-        { "id": 5014, "startPin": 322, "endPin": 330 }
-    ],
-    "comments": [
-        { "id": 4001, "text": "CORE SYSTEMS", "pos": [80, -180], "size": [280, 500], "color": [0, 0.5, 0.5, 0.2] },
-        { "id": 4002, "text": "PHASE LOGIC", "pos": [680, -150], "size": [550, 850], "color": [0.2, 0.4, 0.6, 0.3] }
     ]
 }

@@ -43,12 +43,23 @@ public class Animator : Component {
         Internal_CrossFade(nativeHandle, clipId, duration, layerIndex);
     }
 
+    public float GetAnimationDuration(string clipName) {
+        return GetAnimationDuration(StringHash.Get(clipName));
+    }
+
+    public float GetAnimationDuration(uint clipId) {
+        return Internal_GetAnimationDuration(nativeHandle, clipId);
+    }
+
     // ----- Internal Calls -----
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern void Internal_Play(ulong nativeHandle, uint clipId, uint layerIndex);
 
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern void Internal_CrossFade(ulong nativeHandle, uint clipId, float duration, uint layerIndex);
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern float Internal_GetAnimationDuration(ulong nativeHandle, uint clipId);
 }
 
 // 文字列ハッシュユーティリティ (C#側)

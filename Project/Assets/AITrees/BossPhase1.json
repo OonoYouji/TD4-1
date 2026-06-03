@@ -1,0 +1,49 @@
+{
+    "blackboard": [],
+    "nodes": [
+        {
+            "id": 1, "className": "Entry", "name": "Phase 1 Entry", "pos": [-200.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "id": 2, "className": "Parallel", "name": "P1: Root Loop", "pos": [100.0, 0.0],
+            "inputs": [{ "id": 11, "name": "In" }], "outputs": [{ "id": 12, "name": "Out" }],
+            "properties": { "successPolicy": "1", "failurePolicy": "0" },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 3, "className": "PatrolWaypointsNode", "name": "P1: Movement", "pos": [400.0, -100.0],
+            "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
+            "properties": {
+                "currentIdxKey": "PatrolIndex", "waypointPrefix": "Phase1_WP", "stopDistance": "3.0",
+                "startAnim": "movement_start", "loopAnim": "movement", "endAnim": "movement_end", "useClipDuration": "true"
+            },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 4, "className": "Sequence", "name": "P1: Attack Loop", "pos": [400.0, 100.0],
+            "inputs": [{ "id": 14, "name": "In" }], "outputs": [{ "id": 15, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "id": 5, "className": "WaitNode", "name": "Attack Interval", "pos": [700.0, 100.0],
+            "inputs": [{ "id": 16, "name": "In" }], "outputs": [],
+            "properties": { "waitTime": "4.0" },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 6, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [700.0, 200.0],
+            "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" },
+            "decorators": [], "services": []
+        }
+    ],
+    "links": [
+        { "id": 1, "startPin": 10, "endPin": 11 },
+        { "id": 2, "startPin": 12, "endPin": 13 },
+        { "id": 3, "startPin": 12, "endPin": 14 },
+        { "id": 4, "startPin": 15, "endPin": 16 },
+        { "id": 5, "startPin": 15, "endPin": 17 }
+    ]
+}

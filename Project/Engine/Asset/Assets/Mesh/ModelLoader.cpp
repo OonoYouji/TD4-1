@@ -29,7 +29,17 @@ std::optional<Model> AssetLoader<Model>::Load(const std::string& _filepath, Meta
 	Console::LogInfo(std::format("[Load] [Model] - Starting load: \"{}\" (ext: \"{}\")", _filepath, fileExtension));
 
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(_filepath, assimpLoadFlags_);
+	const aiScene* scene = nullptr;
+	
+	try {
+		scene = importer.ReadFile(_filepath, assimpLoadFlags_);
+	} catch (const std::exception& e) {
+		Console::LogError(std::format("[Load] [Model] - Assimp Exception: \"{}\", path: \"{}\"", e.what(), _filepath));
+		return std::nullopt;
+	} catch (...) {
+		Console::LogError(std::format("[Load] [Model] - Unknown Assimp Exception, path: \"{}\"", _filepath));
+		return std::nullopt;
+	}
 
 	/// 読み込めるモデルであるのかチェックする
 	if(!ValidateModel(scene)) {

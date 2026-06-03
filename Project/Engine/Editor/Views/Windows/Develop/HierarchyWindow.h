@@ -94,6 +94,8 @@ protected:
 
 	void HandleEntityShortcuts(ONEngine::GameEntity* entity, bool selected);
 
+	virtual void HandleGlobalShortcuts();
+
 
 protected:
 	/// ===================================================
@@ -157,7 +159,6 @@ public:
 	/// ----- dialog ----- ///
 	void DrawSceneDialog();
 
-	void HandleGlobalShortcuts();
 
 private:
 	/// ===================================================

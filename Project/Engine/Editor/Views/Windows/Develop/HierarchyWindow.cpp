@@ -51,6 +51,9 @@ void HierarchyWindow::ShowImGui() {
 		return;
 	}
 
+	/// グローバルショートカットの処理
+	HandleGlobalShortcuts();
+
 	/// メニューバーの描画
 	DrawMenuBar();
 	ImGui::Separator();
@@ -493,6 +496,13 @@ bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 			isDeleted = true;
 		}
 		ImGui::Separator();
+		if (ImGui::MenuItem("copy", "Ctrl+C")) {
+			pEditorManager_->ExecuteCommand<CopyEntityCommand>(entity);
+		}
+		if (ImGui::MenuItem("paste", "Ctrl+V")) {
+			pEditorManager_->ExecuteCommand<PasteEntityCommand>(pEcsGroup_, entity);
+		}
+		ImGui::Separator();
 		if (ImGui::MenuItem("Create Prefab")) {
 			std::string name = entity->GetName();
 			pEditorManager_->ExecuteCommand<CreatePrefabCommand>(entity);
@@ -507,8 +517,31 @@ bool HierarchyWindow::DrawEntityContextMenu(ONEngine::GameEntity* entity, bool s
 }
 
 void HierarchyWindow::HandleEntityShortcuts(ONEngine::GameEntity* entity, bool selected) {
-	// 修正: DuplicateEntityCommandは存在しないため削除
-	if(selected && ImGui::IsWindowFocused() && ImGui::IsKeyPressed(ImGuiKey_Delete)) deleteQueue_.push_back(entity->GetGuid());
+	if (!selected || !ImGui::IsWindowFocused()) return;
+
+	if (ImGui::IsKeyPressed(ImGuiKey_Delete)) {
+		deleteQueue_.push_back(entity->GetGuid());
+	}
+	
+	if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_C)) {
+		pEditorManager_->ExecuteCommand<CopyEntityCommand>(entity);
+	}
+
+	if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_V)) {
+		pEditorManager_->ExecuteCommand<PasteEntityCommand>(pEcsGroup_, entity);
+	}
+}
+
+void HierarchyWindow::HandleGlobalShortcuts() {
+	if (!ImGui::IsWindowFocused()) return;
+
+	// 何も選択されていない、またはCtrl+Vのみを処理
+	if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_V)) {
+		// 選択中のエンティティがあればその子として、なければルートにペースト
+		ONEngine::Guid selectedGuid = ImGuiSelection::GetLastSelectedObject();
+		ONEngine::GameEntity* selectedEntity = pEcsGroup_->GetEntityFromGuid(selectedGuid);
+		pEditorManager_->ExecuteCommand<PasteEntityCommand>(pEcsGroup_, selectedEntity);
+	}
 }
 
 /// NormalHierarchyWindow Implementation
@@ -521,6 +554,5 @@ void NormalHierarchyWindow::ShowImGui() {
 }
 
 void NormalHierarchyWindow::DrawSceneDialog() {}
-void NormalHierarchyWindow::HandleGlobalShortcuts() {}
 
 } /// namespace Editor

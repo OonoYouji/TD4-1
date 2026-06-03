@@ -5,19 +5,19 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": -77.9515609741211,
                 "y": 0.0,
-                "z": 0.0
+                "z": -58.62715530395508
             },
             "rotate": {
-                "w": -0.13785013556480408,
-                "x": -0.002739193383604288,
-                "y": -0.9903156161308289,
-                "z": -0.016275862231850624
+                "w": 1.0,
+                "x": 0.0,
+                "y": -0.0,
+                "z": 0.0
             },
             "scale": {
                 "x": 5.0,
-                "y": 5.0,
+                "y": 5.000000476837158,
                 "z": 5.0
             },
             "type": "Transform"
@@ -111,6 +111,25 @@
             "radius": 5.0,
             "state": "Static",
             "type": "SphereCollider"
+        },
+        {
+            "desiredMoveDirection": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "desiredRotation": {
+                "w": 0.27913305163383484,
+                "x": 0.002525785705074668,
+                "y": 0.960209846496582,
+                "z": 0.008688630536198616
+            },
+            "enable": 1,
+            "isAttacking": false,
+            "rotationSpeed": 5.0,
+            "targetEntityId": 0,
+            "type": "AgentIntentComponent",
+            "useDesiredRotation": true
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",

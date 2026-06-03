@@ -76,6 +76,7 @@ public static class AIUpdater {
                     }
 
                     // エディタ用：実行状態を同期
+                    // 現在実行中のツリーのパスを使用してノードの状態をC++へ通知
                     component.behaviorTree.GetAllNodeStatuses(new Dictionary<uint, NodeStatus>());
 
                     // ツリーの実行結果（インテント）をネイティブデータに反映

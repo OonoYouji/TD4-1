@@ -1,12 +1,13 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 21.886709213256836,
+                "x": 14.029582977294922,
                 "y": 0.9359276294708252,
-                "z": -32.00370407104492
+                "z": -43.954349517822266
             },
             "rotate": {
                 "w": 1.0,
@@ -15,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 13.800000190734863,
-                "y": 13.7999849319458,
-                "z": 13.7999849319458
+                "x": 3.799999952316284,
+                "y": 3.799999952316284,
+                "z": 3.799999952316284
             },
             "type": "Transform"
         },
@@ -52,11 +53,11 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.9534050226211548,
-                    "y": 0.857722818851471,
-                    "z": 0.7620405554771423
+                    "x": 0.4000000059604645,
+                    "y": 0.30000001192092896,
+                    "z": 0.20000000298023224
                 },
-                "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -77,11 +78,11 @@
         },
         {
             "categoryBits": 32,
-            "enable": 0,
+            "enable": 1,
             "freezeY": true,
-            "maskBits": 38,
-            "mass": 50.0,
-            "radius": 10.199999809265137,
+            "maskBits": 6,
+            "mass": 1.0,
+            "radius": 4.2870001792907715,
             "state": "Dynamic",
             "type": "SphereCollider"
         },
@@ -100,9 +101,8 @@
             "type": "BoxCollider"
         }
     ],
-    "guid": "da7863da7cc933d575717b1b38552551",
-    "id": 2,
+    "guid": "28a94ec6613a456916dc233c40fbc746",
     "name": "TargetRock",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "TargetRock"
 }
