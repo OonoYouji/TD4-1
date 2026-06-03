@@ -77,7 +77,7 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
                 Entity telegraph = owner.Group.CreateEntity("TelegraphCircle");
                 if (telegraph != null)
                 {
-                    telegraph.parent = null;
+                
 
                     telegraph.transform.position = new Vector3(targetPos.x, 0.05f, targetPos.z);
                     telegraph.transform.rotation = Quaternion.identity;

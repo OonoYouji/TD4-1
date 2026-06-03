@@ -942,6 +942,9 @@
     <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ModifyScriptVariableCommand.h">
       <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\Commands\ComponentEditCommands\ModifyTransformCommand.h">
+      <Filter>Engine\Editor\Commands\ComponentEditCommands</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\Commands\IEditCommand.h">
       <Filter>Engine\Editor\Commands</Filter>
     </ClInclude>
