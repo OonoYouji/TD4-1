@@ -9,7 +9,10 @@
         { "id": 4, "startPin": 11, "endPin": 70 },
         { "id": 5, "startPin": 11, "endPin": 90 },
         { "id": 6, "startPin": 91, "endPin": 120 },
-        { "id": 7, "startPin": 91, "endPin": 140 }
+        { "id": 7, "startPin": 91, "endPin": 140 },
+        { "id": 8, "startPin": 141, "endPin": 150 },
+        { "id": 9, "startPin": 141, "endPin": 160 },
+        { "id": 10, "startPin": 141, "endPin": 170 }
     ],
     "nodes": [
         {
@@ -61,9 +64,26 @@
             "services": []
         },
         {
-            "className": "RunBehaviorNode", "id": 6, "name": "Spawn Bomb", "pos": [800.0, 150.0],
-            "inputs": [{ "id": 140, "name": "In" }], "outputs": [],
-            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json" },
+            "className": "RandomSelector", "id": 6, "name": "P1: Random Attack", "pos": [800.0, 150.0],
+            "inputs": [{ "id": 140, "name": "In" }], "outputs": [{ "id": 141, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "className": "RunBehaviorNode", "id": 7, "name": "Beam", "pos": [1050.0, 50.0],
+            "inputs": [{ "id": 150, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" },
+            "services": []
+        },
+        {
+            "className": "RunBehaviorNode", "id": 8, "name": "Giant", "pos": [1050.0, 150.0],
+            "inputs": [{ "id": 160, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Giant.json" },
+            "services": []
+        },
+        {
+            "className": "RunBehaviorNode", "id": 9, "name": "Rock", "pos": [1050.0, 250.0],
+            "inputs": [{ "id": 170, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json" },
             "services": []
         }
     ]

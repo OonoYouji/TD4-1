@@ -70,6 +70,7 @@
     <Compile Include="Scripts\Engine\AI\BehaviorTree\Parallel.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\RotateToFaceNode.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\RunBehaviorNode.cs" />
+    <Compile Include="Scripts\Engine\AI\BehaviorTree\RandomSelector.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\Selector.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\Sequence.cs" />
     <Compile Include="Scripts\Engine\AI\BehaviorTree\SetBBValueNode.cs" />
@@ -120,8 +121,16 @@
     <Compile Include="Scripts\Engine\Graphics\UVTransform.cs" />
     <Compile Include="Scripts\Engine\Scene\SceneManager.cs" />
     <Compile Include="Scripts\Game\AI\BossAI.cs" />
+    <Compile Include="Scripts\Game\AI\BossBeamAttack.cs" />
+    <Compile Include="Scripts\Game\AI\BossBombBarrage.cs" />
+    <Compile Include="Scripts\Game\AI\BossClogAttack.cs" />
+    <Compile Include="Scripts\Game\AI\BossMovement.cs" />
     <Compile Include="Scripts\Game\AI\BossPerformanceDirector.cs" />
     <Compile Include="Scripts\Game\AI\BossPerformanceTrigger.cs" />
+    <Compile Include="Scripts\Game\AI\BossPhaseManager.cs" />
+    <Compile Include="Scripts\Game\AI\BossPillarAttack.cs" />
+    <Compile Include="Scripts\Game\AI\BossRockAttack.cs" />
+    <Compile Include="Scripts\Game\AI\BossVortexAttack.cs" />
     <Compile Include="Scripts\Game\AI\GameStateManager.cs" />
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
@@ -167,6 +176,7 @@
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
     <Compile Include="Scripts\Game\Common\SimpleRotation.cs" />
     <Compile Include="Scripts\Game\Common\TimedDestruction.cs" />
+    <Compile Include="Scripts\Game\Common\DelayedAction.cs" />
     <Compile Include="Scripts\Game\DebugEntity\DebugCamera.cs" />
     <Compile Include="Scripts\Game\Enemy\BossBomb.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyBullet.cs" />
@@ -175,6 +185,7 @@
     <Compile Include="Scripts\Game\Enemy\EnemyUIHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\FallingRock.cs" />
     <Compile Include="Scripts\Game\Enemy\FallingPillar.cs" />
+    <Compile Include="Scripts\Game\Enemy\VortexField.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />
