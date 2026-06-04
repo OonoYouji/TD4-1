@@ -2,8 +2,123 @@
     "active": true,
     "components": [
         {
-            "maxSpeed": 8.0,
-            "type": "AgentIntentComponent"
+            "BossPerformanceDirector": {
+                "performances": [
+                    {
+                        "__type": "PhasePerformance",
+                        "hpThreshold": 1.100000023841858,
+                        "isIntro": true,
+                        "name": "Opening Intro",
+                        "prefabPath": "BossPhase0Effect.prefab",
+                        "waitDuration": 3.0
+                    },
+                    {
+                        "__type": "PhasePerformance",
+                        "hpThreshold": 0.699999988079071,
+                        "isIntro": false,
+                        "name": "To Phase 2",
+                        "prefabPath": "BossPhase1Effect.prefab",
+                        "waitDuration": 2.0
+                    },
+                    {
+                        "__type": "PhasePerformance",
+                        "hpThreshold": 0.4000000059604645,
+                        "isIntro": false,
+                        "name": "To Phase 3",
+                        "prefabPath": "BossPhase2Effect.prefab",
+                        "waitDuration": 2.5
+                    }
+                ]
+            },
+            "HP": {
+                "currentHp": 1200
+            },
+            "type": "Variables"
+        },
+        {
+            "layers": [
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 1.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                }
+            ],
+            "type": "Animator"
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",

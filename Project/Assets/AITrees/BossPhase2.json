@@ -3,15 +3,17 @@
         { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
     ],
     "links": [
-        { "id": 1, "startPin": 10, "endPin": 20 },
-        { "id": 2, "startPin": 11, "endPin": 30 },
-        { "id": 3, "startPin": 11, "endPin": 40 },
-        { "id": 4, "startPin": 41, "endPin": 50 },
-        { "id": 5, "startPin": 41, "endPin": 60 },
-        { "id": 6, "startPin": 51, "endPin": 70 },
-        { "id": 7, "startPin": 51, "endPin": 80 },
-        { "id": 8, "startPin": 61, "endPin": 90 },
-        { "id": 9, "startPin": 61, "endPin": 100 }
+        { "id": 1, "startPin": 10, "endPin": 100 },
+        { "id": 2, "startPin": 101, "endPin": 102 },
+        { "id": 3, "startPin": 101, "endPin": 20 },
+        { "id": 11, "startPin": 11, "endPin": 30 },
+        { "id": 12, "startPin": 11, "endPin": 40 },
+        { "id": 41, "startPin": 41, "endPin": 50 },
+        { "id": 42, "startPin": 41, "endPin": 60 },
+        { "id": 51, "startPin": 51, "endPin": 70 },
+        { "id": 52, "startPin": 51, "endPin": 80 },
+        { "id": 61, "startPin": 61, "endPin": 90 },
+        { "id": 62, "startPin": 61, "endPin": 1000 }
     ],
     "nodes": [
         {
@@ -25,12 +27,24 @@
             ]
         },
         {
-            "id": 2, "className": "Sequence", "name": "P2: Root Sequence", "pos": [50.0, 0.0],
+            "id": 100, "className": "Parallel", "name": "P2: Core Systems", "pos": [50.0, 0.0],
+            "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 101, "name": "Out" }],
+            "properties": { "failurePolicy": "0", "successPolicy": "1" },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 101, "className": "HPRegenNode", "name": "P2: HP Regen", "pos": [300.0, -200.0],
+            "inputs": [{ "id": 102, "name": "In" }], "outputs": [],
+            "properties": { "regenPerSecond": "5", "maxRatio": "0.7", "maxHP": "1200" },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 2, "className": "Sequence", "name": "P2: Root Sequence", "pos": [300.0, 50.0],
             "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 11, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 3, "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [300.0, -100.0],
+            "id": 3, "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [550.0, -100.0],
             "inputs": [{ "id": 30, "name": "In" }], "outputs": [],
             "properties": {
                 "stopDistance": "10.0",
@@ -43,41 +57,41 @@
             "decorators": [], "services": []
         },
         {
-            "id": 4, "className": "Selector", "name": "P2: Random Attack", "pos": [300.0, 100.0],
+            "id": 4, "className": "Selector", "name": "P2: Random Attack", "pos": [550.0, 100.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": [{ "id": 41, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 5, "className": "Sequence", "name": "P2: Beam Cycle", "pos": [550.0, 0.0],
+            "id": 5, "className": "Sequence", "name": "P2: Beam Cycle", "pos": [800.0, 0.0],
             "inputs": [{ "id": 50, "name": "In" }], "outputs": [{ "id": 51, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 6, "className": "Sequence", "name": "P2: Pillar Cycle", "pos": [550.0, 200.0],
+            "id": 6, "className": "Sequence", "name": "P2: Pillar Cycle", "pos": [800.0, 200.0],
             "inputs": [{ "id": 60, "name": "In" }], "outputs": [{ "id": 61, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 10, "className": "WaitNode", "name": "Beam Wait", "pos": [800.0, -50.0],
+            "id": 10, "className": "WaitNode", "name": "Beam Wait", "pos": [1050.0, -50.0],
             "inputs": [{ "id": 70, "name": "In" }], "outputs": [],
             "properties": { "duration": "3.0" },
             "decorators": [], "services": []
         },
         {
-            "id": 11, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [800.0, 50.0],
+            "id": 11, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [1050.0, 50.0],
             "inputs": [{ "id": 80, "name": "In" }], "outputs": [],
             "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" },
             "decorators": [], "services": []
         },
         {
-            "id": 12, "className": "WaitNode", "name": "Pillar Wait", "pos": [800.0, 150.0],
+            "id": 12, "className": "WaitNode", "name": "Pillar Wait", "pos": [1050.0, 150.0],
             "inputs": [{ "id": 90, "name": "In" }], "outputs": [],
             "properties": { "duration": "2.0" },
             "decorators": [], "services": []
         },
         {
-            "id": 13, "className": "SpawnPillarNode", "name": "Drop Pillar", "pos": [800.0, 250.0],
-            "inputs": [{ "id": 100, "name": "In" }], "outputs": [],
+            "id": 13, "className": "SpawnPillarNode", "name": "Drop Pillar", "pos": [1050.0, 250.0],
+            "inputs": [{ "id": 1000, "name": "In" }], "outputs": [],
             "properties": { 
                 "pillarPrefab": "BossPillar",
                 "telegraphDuration": "1.5",

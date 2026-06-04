@@ -5,51 +5,21 @@
                 {
                     "enable": 1,
                     "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 810.0,
-                        "y": 40.0,
-                        "z": 1.0
-                    },
+                    "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "scale": { "x": 810.0, "y": 40.0, "z": 1.0 },
                     "type": "Transform"
                 },
-                {
-                    "type": "Variables"
-                },
+                { "type": "Variables" },
                 {
                     "enable": 1,
                     "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 0.10000000149011612,
-                            "y": 0.10000000149011612,
-                            "z": 0.10000000149011612
-                        },
+                        "baseColor": { "w": 1.0, "x": 0.1, "y": 0.1, "z": 0.1 },
                         "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
+                        "uvTransform": { "position": { "x": 0.0, "y": 0.0 }, "rotate": 0.0, "scale": { "x": 1.0, "y": 1.0 } }
                     },
                     "type": "SpriteRenderer"
                 }
@@ -65,68 +35,109 @@
                 {
                     "enable": 1,
                     "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 800.0,
-                        "y": 30.0,
-                        "z": 1.0
-                    },
+                    "position": { "x": 280.0, "y": 0.0, "z": 0.0 },
+                    "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "scale": { "x": 240.0, "y": 30.0, "z": 1.0 },
                     "type": "Transform"
                 },
-                {
-                    "type": "Variables"
-                },
+                { "type": "Variables" },
                 {
                     "enable": 1,
                     "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 0.6290000081062317,
-                            "y": 0.0,
-                            "z": 0.0
-                        },
+                        "baseColor": { "w": 1.0, "x": 0.2, "y": 0.8, "z": 0.2 },
                         "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
                         "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
+                        "uvTransform": { "position": { "x": 0.0, "y": 0.0 }, "rotate": 0.0, "scale": { "x": 1.0, "y": 1.0 } }
                     },
                     "type": "SpriteRenderer"
                 },
                 {
                     "enable": 1,
                     "scripts": [
-                        {
-                            "enable": true,
-                            "name": "BossHPGauge"
-                        }
+                        { "enable": true, "name": "BossHPPhaseBar", "properties": { "minRatio": "0.7", "maxRatio": "1.0", "barHeight": "30.0" } }
                     ],
                     "type": "Script"
                 }
             ],
             "guid": "e8e96265127d2553f9681e0c2e8db5ba",
             "id": 19,
-            "name": "FG",
+            "name": "Phase1Bar",
+            "parent": 17,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": { "x": 40.0, "y": 0.0, "z": 0.0 },
+                    "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "scale": { "x": 240.0, "y": 30.0, "z": 1.0 },
+                    "type": "Transform"
+                },
+                { "type": "Variables" },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": { "w": 1.0, "x": 0.8, "y": 0.8, "z": 0.1 },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0,
+                        "uvTransform": { "position": { "x": 0.0, "y": 0.0 }, "rotate": 0.0, "scale": { "x": 1.0, "y": 1.0 } }
+                    },
+                    "type": "SpriteRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        { "enable": true, "name": "BossHPPhaseBar", "properties": { "minRatio": "0.4", "maxRatio": "0.7", "barHeight": "30.0" } }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6",
+            "id": 20,
+            "name": "Phase2Bar",
+            "parent": 17,
+            "prefabName": ""
+        },
+        {
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": { "x": -240.0, "y": 0.0, "z": 0.0 },
+                    "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "scale": { "x": 320.0, "y": 30.0, "z": 1.0 },
+                    "type": "Transform"
+                },
+                { "type": "Variables" },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": { "w": 1.0, "x": 0.8, "y": 0.1, "z": 0.1 },
+                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 0,
+                        "uvTransform": { "position": { "x": 0.0, "y": 0.0 }, "rotate": 0.0, "scale": { "x": 1.0, "y": 1.0 } }
+                    },
+                    "type": "SpriteRenderer"
+                },
+                {
+                    "enable": 1,
+                    "scripts": [
+                        { "enable": true, "name": "BossHPPhaseBar", "properties": { "minRatio": "0.0", "maxRatio": "0.4", "barHeight": "30.0" } }
+                    ],
+                    "type": "Script"
+                }
+            ],
+            "guid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
+            "id": 21,
+            "name": "Phase3Bar",
             "parent": 17,
             "prefabName": ""
         }
@@ -135,26 +146,18 @@
         {
             "enable": 1,
             "matrixCalcFlags": 7,
-            "position": {
-                "x": 0.0,
-                "y": 460.0,
-                "z": 0.0
-            },
-            "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
+            "position": { "x": 0.0, "y": 460.0, "z": 0.0 },
+            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
             "type": "Transform"
         },
+        { "type": "Variables" },
         {
-            "type": "Variables"
+            "enable": 1,
+            "scripts": [
+                { "enable": true, "name": "BossHPPhaseManager", "properties": { "targetEntityName": "Boss" } }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "9bec876d747d51536a818072ab1eca1f",

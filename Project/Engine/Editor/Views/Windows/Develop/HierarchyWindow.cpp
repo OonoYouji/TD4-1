@@ -448,6 +448,14 @@ void HierarchyWindow::HandleRootDragDrop() {
 			const auto& entities = pEcsGroup_->GetEntities();
 			pEditorManager_->ExecuteCommand<ReorderEntityCommand>(pEcsGroup_, srcEntity, nullptr, static_cast<uint32_t>(entities.size()));
 		}
+
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+			const AssetPayload* assetPayload = *static_cast<AssetPayload**>(payload->Data);
+			if (assetPayload->filePath.ends_with(".prefab")) {
+				pEditorManager_->ExecuteCommand<InstantiatePrefabCommand>(pEcsGroup_, assetPayload->filePath);
+			}
+		}
+
 		ImGui::EndDragDropTarget();
 	}
 }
@@ -473,6 +481,14 @@ void HierarchyWindow::HandleEntityDragDrop(ONEngine::GameEntity* entity) {
 				}
 			}
 		}
+
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+			const AssetPayload* assetPayload = *static_cast<AssetPayload**>(payload->Data);
+			if (assetPayload->filePath.ends_with(".prefab")) {
+				pEditorManager_->ExecuteCommand<InstantiatePrefabCommand>(pEcsGroup_, assetPayload->filePath, entity);
+			}
+		}
+
 		ImGui::EndDragDropTarget();
 	}
 }

@@ -505,3 +505,46 @@ EDITOR_STATE ReorderEntityCommand::Undo() {
 
 	return EDITOR_STATE_FINISH;
 }
+
+/// ///////////////////////////////////////////////////
+/// プレハブからインスタンスを作成するコマンド
+/// ///////////////////////////////////////////////////
+
+InstantiatePrefabCommand::InstantiatePrefabCommand(ONEngine::ECSGroup* _ecs, const std::string& _prefabPath, ONEngine::GameEntity* _parentEntity)
+	: prefabPath_(_prefabPath) {
+	pEcsGroup_ = _ecs;
+	parentGuid_ = ONEngine::Guid::kInvalid;
+	if (_parentEntity) {
+		parentGuid_ = _parentEntity->GetGuid();
+	}
+}
+
+EDITOR_STATE InstantiatePrefabCommand::Execute() {
+	// ファイル名（パスから拡張子を除いたもの）を抽出
+	std::filesystem::path path(prefabPath_);
+	std::string prefabName = path.filename().string();
+
+	generatedEntity_ = pEcsGroup_->GenerateEntityFromPrefab(prefabName, false);
+
+	if (generatedEntity_) {
+		generatedGuid_ = generatedEntity_->GetGuid();
+
+		if (parentGuid_.CheckValid()) {
+			ONEngine::GameEntity* parent = pEcsGroup_->GetEntityFromGuid(parentGuid_);
+			if (parent) {
+				generatedEntity_->SetParent(parent);
+			}
+		}
+		return EDITOR_STATE_FINISH;
+	}
+
+	return EDITOR_STATE_FAILED;
+}
+
+EDITOR_STATE InstantiatePrefabCommand::Undo() {
+	if (generatedEntity_) {
+		pEcsGroup_->RemoveEntity(generatedEntity_);
+		generatedEntity_ = nullptr;
+	}
+	return EDITOR_STATE_FINISH;
+}

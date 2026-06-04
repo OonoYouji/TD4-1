@@ -191,6 +191,9 @@
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
     <Compile Include="Scripts\Game\Player\PlayerUI\UiGauge.cs" />
     <Compile Include="Scripts\Game\UI\BossHPGauge.cs" />
+    <Compile Include="Scripts\Game\UI\BossHPPhaseManager.cs" />
+    <Compile Include="Scripts\Game\UI\BossHPPhaseBar.cs" />
+    <Compile Include="Scripts\Game\UI\BossHPFragment.cs" />
     <Compile Include="Scripts\Game\UI\ConvertTo2D.cs" />
     <Compile Include="Scripts\Game\UI\TitleSceneController.cs" />
     <Compile Include="Scripts\Game\UI\EndSceneController.cs" />

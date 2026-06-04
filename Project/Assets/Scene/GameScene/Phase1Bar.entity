@@ -5,9 +5,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -4.172052383422852,
-                "y": 0.058580245822668076,
-                "z": -0.08233200758695602
+                "x": 280.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "rotate": {
                 "w": 1.0,
@@ -16,19 +16,14 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 800.0,
+                "x": 240.0,
                 "y": 30.0,
                 "z": 1.0
             },
             "type": "Transform"
         },
         {
-            "BossHPGauge": {
-                "defaultX": -4.172052383422852,
-                "height": 30.0,
-                "targetEntityName": "Boss",
-                "width": 800.0
-            },
+            "BossHPPhaseBar": {},
             "type": "Variables"
         },
         {
@@ -36,9 +31,9 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.6290000081062317,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 0.20000000298023224,
+                    "y": 0.800000011920929,
+                    "z": 0.20000000298023224
                 },
                 "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
@@ -63,14 +58,14 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "BossHPGauge"
+                    "name": "BossHPPhaseBar"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "e8e96265127d2553f9681e0c2e8db5ba",
-    "name": "FG",
-    "parentGuid": "9bec876d747d51536a818072ab1eca1f",
+    "guid": "c2d8c971ab131bb4f4fd716af9d9ed19",
+    "name": "Phase1Bar",
+    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
     "prefabName": ""
 }

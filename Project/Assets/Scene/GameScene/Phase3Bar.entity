@@ -5,7 +5,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": -240.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -16,13 +16,14 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 810.0,
-                "y": 40.0,
+                "x": 320.0,
+                "y": 30.0,
                 "z": 1.0
             },
             "type": "Transform"
         },
         {
+            "BossHPPhaseBar": {},
             "type": "Variables"
         },
         {
@@ -30,7 +31,7 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.10000000149011612,
+                    "x": 0.800000011920929,
                     "y": 0.10000000149011612,
                     "z": 0.10000000149011612
                 },
@@ -51,10 +52,20 @@
                 }
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossHPPhaseBar"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
-    "name": "BG",
+    "guid": "160afddf0ccefe729ec5287bdcde5eea",
+    "name": "Phase3Bar",
     "parentGuid": "aa9300c52ceba056a463aacd7d690204",
     "prefabName": ""
 }

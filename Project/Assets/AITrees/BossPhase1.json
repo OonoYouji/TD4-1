@@ -1,197 +1,69 @@
 {
     "blackboard": [
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "PatrolIndex",
-            "sVal": "",
-            "type": 0,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        }
+        { "key": "PatrolIndex", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
     ],
-    "comments": [],
     "links": [
-        {
-            "endPin": 4,
-            "id": 15,
-            "startPin": 2
-        },
-        {
-            "endPin": 9,
-            "id": 16,
-            "startPin": 5
-        },
-        {
-            "endPin": 12,
-            "id": 17,
-            "startPin": 10
-        },
-        {
-            "endPin": 14,
-            "id": 18,
-            "startPin": 10
-        },
-        {
-            "endPin": 7,
-            "id": 19,
-            "startPin": 5
-        }
+        { "id": 1, "startPin": 2, "endPin": 100 },
+        { "id": 2, "startPin": 101, "endPin": 102 },
+        { "id": 3, "startPin": 101, "endPin": 10 },
+        { "id": 4, "startPin": 11, "endPin": 70 },
+        { "id": 5, "startPin": 11, "endPin": 90 },
+        { "id": 6, "startPin": 91, "endPin": 120 },
+        { "id": 7, "startPin": 91, "endPin": 140 }
     ],
     "nodes": [
         {
-            "className": "Entry",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 1,
-            "inputs": [],
-            "isDecorator": false,
-            "name": "Phase 1 Entry",
-            "outputs": [
-                {
-                    "id": 2,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                -200.0,
-                0.0
-            ],
-            "properties": {},
-            "services": []
+            "className": "Entry", "id": 1, "name": "Phase 1 Entry", "pos": [-200.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 2, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
         },
         {
-            "className": "Sequence",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 2,
-            "inputs": [
-                {
-                    "id": 4,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "P1: Root Loop",
-            "outputs": [
-                {
-                    "id": 5,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                50.0,
-                0.0
-            ],
-            "properties": {},
-            "services": []
+            "className": "Parallel", "id": 100, "name": "P1: Core Systems", "pos": [50.0, 0.0],
+            "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 101, "name": "Out" }],
+            "properties": { "failurePolicy": "0", "successPolicy": "1" },
+            "decorators": [], "services": []
         },
         {
-            "className": "PatrolWaypointsNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 3,
-            "inputs": [
-                {
-                    "id": 7,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "P1: Movement",
-            "outputs": [],
-            "pos": [
-                350.0,
-                -100.0
-            ],
+            "className": "HPRegenNode", "id": 101, "name": "P1: HP Regen", "pos": [300.0, -200.0],
+            "inputs": [{ "id": 102, "name": "In" }], "outputs": [],
+            "properties": { "regenPerSecond": "5", "maxRatio": "1.0", "maxHP": "1200" },
+            "decorators": [], "services": []
+        },
+        {
+            "className": "Sequence", "id": 2, "name": "P1: Combat Loop", "pos": [300.0, 50.0],
+            "inputs": [{ "id": 10, "name": "In" }], "outputs": [{ "id": 11, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "className": "PatrolWaypointsNode", "id": 3, "name": "P1: Movement", "pos": [550.0, -100.0],
+            "inputs": [{ "id": 70, "name": "In" }], "outputs": [],
             "properties": {
-                "currentIdxKey": "PatrolIndex",
-                "endAnim": "movement_end",
-                "endWaitTime": "2.000000",
-                "loopAnim": "movement",
-                "startAnim": "movement_start",
-                "startWaitTime": "2.000000",
-                "stopDistance": "10.0",
-                "useClipDuration": "true",
                 "waypointPrefix": "Phase0_WP",
-                "waypointsString": ""
-            },
+                "stopDistance": "10.0",
+                "startAnim": "movement_start",
+                "loopAnim": "movement",
+                "endAnim": "movement_end",
+                "startWaitTime": "2.0",
+                "endWaitTime": "2.0",
+                "useClipDuration": "true",
+                "currentIdxKey": "PatrolIndex"
+            }, "services": []
+        },
+        {
+            "className": "Sequence", "id": 4, "name": "P1: Attack Cycle", "pos": [550.0, 100.0],
+            "inputs": [{ "id": 90, "name": "In" }], "outputs": [{ "id": 91, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "className": "WaitNode", "id": 5, "name": "Attack Wait", "pos": [800.0, 50.0],
+            "inputs": [{ "id": 120, "name": "In" }], "outputs": [],
+            "properties": { "duration": "3.0" },
             "services": []
         },
         {
-            "className": "Sequence",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 4,
-            "inputs": [
-                {
-                    "id": 9,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "P1: Attack Cycle",
-            "outputs": [
-                {
-                    "id": 10,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                350.0,
-                100.0
-            ],
-            "properties": {},
-            "services": []
-        },
-        {
-            "className": "WaitNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 5,
-            "inputs": [
-                {
-                    "id": 12,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Attack Wait",
-            "outputs": [],
-            "pos": [
-                650.0,
-                50.0
-            ],
-            "properties": {
-                "duration": "3.0"
-            },
-            "services": []
-        },
-        {
-            "className": "RunBehaviorNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 6,
-            "inputs": [
-                {
-                    "id": 14,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Spawn Bomb",
-            "outputs": [],
-            "pos": [
-                650.0,
-                150.0
-            ],
-            "properties": {
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json"
-            },
+            "className": "RunBehaviorNode", "id": 6, "name": "Spawn Bomb", "pos": [800.0, 150.0],
+            "inputs": [{ "id": 140, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json" },
             "services": []
         }
     ]
