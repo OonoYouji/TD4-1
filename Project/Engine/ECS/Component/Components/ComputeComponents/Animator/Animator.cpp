@@ -80,16 +80,30 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
     if (!assetCollection) return 0.0f;
 
     auto* model = assetCollection->GetModel(smr->GetMeshPath());
-    if (!model) return 0.0f;
+    if (!model) {
+        Console::LogError(std::format("Animator::GetAnimationDuration - Model not found at path: {}", smr->GetMeshPath()));
+        return 0.0f;
+    }
 
     const auto& clips = model->GetAnimationClips();
+    
+    // 全クリップのログ出力（デバッグ用）
+    static std::unordered_map<std::string, bool> loggedClips;
+    if (!loggedClips[smr->GetMeshPath()]) {
+        Console::LogInfo(std::format("Animator: Clips for model '{}':", smr->GetMeshPath()));
+        for (const auto& [hash, clip] : clips) {
+            Console::LogInfo(std::format("  - '{}' (hash: {})", clip.name, hash));
+        }
+        loggedClips[smr->GetMeshPath()] = true;
+    }
+
     auto it = clips.find(_clipId);
     if (it != clips.end()) {
-        Console::LogInfo(std::format("Animator::GetAnimationDuration - ClipId: {}, Duration: {}", _clipId, it->second.duration));
+        Console::LogInfo(std::format("Animator::GetAnimationDuration - ClipId: {} ('{}'), Duration: {}", _clipId, it->second.name, it->second.duration));
         return it->second.duration;
     }
 
-    Console::LogWarning(std::format("Animator::GetAnimationDuration - ClipId: {} NOT FOUND", _clipId));
+    Console::LogWarning(std::format("Animator::GetAnimationDuration - ClipId: {} NOT FOUND in model '{}'", _clipId, smr->GetMeshPath()));
     return 0.0f;
 }
 
@@ -209,6 +223,21 @@ namespace ComponentDebug {
                     }
 
                     if (ImGui::TreeNode("State 0 (Current)")) {
+                        // クリップ名の特定
+                        std::string clipName = "Unknown";
+                        auto* owner = first->GetOwner();
+                        auto* ecs = owner->GetECSGroup();
+                        auto* smrArray = ecs->GetComponentArray<SkinMeshRenderer>();
+                        auto* smr = smrArray ? smrArray->GetComponent(owner->GetId()) : nullptr;
+                        if (smr) {
+                            auto* ac = Asset::AssetCollection::GetInstance();
+                            if (auto* model = ac->GetModel(smr->GetMeshPath())) {
+                                auto it = model->GetAnimationClips().find(layer.states[0].clipId);
+                                if (it != model->GetAnimationClips().end()) clipName = it->second.name;
+                            }
+                        }
+
+                        ImGui::Text("Active Clip: %s", clipName.c_str());
                         ImGui::Text("Clip ID: %u", layer.states[0].clipId);
                         ImGui::Text("Time: %.2f", layer.states[0].time);
                         ImGui::Text("Weight: %.2f", layer.states[0].weight);

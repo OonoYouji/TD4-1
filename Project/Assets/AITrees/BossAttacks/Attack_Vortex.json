@@ -31,8 +31,13 @@
             "inputs": [{ "id": 40, "name": "In" }], "outputs": []
         },
         {
-            "id": 5, "className": "InvokeEventNode", "name": "Vortex Finish Explosion", "isDecorator": false, "hasBreakpoint": false,
-            "properties": { "eventName": "Effect_Vortex_Explosion", "waitUntilComplete": "true" },
+            "id": 5, "className": "SpawnEffectNode", "name": "Vortex Finish Explosion", "isDecorator": false, "hasBreakpoint": false,
+            "properties": { 
+                "effectName": "Effect_Vortex_Explosion", 
+                "scale": "15.0", 
+                "duration": "3.0",
+                "targetPosKey": "TargetPosition" 
+            },
             "decorators": [], "services": [], "pos": [400.0, 150.0],
             "inputs": [{ "id": 50, "name": "In" }], "outputs": []
         }

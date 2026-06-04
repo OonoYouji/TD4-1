@@ -6,6 +6,8 @@ class HP : MonoScript
     public int currentHp = 0;
     [SerializeField]
     public bool disableAutoDestruction = false;
+    [SerializeField]
+    public bool isInvincible = false;
 
     private bool _isDead = false;
 
@@ -13,6 +15,7 @@ class HP : MonoScript
     {
         currentHp = MAX_HP;
         _isDead = false;
+        isInvincible = false;
     }
 
     public override void Update()
@@ -25,7 +28,7 @@ class HP : MonoScript
 
     public void TakeDamage(int damage)
     {
-        if (_isDead) return;
+        if (_isDead || isInvincible) return;
 
         currentHp -= damage;
         if (currentHp <= 0)

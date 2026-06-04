@@ -62,6 +62,9 @@ void AssetCollection::Initialize(DxManager* dxm) {
 	animBundle->loader = std::make_unique<AssetLoader<AnimationClip>>();
 	animBundle->container = std::make_unique<AssetContainer<AnimationClip>>(128);
 
+	// デフォルトテクスチャを確実に最初にロードする
+	Load("./Packages/Textures/white.png", AssetType::Texture);
+
 	LoadResourcesAsync(GetResourceFilePaths("./Packages/"));
 	LoadResourcesAsync(GetResourceFilePaths("./Assets/"));
 

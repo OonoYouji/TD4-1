@@ -4,9 +4,9 @@
             "bVal": false,
             "fVal": 0.0,
             "iVal": 0,
-            "key": "PatrolIndex",
+            "key": "TargetPosition",
             "sVal": "",
-            "type": 0,
+            "type": 3,
             "vVal": [
                 0.0,
                 0.0,
@@ -18,27 +18,22 @@
     "links": [
         {
             "endPin": 4,
-            "id": 15,
+            "id": 12,
             "startPin": 2
         },
         {
-            "endPin": 9,
-            "id": 16,
+            "endPin": 7,
+            "id": 13,
             "startPin": 5
         },
         {
-            "endPin": 12,
-            "id": 17,
-            "startPin": 10
+            "endPin": 9,
+            "id": 14,
+            "startPin": 5
         },
         {
-            "endPin": 14,
-            "id": 18,
-            "startPin": 10
-        },
-        {
-            "endPin": 7,
-            "id": 19,
+            "endPin": 11,
+            "id": 15,
             "startPin": 5
         }
     ],
@@ -50,7 +45,7 @@
             "id": 1,
             "inputs": [],
             "isDecorator": false,
-            "name": "Phase 1 Entry",
+            "name": "Entry",
             "outputs": [
                 {
                     "id": 2,
@@ -58,7 +53,7 @@
                 }
             ],
             "pos": [
-                -200.0,
+                0.0,
                 0.0
             ],
             "properties": {},
@@ -76,7 +71,7 @@
                 }
             ],
             "isDecorator": false,
-            "name": "P1: Root Loop",
+            "name": "Vortex Logic",
             "outputs": [
                 {
                     "id": 5,
@@ -84,14 +79,14 @@
                 }
             ],
             "pos": [
-                50.0,
+                200.0,
                 0.0
             ],
             "properties": {},
             "services": []
         },
         {
-            "className": "PatrolWaypointsNode",
+            "className": "ShowIndicatorNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 3,
@@ -102,28 +97,23 @@
                 }
             ],
             "isDecorator": false,
-            "name": "P1: Movement",
+            "name": "Vortex Preview",
             "outputs": [],
             "pos": [
-                350.0,
-                -100.0
+                400.0,
+                -50.0
             ],
             "properties": {
-                "currentIdxKey": "PatrolIndex",
-                "endAnim": "movement_end",
-                "endWaitTime": "2.000000",
-                "loopAnim": "movement",
-                "startAnim": "movement_start",
-                "startWaitTime": "2.000000",
-                "stopDistance": "10.0",
-                "useClipDuration": "true",
-                "waypointPrefix": "Phase0_WP",
-                "waypointsString": ""
+                "color": "0.0,1.0,1.0,0.5",
+                "duration": "1.0",
+                "shape": "1",
+                "size": "8.0",
+                "targetPosKey": "TargetPosition"
             },
             "services": []
         },
         {
-            "className": "Sequence",
+            "className": "SpawnVortexFieldNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 4,
@@ -134,63 +124,45 @@
                 }
             ],
             "isDecorator": false,
-            "name": "P1: Attack Cycle",
-            "outputs": [
-                {
-                    "id": 10,
-                    "name": "Out"
-                }
-            ],
+            "name": "Spawn Vortex",
+            "outputs": [],
             "pos": [
-                350.0,
-                100.0
+                400.0,
+                50.0
             ],
-            "properties": {},
+            "properties": {
+                "centerDamage": "50",
+                "centerDamageRadius": "3.0",
+                "duration": "5.0",
+                "suctionForce": "30.0",
+                "suctionRadius": "15.0",
+                "targetPosKey": "TargetPosition"
+            },
             "services": []
         },
         {
-            "className": "WaitNode",
+            "className": "SpawnEffectNode",
             "decorators": [],
             "hasBreakpoint": false,
             "id": 5,
             "inputs": [
                 {
-                    "id": 12,
+                    "id": 11,
                     "name": "In"
                 }
             ],
             "isDecorator": false,
-            "name": "Attack Wait",
+            "name": "Vortex Finish Explosion",
             "outputs": [],
             "pos": [
-                650.0,
-                50.0
-            ],
-            "properties": {
-                "duration": "3.0"
-            },
-            "services": []
-        },
-        {
-            "className": "RunBehaviorNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 6,
-            "inputs": [
-                {
-                    "id": 14,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Spawn Bomb",
-            "outputs": [],
-            "pos": [
-                650.0,
+                400.0,
                 150.0
             ],
             "properties": {
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json"
+                "duration": "3.0",
+                "effectName": "Effect_Vortex_Explosion",
+                "scale": "15.0",
+                "targetPosKey": "TargetPosition"
             },
             "services": []
         }

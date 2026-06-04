@@ -141,6 +141,7 @@
     <Compile Include="Scripts/Game/AI/BehaviorTree/FindPlayerService.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/HPMonitorService.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/HPRegenService.cs" />
+    <Compile Include="Scripts/Game/AI/BehaviorTree/HPRegenNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/InvokeEventNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/MoveToPlayerNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/PatrolWaypointsNode.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="Scripts/Game/AI/BehaviorTree/UpdateTargetTrackerNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/FireBeamNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnGiantExpansionNode.cs" />
+    <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnPillarNode.cs" />
+    <Compile Include="Scripts/Game/AI/BehaviorTree/SpawnEffectNode.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\CameraLookAt.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
@@ -171,6 +174,7 @@
     <Compile Include="Scripts\Game\Enemy\EnemyCollisionHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\EnemyUIHandler.cs" />
     <Compile Include="Scripts\Game\Enemy\FallingRock.cs" />
+    <Compile Include="Scripts\Game\Enemy\FallingPillar.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />

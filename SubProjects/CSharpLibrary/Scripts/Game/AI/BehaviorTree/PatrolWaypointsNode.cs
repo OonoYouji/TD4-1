@@ -71,6 +71,11 @@ public class PatrolWaypointsNode : BehaviorNode
         EnsureWaypointNames(owner);
         if (waypointNames_.Count == 0) return NodeStatus.Failure;
 
+        // デバッグ：プロパティのロード状況を確認
+        if (Tree != null && Tree.TickCount % 100 == 1) {
+            Debug.Log($"[PatrolWaypoints] Property Check - Start: '{startAnim}', Loop: '{loopAnim}', End: '{endAnim}'");
+        }
+
         uint idxKeyHash = BehaviorTreeLoader.HashString(currentIdxKey);
         int currentIdx = blackboard.GetInt(idxKeyHash, 0);
 
@@ -78,8 +83,15 @@ public class PatrolWaypointsNode : BehaviorNode
         uint timerKey = BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash);
         uint durationKey = BehaviorTreeLoader.HashString("WaitDur_" + NodeIdHash);
         
-        MoveState state = (MoveState)blackboard.GetInt(stateKey, (int)MoveState.Start);
+        int stateInt = blackboard.GetInt(stateKey, (int)MoveState.Start);
+        MoveState state = (MoveState)stateInt;
         float currentTime = Time.time;
+
+        // デバッグ：現在の状態を定期的に出力
+        if (Tree != null && Tree.TickCount % 100 == 5) {
+            bool hasTimer = blackboard.HasKey(timerKey);
+            Debug.Log($"[PatrolWaypoints] ID:{NodeId} State:{state} HasTimer:{hasTimer} StartAnim:'{startAnim}'");
+        }
 
         var animator = owner.GetComponent<Animator>();
         var aiIntent = owner.GetComponent<AgentIntentComponent>();
@@ -99,21 +111,31 @@ public class PatrolWaypointsNode : BehaviorNode
                 if (!string.IsNullOrEmpty(startAnim))
                 {
                     if (animator != null) {
-                        Debug.Log($"[PatrolWaypoints] '{owner.name}' playing StartAnim: '{startAnim}' via Animator");
+                        uint clipHash = StringHash.Get(startAnim);
+                        Debug.Log($"[PatrolWaypoints] '{owner.name}' triggering StartAnim: '{startAnim}' (Hash:{clipHash}) via Animator");
                         animator.CrossFade(startAnim, 0.1f);
-                        if (useClipDuration) waitTime = animator.GetAnimationDuration(startAnim);
+                        if (useClipDuration) {
+                            waitTime = animator.GetAnimationDuration(startAnim);
+                            Debug.Log($"[PatrolWaypoints] Clip duration for '{startAnim}': {waitTime}s");
+                        }
                     } else if (animPlayer != null) {
                         Debug.Log($"[PatrolWaypoints] '{owner.name}' playing StartAnim via AnimationPlayer (Fallback)");
                         animPlayer.Play();
                     }
                 }
+                else {
+                    Debug.LogWarning($"[PatrolWaypoints] StartAnim is EMPTY on node '{name}'");
+                }
                 blackboard.SetFloat(timerKey, currentTime);
                 blackboard.SetFloat(durationKey, waitTime);
             }
+            
+            float startTime = blackboard.GetFloat(timerKey);
+            float waitDur = blackboard.GetFloat(durationKey);
 
-            if (currentTime - blackboard.GetFloat(timerKey) >= blackboard.GetFloat(durationKey))
+            if (currentTime - startTime >= waitDur)
             {
-                Debug.Log($"[PatrolWaypoints] Start animation finished. Moving.");
+                Debug.Log($"[PatrolWaypoints] Start animation finished ({waitDur}s). Moving.");
                 blackboard.Remove(timerKey);
                 blackboard.Remove(durationKey);
                 blackboard.SetInt(stateKey, (int)MoveState.Moving);
@@ -121,7 +143,10 @@ public class PatrolWaypointsNode : BehaviorNode
                 
                 if (!string.IsNullOrEmpty(loopAnim))
                 {
-                    if (animator != null) animator.CrossFade(loopAnim, 0.2f);
+                    if (animator != null) {
+                        Debug.Log($"[PatrolWaypoints] '{owner.name}' triggering LoopAnim: '{loopAnim}'");
+                        animator.CrossFade(loopAnim, 0.2f);
+                    }
                     else if (animPlayer != null) animPlayer.Play();
                 }
             }

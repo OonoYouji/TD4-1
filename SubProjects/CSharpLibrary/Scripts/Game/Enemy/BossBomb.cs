@@ -108,6 +108,15 @@ public class BossBomb : MonoScript
             trigger.interval = 0; // 単発
         }
 
+        // --- 燃焼エリアの生成 (Spec v2) ---
+        Entity fireArea = entity.Group.CreateEntity("BurningArea");
+        if (fireArea != null)
+        {
+            fireArea.parent = null;
+            fireArea.transform.position = new Vector3(transform.position.x, 0.05f, transform.position.z);
+            fireArea.transform.scale = new Vector3(explosionScale, 0.1f, explosionScale);
+        }
+
         // 爆発イベント
         FrameEvent.EnqueueNamedEvent("Effect_Explosion", entity.Id);
         Debug.Log($"[BossBomb] Exploding at {Vector3.ToSimpleString(transform.position)}");

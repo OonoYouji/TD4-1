@@ -53,6 +53,7 @@ public class FireBeamNode : BehaviorNode
                 if (trigger != null)
                 {
                     trigger.damage = (int)damage;
+                    trigger.interval = 0.1f; // 連続ヒット判定
                     trigger.slowMultiplier = slowMultiplier;
                     trigger.slowDuration = slowDuration;
                 }

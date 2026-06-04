@@ -89,8 +89,12 @@ public class SpawnVortexFieldNode : BehaviorNode
             if (dist <= suctionRadius && dist > 0.1f)
             {
                 // 距離の2乗に反比例する吸引力 (F = force / dist^2)
-                // ただし至近距離で無限大にならないようクランプ
                 float power = suctionForce / (dist * dist + 1.0f);
+                
+                // 岩や柱の場合は吸引力を強める
+                bool isObject = e.name.Contains("Rock") || e.name.Contains("Pillar");
+                if (isObject) power *= 1.5f;
+
                 Vector3 pullDir = (center - e.transform.position).Normalized();
                 e.transform.position += pullDir * power * Time.deltaTime;
 
@@ -101,6 +105,20 @@ public class SpawnVortexFieldNode : BehaviorNode
                     {
                         e.GetScript<HP>()?.TakeDamage(centerDamage);
                         Debug.Log("<color=red>[Vortex]</color> Player caught in center! Damage applied.");
+                    }
+                    
+                    // 吸い込まれた物体の爆発（擬似的な処理）
+                    if (isObject && dist <= 1.5f)
+                    {
+                        Debug.Log($"<color=orange>[Vortex]</color> {e.name} sucked in and exploded!");
+                        FrameEvent.EnqueueNamedEvent("Effect_Explosion", e.Id);
+                        owner.Group.DestroyEntity(e.Id);
+                        
+                        // 周囲のプレイヤーに爆発ダメージ
+                        float playerDist = Vector3.Distance(center, owner.Group.FindEntity("Player")?.transform.position ?? Vector3.zero);
+                        if (playerDist <= 5.0f) {
+                            owner.Group.FindEntity("Player")?.GetScript<HP>()?.TakeDamage(30);
+                        }
                     }
                 }
             }

@@ -28,21 +28,64 @@
             "debugRectSize": 0.009999999776482582,
             "enable": 1,
             "isPlaying": true,
-            "meshPath": "./Assets/AssetsWorkspace/models/boss_animation.gltf",
+            "meshPath": "./Assets/Models/Boss/boss_animation.gltf",
             "texturePath": "./Packages/Textures/white.png",
             "type": "SkinMeshRenderer"
+        },
+        {
+            "enable": 1,
+            "layers": [
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 1.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                }
+            ],
+            "type": "Animator"
         },
         {
             "BossAI": {
                 "treePath": "./Assets/AITrees/BossMain.json"
             },
             "BossPerformanceDirector": {
-                "deathPerformancePrefabPath": "",
+                "deathPerformancePrefabPath": "BossDeadEffect.prefab",
+                "deathWaitDuration": 4.0,
                 "performances": [
                     {
-                        "__type": "PhasePerformance",
-                        "hpThreshold": 1.100000023841858,
-                        "prefabPath": "BossPhase0Effect.prefab"
+                        "hpThreshold": 1.1,
+                        "isIntro": true,
+                        "name": "Opening Intro",
+                        "prefabPath": "BossPhase0Effect.prefab",
+                        "waitDuration": 3.0
+                    },
+                    {
+                        "hpThreshold": 0.7,
+                        "isIntro": false,
+                        "name": "To Phase 2",
+                        "prefabPath": "BossPhase1Effect.prefab",
+                        "waitDuration": 2.0
+                    },
+                    {
+                        "hpThreshold": 0.4,
+                        "isIntro": false,
+                        "name": "To Phase 3",
+                        "prefabPath": "BossPhase2Effect.prefab",
+                        "waitDuration": 2.5
                     }
                 ]
             },
@@ -60,8 +103,9 @@
             "HP": {
                 "MAX_HP": 1200,
                 "_isDead": false,
-                "currentHp": 1200,
-                "disableAutoDestruction": true
+                "currentHp": 1320,
+                "disableAutoDestruction": true,
+                "isInvincible": false
             },
             "Knockback": {
                 "KNOCKBACK_DECAY": 0.0,

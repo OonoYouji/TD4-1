@@ -7,10 +7,11 @@
     "links": [
         { "id": 1, "startPin": 2, "endPin": 4 },
         { "id": 2, "startPin": 5, "endPin": 10 },
-        { "id": 3, "startPin": 11, "endPin": 6 },
-        { "id": 4, "startPin": 11, "endPin": 13 },
-        { "id": 5, "startPin": 11, "endPin": 17 },
-        { "id": 6, "startPin": 11, "endPin": 21 }
+        { "id": 3, "startPin": 5, "endPin": 51 },
+        { "id": 10, "startPin": 11, "endPin": 6 },
+        { "id": 11, "startPin": 11, "endPin": 13 },
+        { "id": 12, "startPin": 11, "endPin": 17 },
+        { "id": 13, "startPin": 11, "endPin": 21 }
     ],
     "nodes": [
         {
@@ -27,15 +28,17 @@
                 {
                     "className": "HPMonitorService", "name": "HP Monitor",
                     "properties": { "Interval": "0.5", "currentHPKey": "CurrentHP", "hpRatioKey": "HPRatio" }
-                },
-                {
-                    "className": "HPRegenService", "name": "Auto HP Regen",
-                    "properties": { "Interval": "1.0", "currentHPKey": "CurrentHP", "maxHP": "1200", "regenPerSecond": "5" }
                 }
             ]
         },
         {
-            "className": "Selector", "id": 3, "name": "Phase Selector", "pos": [400.0, 0.0],
+            "className": "HPRegenNode", "id": 50, "name": "Auto HP Regen", "pos": [400.0, -150.0],
+            "inputs": [{ "id": 51, "name": "In" }], "outputs": [],
+            "properties": { "regenPerSecond": "5", "maxRatio": "0.7", "maxHP": "1200" },
+            "decorators": [], "services": []
+        },
+        {
+            "className": "Selector", "id": 3, "name": "Phase Selector", "pos": [400.0, 50.0],
             "inputs": [{ "id": 10, "name": "In" }], "outputs": [{ "id": 11, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
@@ -44,7 +47,7 @@
             "pos": [700.0, -300.0],
             "inputs": [{ "id": 6, "name": "In" }],
             "outputs": [],
-            "properties": { "treePath": "Assets/AITrees/DefaultTree.json" },
+            "properties": { "treePath": "Assets/AITrees/EmptyTree.json" },
             "decorators": [
                 {
                     "className": "BossPhaseDecorator", "name": "HP > 100%",

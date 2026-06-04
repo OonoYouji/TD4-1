@@ -1,54 +1,90 @@
 {
-    "blackboard": [],
+    "blackboard": [
+        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "links": [
+        { "id": 1, "startPin": 10, "endPin": 20 },
+        { "id": 2, "startPin": 11, "endPin": 30 },
+        { "id": 3, "startPin": 11, "endPin": 40 },
+        { "id": 4, "startPin": 41, "endPin": 50 },
+        { "id": 5, "startPin": 41, "endPin": 60 },
+        { "id": 6, "startPin": 51, "endPin": 70 },
+        { "id": 7, "startPin": 51, "endPin": 80 },
+        { "id": 8, "startPin": 61, "endPin": 90 },
+        { "id": 9, "startPin": 61, "endPin": 100 }
+    ],
     "nodes": [
         {
             "id": 1, "className": "Entry", "name": "Phase 2 Entry", "pos": [-200.0, 0.0],
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": [
+                {
+                    "className": "FindPlayerService", "name": "Track Player",
+                    "properties": { "Interval": "0.1", "targetPosKey": "TargetPosition" }
+                }
+            ]
+        },
+        {
+            "id": 2, "className": "Sequence", "name": "P2: Root Sequence", "pos": [50.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 11, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 2, "className": "Sequence", "name": "P2: Root Sequence", "pos": [100.0, 0.0],
-            "inputs": [{ "id": 11, "name": "In" }], "outputs": [{ "id": 12, "name": "Out" }],
-            "properties": {}, "decorators": [], "services": []
-        },
-        {
-            "id": 3, "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [400.0, -100.0],
-            "inputs": [{ "id": 13, "name": "In" }], "outputs": [],
+            "id": 3, "className": "MoveToPlayerNode", "name": "P2: Follow Player", "pos": [300.0, -100.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": [],
             "properties": {
-                "stopDistance": "5.0",
+                "stopDistance": "10.0",
                 "startAnim": "movement_start",
                 "loopAnim": "movement",
                 "endAnim": "movement_end",
                 "useClipDuration": "true",
-                "trackingRotationSpeed": "2.0"
+                "timeout": "4.0"
             },
             "decorators": [], "services": []
         },
         {
-            "id": 4, "className": "Sequence", "name": "P2: Attack Sequence", "pos": [400.0, 100.0],
-            "inputs": [{ "id": 14, "name": "In" }], "outputs": [{ "id": 15, "name": "Out" }],
+            "id": 4, "className": "Selector", "name": "P2: Random Attack", "pos": [300.0, 100.0],
+            "inputs": [{ "id": 40, "name": "In" }], "outputs": [{ "id": 41, "name": "Out" }],
             "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 5, "className": "WaitNode", "name": "Attack Interval", "pos": [700.0, 100.0],
-            "inputs": [{ "id": 16, "name": "In" }], "outputs": [],
-            "properties": { "duration": "4.0" },
+            "id": 5, "className": "Sequence", "name": "P2: Beam Cycle", "pos": [550.0, 0.0],
+            "inputs": [{ "id": 50, "name": "In" }], "outputs": [{ "id": 51, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "id": 6, "className": "Sequence", "name": "P2: Pillar Cycle", "pos": [550.0, 200.0],
+            "inputs": [{ "id": 60, "name": "In" }], "outputs": [{ "id": 61, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "id": 10, "className": "WaitNode", "name": "Beam Wait", "pos": [800.0, -50.0],
+            "inputs": [{ "id": 70, "name": "In" }], "outputs": [],
+            "properties": { "duration": "3.0" },
             "decorators": [], "services": []
         },
         {
-            "id": 6, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [700.0, 200.0],
-            "inputs": [{ "id": 17, "name": "In" }], "outputs": [],
+            "id": 11, "className": "RunBehaviorNode", "name": "Execute Beam", "pos": [800.0, 50.0],
+            "inputs": [{ "id": 80, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 12, "className": "WaitNode", "name": "Pillar Wait", "pos": [800.0, 150.0],
+            "inputs": [{ "id": 90, "name": "In" }], "outputs": [],
+            "properties": { "duration": "2.0" },
+            "decorators": [], "services": []
+        },
+        {
+            "id": 13, "className": "SpawnPillarNode", "name": "Drop Pillar", "pos": [800.0, 250.0],
+            "inputs": [{ "id": 100, "name": "In" }], "outputs": [],
             "properties": { 
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json"
+                "pillarPrefab": "BossPillar",
+                "telegraphDuration": "1.5",
+                "indicatorSize": "7.0",
+                "spawnHeight": "40.0"
             },
             "decorators": [], "services": []
         }
-    ],
-    "links": [
-        { "id": 1, "startPin": 10, "endPin": 11 },
-        { "id": 2, "startPin": 12, "endPin": 13 },
-        { "id": 3, "startPin": 12, "endPin": 14 },
-        { "id": 4, "startPin": 15, "endPin": 16 },
-        { "id": 5, "startPin": 15, "endPin": 17 }
     ]
 }
