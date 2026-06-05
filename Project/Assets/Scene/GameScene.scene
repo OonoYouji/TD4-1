@@ -139,6 +139,11 @@
             "guid": "c757553477e6ca25971ea23fac2bf11e",
             "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
             "path": "./GameScene/Phase0_WP_3.entity"
+        },
+        {
+            "guid": "aa11bb22cc33dd44ee55ff66aa11bb22",
+            "parentGuid": null,
+            "path": "./GameScene/BossMovementBlockManager.entity"
         }
     ]
 }

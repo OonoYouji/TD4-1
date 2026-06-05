@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 3.0,
+                "y": 3.0,
+                "z": 3.0
             },
             "type": "Transform"
         },
@@ -33,18 +33,22 @@
                 "lifeTime": 10.0,
                 "mass": 1.0,
                 "moveSpeed": 8.0,
+                "normalScale": 4.0,
                 "retreatSpeed": 20.0,
+                "sinkDepth": 5.0,
                 "supportBuffRadius": 29.0,
                 "supportedDamage": 15.0,
-                "supportedScale": 2.0,
+                "supportedScale": 5.0,
                 "viewAngle": 60.0
-            },
-            "ReinforcementFallIn": {
-                "lerpDuration": 0.3,
-                "launchSpeed": 20.0
             },
             "ReinforcementDamageHandler": {
                 "damageCooldownTime": 0.0
+            },
+            "ReinforcementFallIn": {
+                "launchSpeed": 30.0,
+                "lerpDuration": 0.30000001192092896,
+                "shakeAmplitude": 1.5,
+                "shakeFrequency": 50.20000076293945
             },
             "type": "Variables"
         },
@@ -109,7 +113,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "e3ea71933e003f2c01519bcc060f78a1",
+    "guid": "cc40ca01f0efa9e2c31d58e691374d00",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

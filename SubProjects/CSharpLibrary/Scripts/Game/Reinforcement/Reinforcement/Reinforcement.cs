@@ -13,37 +13,41 @@ public partial class Reinforcement : MonoScript
     // 通常状態パラメーター
     // =========================================================
 
+    // 通常状態のスケール
+    [SerializeField] public float normalScale = 1.0f;
     // 移動速度
-    [SerializeField] public float moveSpeed    = 8.0f;
+    [SerializeField] public float moveSpeed = 8.0f;
     // 質量
-    [SerializeField] public float mass         = 1.0f;
+    [SerializeField] public float mass = 1.0f;
     // 生存時間
-    [SerializeField] public float lifeTime     = 10.0f;
+    [SerializeField] public float lifeTime = 10.0f;
     // ボスへのダメージ量
-    [SerializeField] public float damage       = 10.0f;
+    [SerializeField] public float damage = 10.0f;
     // 退散時の速度
     [SerializeField] public float retreatSpeed = 20.0f;
     // 画面内判定に使う視野角
-    [SerializeField] public float viewAngle    = 60.0f;
+    [SerializeField] public float viewAngle = 60.0f;
 
     // =========================================================
     // 援護バフ設定（プレハブごとに調整）
     // =========================================================
 
     // 穴にはまった時に周囲を強化する範囲
-    [SerializeField] public float supportBuffRadius = 5.0f;
-    // 援護バフを受けた時のスケール（絶対値）
-    [SerializeField] public float supportedScale    = 2.0f;
-    // 援護バフを受けた時の攻撃力（絶対値）
-    [SerializeField] public float supportedDamage   = 15.0f;
+    [SerializeField] public float supportBuffRadius;
+    // 床の元位置より何単位下にはまるか
+    [SerializeField] public float sinkDepth;
+    // 援護バフを受けた時のスケール
+    [SerializeField] public float supportedScale;
+    // 援護バフを受けた時の攻撃力
+    [SerializeField] public float supportedDamage;
 
     // =========================================================
     // 外部から設定
     // =========================================================
 
     // スポーン位置と進行方向はCallingReinforcementがセットする
-    public Vector3 startPosition   = Vector3.zero;
-    public Vector3 direction       = Vector3.forward;
+    public Vector3 startPosition = Vector3.zero;
+    public Vector3 direction = Vector3.forward;
     // FieldFallとの当たり判定フラグ
     public bool isCollisionEnabled = false;
 
@@ -51,10 +55,10 @@ public partial class Reinforcement : MonoScript
     // コールバック
     // =========================================================
 
-    // 自然死した時（退散でなく倒された時）に呼ばれる
-    public Action<Reinforcement> onDied       = null;
+    // 退散でなく倒された時に呼ばれる
+    public Action<Reinforcement> onDied = null;
     // ボスに攻撃が当たった時に呼ばれる
-    public Action<int, Vector3>  onAttackBoss = null;
+    public Action<int, Vector3> onAttackBoss = null;
 
     // =========================================================
     // 内部状態
@@ -62,39 +66,39 @@ public partial class Reinforcement : MonoScript
 
     // 現在の状態（Normal / Supported）
     private ReinforcementState state_ = ReinforcementState.Normal;
-    public  ReinforcementState State  => state_;
+    public ReinforcementState State => state_;
 
     // 初期位置の適用が済んでいるか
-    private bool    positionApplied   = false;
+    private bool positionApplied = false;
     // 退散中かどうか
-    private bool    isRetreating      = false;
+    private bool isRetreating = false;
     // 退散時の移動ベクトル
-    private Vector3 retreatVelocity   = Vector3.zero;
+    private Vector3 retreatVelocity = Vector3.zero;
     // 生存タイマー
-    private float   timer             = 0.0f;
+    private float timer = 0.0f;
     // スポーン直後の衝突を防ぐフレームカウンター
-    private int     spawnDelayFrames  = 5;
+    private int spawnDelayFrames = 5;
     // 同フレーム内での多重Destroy防止フラグ
-    private bool    isDestroyReserved = false;
+    private bool isDestroyReserved = false;
     // バフ前の色を保持しておく
-    private Vector4 originalColor     = Vector4.one;
-    private bool    colorSaved        = false;
+    private Vector4 originalColor = Vector4.one;
+    private bool colorSaved = false;
     // バフを一度だけ発動するためのフラグ
-    private bool    supportBuffApplied_ = false;
+    private bool supportBuffApplied_ = false;
     // スケール変化のログを1回だけ出すためのフラグ
-    private bool    scaleLoggedOnce_    = false;
+    private bool scaleLoggedOnce_ = false;
     // 前回のスケール適用状態
     private ReinforcementState lastAppliedState_ = ReinforcementState.Normal;
 
     // 各種参照
-    private Entity              cameraEntity  = null;
-    private Entity              playerEntity  = null;
-    private FieldManager        fieldManager_ = null;
+    private Entity cameraEntity = null;
+    private Entity playerEntity = null;
+    private FieldManager fieldManager_ = null;
     // はまり〜打ち上げを担うスクリプト
-    private ReinforcementFallIn fallIn_       = null;
+    private ReinforcementFallIn fallIn_ = null;
 
     // FieldFall が参照するプロパティ
-    public bool IsTrapped    => fallIn_ != null && fallIn_.IsActive;
+    public bool IsTrapped => fallIn_ != null && fallIn_.IsActive;
     public bool IsRetreating => isRetreating;
 
     // =========================================================
@@ -103,22 +107,26 @@ public partial class Reinforcement : MonoScript
 
     public override void Initialize()
     {
-        positionApplied     = false;
-        isRetreating        = false;
-        isCollisionEnabled  = false;
-        isDestroyReserved   = false;
+        positionApplied = false;
+        isRetreating = false;
+        isCollisionEnabled = false;
+        isDestroyReserved = false;
         supportBuffApplied_ = false;
-        scaleLoggedOnce_     = false;
-        lastAppliedState_    = ReinforcementState.Normal;
-        state_               = ReinforcementState.Normal;
-        timer               = 0.0f;
-        spawnDelayFrames    = 2;
-        colorSaved          = false;
+        scaleLoggedOnce_ = false;
+        lastAppliedState_ = ReinforcementState.Normal;
+        state_ = ReinforcementState.Normal;
+
+        // 初期化時に適応
+        transform.scale = new Vector3(normalScale, normalScale, normalScale);
+        timer = 0.0f;
+        spawnDelayFrames = 2;
+        colorSaved = false;
 
         // 参照の取得
         cameraEntity = ecsGroup.FindEntity("Camera");
         playerEntity = ecsGroup.FindEntity("Player");
 
+        // FieldManagerのエンティティとコンポーネントを取得
         Entity fmEntity = ecsGroup.FindEntity("FieldManager");
         if (fmEntity != null)
         {
@@ -152,7 +160,9 @@ public partial class Reinforcement : MonoScript
             return;
         }
 
+        // 途中でnullになったEntityを再取得する
         ReacquireEntities();
+        // 初期位置の適用
         ApplyInitialPosition();
 
         // スポーン直後は当たり判定を無効にして数フレーム待つ
@@ -223,11 +233,13 @@ public partial class Reinforcement : MonoScript
         {
             return;
         }
+ 
         if (startPosition.Length() < 0.001f)
         {
             return;
         }
 
+        // 座標を適用して完了フラグを立てる
         transform.position = startPosition;
         positionApplied = true;
     }
@@ -254,19 +266,23 @@ public partial class Reinforcement : MonoScript
         return false;
     }
 
-    // 状態が変化した時だけスケールを書き込む（毎フレーム書くとエディタのコマンド履歴がたまってクラッシュする）
+    // 状態が変化した時だけスケールを書き込む
     private void ApplyStateScale()
     {
+
+        // 状態が変化していないなら何もしない
         if (state_ == lastAppliedState_)
         {
             return;
         }
 
-        float target = 1.0f;
+        // 状態に応じたスケールを適用
+        float target = normalScale;
         if (state_ == ReinforcementState.Supported)
         {
             target = supportedScale;
 
+            // バフを与えたことをログに出す
             if (!scaleLoggedOnce_)
             {
                 Debug.Log($"<color=orange>[ApplyStateScale]</color> {entity.name} scale → {supportedScale}");
@@ -274,6 +290,7 @@ public partial class Reinforcement : MonoScript
             }
         }
 
+        // スケールを適用
         transform.scale = new Vector3(target, target, target);
         lastAppliedState_ = state_;
     }
@@ -362,10 +379,11 @@ public partial class Reinforcement : MonoScript
     // FieldFallから呼ばれる、ReinforcementFallInにはまり処理を委譲してバフも発動
     public void TrapToCell(float stuckY, float cellCenterX, float cellCenterZ)
     {
+        // はまり処理を開始
         fallIn_?.StartFallIn(stuckY, cellCenterX, cellCenterZ);
         isCollisionEnabled = false;
 
-        // 1回だけバフを発動する
+        // バフを発動する
         if (!supportBuffApplied_)
         {
             ApplySupportBuff();

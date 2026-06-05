@@ -2,7 +2,31 @@
     "active": true,
     "components": [
         {
-            "maxSpeed": 8.0,
+            "position": {
+                "x": -145.5978546142578,
+                "y": 9.418465614318848,
+                "z": -109.847412109375
+            },
+            "rotate": {
+                "w": -0.8950632810592651,
+                "y": 0.445939302444458
+            },
+            "type": "Transform"
+        },
+        {
+            "HP": {
+                "currentHp": 267
+            },
+            "type": "Variables"
+        },
+        {
+            "desiredRotation": {
+                "w": 0.8950628638267517,
+                "x": 0.0,
+                "y": -0.4459400177001953,
+                "z": -0.0
+            },
+            "rotationSpeed": 1.0,
             "type": "AgentIntentComponent"
         }
     ],

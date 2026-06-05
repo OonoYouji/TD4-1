@@ -197,6 +197,9 @@
     <Compile Include="Scripts\Game\Field\FieldCell.cs" />
     <Compile Include="Scripts\Game\Field\FieldFall.cs" />
     <Compile Include="Scripts\Game\Field\FieldManager.cs" />
+    <Compile Include="Scripts\Game\Field\BossBlockConfig.cs" />
+    <Compile Include="Scripts\Game\Field\BossMovementBlock.cs" />
+    <Compile Include="Scripts\Game\Field\BossMovementBlockManager.cs" />
     <Compile Include="Scripts\Game\Reinforcement\ReinforcementManager.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
     <Compile Include="Scripts\Game\StageObject\StartPoint.cs" />

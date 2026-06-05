@@ -2,13 +2,14 @@
     "active": true,
     "components": [
         {
-            "Reinforcement": {
-                "supportBuffRadius": 99.0
+            "ReinforcementFallIn": {
+                "shakeAmplitude": 1.5,
+                "shakeFrequency": 50.20000076293945
             },
             "type": "Variables"
         }
     ],
-    "guid": "62206f2c479bdb2d162e31c42fcd326e",
+    "guid": "cc40ca01f0efa9e2c31d58e691374d00",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

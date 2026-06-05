@@ -63,6 +63,12 @@ public class CallingReinforcement : MonoScript
         {
             return;
         }
+        // Phase 2 以降でないと援軍を呼べない
+        string phase = AIUpdater.lastBossPhase;
+        if (phase != "Phase 2" && phase != "Phase 3")
+        {
+            return;
+        }
         // フリーズ中は召喚できない
         if (player.IsFrozen)
         {
