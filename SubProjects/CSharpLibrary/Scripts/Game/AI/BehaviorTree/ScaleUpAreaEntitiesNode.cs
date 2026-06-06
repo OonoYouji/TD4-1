@@ -35,6 +35,10 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
         }
 
         Vector3 targetPos = blackboard.GetVector3(keyHash);
+
+        // 判定範囲をGizmoで可視化 (マゼンタ色)
+        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, effectRadius, new Vector4(1, 0, 1, 1), 32);
+
         var entities = owner.Group.GetEntities();
         int affectedCount = 0;
 
@@ -43,11 +47,9 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
             // 自身は除外
             if (entity.Id == owner.Id) continue;
 
-            // 名前フィルタリング
-            if (!string.IsNullOrEmpty(targetNameFilter) && !entity.name.Contains(targetNameFilter))
-            {
-                continue;
-            }
+            // フィルタリング (大文字小文字を区別せず、スクリプトもチェック)
+            bool isTarget = entity.name.ToLower().Contains("reinforcement") || entity.GetScript<Reinforcement>() != null;
+            if (!isTarget) continue;
 
             // 距離判定
             float dist = Vector3.Distance(targetPos, entity.transform.position);
@@ -55,20 +57,19 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
             if (dist <= effectRadius)
             {
                 // 何度も巨大化しないように、現在のスケール値をチェックする
-                // （初期スケールが 1.0 であることを前提とし、すでに倍率以上に大きくなっていたらスキップ）
                 if (entity.transform.scale.x < scaleMultiplier * 0.8f)
                 {
                     // スケールアップ処理
                     entity.transform.scale *= scaleMultiplier;
                     affectedCount++;
 
-                    // 巨大化エフェクトのイベント発行（オプション）
+                    // 巨大化エフェクトのイベント発行
                     FrameEvent.EnqueueNamedEvent("Effect_ScaleUp", entity.Id);
                 }
             }
         }
 
-        Debug.Log($"<color=magenta>[ScaleUpAttack]</color> {owner.name} scaled up {affectedCount} entities at {targetPos}.");
+        Debug.Log($"<color=magenta>[ScaleUpAttack]</color> {owner.name} scaled up {affectedCount} Reinforcements at {Vector3.ToSimpleString(targetPos)}. (Multiplier: {scaleMultiplier})");
         
         // 演出としてボス自身の咆哮イベントも発行
         FrameEvent.EnqueueNamedEvent("Effect_BossRoar", owner.Id);

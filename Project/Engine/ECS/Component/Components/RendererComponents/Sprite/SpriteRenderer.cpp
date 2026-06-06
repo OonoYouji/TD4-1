@@ -2,6 +2,7 @@
 
 /// external
 #include <imgui.h>
+#include <format>
 
 /// engine
 #include "Engine/Core/Utility/Tools/Log.h"
@@ -76,6 +77,7 @@ void SpriteRenderer::RenderingSetup(Asset::AssetCollection* _assetCollection) {
 			gpuMaterial_.baseTextureId = textureIndex;
 		} else {
 			gpuMaterial_.baseTextureId = 0;
+			Console::LogWarning(std::format("[SpriteRenderer] Texture not found in AssetCollection. GUID: {}. Falling back to default (Index 0).", material_.GetBaseTextureGuid().ToString()));
 		}
 	} else {
 		gpuMaterial_.baseTextureId = 0;
@@ -83,8 +85,6 @@ void SpriteRenderer::RenderingSetup(Asset::AssetCollection* _assetCollection) {
 
 	gpuMaterial_.uvTransform = material_.uvTransform;
 	gpuMaterial_.entityId = owner_ ? static_cast<int32_t>(owner_->GetId()) : 0;
-
-
 }
 
 

@@ -78,41 +78,13 @@ public class DamageTrigger : MonoScript
     {
         Debug.Log($"[DamageTrigger] ApplyDamageTo: {e.name}");
         
-        DamageHandler handler = e.GetScript<DamageHandler>();
-        if (handler != null)
-        {
-            handler.ApplyDamage(damage, transform.position);
-        }
-        else
-        {
-            ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
-            if (rHandler != null)
-            {
-                rHandler.ApplyDamage(damage, transform.position);
-            }
-            else
-            {
-                Reinforcement reinforcement = e.GetScript<Reinforcement>();
-                if (reinforcement != null && reinforcement.isCollisionEnabled)
-                {
-                    reinforcement.TakeDamage();
-                }
-                else if (e.name.Contains("Player"))
-                {
-                    HP hp = e.GetScript<HP>();
-                    if (hp != null) hp.TakeDamage(damage);
-                }
-            }
-        }
+        // --- 共通ユーティリティを使用してダメージ適用 ---
+        BossDamageUtil.ApplyDamage(e, damage, transform.position);
 
         // --- デバフ効果の適用 (Spec v2) ---
-        if (e.name.Contains("Player") && slowDuration > 0.001f)
+        if (slowDuration > 0.001f)
         {
-            Player player = e.GetScript<Player>();
-            if (player != null)
-            {
-                player.ApplySlow(slowMultiplier, slowDuration);
-            }
+            BossDamageUtil.ApplySlow(e, slowMultiplier, slowDuration);
         }
     }
 }

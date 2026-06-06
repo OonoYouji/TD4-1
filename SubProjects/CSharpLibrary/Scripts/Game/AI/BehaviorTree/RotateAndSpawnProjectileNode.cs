@@ -12,17 +12,23 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
     public float fireInterval = 0.2f;
     public float projectileSpeed = 15.0f;
     public float indicatorSize = 7.0f;
+    
+    // v2: 交互に使用する2つの射程距離
+    public float fireDistance1 = 10.0f;
+    public float fireDistance2 = 25.0f;
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("RotateAttackStart_" + NodeIdHash);
         uint lastFireTimeKey = BehaviorTreeLoader.HashString("LastFireTime_" + NodeIdHash);
+        uint toggleKey = BehaviorTreeLoader.HashString("FireDistToggle_" + NodeIdHash);
         float currentTime = Time.time;
 
         if (!blackboard.HasKey(startTimeKey))
         {
             blackboard.SetFloat(startTimeKey, currentTime);
             blackboard.SetFloat(lastFireTimeKey, 0.0f);
+            blackboard.SetInt(toggleKey, 0); // 0: distance1, 1: distance2
             
             var intent = owner.GetComponent<AgentIntentComponent>();
             if (intent != null) intent.useDesiredRotation = false;
@@ -37,6 +43,7 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
         {
             blackboard.Remove(startTimeKey);
             blackboard.Remove(lastFireTimeKey);
+            blackboard.Remove(toggleKey);
             return NodeStatus.Success;
         }
 
@@ -46,14 +53,17 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
         float lastFireTime = blackboard.GetFloat(lastFireTimeKey);
         if (elapsed - lastFireTime >= fireInterval)
         {
-            SpawnProjectile(owner);
+            int currentToggle = blackboard.GetInt(toggleKey);
+            SpawnProjectile(owner, currentToggle);
+            
             blackboard.SetFloat(lastFireTimeKey, elapsed);
+            blackboard.SetInt(toggleKey, (currentToggle + 1) % 2);
         }
 
         return NodeStatus.Running;
     }
 
-    private void SpawnProjectile(Entity owner)
+    private void SpawnProjectile(Entity owner, int toggle)
     {
         Entity projectile = owner.Group.CreateEntity(projectilePrefab);
         if (projectile != null)
@@ -66,8 +76,9 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
 
             if (bomb != null)
             {
-                Random rnd = new Random(Guid.NewGuid().GetHashCode());
-                float distance = 10.0f + (float)rnd.NextDouble() * 15.0f;
+                // v2: 切り替えロジック
+                float distance = (toggle == 0) ? fireDistance1 : fireDistance2;
+                
                 Vector3 targetPos = startPos + fireDir * distance;
                 targetPos.y = 0.0f; 
 
@@ -77,12 +88,8 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
                 Entity telegraph = owner.Group.CreateEntity("TelegraphCircle");
                 if (telegraph != null)
                 {
-                
-
                     telegraph.transform.position = new Vector3(targetPos.x, 0.05f, targetPos.z);
                     telegraph.transform.rotation = Quaternion.identity;
-                    
-                    // 仕様書v2に基づき、爆発範囲(7.0)と同期させる
                     telegraph.transform.scale = new Vector3(indicatorSize, 0.05f, indicatorSize);
 
                     var timedDestruction = telegraph.GetScript<TimedDestruction>();
@@ -104,5 +111,6 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
     {
         blackboard.Remove(BehaviorTreeLoader.HashString("RotateAttackStart_" + NodeIdHash));
         blackboard.Remove(BehaviorTreeLoader.HashString("LastFireTime_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("FireDistToggle_" + NodeIdHash));
     }
 }

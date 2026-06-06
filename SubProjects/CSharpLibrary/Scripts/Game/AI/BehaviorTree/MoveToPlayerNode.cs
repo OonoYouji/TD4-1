@@ -41,6 +41,11 @@ public class MoveToPlayerNode : BehaviorNode
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
+        // デバッグ：プロパティのロード状況を確認
+        if (Tree != null && Tree.TickCount % 100 == 1) {
+            Debug.Log($"[MoveToPlayer] Property Check - Start: '{startAnim}', Loop: '{loopAnim}', End: '{endAnim}'");
+        }
+
         uint stateKey = BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash);
         uint timerKey = BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash);
         uint durationKey = BehaviorTreeLoader.HashString("WaitDur_" + NodeIdHash);

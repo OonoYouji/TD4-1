@@ -4,40 +4,36 @@
     ],
     "nodes": [
         {
-            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [0.0, 0.0],
+            "id": 1, "className": "Entry", "name": "Entry", "pos": [0.0, 0.0],
             "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
         },
         {
-            "id": 2, "className": "Sequence", "name": "Beam Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [200.0, 0.0],
-            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+            "id": 2, "className": "Sequence", "name": "Beam Sequence", "pos": [200.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }],
+            "services": [
+                { "className": "ReinforcementDensitySensingService", "name": "Cluster Sensor", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "15.0", "Interval": "0.5" } }
+            ]
         },
         {
-            "id": 3, "className": "ShowIndicatorNode", "name": "Preview", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "Line", "duration": "1.5", "size": "3.0", "length": "40.0", "color": "0.0,0.5,1.0,0.5", "targetPosKey": "TargetPosition" }, 
-            "decorators": [], "services": [], "pos": [400.0, -100.0],
-            "inputs": [{ "id": 30, "name": "In" }], "outputs": []
+            "id": 3, "className": "AttackTelegraphWaitNode", "name": "Telegraph (Beam)", "pos": [400.0, -100.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": [],
+            "properties": { "duration": "1.5", "startEventName": "Effect_BossCharge", "trackTarget": "true", "rotationSpeed": "2.0" }
         },
         {
-            "id": 5, "className": "InvokeEventNode", "name": "Shake Start", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "eventName": "CameraShake", "waitUntilComplete": "false" }, 
-            "decorators": [], "services": [], "pos": [400.0, 0.0],
-            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
+            "id": 4, "className": "ShowIndicatorNode", "name": "Show Line", "pos": [400.0, 0.0],
+            "inputs": [{ "id": 40, "name": "In" }], "outputs": [],
+            "properties": { "shape": "Line", "duration": "1.5", "size": "1.5", "targetPosKey": "TargetPosition", "color": "1.0,0.0,0.0,0.5" }
         },
         {
-            "id": 4, "className": "FireBeamNode", "name": "Beam Attack", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { 
-                "duration": "2.0", "damage": "50.0", "beamRadius": "2.0", "targetPosKey": "TargetPosition",
-                "slowMultiplier": "0.8", "slowDuration": "2.0" 
-            }, 
-            "decorators": [], "services": [], "pos": [400.0, 100.0],
-            "inputs": [{ "id": 40, "name": "In" }], "outputs": []
+            "id": 5, "className": "FireBeamNode", "name": "Fire Beam", "pos": [400.0, 100.0],
+            "inputs": [{ "id": 50, "name": "In" }], "outputs": [],
+            "properties": { "duration": "2.0", "damage": "50", "trackingRotationSpeed": "1.0" }
         }
     ],
     "links": [
         { "id": 1001, "startPin": 10, "endPin": 20 },
         { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 50 },
-        { "id": 1004, "startPin": 21, "endPin": 40 }
-    ],
-    "comments": []
+        { "id": 1003, "startPin": 21, "endPin": 40 },
+        { "id": 1004, "startPin": 21, "endPin": 50 }
+    ]
 }

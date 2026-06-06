@@ -126,66 +126,82 @@ public class ECSGroup {
 			return;
 		}
 
-		var sw = Stopwatch.StartNew();
+		try {
+			var sw = Stopwatch.StartNew();
 
-		// 受信を最初に行う
-		componentCollection.GetArray<MeshRenderer>();
-		ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
+			// 受信を最初に行う
+			componentCollection.GetArray<MeshRenderer>();
+			ComponentBatchManager.ReceiveAllBatches(componentCollection, groupName);
 
-		CallAwake();
-		CallInitialize();
+			CallAwake();
+			CallInitialize();
 
-		// ヒエラルキー順（ルートから再帰的）に更新を行う
-		// C#側のentities_リストは作成順であるため、C++側からルートエンティティのIDを順序通りに取得する
-		int rootCount = InternalGetRootEntityCount(groupName);
-		for (int i = 0; i < rootCount; i++) {
-			int rootId = InternalGetRootEntityId(groupName, i);
-			Entity entity = GetEntity(rootId);
-			if (entity != null) {
-				UpdateRecursive(entity);
-			}
+			// ヒエラルキー順に更新を行う（スタックオーバーフロー防止のためループで実装）
+			UpdateEntitiesIterative();
+
+			ComponentBatchManager.SendAllBatches(componentCollection, groupName);
+
+			// フレームの終わりに描画データをC++へ送る
+			GizmoBatch.SubmitBatch();
+
+			sw.Stop();
+		} catch (Exception e) {
+			Debug.LogError($"[ECSGroup] Exception in UpdateEntities ({groupName}): {e.Message}\n{e.StackTrace}");
+			throw;
 		}
-
-		ComponentBatchManager.SendAllBatches(componentCollection, groupName);
-
-        // フレームの終わりに描画データをC++へ送る
-        GizmoBatch.SubmitBatch();
-
-		// Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		// Debug.InternalLog("ECSGroup.UpdateEntities - Updating entities in group: " + groupName + ", EntityCount: " + entities_.Count);
-		// Debug.InternalLog($"gen0:{GC.CollectionCount(0)} gen1:{GC.CollectionCount(1)} gen2:{GC.CollectionCount(2)}");
-		sw.Stop();
-		double ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-		// Debug.InternalLog("Update Time (ms): " + ms);
-		// Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
 	}
 
 	/// <summary>
-	/// エンティティをヒエラルキー順に再帰的に更新する
+	/// スタックを使用して非再帰的にエンティティを更新する
 	/// </summary>
-	/// <param name="_entity"></param>
+	private void UpdateEntitiesIterative() {
+		// ルートエンティティをスタックに積む
+		// スタックを使うと「深さ優先（子を先に）」になる
+		Stack<Entity> stack = new Stack<Entity>();
+		
+		int rootCount = InternalGetRootEntityCount(groupName);
+		// スタックなので逆順に積むことで取得順（0, 1, 2...）に処理されるようにする
+		for (int i = rootCount - 1; i >= 0; i--) {
+			int rootId = InternalGetRootEntityId(groupName, i);
+			Entity entity = GetEntity(rootId);
+			if (entity != null) {
+				stack.Push(entity);
+			}
+		}
+
+		while (stack.Count > 0) {
+			Entity current = stack.Pop();
+			if (current == null || current.Id == 0 || !current.enable) continue;
+
+			// --- 現在のエンティティのスクリプト更新 ---
+			// 更新中にリストが変更される可能性があるためコピーを使用
+			var scripts = current.GetScripts(); 
+			foreach (MonoScript script in scripts) {
+				if (script != null && script.enable) {
+					try {
+						script.Update();
+					} catch (Exception e) {
+						Debug.LogError($"[ECSGroup] Exception in script '{script.GetType().Name}' on entity '{current.name}' (ID:{current.Id}): {e.Message}\n{e.StackTrace}");
+						throw;
+					}
+				}
+			}
+
+			// --- 子エンティティをスタックに追加 ---
+			uint childCount = current.GetChildCount();
+			// 逆順に積むことで、Popした時にインデックス順に処理される
+			for (int i = (int)childCount - 1; i >= 0; i--) {
+				Entity child = current.GetChild((uint)i);
+				if (child != null) {
+					stack.Push(child);
+				}
+			}
+		}
+	}
+
+	// 以前の再帰メソッドは削除（またはプライベート化して中身を空に）
 	private void UpdateRecursive(Entity _entity) {
-		// 自身の有効フラグをチェック
-		// 親の有効状態は呼び出し元（ヒエラルキー順の巡回）ですでに担保されているため、自身のフラグのみ確認すればよい
-		if (!_entity.enable) {
-			return;
-		}
-
-		// 自身のスクリプトを更新
-		foreach (MonoScript script in _entity.GetScripts()) {
-			if (script.enable) {
-				script.Update();
-			}
-		}
-
-		// 子エンティティを再帰的に更新
-		uint childCount = _entity.GetChildCount();
-		for (uint i = 0; i < childCount; i++) {
-			Entity child = _entity.GetChild(i);
-			if (child != null) {
-				UpdateRecursive(child);
-			}
-		}
+		// 実装を UpdateEntitiesIterative へ移行したため廃止
 	}
 
 

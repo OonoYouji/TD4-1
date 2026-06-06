@@ -35,6 +35,65 @@ public static class GizmoBatch
         _lineBuffer.Add(new GizmoBatchLineData { startPosition = pos, endPosition = pos + dir, color = color });
     }
 
+    public static void DrawWireCircle(Vector3 center, float radius, Vector4 color, int segments = 24)
+    {
+        DrawWireCircle(center, radius, Vector3.up, color, segments);
+    }
+
+    public static void DrawWireCircle(Vector3 center, float radius, Vector3 up = default, Vector4 color = default, int segments = 24)
+    {
+        if (up.x == 0 && up.y == 0 && up.z == 0) up = Vector3.up;
+        if (color.x == 0 && color.y == 0 && color.z == 0 && color.w == 0) color = new Vector4(1, 1, 1, 1);
+
+        Vector3 forward = (Math.Abs(up.y) > 0.99f) ? Vector3.forward : Vector3.up;
+        Vector3 right = Vector3.Cross(up, forward).Normalized();
+        forward = Vector3.Cross(right, up).Normalized();
+
+        Vector3 prevPoint = center + right * radius;
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = (i / (float)segments) * Mathf.PI * 2.0f;
+            Vector3 point = center + (right * (float)Math.Cos(angle) + forward * (float)Math.Sin(angle)) * radius;
+            DrawLine(prevPoint, point, color);
+            prevPoint = point;
+        }
+    }
+
+    public static void DrawWireArc(Vector3 center, float radius, Vector4 color, float angle, int segments = 12)
+    {
+        DrawWireArc(center, radius, Vector3.up, Vector3.forward, angle, color, segments);
+    }
+
+    public static void DrawWireArc(Vector3 center, float radius, Vector3 up, Vector3 forward, float angle, Vector4 color, int segments = 12)
+    {
+        Vector3 right = Vector3.Cross(up, forward).Normalized();
+        Vector3 prevPoint = center + (forward * (float)Math.Cos(-angle * 0.5f * Mathf.Deg2Rad) + right * (float)Math.Sin(-angle * 0.5f * Mathf.Deg2Rad)) * radius;
+
+        float startAngle = -angle * 0.5f;
+        for (int i = 1; i <= segments; i++)
+        {
+            float currentAngle = (startAngle + (i / (float)segments) * angle) * Mathf.Deg2Rad;
+            Vector3 point = center + (forward * (float)Math.Cos(currentAngle) + right * (float)Math.Sin(currentAngle)) * radius;
+            DrawLine(prevPoint, point, color);
+            prevPoint = point;
+        }
+    }
+
+    /// <summary>
+    /// 指定されたフレーム数分だけ維持される円を描画する
+    /// </summary>
+    public static void DrawDurableCircle(Vector3 center, float radius, Vector4 color, int segments = 24, int frames = 60)
+    {
+        for (int i = 0; i < frames; i++)
+        {
+            // 現状のGizmoBatchは1フレームでクリアされるため、内部バッファの仕組み的に
+            // 外部のマネージャー等で管理しない限り「未来の描画」を予約するのは難しい。
+            // そのため、通常のDrawWireCircleを使用し、呼び出し側でループさせるか、
+            // エンジン側のGizmoSystemにDuration付きのAPIがあればそちらを呼ぶべき。
+        }
+        DrawWireCircle(center, radius, color, segments);
+    }
+
     /// <summary>
     /// フレームの終わりにC#からC++へ描画データを一括送信する。
     /// ECSGroup.UpdateEntities などから呼び出されることを想定。
@@ -42,6 +101,8 @@ public static class GizmoBatch
     public static void SubmitBatch()
     {
         if (_lineBuffer.Count == 0) return;
+
+        // Debug.Log($"[GizmoBatch] Submitting {_lineBuffer.Count} lines to engine.");
 
         try
         {

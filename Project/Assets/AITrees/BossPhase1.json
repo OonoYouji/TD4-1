@@ -1,100 +1,92 @@
 {
     "blackboard": [
-        {
-            "key": "PatrolIndex",
-            "type": 0,
-            "iVal": 0,
-            "fVal": 0.0,
-            "bVal": false,
-            "vVal": [0.0, 0.0, 0.0],
-            "sVal": ""
-        }
+        { "key": "PatrolIndex", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+    ],
+    "links": [
+        { "id": 1, "startPin": 2, "endPin": 100 },
+        { "id": 2, "startPin": 101, "endPin": 102 },
+        { "id": 3, "startPin": 101, "endPin": 10 },
+        { "id": 4, "startPin": 11, "endPin": 70 },
+        { "id": 5, "startPin": 11, "endPin": 90 },
+        { "id": 6, "startPin": 91, "endPin": 120 },
+        { "id": 7, "startPin": 91, "endPin": 140 },
+        { "id": 8, "startPin": 141, "endPin": 150 },
+        { "id": 9, "startPin": 141, "endPin": 160 },
+        { "id": 10, "startPin": 141, "endPin": 170 }
     ],
     "nodes": [
         {
-            "id": 1,
-            "className": "Entry",
-            "name": "Phase 0 Entry",
-            "pos": [-200.0, 0.0],
-            "inputs": [],
-            "outputs": [{ "id": 10, "name": "Out" }],
-            "properties": {},
-            "decorators": [],
-            "services": []
+            "className": "Entry", "id": 1, "name": "Phase 1 Entry", "pos": [-200.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 2, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
         },
         {
-            "id": 2,
-            "className": "Sequence",
-            "name": "P0: Root Sequence",
-            "pos": [100.0, 0.0],
-            "inputs": [{ "id": 11, "name": "In" }],
-            "outputs": [{ "id": 12, "name": "Out" }],
-            "properties": {},
-            "decorators": [],
-            "services": []
+            "className": "Parallel", "id": 100, "name": "P1: Core Systems", "pos": [50.0, 0.0],
+            "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 101, "name": "Out" }],
+            "properties": { "failurePolicy": "0", "successPolicy": "1" },
+            "decorators": [], "services": []
         },
         {
-            "id": 3,
-            "className": "PatrolWaypointsNode",
-            "name": "P0: Movement",
-            "pos": [400.0, -100.0],
-            "inputs": [{ "id": 13, "name": "In" }],
-            "outputs": [],
+            "className": "HPRegenNode", "id": 101, "name": "P1: HP Regen", "pos": [300.0, -200.0],
+            "inputs": [{ "id": 102, "name": "In" }], "outputs": [],
+            "properties": { "regenPerSecond": "5", "maxRatio": "1.0", "maxHP": "1200" },
+            "decorators": [], "services": []
+        },
+        {
+            "className": "Sequence", "id": 2, "name": "P1: Combat Loop", "pos": [300.0, 50.0],
+            "inputs": [{ "id": 10, "name": "In" }], "outputs": [{ "id": 11, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "className": "PatrolWaypointsNode", "id": 3, "name": "P1: Movement", "pos": [550.0, -100.0],
+            "inputs": [{ "id": 70, "name": "In" }], "outputs": [],
             "properties": {
-                "currentIdxKey": "PatrolIndex",
                 "waypointPrefix": "Phase0_WP",
-                "stopDistance": "2.0",
+                "stopDistance": "10.0",
                 "startAnim": "movement_start",
                 "loopAnim": "movement",
                 "endAnim": "movement_end",
-                "useClipDuration": "true"
-            },
-            "decorators": [],
+                "startWaitTime": "2.0",
+                "endWaitTime": "2.0",
+                "useClipDuration": "true",
+                "currentIdxKey": "PatrolIndex"
+            }, "services": []
+        },
+        {
+            "className": "Sequence", "id": 4, "name": "P1: Attack Cycle", "pos": [550.0, 100.0],
+            "inputs": [{ "id": 90, "name": "In" }], "outputs": [{ "id": 91, "name": "Out" }],
+            "properties": {}, 
+            "decorators": [], 
             "services": []
         },
         {
-            "id": 4,
-            "className": "Sequence",
-            "name": "P0: Attack Sequence",
-            "pos": [400.0, 100.0],
-            "inputs": [{ "id": 14, "name": "In" }],
-            "outputs": [{ "id": 15, "name": "Out" }],
-            "properties": {},
-            "decorators": [],
+            "className": "WaitNode", "id": 5, "name": "Attack Wait", "pos": [800.0, 50.0],
+            "inputs": [{ "id": 120, "name": "In" }], "outputs": [],
+            "properties": { "duration": "3.0" },
             "services": []
         },
         {
-            "id": 5,
-            "className": "WaitNode",
-            "name": "Attack Interval",
-            "pos": [700.0, 50.0],
-            "inputs": [{ "id": 16, "name": "In" }],
-            "outputs": [],
-            "properties": {
-                "duration": "3.0"
-            },
-            "decorators": [],
+            "className": "RandomSelector", "id": 6, "name": "P1: Random Attack", "pos": [800.0, 150.0],
+            "inputs": [{ "id": 140, "name": "In" }], "outputs": [{ "id": 141, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "className": "RunBehaviorNode", "id": 7, "name": "Beam", "pos": [1050.0, 50.0],
+            "inputs": [{ "id": 150, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json" },
             "services": []
         },
         {
-            "id": 6,
-            "className": "RunBehaviorNode",
-            "name": "Execute Bomb",
-            "pos": [700.0, 150.0],
-            "inputs": [{ "id": 17, "name": "In" }],
-            "outputs": [],
-            "properties": {
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Bomb.json"
-            },
-            "decorators": [],
+            "className": "RunBehaviorNode", "id": 8, "name": "Giant", "pos": [1050.0, 150.0],
+            "inputs": [{ "id": 160, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Giant.json" },
+            "services": []
+        },
+        {
+            "className": "RunBehaviorNode", "id": 9, "name": "Rock", "pos": [1050.0, 250.0],
+            "inputs": [{ "id": 170, "name": "In" }], "outputs": [],
+            "properties": { "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json" },
             "services": []
         }
-    ],
-    "links": [
-        { "id": 101, "startPin": 10, "endPin": 11 },
-        { "id": 102, "startPin": 12, "endPin": 13 },
-        { "id": 103, "startPin": 12, "endPin": 14 },
-        { "id": 104, "startPin": 15, "endPin": 16 },
-        { "id": 105, "startPin": 15, "endPin": 17 }
     ]
 }

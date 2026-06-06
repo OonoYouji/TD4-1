@@ -51,6 +51,11 @@
             "path": "./GameScene/ShotControl.entity"
         },
         {
+            "guid": "aa9300c52ceba056a463aacd7d690204",
+            "parentGuid": null,
+            "path": "./GameScene/BossHP.entity"
+        },
+        {
             "guid": "4b21f44ef715b86fae07c176e33432f3",
             "parentGuid": "acd3e3950d763de2cf669421024046b6",
             "path": "./GameScene/Gamepad.entity"
@@ -74,21 +79,6 @@
             "guid": "6190718f20ef1485d978d46962165d02",
             "parentGuid": null,
             "path": "./GameScene/Boss.entity"
-        },
-        {
-            "guid": "9bec876d747d51536a818072ab1eca1f",
-            "parentGuid": null,
-            "path": "./GameScene/BossHP.entity"
-        },
-        {
-            "guid": "ee4f2f431ba652f889c0126bb0943ddb",
-            "parentGuid": "9bec876d747d51536a818072ab1eca1f",
-            "path": "./GameScene/BG.entity"
-        },
-        {
-            "guid": "e8e96265127d2553f9681e0c2e8db5ba",
-            "parentGuid": "9bec876d747d51536a818072ab1eca1f",
-            "path": "./GameScene/FG.entity"
         },
         {
             "guid": "b68ad31e79ba3b2d205105be9fefb4cd",
@@ -139,6 +129,26 @@
             "guid": "c757553477e6ca25971ea23fac2bf11e",
             "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
             "path": "./GameScene/Phase0_WP_3.entity"
+        },
+        {
+            "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
+            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+            "path": "./GameScene/BG.entity"
+        },
+        {
+            "guid": "c2d8c971ab131bb4f4fd716af9d9ed19",
+            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+            "path": "./GameScene/Phase1Bar.entity"
+        },
+        {
+            "guid": "6a336a1c4c047b8834f2bcc978bc7deb",
+            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+            "path": "./GameScene/Phase2Bar.entity"
+        },
+        {
+            "guid": "160afddf0ccefe729ec5287bdcde5eea",
+            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+            "path": "./GameScene/Phase3Bar.entity"
         },
         {
             "guid": "aa11bb22cc33dd44ee55ff66aa11bb22",

@@ -42,8 +42,8 @@ public class ReinforcementDensitySensingService : BehaviorService
         {
             if (target.Id == owner.Id) continue;
             
-            // フィルタリング
-            bool isTarget = target.name.Contains(targetNameFilter) || target.GetScript<Reinforcement>() != null;
+            // フィルタリング (大文字小文字を区別せず、スクリプトの有無もチェック)
+            bool isTarget = target.name.ToLower().Contains("reinforcement") || target.name.ToLower().Contains("player") || target.GetScript<Reinforcement>() != null;
             if (!isTarget) continue;
 
             Vector3 pos = target.transform.position;
@@ -55,7 +55,7 @@ public class ReinforcementDensitySensingService : BehaviorService
                 if (target.Id == other.Id) continue;
                 
                 // neighbors判定時もフィルタリングが必要
-                bool isOtherTarget = other.name.Contains(targetNameFilter) || other.GetScript<Reinforcement>() != null;
+                bool isOtherTarget = other.name.ToLower().Contains("reinforcement") || other.name.ToLower().Contains("player") || other.GetScript<Reinforcement>() != null;
                 if (!isOtherTarget) continue;
 
                 if (Vector3.Distance(pos, other.transform.position) <= searchRadius)
@@ -74,6 +74,12 @@ public class ReinforcementDensitySensingService : BehaviorService
         if (maxNeighbors != -1)
         {
             blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), bestPos);
+            Debug.Log($"<color=green>[TargetSensing]</color> Target updated to {Vector3.ToSimpleString(bestPos)} (Cluster size: {maxNeighbors + 1} entities)");
+        }
+        else
+        {
+            // ターゲットが見つからない場合の明示的なログ（頻度を抑えるためDebug.Log）
+            // Debug.Log("<color=yellow>[TargetSensing]</color> No suitable targets found. Defaulting to last known or zero.");
         }
     }
 }

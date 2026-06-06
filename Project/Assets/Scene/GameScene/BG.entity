@@ -5,9 +5,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -0.1720564067363739,
-                "y": 0.058580245822668076,
-                "z": -0.08233200758695602
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "rotate": {
                 "w": 1.0,
@@ -53,8 +53,8 @@
             "type": "SpriteRenderer"
         }
     ],
-    "guid": "ee4f2f431ba652f889c0126bb0943ddb",
+    "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
     "name": "BG",
-    "parentGuid": "9bec876d747d51536a818072ab1eca1f",
+    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
     "prefabName": ""
 }
