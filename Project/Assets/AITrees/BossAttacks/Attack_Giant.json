@@ -1,170 +1,39 @@
 {
     "blackboard": [
-        {
-            "bVal": false,
-            "fVal": 0.0,
-            "iVal": 0,
-            "key": "TargetPosition",
-            "sVal": "",
-            "type": 3,
-            "vVal": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        }
-    ],
-    "comments": [],
-    "links": [
-        {
-            "endPin": 4,
-            "id": 10,
-            "startPin": 2
-        },
-        {
-            "endPin": 7,
-            "id": 11,
-            "startPin": 5
-        },
-        {
-            "endPin": 9,
-            "id": 12,
-            "startPin": 5
-        },
-        {
-            "endPin": 13,
-            "id": 14,
-            "startPin": 5
-        }
+        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
     ],
     "nodes": [
         {
-            "className": "Entry",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 1,
-            "inputs": [],
-            "isDecorator": false,
-            "name": "Entry",
-            "outputs": [
-                {
-                    "id": 2,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                0.0,
-                0.0
-            ],
-            "properties": {},
-            "services": []
+            "id": 1, "className": "Entry", "name": "Entry", "pos": [0.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
         },
         {
-            "className": "Sequence",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 2,
-            "inputs": [
-                {
-                    "id": 4,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Giant Logic",
-            "outputs": [
-                {
-                    "id": 5,
-                    "name": "Out"
-                }
-            ],
-            "pos": [
-                200.0,
-                0.0
-            ],
-            "properties": {},
-            "services": []
+            "id": 2, "className": "Sequence", "name": "Giant Logic", "pos": [200.0, 0.0],
+            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }],
+            "services": [
+                { "className": "FindPlayerService", "name": "Track Player", "properties": { "targetPosKey": "TargetPosition", "Interval": "0.1" } }
+            ]
         },
         {
-            "className": "ShowIndicatorNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 3,
-            "inputs": [
-                {
-                    "id": 7,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Range Preview",
-            "outputs": [],
-            "pos": [
-                400.0,
-                -50.0
-            ],
-            "properties": {
-                "centerType": "Boss",
-                "color": "0.97849464,0,0,0.5",
-                "duration": "1.0",
-                "durationKey": "",
-                "shape": "Circle",
-                "size": "15.0",
-                "sizeKey": "",
-                "targetPosKey": ""
-            },
-            "services": []
+            "id": 3, "className": "AttackTelegraphWaitNode", "name": "Telegraph (Giant)", "pos": [400.0, -100.0],
+            "inputs": [{ "id": 30, "name": "In" }], "outputs": [],
+            "properties": { "duration": "1.0", "startEventName": "Effect_BossRoar", "trackTarget": "false" }
         },
         {
-            "className": "ScaleUpAreaEntitiesNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 4,
-            "inputs": [
-                {
-                    "id": 9,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Suction & Scale",
-            "outputs": [],
-            "pos": [
-                400.0,
-                50.0
-            ],
-            "properties": {
-                "effectRadius": "10.0",
-                "scaleMultiplier": "3.0",
-                "targetPosKey": "TargetPosition"
-            },
-            "services": []
+            "id": 4, "className": "ShowIndicatorNode", "name": "Show Range", "pos": [400.0, 0.0],
+            "inputs": [{ "id": 40, "name": "In" }], "outputs": [],
+            "properties": { "shape": "Circle", "centerType": "Boss", "duration": "1.0", "size": "15.0", "color": "1.0,0.0,0.0,0.4" }
         },
         {
-            "className": "SpawnGiantExpansionNode",
-            "decorators": [],
-            "hasBreakpoint": false,
-            "id": 5,
-            "inputs": [
-                {
-                    "id": 13,
-                    "name": "In"
-                }
-            ],
-            "isDecorator": false,
-            "name": "Physical Expansion",
-            "outputs": [],
-            "pos": [
-                400.0,
-                150.0
-            ],
-            "properties": {
-                "damage": "15",
-                "duration": "1.0",
-                "knockbackForce": "20.0",
-                "maxRadius": "15.0"
-            },
-            "services": []
+            "id": 5, "className": "ScaleUpAreaEntitiesNode", "name": "Enlarge Reinforcements", "pos": [400.0, 100.0],
+            "inputs": [{ "id": 50, "name": "In" }], "outputs": [],
+            "properties": { "radius": "15.0", "scaleMultiplier": "3.0", "duration": "5.0" }
         }
+    ],
+    "links": [
+        { "id": 1001, "startPin": 10, "endPin": 20 },
+        { "id": 1002, "startPin": 21, "endPin": 30 },
+        { "id": 1003, "startPin": 21, "endPin": 40 },
+        { "id": 1004, "startPin": 21, "endPin": 50 }
     ]
 }

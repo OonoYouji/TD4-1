@@ -56,6 +56,7 @@ public class FireBeamNode : BehaviorNode
                     trigger.interval = 0.1f; // 連続ヒット判定
                     trigger.slowMultiplier = slowMultiplier;
                     trigger.slowDuration = slowDuration;
+                    Debug.Log($"<color=red>[FireBeam]</color> Beam configured with {damage} damage and {slowMultiplier} slow. Targeting Player/Reinforcements.");
                 }
 
                 // スポーン直後にトランスフォームを一度更新（1フレーム目の1,1,1防止）
@@ -125,6 +126,10 @@ public class FireBeamNode : BehaviorNode
         beamEntity.transform.rotation = baseRot * x90;
 
         beamEntity.transform.scale = new Vector3(beamRadius * 2.0f, beamLength * 0.5f, beamRadius * 2.0f);
+
+        // デバッグ表示 (ビームの軌跡を赤い線、着弾点を赤い円で表示)
+        GizmoBatch.DrawLine(visualStartPos, visualStartPos + direction * beamLength, new Vector4(1, 0, 0, 1));
+        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, beamRadius * 2.0f, new Vector4(1, 0.5f, 0, 1), 16);
     }
 
     public override void OnAbort(Blackboard blackboard, Entity owner)

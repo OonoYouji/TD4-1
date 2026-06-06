@@ -70,6 +70,11 @@ public class SpawnVortexFieldNode : BehaviorNode
 
         // 3. 吸引・ダメージロジック
         Vector3 center = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
+
+        // デバッグ表示 (吸引範囲を紫、ダメージ範囲を赤で表示)
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, suctionRadius, new Vector4(0.5f, 0, 1, 1), 32);
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.2f, centerDamageRadius, new Vector4(1, 0, 0, 1), 24);
+
         float dTimer = blackboard.GetFloat(damageTimerKey);
         bool applyDamage = false;
         
@@ -80,6 +85,8 @@ public class SpawnVortexFieldNode : BehaviorNode
         }
 
         var entities = owner.Group.GetEntities();
+        List<Entity> objectsToExplode = new List<Entity>();
+
         foreach (var e in entities)
         {
             if (e == null || e.Id == owner.Id) continue;
@@ -101,27 +108,34 @@ public class SpawnVortexFieldNode : BehaviorNode
                 // 中心部ダメージ
                 if (applyDamage && dist <= centerDamageRadius)
                 {
+                    // 共通ユーティリティを使用してダメージとスロウを適用（Player, Reinforcement 両対応）
+                    BossDamageUtil.ApplyDamage(e, centerDamage, center);
+                    BossDamageUtil.ApplySlow(e, 0.5f, damageInterval); // 吸引中は移動速度を50%低下
+
                     if (e.name.Contains("Player"))
                     {
-                        e.GetScript<HP>()?.TakeDamage(centerDamage);
-                        Debug.Log("<color=red>[Vortex]</color> Player caught in center! Damage applied.");
+                        Debug.Log("<color=red>[Vortex]</color> Player caught in center!");
                     }
                     
-                    // 吸い込まれた物体の爆発（擬似的な処理）
+                    // 吸い込まれた物体の爆発（後で一括処理）
                     if (isObject && dist <= 1.5f)
                     {
-                        Debug.Log($"<color=orange>[Vortex]</color> {e.name} sucked in and exploded!");
-                        FrameEvent.EnqueueNamedEvent("Effect_Explosion", e.Id);
-                        owner.Group.DestroyEntity(e.Id);
-                        
-                        // 周囲のプレイヤーに爆発ダメージ
-                        float playerDist = Vector3.Distance(center, owner.Group.FindEntity("Player")?.transform.position ?? Vector3.zero);
-                        if (playerDist <= 5.0f) {
-                            owner.Group.FindEntity("Player")?.GetScript<HP>()?.TakeDamage(30);
-                        }
+                        objectsToExplode.Add(e);
                     }
                 }
             }
+        }
+
+        // 破壊・爆発処理を一括実行
+        foreach (var obj in objectsToExplode)
+        {
+            if (obj == null || obj.Id == 0) continue;
+            Debug.Log($"<color=orange>[Vortex]</color> {obj.name} sucked in and exploded!");
+            FrameEvent.EnqueueNamedEvent("Effect_Explosion", obj.Id);
+            owner.Group.DestroyEntity(obj.Id);
+            
+            // 周囲のプレイヤーや援軍に爆発ダメージ
+            BossDamageUtil.ApplyAreaDamage(owner.Group, center, 5.0f, 30);
         }
 
         return NodeStatus.Running;

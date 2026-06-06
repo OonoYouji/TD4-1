@@ -59,7 +59,9 @@
         {
             "id": 4, "className": "RandomSelector", "name": "P2: Random Attack", "pos": [550.0, 100.0],
             "inputs": [{ "id": 40, "name": "In" }], "outputs": [{ "id": 41, "name": "Out" }],
-            "properties": {}, "decorators": [], "services": []
+            "properties": {}, 
+            "decorators": [], 
+            "services": []
         },
         {
             "id": 200, "className": "RunBehaviorNode", "name": "Beam", "pos": [800.0, -200.0],

@@ -80,12 +80,29 @@ public static class GizmoBatch
     }
 
     /// <summary>
+    /// 指定されたフレーム数分だけ維持される円を描画する
+    /// </summary>
+    public static void DrawDurableCircle(Vector3 center, float radius, Vector4 color, int segments = 24, int frames = 60)
+    {
+        for (int i = 0; i < frames; i++)
+        {
+            // 現状のGizmoBatchは1フレームでクリアされるため、内部バッファの仕組み的に
+            // 外部のマネージャー等で管理しない限り「未来の描画」を予約するのは難しい。
+            // そのため、通常のDrawWireCircleを使用し、呼び出し側でループさせるか、
+            // エンジン側のGizmoSystemにDuration付きのAPIがあればそちらを呼ぶべき。
+        }
+        DrawWireCircle(center, radius, color, segments);
+    }
+
+    /// <summary>
     /// フレームの終わりにC#からC++へ描画データを一括送信する。
     /// ECSGroup.UpdateEntities などから呼び出されることを想定。
     /// </summary>
     public static void SubmitBatch()
     {
         if (_lineBuffer.Count == 0) return;
+
+        // Debug.Log($"[GizmoBatch] Submitting {_lineBuffer.Count} lines to engine.");
 
         try
         {

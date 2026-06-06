@@ -55,7 +55,9 @@
         {
             "className": "Sequence", "id": 4, "name": "P1: Attack Cycle", "pos": [550.0, 100.0],
             "inputs": [{ "id": 90, "name": "In" }], "outputs": [{ "id": 91, "name": "Out" }],
-            "properties": {}, "decorators": [], "services": []
+            "properties": {}, 
+            "decorators": [], 
+            "services": []
         },
         {
             "className": "WaitNode", "id": 5, "name": "Attack Wait", "pos": [800.0, 50.0],

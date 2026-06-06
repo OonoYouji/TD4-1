@@ -38,6 +38,9 @@ public class FallingPillar : MonoScript
     {
         if (_isFalling)
         {
+            // デバッグ表示 (着弾予定地に灰色の円を表示)
+            GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.7f, 0.7f, 0.7f, 1), 24);
+
             // 真下へ落下
             Vector3 pos = transform.position;
             pos.y -= fallSpeed * Time.deltaTime;
@@ -63,60 +66,57 @@ public class FallingPillar : MonoScript
             }
         }
     }
+private void OnImpact()
+{
+    if (_hasImpacted) return;
+    _hasImpacted = true;
+    _isFalling = false;
 
-    private void OnImpact()
+    // 1. 衝撃演出
+    FrameEvent.EnqueueNamedEvent("Effect_PillarImpact", entity.Id);
+    FrameEvent.EnqueueNamedEvent("CameraShake_Strong", entity.Id);
+    Debug.Log($"[FallingPillar] Impact at {Vector3.ToSimpleString(transform.position)}");
+
+    // 2. 当たり判定（直撃と衝撃波）の処理
+    var entities = entity.Group.GetEntities();
+    foreach (var e in entities)
     {
-        if (_hasImpacted) return;
-        _hasImpacted = true;
-        _isFalling = false;
+        if (e == null || e.Id == entity.Id) continue;
 
-        // 1. 衝撃演出
-        FrameEvent.EnqueueNamedEvent("Effect_PillarImpact", entity.Id);
-        FrameEvent.EnqueueNamedEvent("CameraShake_Strong", entity.Id);
-        Debug.Log($"[FallingPillar] Impact at {Vector3.ToSimpleString(transform.position)}");
+        // 名前チェック
+        if (!e.name.Contains("Player") && !e.name.Contains("Reinforcement")) continue;
 
-        // 2. 当たり判定（直撃と衝撃波）の処理
-        // シンプル化のため、周囲のエンティティを走査
-        var entities = entity.Group.GetEntities();
-        foreach (var e in entities)
+        float dist = Vector3.Distance(transform.position, e.transform.position);
+        if (dist <= impactRadius)
         {
-            if (e == null || e.Id == entity.Id) continue;
-
-            float dist = Vector3.Distance(transform.position, e.transform.position);
-            if (dist <= impactRadius)
+            // 非常に近い場合は直撃
+            if (dist <= 2.0f)
             {
-                HP hp = e.GetScript<HP>();
-                if (hp != null)
+                BossDamageUtil.ApplyDamage(e, directDamage, transform.position);
+                BossDamageUtil.ApplySlow(e, 0.0f, stunDuration); // 速度0 = スタン
+
+                if (e.name.Contains("Player"))
                 {
-                    // 非常に近い場合は直撃
-                    if (dist <= 2.0f)
-                    {
-                        hp.TakeDamage(directDamage);
-                        // スタン処理（Playerスクリプトにスタン機能がある前提、またはデバフとして）
-                        if (e.name.Contains("Player"))
-                        {
-                            e.GetScript<Player>()?.ApplySlow(0.0f, stunDuration); // 速度0 = スタン
-                            Debug.Log("<color=red>[Pillar]</color> Direct hit on Player! 3s Stun.");
-                        }
-                    }
-                    else
-                    {
-                        hp.TakeDamage(shockwaveDamage);
-                    }
+                    Debug.Log("<color=red>[Pillar]</color> Direct hit on Player! 3s Stun.");
                 }
             }
+            else
+            {
+                BossDamageUtil.ApplyDamage(e, shockwaveDamage, transform.position);
+            }
         }
-
-        // 3. 障害物（壁）としての設定
-        // C#側にBoxColliderクラスが定義されていないため一旦コメントアウト
-        /*
-        var collider = entity.GetComponent<BoxCollider>();
-        if (collider != null)
-        {
-            // トリガーではなく物理的な壁として機能させる設定
-        }
-        */
     }
+
+    // 3. 障害物（壁）としての設定
+    // C#側にBoxColliderクラスが定義されていないため一旦コメントアウト
+    /*
+    var collider = entity.GetComponent<BoxCollider>();
+    if (collider != null)
+    {
+        // トリガーではなく物理的な壁として機能させる設定
+    }
+    */
+}
 
     public override void OnCollisionEnter(Entity collision)
     {
