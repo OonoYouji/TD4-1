@@ -166,12 +166,15 @@ void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
 				auto* vtable = mono_class_vtable(domain, aiUpdaterClass);
 				auto* nameField = mono_class_get_field_from_name(aiUpdaterClass, "lastBossName");
 				auto* actionField = mono_class_get_field_from_name(aiUpdaterClass, "lastBossAction");
+				auto* phaseField = mono_class_get_field_from_name(aiUpdaterClass, "lastBossPhase");
 
-				if (vtable && nameField && actionField) {
+				if (vtable && nameField && actionField && phaseField) {
 					MonoString* nameStr = nullptr;
 					MonoString* actionStr = nullptr;
+					MonoString* phaseStr = nullptr;
 					mono_field_static_get_value(vtable, nameField, &nameStr);
 					mono_field_static_get_value(vtable, actionField, &actionStr);
+					mono_field_static_get_value(vtable, phaseField, &phaseStr);
 
 					std::string bossName = "Unknown";
 					if (nameStr) {
@@ -187,14 +190,60 @@ void Editor::DebugSceneView::ShowDebugSceneView(const ImVec2& imagePos) {
 						mono_free(cstr);
 					}
 
+					std::string bossPhase = "Intro";
+					if (phaseStr) {
+						char* cstr = mono_string_to_utf8(phaseStr);
+						bossPhase = cstr;
+						mono_free(cstr);
+					}
+
 					OverlaySection bossSection;
 					bossSection.name = "ボスの状態監視";
 					bossSection.opened = true;
 					bossSection.items = {
 						{ "Entity Name", bossName, IM_COL32(255, 255, 255, 255) },
+						{ "Current Phase", bossPhase, IM_COL32(255, 200, 100, 255) },
 						{ "Current Action", bossAction, IM_COL32(100, 255, 255, 255) }
 					};
 					rightSections.push_back(bossSection);
+				}
+
+				// --- GameController の情報を追加 ---
+				auto* gcClass = mono_class_from_name(image, "", "GameController");
+				if (gcClass) {
+					auto* statusField = mono_class_get_field_from_name(gcClass, "currentStatus");
+					auto* phaseField = mono_class_get_field_from_name(gcClass, "currentPhase");
+					auto* vtable = mono_class_vtable(domain, gcClass);
+
+					if (vtable && statusField && phaseField) {
+						MonoString* statusStr = nullptr;
+						MonoString* phaseStr = nullptr;
+						mono_field_static_get_value(vtable, statusField, &statusStr);
+						mono_field_static_get_value(vtable, phaseField, &phaseStr);
+
+						std::string gameStatus = "N/A";
+						if (statusStr) {
+							char* cstr = mono_string_to_utf8(statusStr);
+							gameStatus = cstr;
+							mono_free(cstr);
+						}
+
+						std::string gcPhase = "N/A";
+						if (phaseStr) {
+							char* cstr = mono_string_to_utf8(phaseStr);
+							gcPhase = cstr;
+							mono_free(cstr);
+						}
+
+						OverlaySection gcSection;
+						gcSection.name = "GameController 監視";
+						gcSection.opened = true;
+						gcSection.items = {
+							{ "Game Status", gameStatus, IM_COL32(255, 255, 255, 255) },
+							{ "GC Phase Sync", gcPhase, IM_COL32(200, 255, 100, 255) }
+						};
+						rightSections.push_back(gcSection);
+					}
 				}
 			}
 		}

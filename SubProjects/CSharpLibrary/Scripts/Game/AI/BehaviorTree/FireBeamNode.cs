@@ -3,6 +3,8 @@ using System;
 /// <summary>
 /// ターゲット座標（Blackboard）に向かってダメージ判定のあるビームを照射するノード。
 /// C++側のエンジンに対し、ビームの開始位置、方向、長さをイベントとして送信する。
+/// 
+/// 仕様書v2対応：ヒット時のスロウ効果設定を追加。
 /// </summary>
 public class FireBeamNode : BehaviorNode
 {
@@ -13,6 +15,10 @@ public class FireBeamNode : BehaviorNode
     public float beamLength = 20.0f;
     public float beamRadius = 1.0f;
     public float duration = 2.0f;
+    public float trackingRotationSpeed = 1.0f; // 照射中の追従速度
+
+    public float slowMultiplier = 0.8f; // 20%低下
+    public float slowDuration = 1.0f;
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
@@ -47,6 +53,10 @@ public class FireBeamNode : BehaviorNode
                 if (trigger != null)
                 {
                     trigger.damage = (int)damage;
+                    trigger.interval = 0.1f; // 連続ヒット判定
+                    trigger.slowMultiplier = slowMultiplier;
+                    trigger.slowDuration = slowDuration;
+                    Debug.Log($"<color=red>[FireBeam]</color> Beam configured with {damage} damage and {slowMultiplier} slow. Targeting Player/Reinforcements.");
                 }
 
                 // スポーン直後にトランスフォームを一度更新（1フレーム目の1,1,1防止）
@@ -102,24 +112,24 @@ public class FireBeamNode : BehaviorNode
         if (intent != null)
         {
             intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up);
+            intent.rotationSpeed = trackingRotationSpeed; // 追従速度を設定
             intent.useDesiredRotation = true;
         }
 
         Vector3 horizontalBoss = new Vector3(bossPos.x, 0.5f, bossPos.z);
         Vector3 visualStartPos = horizontalBoss + direction * 3.0f;
         
-        // シリンダーメッシュの原点は中心にあるため、端を起点にするには
-        // 座標を進行方向に「長さの半分」だけずらす必要がある。
         beamEntity.transform.position = visualStartPos + direction * (beamLength * 0.5f);
         
-        // 基本の向き（進行方向）を計算
         Quaternion baseRot = Quaternion.LookRotation(direction).Conjugate();
-        // シリンダーはデフォルトでY軸（垂直）を向いているため、X軸で90度回転させてZ軸（水平進行方向）に合わせる
         Quaternion x90 = Quaternion.MakeFromAxis(new Vector3(1, 0, 0), 90.0f * Mathf.Deg2Rad);
         beamEntity.transform.rotation = baseRot * x90;
 
-        // スケールの適用
         beamEntity.transform.scale = new Vector3(beamRadius * 2.0f, beamLength * 0.5f, beamRadius * 2.0f);
+
+        // デバッグ表示 (ビームの軌跡を赤い線、着弾点を赤い円で表示)
+        GizmoBatch.DrawLine(visualStartPos, visualStartPos + direction * beamLength, new Vector4(1, 0, 0, 1));
+        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, beamRadius * 2.0f, new Vector4(1, 0.5f, 0, 1), 16);
     }
 
     public override void OnAbort(Blackboard blackboard, Entity owner)

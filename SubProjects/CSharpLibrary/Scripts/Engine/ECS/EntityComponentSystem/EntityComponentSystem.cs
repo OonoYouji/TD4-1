@@ -54,7 +54,7 @@ static public class EntityComponentSystem {
 	static public ECSGroup GetECSGroup(string _name) {
 		string trimmedName = _name.Trim();
 #if DEBUG
-		Debug.LogInfo("EntityComponentSystem.GetECSGroup - Getting ECSGroup: '" + trimmedName + "'  GroupCount " + groups.Count);
+		// Debug.LogInfo("EntityComponentSystem.GetECSGroup - Getting ECSGroup: '" + trimmedName + "'  GroupCount " + groups.Count);
 #endif
 
 		if (groups.TryGetValue(trimmedName, out ECSGroup group)) {

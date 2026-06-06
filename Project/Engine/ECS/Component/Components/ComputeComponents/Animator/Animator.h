@@ -45,6 +45,9 @@ public:
     /// @brief クロスフェード (Phase 2で詳細実装)
     void CrossFade(uint32_t _clipId, float _duration, uint32_t _layerIndex = 0);
 
+    /// @brief 指定したクリップの再生時間を取得
+    float GetAnimationDuration(uint32_t _clipId) const;
+
 public:
     /// ----- objects ----- ///
     
@@ -65,5 +68,6 @@ namespace ComponentDebug {
 /// @brief mono からのAnimator操作用関数
 void Internal_Play(uint64_t _nativeHandle, uint32_t _clipId, uint32_t _layerIndex);
 void Internal_CrossFade(uint64_t _nativeHandle, uint32_t _clipId, float _duration, uint32_t _layerIndex);
+float Internal_GetAnimationDuration(uint64_t _nativeHandle, uint32_t _clipId);
 
 } // namespace ONEngine

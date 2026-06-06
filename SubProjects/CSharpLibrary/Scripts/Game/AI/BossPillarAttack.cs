@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+
+/// <summary>
+/// ボスの「柱落とし攻撃」を制御するクラス。
+/// プレイヤーの方向に向け、円周上に沿って端から順番に柱を落下させる。
+/// </summary>
+public class BossPillarAttack : MonoScript
+{
+    [SerializeField] public float dropIntervalTime = 0.3f;
+    [SerializeField] public float angleStep = 15.0f; // 柱同士の角度間隔
+    [SerializeField] public int pillarCount = 5;
+    [SerializeField] public float spawnRadius = 700.0f;
+    [SerializeField] public string pillarPrefabName = "BossPillar";
+
+    private bool isActive = false;
+    private int spawnedCount = 0;
+    private float timer = 0.0f;
+    private float startAngle = 0.0f;
+
+    public override void Update()
+    {
+        // デバッグ用にPキーで開始
+        if (Input.TriggerKey(KeyCode.P))
+        {
+            StartAttack();
+        }
+
+        if (isActive)
+        {
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                SpawnPillar();
+                timer = dropIntervalTime;
+            }
+        }
+    }
+
+    public void StartAttack()
+    {
+        if (isActive) return;
+
+        // プレイヤーの方向を取得
+        Entity player = ecsGroup.FindEntity("Player");
+        if (player == null) return;
+
+        Vector3 toPlayer = player.transform.position - transform.position;
+        float centerAngle = Mathf.Atan2(toPlayer.z, toPlayer.x) * Mathf.Rad2Deg;
+
+        // 端から順番に落とすため、開始角度を計算
+        startAngle = centerAngle - (angleStep * (pillarCount - 1) / 2.0f);
+        
+        isActive = true;
+        spawnedCount = 0;
+        timer = 0.0f;
+        Debug.Log($"[BossPillarAttack] Starting sequential drop toward player.");
+    }
+
+    private void SpawnPillar()
+    {
+        float currentAngle = (startAngle + (spawnedCount * angleStep)) * Mathf.Deg2Rad;
+        Vector3 offset = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle)) * spawnRadius;
+        Vector3 targetPos = transform.position + offset;
+        targetPos.y = 0;
+
+        Entity pillar = ecsGroup.CreateEntity(pillarPrefabName);
+        if (pillar != null)
+        {
+            var script = pillar.GetScript<FallingPillar>();
+            if (script != null)
+            {
+                // 上空から落とす
+                script.Launch(targetPos + Vector3.up * 1000.0f, targetPos);
+            }
+            else
+            {
+                pillar.transform.position = targetPos;
+            }
+        }
+
+        spawnedCount++;
+        if (spawnedCount >= pillarCount)
+        {
+            isActive = false;
+            Debug.Log("[BossPillarAttack] All pillars spawned.");
+        }
+    }
+}

@@ -8,6 +8,7 @@ public static class AIUpdater {
     // エディタ表示用の状態保持
     public static string lastBossName = "None";
     public static string lastBossAction = "Idle";
+    public static string lastBossPhase = "Intro";
 
     /// <summary>
     /// C++ から呼び出されるAI更新のメインエントリーポイント
@@ -70,18 +71,28 @@ public static class AIUpdater {
                     if (component.entity.name.IndexOf("Boss", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         lastBossName = component.entity.name;
-                        lastBossAction = (component.behaviorTree.ActiveNode != null) 
-                            ? component.behaviorTree.ActiveNode.name 
-                            : "Idle";
+                        
+                        // 最も深いノード（実行中の末端アクション）を取得
+                        var deepest = component.behaviorTree.DeepestActiveNode;
+                        lastBossAction = (deepest != null) ? deepest.name : "Idle";
+
+                        // フェーズの特定 (BossMain.jsonの構成に準拠)
+                        float hpRatio = component.behaviorTree.Blackboard.GetFloat(BehaviorTreeLoader.HashString("HPRatio"), 1.0f);
+                        if (hpRatio > 1.0f) lastBossPhase = "Intro";
+                        else if (hpRatio >= 0.7f) lastBossPhase = "Phase 1";
+                        else if (hpRatio >= 0.4f) lastBossPhase = "Phase 2";
+                        else lastBossPhase = "Phase 3";
                     }
 
                     // エディタ用：実行状態を同期
+                    // 現在実行中のツリーのパスを使用してノードの状態をC++へ通知
                     component.behaviorTree.GetAllNodeStatuses(new Dictionary<uint, NodeStatus>());
 
                     // ツリーの実行結果（インテント）をネイティブデータに反映
                     nativeData->desiredMoveDirection = component.desiredMoveDirection;
                     nativeData->desiredRotation = component.desiredRotation;
                     nativeData->rotationSpeed = component.rotationSpeed;
+                    nativeData->maxSpeed = component.maxSpeed;
                     nativeData->useDesiredRotation = (byte)(component.useDesiredRotation ? 1 : 0);
                     nativeData->isAttacking = (byte)(component.isAttacking ? 1 : 0);
                     nativeData->targetEntityId = component.targetEntityId;

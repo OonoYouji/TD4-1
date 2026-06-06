@@ -36,6 +36,9 @@ public class FallingRock : MonoScript
     {
         if (!_isFalling || _hasImpacted) return;
 
+        // デバッグ表示 (着弾予定地に茶色の円を表示)
+        GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.6f, 0.4f, 0.2f, 1), 16);
+
         // 下方向に移動
         transform.position += Vector3.down * fallSpeed * Time.deltaTime;
 
@@ -89,27 +92,10 @@ public class FallingRock : MonoScript
 
     private void ApplyImpact(Entity e)
     {
-        // 1. 汎用 DamageHandler 経由
-        DamageHandler handler = e.GetScript<DamageHandler>();
-        if (handler != null)
-        {
-            handler.ApplyDamage(damage, transform.position);
-        }
-        else
-        {
-            // 2. 援軍専用 ReinforcementDamageHandler 経由
-            ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
-            if (rHandler != null)
-            {
-                rHandler.ApplyDamage(damage, transform.position);
-            }
-        }
+        // 共通ユーティリティを使用してダメージとスロウを適用
+        BossDamageUtil.ApplyDamage(e, damage, transform.position);
+        BossDamageUtil.ApplySlow(e, 0.5f, stunDuration); // 岩の場合は50%スロウ（スタン扱い）
 
-        // スタン（AgentIntentComponentの移動制限）
-        var intent = e.GetComponent<AgentIntentComponent>();
-        if (intent != null)
-        {
-            Debug.Log($"[FallingRock] STUNNED {e.name} for {stunDuration}s");
-        }
+        Debug.Log($"[FallingRock] Impact applied to {e.name}");
     }
 }

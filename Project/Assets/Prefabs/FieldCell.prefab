@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -6,7 +7,7 @@
             "position": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0
+                "z": -132.0
             },
             "rotate": {
                 "w": 1.0,
@@ -15,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
+                "x": 6.0,
                 "y": 1.0,
-                "z": 1.0
+                "z": 6.0
             },
             "type": "Transform"
         },
@@ -26,6 +27,7 @@
                 "fallDistance": 10.0,
                 "fallDuration": 0.699999988079071,
                 "returnDuration": 0.699999988079071,
+                "trapDepthOffset": 0.5,
                 "waitDuration": 5.0
             },
             "type": "Variables"
@@ -69,9 +71,8 @@
             "type": "Script"
         }
     ],
-    "guid": "954723531e59d2873e81d2d9c6ef1037",
-    "id": 2,
+    "guid": "d11ad9b2ed46357d3eb9568201cd349f",
     "name": "FieldCell",
-    "parent": null,
+    "parentGuid": "879d162485a858be132bcade93f885ad",
     "prefabName": "FieldCell"
 }

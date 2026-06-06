@@ -7,6 +7,10 @@
 #include "Engine/Core/Utility/Utility.h"
 #include "Engine/Core/Utility/Tools/StringHash.h"
 #include "Engine/Asset/Collection/AssetCollection.h"
+#include "Engine/ECS/Entity/GameEntity/GameEntity.h"
+#include "Engine/ECS/EntityComponentSystem/ECSGroup.h"
+#include "Engine/ECS/Component/Array/ComponentArray.h"
+#include "Engine/ECS/Component/Components/ComputeComponents/Animator/Animator.h"
 
 /// editor
 #include "Engine/Editor/Math/ImGuiMath.h"
@@ -152,17 +156,77 @@ void ComponentDebug::SkinMeshRendererDebug(SkinMeshRenderer* _smr, Asset::AssetC
 	if (Asset::Model* model = _assetCollection->GetModel(_smr->GetMeshPath())) {
 		const auto& clips = model->GetAnimationClips();
 		if (!clips.empty()) {
-			std::string currentClipName = "None";
-			// 現在再生中のクリップ名を特定（暫定的に最初のクリップのアニメーションマップと比較するか、
-			// もしくはSkinMeshRendererに現在のクリップ名を保持させる必要があるが、
-			// 現状はnodeAnimationMap_の内容で判断するか、単にリストを表示する）
-			
-			if (ImGui::BeginCombo("animation clips", "Select Clip...")) {
+			// 現在のアニメーション情報を表示
+			ImGui::Separator();
+			ImGui::Text("Animation Status");
+
+			// 1. Animatorコンポーネントがあるかチェック
+			auto* owner = _smr->GetOwner();
+			auto* ecs = owner->GetECSGroup();
+			auto* animatorArray = ecs->GetComponentArray<Animator>();
+			Animator* animator = animatorArray ? animatorArray->GetComponent(owner->GetId()) : nullptr;
+
+			if (animator && animator->enable) {
+				// 最も優先度の高い（重みが大きい）クリップ名を特定して目立たせる
+				std::string mainClipName = "None";
+				float maxWeight = -1.0f;
+				for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
+					if (animator->layers[i].weight <= 0.0f) continue;
+					for (uint32_t j = 0; j < MAX_ANIMATION_STATES_PER_LAYER; ++j) {
+						if (animator->layers[i].states[j].weight > maxWeight) {
+							maxWeight = animator->layers[i].states[j].weight;
+							auto it = clips.find(animator->layers[i].states[j].clipId);
+							if (it != clips.end()) mainClipName = it->second.name;
+						}
+					}
+				}
+
+				ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "CURRENT CLIP: ");
+				ImGui::SameLine();
+				ImGui::Text("%s", mainClipName.c_str());
+				ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "Driven by Animator");
+				ImGui::Separator();
+
+				for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
+					AnimationLayer& layer = animator->layers[i];
+					if (layer.weight <= 0.0f) continue;
+
+					for (uint32_t j = 0; j < MAX_ANIMATION_STATES_PER_LAYER; ++j) {
+						AnimationState& state = layer.states[j];
+						if (state.weight <= 0.0f || state.clipId == 0) continue;
+
+						auto it = clips.find(state.clipId);
+						std::string clipName = (it != clips.end()) ? it->second.name : "Unknown";
+						float clipDur = (it != clips.end()) ? it->second.duration : 1.0f;
+
+						ImGui::Text("L%u-S%u: %s", i, j, clipName.c_str());
+						ImGui::SameLine();
+						ImGui::TextDisabled("(%.2fs / %.2fs)", state.time, clipDur);
+						
+						float progress = clipDur > 0.0f ? state.time / clipDur : 0.0f;
+						ImGui::ProgressBar(progress, ImVec2(-1, 0), "");
+					}
+				}
+			} else {
+				// 2. SkinMeshRenderer自身の再生状態を表示
+				ImGui::Text("Manual Playback: %.2fs / %.2fs", animationTime, duration);
+				float progress = duration > 0.0f ? animationTime / duration : 0.0f;
+				ImGui::ProgressBar(progress, ImVec2(-1, 0));
+			}
+
+			ImGui::Spacing();
+
+			// クリップ選択
+			if (ImGui::BeginCombo("Select Clip...", "Click to choose...")) {
 				for (const auto& [hash, clip] : clips) {
 					if (ImGui::Selectable(clip.name.c_str())) {
-						_smr->SetNodeAnimationMap(clip.nodeAnimationMap);
-						_smr->SetDuration(clip.duration);
-						_smr->SetAnimationTime(0.0f);
+						if (animator && animator->enable) {
+							animator->Play(hash);
+						} else {
+							_smr->SetNodeAnimationMap(clip.nodeAnimationMap);
+							_smr->SetDuration(clip.duration);
+							_smr->SetAnimationTime(0.0f);
+						}
 						Console::Log(std::format("Switched animation to: {} (duration: {:.2f}s)", clip.name, clip.duration));
 					}
 				}

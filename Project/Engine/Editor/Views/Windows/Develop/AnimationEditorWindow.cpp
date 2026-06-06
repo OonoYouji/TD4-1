@@ -434,32 +434,35 @@ void AnimationEditorWindow::ShowImGui() {
                 { "Transform/Position (Vec3)", "Transform", "position", Vector3(0,0,0) },
                 { "Transform/Rotation (Euler)", "Transform", "rotation", Vector3(0,0,0) },
                 { "Transform/Scale (Vec3)", "Transform", "scale", Vector3(1,1,1) },
-                { "MeshRenderer/Color (Vec4)", "MeshRenderer", "color", Vector4(1,1,1,1) },
-                { "MeshRenderer/Color R (Float)", "MeshRenderer", "color.r", 1.0f },
-                { "MeshRenderer/Color G (Float)", "MeshRenderer", "color.g", 1.0f },
-                { "MeshRenderer/Color B (Float)", "MeshRenderer", "color.b", 1.0f },
-                { "MeshRenderer/Color A (Float)", "MeshRenderer", "color.a", 1.0f },
                 { "MeshRenderer/UV Offset (Vec2)", "MeshRenderer", "uvOffset", Vector2(0,0) },
                 { "MeshRenderer/UV Scale (Vec2)", "MeshRenderer", "uvScale", Vector2(1,1) },
                 { "MeshRenderer/UV Rotation (Float)", "MeshRenderer", "uvRotation", 0.0f },
+                { "MeshRenderer/Color (Vec4)", "MeshRenderer", "color", Vector4(1,1,1,1) },
+                { "DissolveMesh/Threshold (Float)", "DissolveMeshRenderer", "threshold", 1.0f },
+                { "DissolveMesh/Edge Width (Float)", "DissolveMeshRenderer", "edgeWidth", 0.05f },
+                { "DissolveMesh/Edge Color (Vec4)", "DissolveMeshRenderer", "edgeColor", Vector4(1,0.5f,0,1) },
+                { "DissolveMesh/UV Offset (Vec2)", "DissolveMeshRenderer", "uvOffset", Vector2(0,0) },
+                { "SpriteRenderer/UV Offset (Vec2)", "SpriteRenderer", "uvOffset", Vector2(0,0) },
                 { "SpriteRenderer/Color (Vec4)", "SpriteRenderer", "color", Vector4(1,1,1,1) },
-                { "Dissolve/Threshold (Float)", "DissolveMeshRenderer", "threshold", 0.5f },
+                { "Particle/Emission Rate (Float)", "ParticleSystem", "emission.rateOverTime", 10.0f },
+                { "Particle/Emission Enabled (Bool)", "ParticleSystem", "emission.enabled", 1.0f },
+                { "Particle/Start Color (Vec4)", "ParticleSystem", "main.startColor", Vector4(1,1,1,1) },
+                { "Particle/Start Speed (Float)", "ParticleSystem", "main.startSpeed", 5.0f },
+                { "Particle/Start Size (Float)", "ParticleSystem", "main.startSize", 1.0f },
                 { "Light/Intensity (Float)", "Light", "intensity", 1.0f },
                 { "Light/Color (Vec4)", "Light", "color", Vector4(1,1,1,1) },
-                { "Particle/Start Speed", "ParticleSystem", "main.startSpeed", 5.0f },
-                { "Particle/Start Size", "ParticleSystem", "main.startSize", 1.0f },
-                { "Particle/Emission Rate", "ParticleSystem", "emission.rateOverTime", 10.0f }
+                { "Custom (Float)", "Transform", "position.x", 0.0f }
             };
 
+            std::string lastGroup = "";
             for (const auto& t : templates) {
                 if (matches(t.label)) {
+                    std::string group = t.label.substr(0, t.label.find('/'));
+                    if (lastGroup != "" && group != lastGroup) ImGui::Separator();
+                    lastGroup = group;
+
                     if (ImGui::MenuItem(t.label.c_str())) addTrack(t.comp, t.prop, t.val);
                 }
-            }
-
-            if (matches("Custom (Float)")) {
-                ImGui::Separator();
-                if (ImGui::MenuItem("Custom (Float)")) addTrack("Transform", "position.x", 0.0f);
             }
             
             ImGui::EndPopup();

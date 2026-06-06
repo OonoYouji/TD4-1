@@ -5,15 +5,15 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 5.834609031677246,
-                "y": 2.1915435791015625,
-                "z": -42.785247802734375
+                "x": -141.4119873046875,
+                "y": 11.189128875732422,
+                "z": -117.1068344116211
             },
             "rotate": {
-                "w": 0.8506529331207275,
+                "w": -0.9203310012817383,
                 "x": 0.0,
-                "y": -0.5257276296615601,
-                "z": 0.0
+                "y": 0.3911404013633728,
+                "z": -0.0
             },
             "scale": {
                 "x": 3.7400035858154297,
@@ -32,7 +32,8 @@
             },
             "HP": {
                 "MAX_HP": 1000,
-                "currentHp": 1000
+                "currentHp": 1000,
+                "disableAutoDestruction": false
             },
             "Player": {
                 "<fireCooldownTimer>k__BackingField": 31.16332244873047,
@@ -52,7 +53,12 @@
                 "rotationSpeed": 8.0,
                 "startFreezeDuration": 5.0
             },
-            "PlayerSmashUp": {},
+            "PlayerSmashUp": {
+                "fallDuration": 0.10000000149011612,
+                "riseDuration": 0.20000000298023224,
+                "riseHeight": 3.0,
+                "waitTimeAfterRise": 0.10000000149011612
+            },
             "type": "Variables"
         },
         {

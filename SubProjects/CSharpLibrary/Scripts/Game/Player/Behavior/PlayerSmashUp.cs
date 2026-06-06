@@ -40,7 +40,9 @@ public class PlayerSmashUp : MonoScript
     {
         Entity managerEntity = ecsGroup.FindEntity("FieldManager");
         if (managerEntity != null)
+        {
             fieldManager_ = managerEntity.GetScript<FieldManager>();
+        }
         player_ = entity.GetScript<Player>();
     }
 

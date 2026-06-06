@@ -9,7 +9,7 @@ public class BossBomb : MonoScript
     public Vector3 targetPosition = Vector3.zero;
     public float travelTime = 1.5f; // 目標地点までにかける時間
     public float arcHeight = 5.0f;  // 弧の高さ（最大高度）
-    public float explosionScale = 5.0f;
+    public float explosionScale = 7.0f;
     public float explosionDuration = 0.3f;
     public int damage = 20;
 
@@ -47,6 +47,9 @@ public class BossBomb : MonoScript
     {
         if (!_isExploding)
         {
+            // デバッグ表示 (着弾予定地にオレンジの円を表示)
+            GizmoBatch.DrawWireCircle(targetPosition + Vector3.up * 0.05f, explosionScale * 0.5f, new Vector4(1, 0.5f, 0, 1), 16);
+
             _timer += Time.deltaTime;
             float t = _timer / travelTime;
 
@@ -69,6 +72,9 @@ public class BossBomb : MonoScript
         }
         else
         {
+            // デバッグ表示 (爆発範囲を赤で表示)
+            GizmoBatch.DrawWireCircle(transform.position + Vector3.up * 0.1f, explosionScale * 0.5f, new Vector4(1, 0, 0, 1), 24);
+
             // 爆発演出（急拡大）
             _explosionTimer += Time.deltaTime;
             float t = _explosionTimer / explosionDuration;
@@ -106,6 +112,15 @@ public class BossBomb : MonoScript
             trigger.enable = true;
             trigger.damage = damage;
             trigger.interval = 0; // 単発
+        }
+
+        // --- 燃焼エリアの生成 (Spec v2) ---
+        Entity fireArea = entity.Group.CreateEntity("BurningArea");
+        if (fireArea != null)
+        {
+            fireArea.parent = null;
+            fireArea.transform.position = new Vector3(transform.position.x, 0.05f, transform.position.z);
+            fireArea.transform.scale = new Vector3(explosionScale, 0.1f, explosionScale);
         }
 
         // 爆発イベント

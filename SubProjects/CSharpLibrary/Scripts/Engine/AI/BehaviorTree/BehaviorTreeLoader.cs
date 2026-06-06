@@ -77,6 +77,7 @@ public static class BehaviorTreeLoader
             if (className == "Entry")
             {
                 entryNodeId = id;
+                tree.EntryNodeId = (uint)id;
                 foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
                 continue;
             }
@@ -145,8 +146,34 @@ public static class BehaviorTreeLoader
             }
         }
 
-        // 7. リンク情報の構築
+        // 7. リンク情報の構築とバリデーション
         var links = new List<JToken>(root["links"]);
+        int linkErrorCount = 0;
+
+        // リンクで使用されているピンがすべて存在するか事前にチェック
+        foreach (var l in links)
+        {
+            ulong startPin = (ulong)l["startPin"];
+            ulong endPin = (ulong)l["endPin"];
+            ulong linkId = (ulong)l["id"];
+
+            if (!pinToNodeMap.ContainsKey(startPin))
+            {
+                Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID startPin {startPin}. (Orphaned Link)");
+                linkErrorCount++;
+            }
+            if (!pinToNodeMap.ContainsKey(endPin))
+            {
+                Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID endPin {endPin}. (Broken Connection)");
+                linkErrorCount++;
+            }
+        }
+
+        if (linkErrorCount > 0)
+        {
+            Debug.LogError($"[BT_LOADER] Total {linkErrorCount} structural errors detected in '{path}'. Behavior may be corrupted.");
+        }
+
         links.Sort((a, b) => {
             ulong childIdA = 0, childIdB = 0;
             pinToNodeMap.TryGetValue((ulong)a["endPin"], out childIdA);
@@ -174,6 +201,9 @@ public static class BehaviorTreeLoader
                     {
                         tree.RootNode = rootNode;
                     }
+                    else {
+                        Debug.LogError($"[BT_VALIDATION] Entry is connected to ID {childId}, but that node failed to instantiate.");
+                    }
                 }
                 else if (nodeInstances.TryGetValue(parentId, out var parentNode) && 
                          nodeInstances.TryGetValue(childId, out var childNode))
@@ -183,13 +213,22 @@ public static class BehaviorTreeLoader
                         composite.AddChild(childNode);
                         childNode.Parent = parentNode;
                     }
+                    else {
+                        Debug.LogWarning($"[BT_VALIDATION] Node '{parentNode.name}' is NOT a Composite (Sequence/Selector), but has a child connection. Link will be ignored.");
+                    }
+                }
+                else {
+                    if (!nodeInstances.ContainsKey(parentId) && parentId != entryNodeId) 
+                        Debug.LogError($"[BT_VALIDATION] Link points to non-existent parent node ID:{parentId}");
+                    if (!nodeInstances.ContainsKey(childId)) 
+                        Debug.LogError($"[BT_VALIDATION] Link points to non-existent child node ID:{childId}");
                 }
             }
         }
 
         if (tree.RootNode == null)
         {
-            Debug.LogWarning($"BTLoader: Loaded tree from {path} has no root connected to ENTRY.");
+            Debug.LogError($"[BT_FATAL] Loaded tree from '{path}' has NO ROOT connected to the Entry point! AI execution will be skipped.");
         }
 
         tree.InitializeMonitoring();

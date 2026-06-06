@@ -1,27 +1,30 @@
 using System;
 using System.Collections.Generic;
+
 public class CallingReinforcement : MonoScript
 {
-
     // =========================================================
     // パラメーター
     // =========================================================
 
-    // 進行方向に対する左右オフセット
-    [SerializeField] public float xOffset = 2.0f;
-    // 後方からの出現距離
+    // 左右それぞれのスポーン位置のオフセット
+    [SerializeField] public float xOffset             = 2.0f;
+    // プレイヤーの後方から何ユニット離れてスポーンするか
     [SerializeField] public float spawnBehindDistance = 5.0f;
-    // スポーン間隔（秒）
-    [SerializeField] public float spawnInterval = 3.0f;
+    // 援軍を呼べる間隔（クールタイム）
+    [SerializeField] public float spawnInterval       = 3.0f;
 
     // =========================================================
     // 内部状態
     // =========================================================
 
+    // プレイヤーの参照
     private Player player = null;
+    // 叩きつけモーションの参照
     private PlayerSmashUp smashUp = null;
+    // 現在アクティブな援軍のリスト
     private List<Entity> activeReinforcements = new List<Entity>();
-    private ReinforcementManager reinforcementManager = null;
+    // 発射クールタイムのタイマー
     private float spawnTimer = 0.0f;
 
     // =========================================================
@@ -30,34 +33,22 @@ public class CallingReinforcement : MonoScript
 
     public override void Initialize()
     {
-        // プレイヤーEntityを探す
         Entity playerEntity = ecsGroup.FindEntity("Player");
-
-        // 見つかったらPlayerスクリプトを取得
         if (playerEntity != null)
         {
-            player = playerEntity.GetScript<Player>();
+            player  = playerEntity.GetScript<Player>();
             smashUp = playerEntity.GetScript<PlayerSmashUp>();
         }
 
-        // ReinforcementManagerを取得
-        Entity managerEntity = ecsGroup.FindEntity("ReinforcementManager");
-        if (managerEntity != null)
-        {
-            reinforcementManager = managerEntity.GetScript<ReinforcementManager>();
-        }
-
+        // 最初からすぐ呼べるようにタイマーを満タンにしておく
         spawnTimer = spawnInterval;
     }
 
     public override void Update()
     {
-        // 破棄済みまたは非アクティブなエンティティをリストから除外（リーク防止）
-        activeReinforcements.RemoveAll(e => e == null || !e.enable);
-
-        // 発射処理
+        // 消えた援軍をリストから掃除する
+        activeReinforcements.RemoveAll(e => e == null || e.Id == 0 || !e.enable);
         HandleFiring();
-        // 退散命令
         HandleRetreat();
     }
 
@@ -65,24 +56,37 @@ public class CallingReinforcement : MonoScript
     // 発射
     // =========================================================
 
+    // 入力とクールタイムを見て援軍を召喚する
     private void HandleFiring()
     {
-
-        //Playerが見つかっていなければ何もしない
-        if (player == null) {
+        if (player == null)
+        {
+            return;
+        }
+        // Phase 2 以降でないと援軍を呼べない
+        string phase = AIUpdater.lastBossPhase;
+        if (phase != "Phase 2" && phase != "Phase 3")
+        {
+            return;
+        }
+        // フリーズ中は召喚できない
+        if (player.IsFrozen)
+        {
             return;
         }
 
-        // 一定間隔で援軍を呼ぶ
         spawnTimer -= Time.deltaTime;
+
         bool wantFire =
             Input.PressMouse(Mouse.Left) ||
             Input.PressGamepad(Gamepad.LeftShoulder) ||
             Input.PressGamepad(Gamepad.RightShoulder);
+
         if (spawnTimer <= 0.0f && wantFire)
         {
             spawnTimer = spawnInterval;
             SpawnReinforcements();
+            // 叩きつけモーションを再生
             smashUp?.Play();
         }
     }
@@ -91,32 +95,33 @@ public class CallingReinforcement : MonoScript
     // 退散
     // =========================================================
 
+    // 退散ボタンで全援軍を退散させる
     private void HandleRetreat()
     {
+        bool wantRetreat =
+            Input.TriggerKey(KeyCode.E) ||
+            Input.TriggerGamepad(Gamepad.B);
 
-        // 退散キーが押されたか
-        bool wantRetreat =Input.TriggerKey(KeyCode.E) ||Input.TriggerGamepad(Gamepad.B);
-
-        // 押されていなければ何もしない
-        if (!wantRetreat) { 
-            return; 
-        }
-
-        // 退散させる軍隊がいなければ何もしない
-        foreach (Entity ReinforcementEntity in activeReinforcements)
+        if (!wantRetreat)
         {
-            if (ReinforcementEntity == null) {
-                continue; 
+            return;
+        }
+
+        foreach (Entity reinforcementEntity in activeReinforcements)
+        {
+            if (reinforcementEntity == null)
+            {
+                continue;
             }
 
-            // 退散させる
-            Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();
-            if (reinforcement != null) { 
-                reinforcement.Retreat(); 
+            Reinforcement reinforcement = reinforcementEntity.GetScript<Reinforcement>();
+            if (reinforcement != null)
+            {
+                reinforcement.Retreat();
             }
         }
 
-        // 退散させた軍隊はリストから削除
+        // 退散させたのでリストをクリア
         activeReinforcements.Clear();
     }
 
@@ -124,45 +129,46 @@ public class CallingReinforcement : MonoScript
     // スポーン
     // =========================================================
 
+    // プレイヤーの後方左右に1体ずつスポーンする
     private void SpawnReinforcements()
     {
-        // プレイヤーの前方・右方向ベクトルを算出
-        Matrix4x4 rotMat = Matrix4x4.Rotate(player.transform.rotate);
-        Vector3 forward = Matrix4x4.Transform(Vector3.forward, rotMat);
-        Vector3 right = Matrix4x4.Transform(Vector3.right, rotMat);
+        Matrix4x4 rotMat  = Matrix4x4.Rotate(player.transform.rotate);
+        Vector3   forward = Matrix4x4.Transform(Vector3.forward, rotMat);
+        Vector3   right   = Matrix4x4.Transform(Vector3.right, rotMat);
 
-        // 後方の基点
         Vector3 spawnBase = player.transform.position - forward * spawnBehindDistance;
 
         SpawnOne(spawnBase - right * xOffset, forward);
         SpawnOne(spawnBase + right * xOffset, forward);
     }
 
+    // 1体スポーンしてマネージャーに登録する
     private void SpawnOne(Vector3 spawnPos, Vector3 dir)
     {
-        // Entityを生成
-        Entity ReinforcementEntity = ecsGroup.CreateEntity("Reinforcement");
 
-        // スクリプトを追加
-        if (ReinforcementEntity == null) { 
+        // Reinforcementエンティティの生成
+        Entity reinforcementEntity = ecsGroup.CreateEntity("Reinforcement");
+        if (reinforcementEntity == null)
+        {
             return;
         }
 
-        // 生成直後に座標を設定（原点での衝突防止）
-        ReinforcementEntity.transform.position = spawnPos;
+        // 原点での衝突を防ぐために生成直後に座標をセット
+        reinforcementEntity.transform.position = spawnPos;
 
-        // 初期位置と進行方向を設定
-        Reinforcement reinforcement = ReinforcementEntity.GetScript<Reinforcement>();
-
-        // スクリプトが取得できなければ何もしない
-        if (reinforcement == null) { 
+        // Reinforcementスクリプトを取得
+        Reinforcement reinforcement = reinforcementEntity.GetScript<Reinforcement>();
+        if (reinforcement == null)
+        {
             return;
         }
+
+        // スポーン位置と移動方向をセット
         reinforcement.startPosition = spawnPos;
-        reinforcement.direction = dir;
-        activeReinforcements.Add(ReinforcementEntity);
+        reinforcement.direction     = dir;
 
-        // ReinforcementManagerに登録
-        reinforcementManager?.AddReinforcement(ReinforcementEntity);
+        activeReinforcements.Add(reinforcementEntity);
+        // 名前検索に頼らずInstanceを直接使う
+        ReinforcementManager.Instance?.AddReinforcement(reinforcementEntity);
     }
 }

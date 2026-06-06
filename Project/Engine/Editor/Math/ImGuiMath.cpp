@@ -364,6 +364,22 @@ bool Editor::ImGuiInputText(const char* _label, std::string* _text, ImGuiInputTe
 	return ImGui::InputText(_label, _text->data(), _text->capacity() + 1, _flags, callback, &userData);
 }
 
+bool Editor::ImGuiInputText(const char* _label, std::string* _text, ImGuiInputTextFlags _flags, const char* _hint) {
+	if(!_text) return false;
+	_flags |= ImGuiInputTextFlags_CallbackResize;
+	struct CallbackUserData { std::string* text; };
+	auto callback = [](ImGuiInputTextCallbackData* data) -> int {
+		if(data->EventFlag == ImGuiInputTextFlags_CallbackResize) {
+			auto* user = static_cast<CallbackUserData*>(data->UserData);
+			user->text->resize(data->BufTextLen);
+			data->Buf = user->text->data();
+		}
+		return 0;
+	};
+	CallbackUserData userData = { _text };
+	return ImGui::InputTextWithHint(_label, _hint, _text->data(), _text->capacity() + 1, _flags, callback, &userData);
+}
+
 void Editor::ImGuiInputTextReadOnly(const char* _label, const std::string& _text) {
 	std::string temp = _text;
 	ImGuiInputText(_label, &temp, ImGuiInputTextFlags_ReadOnly);

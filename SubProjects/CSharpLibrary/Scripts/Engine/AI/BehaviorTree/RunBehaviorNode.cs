@@ -57,7 +57,39 @@ public class RunBehaviorNode : BehaviorNode
         if (_subTree == null || _subTree.RootNode == null) return NodeStatus.Failure;
 
         // 2. サブツリーの実行
-        var status = _subTree.RootNode.Tick(blackboard, owner);
+        _subTree.TickCount = this.Tree.TickCount; // Tick回数を同期
+
+        // 共通キーの同期 (親 -> 子)
+        SyncBlackboard(blackboard, _subTree.Blackboard);
+
+        var status = _subTree.RootNode.Tick(_subTree.Blackboard, owner);
+        
+        // サブツリー内の実行中ノードを更新
+        _subTree.ActiveNode = null;
+        _subTree.UpdateActiveNodeRecursive(_subTree.RootNode);
+        
         return status;
+    }
+
+    private void SyncBlackboard(Blackboard parent, Blackboard child)
+    {
+        // 必要なキーを親から子へコピー（各フェーズで必要になる可能性が高いもの）
+        string[] syncKeys = { "CurrentHP", "HPRatio", "TargetPosition", "TargetEntity" };
+        foreach (var key in syncKeys)
+        {
+            uint hash = BehaviorTreeLoader.HashString(key);
+            if (parent.HasKey(hash))
+            {
+                // 型を判別してコピー（Blackboard.csの内部構造に依存）
+                // 本来はBlackboardにCopyメソッドなどがあるのが望ましい
+                object val = parent.GetValueAsObject(hash);
+                if (val is int i) child.SetInt(hash, i);
+                else if (val is float f) child.SetFloat(hash, f);
+                else if (val is bool b) child.SetBool(hash, b);
+                else if (val is Vector3 v) child.SetVector3(hash, v);
+                else if (val is string s) child.SetString(hash, s);
+                else child.SetObject(hash, val);
+            }
+        }
     }
 }

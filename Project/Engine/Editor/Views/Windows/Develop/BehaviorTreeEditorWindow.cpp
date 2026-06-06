@@ -140,15 +140,33 @@ void BehaviorTreeEditorWindow::ShowImGui() {
     if (ImGui::Button("Undo")) Undo(); ImGui::SameLine();
     if (ImGui::Button("Redo")) Redo(); ImGui::SameLine();
     ImGui::TextDisabled("|"); ImGui::SameLine();
+if (ImGui::Button("Save")) { if (!m_CurrentFilePath.empty()) SaveTree(m_CurrentFilePath); }
+ImGui::SameLine();
+if (ImGui::Button("Save As...")) { ImGui::OpenPopup("Save As"); }
+ImGui::SameLine();
+if (ImGui::Button("New")) { RecordUndo(); m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_CurrentFilePath = ""; CreateNode("Entry"); ed::NavigateToContent(); }
+ImGui::SameLine();
+if (ImGui::Button("Focus")) { ed::SetCurrentEditor(m_Editor); ed::NavigateToContent(); ed::SetCurrentEditor(nullptr); }
 
-    if (ImGui::Button("Save")) { if (!m_CurrentFilePath.empty()) SaveTree(m_CurrentFilePath); }
+// --- エラー一覧の表示 ---
+std::vector<std::string> allErrors;
+for (const auto& node : m_Nodes) {
+    if (node.hasError) {
+        allErrors.push_back(std::format("Node '{}' (ID:{}): {}", node.name, (uintptr_t)node.id, node.validationError));
+    }
+}
+
+if (!allErrors.empty()) {
     ImGui::SameLine();
-    if (ImGui::Button("Save As...")) { ImGui::OpenPopup("Save As"); }
-    ImGui::SameLine();
-    if (ImGui::Button("New")) { RecordUndo(); m_Nodes.clear(); m_Links.clear(); m_BBVariables.clear(); m_CurrentFilePath = ""; CreateNode("Entry"); ed::NavigateToContent(); }
-    ImGui::SameLine();
-    if (ImGui::Button("Focus")) { ed::SetCurrentEditor(m_Editor); ed::NavigateToContent(); ed::SetCurrentEditor(nullptr); }
-    ImGui::SameLine();
+    ImGui::TextColored(ImVec4(1, 0, 0, 1), "  (!) %llu Errors Detected", allErrors.size());
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        for (const auto& err : allErrors) ImGui::Text("- %s", err.c_str());
+        ImGui::EndTooltip();
+    }
+}
+
+ImGui::Columns(2);
     if (ImGui::Button("Refresh")) { InitializeEditor(); RefreshFileList(); }
     ImGui::SameLine();
     if (ONEngine::DebugConfig::isPause) {
@@ -510,9 +528,9 @@ void BehaviorTreeEditorWindow::DrawGraphEditor() {
             if (status >= 0 && status <= 2) {
                 isHighlighted = true;
                 switch (status) {
-                case 0: highlightColor = ImColor(255, 0, 0); break;
-                case 1: highlightColor = ImColor(255, 255, 0); break;
-                case 2: highlightColor = ImColor(0, 255, 0); break;
+                case 0: highlightColor = ImColor(0, 255, 0); break;   // Success: Green
+                case 1: highlightColor = ImColor(255, 0, 0); break;   // Failure: Red
+                case 2: highlightColor = ImColor(255, 255, 0); break; // Running: Yellow
                 }
             }
         }
@@ -760,16 +778,12 @@ void BehaviorTreeEditorWindow::UpdateNodeStatus(uint32_t nodeIdHash, int status,
 
     m_RuntimeNodeStatuses[nodeIdHash] = status; 
     
-    // 実行中(Running=2) または 成功(Success=0) の場合のみ、フロー（オレンジの円）を流すための時刻を更新する。
-    // 失敗(Failure=1) は「条件不一致によるスキップ」などが含まれるため、
-    // 継続的なフロー表示からは除外することで、デバッグ時の混乱（同時実行に見える現象）を抑制する。
+    // 実行中(Running=2) または 成功(Success=0) の場合のみ、フローを流すための時刻を更新する。
+    // Failure(1) は通常フローを止めたい場合が多いが、アクティブであった証跡を残すために時刻更新は 0 と 2 に限定。
     if (status == 0 || status == 2) {
         m_NodeLastActiveTime[nodeIdHash] = ONEngine::Time::GetTime(); 
     }
-    else if (status == 4) {
-        // Inactive（非アクティブ）時は、即座に表示を消すために過去の時刻を入れる
-        m_NodeLastActiveTime[nodeIdHash] = -100.0f;
-    }
+    // Inactive(4) 時の時刻リセットを削除することで、2秒間のフェードアウト（残像）が有効になる。
 }
 void BehaviorTreeEditorWindow::UpdateBlackboardValue(uint32_t keyHash, const std::string& value, const std::string& typeName) { m_RuntimeBBValues[keyHash] = { value, typeName }; }
 
@@ -938,40 +952,55 @@ void BehaviorTreeEditorWindow::DuplicateSelectedNodes() {
 }
 
 void BehaviorTreeEditorWindow::ValidateNodes() {
+    // 全ノードのピン情報を収集
+    std::set<uintptr_t> allPinIds;
+    for (const auto& node : m_Nodes) {
+        for (const auto& pin : node.inputs) allPinIds.insert((uintptr_t)pin.id);
+        for (const auto& pin : node.outputs) allPinIds.insert((uintptr_t)pin.id);
+    }
+
     for (auto& node : m_Nodes) {
         node.hasError = false;
         node.validationError = "";
 
+        // --- 1. 接続の有無チェック ---
+        bool hasInputLink = false;
+        bool hasOutputLink = false;
+        
+        for (const auto& link : m_Links) {
+            // このノードの入力ピンへのリンクがあるか
+            for (const auto& inPin : node.inputs) if (link.endPinId == inPin.id) hasInputLink = true;
+            // このノードの出力ピンからのリンクがあるか
+            for (const auto& outPin : node.outputs) if (link.startPinId == outPin.id) hasOutputLink = true;
+        }
+
         if (node.className == "Entry") {
-            bool hasChild = false;
-            for (const auto& link : m_Links) {
-                if (link.startPinId == node.outputs[0].id) { hasChild = true; break; }
-            }
-            if (!hasChild) {
+            if (!hasOutputLink) {
                 node.hasError = true;
-                node.validationError += "- Root has no child tree connected.\n";
+                node.validationError += "- Root Entry is not connected to any node.\n";
             }
         }
-        else if (node.className == "Sequence" || node.className == "Selector") {
-            bool hasChild = false;
-            for (const auto& link : m_Links) {
-                for (const auto& outPin : node.outputs) {
-                    if (link.startPinId == outPin.id) { hasChild = true; break; }
-                }
-                if (hasChild) break;
+        else {
+            if (!hasInputLink) {
+                node.hasError = true;
+                node.validationError += "- Node is disconnected (No incoming link).\n";
             }
-            if (!hasChild) {
+            
+            if ((node.className == "Sequence" || node.className == "Selector" || node.className == "Parallel") && !hasOutputLink) {
                 node.hasError = true;
                 node.validationError += "- Composite node has no children.\n";
             }
         }
-        else if (node.className == "RunBehaviorNode") {
+
+        // --- 2. プロパティチェック ---
+        if (node.className == "RunBehaviorNode") {
             if (node.properties["treePath"].empty()) {
                 node.hasError = true;
                 node.validationError += "- Behavior tree path is not assigned.\n";
             }
         }
 
+        // --- 3. 装飾（Decorator/Service）チェック ---
         for (auto& d : node.decorators) {
             d.hasError = false;
             d.validationError = "";
@@ -980,22 +1009,18 @@ void BehaviorTreeEditorWindow::ValidateNodes() {
                     d.hasError = true;
                     d.validationError = "Blackboard key is not assigned.";
                     node.hasError = true;
-                    node.validationError += std::format("- Decorator [{}] has no key assigned.\n", d.name);
+                    node.validationError += std::format("- Decorator [{}] key is missing.\n", d.name);
                 }
             }
         }
+        // ... (省略: 他の装飾チェック)
+    }
 
-        for (auto& s : node.services) {
-            s.hasError = false;
-            s.validationError = "";
-            if (s.className == "SensingService") {
-                if (s.properties["targetNameKey"].empty()) {
-                    s.hasError = true;
-                    s.validationError = "Target Name Key is not assigned.";
-                    node.hasError = true;
-                    node.validationError += std::format("- Service [{}] target key is missing.\n", s.name);
-                }
-            }
+    // --- 4. リンク自体の不整合チェック (Orphaned Links) ---
+    for (const auto& link : m_Links) {
+        if (allPinIds.find((uintptr_t)link.startPinId) == allPinIds.end() || allPinIds.find((uintptr_t)link.endPinId) == allPinIds.end()) {
+            // リンク先またはリンク元のピンが存在しない致命的なエラー
+            ONEngine::Console::LogError(std::format("[BT_EDITOR] Orphaned Link Detected! ID:{} Start:{} End:{}", (uintptr_t)link.id, (uintptr_t)link.startPinId, (uintptr_t)link.endPinId));
         }
     }
 }

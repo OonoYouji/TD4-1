@@ -14,7 +14,8 @@ public class FollowCamera : MonoScript
     // 内部状態
     // =========================================================
 
-    private Entity playerEntity;
+    private Entity        playerEntity;
+    private PlayerSmashUp smashUp_;
 
     // =========================================================
     // ライフサイクル
@@ -23,7 +24,10 @@ public class FollowCamera : MonoScript
     public override void Initialize()
     {
         playerEntity = ecsGroup.FindEntity("Player");
-
+        if (playerEntity != null)
+        {
+            smashUp_ = playerEntity.GetScript<PlayerSmashUp>();
+        }
     }
 
     public override void Update()
@@ -33,15 +37,16 @@ public class FollowCamera : MonoScript
         // プレイヤーの位置取得
         Vector3 playerPos = playerEntity.transform.position;
 
-        // プレイヤーの真上 + 後方オフセット
         Vector3 pos = transform.position;
         pos.x = playerPos.x + offsetPos.x;
-        pos.y = playerPos.y + offsetPos.y;
         pos.z = playerPos.z + offsetPos.z;
 
-        // transformの適応
+        // SmashUp中はY追従を止める
+        if (smashUp_ == null || !smashUp_.IsPlaying)
+        {
+            pos.y = playerPos.y + offsetPos.y;
+        }
+
         transform.position = pos;
-
-
     }
 }
