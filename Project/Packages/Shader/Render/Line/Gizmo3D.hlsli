@@ -1,6 +1,9 @@
 struct VSInput {
-	float4 position : POSITION0;
-	float4 color    : COLOR0;
+	float4 position      : POSITION0;
+	float4 otherPosition : OTHER_POSITION0;
+	float4 color         : COLOR0;
+	float  thickness     : THICKNESS0;
+	float2 expansionDir  : EXPANSION_DIR0;
 };
 
 struct VSOutput {

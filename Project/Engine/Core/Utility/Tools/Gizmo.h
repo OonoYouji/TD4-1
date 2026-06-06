@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Engine/Core/Utility/Math/Vector3.h"
 #include "Engine/Core/Utility/Math/Color.h"
@@ -32,6 +32,7 @@ public:
 		Vector3 startPosition; ///< 線の開始地点
 		Vector3 endPosition;   ///< 線の終了地点
 		Vector4 color;         ///< 線の色
+		float thickness;       ///< 線の太さ
 	};
 
 private:
@@ -89,13 +90,15 @@ public:
 	/// @param _startPosition 線の始点
 	/// @param _endPosition 線の終点
 	/// @param _color 線の色
-	static void DrawLine(const Vector3& _startPosition, const Vector3& _endPosition, const Vector4& _color = Color::kWhite);
+	/// @param _thickness 線の太さ
+	static void DrawLine(const Vector3& _startPosition, const Vector3& _endPosition, const Vector4& _color = Color::kWhite, float _thickness = 1.0f);
 
 	/// @brief Rayの描画
 	/// @param _position 線の始点 
 	/// @param _direction 線の方向
 	/// @param _color 線の色
-	static void DrawRay(const Vector3& _position, const Vector3& _direction, const Vector4& _color = Color::kWhite);
+	/// @param _thickness 線の太さ
+	static void DrawRay(const Vector3& _position, const Vector3& _direction, const Vector4& _color = Color::kWhite, float _thickness = 1.0f);
 
 };
 

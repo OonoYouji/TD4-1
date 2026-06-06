@@ -47,8 +47,8 @@ public class BossBomb : MonoScript
     {
         if (!_isExploding)
         {
-            // デバッグ表示 (着弾予定地にオレンジの円を表示)
-            GizmoBatch.DrawWireCircle(targetPosition + Vector3.up * 0.05f, explosionScale * 0.5f, new Vector4(1, 0.5f, 0, 1), 16);
+            // デバッグ表示 (着弾予定地にオレンジの円を表示、太さ12.0)
+            GizmoBatch.DrawWireCircle(targetPosition + Vector3.up * 0.05f, explosionScale * 0.5f, new Vector4(1, 0.5f, 0, 1), 16, 12.0f);
 
             _timer += Time.deltaTime;
             float t = _timer / travelTime;
@@ -72,8 +72,8 @@ public class BossBomb : MonoScript
         }
         else
         {
-            // デバッグ表示 (爆発範囲を赤で表示)
-            GizmoBatch.DrawWireCircle(transform.position + Vector3.up * 0.1f, explosionScale * 0.5f, new Vector4(1, 0, 0, 1), 24);
+            // デバッグ表示 (爆発範囲を赤で表示、太さ12.0)
+            GizmoBatch.DrawWireCircle(transform.position + Vector3.up * 0.1f, explosionScale * 0.5f, new Vector4(1, 0, 0, 1), 24, 12.0f);
 
             // 爆発演出（急拡大）
             _explosionTimer += Time.deltaTime;

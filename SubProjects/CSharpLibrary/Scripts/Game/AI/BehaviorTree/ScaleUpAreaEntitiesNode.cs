@@ -36,8 +36,8 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
 
         Vector3 targetPos = blackboard.GetVector3(keyHash);
 
-        // 判定範囲をGizmoで可視化 (マゼンタ色)
-        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, effectRadius, new Vector4(1, 0, 1, 1), 32);
+        // 判定範囲をGizmoで可視化 (マゼンタ色、太さ12.0)
+        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, effectRadius, new Vector4(1, 0, 1, 1), 32, 12.0f);
 
         var entities = owner.Group.GetEntities();
         int affectedCount = 0;

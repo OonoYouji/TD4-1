@@ -38,8 +38,8 @@ public class FallingPillar : MonoScript
     {
         if (_isFalling)
         {
-            // デバッグ表示 (着弾予定地に灰色の円を表示)
-            GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.7f, 0.7f, 0.7f, 1), 24);
+            // デバッグ表示 (着弾予定地に灰色の円を表示、太さ12.0)
+            GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.7f, 0.7f, 0.7f, 1), 24, 12.0f);
 
             // 真下へ落下
             Vector3 pos = transform.position;
@@ -71,6 +71,8 @@ private void OnImpact()
     if (_hasImpacted) return;
     _hasImpacted = true;
     _isFalling = false;
+
+    Debug.Log($"<color=red>[FallingPillar:Impact]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
 
     // 1. 衝撃演出
     FrameEvent.EnqueueNamedEvent("Effect_PillarImpact", entity.Id);

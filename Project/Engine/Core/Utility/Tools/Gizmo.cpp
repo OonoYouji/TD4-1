@@ -104,14 +104,14 @@ void Gizmo::DrawWireCube(const Vector3& _position, const Vector3& _size, const V
 	gGizmoSystem->wireCubeData_.push_back({ _position, _size, _color });
 }
 
-void Gizmo::DrawLine(const Vector3& _startPosition, const Vector3& _endPosition, const Vector4& _color) {
+void Gizmo::DrawLine(const Vector3& _startPosition, const Vector3& _endPosition, const Vector4& _color, float _thickness) {
 	if (!gGizmoSystem) return;
-	gGizmoSystem->lineData_.push_back({ _startPosition, _endPosition, _color });
+	gGizmoSystem->lineData_.push_back({ _startPosition, _endPosition, _color, _thickness });
 }
 
-void Gizmo::DrawRay(const Vector3& _position, const Vector3& _direction, const Vector4& _color) {
+void Gizmo::DrawRay(const Vector3& _position, const Vector3& _direction, const Vector4& _color, float _thickness) {
 	if (!gGizmoSystem) return;
-	gGizmoSystem->lineData_.push_back({ _position, _position + _direction, _color });
+	gGizmoSystem->lineData_.push_back({ _position, _position + _direction, _color, _thickness });
 }
 
 #else /// RELEASE_BUILD

@@ -127,9 +127,9 @@ public class FireBeamNode : BehaviorNode
 
         beamEntity.transform.scale = new Vector3(beamRadius * 2.0f, beamLength * 0.5f, beamRadius * 2.0f);
 
-        // デバッグ表示 (ビームの軌跡を赤い線、着弾点を赤い円で表示)
-        GizmoBatch.DrawLine(visualStartPos, visualStartPos + direction * beamLength, new Vector4(1, 0, 0, 1));
-        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, beamRadius * 2.0f, new Vector4(1, 0.5f, 0, 1), 16);
+        // デバッグ表示 (ビームの軌跡を赤い線、着弾点を赤い円で表示、太さ12.0)
+        GizmoBatch.DrawLine(visualStartPos, visualStartPos + direction * beamLength, new Vector4(1, 0, 0, 1), 12.0f);
+        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, beamRadius * 2.0f, new Vector4(1, 0.5f, 0, 1), 16, 12.0f);
     }
 
     public override void OnAbort(Blackboard blackboard, Entity owner)

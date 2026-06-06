@@ -71,9 +71,9 @@ public class SpawnVortexFieldNode : BehaviorNode
         // 3. 吸引・ダメージロジック
         Vector3 center = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
 
-        // デバッグ表示 (吸引範囲を紫、ダメージ範囲を赤で表示)
-        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, suctionRadius, new Vector4(0.5f, 0, 1, 1), 32);
-        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.2f, centerDamageRadius, new Vector4(1, 0, 0, 1), 24);
+        // デバッグ表示 (吸引範囲を紫、ダメージ範囲を赤で表示、太さ12.0)
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, suctionRadius, new Vector4(0.5f, 0, 1, 1), 32, 12.0f);
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.2f, centerDamageRadius, new Vector4(1, 0, 0, 1), 24, 12.0f);
 
         float dTimer = blackboard.GetFloat(damageTimerKey);
         bool applyDamage = false;

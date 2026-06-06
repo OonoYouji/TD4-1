@@ -36,8 +36,8 @@ public class FallingRock : MonoScript
     {
         if (!_isFalling || _hasImpacted) return;
 
-        // デバッグ表示 (着弾予定地に茶色の円を表示)
-        GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.6f, 0.4f, 0.2f, 1), 16);
+        // デバッグ表示 (着弾予定地に茶色の円を表示、太さ12.0)
+        GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.6f, 0.4f, 0.2f, 1), 16, 12.0f);
 
         // 下方向に移動
         transform.position += Vector3.down * fallSpeed * Time.deltaTime;
@@ -59,15 +59,16 @@ public class FallingRock : MonoScript
             Impact();
         }
     }
+private void Impact()
+{
+    if (_hasImpacted) return;
+    _hasImpacted = true;
+    _isFalling = false;
 
-    private void Impact()
-    {
-        if (_hasImpacted) return;
-        _hasImpacted = true;
-        _isFalling = false;
+    Debug.Log($"<color=red>[FallingRock:ImpactArea]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
 
-        // 着弾位置を固定
-        transform.position = new Vector3(transform.position.x, _targetPos.y, transform.position.z);
+    // 着弾位置を固定
+    transform.position = new Vector3(transform.position.x, _targetPos.y, transform.position.z);
 
         // 範囲内のプレイヤーや援軍にダメージとスタンを与える
         var entities = entity.Group.GetEntities();
