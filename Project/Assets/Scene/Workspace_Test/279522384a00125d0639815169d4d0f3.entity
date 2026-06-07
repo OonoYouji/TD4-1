@@ -58,20 +58,20 @@
             "categoryBits": 1,
             "enable": 1,
             "freezeY": false,
-            "isTrigger": false,
+            "isTrigger": true,
             "maskBits": 65535,
             "mass": 1.0,
             "size": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 3.200000286102295,
+                "y": 3.200000524520874,
+                "z": 3.200000524520874
             },
             "state": "Dynamic",
             "type": "BoxCollider"
         },
         {
             "desiredMoveDirection": {
-                "x": 1.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -84,10 +84,10 @@
             "enable": 1,
             "isAttacking": false,
             "maxSpeed": 2.0,
-            "rotationSpeed": 5.0,
+            "rotationSpeed": 0.0,
             "targetEntityId": 0,
             "type": "AgentIntentComponent",
-            "useDesiredRotation": true
+            "useDesiredRotation": false
         }
     ],
     "guid": "279522384a00125d0639815169d4d0f3",
