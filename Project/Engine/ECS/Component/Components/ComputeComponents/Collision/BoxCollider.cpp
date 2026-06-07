@@ -29,6 +29,7 @@ void ComponentDebug::BoxColliderDebug(BoxCollider* _bc) {
 			_bc->collisionState_ = static_cast<CollisionState>(currentIndex);
 		}
 
+		ImGui::Checkbox("Is Trigger", &_bc->isTrigger_);
 		ImGui::Checkbox("Freeze Y", &_bc->freezeY_);
 		ImGui::DragFloat("Mass", &_bc->mass_, 0.1f, 0.001f, 10000.0f);
 	}
@@ -97,6 +98,7 @@ void ComponentDebug::BoxColliderDebug(BoxCollider* _bc) {
 void ONEngine::from_json(const nlohmann::json& _j, BoxCollider& _b) {
 	_b.enable = _j.value("enable", 1);
 	_b.size_ = _j.value("size", Vector3::One);
+	_b.isTrigger_ = _j.value("isTrigger", false);
 	_b.freezeY_ = _j.value("freezeY", false);
 	_b.mass_ = _j.value("mass", 1.0f);
 	_b.collisionState_ = magic_enum::enum_cast<CollisionState>(_j.value("state", "Dynamic")).value_or(CollisionState::Dynamic);
@@ -109,6 +111,7 @@ void ONEngine::to_json(nlohmann::json& _j, const BoxCollider& _b) {
 		{ "type", "BoxCollider" },
 		{ "enable", _b.enable },
 		{ "size", _b.size_ },
+		{ "isTrigger", _b.IsTrigger() },
 		{ "freezeY", _b.freezeY_ },
 		{ "mass", _b.mass_ },
 		{ "state", magic_enum::enum_name(_b.collisionState_) },
@@ -129,6 +132,26 @@ void BoxCollider::SetSize(const Vector3& _size) {
 
 const Vector3& BoxCollider::GetSize() const {
 	return size_;
+}
+
+Vector3 ONEngine::InternalGetSize(uint64_t _nativeHandle) {
+	BoxCollider* c = reinterpret_cast<BoxCollider*>(_nativeHandle);
+	return c ? c->GetSize() : Vector3::Zero;
+}
+
+void ONEngine::InternalSetSize(uint64_t _nativeHandle, Vector3 _size) {
+	BoxCollider* c = reinterpret_cast<BoxCollider*>(_nativeHandle);
+	if(c) c->SetSize(_size);
+}
+
+bool ONEngine::InternalIsTriggerBox(uint64_t _nativeHandle) {
+	BoxCollider* c = reinterpret_cast<BoxCollider*>(_nativeHandle);
+	return c ? c->IsTrigger() : false;
+}
+
+void ONEngine::InternalSetTriggerBox(uint64_t _nativeHandle, bool _trigger) {
+	BoxCollider* c = reinterpret_cast<BoxCollider*>(_nativeHandle);
+	if(c) c->SetTrigger(_trigger);
 }
 
 

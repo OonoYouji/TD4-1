@@ -171,12 +171,14 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 			bool isCollided = collisionCheckItr->second(pair, &info);
 			if(isCollided) {
 
-				/// 押し戻しを行う
-				PushBack(
-					a->GetOwner(), a->GetCollisionState(),
-					b->GetOwner(), b->GetCollisionState(),
-					info
-				);
+				/// 押し戻しを行う (どちらかがTriggerならスキップ)
+				if (!a->IsTrigger() && !b->IsTrigger()) {
+					PushBack(
+						a->GetOwner(), a->GetCollisionState(),
+						b->GetOwner(), b->GetCollisionState(),
+						info
+					);
+				}
 
 
 				/// collidedPairs_にペアがすでに存在しているかチェック

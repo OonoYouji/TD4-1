@@ -126,6 +126,18 @@ void ONEngine::AddComponentInternalCalls() {
 	/// sprite renderer
 	mono_add_internal_call("SpriteRenderer::InternalGetColor", (void*)InternalGetColor);
 	mono_add_internal_call("SpriteRenderer::InternalSetColor", (void*)InternalSetColor);
+
+	/// sphere collider
+	mono_add_internal_call("SphereCollider::InternalGetRadius", (void*)InternalGetRadius);
+	mono_add_internal_call("SphereCollider::InternalSetRadius", (void*)InternalSetRadius);
+	mono_add_internal_call("SphereCollider::InternalIsTrigger", (void*)InternalIsTriggerSphere);
+	mono_add_internal_call("SphereCollider::InternalSetTrigger", (void*)InternalSetTriggerSphere);
+
+	/// box collider
+	mono_add_internal_call("BoxCollider::InternalGetSize", (void*)InternalGetSize);
+	mono_add_internal_call("BoxCollider::InternalSetSize", (void*)InternalSetSize);
+	mono_add_internal_call("BoxCollider::InternalIsTrigger", (void*)InternalIsTriggerBox);
+	mono_add_internal_call("BoxCollider::InternalSetTrigger", (void*)InternalSetTriggerBox);
 	mono_add_internal_call("SpriteRenderer::InternalGetTextureSize", (void*)InternalGetTextureSize);
 
 	/// audio source

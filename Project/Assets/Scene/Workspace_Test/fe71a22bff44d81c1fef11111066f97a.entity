@@ -2,32 +2,33 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
+            "cameraType": 0,
+            "enable": 1,
+            "farClip": 1000.0,
+            "fogColor": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 1.0
             },
-            "direction": {
-                "x": 0.0,
-                "y": -1.0,
-                "z": 0.0
-            },
-            "enable": 1,
-            "intensity": 1.0,
-            "type": "DirectionalLight"
+            "fogEnd": 10000000.0,
+            "fogStart": 0.0,
+            "fovY": 0.699999988079071,
+            "isDrawFrustum": false,
+            "isMainCamera": true,
+            "nearClip": 0.10000000149011612,
+            "type": "CameraComponent"
         },
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "y": 10.0,
+                "z": -20.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
+                "w": 0.9238795042037964,
+                "x": 0.3826834559440613,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -42,8 +43,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "520b76038bebc8d83e2ed4786934072b",
-    "name": "Light",
+    "guid": "fe71a22bff44d81c1fef11111066f97a",
+    "name": "Main Camera",
     "parentGuid": null,
     "prefabName": ""
 }

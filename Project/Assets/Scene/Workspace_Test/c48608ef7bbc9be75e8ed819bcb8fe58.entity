@@ -2,21 +2,20 @@
     "active": true,
     "components": [
         {
-            "cameraType": 1,
-            "enable": 1,
-            "farClip": 1000.0,
-            "fogColor": {
+            "color": {
+                "w": 1.0,
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "direction": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": -1.0,
                 "z": 0.0
             },
-            "fogEnd": 100000.0,
-            "fogStart": 0.0,
-            "fovY": 0.699999988079071,
-            "isDrawFrustum": false,
-            "isMainCamera": true,
-            "nearClip": 0.10000000149011612,
-            "type": "CameraComponent"
+            "enable": 1,
+            "intensity": 1.0,
+            "type": "DirectionalLight"
         },
         {
             "enable": 1,
@@ -43,8 +42,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "485731b9044195e0a1d0105e072bff6c",
-    "name": "2DCamera",
+    "guid": "c48608ef7bbc9be75e8ed819bcb8fe58",
+    "name": "DirectionalLight",
     "parentGuid": null,
     "prefabName": ""
 }

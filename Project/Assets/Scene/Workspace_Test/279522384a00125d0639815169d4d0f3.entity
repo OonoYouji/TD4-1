@@ -5,7 +5,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": -10.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -23,18 +23,7 @@
             "type": "Transform"
         },
         {
-            "DamageTrigger": {},
             "type": "Variables"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "DamageTrigger"
-                }
-            ],
-            "type": "Script"
         },
         {
             "enable": 1,
@@ -42,8 +31,8 @@
                 "baseColor": {
                     "w": 1.0,
                     "x": 1.0,
-                    "y": 0.20000000298023224,
-                    "z": 0.20000000298023224
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "baseTextureGuid": "00000000000000000000000000000000",
                 "guid": "00000000000000000000000000000000",
@@ -61,16 +50,16 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cylinder.obj",
-            "renderQueue": 1,
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "renderQueue": 2,
             "type": "MeshRenderer"
         },
         {
             "categoryBits": 1,
             "enable": 1,
             "freezeY": false,
-            "isTrigger": true,
-            "maskBits": 4294967295,
+            "isTrigger": false,
+            "maskBits": 65535,
             "mass": 1.0,
             "size": {
                 "x": 1.0,
@@ -79,10 +68,30 @@
             },
             "state": "Dynamic",
             "type": "BoxCollider"
+        },
+        {
+            "desiredMoveDirection": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "desiredRotation": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "enable": 1,
+            "isAttacking": false,
+            "maxSpeed": 2.0,
+            "rotationSpeed": 5.0,
+            "targetEntityId": 0,
+            "type": "AgentIntentComponent",
+            "useDesiredRotation": true
         }
     ],
-    "guid": "c7969cf133cd8eb040f48864a602437f",
-    "name": "BossBeam",
+    "guid": "279522384a00125d0639815169d4d0f3",
+    "name": "MovingCube",
     "parentGuid": null,
-    "prefabName": "BossBeam"
+    "prefabName": ""
 }

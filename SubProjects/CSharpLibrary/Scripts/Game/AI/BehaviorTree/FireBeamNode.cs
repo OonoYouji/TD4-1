@@ -68,6 +68,12 @@ public class FireBeamNode : BehaviorNode
                     renderer.renderQueue = RenderQueue.Telegraph;
                 }
 
+                // トリガー設定を適用（押し戻し防止）
+                var collider = beamEntity.GetComponent<BoxCollider>();
+                if (collider != null) {
+                    collider.isTrigger = true;
+                }
+
                 // スポーン直後にトランスフォームを一度更新
                 UpdateBeamTransform(beamEntity, owner, blackboard);
             }

@@ -23,26 +23,16 @@
             "type": "Transform"
         },
         {
-            "DamageTrigger": {},
+            "TriggerTest": {},
             "type": "Variables"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "DamageTrigger"
-                }
-            ],
-            "type": "Script"
         },
         {
             "enable": 1,
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 1.0,
-                    "y": 0.20000000298023224,
+                    "x": 0.20000000298023224,
+                    "y": 1.0,
                     "z": 0.20000000298023224
                 },
                 "baseTextureGuid": "00000000000000000000000000000000",
@@ -61,8 +51,8 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cylinder.obj",
-            "renderQueue": 1,
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "renderQueue": 2,
             "type": "MeshRenderer"
         },
         {
@@ -70,19 +60,29 @@
             "enable": 1,
             "freezeY": false,
             "isTrigger": true,
-            "maskBits": 4294967295,
+            "maskBits": 65535,
             "mass": 1.0,
             "size": {
-                "x": 1.0,
+                "x": 5.0,
                 "y": 1.0,
-                "z": 1.0
+                "z": 5.0
             },
-            "state": "Dynamic",
+            "state": "Static",
             "type": "BoxCollider"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "TriggerTest"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "c7969cf133cd8eb040f48864a602437f",
-    "name": "BossBeam",
+    "guid": "f699c21d142b1e488246ce5e503a5948",
+    "name": "TriggerZone",
     "parentGuid": null,
-    "prefabName": "BossBeam"
+    "prefabName": ""
 }
