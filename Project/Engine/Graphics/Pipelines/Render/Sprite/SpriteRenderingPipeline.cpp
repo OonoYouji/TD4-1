@@ -41,6 +41,12 @@ void SpriteRenderingPipeline::Initialize(ShaderCompiler* _shaderCompiler, DxMana
 		pipeline_->SetCullMode(D3D12_CULL_MODE_NONE);
 		pipeline_->SetTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
 
+		pipeline_->SetRTVNum(static_cast<uint32_t>(RTVIndex::Count));
+		pipeline_->SetRTVFormat(static_cast<DXGI_FORMAT>(RTVFormat::Color), static_cast<int>(RTVIndex::Color));
+		pipeline_->SetRTVFormat(static_cast<DXGI_FORMAT>(RTVFormat::WorldPosition), static_cast<int>(RTVIndex::WorldPosition));
+		pipeline_->SetRTVFormat(static_cast<DXGI_FORMAT>(RTVFormat::Normal), static_cast<int>(RTVIndex::Normal));
+		pipeline_->SetRTVFormat(static_cast<DXGI_FORMAT>(RTVFormat::Flags), static_cast<int>(RTVIndex::Flags));
+
 
 		pipeline_->AddCBV(D3D12_SHADER_VISIBILITY_VERTEX, 0);                  ///< ROOT_PARAM_VIEW_PROJECTION : 0
 
@@ -53,6 +59,8 @@ void SpriteRenderingPipeline::Initialize(ShaderCompiler* _shaderCompiler, DxMana
 
 		pipeline_->AddStaticSampler(D3D12_SHADER_VISIBILITY_PIXEL, 0);         ///< texture sampler
 		pipeline_->SetBlendDesc(BlendMode::Normal());
+
+		pipeline_->SetDepthStencilDesc(DepthNone()); // 2D UIなので深度テストを無効化
 
 		pipeline_->CreatePipeline(_dxm->GetDxDevice());
 
@@ -140,6 +148,13 @@ void SpriteRenderingPipeline::Draw(class ECSGroup* _ecsGroup, CameraComponent* _
 
 			++transformIndex;
 		}
+	}
+
+	// 検証用ログ (最初の10回)
+	static int spriteLogCount = 0;
+	if (spriteLogCount < 10) {
+		Console::Log("[SpritePipeline] Found " + std::to_string(spriteRendererArray->GetUsedComponents().size()) + " sprites. Drawing " + std::to_string(transformIndex) + " active sprites.", LogCategory::Engine);
+		spriteLogCount++;
 	}
 
 	/// 初期値のままなら描画対象なしなので描画しない

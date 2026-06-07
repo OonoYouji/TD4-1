@@ -56,6 +56,15 @@ public class Test : MonoScript {
             Debug.Log("Current Enum: " + testEnum);
             Debug.Log("Int List Count: " + testIntList.Count);
             foreach (var i in testIntList) Debug.Log(" - " + i);
+
+            // 効果音のテスト再生
+            AudioSource audio = entity.GetComponent<AudioSource>();
+            if (audio != null) {
+                // Assetパスを指定して再生 (存在するファイルを指定)
+                audio.OneShotPlay(1.0f, 1.0f, "./Assets/AssetsWorkspace/sounds/player_shot.mp3");
+            } else {
+                Debug.LogWarning("AudioSource component not found on this entity. Add it in the inspector to test sound.");
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using namespace ONEngine;
 #include "Engine/ECS/EntityComponentSystem/EntityComponentSystem.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/Camera/CameraComponent.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/ShadowCaster/ShadowCaster.h"
+#include "Engine/Core/Utility/Tools/Log.h"
 #include "RenderInfo.h"
 
 /// editor
@@ -137,6 +138,23 @@ void RenderingFramework::PreDraw(ECSGroup* _ecsGroup) {
 
 void RenderingFramework::DrawScene() {
 	CameraComponent* camera = pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera();
+	
+	// 実行チェックログ
+	static int drawSceneLogCount = 0;
+	if (drawSceneLogCount < 10) {
+		std::string reason = "";
+		if (!camera) reason = "Camera is null";
+		else if (!camera->enable) reason = "Camera is disabled";
+		else if (!camera->IsMakeViewProjection()) reason = "Projection failed";
+		
+		if (reason != "") {
+			ONEngine::Console::Log("[RenderingFramework] DrawScene early return: " + reason, ONEngine::LogCategory::Engine);
+		} else {
+			ONEngine::Console::Log("[RenderingFramework] DrawScene started successfully", ONEngine::LogCategory::Engine);
+		}
+		drawSceneLogCount++;
+	}
+
 	if(!camera || !camera->enable || !camera->IsMakeViewProjection()) {
 		return;
 	}
@@ -147,18 +165,57 @@ void RenderingFramework::DrawScene() {
 
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap());
-	renderingPipelineCollection_->DrawEntities(camera, pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera2D());
+	/// 3D描画
+	renderingPipelineCollection_->DrawEntities(camera, nullptr);
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::MainScene);
 
+	/// ポストエフェクト
 	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::PostProcess);
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
 	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::PostProcess);
+
+	/// 2Dオーバーレイ描画 (ポストエフェクトの後)
+	static int overlayLogCount = 0;
+	if (overlayLogCount < 10) {
+		ID3D12Resource* targetRes = renderTex->GetDxResource(0).Get();
+		ONEngine::Console::Log("[RenderingFramework] DrawPost2D targeting: " + renderTex->GetName() + " at " + std::to_string((uint64_t)targetRes), ONEngine::LogCategory::Engine);
+		overlayLogCount++;
+	}
+
+	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
+	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap(), false); // Clear=false
+	
+	// ビューポートを再設定 (ポストプロセスでリセットされている可能性があるため)
+	D3D12_VIEWPORT viewport = { 0.0f, 0.0f, EngineConfig::kWindowSize.x, EngineConfig::kWindowSize.y, 0.0f, 1.0f };
+	D3D12_RECT scissor = { 0, 0, (LONG)EngineConfig::kWindowSize.x, (LONG)EngineConfig::kWindowSize.y };
+	pDxManager_->GetDxCommand()->GetCommandList()->RSSetViewports(1, &viewport);
+	pDxManager_->GetDxCommand()->GetCommandList()->RSSetScissorRects(1, &scissor);
+
+	renderingPipelineCollection_->DrawEntities2D(pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera2D());
+	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 }
 
 void RenderingFramework::DrawDebug() {
 	CameraComponent* camera = pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera();
+
+	// 実行チェックログ
+	static int drawDebugLogCount = 0;
+	if (drawDebugLogCount < 10) {
+		std::string reason = "";
+		if (!camera) reason = "Debug Camera is null";
+		else if (!camera->enable) reason = "Debug Camera is disabled";
+		else if (!camera->IsMakeViewProjection()) reason = "Debug Projection failed";
+
+		if (reason != "") {
+			ONEngine::Console::Log("[RenderingFramework] DrawDebug early return: " + reason, ONEngine::LogCategory::Engine);
+		} else {
+			ONEngine::Console::Log("[RenderingFramework] DrawDebug started successfully", ONEngine::LogCategory::Engine);
+		}
+		drawDebugLogCount++;
+	}
+
 	if (!camera || !camera->enable || !camera->IsMakeViewProjection()) {
 		return;
 	}
@@ -169,16 +226,61 @@ void RenderingFramework::DrawDebug() {
 
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap());
-	renderingPipelineCollection_->DrawEntities(camera, pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera2D());
+	/// 3D描画
+	renderingPipelineCollection_->DrawEntities(camera, nullptr);
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
+
+	/// 2Dオーバーレイ描画
+	static int debugOverlayLogCount = 0;
+	if (debugOverlayLogCount < 10) {
+		ID3D12Resource* targetRes = renderTex->GetDxResource(0).Get();
+		ONEngine::Console::Log("[RenderingFramework] DrawDebug overlay targeting: " + renderTex->GetName() + " at " + std::to_string((uint64_t)targetRes), ONEngine::LogCategory::Engine);
+		debugOverlayLogCount++;
+	}
+
+	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
+	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap(), false); // Clear=false
+
+	// ビューポートを再設定
+	D3D12_VIEWPORT viewport = { 0.0f, 0.0f, EngineConfig::kWindowSize.x, EngineConfig::kWindowSize.y, 0.0f, 1.0f };
+	D3D12_RECT scissor = { 0, 0, (LONG)EngineConfig::kWindowSize.x, (LONG)EngineConfig::kWindowSize.y };
+	pDxManager_->GetDxCommand()->GetCommandList()->RSSetViewports(1, &viewport);
+	pDxManager_->GetDxCommand()->GetCommandList()->RSSetScissorRects(1, &scissor);
+
+	// デバッグ用の2D描画
+	renderingPipelineCollection_->DrawEntities2D(pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera2D());
+
+	// ★重要: Debug表示中でも GameScene の UI (HPバー等) を表示したい場合があるため、GameScene の 2D も重ねる
+	if (pEntityComponentSystem_->GetECSGroup("GameScene")) {
+		renderingPipelineCollection_->DrawEntities2D(pEntityComponentSystem_->GetECSGroup("GameScene")->GetMainCamera2D(), "GameScene");
+	}
+
+	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::DebugDraw);
 }
 
 void RenderingFramework::DrawPrefab() {
 	CameraComponent* camera = pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera();
+
+	// 実行チェックログ
+	static int drawPrefabLogCount = 0;
+	if (drawPrefabLogCount < 10) {
+		std::string reason = "";
+		if (!camera) reason = "Prefab Camera is null";
+		else if (!camera->enable) reason = "Prefab Camera is disabled";
+		else if (!camera->IsMakeViewProjection()) reason = "Prefab Projection failed";
+
+		if (reason != "") {
+			ONEngine::Console::Log("[RenderingFramework] DrawPrefab early return: " + reason, ONEngine::LogCategory::Engine);
+		} else {
+			ONEngine::Console::Log("[RenderingFramework] DrawPrefab started successfully", ONEngine::LogCategory::Engine);
+		}
+		drawPrefabLogCount++;
+	}
+
 	if (!camera || !camera->enable || !camera->IsMakeViewProjection()) {
 		return;
 	}
@@ -189,10 +291,31 @@ void RenderingFramework::DrawPrefab() {
 
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap());
-	renderingPipelineCollection_->DrawSelectedPrefab(camera, pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera2D());
+	/// 3D描画
+	renderingPipelineCollection_->DrawSelectedPrefab(camera, nullptr);
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
+
+	/// 2Dオーバーレイ描画
+	static int prefabOverlayLogCount = 0;
+	if (prefabOverlayLogCount < 10) {
+		ID3D12Resource* targetRes = renderTex->GetDxResource(0).Get();
+		ONEngine::Console::Log("[RenderingFramework] DrawPrefab overlay targeting: " + renderTex->GetName() + " at " + std::to_string((uint64_t)targetRes), ONEngine::LogCategory::Engine);
+		prefabOverlayLogCount++;
+	}
+
+	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
+	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap(), false); // Clear=false
+
+	// ビューポートを再設定
+	D3D12_VIEWPORT viewport = { 0.0f, 0.0f, EngineConfig::kWindowSize.x, EngineConfig::kWindowSize.y, 0.0f, 1.0f };
+	D3D12_RECT scissor = { 0, 0, (LONG)EngineConfig::kWindowSize.x, (LONG)EngineConfig::kWindowSize.y };
+	pDxManager_->GetDxCommand()->GetCommandList()->RSSetViewports(1, &viewport);
+	pDxManager_->GetDxCommand()->GetCommandList()->RSSetScissorRects(1, &scissor);
+
+	renderingPipelineCollection_->DrawSelectedPrefab2D(pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera2D());
+	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::PrefabDraw);
 }

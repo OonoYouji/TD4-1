@@ -66,13 +66,23 @@ public:
 
 	/// @brief 現在のECSGroupのすべてのEntityを描画する
 	/// @param _3dCamera 3Dカメラ
-	/// @param _2dCamera 2Dカメラ
+	/// @param _2dCamera 2DCamera
 	void DrawEntities(CameraComponent* _3dCamera, CameraComponent* _2dCamera);
+
+	/// @brief 2DのEntityを描画する
+	/// @param _2dCamera 2Dカメラ
+	/// @param _groupName 対象のECSGroupの名前 (空なら現在のGroup)
+	void DrawEntities2D(CameraComponent* _2dCamera, const std::string& _groupName = "");
 
 	/// @brief 選択されたPrefabの描画
 	/// @param _3dCamera 3Dカメラ
 	/// @param _2dCamera 2Dカメラ
 	void DrawSelectedPrefab(CameraComponent* _3dCamera, CameraComponent* _2dCamera);
+
+	/// @brief 選択されたPrefabの2D描画
+	/// @param _2dCamera 2Dカメラ
+	/// @param _groupName 対象のECSGroupの名前 (空ならDebug)
+	void DrawSelectedPrefab2D(CameraComponent* _2dCamera, const std::string& _groupName = "");
 
 
 	/// @brief ポストエフェクトの実行

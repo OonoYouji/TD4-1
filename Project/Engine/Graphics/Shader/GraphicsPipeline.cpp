@@ -457,6 +457,15 @@ D3D12_DEPTH_STENCIL_DESC ONEngine::DefaultDepthStencilDesc() {
 	return depthStencilDesc;
 }
 
+D3D12_DEPTH_STENCIL_DESC ONEngine::DepthNone() {
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc = {};
+	depthStencilDesc.DepthEnable = FALSE;
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+	depthStencilDesc.StencilEnable = FALSE;
+	return depthStencilDesc;
+}
+
 D3D12_STATIC_SAMPLER_DESC StaticSampler::ClampSampler() {
 	D3D12_STATIC_SAMPLER_DESC sampler = {};
 
