@@ -24,7 +24,7 @@
         },
         {
             "Bound": {
-                "COEFFICIENT_OF_RESTITUTION": 0.20000000298023224,
+                "COEFFICIENT_OF_RESTITUTION": 0.1599999964237213,
                 "START_VELOCITY_Y": -10.0,
                 "START_Y": 10.0,
                 "velocityY": -5.0

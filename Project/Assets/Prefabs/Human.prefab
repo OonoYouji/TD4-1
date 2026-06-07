@@ -5,14 +5,14 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -2.2912282943725586,
+                "x": 3.517876625061035,
                 "y": 0.0,
-                "z": -1.343271255493164
+                "z": 1.300973892211914
             },
             "rotate": {
-                "w": 0.9995335936546326,
+                "w": 0.7771459221839905,
                 "x": 0.0,
-                "y": 0.030538514256477356,
+                "y": -0.6293203830718994,
                 "z": 0.0
             },
             "scale": {
@@ -23,39 +23,21 @@
             "type": "Transform"
         },
         {
-            "type": "Variables"
+            "animationScale": 1.0,
+            "debugJointSize": 1.0,
+            "debugRectSize": 1.0,
+            "enable": 1,
+            "isPlaying": true,
+            "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
+            "texturePath": "./Assets/AssetsWorkspace/models/soldier.png",
+            "type": "SkinMeshRenderer"
         },
         {
-            "enable": 1,
-            "material": {
-                "baseColor": {
-                    "w": 1.0,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "baseTextureGuid": "93b4cb815a98aa10c8f0f47e6ef3e7c5",
-                "guid": "00000000000000000000000000000000",
-                "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
-                "uvTransform": {
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "rotate": 0.0,
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    }
-                }
-            },
-            "meshPath": "./Assets/Models/Soldier/soldier.obj",
-            "type": "MeshRenderer"
+            "type": "Variables"
         }
     ],
-    "guid": "75be16ed4d4bede10b437761642ab33d",
+    "guid": "61b3d4eb6ec33918c9e1140b7139ca5c",
     "name": "Human",
-    "parentGuid": "891af6ca17453467ec5b2fc10d517fe4",
+    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
     "prefabName": "Human"
 }

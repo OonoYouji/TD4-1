@@ -1,18 +1,5 @@
 {
     "active": true,
-    "components": [
-        {
-            "position": {
-                "x": 3.517876625061035,
-                "z": 1.300973892211914
-            },
-            "rotate": {
-                "w": 0.7771459221839905,
-                "y": -0.6293203830718994
-            },
-            "type": "Transform"
-        }
-    ],
     "guid": "61b3d4eb6ec33918c9e1140b7139ca5c",
     "name": "Human",
     "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
