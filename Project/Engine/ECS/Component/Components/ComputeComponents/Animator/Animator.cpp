@@ -1,4 +1,4 @@
-#include "Animator.h"
+﻿#include "Animator.h"
 #include "Engine/Core/Utility/Tools/Log.h"
 
 /// engine
@@ -70,18 +70,23 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
     auto* ecs = owner->GetECSGroup();
     if (!ecs) return 0.0f;
 
-    auto* smrArray = ecs->GetComponentArray<SkinMeshRenderer>();
-    if (!smrArray) return 0.0f;
-
-    auto* smr = smrArray->GetComponent(owner->GetId());
-    if (!smr) return 0.0f;
+    auto* smr = owner->GetComponent<SkinMeshRenderer>();
+    if (!smr) {
+        // static int noSmrLog = 0;
+        // if (noSmrLog < 1) { Console::LogWarning(std::format("Animator: SkinMeshRenderer not found on owner '{}'", owner->GetName())); noSmrLog++; }
+        return 0.0f;
+    }
 
     auto* assetCollection = Asset::AssetCollection::GetInstance();
     if (!assetCollection) return 0.0f;
 
     auto* model = assetCollection->GetModel(smr->GetMeshPath());
     if (!model) {
-        Console::LogError(std::format("Animator::GetAnimationDuration - Model not found at path: {}", smr->GetMeshPath()));
+        static std::unordered_map<std::string, bool> loggedMissing;
+        if (!loggedMissing[smr->GetMeshPath()]) {
+            Console::LogError(std::format("Animator::GetAnimationDuration - Model not found at path: {}", smr->GetMeshPath()));
+            loggedMissing[smr->GetMeshPath()] = true;
+        }
         return 0.0f;
     }
 
@@ -90,7 +95,7 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
     // 全クリップのログ出力（デバッグ用）
     static std::unordered_map<std::string, bool> loggedClips;
     if (!loggedClips[smr->GetMeshPath()]) {
-        Console::LogInfo(std::format("Animator: Clips for model '{}':", smr->GetMeshPath()));
+        Console::LogInfo(std::format("Animator: Clips for model '{}' (Total: {}):", smr->GetMeshPath(), clips.size()));
         for (const auto& [hash, clip] : clips) {
             Console::LogInfo(std::format("  - '{}' (hash: {})", clip.name, hash));
         }
@@ -99,11 +104,19 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
 
     auto it = clips.find(_clipId);
     if (it != clips.end()) {
-        Console::LogInfo(std::format("Animator::GetAnimationDuration - ClipId: {} ('{}'), Duration: {}", _clipId, it->second.name, it->second.duration));
+        static int foundLogCount = 0;
+        if (foundLogCount < 20) {
+            Console::LogInfo(std::format("Animator::GetAnimationDuration - SUCCESS: ClipId {} ('{}'), Duration: {}", _clipId, it->second.name, it->second.duration));
+            foundLogCount++;
+        }
         return it->second.duration;
     }
 
-    Console::LogWarning(std::format("Animator::GetAnimationDuration - ClipId: {} NOT FOUND in model '{}'", _clipId, smr->GetMeshPath()));
+    static int failLogCount = 0;
+    if (failLogCount < 10) {
+        Console::LogWarning(std::format("Animator::GetAnimationDuration - FAIL: ClipId {} NOT FOUND in model '{}' ({} clips total)", _clipId, smr->GetMeshPath(), clips.size()));
+        failLogCount++;
+    }
     return 0.0f;
 }
 
@@ -226,9 +239,7 @@ namespace ComponentDebug {
                         // クリップ名の特定
                         std::string clipName = "Unknown";
                         auto* owner = first->GetOwner();
-                        auto* ecs = owner->GetECSGroup();
-                        auto* smrArray = ecs->GetComponentArray<SkinMeshRenderer>();
-                        auto* smr = smrArray ? smrArray->GetComponent(owner->GetId()) : nullptr;
+                        auto* smr = owner ? owner->GetComponent<SkinMeshRenderer>() : nullptr;
                         if (smr) {
                             auto* ac = Asset::AssetCollection::GetInstance();
                             if (auto* model = ac->GetModel(smr->GetMeshPath())) {

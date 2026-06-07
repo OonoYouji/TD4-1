@@ -5,30 +5,30 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -77.9515609741211,
+                "x": 0.0,
                 "y": 0.0,
-                "z": -58.62715530395508
+                "z": 0.0
             },
             "rotate": {
                 "w": 1.0,
                 "x": 0.0,
-                "y": -0.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "scale": {
                 "x": 5.0,
-                "y": 5.000000476837158,
+                "y": 5.0,
                 "z": 5.0
             },
             "type": "Transform"
         },
         {
             "animationScale": 1.0,
-            "debugJointSize": 0.18000000715255737,
-            "debugRectSize": 0.009999999776482582,
+            "debugJointSize": 0.18,
+            "debugRectSize": 0.01,
             "enable": 1,
             "isPlaying": true,
-            "meshPath": "./Assets/Models/Boss/boss_animation.gltf",
+            "meshPath": "./Assets/AssetsWorkspace/models/boss_animation.gltf",
             "texturePath": "./Packages/Textures/white.png",
             "type": "SkinMeshRenderer"
         },
@@ -44,13 +44,6 @@
                             "playbackSpeed": 1.0,
                             "time": 0.0,
                             "weight": 1.0
-                        },
-                        {
-                            "clipId": 0,
-                            "isLoop": true,
-                            "playbackSpeed": 1.0,
-                            "time": 0.0,
-                            "weight": 0.0
                         }
                     ],
                     "weight": 1.0
@@ -89,60 +82,25 @@
                     }
                 ]
             },
-            "BossPerformanceTrigger": {
-                "effectName": "",
-                "shakeCamera": false,
-                "shakeDuration": 0.0,
-                "shakeIntensity": 0.0,
-                "soundPath": ""
-            },
-            "DamageHandler": {
-                "cooldownTimer": -0.01639770157635212,
-                "damageCooldownTime": 0.10000000149011612
-            },
             "HP": {
                 "MAX_HP": 1200,
-                "_isDead": false,
-                "currentHp": 1320,
-                "disableAutoDestruction": true,
-                "isInvincible": false
+                "currentHp": 1200,
+                "disableAutoDestruction": true
             },
-            "Knockback": {
-                "KNOCKBACK_DECAY": 0.0,
-                "KNOCKBACK_FORCE_STRENGTH": 0.0,
-                "knockbackStopThreshold": 0.009999999776482582,
-                "knockbackVelocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "SampleBossComponent": {},
             "type": "Variables"
         },
         {
             "enable": 1,
             "scripts": [
-                {
-                    "enable": true,
-                    "name": "BossAI"
-                },
-                {
-                    "enable": true,
-                    "name": "HP"
-                },
-                {
-                    "enable": true,
-                    "name": "DamageHandler"
-                },
-                {
-                    "enable": false,
-                    "name": "Knockback"
-                },
-                {
-                    "enable": true,
-                    "name": "BossPerformanceDirector"
-                }
+                { "enable": true, "name": "BossAI" },
+                { "enable": true, "name": "HP" },
+                { "enable": true, "name": "BossPerformanceDirector" },
+                { "enable": true, "name": "BossMovement" },
+                { "enable": true, "name": "BossBeamAttack" },
+                { "enable": true, "name": "BossBombBarrage" },
+                { "enable": true, "name": "BossRockAttack" },
+                { "enable": true, "name": "BossPillarAttack" },
+                { "enable": true, "name": "BossClogAttack" }
             ],
             "type": "Script"
         },
@@ -157,22 +115,9 @@
             "type": "SphereCollider"
         },
         {
-            "desiredMoveDirection": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "desiredRotation": {
-                "w": 0.27913305163383484,
-                "x": 0.002525785705074668,
-                "y": 0.960209846496582,
-                "z": 0.008688630536198616
-            },
             "enable": 1,
-            "isAttacking": false,
             "maxSpeed": 8.0,
             "rotationSpeed": 5.0,
-            "targetEntityId": 0,
             "type": "AgentIntentComponent",
             "useDesiredRotation": true
         }

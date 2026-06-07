@@ -21,15 +21,28 @@ public class BossMovement : MonoScript
     private int currentWaypointIndex = 0;
     private float waitTimer = 0.0f;
     private bool isMoving = false;
+    private Animator animator;
+    private string currentAnim = "";
 
     public override void Initialize()
     {
+        animator = entity.GetComponent<Animator>();
         if (waypoints.Count > 0)
         {
             transform.position = waypoints[0];
             isMoving = false;
             waitTimer = waitTimeAtWaypoint;
         }
+        PlayAnimation("idle");
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.2f);
+        currentAnim = clipName;
     }
 
     public override void Update()
@@ -39,15 +52,18 @@ public class BossMovement : MonoScript
         if (isMoving)
         {
             MoveToWaypoint();
+            PlayAnimation("movement");
         }
         else
         {
             waitTimer -= Time.deltaTime;
+            PlayAnimation("idle");
+            
             if (waitTimer <= 0)
             {
                 isMoving = true;
                 currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
-                Debug.Log($"[BossMovement] Moving to Waypoint {currentWaypointIndex}: {waypoints[currentWaypointIndex]}");
+                Debug.Log($"[BossMovement] Moving to Waypoint {currentWaypointIndex}");
             }
         }
 

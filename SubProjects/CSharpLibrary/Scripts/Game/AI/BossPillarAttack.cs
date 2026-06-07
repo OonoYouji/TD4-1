@@ -17,6 +17,21 @@ public class BossPillarAttack : MonoScript
     private int spawnedCount = 0;
     private float timer = 0.0f;
     private float startAngle = 0.0f;
+    private Animator animator;
+    private string currentAnim = "";
+
+    public override void Initialize()
+    {
+        animator = entity.GetComponent<Animator>();
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.15f);
+        currentAnim = clipName;
+    }
 
     public override void Update()
     {
@@ -28,6 +43,7 @@ public class BossPillarAttack : MonoScript
 
         if (isActive)
         {
+            PlayAnimation("pillar");
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
@@ -54,6 +70,7 @@ public class BossPillarAttack : MonoScript
         isActive = true;
         spawnedCount = 0;
         timer = 0.0f;
+        PlayAnimation("pillar_start");
         Debug.Log($"[BossPillarAttack] Starting sequential drop toward player.");
     }
 
@@ -83,6 +100,7 @@ public class BossPillarAttack : MonoScript
         if (spawnedCount >= pillarCount)
         {
             isActive = false;
+            PlayAnimation("pillar_end");
             Debug.Log("[BossPillarAttack] All pillars spawned.");
         }
     }

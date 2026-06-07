@@ -15,6 +15,8 @@ public class BossClogAttack : MonoScript {
 	private enum State { Idle, Preparation, Active }
 	private State currentState = State.Idle;
 	private float stateTimer = 0.0f;
+	private Animator animator;
+	private string currentAnim = "";
 
 	private class AffectedReinforcement {
 		public Entity entity;
@@ -23,18 +25,30 @@ public class BossClogAttack : MonoScript {
 	}
 	private List<AffectedReinforcement> affectedList = new List<AffectedReinforcement>();
 
+	public override void Initialize()
+	{
+		animator = entity.GetComponent<Animator>();
+	}
+
+	private void PlayAnimation(string clipName)
+	{
+		if (animator == null || currentAnim == clipName) return;
+		Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+		animator.CrossFade(clipName, 0.15f);
+		currentAnim = clipName;
+	}
+
 	public override void Update() {
 		switch (currentState) {
 		case State.Idle:
-			// デバッグ用にCキーで開始
 			if (Input.TriggerKey(KeyCode.C)) {
 				StartAttack();
 			}
 			break;
 
 		case State.Preparation:
+			PlayAnimation("clog_start");
 			stateTimer -= Time.deltaTime;
-			// 予備動作の演出（予兆円など）
 			GizmoBatch.DrawWireCircle(transform.position, radius, new Vector4(1, 0.5f, 0, 1));
 
 			if (stateTimer <= 0) {
@@ -43,14 +57,15 @@ public class BossClogAttack : MonoScript {
 			break;
 
 		case State.Active:
+			PlayAnimation("clog");
 			stateTimer -= Time.deltaTime;
 			if (stateTimer <= 0) {
+				PlayAnimation("clog_end");
 				currentState = State.Idle;
 			}
 			break;
 		}
 
-		// 巨大化状態の管理
 		UpdateAffectedReinforcements();
 	}
 

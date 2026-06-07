@@ -20,12 +20,26 @@ public class BossBombBarrage : MonoScript
     private float throwTimer = 0.0f;
     private float totalRotatedAngle = 0.0f;
     private bool useDistance1 = true;
+    private Animator animator;
+    private string currentAnim = "";
+
+    public override void Initialize()
+    {
+        animator = entity.GetComponent<Animator>();
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.2f);
+        currentAnim = clipName;
+    }
 
     public override void Update()
     {
         if (!isActive)
         {
-            // デバッグ用にDキーで開始
             if (Input.TriggerKey(KeyCode.D))
             {
                 StartAttack();
@@ -33,11 +47,10 @@ public class BossBombBarrage : MonoScript
             return;
         }
 
+        PlayAnimation("bomb");
+
         // 回転処理
         float deltaAngle = rotationSpeed * Time.deltaTime;
-        // 簡易的に rotate.y を更新 (Quaternionの扱いはエンジン依存だが、Vector3の角度指定と仮定)
-        // transform.rotate.y += deltaAngle; 
-        // 実際には Quaternion * Vector3 などの操作になるが、ここでは概念的に移動方向を変える
         totalRotatedAngle += Mathf.Abs(deltaAngle);
 
         // 投擲処理
@@ -53,6 +66,7 @@ public class BossBombBarrage : MonoScript
         if (totalRotatedAngle >= rotationCountToFinish * 360.0f)
         {
             isActive = false;
+            PlayAnimation("bomb_end");
             Debug.Log("[BossBombBarrage] Attack Finished.");
         }
 
@@ -67,6 +81,7 @@ public class BossBombBarrage : MonoScript
         throwTimer = 0.0f;
         totalRotatedAngle = 0.0f;
         useDistance1 = true;
+        PlayAnimation("bomb_start");
         Debug.Log("[BossBombBarrage] Starting Rotating Bomb Barrage.");
     }
 

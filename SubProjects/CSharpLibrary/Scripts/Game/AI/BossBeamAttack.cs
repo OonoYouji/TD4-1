@@ -16,14 +16,27 @@ public class BossBeamAttack : MonoScript
     private State currentState = State.Idle;
     private float stateTimer = 0.0f;
     private Vector3 currentTargetPos;
+    private Animator animator;
+    private string currentAnim = "";
+
+    public override void Initialize()
+    {
+        animator = entity.GetComponent<Animator>();
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.15f);
+        currentAnim = clipName;
+    }
 
     public override void Update()
     {
         switch (currentState)
         {
             case State.Idle:
-                // 外部（BTなど）から開始されるのを待つ想定だが、
-                // デバッグ用にBキーで開始できるようにする
                 if (Input.TriggerKey(KeyCode.B))
                 {
                     StartAttack();
@@ -31,6 +44,7 @@ public class BossBeamAttack : MonoScript
                 break;
 
             case State.Waiting:
+                PlayAnimation("beam_start");
                 UpdateTarget();
                 stateTimer -= Time.deltaTime;
                 
@@ -46,6 +60,7 @@ public class BossBeamAttack : MonoScript
                 break;
 
             case State.Firing:
+                PlayAnimation("beam");
                 stateTimer -= Time.deltaTime;
                 
                 // ビームの描画（太い線で代用）
@@ -56,6 +71,7 @@ public class BossBeamAttack : MonoScript
 
                 if (stateTimer <= 0)
                 {
+                    PlayAnimation("beam_end");
                     currentState = State.Idle;
                     Debug.Log("[BossBeamAttack] Attack Finished.");
                 }

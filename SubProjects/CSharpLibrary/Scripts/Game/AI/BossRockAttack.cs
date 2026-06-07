@@ -22,13 +22,27 @@ public class BossRockAttack : MonoScript
     private Entity targetRock;
     private Vector3 rockStartPos;
     private Vector3 dropTargetPos;
+    private Animator animator;
+    private string currentAnim = "";
+
+    public override void Initialize()
+    {
+        animator = entity.GetComponent<Animator>();
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.15f);
+        currentAnim = clipName;
+    }
 
     public override void Update()
     {
         switch (currentState)
         {
             case State.Idle:
-                // デバッグ用にRキーで開始
                 if (Input.TriggerKey(KeyCode.R))
                 {
                     StartAttack();
@@ -36,6 +50,7 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Picking:
+                PlayAnimation("rock_start");
                 if (PickRandomRock())
                 {
                     currentState = State.Lifting;
@@ -51,9 +66,9 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Lifting:
+                PlayAnimation("rock");
                 stateTimer -= Time.deltaTime;
                 float liftRatio = 1.0f - (stateTimer / liftTime);
-                // 岩を上に持ち上げる演出（実際にはボスの手に追従させるのが望ましい）
                 if (targetRock != null)
                 {
                     targetRock.transform.position = rockStartPos + Vector3.up * (liftRatio * 500.0f);
@@ -68,6 +83,7 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Aiming:
+                PlayAnimation("rock");
                 stateTimer -= Time.deltaTime;
                 UpdateDropTarget(); // 常に更新し続ける（狙い続ける）
                 
@@ -84,6 +100,7 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Dropping:
+                PlayAnimation("rock_end");
                 stateTimer -= Time.deltaTime;
                 float dropRatio = 1.0f - (stateTimer / dropTime);
                 
