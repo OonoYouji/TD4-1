@@ -1,0 +1,20 @@
+{
+    "active": true,
+    "components": [
+        {
+            "position": {
+                "x": 5.137866020202637,
+                "z": -12.058327674865723
+            },
+            "rotate": {
+                "w": 0.3826834261417389,
+                "y": 0.9238795042037964
+            },
+            "type": "Transform"
+        }
+    ],
+    "guid": "6b944d4333b99a5f4c5e05eae99c22cb",
+    "name": "Tree",
+    "parentGuid": "0432df9f2c15993769c4e77bfe858201",
+    "prefabName": "Tree"
+}

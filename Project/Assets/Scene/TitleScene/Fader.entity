@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -22,14 +23,29 @@
             "type": "Transform"
         },
         {
-            "type": "Variables",
             "SceneTransition": {
                 "fadeDuration": 0.5,
+                "fadeInOnStart": false,
                 "isFadingIn": false,
                 "isFadingOut": false,
                 "nextScene": "",
                 "timer": -0.005173135548830032
-            }
+            },
+            "groups": {
+                "0": {
+                    "__type": "",
+                    "name": "SceneTransition",
+                    "variables": [
+                        {
+                            "__type": "",
+                            "name": "fadeInOnStart",
+                            "type": "bool",
+                            "value": false
+                        }
+                    ]
+                }
+            },
+            "type": "Variables"
         },
         {
             "enable": 1,
@@ -43,7 +59,18 @@
                 "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0
+                "postEffectFlags": 0,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
             "type": "SpriteRenderer"
         },
@@ -56,33 +83,10 @@
                 }
             ],
             "type": "Script"
-        },
-        {
-            "groups": [
-                {
-                    "name": "SceneTransition",
-                    "variables": [
-                        {
-                            "name": "fadeInOnStart",
-                            "type": "bool",
-                            "value": false
-                        }
-                    ]
-                }
-            ],
-            "type": "Variables",
-            "SceneTransition": {
-                "fadeDuration": 0.5,
-                "isFadingIn": false,
-                "isFadingOut": false,
-                "nextScene": "",
-                "timer": -0.005173135548830032
-            }
         }
     ],
     "guid": "94ff339484eae82538e7245fbb9d7d66",
-    "id": 7,
     "name": "Fader",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

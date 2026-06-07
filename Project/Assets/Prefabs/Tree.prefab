@@ -6,7 +6,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 24.960830688476563,
+                "y": 0.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 41.000057220458984,
-                "z": 1.0
+                "x": 1.7999999523162842,
+                "y": 1.7999999523162842,
+                "z": 1.7999999523162842
             },
             "type": "Transform"
         },
@@ -34,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
+                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -50,11 +50,12 @@
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+            "type": "MeshRenderer"
         }
     ],
-    "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",
-    "name": "Title",
-    "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
-    "prefabName": ""
+    "guid": "ebc77f8e3ca2ca5ef3b3523a0c6d58b1",
+    "name": "Tree",
+    "parentGuid": null,
+    "prefabName": "Tree"
 }

@@ -6,19 +6,19 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 24.960830688476563,
+                "y": 0.0,
                 "z": 0.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
+                "w": 0.7071067690849304,
+                "x": -0.7071067690849304,
                 "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 41.000057220458984,
-                "z": 1.0
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.99998474121094
             },
             "type": "Transform"
         },
@@ -34,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
+                "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -45,16 +45,17 @@
                     },
                     "rotate": 0.0,
                     "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 20.0,
+                        "y": 20.0
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+            "type": "MeshRenderer"
         }
     ],
-    "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",
-    "name": "Title",
-    "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
+    "guid": "289cf9b0852eeba8416170aca1180746",
+    "name": "Ground",
+    "parentGuid": "856fa96b31a31ab31124000d1a6ccd47",
     "prefabName": ""
 }

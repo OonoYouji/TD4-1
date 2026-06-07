@@ -5,19 +5,19 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
-                "y": 24.960830688476563,
-                "z": 0.0
+                "x": -2.2912282943725586,
+                "y": 0.0,
+                "z": -1.343271255493164
             },
             "rotate": {
-                "w": 1.0,
+                "w": 0.9995335936546326,
                 "x": 0.0,
-                "y": 0.0,
+                "y": 0.030538514256477356,
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 41.000057220458984,
+                "x": 1.0,
+                "y": 1.0,
                 "z": 1.0
             },
             "type": "Transform"
@@ -34,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
+                "baseTextureGuid": "93b4cb815a98aa10c8f0f47e6ef3e7c5",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -50,11 +50,12 @@
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Assets/Models/Soldier/soldier.obj",
+            "type": "MeshRenderer"
         }
     ],
-    "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",
-    "name": "Title",
-    "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
-    "prefabName": ""
+    "guid": "75be16ed4d4bede10b437761642ab33d",
+    "name": "Human",
+    "parentGuid": "891af6ca17453467ec5b2fc10d517fe4",
+    "prefabName": "Human"
 }
