@@ -1,28 +1,28 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": -141.4119873046875,
+                "y": 11.189128875732422,
+                "z": -117.1068344116211
             },
             "rotate": {
-                "w": 1.0,
+                "w": -0.9203310012817383,
                 "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "y": 0.3911404013633728,
+                "z": -0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 3.7400035858154297,
+                "y": 3.7400014400482178,
+                "z": 3.740001678466797
             },
             "type": "Transform"
         },
         {
-            "type": "Variables",
             "CallingReinforcement": {
                 "reinforcementSpeed": 79.0,
                 "spawnBehindDistance": 37.0,
@@ -32,7 +32,8 @@
             },
             "HP": {
                 "MAX_HP": 1000,
-                "currentHp": 1000
+                "currentHp": 1000,
+                "disableAutoDestruction": false
             },
             "Player": {
                 "<fireCooldownTimer>k__BackingField": 31.16332244873047,
@@ -49,19 +50,27 @@
                 },
                 "maxMoveSpeed": 10.0,
                 "mouseIsMovePixel": 0.0,
-                "rotationSpeed": 8.0
-            }
+                "rotationSpeed": 8.0,
+                "startFreezeDuration": 5.0
+            },
+            "PlayerSmashUp": {
+                "fallDuration": 0.10000000149011612,
+                "riseDuration": 0.20000000298023224,
+                "riseHeight": 3.0,
+                "waitTimeAfterRise": 0.10000000149011612
+            },
+            "type": "Variables"
         },
         {
             "enable": 1,
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 0.9354838728904724,
+                    "y": 0.46271246671676636,
+                    "z": 0.46271246671676636
                 },
-                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -77,7 +86,7 @@
                     }
                 }
             },
-            "meshPath": "./Assets/Models/Entity/Animal/Wolf.obj",
+            "meshPath": "./Assets/Models/Player/hand.obj",
             "type": "MeshRenderer"
         },
         {
@@ -92,18 +101,29 @@
                     "name": "CallingReinforcement"
                 },
                 {
-                    "MAX_HP": 100,
-                    "currentHp": 100,
                     "enable": true,
                     "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "PlayerSmashUp"
                 }
             ],
             "type": "Script"
+        },
+        {
+            "categoryBits": 2,
+            "enable": 1,
+            "freezeY": true,
+            "maskBits": 32,
+            "mass": 1.0,
+            "radius": 3.200000047683716,
+            "state": "Dynamic",
+            "type": "SphereCollider"
         }
     ],
-    "guid": "44680a3f87901c65b87744d2b035af78",
-    "id": 2,
+    "guid": "50ee0d6d6376d262198a7126f641b924",
     "name": "Player",
-    "parent": null,
-    "prefabName": "Player"
+    "parentGuid": null,
+    "prefabName": ""
 }
