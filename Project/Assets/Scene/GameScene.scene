@@ -161,6 +161,11 @@
             "path": "./GameScene/c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8.entity"
         },
         {
+            "guid": "8641a2b3c4d5e6f7a8b9c0d1e2f3a4b6",
+            "parentGuid": null,
+            "path": "./GameScene/8641a2b3c4d5e6f7a8b9c0d1e2f3a4b6.entity"
+        },
+        {
             "guid": "69d0976be43ff50ce6b518f3e59028f6",
             "parentGuid": "aa9300c52ceba056a463aacd7d690204",
             "path": "./GameScene/69d0976be43ff50ce6b518f3e59028f6.entity"
