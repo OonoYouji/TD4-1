@@ -89,7 +89,7 @@ void SpriteRenderer::RenderingSetup(Asset::AssetCollection* _assetCollection) {
 
 
 void SpriteRenderer::SetColor(const Vector4& _color) {
-	gpuMaterial_.baseColor = _color;
+	material_.baseColor = _color;
 }
 
 void SpriteRenderer::SetUVTransform(const UVTransform& _uvTransform) {

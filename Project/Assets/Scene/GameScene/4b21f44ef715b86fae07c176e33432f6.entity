@@ -23,10 +23,13 @@
             "type": "Transform"
         },
         {
-            "GameController": {
-                "clearSceneName": "GameClear",
-                "isGameFinished": false,
-                "overSceneName": "GameOver"
+            "SceneTransition": {
+                "fadeDuration": 0.5,
+                "fadeInOnStart": true,
+                "isFadingIn": false,
+                "isFadingOut": false,
+                "nextScene": "",
+                "timer": -0.011685118079185486
             },
             "type": "Variables"
         },
@@ -35,14 +38,14 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "GameController"
+                    "name": "SceneTransition"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
-    "name": "SpreadUi",
-    "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
+    "guid": "4b21f44ef715b86fae07c176e33432f6",
+    "name": "TextSprite",
+    "parentGuid": "acd3e3950d763de2cf669421024046b6",
     "prefabName": ""
 }

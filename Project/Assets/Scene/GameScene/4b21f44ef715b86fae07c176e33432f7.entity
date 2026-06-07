@@ -2,22 +2,6 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.0,
-                "y": -1.0,
-                "z": 0.0
-            },
-            "enable": 1,
-            "intensity": 1.0,
-            "type": "DirectionalLight"
-        },
-        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
@@ -39,11 +23,26 @@
             "type": "Transform"
         },
         {
+            "GameController": {
+                "clearSceneName": "GameClear",
+                "isGameFinished": false,
+                "overSceneName": "GameOver"
+            },
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "GameController"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "989d5c7dc0764dff8ff80b79a59af167",
-    "name": "Light",
-    "parentGuid": null,
+    "guid": "4b21f44ef715b86fae07c176e33432f7",
+    "name": "SpreadUi",
+    "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
     "prefabName": ""
 }

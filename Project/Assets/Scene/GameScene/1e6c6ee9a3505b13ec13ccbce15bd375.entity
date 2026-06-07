@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 810.0,
-                "y": 40.0,
-                "z": 1.0
+                "x": 2.0,
+                "y": 0.09876543283462524,
+                "z": 0.0024691359139978886
             },
             "type": "Transform"
         },
@@ -55,6 +55,6 @@
     ],
     "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
     "name": "BG",
-    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+    "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
     "prefabName": ""
 }

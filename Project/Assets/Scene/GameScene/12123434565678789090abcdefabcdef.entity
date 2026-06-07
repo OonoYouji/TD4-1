@@ -5,9 +5,9 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -59.933204650878906,
+                "x": -110.89835357666016,
                 "y": 1.52587890625e-05,
-                "z": -75.87565612792969
+                "z": -32.26293182373047
             },
             "rotate": {
                 "w": 1.0,
@@ -26,8 +26,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "c757553477e6ca25971ea23fac2bf11e",
-    "name": "Phase0_WP_3",
+    "guid": "12123434565678789090abcdefabcdef",
+    "name": "Phase0_WP",
     "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
     "prefabName": ""
 }

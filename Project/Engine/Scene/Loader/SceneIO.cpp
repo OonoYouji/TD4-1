@@ -66,7 +66,8 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 		nlohmann::json entityJson = EntityJsonConverter::ToJson(entity.get());
 		if (entityJson.empty()) continue;
 
-		std::string entityFileName = entity->GetName() + ".entity";
+		// 名前衝突を避けるため、ファイル名にはGUIDを使用する
+		std::string entityFileName = entity->GetGuid().ToString() + ".entity";
 		std::string entityPath = sceneDir + entityFileName;
 		
 		currentEntityFiles.insert(entityFileName);
@@ -81,7 +82,6 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 		// シーンファイルには参照を保存
 		nlohmann::json reference;
 		reference["path"] = "./" + sceneName + "/" + entityFileName;
-		// reference["id"] = entity->GetId(); // DEPRECATED
 		reference["guid"] = entity->GetGuid().ToString();
 		if (entity->GetParent()) {
 			reference["parentGuid"] = entity->GetParent()->GetGuid().ToString();

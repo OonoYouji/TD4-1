@@ -22,15 +22,24 @@ public class BossHPPhaseManager : MonoScript
         // 子エンティティからBarスクリプトを収集 (名前で判定)
         phaseBars.Clear();
         uint childCount = entity.GetChildCount();
+        Debug.Log($"[BossHPPhaseManager] Parent: {entity.name}, Child Count: {childCount}");
+
         List<Entity> children = new List<Entity>();
         for (uint i = 0; i < childCount; i++)
         {
             Entity child = entity.GetChild(i);
-            if (child != null) children.Add(child);
+            if (child != null) 
+            {
+                Debug.Log($"[BossHPPhaseManager] Found Child[{i}]: {child.name} (ID: {child.Id})");
+                children.Add(child);
+            }
+            else
+            {
+                Debug.Log($"[BossHPPhaseManager] Child[{i}] is null!");
+            }
         }
 
         // 名前順などでソートせず、シーンの構成順序に従う（または明示的に名前でソート）
-        // ここでは "Phase1", "Phase2", "Phase3" という名前を想定してソート
         children.Sort((a, b) => string.Compare(a.name, b.name));
 
         foreach (var child in children)
@@ -40,6 +49,11 @@ public class BossHPPhaseManager : MonoScript
             {
                 phaseBars.Add(bar);
                 bar.SetManager(this);
+                Debug.Log($"[BossHPPhaseManager] Successfully attached BossHPPhaseBar from child: {child.name}");
+            }
+            else
+            {
+                Debug.Log($"[BossHPPhaseManager] Child {child.name} does NOT have BossHPPhaseBar script!");
             }
         }
 
@@ -50,14 +64,14 @@ public class BossHPPhaseManager : MonoScript
             int count = phaseBars.Count;
             for (int i = 0; i < count; i++)
             {
-                // indexが大きいほど（Phase3など）、低いHP範囲を担当するようにする（右から左へ並んでいる前提）
-                // 0: 0.66 - 1.00
-                // 1: 0.33 - 0.66
-                // 2: 0.00 - 0.33
                 phaseBars[i].minRatio = (count - 1 - i) * step;
                 phaseBars[i].maxRatio = (count - i) * step;
-                Debug.Log($"[BossHPPhaseManager] Bar '{phaseBars[i].entity.name}' assigned: {phaseBars[i].minRatio:F2} - {phaseBars[i].maxRatio:F2}");
+                Debug.Log($"[BossHPPhaseManager] Bar '{phaseBars[i].entity.name}' assigned range: {phaseBars[i].minRatio:F2} - {phaseBars[i].maxRatio:F2}");
             }
+        }
+        else
+        {
+            Debug.Log("[BossHPPhaseManager] WARNING: No PhaseBars found!");
         }
     }
 

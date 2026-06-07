@@ -3,14 +3,14 @@
     "components": [
         {
             "position": {
-                "x": -111.64251708984375,
-                "z": -32.721092224121094
+                "x": -52.97997283935547,
+                "z": -40.29884719848633
             },
             "type": "Transform"
         }
     ],
-    "guid": "0fe9328ba6064536dd846dccbb7cb652",
-    "name": "TargetRock_3",
+    "guid": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7",
+    "name": "TargetRock_2",
     "parentGuid": null,
     "prefabName": "TargetRock"
 }

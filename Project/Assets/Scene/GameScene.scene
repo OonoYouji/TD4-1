@@ -3,172 +3,167 @@
         {
             "guid": "1d9ec6292e550cf2c7b90213b3e7002b",
             "parentGuid": null,
-            "path": "./GameScene/Camera.entity"
+            "path": "./GameScene/1d9ec6292e550cf2c7b90213b3e7002b.entity"
         },
         {
             "guid": "1bfe2134e5bc44573be595efe7705c27",
             "parentGuid": null,
-            "path": "./GameScene/Camera2D.entity"
-        },
-        {
-            "guid": "989d5c7dc0764dff8ff80b79a59af167",
-            "parentGuid": null,
-            "path": "./GameScene/Light.entity"
-        },
-        {
-            "guid": "13710f0772c050eda45cdb385fabe59f",
-            "parentGuid": null,
-            "path": "./GameScene/GameController.entity"
-        },
-        {
-            "guid": "50ee0d6d6376d262198a7126f641b924",
-            "parentGuid": null,
-            "path": "./GameScene/Player.entity"
+            "path": "./GameScene/1bfe2134e5bc44573be595efe7705c27.entity"
         },
         {
             "guid": "4b2170a76e7d0236367c96751813e016",
             "parentGuid": null,
-            "path": "./GameScene/Background.entity"
+            "path": "./GameScene/4b2170a76e7d0236367c96751813e016.entity"
         },
         {
-            "guid": "aa7af0136ac79da640be7510c63c00f0",
+            "guid": "4b21f44ef715b86fae07c176e33432f3",
             "parentGuid": "4b2170a76e7d0236367c96751813e016",
-            "path": "./GameScene/Field.entity"
+            "path": "./GameScene/4b21f44ef715b86fae07c176e33432f3.entity"
         },
         {
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
             "parentGuid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "path": "./GameScene/PlayerHP.entity"
+            "path": "./GameScene/b2f254a913c4b36fd5ba09bdca3912f4.entity"
         },
         {
-            "guid": "9405ba98a7e852b559aa5cd2fd87f870",
+            "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
             "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "path": "./GameScene/BG.entity"
+            "path": "./GameScene/1e6c6ee9a3505b13ec13ccbce15bd375.entity"
         },
         {
             "guid": "3b9f86e6f33ca6f77aca8aa7e4506dd5",
             "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "path": "./GameScene/Gauge.entity"
+            "path": "./GameScene/3b9f86e6f33ca6f77aca8aa7e4506dd5.entity"
         },
         {
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
             "parentGuid": null,
-            "path": "./GameScene/Player2DRoot.entity"
+            "path": "./GameScene/5eb149f35d365cfbb797f9ff8b14ec18.entity"
         },
         {
             "guid": "acd3e3950d763de2cf669421024046b6",
             "parentGuid": "5eb149f35d365cfbb797f9ff8b14ec18",
-            "path": "./GameScene/ShotControl.entity"
+            "path": "./GameScene/acd3e3950d763de2cf669421024046b6.entity"
         },
         {
             "guid": "07e760eaf046b6a9d2dd91ad875c8c7f",
             "parentGuid": null,
-            "path": "./GameScene/Vignette.entity"
+            "path": "./GameScene/07e760eaf046b6a9d2dd91ad875c8c7f.entity"
         },
         {
             "guid": "aa9300c52ceba056a463aacd7d690204",
             "parentGuid": null,
-            "path": "./GameScene/BossHP.entity"
+            "path": "./GameScene/aa9300c52ceba056a463aacd7d690204.entity"
         },
         {
-            "guid": "4b21f44ef715b86fae07c176e33432f3",
+            "guid": "4b21f44ef715b86fae07c176e33432f4",
             "parentGuid": "acd3e3950d763de2cf669421024046b6",
-            "path": "./GameScene/Gamepad.entity"
+            "path": "./GameScene/4b21f44ef715b86fae07c176e33432f4.entity"
         },
         {
-            "guid": "6f4dd6e35752baa7a02f97b42112034e",
+            "guid": "4b21f44ef715b86fae07c176e33432f5",
             "parentGuid": "acd3e3950d763de2cf669421024046b6",
-            "path": "./GameScene/KBM.entity"
+            "path": "./GameScene/4b21f44ef715b86fae07c176e33432f5.entity"
         },
         {
-            "guid": "8aa667d4a4431f7849850bf1b3d8db3f",
+            "guid": "4b21f44ef715b86fae07c176e33432f6",
             "parentGuid": "acd3e3950d763de2cf669421024046b6",
-            "path": "./GameScene/TextSprite.entity"
+            "path": "./GameScene/4b21f44ef715b86fae07c176e33432f6.entity"
         },
         {
-            "guid": "fddc57efc19fea8f8ba0a0c04bd90179",
+            "guid": "4b21f44ef715b86fae07c176e33432f7",
             "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
-            "path": "./GameScene/SpreadUi.entity"
+            "path": "./GameScene/4b21f44ef715b86fae07c176e33432f7.entity"
         },
         {
-            "guid": "6190718f20ef1485d978d46962165d02",
+            "guid": "0123456789abcdef0123456789abcdef",
             "parentGuid": null,
-            "path": "./GameScene/Boss.entity"
+            "path": "./GameScene/0123456789abcdef0123456789abcdef.entity"
+        },
+        {
+            "guid": "1234567890abcdef1234567890abcdef",
+            "parentGuid": null,
+            "path": "./GameScene/1234567890abcdef1234567890abcdef.entity"
+        },
+        {
+            "guid": "fedcba0987654321fedcba0987654321",
+            "parentGuid": null,
+            "path": "./GameScene/fedcba0987654321fedcba0987654321.entity"
         },
         {
             "guid": "b68ad31e79ba3b2d205105be9fefb4cd",
             "parentGuid": null,
-            "path": "./GameScene/BossWaypointRoot.entity"
+            "path": "./GameScene/b68ad31e79ba3b2d205105be9fefb4cd.entity"
         },
         {
-            "guid": "28a94ec6613a456916dc233c40fbc746",
-            "parentGuid": null,
-            "path": "./GameScene/TargetRock.entity"
-        },
-        {
-            "guid": "0fe9328ba6064536dd846dccbb7cb652",
-            "parentGuid": null,
-            "path": "./GameScene/TargetRock_3.entity"
-        },
-        {
-            "guid": "e297ef3e13efc18b1fc67bc7c69dacfa",
-            "parentGuid": null,
-            "path": "./GameScene/TargetRock_2.entity"
-        },
-        {
-            "guid": "3ca77858e9a60d36167f9ef24f8d5e4e",
-            "parentGuid": null,
-            "path": "./GameScene/TargetRock_1.entity"
-        },
-        {
-            "guid": "879d162485a858be132bcade93f885ad",
-            "parentGuid": null,
-            "path": "./GameScene/FieldManager.entity"
-        },
-        {
-            "guid": "69380c54338c5316895cb905a14267b6",
+            "guid": "12123434565678789090abcdefabcdef",
             "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
-            "path": "./GameScene/Phase0_WP.entity"
+            "path": "./GameScene/12123434565678789090abcdefabcdef.entity"
         },
         {
-            "guid": "1f6603a52f4d4bf11fca075892d8affc",
+            "guid": "ababcdcd12123434565678789090efef",
             "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
-            "path": "./GameScene/Phase0_WP_1.entity"
+            "path": "./GameScene/ababcdcd12123434565678789090efef.entity"
         },
         {
-            "guid": "fb787edf9906f6e771822faea8f80112",
+            "guid": "efef12123434565678789090abcdabcd",
             "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
-            "path": "./GameScene/Phase0_WP_2.entity"
+            "path": "./GameScene/efef12123434565678789090abcdabcd.entity"
         },
         {
-            "guid": "c757553477e6ca25971ea23fac2bf11e",
+            "guid": "cdcdabcd12123434565678789090efef",
             "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
-            "path": "./GameScene/Phase0_WP_3.entity"
+            "path": "./GameScene/cdcdabcd12123434565678789090efef.entity"
         },
         {
-            "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
-            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
-            "path": "./GameScene/BG.entity"
+            "guid": "8641a2b3c4d5e6f7a8b9c0d1e2f3a4b5",
+            "parentGuid": null,
+            "path": "./GameScene/8641a2b3c4d5e6f7a8b9c0d1e2f3a4b5.entity"
         },
         {
             "guid": "c2d8c971ab131bb4f4fd716af9d9ed19",
             "parentGuid": "aa9300c52ceba056a463aacd7d690204",
-            "path": "./GameScene/Phase1Bar.entity"
+            "path": "./GameScene/c2d8c971ab131bb4f4fd716af9d9ed19.entity"
         },
         {
             "guid": "6a336a1c4c047b8834f2bcc978bc7deb",
             "parentGuid": "aa9300c52ceba056a463aacd7d690204",
-            "path": "./GameScene/Phase2Bar.entity"
+            "path": "./GameScene/6a336a1c4c047b8834f2bcc978bc7deb.entity"
         },
         {
             "guid": "160afddf0ccefe729ec5287bdcde5eea",
             "parentGuid": "aa9300c52ceba056a463aacd7d690204",
-            "path": "./GameScene/Phase3Bar.entity"
+            "path": "./GameScene/160afddf0ccefe729ec5287bdcde5eea.entity"
         },
         {
             "guid": "aa11bb22cc33dd44ee55ff66aa11bb22",
             "parentGuid": null,
-            "path": "./GameScene/BossMovementBlockManager.entity"
+            "path": "./GameScene/aa11bb22cc33dd44ee55ff66aa11bb22.entity"
+        },
+        {
+            "guid": "f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2",
+            "parentGuid": null,
+            "path": "./GameScene/f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2.entity"
+        },
+        {
+            "guid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+            "parentGuid": null,
+            "path": "./GameScene/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6.entity"
+        },
+        {
+            "guid": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7",
+            "parentGuid": null,
+            "path": "./GameScene/b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7.entity"
+        },
+        {
+            "guid": "c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8",
+            "parentGuid": null,
+            "path": "./GameScene/c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8.entity"
+        },
+        {
+            "guid": "69d0976be43ff50ce6b518f3e59028f6",
+            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+            "path": "./GameScene/69d0976be43ff50ce6b518f3e59028f6.entity"
         }
     ]
 }
