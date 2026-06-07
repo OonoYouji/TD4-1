@@ -1,0 +1,1059 @@
+{
+    "active": true,
+    "children": [
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "rotate": {
+                                "w": 1.0,
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "colorOverLifetime": {
+                                "enabled": true
+                            },
+                            "emission": {
+                                "bursts": [],
+                                "enabled": true,
+                                "rateOverDistance": 0.0,
+                                "rateOverTime": 100.0
+                            },
+                            "enable": 1,
+                            "main": {
+                                "duration": 5.0,
+                                "gravityModifier": -0.5,
+                                "looping": true,
+                                "maxParticles": 1000,
+                                "playOnAwake": true,
+                                "prewarm": true,
+                                "startColor": {
+                                    "constant": {
+                                        "a": 1.0,
+                                        "b": 0.04740433022379875,
+                                        "g": 0.04740433022379875,
+                                        "r": 0.2939068078994751
+                                    },
+                                    "max": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "min": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "state": 0
+                                },
+                                "startDelay": {
+                                    "constant": 0.0,
+                                    "max": 1.0,
+                                    "min": 0.0,
+                                    "state": 0
+                                },
+                                "startLifetime": {
+                                    "constant": 0.800000011920929,
+                                    "max": 1.0,
+                                    "min": 0.800000011920929,
+                                    "state": 1
+                                },
+                                "startRotation": {
+                                    "constant": 0.0,
+                                    "max": 1.0,
+                                    "min": 0.0,
+                                    "state": 0
+                                },
+                                "startSize": {
+                                    "constant": 0.30000001192092896,
+                                    "max": 1.0,
+                                    "min": 0.0,
+                                    "state": 0
+                                },
+                                "startSpeed": {
+                                    "constant": 0.0,
+                                    "max": 1.0,
+                                    "min": 0.0,
+                                    "state": 0
+                                }
+                            },
+                            "renderer": {
+                                "materialGuid": "",
+                                "meshGuid": "",
+                                "renderMode": 0
+                            },
+                            "shape": {
+                                "angle": 25.0,
+                                "arc": 360.0,
+                                "boxScale": {
+                                    "x": 1.0,
+                                    "y": 0.20000000298023224,
+                                    "z": 1.0
+                                },
+                                "enabled": true,
+                                "radius": 0.009999999776482582,
+                                "radiusThickness": 1.0,
+                                "type": 3
+                            },
+                            "sizeOverLifetime": {
+                                "enabled": true
+                            },
+                            "type": "ParticleSystem"
+                        }
+                    ],
+                    "guid": "c5bea346f931981b5688af3ad0746ec9",
+                    "name": "Fire1",
+                    "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+                    "prefabName": ""
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 1.0000001192092896
+                            },
+                            "rotate": {
+                                "w": 1.0,
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.399999976158142,
+                                "y": 1.4000003337860107,
+                                "z": 1.4000003337860107
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Assets/Models/bg/bonfire.gltf",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "f9313f9d3d8b451872bf5bde35d8914e",
+                    "name": "Wood",
+                    "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+                    "prefabName": ""
+                }
+            ],
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "5f392b2de41d917c3962d82bb631da28",
+            "name": "Bonfire",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "prefabName": "Bonfire"
+        },
+        {
+            "active": true,
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 0.7071067690849304,
+                        "x": -0.7071067690849304,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 100.0,
+                        "y": 99.99998474121094,
+                        "z": 99.99998474121094
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 20.0,
+                                "y": 20.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "f65e27368507219a99a01bf44c18c412",
+            "name": "Ground",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "prefabName": ""
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 3.517876625061035,
+                                "y": 0.0,
+                                "z": 1.300973892211914
+                            },
+                            "rotate": {
+                                "w": 0.7771459221839905,
+                                "x": 0.0,
+                                "y": -0.6293203830718994,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "93b4cb815a98aa10c8f0f47e6ef3e7c5",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Assets/Models/Soldier/soldier.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "61b3d4eb6ec33918c9e1140b7139ca5c",
+                    "name": "Human",
+                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "prefabName": "Human"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 1.1652930974960327,
+                                "y": 0.0,
+                                "z": -1.2206321954727173
+                            },
+                            "rotate": {
+                                "w": 0.9702957272529602,
+                                "x": 0.0,
+                                "y": -0.24192190170288086,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "93b4cb815a98aa10c8f0f47e6ef3e7c5",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Assets/Models/Soldier/soldier.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "63a741cfdb19643706a375751f822f68",
+                    "name": "Human2",
+                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "prefabName": "Human"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -1.8815335035324097,
+                                "y": 0.0,
+                                "z": -0.8623434901237488
+                            },
+                            "rotate": {
+                                "w": 0.975342333316803,
+                                "x": 0.0,
+                                "y": 0.22069743275642395,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "93b4cb815a98aa10c8f0f47e6ef3e7c5",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Assets/Models/Soldier/soldier.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "dc4a9913223b40b328c1289a16a0beed",
+                    "name": "Human3",
+                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "prefabName": "Human"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -3.851181983947754,
+                                "y": 0.0,
+                                "z": 1.435141921043396
+                            },
+                            "rotate": {
+                                "w": 0.9426414966583252,
+                                "x": 0.0,
+                                "y": 0.3338068723678589,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "93b4cb815a98aa10c8f0f47e6ef3e7c5",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Assets/Models/Soldier/soldier.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "39fd4ea44abc4c798069ce218fbd751b",
+                    "name": "Human4",
+                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "prefabName": "Human"
+                }
+            ],
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "name": "Humans",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "prefabName": ""
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 6.973041534423828,
+                                "y": 0.0,
+                                "z": -7.6098198890686035
+                            },
+                            "rotate": {
+                                "w": 0.5187732577323914,
+                                "x": 0.0,
+                                "y": -0.8549118638038635,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "43dc67e4b9188ac5bd1a327039bf2be1",
+                    "name": "Tree",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -0.9408919811248779,
+                                "y": 0.0,
+                                "z": -4.80606746673584
+                            },
+                            "rotate": {
+                                "w": 0.3338069021701813,
+                                "x": 0.0,
+                                "y": 0.9426414966583252,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "3a3010fbe7466dfffe4efdc7fd3a35b9",
+                    "name": "Tree2",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -5.720865726470947,
+                                "y": 0.0,
+                                "z": -0.007855236530303955
+                            },
+                            "rotate": {
+                                "w": -0.2503800392150879,
+                                "x": 0.0,
+                                "y": -0.9681476354598999,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "20610c8ada21c6b71870f4afc92e5c79",
+                    "name": "Tree3",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 6.8896942138671875,
+                                "y": 0.0,
+                                "z": -1.5894653797149658
+                            },
+                            "rotate": {
+                                "w": -0.882947564125061,
+                                "x": 0.0,
+                                "y": 0.4694715738296509,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "179bb28146cdbdd737eccc6ca77c9cc9",
+                    "name": "Tree4",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 3.7798328399658203,
+                                "y": 0.0,
+                                "z": -3.2936835289001465
+                            },
+                            "rotate": {
+                                "w": 0.6122172474861145,
+                                "x": 0.0,
+                                "y": -0.7906895875930786,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "68b0d59e75579c83282469822195b5d0",
+                    "name": "Tree5",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 2.6632957458496094,
+                                "y": 0.0,
+                                "z": -7.914466381072998
+                            },
+                            "rotate": {
+                                "w": 0.9807852506637573,
+                                "x": 0.0,
+                                "y": 0.19509032368659973,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "50bd1b9db05026c5cbdd9b4f9bd95d99",
+                    "name": "Tree6",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -5.695330619812012,
+                                "y": 0.0,
+                                "z": -4.848125457763672
+                            },
+                            "rotate": {
+                                "w": 0.9670459628105164,
+                                "x": 0.0,
+                                "y": 0.25460195541381836,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "8b55a8e0aea2fd516299033d18397a8c",
+                    "name": "Tree7",
+                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "prefabName": "Tree"
+                }
+            ],
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "name": "Trees",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "prefabName": "Trees"
+        }
+    ],
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        }
+    ],
+    "guid": "f9d419c01eb42d71962a211b8512d2f2",
+    "name": "BG",
+    "parentGuid": null,
+    "prefabName": "BG"
+}

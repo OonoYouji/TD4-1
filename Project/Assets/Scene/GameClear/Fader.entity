@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -22,7 +23,6 @@
             "type": "Transform"
         },
         {
-            "type": "Variables",
             "SceneTransition": {
                 "fadeDuration": 0.5,
                 "fadeInOnStart": true,
@@ -30,7 +30,8 @@
                 "isFadingOut": false,
                 "nextScene": "",
                 "timer": -0.00977480597794056
-            }
+            },
+            "type": "Variables"
         },
         {
             "enable": 1,
@@ -71,8 +72,7 @@
         }
     ],
     "guid": "a4ff339484eae82538e7245fbb9d7d67",
-    "id": 7,
     "name": "Fader",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

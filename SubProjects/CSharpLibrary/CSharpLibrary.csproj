@@ -133,6 +133,7 @@
     <Compile Include="Scripts\Game\AI\BossVortexAttack.cs" />
     <Compile Include="Scripts\Game\AI\GameStateManager.cs" />
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
+    <Compile Include="Scripts\Game\Common\Bound.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\BossDamageUtil.cs" />
     <Compile Include="Scripts\Game\Common\DamageHandler.cs" />

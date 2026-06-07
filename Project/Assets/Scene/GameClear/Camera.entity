@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "cameraType": 0,
@@ -13,7 +14,7 @@
             "fogStart": 0.0,
             "fovY": 0.699999988079071,
             "isDrawFrustum": false,
-            "isMainCamera": false,
+            "isMainCamera": true,
             "nearClip": 0.10000000149011612,
             "type": "CameraComponent"
         },
@@ -22,14 +23,14 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "y": 3.200000047683716,
+                "z": 10.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "w": -1.0920070181441588e-08,
+                "x": -1.9404674844736292e-07,
+                "y": -0.9975640773773193,
+                "z": 0.06975647807121277
             },
             "scale": {
                 "x": 1.0,
@@ -39,13 +40,12 @@
             "type": "Transform"
         },
         {
-            "type": "Variables",
-            "FollowCamera": {}
+            "FollowCamera": {},
+            "type": "Variables"
         }
     ],
     "guid": "6b5a464388b5115cf2de74fa25bc349b",
-    "id": 1,
     "name": "Camera",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

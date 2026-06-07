@@ -2,23 +2,6 @@
     "active": true,
     "components": [
         {
-            "cameraType": 1,
-            "enable": 1,
-            "farClip": 1000.0,
-            "fogColor": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "fogEnd": 10000000.0,
-            "fogStart": 0.0,
-            "fovY": 0.699999988079071,
-            "isDrawFrustum": false,
-            "isMainCamera": true,
-            "nearClip": -10.0,
-            "type": "CameraComponent"
-        },
-        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
@@ -43,8 +26,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "a8239d48b120ce577e148c0870d37d31",
-    "name": "2DCamera",
-    "parentGuid": null,
+    "guid": "92ff8bdc4593b3fcb1a3af37e467c215",
+    "name": "Humans",
+    "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
     "prefabName": ""
 }

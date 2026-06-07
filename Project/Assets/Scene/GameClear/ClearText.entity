@@ -1,11 +1,12 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.06085754185914993,
+                "y": 34.56087112426758,
                 "z": 0.0
             },
             "rotate": {
@@ -53,8 +54,7 @@
         }
     ],
     "guid": "7352579a8b80b8a956bd45eeb7b0c4de",
-    "id": 5,
     "name": "ClearText",
-    "parent": 4,
+    "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
     "prefabName": ""
 }

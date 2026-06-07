@@ -1,39 +1,134 @@
 {
     "entities": [
         {
-            "path": "./GameClear/Camera.entity",
-            "id": 1,
-            "parent": null
+            "guid": "6b5a464388b5115cf2de74fa25bc349b",
+            "parentGuid": null,
+            "path": "./GameClear/Camera.entity"
         },
         {
-            "path": "./GameClear/DirectionalLight.entity",
-            "id": 2,
-            "parent": null
+            "guid": "9bac675499d8f272a0d7add0fbe1808b",
+            "parentGuid": null,
+            "path": "./GameClear/DirectionalLight.entity"
         },
         {
-            "path": "./GameClear/2DCamera.entity",
-            "id": 3,
-            "parent": null
+            "guid": "a8239d48b120ce577e148c0870d37d31",
+            "parentGuid": null,
+            "path": "./GameClear/2DCamera.entity"
         },
         {
-            "path": "./GameClear/ClearSprites.entity",
-            "id": 4,
-            "parent": null
+            "guid": "f059d18c3aa6d0577e148c0870d37d32",
+            "parentGuid": null,
+            "path": "./GameClear/ClearSprites.entity"
         },
         {
-            "path": "./GameClear/ClearText.entity",
-            "id": 5,
-            "parent": 4
+            "guid": "7352579a8b80b8a956bd45eeb7b0c4de",
+            "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+            "path": "./GameClear/ClearText.entity"
         },
         {
-            "path": "./GameClear/PushButton.entity",
-            "id": 6,
-            "parent": 4
+            "guid": "84ff339484eae82538e7245fbb9d7d64",
+            "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+            "path": "./GameClear/PushButton.entity"
         },
         {
-            "path": "./GameClear/Fader.entity",
-            "id": 7,
-            "parent": null
+            "guid": "a4ff339484eae82538e7245fbb9d7d67",
+            "parentGuid": null,
+            "path": "./GameClear/Fader.entity"
+        },
+        {
+            "guid": "f9d419c01eb42d71962a211b8512d2f2",
+            "parentGuid": null,
+            "path": "./GameClear/BG.entity"
+        },
+        {
+            "guid": "5f392b2de41d917c3962d82bb631da28",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "path": "./GameClear/Bonfire.entity"
+        },
+        {
+            "guid": "c5bea346f931981b5688af3ad0746ec9",
+            "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+            "path": "./GameClear/Fire1.entity"
+        },
+        {
+            "guid": "f9313f9d3d8b451872bf5bde35d8914e",
+            "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+            "path": "./GameClear/Wood.entity"
+        },
+        {
+            "guid": "f65e27368507219a99a01bf44c18c412",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "path": "./GameClear/Ground.entity"
+        },
+        {
+            "guid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "path": "./GameClear/Humans.entity"
+        },
+        {
+            "guid": "61b3d4eb6ec33918c9e1140b7139ca5c",
+            "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "path": "./GameClear/Human.entity"
+        },
+        {
+            "guid": "63a741cfdb19643706a375751f822f68",
+            "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "path": "./GameClear/Human2.entity"
+        },
+        {
+            "guid": "dc4a9913223b40b328c1289a16a0beed",
+            "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "path": "./GameClear/Human3.entity"
+        },
+        {
+            "guid": "39fd4ea44abc4c798069ce218fbd751b",
+            "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "path": "./GameClear/Human4.entity"
+        },
+        {
+            "guid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "path": "./GameClear/Trees.entity"
+        },
+        {
+            "guid": "43dc67e4b9188ac5bd1a327039bf2be1",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree.entity"
+        },
+        {
+            "guid": "3a3010fbe7466dfffe4efdc7fd3a35b9",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree2.entity"
+        },
+        {
+            "guid": "20610c8ada21c6b71870f4afc92e5c79",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree3.entity"
+        },
+        {
+            "guid": "179bb28146cdbdd737eccc6ca77c9cc9",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree4.entity"
+        },
+        {
+            "guid": "68b0d59e75579c83282469822195b5d0",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree5.entity"
+        },
+        {
+            "guid": "50bd1b9db05026c5cbdd9b4f9bd95d99",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree6.entity"
+        },
+        {
+            "guid": "8b55a8e0aea2fd516299033d18397a8c",
+            "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "path": "./GameClear/Tree7.entity"
+        },
+        {
+            "guid": "f3e14322a542ebd3994338914635d94c",
+            "parentGuid": null,
+            "path": "./GameClear/BossHead.entity"
         }
     ]
 }

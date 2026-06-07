@@ -1,33 +1,7 @@
 {
     "active": true,
-    "components": [
-        {
-            "enable": 1,
-            "matrixCalcFlags": 7,
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "type": "Transform"
-        },
-        {
-            "type": "Variables"
-        }
-    ],
     "guid": "0432df9f2c15993769c4e77bfe858201",
     "name": "Trees",
     "parentGuid": "856fa96b31a31ab31124000d1a6ccd47",
-    "prefabName": ""
+    "prefabName": "Trees"
 }

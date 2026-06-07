@@ -5,24 +5,30 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 79.18753814697266,
-                "y": -41.21341323852539,
-                "z": 0.0
+                "x": 0.0,
+                "y": 0.0,
+                "z": 2.0814919471740723
             },
             "rotate": {
-                "w": 1.0,
+                "w": -4.371138828673793e-08,
                 "x": 0.0,
-                "y": -0.0,
-                "z": 0.0
+                "y": 1.0,
+                "z": -0.0
             },
             "scale": {
-                "x": 16.0,
-                "y": 16.0,
-                "z": 16.0
+                "x": 1.0000001192092896,
+                "y": 0.9999999403953552,
+                "z": 1.0000001192092896
             },
             "type": "Transform"
         },
         {
+            "Bound": {
+                "COEFFICIENT_OF_RESTITUTION": 0.20000000298023224,
+                "START_VELOCITY_Y": -10.0,
+                "START_Y": 10.0,
+                "velocityY": -5.0
+            },
             "type": "Variables"
         },
         {
@@ -34,10 +40,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "1eecfb5b05d3f9c33c093ad1eb18ec97",
+                "baseTextureGuid": "2473785afb50b9a17c031a992bbb23b2",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -50,11 +56,22 @@
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Assets/Models/objects/Outscene/boss_head.gltf",
+            "type": "MeshRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "Bound"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "84ff339484eae82538e7245fbb9d7d64",
-    "name": "PushButton",
-    "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+    "guid": "f3e14322a542ebd3994338914635d94c",
+    "name": "BossHead",
+    "parentGuid": null,
     "prefabName": ""
 }
