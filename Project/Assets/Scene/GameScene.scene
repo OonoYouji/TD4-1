@@ -36,6 +36,11 @@
             "path": "./GameScene/3b9f86e6f33ca6f77aca8aa7e4506dd5.entity"
         },
         {
+            "guid": "3370b7634a7c461296955cfc29c981c6",
+            "parentGuid": null,
+            "path": "./GameScene/3370b7634a7c461296955cfc29c981c6.entity"
+        },
+        {
             "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
             "parentGuid": null,
             "path": "./GameScene/5eb149f35d365cfbb797f9ff8b14ec18.entity"
@@ -159,11 +164,6 @@
             "guid": "c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8",
             "parentGuid": null,
             "path": "./GameScene/c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8.entity"
-        },
-        {
-            "guid": "8641a2b3c4d5e6f7a8b9c0d1e2f3a4b6",
-            "parentGuid": null,
-            "path": "./GameScene/8641a2b3c4d5e6f7a8b9c0d1e2f3a4b6.entity"
         },
         {
             "guid": "69d0976be43ff50ce6b518f3e59028f6",
