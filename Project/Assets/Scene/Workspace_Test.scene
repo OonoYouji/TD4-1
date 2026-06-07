@@ -3,22 +3,22 @@
         {
             "guid": "c018251e6005d871788771960965f3f4",
             "parentGuid": null,
-            "path": "./Workspace_Test/Camera.entity"
+            "path": "./Workspace_Test/c018251e6005d871788771960965f3f4.entity"
         },
         {
             "guid": "485731b9044195e0a1d0105e072bff6c",
             "parentGuid": null,
-            "path": "./Workspace_Test/2DCamera.entity"
+            "path": "./Workspace_Test/485731b9044195e0a1d0105e072bff6c.entity"
         },
         {
             "guid": "520b76038bebc8d83e2ed4786934072b",
             "parentGuid": null,
-            "path": "./Workspace_Test/Light.entity"
+            "path": "./Workspace_Test/520b76038bebc8d83e2ed4786934072b.entity"
         },
         {
             "guid": "7507623143fccb9523b40b4e0107ecbf",
             "parentGuid": null,
-            "path": "./Workspace_Test/Mesh.entity"
+            "path": "./Workspace_Test/7507623143fccb9523b40b4e0107ecbf.entity"
         }
     ]
 }
