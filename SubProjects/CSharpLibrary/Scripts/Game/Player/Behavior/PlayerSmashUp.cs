@@ -34,20 +34,32 @@ public class PlayerSmashUp : MonoScript
     // ライフサイクル
     // =========================================================
 
+    // 叩きつけの間隔（クールタイム）
+    [SerializeField] public float smashInterval = 1.0f;
+
+    private float smashTimer_ = 0.0f;
     private Player player_;
 
     public override void Initialize()
     {
+
+        // FieldManagerの取得
         Entity managerEntity = ecsGroup.FindEntity("FieldManager");
         if (managerEntity != null)
         {
             fieldManager_ = managerEntity.GetScript<FieldManager>();
         }
+
+        // プレイヤーの取得
         player_ = entity.GetScript<Player>();
+        smashTimer_ = smashInterval;
     }
 
     public override void Update()
     {
+        smashTimer_ -= Time.deltaTime;
+        HandleSmash();
+
         if (!isPlaying_)
         {
             return;
@@ -58,6 +70,30 @@ public class PlayerSmashUp : MonoScript
 
         // 現在のフェーズを実行
         currentPhase_?.Invoke();
+    }
+
+    // Phase 2 以降のみ、右クリック / X ボタンで叩きつけ
+    private void HandleSmash()
+    {
+
+        // フェーズ2以降から使える
+        string phase = AIUpdater.lastBossPhase;
+        if (phase != "Phase 2" && phase != "Phase 3")
+        {
+            return;
+        }
+
+        // 右クリックとXボタンの入力をチェック
+        bool wantSmash =
+            Input.PressMouse(Mouse.Right) ||
+            Input.PressGamepad(Gamepad.X);
+
+        // クールタイム後に叩きつけ
+        if (smashTimer_ <= 0.0f && wantSmash)
+        {
+            smashTimer_ = smashInterval;
+            Play();
+        }
     }
     public void Play()
     {

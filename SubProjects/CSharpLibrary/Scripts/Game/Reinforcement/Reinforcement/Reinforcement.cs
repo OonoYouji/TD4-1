@@ -78,27 +78,17 @@ public partial class Reinforcement : MonoScript
     private float timer = 0.0f;
     // スポーン直後の衝突を防ぐフレームカウンター
     private int spawnDelayFrames = 5;
-    // 同フレーム内での多重Destroy防止フラグ
-    private bool isDestroyReserved = false;
     // バフ前の色を保持しておく
     private Vector4 originalColor = Vector4.one;
     private bool colorSaved = false;
     // バフを一度だけ発動するためのフラグ
     private bool supportBuffApplied_ = false;
-    // スケール変化のログを1回だけ出すためのフラグ
-    private bool scaleLoggedOnce_ = false;
-    // 前回のスケール適用状態
-    private ReinforcementState lastAppliedState_ = ReinforcementState.Normal;
 
     // 各種参照
     private Entity cameraEntity = null;
     private Entity playerEntity = null;
     private FieldManager fieldManager_ = null;
-    // はまり〜打ち上げを担うスクリプト
-    private ReinforcementFallIn fallIn_ = null;
 
-    // FieldFall が参照するプロパティ
-    public bool IsTrapped => fallIn_ != null && fallIn_.IsActive;
     public bool IsRetreating => isRetreating;
 
     // =========================================================
@@ -107,36 +97,42 @@ public partial class Reinforcement : MonoScript
 
     public override void Initialize()
     {
+
+        // 各フラグの初期化
         positionApplied = false;
         isRetreating = false;
         isCollisionEnabled = false;
         isDestroyReserved = false;
         supportBuffApplied_ = false;
         scaleLoggedOnce_ = false;
+        colorSaved = false;
+
+        // 状態の初期化
         lastAppliedState_ = ReinforcementState.Normal;
         state_ = ReinforcementState.Normal;
 
-        // 初期化時に適応
+        // スケールの初期化
         transform.scale = new Vector3(normalScale, normalScale, normalScale);
+        // タイマーの初期化
         timer = 0.0f;
+        // スポーン直後の衝突を防ぐフレームカウンターの初期化
         spawnDelayFrames = 2;
-        colorSaved = false;
 
-        // 参照の取得
+        // エンティティの取得
         cameraEntity = ecsGroup.FindEntity("Camera");
         playerEntity = ecsGroup.FindEntity("Player");
 
-        // FieldManagerのエンティティとコンポーネントを取得
+        // FieldManagerの取得
         Entity fmEntity = ecsGroup.FindEntity("FieldManager");
         if (fmEntity != null)
         {
             fieldManager_ = fmEntity.GetScript<FieldManager>();
         }
 
-        // 同じEntityにアタッチされているはまり処理スクリプトを取得
+        // ReinforcementFallInの取得
         fallIn_ = entity.GetScript<ReinforcementFallIn>();
 
-        // HPを10に設定
+        // HPの初期化
         HP hp = entity.GetScript<HP>();
         if (hp != null)
         {
@@ -147,25 +143,22 @@ public partial class Reinforcement : MonoScript
 
     public override void Update()
     {
-        // すでにDestroy済みなら何もしない
+
+    
         if (entity.Id == 0)
         {
             return;
         }
-
-        // Destroy予約済みなら即削除
-        if (isDestroyReserved)
+        if (CheckDestroyReserved())
         {
-            entity.Destroy();
             return;
         }
 
-        // 途中でnullになったEntityを再取得する
+        // Entityの再取得
         ReacquireEntities();
-        // 初期位置の適用
+        // 初期位置の適応
         ApplyInitialPosition();
 
-        // スポーン直後は当たり判定を無効にして数フレーム待つ
         if (spawnDelayFrames > 0)
         {
             spawnDelayFrames--;
@@ -173,34 +166,21 @@ public partial class Reinforcement : MonoScript
             return;
         }
 
-        // 通常状態に戻ったら当たり判定を有効化
         if (!isRetreating && !isCollisionEnabled)
         {
             Debug.Log($"<color=green>[Reinforcement:Enable]</color> Collision enabled for {entity.name} (ID:{entity.Id}) after delay.");
             isCollisionEnabled = true;
         }
 
-        // 打ち上げ中は画面外に出たら消える
-        if (fallIn_ != null && fallIn_.IsLaunched)
-        {
-            if (!IsInScreenFrustum())
-            {
-                isRetreating = true;
-                entity.Destroy();
-            }
-            return;
+        // 
+        if (CheckLaunchExit()) { 
+            return; 
+        }
+        if (CheckTrappedActive()) {
+            return; 
         }
 
-        // 穴にはまってる間は他の処理をしない
-        if (fallIn_ != null && fallIn_.IsActive)
-        {
-            return;
-        }
-
-        if (UpdateTimer())
-        {
-            return;
-        }
+        if (UpdateTimer()) { return; }
 
         CheckFieldFall();
         ApplyStateScale();
@@ -212,39 +192,22 @@ public partial class Reinforcement : MonoScript
     // Update サブルーチン
     // =========================================================
 
-    // 途中でnullになったEntityを再取得する
     private void ReacquireEntities()
     {
-        if (cameraEntity == null)
-        {
-            cameraEntity = ecsGroup.FindEntity("Camera");
-        }
-        if (playerEntity == null)
-        {
-            playerEntity = ecsGroup.FindEntity("Player");
-        }
+        if (cameraEntity == null) { cameraEntity = ecsGroup.FindEntity("Camera"); }
+        if (playerEntity == null) { playerEntity = ecsGroup.FindEntity("Player"); }
     }
 
-    // startPositionが確定したら1回だけ座標を適用する
     private void ApplyInitialPosition()
     {
-        // 既に座標が適用されている場合は何もしない
-        if (positionApplied)
+        if (positionApplied || startPosition.Length() < 0.001f)
         {
             return;
         }
- 
-        if (startPosition.Length() < 0.001f)
-        {
-            return;
-        }
-
-        // 座標を適用して完了フラグを立てる
         transform.position = startPosition;
         positionApplied = true;
     }
 
-    // 生存時間を管理して期限切れで退散させる
     private bool UpdateTimer()
     {
         timer += Time.deltaTime;
@@ -252,8 +215,6 @@ public partial class Reinforcement : MonoScript
         {
             return false;
         }
-
-        // 画面内なら退散、画面外ならそのまま消す
         if (isCollisionEnabled)
         {
             Retreat();
@@ -264,137 +225,5 @@ public partial class Reinforcement : MonoScript
             return true;
         }
         return false;
-    }
-
-    // 状態が変化した時だけスケールを書き込む
-    private void ApplyStateScale()
-    {
-
-        // 状態が変化していないなら何もしない
-        if (state_ == lastAppliedState_)
-        {
-            return;
-        }
-
-        // 状態に応じたスケールを適用
-        float target = normalScale;
-        if (state_ == ReinforcementState.Supported)
-        {
-            target = supportedScale;
-
-            // バフを与えたことをログに出す
-            if (!scaleLoggedOnce_)
-            {
-                Debug.Log($"<color=orange>[ApplyStateScale]</color> {entity.name} scale → {supportedScale}");
-                scaleLoggedOnce_ = true;
-            }
-        }
-
-        // スケールを適用
-        transform.scale = new Vector3(target, target, target);
-        lastAppliedState_ = state_;
-    }
-
-    // =========================================================
-    // コールバック
-    // =========================================================
-
-    public override void OnDestroy()
-    {
-        // 退散で消えた場合は死亡扱いにしない
-        if (!isRetreating)
-        {
-            Entity effect = ecsGroup.CreateEntity("ReinforcementDeathEffect");
-            if (effect != null)
-            {
-                effect.transform.position = transform.position;
-            }
-            onDied?.Invoke(this);
-        }
-    }
-
-    // =========================================================
-    // ダメージ / 攻撃
-    // =========================================================
-
-    // 被弾時に呼ばれる
-    public void TakeDamage()
-    {
-        // 穴にはまってる間はダメージを受けない
-        if (isDestroyReserved || (fallIn_ != null && fallIn_.IsActive))
-        {
-            return;
-        }
-
-        Debug.Log($"<color=red>[Reinforcement:Hit]</color> {entity.name} (ID:{entity.Id}) was DESTROYED by an attack.");
-        isDestroyReserved = true;
-    }
-
-    // ボスへの攻撃を通知して退散する
-    public void AttackBoss()
-    {
-        onAttackBoss?.Invoke((int)damage, transform.position);
-        Retreat();
-    }
-
-    // =========================================================
-    // フィールド落下インターフェース
-    // =========================================================
-
-    // 自分がいるセルが落下中かどうかを毎フレームチェック
-    private void CheckFieldFall()
-    {
-
-        // FieldManagerが存在しない場合は何もしない
-        if (fieldManager_ == null)
-        {
-            return;
-        }
-
-        // グリッド内かのチェック
-        int row, col;
-        if (!fieldManager_.WorldToGrid(transform.position, out row, out col))
-        {
-            return;
-        }
-
-        // 落下中のセルかのチェック
-        Entity cellEntity = fieldManager_.GetCellAt(row, col);
-        if (cellEntity == null)
-        {
-            return;
-        }
-
-        // 落下中のセルにいる場合ははまり処理を開始
-        FieldFall fieldFall = cellEntity.GetScript<FieldFall>();
-        if (fieldFall == null || !fieldFall.IsPlaying)
-        {
-            return;
-        }
-
-        // 落下中のセルに乗ってたらはまり判定を開始
-        fieldFall.TrapReinforcement(this);
-    }
-
-    // FieldFallから呼ばれる、ReinforcementFallInにはまり処理を委譲してバフも発動
-    public void TrapToCell(float stuckY, float cellCenterX, float cellCenterZ)
-    {
-        // はまり処理を開始
-        fallIn_?.StartFallIn(stuckY, cellCenterX, cellCenterZ);
-        isCollisionEnabled = false;
-
-        // バフを発動する
-        if (!supportBuffApplied_)
-        {
-            ApplySupportBuff();
-            supportBuffApplied_ = true;
-        }
-    }
-
-    // FieldFallから呼ばれる、床が戻るタイミングで上に打ち上げる
-    public void LaunchUpward()
-    {
-        isCollisionEnabled = false;
-        fallIn_?.Launch();
     }
 }

@@ -1,6 +1,34 @@
 public partial class Reinforcement
 {
     // =========================================================
+    // 状態スケール
+    // =========================================================
+
+    private bool scaleLoggedOnce_ = false;
+    private ReinforcementState lastAppliedState_ = ReinforcementState.Normal;
+
+    // 状態が変化した時だけスケールを書き込む
+    private void ApplyStateScale()
+    {
+        if (state_ == lastAppliedState_)
+        {
+            return;
+        }
+        float target = normalScale;
+        if (state_ == ReinforcementState.Supported)
+        {
+            target = supportedScale;
+            if (!scaleLoggedOnce_)
+            {
+                Debug.Log($"<color=orange>[ApplyStateScale]</color> {entity.name} scale → {supportedScale}");
+                scaleLoggedOnce_ = true;
+            }
+        }
+        transform.scale = new Vector3(target, target, target);
+        lastAppliedState_ = state_;
+    }
+
+    // =========================================================
     // 援護バフ
     // =========================================================
 

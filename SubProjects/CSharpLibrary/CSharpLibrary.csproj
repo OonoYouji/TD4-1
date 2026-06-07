@@ -192,12 +192,15 @@
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />
+    <Compile Include="Scripts\Game\Player\Behavior\PlayerCallMotion.cs" />
     <Compile Include="Scripts\Game\Reinforcement\CallingReinforcement.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement\Reinforcement.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement\ReinforcementMovement.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement\ReinforcementView.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement\ReinforcementSupportBuff.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Reinforcement\ReinforcementFallIn.cs" />
+    <Compile Include="Scripts\Game\Reinforcement\Reinforcement\ReinforcementCombat.cs" />
+    <Compile Include="Scripts\Game\Reinforcement\Reinforcement\ReinforcementFieldFall.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerArm.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBullet.cs" />
     <Compile Include="Scripts\Game\Player\Olds\PlayerBulletLauncher.cs" />

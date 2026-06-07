@@ -2,6 +2,17 @@
     "active": true,
     "components": [
         {
+            "position": {
+                "x": -69.70695495605469,
+                "z": -74.45411682128906
+            },
+            "rotate": {
+                "w": 0.6542438864707947,
+                "y": -0.756283700466156
+            },
+            "type": "Transform"
+        },
+        {
             "BossPerformanceDirector": {
                 "performances": [
                     {
@@ -31,7 +42,8 @@
                 ]
             },
             "HP": {
-                "currentHp": 1200
+                "currentHp": 1200,
+                "regenPerSecond": 0.0
             },
             "type": "Variables"
         },
@@ -41,14 +53,14 @@
                     "boneMaskHash": 0,
                     "states": [
                         {
-                            "clipId": 0,
+                            "clipId": 3182712298,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
                             "time": 0.0,
-                            "weight": 1.0
+                            "weight": 0.0
                         },
                         {
-                            "clipId": 0,
+                            "clipId": 89534040,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
                             "time": 0.0,
@@ -119,6 +131,15 @@
                 }
             ],
             "type": "Animator"
+        },
+        {
+            "desiredRotation": {
+                "w": 0.6542438864707947,
+                "x": 0.0,
+                "y": -0.7562836408615112,
+                "z": 0.0
+            },
+            "type": "AgentIntentComponent"
         }
     ],
     "guid": "6190718f20ef1485d978d46962165d02",

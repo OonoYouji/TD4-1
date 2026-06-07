@@ -20,8 +20,8 @@ public class CallingReinforcement : MonoScript
 
     // プレイヤーの参照
     private Player player = null;
-    // 叩きつけモーションの参照
-    private PlayerSmashUp smashUp = null;
+    // 援軍召喚時のモーション
+    private PlayerCallMotion callMotion = null;
     // 現在アクティブな援軍のリスト
     private List<Entity> activeReinforcements = new List<Entity>();
     // 発射クールタイムのタイマー
@@ -36,8 +36,8 @@ public class CallingReinforcement : MonoScript
         Entity playerEntity = ecsGroup.FindEntity("Player");
         if (playerEntity != null)
         {
-            player  = playerEntity.GetScript<Player>();
-            smashUp = playerEntity.GetScript<PlayerSmashUp>();
+            player      = playerEntity.GetScript<Player>();
+            callMotion  = playerEntity.GetScript<PlayerCallMotion>();
         }
 
         // 最初からすぐ呼べるようにタイマーを満タンにしておく
@@ -63,12 +63,6 @@ public class CallingReinforcement : MonoScript
         {
             return;
         }
-        // Phase 2 以降でないと援軍を呼べない
-        string phase = AIUpdater.lastBossPhase;
-        if (phase != "Phase 2" && phase != "Phase 3")
-        {
-            return;
-        }
         // フリーズ中は召喚できない
         if (player.IsFrozen)
         {
@@ -77,17 +71,18 @@ public class CallingReinforcement : MonoScript
 
         spawnTimer -= Time.deltaTime;
 
+        // 左クリックとかなんかのボタンで援軍を呼ぶ
         bool wantFire =
             Input.PressMouse(Mouse.Left) ||
             Input.PressGamepad(Gamepad.LeftShoulder) ||
             Input.PressGamepad(Gamepad.RightShoulder);
 
+        // クールタイムが満タンで、かつ呼びたい入力があったら召喚する
         if (spawnTimer <= 0.0f && wantFire)
         {
             spawnTimer = spawnInterval;
             SpawnReinforcements();
-            // 叩きつけモーションを再生
-            smashUp?.Play();
+            callMotion?.Play();
         }
     }
 

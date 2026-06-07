@@ -23,7 +23,12 @@
             "type": "Transform"
         },
         {
-            "BossHPPhaseBar": {},
+            "BossHPPhaseBar": {
+                "barHeight": 30.0,
+                "fullWidth": 240.0,
+                "maxRatio": 0.6666666865348816,
+                "minRatio": 0.3333333432674408
+            },
             "type": "Variables"
         },
         {

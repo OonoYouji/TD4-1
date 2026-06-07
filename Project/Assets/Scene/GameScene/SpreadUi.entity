@@ -25,6 +25,8 @@
         {
             "GameController": {
                 "clearSceneName": "GameClear",
+                "currentPhase": "Phase 1",
+                "currentStatus": "Playing",
                 "isGameFinished": false,
                 "overSceneName": "GameOver"
             },
