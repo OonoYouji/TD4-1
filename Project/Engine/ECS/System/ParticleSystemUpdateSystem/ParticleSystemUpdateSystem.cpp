@@ -44,9 +44,11 @@ namespace ONEngine {
                     // Just draw sphere for now, maybe add half sphere later
                     Gizmo::DrawWireSphere(center, shape.radius, color);
                     break;
-                case ParticleSystemShapeType::Box:
-                    Gizmo::DrawWireCube(center, shape.boxScale, color);
+                case ParticleSystemShapeType::Box: {
+                    Quaternion rotation = transform->GetRotate();
+                    Gizmo::DrawWireCube(center, shape.boxScale, rotation, color);
                     break;
+                }
                 case ParticleSystemShapeType::Cone: {
                     float angleRad = shape.angle * 3.14159f / 180.0f;
                     float sinAngle = std::sin(angleRad);

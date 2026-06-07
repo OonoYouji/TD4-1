@@ -80,6 +80,38 @@ public static class GizmoBatch
         }
     }
 
+    public static void DrawWireCube(Vector3 center, Vector3 size, Quaternion rotation, Vector4 color, float thickness = 1.0f)
+    {
+        Vector3 halfSize = size * 0.5f;
+        Vector3[] baseVertices = {
+            new Vector3(-halfSize.x, -halfSize.y, -halfSize.z),
+            new Vector3(halfSize.x, -halfSize.y, -halfSize.z),
+            new Vector3(halfSize.x, halfSize.y, -halfSize.z),
+            new Vector3(-halfSize.x, halfSize.y, -halfSize.z),
+            new Vector3(-halfSize.x, -halfSize.y, halfSize.z),
+            new Vector3(halfSize.x, -halfSize.y, halfSize.z),
+            new Vector3(halfSize.x, halfSize.y, halfSize.z),
+            new Vector3(-halfSize.x, halfSize.y, halfSize.z)
+        };
+
+        Vector3[] vertices = new Vector3[8];
+        for (int i = 0; i < 8; i++)
+        {
+            vertices[i] = center + (rotation * baseVertices[i]);
+        }
+
+        int[] indices = {
+            0, 1, 1, 2, 2, 3, 3, 0, // Bottom
+            4, 5, 5, 6, 6, 7, 7, 4, // Top
+            0, 4, 1, 5, 2, 6, 3, 7  // Pillars
+        };
+
+        for (int i = 0; i < indices.Length; i += 2)
+        {
+            DrawLine(vertices[indices[i]], vertices[indices[i + 1]], color, thickness);
+        }
+    }
+
     /// <summary>
     /// 指定されたフレーム数分だけ維持される円を描画する
     /// </summary>

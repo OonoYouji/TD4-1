@@ -106,7 +106,7 @@ void GizmoRenderingPipeline::Draw(class ECSGroup* /*_ecsGroup*/, [[maybe_unused]
 
 	/// cubeのデータを頂点データに積む
 	for (auto& data : wireCubeData) {
-		vertices = GetCubeVertices(data.position, data.size, data.color, 1.0f); // 太さ1.0固定
+		vertices = GetCubeVertices(data.position, data.size, data.rotate, data.color, 1.0f); // 太さ1.0固定
 		vertices_.insert(vertices_.end(), vertices.begin(), vertices.end());
 	}
 

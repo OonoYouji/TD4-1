@@ -145,26 +145,18 @@ public class FireBeamNode : BehaviorNode
         beamEntity.transform.scale = new Vector3(beamRadius * 2.0f, beamLength * 0.5f, beamRadius * 2.0f);
 
         // --- コライダー（当たり判定）の可視化 ---
-        // 実際のコライダーの形状に合わせて、開始点、中間、終点に円を表示し、線で繋ぐ
-        Vector3 beamEndPos = visualStartPos + direction * beamLength;
+        // 実際のコライダー（BoxCollider）の形状に合わせて、回転を考慮した箱を表示
         Vector3 beamMidPos = visualStartPos + direction * (beamLength * 0.5f);
+        Vector4 attackColor = new Vector4(1, 0, 1, 1);
 
-        // 判定範囲を赤色で強調
-        Vector4 colliderColor = new Vector4(1, 0, 0, 1);
-        GizmoBatch.DrawWireCircle(visualStartPos, beamRadius, colliderColor, 16, 12.0f);
-        GizmoBatch.DrawWireCircle(beamMidPos, beamRadius, colliderColor, 16, 12.0f);
-        GizmoBatch.DrawWireCircle(beamEndPos, beamRadius, colliderColor, 16, 12.0f);
+        // BoxColliderと同じサイズ・回転で描画
+        Vector3 boxSize = new Vector3(beamRadius * 2.0f, beamRadius * 2.0f, beamLength);
+        Quaternion boxRotation = Quaternion.LookRotation(direction, Vector3.up);
 
-        // 筒の側面を4本の線で表現
-        Vector3 right = Vector3.Cross(direction, Vector3.up).Normalized() * beamRadius;
-        Vector3 up = Vector3.Cross(right, direction).Normalized() * beamRadius;
-
-        GizmoBatch.DrawLine(visualStartPos + right, beamEndPos + right, colliderColor, 12.0f);
-        GizmoBatch.DrawLine(visualStartPos - right, beamEndPos - right, colliderColor, 12.0f);
-        GizmoBatch.DrawLine(visualStartPos + up, beamEndPos + up, colliderColor, 12.0f);
-        GizmoBatch.DrawLine(visualStartPos - up, beamEndPos - up, colliderColor, 12.0f);
+        GizmoBatch.DrawWireCube(beamMidPos, boxSize, boxRotation, attackColor, 16.0f);
 
         // デバッグ表示 (着弾点の地面マーカー)
+
         GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, beamRadius * 2.0f, new Vector4(1, 0.5f, 0, 1), 16, 12.0f);
         }
 

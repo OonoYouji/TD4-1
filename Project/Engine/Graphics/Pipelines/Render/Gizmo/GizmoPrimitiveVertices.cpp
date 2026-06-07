@@ -2,6 +2,8 @@
 #include <cmath>
 #include <numbers>
 
+#include "Engine/Core/Utility/Math/Matrix4x4.h"
+
 using namespace ONEngine;
 using namespace GizmoPrimitive;
 
@@ -63,20 +65,29 @@ std::vector<VertexData> ONEngine::GetSphereVertices(const Vector3& _center, floa
 	return outVertices;
 }
 
-std::vector<VertexData> ONEngine::GetCubeVertices(const Vector3& _center, const Vector3& _size, const Vector4& _color, float _thickness) {
+std::vector<VertexData> ONEngine::GetCubeVertices(const Vector3& _center, const Vector3& _size, const Quaternion& _rotate, const Vector4& _color, float _thickness) {
 	Vector3 halfSize = _size * 0.5f;
 	std::vector<VertexData> outVertices;
 
-	Vector3 vertices[8] = {
-		_center + Vector3(-halfSize.x, -halfSize.y, -halfSize.z),
-		_center + Vector3(halfSize.x, -halfSize.y, -halfSize.z),
-		_center + Vector3(halfSize.x, halfSize.y, -halfSize.z),
-		_center + Vector3(-halfSize.x, halfSize.y, -halfSize.z),
-		_center + Vector3(-halfSize.x, -halfSize.y, halfSize.z),
-		_center + Vector3(halfSize.x, -halfSize.y, halfSize.z),
-		_center + Vector3(halfSize.x, halfSize.y, halfSize.z),
-		_center + Vector3(-halfSize.x, halfSize.y, halfSize.z)
+	// 回転行列の作成
+	Matrix4x4 rotateMat = Matrix4x4::MakeRotate(_rotate);
+
+	Vector3 baseVertices[8] = {
+		Vector3(-halfSize.x, -halfSize.y, -halfSize.z),
+		Vector3(halfSize.x, -halfSize.y, -halfSize.z),
+		Vector3(halfSize.x, halfSize.y, -halfSize.z),
+		Vector3(-halfSize.x, halfSize.y, -halfSize.z),
+		Vector3(-halfSize.x, -halfSize.y, halfSize.z),
+		Vector3(halfSize.x, -halfSize.y, halfSize.z),
+		Vector3(halfSize.x, halfSize.y, halfSize.z),
+		Vector3(-halfSize.x, halfSize.y, halfSize.z)
 	};
+
+	Vector3 vertices[8];
+	for (int i = 0; i < 8; i++) {
+		// 回転を適用してから中心座標を足す
+		vertices[i] = _center + Matrix4x4::Transform(baseVertices[i], rotateMat);
+	}
 
 	int32_t indices[] = {
 		0, 1, 1, 2, 2, 3, 3, 0,

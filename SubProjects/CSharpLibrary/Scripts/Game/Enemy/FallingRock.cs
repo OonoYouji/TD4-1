@@ -21,14 +21,18 @@ public class FallingRock : MonoScript
         _hasImpacted = false;
     }
 
-    /// <summary>
-    /// 落下を開始させる。
-    /// </summary>
     public void Launch(Vector3 targetPos)
     {
         _targetPos = targetPos;
         _isFalling = true;
         _hasImpacted = false;
+
+        // トリガー設定を適用（押し戻し防止）
+        var box = entity.GetComponent<BoxCollider>();
+        if (box != null) box.isTrigger = true;
+        var sphere = entity.GetComponent<SphereCollider>();
+        if (sphere != null) sphere.isTrigger = true;
+
         Debug.Log($"[FallingRock] Launched towards {Vector3.ToSimpleString(targetPos)}");
     }
 
@@ -36,8 +40,8 @@ public class FallingRock : MonoScript
     {
         if (!_isFalling || _hasImpacted) return;
 
-        // デバッグ表示 (着弾予定地に茶色の円を表示、太さ12.0)
-        GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.6f, 0.4f, 0.2f, 1), 16, 12.0f);
+        // デバッグ表示 (着弾予定地に紫の円を表示、太さ16.0)
+        GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(1, 0, 1, 1), 16, 16.0f);
 
         // 下方向に移動
         transform.position += Vector3.down * fallSpeed * Time.deltaTime;

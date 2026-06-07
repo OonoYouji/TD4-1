@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 
 /// std
 #include <vector>
 
 /// engine
 #include "Engine/Core/Utility/Utility.h"
+#include "Engine/Core/Utility/Math/Quaternion.h"
 
 
 namespace ONEngine {
@@ -33,10 +34,11 @@ std::vector<GizmoPrimitive::VertexData> GetSphereVertices(const Vector3& _center
 /// @brief Cubeの頂点データを取得する
 /// @param _center Cubeの中心
 /// @param _size Cubeのサイズ
+/// @param _rotate Cubeの回転
 /// @param _color Cubeの色
 /// @param _thickness 線の太さ
 /// @return 1セグメントあたり6頂点(TRIANGLELIST)の頂点データ
-std::vector<GizmoPrimitive::VertexData> GetCubeVertices(const Vector3& _center, const Vector3& _size, const Vector4& _color, float _thickness = 1.0f);
+std::vector<GizmoPrimitive::VertexData> GetCubeVertices(const Vector3& _center, const Vector3& _size, const Quaternion& _rotate, const Vector4& _color, float _thickness = 1.0f);
 
 /// @brief 矩形の頂点データを取得する
 /// @param _matWorld ワールド座標

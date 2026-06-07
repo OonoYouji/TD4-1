@@ -96,12 +96,12 @@ void Gizmo::DrawWireSphere(const Vector3& _position, float _radius, const Vector
 	gGizmoSystem->wireSphereData_.push_back({ _position, _radius, _color });
 }
 
-void Gizmo::DrawCube(const Vector3& _position, const Vector3& _size, const Vector4& _color) {
-	gGizmoSystem->cubeData_.push_back({ _position, _size, _color });
+void Gizmo::DrawCube(const Vector3& _position, const Vector3& _size, const Quaternion& _rotate, const Vector4& _color) {
+	gGizmoSystem->cubeData_.push_back({ _position, _size, _rotate, _color });
 }
 
-void Gizmo::DrawWireCube(const Vector3& _position, const Vector3& _size, const Vector4& _color) {
-	gGizmoSystem->wireCubeData_.push_back({ _position, _size, _color });
+void Gizmo::DrawWireCube(const Vector3& _position, const Vector3& _size, const Quaternion& _rotate, const Vector4& _color) {
+	gGizmoSystem->wireCubeData_.push_back({ _position, _size, _rotate, _color });
 }
 
 void Gizmo::DrawLine(const Vector3& _startPosition, const Vector3& _endPosition, const Vector4& _color, float _thickness) {
@@ -118,8 +118,8 @@ void Gizmo::DrawRay(const Vector3& _position, const Vector3& _direction, const V
 /// リリース用に空の関数を定義
 void Gizmo::DrawSphere(const Vector3&, float, const Vector4&) {}
 void Gizmo::DrawWireSphere(const Vector3&, float, const Vector4&) {}
-void Gizmo::DrawCube(const Vector3&, const Vector3&, const Vector4&) {}
-void Gizmo::DrawWireCube(const Vector3&, const Vector3&, const Vector4&) {}
-void Gizmo::DrawLine(const Vector3&, const Vector3&, const Vector4&) {}
-void Gizmo::DrawRay(const Vector3&, const Vector3&, const Vector4&) {}
+void Gizmo::DrawCube(const Vector3&, const Vector3&, const Quaternion&, const Vector4&) {}
+void Gizmo::DrawWireCube(const Vector3&, const Vector3&, const Quaternion&, const Vector4&) {}
+void Gizmo::DrawLine(const Vector3&, const Vector3&, const Vector4&, float) {}
+void Gizmo::DrawRay(const Vector3&, const Vector3&, const Vector4&, float) {}
 #endif // DEBUG_BUILD

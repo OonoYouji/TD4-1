@@ -29,7 +29,10 @@ public class FallingPillar : MonoScript
         _hasImpacted = false;
         _stayTimer = 0.0f;
 
-        // 初期状態では判定を無効化、またはトリガーモードにしておく
+        // 落下中はトリガーモードにする（物理反発を防ぐ）
+        var collider = entity.GetComponent<BoxCollider>();
+        if (collider != null) collider.isTrigger = true;
+
         var trigger = entity.GetScript<DamageTrigger>();
         if (trigger != null) trigger.enable = false;
     }
@@ -38,8 +41,8 @@ public class FallingPillar : MonoScript
     {
         if (_isFalling)
         {
-            // デバッグ表示 (着弾予定地に灰色の円を表示、太さ12.0)
-            GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(0.7f, 0.7f, 0.7f, 1), 24, 12.0f);
+            // デバッグ表示 (着弾予定地に紫の円を表示、太さ16.0)
+            GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(1, 0, 1, 1), 24, 16.0f);
 
             // 真下へ落下
             Vector3 pos = transform.position;
@@ -110,14 +113,12 @@ private void OnImpact()
     }
 
     // 3. 障害物（壁）としての設定
-    // C#側にBoxColliderクラスが定義されていないため一旦コメントアウト
-    /*
+    // 着弾後は物理的な壁として機能させる
     var collider = entity.GetComponent<BoxCollider>();
     if (collider != null)
     {
-        // トリガーではなく物理的な壁として機能させる設定
+        collider.isTrigger = false;
     }
-    */
 }
 
     public override void OnCollisionEnter(Entity collision)
