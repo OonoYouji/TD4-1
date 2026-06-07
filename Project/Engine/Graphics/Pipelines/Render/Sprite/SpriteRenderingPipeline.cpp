@@ -130,30 +130,51 @@ void SpriteRenderingPipeline::Draw(class ECSGroup* _ecsGroup, CameraComponent* _
 
 	GPUTimeStamp::GetInstance().BeginTimeStamp(GPUTimeStampID::SpriteRendering);
 
-	/// bufferにデータをセット
-	size_t transformIndex = 0;
+	/// 描画データの収集とソート用構造体
+	struct RenderingData {
+		SpriteRenderer* renderer;
+		float z;
+		Matrix4x4 matWorld;
+	};
+	std::vector<RenderingData> renderingDataList;
+	renderingDataList.reserve(spriteRendererArray->GetUsedComponents().size());
+
+	/// 描画対象を収集
 	for (auto& sr : spriteRendererArray->GetUsedComponents()) {
 		if (!CheckComponentEnable(sr)) {
 			continue;
 		}
 
 		if (GameEntity* owner = sr->GetOwner()) {
-
 			/// setup
 			sr->RenderingSetup(pAssetCollection_);
-
-			/// Material, Transformのセット
-			materialsBuffer.SetMappedData(transformIndex, sr->GetGpuMaterial());
-			transformsBuffer_.SetMappedData(transformIndex, owner->GetTransform()->GetMatWorld());
-
-			++transformIndex;
+			
+			renderingDataList.push_back({
+				sr,
+				owner->GetTransform()->position.z, // Z値を保存
+				owner->GetTransform()->GetMatWorld()
+			});
 		}
+	}
+
+	/// Z値でソート (大きい順: 奥から手前へ)
+	std::sort(renderingDataList.begin(), renderingDataList.end(), [](const RenderingData& a, const RenderingData& b) {
+		return a.z > b.z;
+	});
+
+	/// bufferにデータをセット
+	size_t transformIndex = 0;
+	for (const auto& data : renderingDataList) {
+		/// Material, Transformのセット
+		materialsBuffer.SetMappedData(transformIndex, data.renderer->GetGpuMaterial());
+		transformsBuffer_.SetMappedData(transformIndex, data.matWorld);
+		++transformIndex;
 	}
 
 	// 検証用ログ (最初の10回)
 	static int spriteLogCount = 0;
 	if (spriteLogCount < 10) {
-		Console::Log("[SpritePipeline] Found " + std::to_string(spriteRendererArray->GetUsedComponents().size()) + " sprites. Drawing " + std::to_string(transformIndex) + " active sprites.", LogCategory::Engine);
+		Console::Log("[SpritePipeline] Drawing " + std::to_string(transformIndex) + " sorted sprites.", LogCategory::Engine);
 		spriteLogCount++;
 	}
 

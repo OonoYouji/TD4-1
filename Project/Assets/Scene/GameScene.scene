@@ -43,7 +43,7 @@
         {
             "guid": "9405ba98a7e852b559aa5cd2fd87f870",
             "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
-            "path": "./GameScene/PlayerHP_BG.entity"
+            "path": "./GameScene/BG.entity"
         },
         {
             "guid": "3b9f86e6f33ca6f77aca8aa7e4506dd5",
@@ -61,8 +61,8 @@
             "path": "./GameScene/ShotControl.entity"
         },
         {
-            "guid": "vignette-effect-guid-0001",
-            "parentGuid": "5eb149f35d365cfbb797f9ff8b14ec18",
+            "guid": "07e760eaf046b6a9d2dd91ad875c8c7f",
+            "parentGuid": null,
             "path": "./GameScene/Vignette.entity"
         },
         {
