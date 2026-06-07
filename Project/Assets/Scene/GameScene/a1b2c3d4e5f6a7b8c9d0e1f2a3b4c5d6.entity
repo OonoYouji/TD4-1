@@ -23,6 +23,7 @@
             "material": {
                 "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0"
             },
+            "renderQueue": 2,
             "type": "MeshRenderer"
         }
     ],

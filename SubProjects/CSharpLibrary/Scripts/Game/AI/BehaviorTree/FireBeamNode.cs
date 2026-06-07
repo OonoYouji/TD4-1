@@ -62,6 +62,12 @@ public class FireBeamNode : BehaviorNode
                     trigger.slowDuration = slowDuration;
                 }
 
+                // レイヤー設定を適用
+                var renderer = beamEntity.GetComponent<MeshRenderer>();
+                if (renderer != null) {
+                    renderer.renderQueue = RenderQueue.Telegraph;
+                }
+
                 // スポーン直後にトランスフォームを一度更新
                 UpdateBeamTransform(beamEntity, owner, blackboard);
             }

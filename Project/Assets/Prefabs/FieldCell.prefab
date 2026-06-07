@@ -58,6 +58,7 @@
                 }
             },
             "meshPath": "./Assets/Models/Block/ruins_block1.obj",
+            "renderQueue": 0,
             "type": "MeshRenderer"
         },
         {
@@ -71,8 +72,8 @@
             "type": "Script"
         }
     ],
-    "guid": "d11ad9b2ed46357d3eb9568201cd349f",
+    "guid": "b84066a726376fd6a83158d803fd30ae",
     "name": "FieldCell",
-    "parentGuid": "879d162485a858be132bcade93f885ad",
+    "parentGuid": null,
     "prefabName": "FieldCell"
 }

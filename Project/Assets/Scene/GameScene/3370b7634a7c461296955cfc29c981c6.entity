@@ -89,6 +89,7 @@
                 }
             },
             "meshPath": "./Assets/Models/Player/hand.obj",
+            "renderQueue": 2,
             "type": "MeshRenderer"
         },
         {

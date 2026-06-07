@@ -8,6 +8,10 @@
                 "z": -130.7352752685547
             },
             "type": "Transform"
+        },
+        {
+            "renderQueue": 2,
+            "type": "MeshRenderer"
         }
     ],
     "guid": "f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2",

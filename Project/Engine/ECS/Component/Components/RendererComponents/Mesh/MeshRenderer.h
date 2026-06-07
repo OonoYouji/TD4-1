@@ -35,6 +35,13 @@ void from_json(const nlohmann::json& _j, MeshRenderer& _mr);
 void to_json(nlohmann::json& _j, const MeshRenderer& _mr);
 
 
+/// @brief 描画の優先順位
+enum class RenderQueue : uint32_t {
+	Background = 0,
+	Telegraph  = 1,
+	Default    = 2,
+};
+
 /// ///////////////////////////////////////////////////
 /// mesh描画クラス
 /// ///////////////////////////////////////////////////
@@ -66,10 +73,18 @@ private:
 	GPUMaterial gpuMaterial_;
 	Asset::Material material_;
 
+	RenderQueue renderQueue_ = RenderQueue::Default;
+
 public:
 	/// ===================================================
 	/// public : accessor
 	/// ===================================================
+
+	/// @brief 描画するレイヤーの設定
+	void SetRenderQueue(RenderQueue _queue);
+
+	/// @brief 描画レイヤーの取得
+	RenderQueue GetRenderQueue() const;
 
 	/// @brief 描画するmeshの file pathを設定
 	/// @param _path .slnからの相対パス
@@ -124,5 +139,7 @@ Vector4 InternalGetMeshColor(uint64_t _nativeHandle);
 void InternalSetMeshColor(uint64_t _nativeHandle, Vector4 _color);
 uint32_t InternalGetPostEffectFlags(uint64_t _nativeHandle);
 void InternalSetPostEffectFlags(uint64_t _nativeHandle, uint32_t _flags);
+uint32_t InternalGetRenderQueue(uint64_t _nativeHandle);
+void InternalSetRenderQueue(uint64_t _nativeHandle, uint32_t _queue);
 
 } /// ONEngine
