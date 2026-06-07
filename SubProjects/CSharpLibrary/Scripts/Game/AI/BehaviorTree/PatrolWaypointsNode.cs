@@ -71,13 +71,48 @@ public class PatrolWaypointsNode : BehaviorNode
         EnsureWaypointNames(owner);
         if (waypointNames_.Count == 0) return NodeStatus.Failure;
 
+        uint idxKeyHash = BehaviorTreeLoader.HashString(currentIdxKey);
+        int currentIdx = blackboard.GetInt(idxKeyHash, 0);
+        if (currentIdx < 0 || currentIdx >= waypointNames_.Count) currentIdx = 0;
+
+        string targetName = waypointNames_[currentIdx];
+        Entity waypointEntity = owner.Group.FindEntity(targetName);
+
+        var aiIntent = owner.GetComponent<AgentIntentComponent>();
+        
+        // --- 向きのデバッグ表示 (太さ12) ---
+        // 常に最新の状態を表示するため、メソッドの冒頭（ウェイポイント特定後）で描画
+        Vector3 gizmoBaseGreen  = owner.transform.position + Vector3.up * 40.0f;
+        Vector3 gizmoBaseBlue   = owner.transform.position + Vector3.up * 60.0f;
+        Vector3 gizmoBaseYellow = owner.transform.position + Vector3.up * 80.0f;
+        
+        // 緑: モデルの正面
+        Vector3 forward = owner.transform.forward;
+        GizmoBatch.DrawRay(gizmoBaseGreen, forward * 200.0f, new Vector4(0, 1, 0, 1), 12.0f);
+        
+        // マゼンタ: AIの現在の移動意図
+        Vector3 desiredDir = (aiIntent != null && aiIntent.desiredMoveDirection.sqrMagnitude > 0.001f) ? aiIntent.desiredMoveDirection : forward;
+        GizmoBatch.DrawRay(gizmoBaseBlue, desiredDir * 200.0f, new Vector4(1, 0, 1, 1), 12.0f);
+
+        // 黄色: ターゲット（ウェイポイント）への直接の方向
+        if (waypointEntity != null) {
+            Vector3 targetWorldPos = waypointEntity.transform.position;
+            Vector3 toTarget = (targetWorldPos - owner.transform.position).Normalized();
+            
+            GizmoBatch.DrawRay(gizmoBaseYellow, toTarget * 200.0f, new Vector4(1, 1, 0, 1), 12.0f);
+            
+            // 目的地に黄色の円を表示 (半径50)
+            GizmoBatch.DrawWireCircle(targetWorldPos + Vector3.up * 5.0f, 50.0f, new Vector4(1, 1, 0, 1), 16, 12.0f);
+            
+            if (Tree != null && Tree.TickCount % 60 == 10) {
+                 Debug.Log($"[GizmoDebug] Green(Fwd):{Vector3.ToSimpleString(forward)} | Magenta(Intent):{Vector3.ToSimpleString(desiredDir)} | Yellow(ToTarget):{Vector3.ToSimpleString(toTarget)}");
+            }
+        }
+
         // デバッグ：プロパティのロード状況を確認
         if (Tree != null && Tree.TickCount % 100 == 1) {
             Debug.Log($"[PatrolWaypoints] Property Check - Start: '{startAnim}', Loop: '{loopAnim}', End: '{endAnim}'");
         }
-
-        uint idxKeyHash = BehaviorTreeLoader.HashString(currentIdxKey);
-        int currentIdx = blackboard.GetInt(idxKeyHash, 0);
 
         uint stateKey = BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash);
         uint timerKey = BehaviorTreeLoader.HashString("MoveTimer_" + NodeIdHash);
@@ -94,7 +129,6 @@ public class PatrolWaypointsNode : BehaviorNode
         }
 
         var animator = owner.GetComponent<Animator>();
-        var aiIntent = owner.GetComponent<AgentIntentComponent>();
         var animPlayer = owner.GetComponent<ONEngine.AnimationPlayer>();
 
         if (animator == null && animPlayer == null)
@@ -114,6 +148,7 @@ public class PatrolWaypointsNode : BehaviorNode
                         uint clipHash = StringHash.Get(startAnim);
                         Debug.Log($"[PatrolWaypoints] '{owner.name}' triggering StartAnim: '{startAnim}' (Hash:{clipHash}) via Animator");
                         animator.CrossFade(startAnim, 0.1f);
+                        animator.SetLoop(false); // 開始演出はループさせない
                         if (useClipDuration) {
                             waitTime = animator.GetAnimationDuration(startAnim);
                             Debug.Log($"[PatrolWaypoints] Clip duration for '{startAnim}': {waitTime}s");
@@ -146,6 +181,7 @@ public class PatrolWaypointsNode : BehaviorNode
                     if (animator != null) {
                         Debug.Log($"[PatrolWaypoints] '{owner.name}' triggering LoopAnim: '{loopAnim}'");
                         animator.CrossFade(loopAnim, 0.2f);
+                        animator.SetLoop(true); // ループ移動はループさせる
                     }
                     else if (animPlayer != null) animPlayer.Play();
                 }
@@ -159,8 +195,7 @@ public class PatrolWaypointsNode : BehaviorNode
             blackboard.SetInt(idxKeyHash, 0);
         }
 
-        string targetName = waypointNames_[currentIdx];
-        Entity waypointEntity = owner.Group.FindEntity(targetName);
+        string targetName_unused = waypointNames_[currentIdx]; // すでに定義済みだが、型を合わせるため
         
         if (waypointEntity == null)
         {
@@ -170,7 +205,10 @@ public class PatrolWaypointsNode : BehaviorNode
 
         Vector3 targetPos = waypointEntity.transform.position;
         Vector3 ownerPos = owner.transform.position;
-        Vector3 diff = new Vector3(targetPos.x - ownerPos.x, 0, targetPos.z - ownerPos.z);
+        // ログの結果に基づき、ターゲットへの正しいベクトルを計算
+        // Target - Owner でその方向を向く
+        Vector3 diff = targetPos - ownerPos;
+        diff.y = 0; // 高さは無視
         float distance = diff.Length();
 
         // 2. 移動フェーズ
@@ -184,6 +222,7 @@ public class PatrolWaypointsNode : BehaviorNode
                 if (!string.IsNullOrEmpty(endAnim) && animator != null)
                 {
                     animator.CrossFade(endAnim, 0.1f);
+                    animator.SetLoop(false); // 終了演出はループさせない
                 }
                 
                 if (aiIntent != null) aiIntent.desiredMoveDirection = Vector3.zero;

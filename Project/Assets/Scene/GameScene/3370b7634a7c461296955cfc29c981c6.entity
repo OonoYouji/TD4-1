@@ -7,12 +7,12 @@
             "position": {
                 "x": -141.4119873046875,
                 "y": 11.189128875732422,
-                "z": -117.1068344116211
+                "z": -156.31849670410156
             },
             "rotate": {
-                "w": -0.9203310012817383,
+                "w": -0.8521611094474792,
                 "x": 0.0,
-                "y": 0.3911404013633728,
+                "y": 0.5232794880867004,
                 "z": -0.0
             },
             "scale": {
@@ -33,7 +33,9 @@
             "HP": {
                 "MAX_HP": 1000,
                 "currentHp": 1000,
-                "disableAutoDestruction": false
+                "disableAutoDestruction": false,
+                "isInvincible": false,
+                "regenPerSecond": 0.0
             },
             "Player": {
                 "<fireCooldownTimer>k__BackingField": 31.16332244873047,

@@ -18,6 +18,8 @@ public class BossClogAttack : MonoScript {
 	private Animator animator;
 	private string currentAnim = "";
 
+	public bool IsActive => currentState != State.Idle;
+
 	private class AffectedReinforcement {
 		public Entity entity;
 		public Vector3 originalScale;
@@ -47,7 +49,10 @@ public class BossClogAttack : MonoScript {
 			break;
 
 		case State.Preparation:
-			PlayAnimation("clog_start");
+			if (currentAnim != "clog_start") {
+				animator.CrossFadeWithDuration("clog_start", preparationTime);
+				currentAnim = "clog_start";
+			}
 			stateTimer -= Time.deltaTime;
 			GizmoBatch.DrawWireCircle(transform.position, radius, new Vector4(1, 0.5f, 0, 1));
 
@@ -57,7 +62,10 @@ public class BossClogAttack : MonoScript {
 			break;
 
 		case State.Active:
-			PlayAnimation("clog");
+			if (currentAnim != "clog") {
+				animator.CrossFadeWithDuration("clog", duration);
+				currentAnim = "clog";
+			}
 			stateTimer -= Time.deltaTime;
 			if (stateTimer <= 0) {
 				PlayAnimation("clog_end");

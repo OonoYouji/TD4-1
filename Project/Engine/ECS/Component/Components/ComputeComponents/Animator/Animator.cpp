@@ -61,6 +61,16 @@ void Animator::CrossFade(uint32_t _clipId, float _duration, uint32_t _layerIndex
     layer.transitionTimer = 0.0f;
 }
 
+void Animator::SetPlaybackSpeed(float _speed, uint32_t _layerIndex) {
+    if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
+    layers[_layerIndex].states[0].playbackSpeed = _speed;
+}
+
+void Animator::SetLoop(bool _isLoop, uint32_t _layerIndex) {
+    if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
+    layers[_layerIndex].states[0].isLoop = _isLoop;
+}
+
 float Animator::GetAnimationDuration(uint32_t _clipId) const {
     if (_clipId == 0) return 0.0f;
 
@@ -194,6 +204,20 @@ void Internal_CrossFade(uint64_t _nativeHandle, uint32_t _clipId, float _duratio
     Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
     if (animator) {
         animator->CrossFade(_clipId, _duration, _layerIndex);
+    }
+}
+
+void Internal_SetPlaybackSpeed(uint64_t _nativeHandle, float _speed, uint32_t _layerIndex) {
+    Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
+    if (animator) {
+        animator->SetPlaybackSpeed(_speed, _layerIndex);
+    }
+}
+
+void Internal_SetLoop(uint64_t _nativeHandle, bool _isLoop, uint32_t _layerIndex) {
+    Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
+    if (animator) {
+        animator->SetLoop(_isLoop, _layerIndex);
     }
 }
 

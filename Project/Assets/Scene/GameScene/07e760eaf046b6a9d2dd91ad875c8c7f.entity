@@ -25,6 +25,8 @@
         {
             "VignetteController": {
                 "baseAlpha": 0.5,
+                "fadeDuration": 0.4000000059604645,
+                "maxAlpha": 0.6000000238418579,
                 "minHpThreshold": 0.4000000059604645,
                 "pulsateIntensity": 0.30000001192092896
             },
@@ -46,8 +48,8 @@
                 "baseColor": {
                     "w": 0.0,
                     "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "baseTextureGuid": "7ce590dfa912a3c74535c2ec46cc5e8d",
                 "guid": "00000000000000000000000000000000",

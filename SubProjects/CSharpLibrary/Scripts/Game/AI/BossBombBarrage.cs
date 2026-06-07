@@ -16,7 +16,8 @@ public class BossBombBarrage : MonoScript
     [SerializeField] public float launchDistance2 = 800.0f;
     [SerializeField] public string bombPrefabName = "BossBomb";
 
-    private bool isActive = false;
+    private bool isActive_ = false;
+    public bool IsActive => isActive_;
     private float throwTimer = 0.0f;
     private float totalRotatedAngle = 0.0f;
     private bool useDistance1 = true;
@@ -38,7 +39,7 @@ public class BossBombBarrage : MonoScript
 
     public override void Update()
     {
-        if (!isActive)
+        if (!isActive_)
         {
             if (Input.TriggerKey(KeyCode.D))
             {
@@ -47,7 +48,11 @@ public class BossBombBarrage : MonoScript
             return;
         }
 
-        PlayAnimation("bomb");
+        float barrageDuration = (rotationCountToFinish * 360.0f) / rotationSpeed;
+        if (currentAnim != "bomb") {
+            animator.CrossFadeWithDuration("bomb", barrageDuration);
+            currentAnim = "bomb";
+        }
 
         // 回転処理
         float deltaAngle = rotationSpeed * Time.deltaTime;
@@ -65,7 +70,7 @@ public class BossBombBarrage : MonoScript
         // 終了判定
         if (totalRotatedAngle >= rotationCountToFinish * 360.0f)
         {
-            isActive = false;
+            isActive_ = false;
             PlayAnimation("bomb_end");
             Debug.Log("[BossBombBarrage] Attack Finished.");
         }
@@ -76,8 +81,8 @@ public class BossBombBarrage : MonoScript
 
     public void StartAttack()
     {
-        if (isActive) return;
-        isActive = true;
+        if (isActive_) return;
+        isActive_ = true;
         throwTimer = 0.0f;
         totalRotatedAngle = 0.0f;
         useDistance1 = true;

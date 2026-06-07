@@ -117,6 +117,8 @@ void ONEngine::AddComponentInternalCalls() {
 	/// animator
 	mono_add_internal_call("Animator::Internal_Play", (void*)Internal_Play);
 	mono_add_internal_call("Animator::Internal_CrossFade", (void*)Internal_CrossFade);
+	mono_add_internal_call("Animator::Internal_SetPlaybackSpeed", (void*)Internal_SetPlaybackSpeed);
+	mono_add_internal_call("Animator::Internal_SetLoop", (void*)Internal_SetLoop);
 	mono_add_internal_call("Animator::Internal_GetAnimationDuration", (void*)Internal_GetAnimationDuration);
 
 	/// sprite renderer

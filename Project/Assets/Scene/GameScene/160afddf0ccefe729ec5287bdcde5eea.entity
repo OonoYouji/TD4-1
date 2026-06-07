@@ -23,7 +23,12 @@
             "type": "Transform"
         },
         {
-            "BossHPPhaseBar": {},
+            "BossHPPhaseBar": {
+                "barHeight": 30.0,
+                "fullWidth": 320.0,
+                "maxRatio": 0.3333333432674408,
+                "minRatio": 0.0
+            },
             "type": "Variables"
         },
         {
@@ -31,9 +36,9 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.800000011920929,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612
+                    "x": 0.20000000298023224,
+                    "y": 0.800000011920929,
+                    "z": 0.20000000298023224
                 },
                 "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
