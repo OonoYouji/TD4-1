@@ -2,22 +2,6 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.0,
-                "y": -1.0,
-                "z": 0.0
-            },
-            "enable": 1,
-            "intensity": 1.0,
-            "type": "DirectionalLight"
-        },
-        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
@@ -39,11 +23,24 @@
             "type": "Transform"
         },
         {
+            "GameOverAnimController": {
+                "ESCAPE_SPEED": 5.0
+            },
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "GameOverAnimController"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "0fbcbff0f0fef10cfa21b51cd9263bde",
-    "name": "DirectionalLight",
+    "guid": "793666ab8577d1c399ecfbb4ebb0a22e",
+    "name": "GameOverController",
     "parentGuid": null,
     "prefabName": ""
 }

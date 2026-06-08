@@ -124,6 +124,21 @@
             "guid": "6b944d4333b99a5f4c5e05eae99c22cb",
             "parentGuid": "0432df9f2c15993769c4e77bfe858201",
             "path": "./TitleScene/Tree7.entity"
+        },
+        {
+            "guid": "a2c1db9bd8ce57ca8433edf77e6070ff",
+            "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
+            "path": "./TitleScene/Selection.entity"
+        },
+        {
+            "guid": "51ce42c3df047c3c5316d0ba0e63decb",
+            "parentGuid": "a2c1db9bd8ce57ca8433edf77e6070ff",
+            "path": "./TitleScene/GameScene.entity"
+        },
+        {
+            "guid": "5e235fa4cd845710b7b386df086a78d5",
+            "parentGuid": "a2c1db9bd8ce57ca8433edf77e6070ff",
+            "path": "./TitleScene/Null.entity"
         }
     ]
 }

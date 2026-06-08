@@ -122,9 +122,9 @@
                     "type": "ParticleSystem"
                 }
             ],
-            "guid": "c5bea346f931981b5688af3ad0746ec9",
+            "guid": "70a5c5fbddd52b1835d157222f7cfa15",
             "name": "Fire1",
-            "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+            "parentGuid": "9319aa5576c35f23df41468cad79cd66",
             "prefabName": ""
         },
         {
@@ -183,9 +183,9 @@
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "f9313f9d3d8b451872bf5bde35d8914e",
+            "guid": "14833052cd26adc2b9566c4cf777cadd",
             "name": "Wood",
-            "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+            "parentGuid": "9319aa5576c35f23df41468cad79cd66",
             "prefabName": ""
         }
     ],
@@ -196,7 +196,7 @@
             "position": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0
+                "z": 1.0
             },
             "rotate": {
                 "w": 1.0,
@@ -215,8 +215,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "5f392b2de41d917c3962d82bb631da28",
+    "guid": "9319aa5576c35f23df41468cad79cd66",
     "name": "Bonfire",
-    "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+    "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
     "prefabName": "Bonfire"
 }

@@ -5,8 +5,8 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -0.012448132038116455,
-                "y": -22.11341667175293,
+                "x": 25.0,
+                "y": -25.0,
                 "z": 0.0
             },
             "rotate": {
@@ -23,6 +23,9 @@
             "type": "Transform"
         },
         {
+            "BlinkSprite": {
+                "BLINK_CYCLE": 1.0
+            },
             "type": "Variables"
         },
         {
@@ -51,6 +54,16 @@
                 }
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BlinkSprite"
+                }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "74ff339484eae82538e7245fbb9d7d63",

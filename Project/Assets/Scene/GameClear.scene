@@ -129,6 +129,11 @@
             "guid": "f3e14322a542ebd3994338914635d94c",
             "parentGuid": null,
             "path": "./GameClear/BossHead.entity"
+        },
+        {
+            "guid": "6a0d0762089efa771b88bdfbbd42cd2b",
+            "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+            "path": "./GameClear/Title.entity"
         }
     ]
 }

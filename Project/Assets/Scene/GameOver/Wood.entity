@@ -5,20 +5,20 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 25.199993133544922,
-                "y": -40.0,
-                "z": 0.0
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0000001192092896
             },
             "rotate": {
                 "w": 1.0,
                 "x": 0.0,
-                "y": -0.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 16.0,
-                "y": 16.0,
-                "z": 16.0
+                "x": 1.399999976158142,
+                "y": 1.4000003337860107,
+                "z": 1.4000003337860107
             },
             "type": "Transform"
         },
@@ -34,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "1eecfb5b05d3f9c33c093ad1eb18ec97",
+                "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -50,11 +50,12 @@
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Assets/Models/bg/bonfire.gltf",
+            "type": "MeshRenderer"
         }
     ],
-    "guid": "84ff339484eae82538e7245fbb9d7d64",
-    "name": "PushButton",
-    "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+    "guid": "14833052cd26adc2b9566c4cf777cadd",
+    "name": "Wood",
+    "parentGuid": "9319aa5576c35f23df41468cad79cd66",
     "prefabName": ""
 }

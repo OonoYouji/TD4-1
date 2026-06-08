@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -22,8 +23,8 @@
             "type": "Transform"
         },
         {
-            "type": "Variables",
-            "SceneTransition": {}
+            "SceneTransition": {},
+            "type": "Variables"
         },
         {
             "enable": 1,
@@ -64,8 +65,7 @@
         }
     ],
     "guid": "b4ff339484eae82538e7245fbb9d7d68",
-    "id": 7,
     "name": "Fader",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": ""
 }

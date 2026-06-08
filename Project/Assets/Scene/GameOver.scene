@@ -1,39 +1,154 @@
 {
     "entities": [
         {
-            "path": "./GameOver/Camera.entity",
-            "id": 1,
-            "parent": null
+            "guid": "4f80a8403a4423424b60b9ed00705c93",
+            "parentGuid": null,
+            "path": "./GameOver/Camera.entity"
         },
         {
-            "path": "./GameOver/DirectionalLight.entity",
-            "id": 2,
-            "parent": null
+            "guid": "0fbcbff0f0fef10cfa21b51cd9263bde",
+            "parentGuid": null,
+            "path": "./GameOver/DirectionalLight.entity"
         },
         {
-            "path": "./GameOver/2DCamera.entity",
-            "id": 4,
-            "parent": null
+            "guid": "b8239d48b120ce577e148c0870d37d33",
+            "parentGuid": null,
+            "path": "./GameOver/2DCamera.entity"
         },
         {
-            "path": "./GameOver/OverSprites.entity",
-            "id": 5,
-            "parent": null
+            "guid": "e059d18c3aa6d0577e148c0870d37d34",
+            "parentGuid": null,
+            "path": "./GameOver/OverSprites.entity"
         },
         {
-            "path": "./GameOver/GameOverText.entity",
-            "id": 3,
-            "parent": 5
+            "guid": "6352579a8b80b8a956bd45eeb7b0c4df",
+            "parentGuid": "e059d18c3aa6d0577e148c0870d37d34",
+            "path": "./GameOver/GameOverText.entity"
         },
         {
-            "path": "./GameOver/PushButton.entity",
-            "id": 6,
-            "parent": 5
+            "guid": "74ff339484eae82538e7245fbb9d7d65",
+            "parentGuid": "e059d18c3aa6d0577e148c0870d37d34",
+            "path": "./GameOver/PushButton.entity"
         },
         {
-            "path": "./GameOver/Fader.entity",
-            "id": 7,
-            "parent": null
+            "guid": "b4ff339484eae82538e7245fbb9d7d68",
+            "parentGuid": null,
+            "path": "./GameOver/Fader.entity"
+        },
+        {
+            "guid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "parentGuid": null,
+            "path": "./GameOver/BG.entity"
+        },
+        {
+            "guid": "9319aa5576c35f23df41468cad79cd66",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "path": "./GameOver/Bonfire.entity"
+        },
+        {
+            "guid": "70a5c5fbddd52b1835d157222f7cfa15",
+            "parentGuid": "9319aa5576c35f23df41468cad79cd66",
+            "path": "./GameOver/Fire1.entity"
+        },
+        {
+            "guid": "14833052cd26adc2b9566c4cf777cadd",
+            "parentGuid": "9319aa5576c35f23df41468cad79cd66",
+            "path": "./GameOver/Wood.entity"
+        },
+        {
+            "guid": "25bd5f3100e0c7771bab8a47c97d19d1",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "path": "./GameOver/Ground.entity"
+        },
+        {
+            "guid": "75fe13f03e9f4652411f0b9184a059d9",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "path": "./GameOver/Humans.entity"
+        },
+        {
+            "guid": "656f9d0b663a08900cb7a3f1e8998ea3",
+            "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+            "path": "./GameOver/Human1.entity"
+        },
+        {
+            "guid": "ee9d9c49a1148ee9d74cd980f18c6559",
+            "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+            "path": "./GameOver/Human2.entity"
+        },
+        {
+            "guid": "1d01b92b9742134ebedab9dc99ce62f5",
+            "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+            "path": "./GameOver/Human3.entity"
+        },
+        {
+            "guid": "6d139a385a8c50d9dbf504c90dbdd2c2",
+            "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+            "path": "./GameOver/Human4.entity"
+        },
+        {
+            "guid": "fbaf49981322b60a90330a746ade2862",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "path": "./GameOver/Trees.entity"
+        },
+        {
+            "guid": "38268db844bfa8ab95a1b33b3f6ae4c1",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree.entity"
+        },
+        {
+            "guid": "1512cc53030558f7a0297c4f4ea48715",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree2.entity"
+        },
+        {
+            "guid": "c235aade36d04e74265da20947d269a0",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree3.entity"
+        },
+        {
+            "guid": "1303a851d633756836dc914c60bd82d9",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree4.entity"
+        },
+        {
+            "guid": "9742532982c7d8ef1051c71553a94161",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree5.entity"
+        },
+        {
+            "guid": "5d4a55393dc503acf44a9fb4014bf7d2",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree6.entity"
+        },
+        {
+            "guid": "f486d5d3d79a89278bc5cadfbaaa0359",
+            "parentGuid": "fbaf49981322b60a90330a746ade2862",
+            "path": "./GameOver/Tree7.entity"
+        },
+        {
+            "guid": "77018edbe9d920438d7558b1d61226ff",
+            "parentGuid": "e059d18c3aa6d0577e148c0870d37d34",
+            "path": "./GameOver/Selection.entity"
+        },
+        {
+            "guid": "ba274ac8b23be6dc85e4f87feec40299",
+            "parentGuid": "77018edbe9d920438d7558b1d61226ff",
+            "path": "./GameOver/GameScene.entity"
+        },
+        {
+            "guid": "2e24cef3f14afcd7509fdb44eb9d4364",
+            "parentGuid": "77018edbe9d920438d7558b1d61226ff",
+            "path": "./GameOver/TitleScene.entity"
+        },
+        {
+            "guid": "2ee0dd4dc3ec3bbd57ea9275b59fdb9e",
+            "parentGuid": null,
+            "path": "./GameOver/Boss.entity"
+        },
+        {
+            "guid": "793666ab8577d1c399ecfbb4ebb0a22e",
+            "parentGuid": null,
+            "path": "./GameOver/GameOverController.entity"
         }
     ]
 }

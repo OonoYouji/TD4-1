@@ -2,22 +2,6 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.0,
-                "y": -1.0,
-                "z": 0.0
-            },
-            "enable": 1,
-            "intensity": 1.0,
-            "type": "DirectionalLight"
-        },
-        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
@@ -39,11 +23,29 @@
             "type": "Transform"
         },
         {
+            "EndSceneController": {
+                "nextSceneName": "GameScene"
+            },
+            "SceneSelector": {},
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "SceneSelector"
+                },
+                {
+                    "enable": true,
+                    "name": "EndSceneController"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "0fbcbff0f0fef10cfa21b51cd9263bde",
-    "name": "DirectionalLight",
-    "parentGuid": null,
+    "guid": "a2c1db9bd8ce57ca8433edf77e6070ff",
+    "name": "Selection",
+    "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
     "prefabName": ""
 }

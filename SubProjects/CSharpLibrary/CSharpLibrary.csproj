@@ -133,6 +133,8 @@
     <Compile Include="Scripts\Game\AI\BossVortexAttack.cs" />
     <Compile Include="Scripts\Game\AI\GameStateManager.cs" />
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
+    <Compile Include="Scripts\Game\Common\AnimationAutoPlay.cs" />
+    <Compile Include="Scripts\Game\Common\BlinkSprite.cs" />
     <Compile Include="Scripts\Game\Common\Bound.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\BossDamageUtil.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Scripts\Game\Common\DamageTrigger.cs" />
     <Compile Include="Scripts\Game\Common\HP.cs" />
     <Compile Include="Scripts\Game\Common\RandomUtil.cs" />
+    <Compile Include="Scripts\Game\Common\SceneSelector.cs" />
     <Compile Include="Scripts\Game\Common\Transition\SceneTransitionController.cs" />
     <Compile Include="Scripts\Game\Common\Transition\TransitionIn.cs" />
     <Compile Include="Scripts\Game\Common\Transition\TransitionOut.cs" />
@@ -192,6 +195,7 @@
     <Compile Include="Scripts\Game\Enemy\VortexField.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
+    <Compile Include="Scripts\Game\OutScene\GameOverAnimController.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerCallMotion.cs" />
     <Compile Include="Scripts\Game\Reinforcement\CallingReinforcement.cs" />
