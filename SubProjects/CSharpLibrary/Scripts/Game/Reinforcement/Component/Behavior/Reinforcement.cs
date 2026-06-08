@@ -29,7 +29,7 @@ public partial class Reinforcement : MonoScript
     [SerializeField] public float viewAngle = 60.0f;
 
     // =========================================================
-    // 援護バフ設定（プレハブごとに調整）
+    // 援護バフ設定
     // =========================================================
 
     // 穴にはまった時に周囲を強化する範囲
@@ -104,11 +104,9 @@ public partial class Reinforcement : MonoScript
         isCollisionEnabled = false;
         isDestroyReserved = false;
         supportBuffApplied_ = false;
-        scaleLoggedOnce_ = false;
         colorSaved = false;
 
         // 状態の初期化
-        lastAppliedState_ = ReinforcementState.Normal;
         state_ = ReinforcementState.Normal;
 
         // スケールの初期化
@@ -144,7 +142,6 @@ public partial class Reinforcement : MonoScript
     public override void Update()
     {
 
-    
         if (entity.Id == 0)
         {
             return;
@@ -172,19 +169,29 @@ public partial class Reinforcement : MonoScript
             isCollisionEnabled = true;
         }
 
-        // 
-        if (CheckLaunchExit()) { 
-            return; 
-        }
-        if (CheckTrappedActive()) {
-            return; 
+        // 打ち上げ中なら早期リターン
+        if (CheckLaunchExit())
+        {
+            return;
         }
 
-        if (UpdateTimer()) { return; }
+        // 床に挟まってたら早期りたーん
+        if (CheckTrappedActive())
+        {
+            return;
+        }
 
+        // 寿命切れなら早期リターン
+        if (UpdateTimer())
+        {
+            return;
+        }
+
+        // 乗ってるフィールド床が落ちてるかチェック
         CheckFieldFall();
-        ApplyStateScale();
+        // カメラの視野内にいるか判定して色を変える
         UpdateFrustumVisibility();
+        //  移動更新
         UpdateMovement();
     }
 
@@ -210,11 +217,14 @@ public partial class Reinforcement : MonoScript
 
     private bool UpdateTimer()
     {
+
+        // タイム更新
         timer += Time.deltaTime;
         if (timer < lifeTime)
         {
             return false;
         }
+        // 画面内なら退散
         if (isCollisionEnabled)
         {
             Retreat();
