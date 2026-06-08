@@ -21,6 +21,7 @@ class AssetCollection;
 class ParticleSystemRenderingPipeline : public IRenderingPipeline {
     struct CameraData {
         Matrix4x4 billboardMatrix;
+        Matrix4x4 emitterWorldMatrix;
     };
 
     struct InstanceOffset {

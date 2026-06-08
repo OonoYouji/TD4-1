@@ -13,6 +13,8 @@ struct Particle {
     float4 startColor;
     float startSize;
     float3 baseVelocity;
+    float randomValue;
+    uint simulationSpace;
 };
 
 struct InstanceOffset {
@@ -25,6 +27,7 @@ StructuredBuffer<Particle> particles : register(t0);
 // Billboarding matrices
 cbuffer CameraData : register(b1) {
     float4x4 billboardMatrix;
+    float4x4 emitterWorldMatrix; // New: To support local space
 }
 
 ConstantBuffer<InstanceOffset> instanceOffset : register(b2);
@@ -34,6 +37,14 @@ VSOutput main(VSInput input, uint instanceId : SV_InstanceID) {
 
     uint instanceIndex = instanceId + instanceOffset.offset;
     Particle p = particles[instanceIndex];
+
+    // Get particle center in world space
+    float3 worldCenter;
+    if (p.simulationSpace == 1) { // Local
+        worldCenter = mul(float4(p.position, 1.0f), emitterWorldMatrix).xyz;
+    } else { // World
+        worldCenter = p.position;
+    }
 
     // Billboarding: rotate the quad to face the camera
     float4 localPos = input.position;
@@ -47,10 +58,11 @@ VSOutput main(VSInput input, uint instanceId : SV_InstanceID) {
     localPos.y = y * p.size;
 
     // Apply billboard rotation
-    float4 worldPos = mul(localPos, billboardMatrix);
+    float4 billboardedOffset = mul(localPos, billboardMatrix);
     
-    // Add particle position
-    worldPos.xyz += p.position;
+    // Combine center and billboard offset
+    float4 worldPos;
+    worldPos.xyz = worldCenter + billboardedOffset.xyz;
     worldPos.w = 1.0f;
 
     output.position = mul(worldPos, viewProjection.matVP);

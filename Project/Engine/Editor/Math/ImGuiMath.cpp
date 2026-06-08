@@ -545,14 +545,28 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	EndModuleHeader();
 	if (BeginModuleHeader("Shape", &_ps->shape.enabled)) {
 		Editor::ImMathf::InputEnum<ParticleSystemShapeType>("Shape Type", &_ps->shape.type);
-		Editor::ImMathf::DragFloat("Radius", &_ps->shape.radius);
-		Editor::ImMathf::DragFloat("Radius Thickness", &_ps->shape.radiusThickness);
-		Editor::ImMathf::DragFloat("Arc", &_ps->shape.arc);
-		
-		if (_ps->shape.type == ParticleSystemShapeType::Cone) {
-			Editor::ImMathf::DragFloat("Angle", &_ps->shape.angle);
-		} else if (_ps->shape.type == ParticleSystemShapeType::Box) {
+
+		if (_ps->shape.type == ParticleSystemShapeType::Box) {
+			// Boxの場合はスケールのみ表示
 			Editor::ImMathf::DragFloat3("Box Scale", &_ps->shape.boxScale);
+		} else {
+			// それ以外の形状はRadiusを基本とする
+			Editor::ImMathf::DragFloat("Radius", &_ps->shape.radius);
+
+			// Edge以外は厚みの設定が可能
+			if (_ps->shape.type != ParticleSystemShapeType::Edge) {
+				Editor::ImMathf::DragFloat("Radius Thickness", &_ps->shape.radiusThickness);
+			}
+
+			// ConeとCircleはArc（角度）の設定が可能
+			if (_ps->shape.type == ParticleSystemShapeType::Cone || _ps->shape.type == ParticleSystemShapeType::Circle) {
+				Editor::ImMathf::DragFloat("Arc", &_ps->shape.arc);
+			}
+
+			// Cone特有のパラメータ
+			if (_ps->shape.type == ParticleSystemShapeType::Cone) {
+				Editor::ImMathf::DragFloat("Angle", &_ps->shape.angle);
+			}
 		}
 
 		if (!_ps->shape.enabled) ImGui::EndDisabled();

@@ -18,6 +18,8 @@ namespace ONEngine {
         Color startColor;
         float startSize;
         Vector3 baseVelocity;
+        float randomValue; // 出生時に決定される [0, 1] の乱数
+        uint32_t simulationSpace; // 0: World, 1: Local
     };
 
     class ParticleSystem : public IComponent {

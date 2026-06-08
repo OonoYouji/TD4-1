@@ -118,6 +118,11 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
     for (auto& ps : psArray->GetUsedComponents()) {
         if (!ps || !ps->enable || ps->aliveCount == 0) continue;
 
+        // Update emitter world matrix for local space support
+        camData.emitterWorldMatrix = ps->GetOwner()->GetTransform()->matWorld;
+        cameraDataBuffer_.SetMappedData(camData);
+        cameraDataBuffer_.BindForGraphicsCommandList(cmdList, CBV_CAMERA_DATA);
+
         size_t blendMode = static_cast<size_t>(ps->renderer.blendMode);
         
         // 6 is None, but pipelines_ might only have 5 (0: Normal, 1: Add, 2: Subtract, 3: Multiply, 4: Screen, 5: None)
