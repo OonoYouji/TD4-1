@@ -34,6 +34,8 @@ class UiGauge : MonoScript
         Debug.LogInfo($"defaultX: {defaultX}");
     }
 
+    private float lastLoggedRatio = -1.0f;
+
     public override void Update()
     {
         if (playerHp == null)
@@ -42,6 +44,13 @@ class UiGauge : MonoScript
         }
 
         float hpRatio = playerHp.CurrentHpRatio();
+
+        // 変化があった時だけログを出す
+        if (Mathf.Abs(hpRatio - lastLoggedRatio) > 0.001f)
+        {
+            Debug.Log($"<color=green>[UiGauge]</color> HP Ratio Changed: {hpRatio:F2}. Scaling gauge to {width * hpRatio}");
+            lastLoggedRatio = hpRatio;
+        }
 
         transform.scale = new Vector3(width * hpRatio, height, 1);
         transform.position.x = Mathf.Lerp(defaultX, -width / 2 + defaultX, 1 - hpRatio);

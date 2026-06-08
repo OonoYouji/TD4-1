@@ -524,6 +524,7 @@ EDITOR_STATE InstantiatePrefabCommand::Execute() {
 	std::filesystem::path path(prefabPath_);
 	std::string prefabName = path.filename().string();
 
+	// エディタ上での生成なので _isRuntime = false
 	generatedEntity_ = pEcsGroup_->GenerateEntityFromPrefab(prefabName, false);
 
 	if (generatedEntity_) {

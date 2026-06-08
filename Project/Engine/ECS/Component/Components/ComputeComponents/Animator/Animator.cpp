@@ -1,4 +1,4 @@
-#include "Animator.h"
+﻿#include "Animator.h"
 #include "Engine/Core/Utility/Tools/Log.h"
 
 /// engine
@@ -61,6 +61,16 @@ void Animator::CrossFade(uint32_t _clipId, float _duration, uint32_t _layerIndex
     layer.transitionTimer = 0.0f;
 }
 
+void Animator::SetPlaybackSpeed(float _speed, uint32_t _layerIndex) {
+    if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
+    layers[_layerIndex].states[0].playbackSpeed = _speed;
+}
+
+void Animator::SetLoop(bool _isLoop, uint32_t _layerIndex) {
+    if (_layerIndex >= MAX_ANIMATION_LAYERS) return;
+    layers[_layerIndex].states[0].isLoop = _isLoop;
+}
+
 float Animator::GetAnimationDuration(uint32_t _clipId) const {
     if (_clipId == 0) return 0.0f;
 
@@ -70,18 +80,23 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
     auto* ecs = owner->GetECSGroup();
     if (!ecs) return 0.0f;
 
-    auto* smrArray = ecs->GetComponentArray<SkinMeshRenderer>();
-    if (!smrArray) return 0.0f;
-
-    auto* smr = smrArray->GetComponent(owner->GetId());
-    if (!smr) return 0.0f;
+    auto* smr = owner->GetComponent<SkinMeshRenderer>();
+    if (!smr) {
+        // static int noSmrLog = 0;
+        // if (noSmrLog < 1) { Console::LogWarning(std::format("Animator: SkinMeshRenderer not found on owner '{}'", owner->GetName())); noSmrLog++; }
+        return 0.0f;
+    }
 
     auto* assetCollection = Asset::AssetCollection::GetInstance();
     if (!assetCollection) return 0.0f;
 
     auto* model = assetCollection->GetModel(smr->GetMeshPath());
     if (!model) {
-        Console::LogError(std::format("Animator::GetAnimationDuration - Model not found at path: {}", smr->GetMeshPath()));
+        static std::unordered_map<std::string, bool> loggedMissing;
+        if (!loggedMissing[smr->GetMeshPath()]) {
+            Console::LogError(std::format("Animator::GetAnimationDuration - Model not found at path: {}", smr->GetMeshPath()));
+            loggedMissing[smr->GetMeshPath()] = true;
+        }
         return 0.0f;
     }
 
@@ -90,7 +105,7 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
     // 全クリップのログ出力（デバッグ用）
     static std::unordered_map<std::string, bool> loggedClips;
     if (!loggedClips[smr->GetMeshPath()]) {
-        Console::LogInfo(std::format("Animator: Clips for model '{}':", smr->GetMeshPath()));
+        Console::LogInfo(std::format("Animator: Clips for model '{}' (Total: {}):", smr->GetMeshPath(), clips.size()));
         for (const auto& [hash, clip] : clips) {
             Console::LogInfo(std::format("  - '{}' (hash: {})", clip.name, hash));
         }
@@ -99,17 +114,29 @@ float Animator::GetAnimationDuration(uint32_t _clipId) const {
 
     auto it = clips.find(_clipId);
     if (it != clips.end()) {
-        Console::LogInfo(std::format("Animator::GetAnimationDuration - ClipId: {} ('{}'), Duration: {}", _clipId, it->second.name, it->second.duration));
+        static int foundLogCount = 0;
+        if (foundLogCount < 20) {
+            Console::LogInfo(std::format("Animator::GetAnimationDuration - SUCCESS: ClipId {} ('{}'), Duration: {}", _clipId, it->second.name, it->second.duration));
+            foundLogCount++;
+        }
         return it->second.duration;
     }
 
-    Console::LogWarning(std::format("Animator::GetAnimationDuration - ClipId: {} NOT FOUND in model '{}'", _clipId, smr->GetMeshPath()));
+    static int failLogCount = 0;
+    if (failLogCount < 10) {
+        Console::LogWarning(std::format("Animator::GetAnimationDuration - FAIL: ClipId {} NOT FOUND in model '{}' ({} clips total)", _clipId, smr->GetMeshPath(), clips.size()));
+        failLogCount++;
+    }
     return 0.0f;
 }
 
 void from_json(const nlohmann::json& _j, Animator& _animator) {
     if (_j.contains("enable")) {
         _animator.enable = _j.at("enable").get<int>();
+    }
+
+    if (_j.contains("defaultClipId")) {
+        _animator.defaultClipId = _j.at("defaultClipId").get<uint32_t>();
     }
 
     if (_j.contains("layers")) {
@@ -141,7 +168,8 @@ void from_json(const nlohmann::json& _j, Animator& _animator) {
 void to_json(nlohmann::json& _j, const Animator& _animator) {
     _j = nlohmann::json{
         { "type", "Animator" },
-        { "enable", _animator.enable }
+        { "enable", _animator.enable },
+        { "defaultClipId", _animator.defaultClipId }
     };
 
     auto layersJson = nlohmann::json::array();
@@ -184,6 +212,20 @@ void Internal_CrossFade(uint64_t _nativeHandle, uint32_t _clipId, float _duratio
     }
 }
 
+void Internal_SetPlaybackSpeed(uint64_t _nativeHandle, float _speed, uint32_t _layerIndex) {
+    Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
+    if (animator) {
+        animator->SetPlaybackSpeed(_speed, _layerIndex);
+    }
+}
+
+void Internal_SetLoop(uint64_t _nativeHandle, bool _isLoop, uint32_t _layerIndex) {
+    Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
+    if (animator) {
+        animator->SetLoop(_isLoop, _layerIndex);
+    }
+}
+
 float Internal_GetAnimationDuration(uint64_t _nativeHandle, uint32_t _clipId) {
     Animator* animator = reinterpret_cast<Animator*>(_nativeHandle);
     if (animator) {
@@ -202,6 +244,25 @@ namespace ComponentDebug {
         if (_animators.empty()) return;
 
         Animator* first = _animators[0];
+
+        // デフォルトクリップの表示
+        {
+            std::string defaultClipName = "None";
+            auto* owner = first->GetOwner();
+            auto* smr = owner ? owner->GetComponent<SkinMeshRenderer>() : nullptr;
+            if (smr) {
+                auto* ac = Asset::AssetCollection::GetInstance();
+                if (auto* model = ac->GetModel(smr->GetMeshPath())) {
+                    auto it = model->GetAnimationClips().find(first->GetDefaultClip());
+                    if (it != model->GetAnimationClips().end()) defaultClipName = it->second.name;
+                }
+            }
+            ImGui::Text("Default Clip: %s (ID: %u)", defaultClipName.c_str(), first->GetDefaultClip());
+            if (ImGui::Button("Play Default")) {
+                for (auto a : _animators) a->Play(a->GetDefaultClip());
+            }
+            ImGui::Separator();
+        }
 
         if (ImGui::CollapsingHeader("Layers", ImGuiTreeNodeFlags_DefaultOpen)) {
             for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
@@ -226,9 +287,7 @@ namespace ComponentDebug {
                         // クリップ名の特定
                         std::string clipName = "Unknown";
                         auto* owner = first->GetOwner();
-                        auto* ecs = owner->GetECSGroup();
-                        auto* smrArray = ecs->GetComponentArray<SkinMeshRenderer>();
-                        auto* smr = smrArray ? smrArray->GetComponent(owner->GetId()) : nullptr;
+                        auto* smr = owner ? owner->GetComponent<SkinMeshRenderer>() : nullptr;
                         if (smr) {
                             auto* ac = Asset::AssetCollection::GetInstance();
                             if (auto* model = ac->GetModel(smr->GetMeshPath())) {

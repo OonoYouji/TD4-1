@@ -635,68 +635,85 @@
             "prefabName": ""
         },
         {
+            "children": [
+                {
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+                            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                            "scale": { "x": 1000.0, "y": 70.0, "z": 1.0 },
+                            "type": "Transform"
+                        },
+                        { "type": "Variables" },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": { "w": 1.0, "x": 0.1, "y": 0.1, "z": 0.1 },
+                                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 0,
+                                "uvTransform": { "position": { "x": 0.0, "y": 0.0 }, "rotate": 0.0, "scale": { "x": 1.0, "y": 1.0 } }
+                            },
+                            "type": "SpriteRenderer"
+                        }
+                    ],
+                    "guid": "player-hp-bg-guid-0001",
+                    "id": 110,
+                    "name": "BG",
+                    "parent": 11,
+                    "prefabName": ""
+                },
+                {
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+                            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                            "scale": { "x": 1000.0, "y": 60.0, "z": 1.0 },
+                            "type": "Transform"
+                        },
+                        { "type": "Variables" },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": { "w": 1.0, "x": 0.2, "y": 0.8, "z": 0.2 },
+                                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 0,
+                                "uvTransform": { "position": { "x": 0.0, "y": 0.0 }, "rotate": 0.0, "scale": { "x": 1.0, "y": 1.0 } }
+                            },
+                            "type": "SpriteRenderer"
+                        },
+                        {
+                            "enable": 1,
+                            "scripts": [
+                                { "enable": true, "name": "PlayerHPGauge", "properties": { "width": "1000.0", "height": "60.0", "targetEntityName": "Player" } }
+                            ],
+                            "type": "Script"
+                        }
+                    ],
+                    "guid": "player-hp-gauge-guid-0002",
+                    "id": 111,
+                    "name": "Gauge",
+                    "parent": 11,
+                    "prefabName": ""
+                }
+            ],
             "components": [
                 {
                     "enable": 1,
                     "matrixCalcFlags": 7,
-                    "position": {
-                        "x": -350.1000061035156,
-                        "y": -400.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1000.0,
-                        "y": 70.0,
-                        "z": 1.0
-                    },
+                    "position": { "x": -350.0, "y": -400.0, "z": 0.0 },
+                    "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
+                    "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
                     "type": "Transform"
                 },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": [
-                        {
-                            "enable": true,
-                            "name": "UiGauge"
-                        }
-                    ],
-                    "type": "Script"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 0,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0
-                            }
-                        }
-                    },
-                    "type": "SpriteRenderer"
-                }
+                { "type": "Variables" }
             ],
             "guid": "b2f254a913c4b36fd5ba09bdca3912f4",
             "id": 11,
@@ -1278,7 +1295,7 @@
                 },
                 {
                     "enable": 1,
-                    "scripts": null,
+                    "scripts": [],
                     "type": "Script"
                 },
                 {
@@ -1343,7 +1360,7 @@
                 },
                 {
                     "enable": 1,
-                    "scripts": null,
+                    "scripts": [],
                     "type": "Script"
                 },
                 {

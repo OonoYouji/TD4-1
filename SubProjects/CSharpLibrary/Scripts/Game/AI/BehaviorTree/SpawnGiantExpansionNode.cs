@@ -20,6 +20,12 @@ public class SpawnGiantExpansionNode : BehaviorNode
             // ボスの足元に配置
             area.transform.position = owner.transform.position;
             
+            // トリガー設定を適用（押し戻し防止）
+            var sphere = area.GetComponent<SphereCollider>();
+            if (sphere != null) sphere.isTrigger = true;
+            var box = area.GetComponent<BoxCollider>();
+            if (box != null) box.isTrigger = true;
+            
             // パラメータの上書き
             var expansion = area.GetScript<GiantExpansion>();
             if (expansion != null)

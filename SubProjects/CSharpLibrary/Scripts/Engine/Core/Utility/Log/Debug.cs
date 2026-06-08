@@ -9,9 +9,7 @@ public enum LogCategory {
 
 static public class Debug {
 	static public void Log(string message, [CallerFilePath] string filePath = "") {
-#if DEBUG
 		InternalConsoleLog(message, DetermineCategory(filePath));
-#endif
 	}
 
 	static public void LogInfo(string message, [CallerFilePath] string filePath = "") {
@@ -19,15 +17,11 @@ static public class Debug {
 	}
 
 	static public void LogWarning(string message, [CallerFilePath] string filePath = "") {
-#if DEBUG
 		InternalConsoleLog(message, DetermineCategory(filePath));
-#endif
 	}
 
 	static public void LogError(string message, [CallerFilePath] string filePath = "") {
-#if DEBUG
 		InternalConsoleLog(message, DetermineCategory(filePath));
-#endif
 	}
 
 	/// <summary>
@@ -48,9 +42,7 @@ static public class Debug {
 	/// 明示的にカテゴリを指定して出力する場合（内部用）
 	/// </summary>
 	static internal void InternalLog(string message, LogCategory category = LogCategory.ScriptEngine) {
-#if DEBUG
 		InternalConsoleLog(message, category);
-#endif
 	}
 
 	[MethodImpl(MethodImplOptions.InternalCall)]

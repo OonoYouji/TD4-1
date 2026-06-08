@@ -1,39 +1,39 @@
 {
     "entities": [
         {
-            "path": "./TitleScene/Camera.entity",
-            "id": 1,
-            "parent": null
+            "guid": "0b323d4942311bed1196939a4db8d8e4",
+            "parentGuid": null,
+            "path": "./TitleScene/0b323d4942311bed1196939a4db8d8e4.entity"
         },
         {
-            "path": "./TitleScene/Light.entity",
-            "id": 2,
-            "parent": null
+            "guid": "56a09c4bf4c2f1bc76ee89034164079b",
+            "parentGuid": null,
+            "path": "./TitleScene/56a09c4bf4c2f1bc76ee89034164079b.entity"
         },
         {
-            "path": "./TitleScene/Title.entity",
-            "id": 3,
-            "parent": 5
+            "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",
+            "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
+            "path": "./TitleScene/6352579a8b80b8a956bd45eeb7b0c4dd.entity"
         },
         {
-            "path": "./TitleScene/2DCamera.entity",
-            "id": 4,
-            "parent": null
+            "guid": "6a039137ad0ca5e587d14aa7db6b0171",
+            "parentGuid": null,
+            "path": "./TitleScene/6a039137ad0ca5e587d14aa7db6b0171.entity"
         },
         {
-            "path": "./TitleScene/TitleSprites.entity",
-            "id": 5,
-            "parent": null
+            "guid": "e059d18c3aa6d0577e148c0870d37d31",
+            "parentGuid": null,
+            "path": "./TitleScene/e059d18c3aa6d0577e148c0870d37d31.entity"
         },
         {
-            "path": "./TitleScene/PushButton.entity",
-            "id": 6,
-            "parent": 5
+            "guid": "74ff339484eae82538e7245fbb9d7d63",
+            "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
+            "path": "./TitleScene/74ff339484eae82538e7245fbb9d7d63.entity"
         },
         {
-            "path": "./TitleScene/Fader.entity",
-            "id": 7,
-            "parent": null
+            "guid": "94ff339484eae82538e7245fbb9d7d66",
+            "parentGuid": null,
+            "path": "./TitleScene/94ff339484eae82538e7245fbb9d7d66.entity"
         }
     ]
 }

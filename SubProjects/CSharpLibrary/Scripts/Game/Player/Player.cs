@@ -83,6 +83,17 @@ public class Player : MonoScript
             return;
         }
 
+        // デバッグ用: YキーでHPを5減らす
+        if (Input.TriggerKey(KeyCode.Y))
+        {
+            HP hp = entity.GetScript<HP>();
+            if (hp != null)
+            {
+                Debug.Log($"<color=orange>[Player:Debug]</color> Manual HP Reduction: {hp.currentHp} -> {hp.currentHp - 5}");
+                hp.TakeDamage(5);
+            }
+        }
+
         // 入力モードの更新
         UpdateInputMode();
         // 移動処理

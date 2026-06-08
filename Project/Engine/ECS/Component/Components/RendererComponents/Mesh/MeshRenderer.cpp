@@ -54,6 +54,14 @@ void MeshRenderer::SetUVTransform(const UVTransform& _uvTransform) {
 	material_.uvTransform = _uvTransform;
 }
 
+void MeshRenderer::SetRenderQueue(RenderQueue _queue) {
+	renderQueue_ = _queue;
+}
+
+RenderQueue MeshRenderer::GetRenderQueue() const {
+	return renderQueue_;
+}
+
 const std::string& MeshRenderer::GetMeshPath() const {
 	return meshPath_;
 }
@@ -148,6 +156,16 @@ void ONEngine::InternalSetPostEffectFlags(uint64_t _nativeHandle, uint32_t _flag
 	}
 }
 
+uint32_t ONEngine::InternalGetRenderQueue(uint64_t _nativeHandle) {
+	MeshRenderer* renderer = reinterpret_cast<MeshRenderer*>(_nativeHandle);
+	return renderer ? static_cast<uint32_t>(renderer->GetRenderQueue()) : 2;
+}
+
+void ONEngine::InternalSetRenderQueue(uint64_t _nativeHandle, uint32_t _queue) {
+	MeshRenderer* renderer = reinterpret_cast<MeshRenderer*>(_nativeHandle);
+	if (renderer) renderer->SetRenderQueue(static_cast<RenderQueue>(_queue));
+}
+
 void ComponentDebug::MeshRendererDebug(MeshRenderer* _mr, Asset::AssetCollection* _assetCollection) {
 	if (!_mr) {
 		return;
@@ -162,6 +180,11 @@ void ComponentDebug::MeshRendererDebug(MeshRenderer* _mr, Asset::AssetCollection
 		_mr->SetColor(color);
 	}
 
+	const char* queueNames[] = { "Background", "Telegraph", "Default" };
+	int currentQueue = static_cast<int>(_mr->renderQueue_);
+	if (ImGui::Combo("Render Queue", &currentQueue, queueNames, 3)) {
+		_mr->renderQueue_ = static_cast<RenderQueue>(currentQueue);
+	}
 
 	ImGui::Spacing();
 
@@ -272,6 +295,10 @@ void ONEngine::from_json(const nlohmann::json& _j, MeshRenderer& _m) {
 		_m.material_ = _j.at("material").get<Asset::Material>();
 	}
 
+	if (_j.contains("renderQueue")) {
+		_m.renderQueue_ = static_cast<RenderQueue>(_j.at("renderQueue").get<uint32_t>());
+	}
+
 }
 
 void ONEngine::to_json(nlohmann::json& _j, const MeshRenderer& _m) {
@@ -280,5 +307,6 @@ void ONEngine::to_json(nlohmann::json& _j, const MeshRenderer& _m) {
 		{ "enable", _m.enable },
 		{ "meshPath", _m.GetMeshPath() },
 		{ "material", _m.material_ },
+		{ "renderQueue", static_cast<uint32_t>(_m.renderQueue_) },
 	};
 }

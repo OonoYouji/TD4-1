@@ -5,6 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
+public enum RenderQueue : uint {
+	Background = 0,
+	Telegraph  = 1,
+	Default    = 2,
+}
+
 class MeshRenderer : Component {
 	public struct BatchData {
 		public uint compId;
@@ -32,6 +38,15 @@ class MeshRenderer : Component {
 		set {
 			InternalSetPostEffectFlags(nativeHandle, value);
 			postEffectFlags_ = value;
+		}
+	}
+
+	public RenderQueue renderQueue {
+		get {
+			return (RenderQueue)InternalGetRenderQueue(nativeHandle);
+		}
+		set {
+			InternalSetRenderQueue(nativeHandle, (uint)value);
 		}
 	}
 
@@ -75,5 +90,11 @@ class MeshRenderer : Component {
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static extern void InternalSetPostEffectFlags(ulong _nativeHandle, uint _flags);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	static extern uint InternalGetRenderQueue(ulong _nativeHandle);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	static extern void InternalSetRenderQueue(ulong _nativeHandle, uint _queue);
 }
 

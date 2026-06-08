@@ -1,29 +1,19 @@
 {
     "entities": [
         {
-            "path": "./Workspace_Test2/Camera.entity",
-            "id": 6,
-            "parent": null
+            "guid": "d7b6b61125c4065ffcf5d63c8bdc4927",
+            "parentGuid": null,
+            "path": "./Workspace_Test2/Camera.entity"
         },
         {
-            "path": "./Workspace_Test2/Light.entity",
-            "id": 1,
-            "parent": null
+            "guid": "dda5b33ebb86718f6e2485b6bf6d73e6",
+            "parentGuid": null,
+            "path": "./Workspace_Test2/Light.entity"
         },
         {
-            "path": "./Workspace_Test2/Test_2.entity",
-            "id": 4,
-            "parent": null
-        },
-        {
-            "path": "./Workspace_Test2/Test_1.entity",
-            "id": 3,
-            "parent": null
-        },
-        {
-            "path": "./Workspace_Test2/Test.entity",
-            "id": 2,
-            "parent": null
+            "guid": "56860dc5ba91cce55130366ddc0b405e",
+            "parentGuid": null,
+            "path": "./Workspace_Test2/Mesh.entity"
         }
     ]
 }

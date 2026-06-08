@@ -21,42 +21,95 @@ public class BossMovement : MonoScript
     private int currentWaypointIndex = 0;
     private float waitTimer = 0.0f;
     private bool isMoving = false;
+    private Animator animator;
+    private string currentAnim = "";
+    private Vector3 currentMoveDir = Vector3.zero;
+    private int logCounter = 0;
 
     public override void Initialize()
     {
+        animator = entity.GetComponent<Animator>();
         if (waypoints.Count > 0)
         {
             transform.position = waypoints[0];
             isMoving = false;
             waitTimer = waitTimeAtWaypoint;
         }
+        PlayAnimation("idle");
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        
+        // 攻撃中は移動スクリプトからのアニメーション上書きを禁止する
+        if (IsAnyAttackActive()) return;
+
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.2f);
+        currentAnim = clipName;
+    }
+
+    private bool IsAnyAttackActive()
+    {
+        if (entity.GetScript<BossBeamAttack>()?.IsActive ?? false) return true;
+        if (entity.GetScript<BossRockAttack>()?.IsActive ?? false) return true;
+        if (entity.GetScript<BossBombBarrage>()?.IsActive ?? false) return true;
+        if (entity.GetScript<BossClogAttack>()?.IsActive ?? false) return true;
+        if (entity.GetScript<BossPillarAttack>()?.IsActive ?? false) return true;
+        if (entity.GetScript<BossVortexAttack>()?.IsActive ?? false) return true;
+        return false;
     }
 
     public override void Update()
     {
-        if (waypoints.Count < 2) return;
+        // 向きのデバッグ表示 (太さ12)
+        // 見えない問題を解決するため、極端なサイズ(長さ200)にし、移動していなくても前方ベクトルを表示する
+        Vector3 gizmoBaseGreen = transform.position + Vector3.up * 40.0f;
+        Vector3 gizmoBaseBlue = transform.position + Vector3.up * 60.0f;
+        
+        GizmoBatch.DrawRay(gizmoBaseGreen, transform.forward * 200.0f, new Vector4(0, 1, 0, 1), 12.0f); // 緑: モデルの前方 (高さ40)
+        
+        Vector3 blueDir = (currentMoveDir.sqrMagnitude > 0.001f) ? currentMoveDir : transform.forward;
+        GizmoBatch.DrawRay(gizmoBaseBlue, blueDir * 200.0f, new Vector4(0, 1, 1, 1), 12.0f); // 水色: 移動方向 (高さ60)
+            
+        // 常にログを出力 (検証用)
+        if (logCounter++ % 60 == 0) {
+            Debug.Log($"[GizmoDebug] Blue Line (Movement): Dir({blueDir.x:F1}, {blueDir.y:F1}, {blueDir.z:F1}) isMoving:{isMoving}");
+        }
 
-        if (isMoving)
+        // --- 自動移動の停止 ---
+        // AIと競合するため、Updateでの自動的な巡回移動を一時的に無効化します。
+        // 移動は PatrolWaypointsNode などのBTノードから制御されるべきです。
+        /*
+        if (waypoints.Count >= 2 && isMoving)
         {
             MoveToWaypoint();
+            PlayAnimation("movement");
         }
         else
         {
-            waitTimer -= Time.deltaTime;
-            if (waitTimer <= 0)
+            if (waypoints.Count >= 2)
             {
-                isMoving = true;
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
-                Debug.Log($"[BossMovement] Moving to Waypoint {currentWaypointIndex}: {waypoints[currentWaypointIndex]}");
+                waitTimer -= Time.deltaTime;
+                if (waitTimer <= 0)
+                {
+                    isMoving = true;
+                    currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+                }
             }
         }
+        */
 
-        // 岩を押し退ける処理
+        // 岩を押し退ける処理は継続
         BulldozeRocks();
     }
 
     private void MoveToWaypoint()
     {
+        // 競合防止: AIが動作している場合は、このスクリプトによる直接移動をスキップする
+        if (entity.GetScript<BossAI>() != null) return;
+
         Vector3 target = waypoints[currentWaypointIndex];
         Vector3 pos = transform.position;
         Vector3 dir = target - pos;
@@ -72,14 +125,14 @@ public class BossMovement : MonoScript
         else
         {
             Vector3 moveDir = dir.Normalized();
+            currentMoveDir = moveDir;
             transform.position += moveDir * speed * Time.deltaTime;
             
             // 移動方向を向く
             if (moveDir.sqrMagnitude > 0.001f)
             {
-                // 簡単な前方方向の設定（rotateを直接更新）
-                // 本来は Quaternion.LookRotation などが必要だが、簡易的に
-                // transform.rotate = Quaternion.LookAt(pos, target); // もしあれば
+                // モデルの向きを移動方向に合わせる
+                transform.rotate = Quaternion.LookRotation(moveDir, Vector3.up);
             }
         }
     }

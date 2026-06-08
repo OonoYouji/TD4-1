@@ -1,0 +1,76 @@
+{
+    "active": true,
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 39.872188568115234,
+                "y": -0.07674127072095871,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 4.799995422363281,
+                "y": 30.0,
+                "z": 1.0
+            },
+            "type": "Transform"
+        },
+        {
+            "BossHPPhaseBar": {
+                "barHeight": 30.0,
+                "fullWidth": 240.0,
+                "maxRatio": 0.6666666865348816,
+                "minRatio": 0.3333333432674408
+            },
+            "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 0.20000000298023224,
+                    "y": 0.800000011920929,
+                    "z": 0.20000000298023224
+                },
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 0,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossHPPhaseBar"
+                }
+            ],
+            "type": "Script"
+        }
+    ],
+    "guid": "6a336a1c4c047b8834f2bcc978bc7deb",
+    "name": "Phase2Bar",
+    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+    "prefabName": ""
+}

@@ -134,40 +134,52 @@ void ComponentDebug::SkinMeshRendererDebug(SkinMeshRenderer* _smr, Asset::AssetC
 	float rectSize = _smr->GetDebugRectSize();
 	Vector4 color = _smr->GetColor();
 
+	// --- 1. 基本設定 ---
+	if (ImGui::CollapsingHeader("Base Settings", ImGuiTreeNodeFlags_DefaultOpen)) {
+		if (ImGui::Checkbox("is playing", &isPlaying)) {
+			_smr->SetIsPlaying(isPlaying);
+		}
 
-	if (ImGui::Checkbox("is playing", &isPlaying)) {
-		_smr->SetIsPlaying(isPlaying);
+		if (Editor::ImGuiColorEdit("color", &color)) {
+			_smr->SetColor(color);
+		}
+
+		if (ImGui::DragFloat("joint size", &jointSize, 0.01f, 0.0f, 100.0f)) {
+			_smr->SetDebugJointSize(jointSize);
+		}
+		if (ImGui::DragFloat("rect size", &rectSize, 0.01f, 0.0f, 100.0f)) {
+			_smr->SetDebugRectSize(rectSize);
+		}
 	}
 
-	/// color edit
-	if (Editor::ImGuiColorEdit("color", &color)) {
-		_smr->SetColor(color);
-	}
+	// --- 2. アニメーションデバッグ (最重要) ---
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::TextColored(ImVec4(1, 1, 0, 1), "--- ANIMATION DEBUG ---");
 
-	/// debug sizes
-	if (ImGui::DragFloat("joint size", &jointSize, 0.01f, 0.0f, 100.0f)) {
-		_smr->SetDebugJointSize(jointSize);
-	}
-	if (ImGui::DragFloat("rect size", &rectSize, 0.01f, 0.0f, 100.0f)) {
-		_smr->SetDebugRectSize(rectSize);
-	}
-
-	/// animation clips
-	if (Asset::Model* model = _assetCollection->GetModel(_smr->GetMeshPath())) {
+	// モデル情報の取得
+	Asset::Model* model = _assetCollection->GetModel(meshPath);
+	if (!model) {
+		ImGui::TextColored(ImVec4(1, 0, 0, 1), "MODEL NOT FOUND: %s", meshPath.c_str());
+		ImGui::TextDisabled("(Check if path matches AssetCollection registration)");
+	} else {
 		const auto& clips = model->GetAnimationClips();
-		if (!clips.empty()) {
-			// 現在のアニメーション情報を表示
-			ImGui::Separator();
-			ImGui::Text("Animation Status");
+		ImGui::Text("Model: Found");
+		ImGui::Text("Clips: %zu available", clips.size());
 
-			// 1. Animatorコンポーネントがあるかチェック
-			auto* owner = _smr->GetOwner();
-			auto* ecs = owner->GetECSGroup();
-			auto* animatorArray = ecs->GetComponentArray<Animator>();
-			Animator* animator = animatorArray ? animatorArray->GetComponent(owner->GetId()) : nullptr;
+		// Animatorコンポーネントの検索
+		auto* owner = _smr->GetOwner();
+		Animator* animator = nullptr;
+		if (owner) {
+			ImGui::Text("Entity: %s (ID: %u)", owner->GetName().c_str(), owner->GetId());
+			animator = owner->GetComponent<Animator>();
+		} else {
+			ImGui::TextColored(ImVec4(1, 0, 0, 1), "Animator: Owner is NULL");
+		}
 
-			if (animator && animator->enable) {
-				// 最も優先度の高い（重みが大きい）クリップ名を特定して目立たせる
+		if (animator) {
+			if (animator->enable) {
+				// 現在のアニメーション特定
 				std::string mainClipName = "None";
 				float maxWeight = -1.0f;
 				for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
@@ -181,74 +193,58 @@ void ComponentDebug::SkinMeshRendererDebug(SkinMeshRenderer* _smr, Asset::AssetC
 					}
 				}
 
-				ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "CURRENT CLIP: ");
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Playing Animation: ");
 				ImGui::SameLine();
 				ImGui::Text("%s", mainClipName.c_str());
-				ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "Driven by Animator");
-				ImGui::Separator();
+				ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "[Driven by Animator]");
 
-				for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {
-					AnimationLayer& layer = animator->layers[i];
-					if (layer.weight <= 0.0f) continue;
+				// --- デフォルトクリップの選択 (改善版) ---
+				ImGui::Spacing();
+				std::string defaultClipName = "None (0)";
+				auto itDefault = clips.find(animator->GetDefaultClip());
+				if (itDefault != clips.end()) {
+					defaultClipName = itDefault->second.name;
+				}
 
-					for (uint32_t j = 0; j < MAX_ANIMATION_STATES_PER_LAYER; ++j) {
-						AnimationState& state = layer.states[j];
-						if (state.weight <= 0.0f || state.clipId == 0) continue;
-
-						auto it = clips.find(state.clipId);
-						std::string clipName = (it != clips.end()) ? it->second.name : "Unknown";
-						float clipDur = (it != clips.end()) ? it->second.duration : 1.0f;
-
-						ImGui::Text("L%u-S%u: %s", i, j, clipName.c_str());
-						ImGui::SameLine();
-						ImGui::TextDisabled("(%.2fs / %.2fs)", state.time, clipDur);
-						
-						float progress = clipDur > 0.0f ? state.time / clipDur : 0.0f;
-						ImGui::ProgressBar(progress, ImVec2(-1, 0), "");
+				if (ImGui::BeginCombo("Default Clip", defaultClipName.c_str())) {
+					if (ImGui::Selectable("None", animator->GetDefaultClip() == 0)) {
+						animator->SetDefaultClip(0);
 					}
+					for (const auto& [hash, clip] : clips) {
+						bool isSelected = (animator->GetDefaultClip() == hash);
+						if (ImGui::Selectable(clip.name.c_str(), isSelected)) {
+							animator->SetDefaultClip(hash);
+							animator->Play(hash); // 即座に再生を開始して確認できるようにする
+							Console::Log(std::format("Default Clip set and playing: {} (hash: {})", clip.name, hash));
+						}
+						if (isSelected) ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
+				if (ImGui::IsItemHovered()) {
+					ImGui::SetTooltip("Select the animation to play automatically on start.");
+				}
+
+				if (ImGui::TreeNode("Clip Preview / Test Play")) {
+					for (const auto& [hash, clip] : clips) {
+						bool isCurrent = (mainClipName == clip.name);
+
+						if (ImGui::Selectable(clip.name.c_str(), isCurrent)) {
+							animator->Play(hash);
+							Console::Log(std::format("Preview Clip: {}", clip.name));
+						}
+					}
+					ImGui::TreePop();
 				}
 			} else {
-				// 2. SkinMeshRenderer自身の再生状態を表示
-				ImGui::Text("Manual Playback: %.2fs / %.2fs", animationTime, duration);
-				float progress = duration > 0.0f ? animationTime / duration : 0.0f;
-				ImGui::ProgressBar(progress, ImVec2(-1, 0));
-			}
-
-			ImGui::Spacing();
-
-			// クリップ選択
-			if (ImGui::BeginCombo("Select Clip...", "Click to choose...")) {
-				for (const auto& [hash, clip] : clips) {
-					if (ImGui::Selectable(clip.name.c_str())) {
-						if (animator && animator->enable) {
-							animator->Play(hash);
-						} else {
-							_smr->SetNodeAnimationMap(clip.nodeAnimationMap);
-							_smr->SetDuration(clip.duration);
-							_smr->SetAnimationTime(0.0f);
-						}
-						Console::Log(std::format("Switched animation to: {} (duration: {:.2f}s)", clip.name, clip.duration));
-					}
-				}
-				ImGui::EndCombo();
+				ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Animator is DISABLED.");
 			}
 		} else {
-			ImGui::TextDisabled("No animation clips in model.");
+			ImGui::TextColored(ImVec4(1, 0, 0, 1), "No Animator component on this entity.");
 		}
 	}
 
-	/// edit
-	if (ImGui::DragFloat("animation time", &animationTime, 0.01f, 0.0f, duration)) {
-		_smr->SetAnimationTime(animationTime);
-	}
-
-	if (ImGui::DragFloat("duration", &duration, 0.01f, 0.0f, 0.0f, "%.3f", ImGuiSliderFlags_None)) {
-		_smr->SetDuration(duration);
-	}
-
-
-	ImGui::Spacing();
-
+	ImGui::Separator();
 
 	/// meshの変更
 	ImGui::Text("mesh path");

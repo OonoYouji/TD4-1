@@ -133,6 +133,10 @@ static class ComponentBatchManager {
 				var comp = array.Get(i);
 				batch[i].compId = comp.compId;
 				batch[i].desiredMoveDirection = comp.desiredMoveDirection;
+				batch[i].desiredRotation = comp.desiredRotation;
+				batch[i].rotationSpeed = comp.rotationSpeed;
+				batch[i].maxSpeed = comp.maxSpeed;
+				batch[i].useDesiredRotation = (byte)(comp.useDesiredRotation ? 1 : 0);
 				batch[i].isAttacking = (byte)(comp.isAttacking ? 1 : 0);
 				batch[i].targetEntityId = comp.targetEntityId;
 			}
@@ -306,6 +310,10 @@ static class ComponentBatchManager {
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
 				comp.desiredMoveDirection = batch[i].desiredMoveDirection;
+				comp.desiredRotation = batch[i].desiredRotation;
+				comp.rotationSpeed = batch[i].rotationSpeed;
+				comp.maxSpeed = batch[i].maxSpeed;
+				comp.useDesiredRotation = (batch[i].useDesiredRotation != 0);
 				comp.isAttacking = (batch[i].isAttacking != 0);
 				comp.targetEntityId = batch[i].targetEntityId;
 			}

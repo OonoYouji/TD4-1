@@ -72,10 +72,12 @@ public static class BossDamageUtil
     /// <param name="damage">ダメージ量</param>
     public static void ApplyAreaDamage(ECSGroup group, Vector3 center, float radius, int damage)
     {
+        Debug.Log($"<color=red>[BossDamageUtil:HitArea]</color> GENERATED Area Attack at {Vector3.ToSimpleString(center)} with Radius: {radius}");
+        
         if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> --- AreaDamage Start --- Center={Vector3.ToSimpleString(center)}, Radius={radius}");
 
-        // 開発用デバッグ表示 (赤い円)
-        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, radius, new Vector4(1, 0, 0, 1), 32);
+        // 開発用デバッグ表示 (赤い円、太さ12.0)
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, radius, new Vector4(1, 0, 0, 1), 32, 12.0f);
 
         // 走査中にコレクションが変更される（Entity.Destroy() など）のを防ぐため、
         // まず対象をリストに抽出してからダメージを適用する

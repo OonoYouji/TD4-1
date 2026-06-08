@@ -22,13 +22,29 @@ public class BossRockAttack : MonoScript
     private Entity targetRock;
     private Vector3 rockStartPos;
     private Vector3 dropTargetPos;
+    private Animator animator;
+    private string currentAnim = "";
+
+    public bool IsActive => currentState != State.Idle;
+
+    public override void Initialize()
+    {
+        animator = entity.GetComponent<Animator>();
+    }
+
+    private void PlayAnimation(string clipName)
+    {
+        if (animator == null || currentAnim == clipName) return;
+        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+        animator.CrossFade(clipName, 0.15f);
+        currentAnim = clipName;
+    }
 
     public override void Update()
     {
         switch (currentState)
         {
             case State.Idle:
-                // デバッグ用にRキーで開始
                 if (Input.TriggerKey(KeyCode.R))
                 {
                     StartAttack();
@@ -36,6 +52,7 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Picking:
+                PlayAnimation("rock_start");
                 if (PickRandomRock())
                 {
                     currentState = State.Lifting;
@@ -51,9 +68,16 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Lifting:
+                if (currentAnim != "rock") {
+                    animator.CrossFadeWithDuration("rock", liftTime + aimTime);
+                    currentAnim = "rock";
+                }
+                
+                // ターゲットの方向を向く
+                RotateToTarget();
+
                 stateTimer -= Time.deltaTime;
                 float liftRatio = 1.0f - (stateTimer / liftTime);
-                // 岩を上に持ち上げる演出（実際にはボスの手に追従させるのが望ましい）
                 if (targetRock != null)
                 {
                     targetRock.transform.position = rockStartPos + Vector3.up * (liftRatio * 500.0f);
@@ -71,6 +95,9 @@ public class BossRockAttack : MonoScript
                 stateTimer -= Time.deltaTime;
                 UpdateDropTarget(); // 常に更新し続ける（狙い続ける）
                 
+                // ターゲットの方向を向く
+                RotateToTarget();
+
                 // 狙いの演出（予測線など）
                 GizmoBatch.DrawLine(targetRock.transform.position, dropTargetPos, new Vector4(1, 0, 0, 1));
                 GizmoBatch.DrawWireCircle(dropTargetPos, 100.0f, new Vector4(1, 0, 0, 1));
@@ -84,6 +111,10 @@ public class BossRockAttack : MonoScript
                 break;
 
             case State.Dropping:
+                if (currentAnim != "rock_end") {
+                    animator.CrossFadeWithDuration("rock_end", dropTime);
+                    currentAnim = "rock_end";
+                }
                 stateTimer -= Time.deltaTime;
                 float dropRatio = 1.0f - (stateTimer / dropTime);
                 
@@ -115,6 +146,25 @@ public class BossRockAttack : MonoScript
         currentAttackRemaining = attackCount;
         currentState = State.Picking;
         Debug.Log("[BossRockAttack] Sequence started.");
+    }
+
+    private void RotateToTarget()
+    {
+        Vector3 diff = dropTargetPos - transform.position;
+        diff.y = 0;
+        if (diff.sqrMagnitude > 0.001f)
+        {
+            Vector3 dir = diff.Normalized();
+            Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
+            transform.rotate = targetRot;
+
+            var aiIntent = entity.GetComponent<AgentIntentComponent>();
+            if (aiIntent != null)
+            {
+                aiIntent.desiredRotation = targetRot;
+                aiIntent.useDesiredRotation = true;
+            }
+        }
     }
 
     private bool PickRandomRock()

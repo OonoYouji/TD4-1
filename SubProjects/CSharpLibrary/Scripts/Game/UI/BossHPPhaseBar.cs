@@ -48,73 +48,61 @@ public class BossHPPhaseBar : MonoScript
 
     public void UpdateRatio(float totalRatio)
     {
-        if (isBroken)
-        {
-            UpdateBreakEffect();
-            return;
-        }
+        if (isBroken) return;
 
         float localRatio = 0.0f;
 
         if (totalRatio >= maxRatio)
         {
-            // まだ自分の出番ではない（満タン）
             localRatio = 1.0f;
         }
         else if (totalRatio <= minRatio)
         {
-            // すでに自分の出番は終わった（空・壊れる）
             localRatio = 0.0f;
-            if (!isBroken)
-            {
-                Break();
-                return;
-            }
+            Break(); // パリンと割れる
+            return;
         }
         else
         {
-            // 自分の担当範囲内（0.0〜1.0に変換して表示）
+            // 自分の担当範囲内（線形計算）
             localRatio = (totalRatio - minRatio) / (maxRatio - minRatio);
         }
 
-        ApplyBarVisual(localRatio);
+        ApplyBarVisual(localRatio, totalRatio);
     }
 
-    private void ApplyBarVisual(float localRatio)
+    private void ApplyBarVisual(float localRatio, float totalRatio)
     {
-        // 表示の更新（左端固定のスケーリング）
-        transform.scale = new Vector3(fullWidth * localRatio, barHeight, 1.0f);
+        // 1. スケールの更新 (左端固定・右端が減る)
+        float currentScaleX = fullWidth * localRatio;
+        transform.scale = new Vector3(currentScaleX, barHeight, 1.0f);
         
-        // 中心位置の調整: 左端を固定するため、(1.0 - localRatio)の半分だけ左にずらす
-        float offset = (fullWidth * (1.0f - localRatio)) / 2.0f;
-        transform.position.x = originalPos.x - offset;
+        // 2. 位置の調整 (左端を固定)
+        float offset = (fullWidth - currentScaleX) / 2.0f;
+        transform.position = new Vector3(originalPos.x - offset, originalPos.y, originalPos.z);
+
+        // 3. 色の更新 (緑 -> 黄 -> 赤)
+        if (totalRatio > 0.7f) renderer.color = new Vector4(0.2f, 0.8f, 0.2f, 1.0f); // 緑
+        else if (totalRatio > 0.4f) renderer.color = new Vector4(0.8f, 0.8f, 0.2f, 1.0f); // 黄
+        else renderer.color = new Vector4(0.8f, 0.2f, 0.2f, 1.0f); // 赤
     }
 
     private void Break()
     {
+        if (isBroken) return;
         isBroken = true;
-        breakTimer = 1.0f; // 1秒間演出
-        Debug.Log($"[BossHPPhaseBar] Phase Bar Broken! ({minRatio}-{maxRatio})");
         
-        // 破片を生成
-        int fragmentCount = 10;
-        for (int i = 0; i < fragmentCount; i++)
-        {
-            // バーの範囲内にランダムに配置
-            float rx = RandomUtil.NextFloat11() * (fullWidth / 2.0f);
-            Vector3 spawnPos = transform.position + new Vector3(rx, 0, -1); // 手前に表示
-            
-            // 爆発するように飛ばす
-            Vector3 vel = new Vector3(RandomUtil.NextFloat11() * 500.0f, RandomUtil.NextFloat() * 1000.0f, 0);
-            float angVel = RandomUtil.NextFloat11() * 10.0f;
-            
-            // 破片エンティティの生成（ここでは共通のプレハブがないため、動的に生成して設定する想定だが、
-            // エンジン側の制約でスクリプトから空のエンティティにコンポーネントを追加するのは難しいため、
-            // 簡易的に演出のみとする。もし Fragment プレハブがあればそれを使うのがベスト）
-        }
-
-        // 今回はプレハブ作成の手間を省くため、バー自体の演出を強化
-        renderer.color = new Vector4(1, 1, 1, 1); 
+        Debug.Log($"<color=white>[BossUI]</color> Bar Shattered! ({entity.name})");
+        
+        // 1. パーティクル発生 (Effectシステムを利用)
+        // 既存の破壊エフェクトを流用、またはログで代替
+        FrameEvent.EnqueueNamedEvent("Effect_PillarImpact", entity.Id); 
+        
+        // 2. 非表示にする
+        renderer.enable = 0;
+        
+        // 3. スケールを0にする
+        transform.scale = Vector3.zero;
     }
 
     private void UpdateBreakEffect()
