@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 1.399999976158142,
+                "y": 1.4000003337860107,
+                "z": 1.4000003337860107
             },
             "type": "Transform"
         },
@@ -54,8 +54,8 @@
             "type": "MeshRenderer"
         }
     ],
-    "guid": "bbd5aad534e7d82bc583836d0c761914",
+    "guid": "936a2ed1d95be073374268cd4149a59f",
     "name": "Wood",
-    "parentGuid": "5ed87bc02a8c48d052671e9e8266a942",
+    "parentGuid": "b2dc1dd88348790a3982a8fd42eaa168",
     "prefabName": ""
 }

@@ -36,96 +36,6 @@
             "path": "./TitleScene/Fader.entity"
         },
         {
-            "guid": "856fa96b31a31ab31124000d1a6ccd47",
-            "parentGuid": null,
-            "path": "./TitleScene/BG.entity"
-        },
-        {
-            "guid": "5ed87bc02a8c48d052671e9e8266a942",
-            "parentGuid": "856fa96b31a31ab31124000d1a6ccd47",
-            "path": "./TitleScene/Bonfire.entity"
-        },
-        {
-            "guid": "4f1c54781265ba9ae14c4caca9b36965",
-            "parentGuid": "5ed87bc02a8c48d052671e9e8266a942",
-            "path": "./TitleScene/Fire1.entity"
-        },
-        {
-            "guid": "bbd5aad534e7d82bc583836d0c761914",
-            "parentGuid": "5ed87bc02a8c48d052671e9e8266a942",
-            "path": "./TitleScene/Wood.entity"
-        },
-        {
-            "guid": "289cf9b0852eeba8416170aca1180746",
-            "parentGuid": "856fa96b31a31ab31124000d1a6ccd47",
-            "path": "./TitleScene/Ground.entity"
-        },
-        {
-            "guid": "11ff44bd807ddb7ae524ee9929d98949",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree.entity"
-        },
-        {
-            "guid": "1fe9480defbb13206a12ea5177b824e0",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree2.entity"
-        },
-        {
-            "guid": "891af6ca17453467ec5b2fc10d517fe4",
-            "parentGuid": "856fa96b31a31ab31124000d1a6ccd47",
-            "path": "./TitleScene/Humans.entity"
-        },
-        {
-            "guid": "75be16ed4d4bede10b437761642ab33d",
-            "parentGuid": "891af6ca17453467ec5b2fc10d517fe4",
-            "path": "./TitleScene/Human.entity"
-        },
-        {
-            "guid": "0432df9f2c15993769c4e77bfe858201",
-            "parentGuid": "856fa96b31a31ab31124000d1a6ccd47",
-            "path": "./TitleScene/Trees.entity"
-        },
-        {
-            "guid": "d898f1def628c3e682dc564da44def93",
-            "parentGuid": "891af6ca17453467ec5b2fc10d517fe4",
-            "path": "./TitleScene/Human2.entity"
-        },
-        {
-            "guid": "fa42288164abf6eef64a4c0cc424542d",
-            "parentGuid": "891af6ca17453467ec5b2fc10d517fe4",
-            "path": "./TitleScene/Human3.entity"
-        },
-        {
-            "guid": "db6f1af67851fe9edf86e538650a8b2c",
-            "parentGuid": "891af6ca17453467ec5b2fc10d517fe4",
-            "path": "./TitleScene/Human4.entity"
-        },
-        {
-            "guid": "6889e10695de9f4f651b43ad58b195be",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree3.entity"
-        },
-        {
-            "guid": "8370c733a890342636975943d4ff014b",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree4.entity"
-        },
-        {
-            "guid": "27b0456b3c8a4dfb0e83a3fee3887b4c",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree5.entity"
-        },
-        {
-            "guid": "6c9b36871aecb854e1bd66d46de6c35d",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree6.entity"
-        },
-        {
-            "guid": "6b944d4333b99a5f4c5e05eae99c22cb",
-            "parentGuid": "0432df9f2c15993769c4e77bfe858201",
-            "path": "./TitleScene/Tree7.entity"
-        },
-        {
             "guid": "a2c1db9bd8ce57ca8433edf77e6070ff",
             "parentGuid": "e059d18c3aa6d0577e148c0870d37d31",
             "path": "./TitleScene/Selection.entity"
@@ -139,6 +49,96 @@
             "guid": "5e235fa4cd845710b7b386df086a78d5",
             "parentGuid": "a2c1db9bd8ce57ca8433edf77e6070ff",
             "path": "./TitleScene/Null.entity"
+        },
+        {
+            "guid": "5181189f4fae82d2061179351e042001",
+            "parentGuid": null,
+            "path": "./TitleScene/BG.entity"
+        },
+        {
+            "guid": "b2dc1dd88348790a3982a8fd42eaa168",
+            "parentGuid": "5181189f4fae82d2061179351e042001",
+            "path": "./TitleScene/Bonfire.entity"
+        },
+        {
+            "guid": "d4d0d43c41f2533f08f2f9f921ef02ae",
+            "parentGuid": "b2dc1dd88348790a3982a8fd42eaa168",
+            "path": "./TitleScene/Fire1.entity"
+        },
+        {
+            "guid": "936a2ed1d95be073374268cd4149a59f",
+            "parentGuid": "b2dc1dd88348790a3982a8fd42eaa168",
+            "path": "./TitleScene/Wood.entity"
+        },
+        {
+            "guid": "98592cfa4c91f582486750da3b9e0a6b",
+            "parentGuid": "5181189f4fae82d2061179351e042001",
+            "path": "./TitleScene/Ground.entity"
+        },
+        {
+            "guid": "fe21382176b736ac926c70d1649854de",
+            "parentGuid": "5181189f4fae82d2061179351e042001",
+            "path": "./TitleScene/Humans.entity"
+        },
+        {
+            "guid": "09dc3505a7c6ac5d783acf764041669a",
+            "parentGuid": "fe21382176b736ac926c70d1649854de",
+            "path": "./TitleScene/Human.entity"
+        },
+        {
+            "guid": "7131b7cbf654a4572039eba661cbf7a4",
+            "parentGuid": "fe21382176b736ac926c70d1649854de",
+            "path": "./TitleScene/Human2.entity"
+        },
+        {
+            "guid": "407e71ca3b3851e6ad896e8f13db092d",
+            "parentGuid": "fe21382176b736ac926c70d1649854de",
+            "path": "./TitleScene/Human3.entity"
+        },
+        {
+            "guid": "0891f8890687d14527c8ab52a04ab6fc",
+            "parentGuid": "fe21382176b736ac926c70d1649854de",
+            "path": "./TitleScene/Human4.entity"
+        },
+        {
+            "guid": "a428dcf7f28de003630c3e286dba559c",
+            "parentGuid": "5181189f4fae82d2061179351e042001",
+            "path": "./TitleScene/Trees.entity"
+        },
+        {
+            "guid": "5a6740b4e46a3697d7cf9e8dfe2e4b0f",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree.entity"
+        },
+        {
+            "guid": "816d2717f77861af73804bf249247f90",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree2.entity"
+        },
+        {
+            "guid": "aa22643d9bfc012e44e4c477bd3391b0",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree3.entity"
+        },
+        {
+            "guid": "8cd13dd6c02ad2fa3d3a63f5116b6a35",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree4.entity"
+        },
+        {
+            "guid": "333227a6458e697456d28b939dc47a1c",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree5.entity"
+        },
+        {
+            "guid": "a63613e7acecd17fa9b9b1ef46675738",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree6.entity"
+        },
+        {
+            "guid": "df96f76e0b11606340f5663bdc351c64",
+            "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+            "path": "./TitleScene/Tree7.entity"
         }
     ]
 }

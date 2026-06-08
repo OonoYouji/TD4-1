@@ -24,8 +24,8 @@
         },
         {
             "animationScale": 1.0,
-            "debugJointSize": 1.0,
-            "debugRectSize": 1.0,
+            "debugJointSize": 0.10000000149011612,
+            "debugRectSize": 0.019999999552965164,
             "enable": 1,
             "isPlaying": true,
             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
@@ -36,8 +36,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "61b3d4eb6ec33918c9e1140b7139ca5c",
+    "guid": "09dc3505a7c6ac5d783acf764041669a",
     "name": "Human",
-    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+    "parentGuid": "fe21382176b736ac926c70d1649854de",
     "prefabName": "Human"
 }

@@ -24,8 +24,8 @@
         },
         {
             "animationScale": 1.0,
-            "debugJointSize": 1.0,
-            "debugRectSize": 1.0,
+            "debugJointSize": 0.10000000149011612,
+            "debugRectSize": 0.019999999552965164,
             "enable": 1,
             "isPlaying": true,
             "meshPath": "./Assets/AssetsWorkspace/models/boss_animation.gltf",

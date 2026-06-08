@@ -24,7 +24,7 @@
         },
         {
             "EndSceneController": {
-                "nextSceneName": "GameScene"
+                "nextSceneName": "Null"
             },
             "SceneSelector": {},
             "type": "Variables"
