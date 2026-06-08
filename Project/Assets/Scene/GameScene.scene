@@ -169,6 +169,11 @@
             "guid": "69d0976be43ff50ce6b518f3e59028f6",
             "parentGuid": "aa9300c52ceba056a463aacd7d690204",
             "path": "./GameScene/69d0976be43ff50ce6b518f3e59028f6.entity"
+        },
+        {
+            "guid": "12eff92ce0cf126b200fe732286708be",
+            "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+            "path": "./GameScene/12eff92ce0cf126b200fe732286708be.entity"
         }
     ]
 }

@@ -1,22 +1,5 @@
 {
     "active": true,
-    "components": [
-        {
-            "BossHPPhaseManager": {
-                "targetEntityName": "Boss"
-            },
-            "type": "Variables"
-        },
-        {
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "BossHPPhaseManager"
-                }
-            ],
-            "type": "Script"
-        }
-    ],
     "guid": "aa9300c52ceba056a463aacd7d690204",
     "name": "BossHP",
     "parentGuid": null,
