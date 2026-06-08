@@ -10,9 +10,9 @@
                 "z": 1.300973892211914
             },
             "rotate": {
-                "w": 0.7771459221839905,
+                "w": 0.6293204426765442,
                 "x": 0.0,
-                "y": -0.6293203830718994,
+                "y": 0.7771459221839905,
                 "z": 0.0
             },
             "scale": {
@@ -123,8 +123,8 @@
             "type": "Animator"
         }
     ],
-    "guid": "a033e3842d880e67c01aebb7cb41b0cc",
-    "name": "Human",
-    "parentGuid": null,
+    "guid": "54094ebc8c2f89329d6d4a012530279a",
+    "name": "Human1",
+    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
     "prefabName": "Human"
 }

@@ -33,28 +33,87 @@
                         },
                         {
                             "colorOverLifetime": {
+                                "color": {
+                                    "gradient": {
+                                        "alphaKeys": [
+                                            {
+                                                "alpha": 1.0,
+                                                "time": 1.0
+                                            }
+                                        ],
+                                        "colorKeys": [
+                                            {
+                                                "color": {
+                                                    "a": 1.0,
+                                                    "b": 0.0700916200876236,
+                                                    "g": 0.0700916200876236,
+                                                    "r": 0.8888888955116272
+                                                },
+                                                "time": 0.7400000095367432
+                                            },
+                                            {
+                                                "color": {
+                                                    "a": 1.0,
+                                                    "b": 0.08080574125051498,
+                                                    "g": 0.4564681351184845,
+                                                    "r": 0.663082480430603
+                                                },
+                                                "time": 1.0
+                                            }
+                                        ]
+                                    },
+                                    "gradientMax": {
+                                        "alphaKeys": [],
+                                        "colorKeys": [
+                                            {
+                                                "color": {
+                                                    "a": 1.0,
+                                                    "b": 0.03915675729513168,
+                                                    "g": 0.03915675729513168,
+                                                    "r": 0.9103942513465881
+                                                },
+                                                "time": 0.0
+                                            },
+                                            {
+                                                "color": {
+                                                    "a": 1.0,
+                                                    "b": 0.08602148294448853,
+                                                    "g": 0.08602148294448853,
+                                                    "r": 1.0
+                                                },
+                                                "time": 1.0
+                                            }
+                                        ]
+                                    },
+                                    "gradientMin": {
+                                        "alphaKeys": [],
+                                        "colorKeys": []
+                                    },
+                                    "state": 0
+                                },
                                 "enabled": true
                             },
                             "emission": {
                                 "bursts": [],
                                 "enabled": true,
                                 "rateOverDistance": 0.0,
-                                "rateOverTime": 100.0
+                                "rateOverTime": 500.0
                             },
                             "enable": 1,
                             "main": {
                                 "duration": 5.0,
-                                "gravityModifier": -0.5,
+                                "gravityModifier": -0.699999988079071,
                                 "looping": true,
                                 "maxParticles": 1000,
                                 "playOnAwake": true,
                                 "prewarm": true,
+                                "simulationSpace": 1,
                                 "startColor": {
                                     "constant": {
-                                        "a": 1.0,
-                                        "b": 0.04740433022379875,
-                                        "g": 0.04740433022379875,
-                                        "r": 0.2939068078994751
+                                        "a": 0.19607843458652496,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
                                     },
                                     "max": {
                                         "a": 1.0,
@@ -89,7 +148,7 @@
                                     "state": 0
                                 },
                                 "startSize": {
-                                    "constant": 0.30000001192092896,
+                                    "constant": 0.20000000298023224,
                                     "max": 1.0,
                                     "min": 0.0,
                                     "state": 0
@@ -102,6 +161,7 @@
                                 }
                             },
                             "renderer": {
+                                "blendMode": 0,
                                 "materialGuid": "",
                                 "meshGuid": "",
                                 "renderMode": 0
@@ -110,9 +170,9 @@
                                 "angle": 25.0,
                                 "arc": 360.0,
                                 "boxScale": {
-                                    "x": 1.0,
+                                    "x": 2.0,
                                     "y": 0.20000000298023224,
-                                    "z": 1.0
+                                    "z": 2.0
                                 },
                                 "enabled": true,
                                 "radius": 0.009999999776482582,
@@ -120,14 +180,92 @@
                                 "type": 3
                             },
                             "sizeOverLifetime": {
-                                "enabled": true
+                                "enabled": true,
+                                "size": {
+                                    "constant": 0.8999999761581421,
+                                    "curve": {
+                                        "keys": [
+                                            {
+                                                "time": 0.8999999761581421,
+                                                "value": 1.0
+                                            },
+                                            {
+                                                "time": 1.0,
+                                                "value": 0.0
+                                            }
+                                        ]
+                                    },
+                                    "curveMax": {
+                                        "keys": []
+                                    },
+                                    "curveMin": {
+                                        "keys": []
+                                    },
+                                    "state": 2
+                                }
                             },
-                            "type": "ParticleSystem"
+                            "type": "ParticleSystem",
+                            "velocityOverLifetime": {
+                                "enabled": false,
+                                "space": 0,
+                                "speedModifier": {
+                                    "constant": 1.0,
+                                    "curve": {
+                                        "keys": []
+                                    },
+                                    "curveMax": {
+                                        "keys": []
+                                    },
+                                    "curveMin": {
+                                        "keys": []
+                                    },
+                                    "state": 0
+                                },
+                                "x": {
+                                    "constant": 1.0,
+                                    "curve": {
+                                        "keys": []
+                                    },
+                                    "curveMax": {
+                                        "keys": []
+                                    },
+                                    "curveMin": {
+                                        "keys": []
+                                    },
+                                    "state": 0
+                                },
+                                "y": {
+                                    "constant": 1.0,
+                                    "curve": {
+                                        "keys": []
+                                    },
+                                    "curveMax": {
+                                        "keys": []
+                                    },
+                                    "curveMin": {
+                                        "keys": []
+                                    },
+                                    "state": 0
+                                },
+                                "z": {
+                                    "constant": 1.0,
+                                    "curve": {
+                                        "keys": []
+                                    },
+                                    "curveMax": {
+                                        "keys": []
+                                    },
+                                    "curveMin": {
+                                        "keys": []
+                                    },
+                                    "state": 0
+                                }
+                            }
                         }
                     ],
-                    "guid": "70a5c5fbddd52b1835d157222f7cfa15",
+                    "guid": "193865432ac7c81f112a48f7952bf3d2",
                     "name": "Fire1",
-                    "parentGuid": "9319aa5576c35f23df41468cad79cd66",
+                    "parentGuid": "473d422a246bddf403a86af1f518cf2a",
                     "prefabName": ""
                 },
                 {
@@ -183,12 +321,13 @@
                                 }
                             },
                             "meshPath": "./Assets/Models/bg/bonfire.gltf",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "14833052cd26adc2b9566c4cf777cadd",
+                    "guid": "be9286c00deffab26e64595323412bf9",
                     "name": "Wood",
-                    "parentGuid": "9319aa5576c35f23df41468cad79cd66",
+                    "parentGuid": "473d422a246bddf403a86af1f518cf2a",
                     "prefabName": ""
                 }
             ],
@@ -218,9 +357,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "9319aa5576c35f23df41468cad79cd66",
+            "guid": "473d422a246bddf403a86af1f518cf2a",
             "name": "Bonfire",
-            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
             "prefabName": "Bonfire"
         },
         {
@@ -276,12 +415,13 @@
                         }
                     },
                     "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+                    "renderQueue": 2,
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "25bd5f3100e0c7771bab8a47c97d19d1",
+            "guid": "d13ab332ea9b72f6879b4527fff4fe35",
             "name": "Ground",
-            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
             "prefabName": ""
         },
         {
@@ -325,9 +465,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "656f9d0b663a08900cb7a3f1e8998ea3",
+                    "guid": "8371310b3882a7821fac85486f3ca75c",
                     "name": "Human1",
-                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
                     "prefabName": "Human"
                 },
                 {
@@ -368,9 +508,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "ee9d9c49a1148ee9d74cd980f18c6559",
+                    "guid": "f0d769a241534b3f312057899752160d",
                     "name": "Human2",
-                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
                     "prefabName": "Human"
                 },
                 {
@@ -411,9 +551,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "1d01b92b9742134ebedab9dc99ce62f5",
+                    "guid": "64fc2b5168006802c06bf9375ececb9f",
                     "name": "Human3",
-                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
                     "prefabName": "Human"
                 },
                 {
@@ -454,9 +594,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "6d139a385a8c50d9dbf504c90dbdd2c2",
+                    "guid": "e2c340aa0867d35c83937ec00721496c",
                     "name": "Human4",
-                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
+                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
                     "prefabName": "Human"
                 }
             ],
@@ -491,9 +631,9 @@
                     "type": "Script"
                 }
             ],
-            "guid": "75fe13f03e9f4652411f0b9184a059d9",
+            "guid": "a40e60c075c884ac6a89855f08f061ab",
             "name": "Humans",
-            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
             "prefabName": ""
         },
         {
@@ -552,12 +692,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "38268db844bfa8ab95a1b33b3f6ae4c1",
+                    "guid": "26932024b8531ba9f658779516b1dca3",
                     "name": "Tree",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 },
                 {
@@ -613,12 +754,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "1512cc53030558f7a0297c4f4ea48715",
+                    "guid": "43cd0558b689904458bdab65b876c4b3",
                     "name": "Tree2",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 },
                 {
@@ -674,12 +816,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "c235aade36d04e74265da20947d269a0",
+                    "guid": "7ae84d97eae654ca12659dadc0ac471e",
                     "name": "Tree3",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 },
                 {
@@ -735,12 +878,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "1303a851d633756836dc914c60bd82d9",
+                    "guid": "6e42a8bb6d5c5c763b9f4ad19ee6b022",
                     "name": "Tree4",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 },
                 {
@@ -796,12 +940,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "9742532982c7d8ef1051c71553a94161",
+                    "guid": "7d84c9333c0d7cf5f417441ad6a1fd29",
                     "name": "Tree5",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 },
                 {
@@ -857,12 +1002,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "5d4a55393dc503acf44a9fb4014bf7d2",
+                    "guid": "860a4dd426fcede1ec22080e2f7ab6e5",
                     "name": "Tree6",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 },
                 {
@@ -918,12 +1064,13 @@
                                 }
                             },
                             "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "f486d5d3d79a89278bc5cadfbaaa0359",
+                    "guid": "6eb303f55241d63107fc76b600bcbfa8",
                     "name": "Tree7",
-                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
+                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
                     "prefabName": "Tree"
                 }
             ],
@@ -953,9 +1100,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "fbaf49981322b60a90330a746ade2862",
+            "guid": "b08b7a1646b814ce9ff79acd4e0773b3",
             "name": "Trees",
-            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
             "prefabName": "Trees"
         }
     ],
@@ -985,7 +1132,7 @@
             "type": "Variables"
         }
     ],
-    "guid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
+    "guid": "6b8d786a33fd0620fcc14f64ebdea7b4",
     "name": "BG",
     "parentGuid": null,
     "prefabName": "BG"

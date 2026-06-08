@@ -1,0 +1,20 @@
+{
+    "active": true,
+    "components": [
+        {
+            "position": {
+                "x": -1.8815335035324097,
+                "z": -0.8623434901237488
+            },
+            "rotate": {
+                "w": -0.22069741785526276,
+                "y": 0.975342333316803
+            },
+            "type": "Transform"
+        }
+    ],
+    "guid": "64fc2b5168006802c06bf9375ececb9f",
+    "name": "Human3",
+    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+    "prefabName": "Human"
+}
