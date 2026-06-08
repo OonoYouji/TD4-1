@@ -25,7 +25,7 @@ public class CallingReinforcement : MonoScript
     // 現在アクティブな援軍のリスト
     private List<Entity> activeReinforcements = new List<Entity>();
     // 発射クールタイムのタイマー
-    private float spawnTimer = 0.0f;
+    public float spawnTimer { get; private set; } = 0.0f;
 
     // =========================================================
     // ライフサイクル
@@ -40,7 +40,7 @@ public class CallingReinforcement : MonoScript
             callMotion  = playerEntity.GetScript<PlayerCallMotion>();
         }
 
-        // 最初からすぐ呼べるようにタイマーを満タンにしておく
+        // 最初からすぐ呼べるようにタイマーをリセット
         spawnTimer = spawnInterval;
     }
 
@@ -69,7 +69,7 @@ public class CallingReinforcement : MonoScript
             return;
         }
 
-        spawnTimer -= Time.deltaTime;
+        spawnTimer += Time.deltaTime;
 
         // 左クリックとかなんかのボタンで援軍を呼ぶ
         bool wantFire =
@@ -78,9 +78,9 @@ public class CallingReinforcement : MonoScript
             Input.PressGamepad(Gamepad.RightShoulder);
 
         // クールタイムが満タンで、かつ呼びたい入力があったら召喚する
-        if (spawnTimer <= 0.0f && wantFire)
+        if (spawnTimer >= spawnInterval && wantFire)
         {
-            spawnTimer = spawnInterval;
+            spawnTimer = 0.0f;
             SpawnReinforcements();
             callMotion?.Play();
         }
