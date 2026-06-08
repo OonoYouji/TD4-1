@@ -1,0 +1,23 @@
+{
+    "duration": 1.0,
+    "endFrame": 60,
+    "loop": true,
+    "name": "Telegraph",
+    "startFrame": 0,
+    "tracks": [
+        {
+            "component": "MeshRenderer",
+            "keyframes": [
+                {
+                    "in": "Linear",
+                    "t": 1.0,
+                    "v": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
+                }
+            ],
+            "property": "uvOffset"
+        }
+    ]
+}

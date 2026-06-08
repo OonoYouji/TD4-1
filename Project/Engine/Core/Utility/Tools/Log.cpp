@@ -125,6 +125,7 @@ Console::~Console() {}
 void Console::Log(const std::string& _message, LogCategory _category) {
 	AddToBuffer(_message, LogLevel::Info, _category);
 	spdlog::info(_message);
+	OutputDebugStringA(("[Log] " + _message + "\n").c_str());
 }
 
 void Console::Log(const std::wstring& _message, LogCategory _category) {
@@ -134,16 +135,19 @@ void Console::Log(const std::wstring& _message, LogCategory _category) {
 void Console::LogInfo(const std::string& _message, LogCategory _category) {
 	AddToBuffer(_message, LogLevel::Info, _category);
 	spdlog::info(_message);
+	OutputDebugStringA(("[Info] " + _message + "\n").c_str());
 }
 
 void Console::LogError(const std::string& _message, LogCategory _category) {
 	AddToBuffer(_message, LogLevel::Error, _category);
 	spdlog::error(_message);
+	OutputDebugStringA(("[Error] " + _message + "\n").c_str());
 }
 
 void Console::LogWarning(const std::string& _message, LogCategory _category) {
 	AddToBuffer(_message, LogLevel::Warning, _category);
 	spdlog::warn(_message);
+	OutputDebugStringA(("[Warning] " + _message + "\n").c_str());
 }
 
 const std::vector<LogEntry>& Console::GetLogVector() {

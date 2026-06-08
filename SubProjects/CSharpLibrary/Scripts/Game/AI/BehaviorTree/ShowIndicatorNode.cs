@@ -206,27 +206,29 @@ public class ShowIndicatorNode : BehaviorNode
 
                     if (shape == IndicatorShape.Line)
                     {
-                        // ターゲットまでの距離を計算（水平距離）
-                        Vector3 horizontalTarget = new Vector3(targetPos.x, 0.1f, targetPos.z);
+                        // 1. 起点（スタート地点）の計算: 
+                        // ボスの中心(horizontalBoss)から、ターゲット方向(direction)へ少し進めた位置を起点にする。
+                        // これにより「ボスの手前（前方）」から予測線が開始される。
                         Vector3 horizontalBoss = new Vector3(bossPos.x, 0.1f, bossPos.z);
+                        float startOffset = 3.0f; // ボスの前方オフセット
+                        Vector3 visualStartPos = horizontalBoss + direction * startOffset;
                         
-                        // ボスの足元中心から少し前方にずらした位置を「見た目上の起点」にする
-                        Vector3 visualStartPos = horizontalBoss + direction * 3.0f;
-                        
+                        // 2. ターゲットまでの距離（長さ）の計算
+                        Vector3 horizontalTarget = new Vector3(targetPos.x, 0.1f, targetPos.z);
                         float currentDist = (horizontalTarget - visualStartPos).Length();
                         float finalLength = Math.Max(currentDist, length); 
 
-                        // プレハブの構造が変更され、MeshがRootEntityに移動した。
-                        // キューブの原点は中心にあるため、手前の端を起点にするには
-                        // 座標を進行方向に「長さの半分」だけずらす必要がある。
+                        // 3. 配置座標の制御: 
+                        // キューブの原点は中心にあるため、端を起点(visualStartPos)に合わせるには
+                        // 進行方向に「長さの半分」だけ座標をずらして配置する。
                         telegraph.transform.position = visualStartPos + direction * (finalLength * 0.5f);
                         
-                        // 既存の LookRotation は逆回転を返す既知の問題があるため、Conjugate() で反転して正しい向きにする
+                        // 4. 回転の制御
                         telegraph.transform.rotation = Quaternion.LookRotation(direction).Conjugate();
 
-                        // ビームの大きさと統一する
-                        // finalSize (太さ) を X, Z に適用。長さは Z に適用 (Cubeメッシュの場合)
-                        // 注意: FireBeamNodeではシリンダーのYを長さとして使っているが、こちらはCubeなのでZを使う
+                        // 5. スケールの制御:
+                        // X をビームの太さ(finalSize)に合わせる。Z は予測線の長さ(finalLength)とする。
+                        // これにより XZ平面においてビームの太さと正確に同期した予測線となる。
                         telegraph.transform.scale = new Vector3(finalSize, 0.1f, finalLength);
 
                         // --- デバッグ用描画 ---

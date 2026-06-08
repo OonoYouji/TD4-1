@@ -94,6 +94,7 @@
             "type": "Variables"
         },
         {
+            "defaultClipId": 0,
             "layers": [
                 {
                     "boneMaskHash": 0,
