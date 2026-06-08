@@ -176,14 +176,6 @@ void RenderingFramework::DrawScene() {
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
 	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::PostProcess);
 
-	/// 2Dオーバーレイ描画 (ポストエフェクトの後)
-	static int overlayLogCount = 0;
-	if (overlayLogCount < 10) {
-		ID3D12Resource* targetRes = renderTex->GetDxResource(0).Get();
-		ONEngine::Console::Log("[RenderingFramework] DrawPost2D targeting: " + renderTex->GetName() + " at " + std::to_string((uint64_t)targetRes), ONEngine::LogCategory::Engine);
-		overlayLogCount++;
-	}
-
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap(), false); // Clear=false
 	
@@ -193,7 +185,15 @@ void RenderingFramework::DrawScene() {
 	pDxManager_->GetDxCommand()->GetCommandList()->RSSetViewports(1, &viewport);
 	pDxManager_->GetDxCommand()->GetCommandList()->RSSetScissorRects(1, &scissor);
 
+	/// パーティクル描画 (ポストエフェクト後)
+	renderingPipelineCollection_->DrawParticles(camera);
+
+	/// 2Dオーバーレイ描画
 	renderingPipelineCollection_->DrawEntities2D(pEntityComponentSystem_->GetCurrentGroup()->GetMainCamera2D());
+
+	/// Gizmo描画 (最後)
+	renderingPipelineCollection_->DrawGizmos(camera);
+
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 }
 
@@ -232,14 +232,6 @@ void RenderingFramework::DrawDebug() {
 
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
 
-	/// 2Dオーバーレイ描画
-	static int debugOverlayLogCount = 0;
-	if (debugOverlayLogCount < 10) {
-		ID3D12Resource* targetRes = renderTex->GetDxResource(0).Get();
-		ONEngine::Console::Log("[RenderingFramework] DrawDebug overlay targeting: " + renderTex->GetName() + " at " + std::to_string((uint64_t)targetRes), ONEngine::LogCategory::Engine);
-		debugOverlayLogCount++;
-	}
-
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap(), false); // Clear=false
 
@@ -249,6 +241,9 @@ void RenderingFramework::DrawDebug() {
 	pDxManager_->GetDxCommand()->GetCommandList()->RSSetViewports(1, &viewport);
 	pDxManager_->GetDxCommand()->GetCommandList()->RSSetScissorRects(1, &scissor);
 
+	/// パーティクル描画 (ポストエフェクト後)
+	renderingPipelineCollection_->DrawParticles(camera);
+
 	// デバッグ用の2D描画
 	renderingPipelineCollection_->DrawEntities2D(pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera2D());
 
@@ -256,6 +251,9 @@ void RenderingFramework::DrawDebug() {
 	if (pEntityComponentSystem_->GetECSGroup("GameScene")) {
 		renderingPipelineCollection_->DrawEntities2D(pEntityComponentSystem_->GetECSGroup("GameScene")->GetMainCamera2D(), "GameScene");
 	}
+
+	/// Gizmo描画 (最後)
+	renderingPipelineCollection_->DrawGizmos(camera);
 
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
@@ -297,14 +295,6 @@ void RenderingFramework::DrawPrefab() {
 
 	renderingPipelineCollection_->ExecutePostProcess(renderTex->GetName());
 
-	/// 2Dオーバーレイ描画
-	static int prefabOverlayLogCount = 0;
-	if (prefabOverlayLogCount < 10) {
-		ID3D12Resource* targetRes = renderTex->GetDxResource(0).Get();
-		ONEngine::Console::Log("[RenderingFramework] DrawPrefab overlay targeting: " + renderTex->GetName() + " at " + std::to_string((uint64_t)targetRes), ONEngine::LogCategory::Engine);
-		prefabOverlayLogCount++;
-	}
-
 	renderTex->CreateBarrierRenderTarget(pDxManager_->GetDxCommand());
 	renderTex->SetRenderTarget(pDxManager_->GetDxCommand(), pDxManager_->GetDxDSVHeap(), false); // Clear=false
 
@@ -314,7 +304,14 @@ void RenderingFramework::DrawPrefab() {
 	pDxManager_->GetDxCommand()->GetCommandList()->RSSetViewports(1, &viewport);
 	pDxManager_->GetDxCommand()->GetCommandList()->RSSetScissorRects(1, &scissor);
 
+	/// パーティクル描画 (ポストエフェクト後)
+	renderingPipelineCollection_->DrawParticles(camera);
+
 	renderingPipelineCollection_->DrawSelectedPrefab2D(pEntityComponentSystem_->GetECSGroup("Debug")->GetMainCamera2D());
+
+	/// Gizmo描画 (最後)
+	renderingPipelineCollection_->DrawGizmos(camera);
+
 	renderTex->CreateBarrierPixelShaderResource(pDxManager_->GetDxCommand());
 
 	GPUTimeStamp::GetInstance().EndTimeStamp(GPUTimeStampID::PrefabDraw);

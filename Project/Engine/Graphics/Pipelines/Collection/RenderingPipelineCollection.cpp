@@ -76,11 +76,15 @@ void RenderingPipelineCollection::Initialize() {
 	Generate3DRenderingPipeline<GridRenderingPipeline>();
 #endif // DEBUG_MODE
 	Generate3DRenderingPipeline<EffectRenderingPipeline>(pAssetCollection_);
-	Generate3DRenderingPipeline<ParticleSystemRenderingPipeline>(pAssetCollection_);
+	
+	particleRenderer_ = std::make_unique<ParticleSystemRenderingPipeline>(pAssetCollection_);
+	particleRenderer_->Initialize(pShaderCompiler_, pDxManager_);
+
 	Generate3DRenderingPipeline<GrassRenderingPipeline>(pAssetCollection_);
 
 	/// Gizmoは最後に描画する
-	Generate3DRenderingPipeline<GizmoRenderingPipeline>();
+	gizmoRenderer_ = std::make_unique<GizmoRenderingPipeline>();
+	gizmoRenderer_->Initialize(pShaderCompiler_, pDxManager_);
 
 
 
@@ -108,6 +112,8 @@ void RenderingPipelineCollection::PreDrawEntities(CameraComponent* _3dCamera, Ca
 		for (auto& renderer : renderer3ds_) {
 			renderer->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 		}
+		if (particleRenderer_) particleRenderer_->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
+		if (gizmoRenderer_)     gizmoRenderer_->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 	} else {
 		// Console::LogError("RenderingPipelineCollection::DrawEntities: 3D Camera is null");
 	}
@@ -131,6 +137,18 @@ void RenderingPipelineCollection::DrawEntities(CameraComponent* _3dCamera, Camer
 		for (auto& renderer : renderer3ds_) {
 			renderer->Draw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 		}
+	}
+}
+
+void RenderingPipelineCollection::DrawParticles(CameraComponent* _3dCamera) {
+	if (particleRenderer_ && IsEnableCamera(_3dCamera)) {
+		particleRenderer_->Draw(pEntityComponentSystem_->GetCurrentGroup(), _3dCamera, pDxManager_->GetDxCommand());
+	}
+}
+
+void RenderingPipelineCollection::DrawGizmos(CameraComponent* _3dCamera) {
+	if (gizmoRenderer_ && IsEnableCamera(_3dCamera)) {
+		gizmoRenderer_->Draw(pEntityComponentSystem_->GetCurrentGroup(), _3dCamera, pDxManager_->GetDxCommand());
 	}
 }
 

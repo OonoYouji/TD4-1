@@ -39,6 +39,11 @@ namespace ONEngine {
         bool IsPaused() const { return isPaused_; }
         float GetTime() const { return playbackTime_; }
 
+        // --- Editor Preview ---
+        bool isEditorPreview_ = false;
+        float editorPlaybackTime_ = 0.0f;
+        bool isEditorPaused_ = false;
+
         // --- Modules ---
         ParticleSystemMain main;
         ParticleSystemEmission emission;

@@ -45,7 +45,7 @@
                     "y": 0.20000000298023224,
                     "z": 0.20000000298023224
                 },
-                "baseTextureGuid": "00000000000000000000000000000000",
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -66,11 +66,11 @@
             "type": "MeshRenderer"
         },
         {
-            "categoryBits": 1,
+            "categoryBits": 16,
             "enable": 1,
             "freezeY": false,
             "isTrigger": true,
-            "maskBits": 4294967295,
+            "maskBits": 2,
             "mass": 1.0,
             "size": {
                 "x": 1.0,
@@ -81,7 +81,7 @@
             "type": "BoxCollider"
         }
     ],
-    "guid": "c7969cf133cd8eb040f48864a602437f",
+    "guid": "f40df8ad605746aa850b184497fd012d",
     "name": "BossBeam",
     "parentGuid": null,
     "prefabName": "BossBeam"

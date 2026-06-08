@@ -63,7 +63,7 @@ void ParticleSystemRenderingPipeline::Initialize(ShaderCompiler* _shaderCompiler
             pipeline->AddStaticSampler(D3D12_SHADER_VISIBILITY_PIXEL, 0);
 
             pipeline->SetBlendDesc(blendModeFuncs[i]());
-            pipeline->SetDepthStencilDesc(DefaultDepthStencilDesc());
+            pipeline->SetDepthStencilDesc(DepthRead()); // 深度書き込みを無効化
             pipeline->CreatePipeline(_dxm->GetDxDevice());
         }
     }
@@ -100,12 +100,13 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
 
     size_t globalParticleIndex = 0;
 
-    // We'll group by BlendMode (using Add for now as default) and texture
-    size_t defaultBlendMode = 1;
-
-    pipelines_[defaultBlendMode]->SetPipelineStateForCommandList(_dxCommand);
+    // 先にいずれかのパイプライン（ルートシグネチャ）をセットしておかないとバインド時にクラッシュする
+    size_t currentBlendMode = 0;
+    pipelines_[currentBlendMode]->SetPipelineStateForCommandList(_dxCommand);
 
     cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    
+    // Bind global buffers (these stay same across pipeline changes because Root Signature is identical)
     _camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, CBV_VIEW_PROJECTION);
     cameraDataBuffer_.BindForGraphicsCommandList(cmdList, CBV_CAMERA_DATA);
 
@@ -117,6 +118,28 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
     for (auto& ps : psArray->GetUsedComponents()) {
         if (!ps || !ps->enable || ps->aliveCount == 0) continue;
 
+        size_t blendMode = static_cast<size_t>(ps->renderer.blendMode);
+        
+        // 6 is None, but pipelines_ might only have 5 (0: Normal, 1: Add, 2: Subtract, 3: Multiply, 4: Screen, 5: None)
+        // Wait, earlier I set up 5 pipelines? Let me check blendModeFuncs.size(). It had 5 modes (Normal, Add, Subtract, Multiply, Screen).
+        // Let's cap it to pipelines_.size() - 1 to prevent crashes.
+        if (blendMode >= pipelines_.size()) blendMode = 0; 
+
+        if (blendMode != currentBlendMode) {
+            if (pipelines_.find(blendMode) != pipelines_.end()) {
+                pipelines_[blendMode]->SetPipelineStateForCommandList(_dxCommand);
+                
+                // Re-bind global parameters just in case root signature was somehow invalidated, 
+                // though usually not needed if RS is shared.
+                cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                _camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, CBV_VIEW_PROJECTION);
+                cameraDataBuffer_.BindForGraphicsCommandList(cmdList, CBV_CAMERA_DATA);
+                cmdList->SetGraphicsRootDescriptorTable(SRV_TEXTURES, pDxManager_->GetDxSRVHeap()->GetSRVStartGPUHandle());
+                
+                currentBlendMode = blendMode;
+            }
+        }
+
         // Try to get texture from material guid if possible
         std::string texturePath = "./Packages/Textures/white.png"; // Default fallback (verified exists)
         
@@ -126,31 +149,18 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
 
             if (assetType == Asset::AssetType::Material) {
                 const Asset::Material* material = pAssetCollection_->GetAsset<Asset::Material>(guid);
-                if (material) {
-                    if (material->HasBaseTexture()) {
-                        texturePath = pAssetCollection_->GetTexturePath(material->GetBaseTextureGuid());
-                        Console::Log("[ParticleSystem] Resolved Material GUID to Texture Path: " + texturePath);
-                    } else {
-                        Console::Log("[ParticleSystem] Material found but has no base texture.");
-                    }
+                if (material && material->HasBaseTexture()) {
+                    texturePath = pAssetCollection_->GetTexturePath(material->GetBaseTextureGuid());
                 }
             } else if (assetType == Asset::AssetType::Texture) {
                 texturePath = pAssetCollection_->GetTexturePath(guid);
-                Console::Log("[ParticleSystem] Resolved GUID directly to Texture Path: " + texturePath);
-            } else {
-                Console::Log("[ParticleSystem] GUID is neither Material nor Texture. Type: " + std::to_string(static_cast<int>(assetType)));
             }
-        } else {
-            Console::Log("[ParticleSystem] No Material/Texture GUID set, using default: " + texturePath);
         }
 
         int32_t texIndex = pAssetCollection_->GetTextureIndex(texturePath);
         uint32_t texSrvIndex = 0xFFFFFFFF;
         if (texIndex != -1 && static_cast<size_t>(texIndex) < textures.size()) {
             texSrvIndex = textures[texIndex].GetSRVDescriptorIndex();
-            Console::Log("[ParticleSystem] Texture Found. Path: " + texturePath + " | texIndex: " + std::to_string(texIndex) + " | texSrvIndex: " + std::to_string(texSrvIndex));
-        } else {
-            Console::Log("[ParticleSystem] Texture NOT Found in Collection. Path: " + texturePath);
         }
 
         // Get mesh
@@ -167,14 +177,10 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
             model = pAssetCollection_->GetModel(meshPath);
         }
         
-        if (!model) {
-            Console::LogError("[ParticleSystem] Failed to load mesh.");
-            continue;
-        }
+        if (!model) continue;
 
         // Map data to buffers
         size_t startInstance = globalParticleIndex;
-        Console::Log("[ParticleSystem] Mapping " + std::to_string(ps->aliveCount) + " particles starting at global index " + std::to_string(globalParticleIndex));
         
         for (size_t i = 0; i < ps->aliveCount; i++) {
             if (globalParticleIndex >= kMaxParticlesTotal_) break;

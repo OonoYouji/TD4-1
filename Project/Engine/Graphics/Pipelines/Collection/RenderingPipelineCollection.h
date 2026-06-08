@@ -69,6 +69,12 @@ public:
 	/// @param _2dCamera 2DCamera
 	void DrawEntities(CameraComponent* _3dCamera, CameraComponent* _2dCamera);
 
+	/// @brief パーティクルの描画 (ポストエフェクト後に実行)
+	void DrawParticles(CameraComponent* _3dCamera);
+
+	/// @brief Gizmoの描画
+	void DrawGizmos(CameraComponent* _3dCamera);
+
 	/// @brief 2DのEntityを描画する
 	/// @param _2dCamera 2Dカメラ
 	/// @param _groupName 対象のECSGroupの名前 (空なら現在のGroup)
@@ -109,6 +115,10 @@ private:
 
 	std::vector<std::unique_ptr<IRenderingPipeline>>   renderer3ds_;
 	std::vector<std::unique_ptr<IRenderingPipeline>>   renderer2ds_;
+
+	std::unique_ptr<IRenderingPipeline>   particleRenderer_;
+	std::unique_ptr<IRenderingPipeline>   gizmoRenderer_;
+
 	std::vector<std::unique_ptr<IPostProcessPipeline>> postProcesses_;
 };
 

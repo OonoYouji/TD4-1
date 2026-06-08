@@ -196,6 +196,10 @@
             "type": "Script"
         },
         {
+            "isTrigger": false,
+            "type": "SphereCollider"
+        },
+        {
             "desiredRotation": {
                 "w": 0.8977572917938232,
                 "y": -0.4404904842376709

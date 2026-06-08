@@ -118,6 +118,7 @@
             "categoryBits": 2,
             "enable": 1,
             "freezeY": true,
+            "isTrigger": false,
             "maskBits": 32,
             "mass": 1.0,
             "radius": 3.200000047683716,

@@ -6,19 +6,19 @@
             "path": "./Workspace_Test/fe71a22bff44d81c1fef11111066f97a.entity"
         },
         {
-            "guid": "f699c21d142b1e488246ce5e503a5948",
-            "parentGuid": null,
-            "path": "./Workspace_Test/f699c21d142b1e488246ce5e503a5948.entity"
-        },
-        {
-            "guid": "279522384a00125d0639815169d4d0f3",
-            "parentGuid": null,
-            "path": "./Workspace_Test/279522384a00125d0639815169d4d0f3.entity"
-        },
-        {
             "guid": "c48608ef7bbc9be75e8ed819bcb8fe58",
             "parentGuid": null,
             "path": "./Workspace_Test/c48608ef7bbc9be75e8ed819bcb8fe58.entity"
+        },
+        {
+            "guid": "f40df8ad605746aa850b184497fd012d",
+            "parentGuid": null,
+            "path": "./Workspace_Test/f40df8ad605746aa850b184497fd012d.entity"
+        },
+        {
+            "guid": "9a8c283ab94c5cfc09f107707287cf14",
+            "parentGuid": null,
+            "path": "./Workspace_Test/9a8c283ab94c5cfc09f107707287cf14.entity"
         }
     ]
 }

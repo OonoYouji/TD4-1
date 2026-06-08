@@ -181,6 +181,7 @@ private:
 D3D12_DEPTH_STENCIL_DESC DefaultDepthStencilDesc();
 D3D12_DEPTH_STENCIL_DESC DepthNone();
 D3D12_DEPTH_STENCIL_DESC TelegraphDepthStencilDesc();
+D3D12_DEPTH_STENCIL_DESC DepthRead();
 
 
 /// @brief BlendMode別のBlendDescを返す名前空間
