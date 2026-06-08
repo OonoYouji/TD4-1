@@ -78,7 +78,7 @@
                         "g": 0.8415312170982361,
                         "r": 0.939068078994751
                     },
-                    "state": 1
+                    "state": 0
                 },
                 "startDelay": {
                     "constant": 0.0,
@@ -93,13 +93,13 @@
                     "state": 0
                 },
                 "startRotation": {
-                    "constant": 0.0,
+                    "constant": 14.100000381469727,
                     "max": 1.0,
                     "min": 0.0,
                     "state": 0
                 },
                 "startSize": {
-                    "constant": 1.0,
+                    "constant": 0.5490000247955322,
                     "max": 1.0,
                     "min": 0.0,
                     "state": 0
@@ -113,9 +113,9 @@
             },
             "renderer": {
                 "blendMode": 1,
-                "materialGuid": "9256323717f27b651127f38d8cc7b1fa",
+                "materialGuid": "6d46b53d01009d0166af6d4aee0acb0c",
                 "meshGuid": "",
-                "renderMode": 0
+                "renderMode": 1
             },
             "shape": {
                 "angle": 25.0,
@@ -219,8 +219,8 @@
             }
         }
     ],
-    "guid": "9a8c283ab94c5cfc09f107707287cf14",
-    "name": "BossBeamRoot",
+    "guid": "a823e5bc55bc33b5f1be0028eaca327b",
+    "name": "BossBeamRoot_1",
     "parentGuid": null,
     "prefabName": ""
 }

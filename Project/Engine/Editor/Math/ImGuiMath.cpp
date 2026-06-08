@@ -598,6 +598,13 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	bool rendererEnabled = true;
 	if (BeginModuleHeader("Renderer", &rendererEnabled)) {
 		Editor::ImMathf::InputEnum<ParticleSystemRenderer::RenderMode>("Render Mode", &_ps->renderer.renderMode);
+		Editor::ImMathf::InputEnum<ParticleSystemRenderer::RenderAlignment>("Render Alignment", &_ps->renderer.alignment);
+		
+		if (_ps->renderer.renderMode == ParticleSystemRenderer::RenderMode::StretchedBillboard) {
+			Editor::ImMathf::DragFloat("Speed Scale", &_ps->renderer.speedScale);
+			Editor::ImMathf::DragFloat("Length Scale", &_ps->renderer.lengthScale);
+		}
+
 		Editor::ImMathf::InputEnum<ParticleSystemRenderer::BlendMode>("Blend Mode", &_ps->renderer.blendMode);
 		DrawAssetGuidField("Material", _ps->renderer.materialGuid, Asset::AssetType::Material);
 		DrawAssetGuidField("Mesh", _ps->renderer.meshGuid, Asset::AssetType::Mesh);

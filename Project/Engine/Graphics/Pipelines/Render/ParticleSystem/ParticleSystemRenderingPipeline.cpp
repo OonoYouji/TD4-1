@@ -47,8 +47,8 @@ void ParticleSystemRenderingPipeline::Initialize(ShaderCompiler* _shaderCompiler
             pipeline->SetTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
 
             pipeline->AddCBV(D3D12_SHADER_VISIBILITY_VERTEX, 0); // view projection (b0)
-            pipeline->AddCBV(D3D12_SHADER_VISIBILITY_VERTEX, 1); // camera data (billboard) (b1)
-            pipeline->AddCBV(D3D12_SHADER_VISIBILITY_VERTEX, 2); // instance offset (b2)
+            pipeline->AddCBV(D3D12_SHADER_VISIBILITY_VERTEX, 1); // global camera data (b1)
+            pipeline->Add32BitConstant(D3D12_SHADER_VISIBILITY_VERTEX, 2, sizeof(PerSystemData) / 4); // per system data (b2)
 
             pipeline->AddDescriptorRange(0, 1, D3D12_DESCRIPTOR_RANGE_TYPE_SRV); // particles (t0)
             pipeline->AddDescriptorRange(1, 1, D3D12_DESCRIPTOR_RANGE_TYPE_SRV); // materials (t1)
@@ -70,7 +70,6 @@ void ParticleSystemRenderingPipeline::Initialize(ShaderCompiler* _shaderCompiler
 
     {   // buffer create
         cameraDataBuffer_.Create(_dxm->GetDxDevice());
-        instanceOffsetBuffer_.Create(_dxm->GetDxDevice());
 
         particleBuffer_.Create(static_cast<uint32_t>(kMaxParticlesTotal_), _dxm->GetDxDevice(), _dxm->GetDxSRVHeap());
         materialBuffer_.Create(static_cast<uint32_t>(kMaxParticlesTotal_), _dxm->GetDxDevice(), _dxm->GetDxSRVHeap());
@@ -96,6 +95,9 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
     
     CameraData camData;
     camData.billboardMatrix = matBillboard;
+    camData.cameraPosition = _camera->GetOwner()->GetTransform()->GetMatWorld().ExtractTranslation();
+    camData.padding = 0.0f;
+
     cameraDataBuffer_.SetMappedData(camData);
 
     size_t globalParticleIndex = 0;
@@ -118,24 +120,23 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
     for (auto& ps : psArray->GetUsedComponents()) {
         if (!ps || !ps->enable || ps->aliveCount == 0) continue;
 
-        // Update emitter world matrix for local space support
-        camData.emitterWorldMatrix = ps->GetOwner()->GetTransform()->matWorld;
-        cameraDataBuffer_.SetMappedData(camData);
-        cameraDataBuffer_.BindForGraphicsCommandList(cmdList, CBV_CAMERA_DATA);
+        // Per-system data
+        PerSystemData perSystemData{};
+        perSystemData.emitterWorldMatrix = ps->GetOwner()->GetTransform()->matWorld;
+        perSystemData.renderMode = static_cast<uint32_t>(ps->renderer.renderMode);
+        perSystemData.renderAlignment = static_cast<uint32_t>(ps->renderer.alignment);
+        perSystemData.speedScale = ps->renderer.speedScale;
+        perSystemData.lengthScale = ps->renderer.lengthScale;
+        perSystemData.instanceOffset = static_cast<uint32_t>(globalParticleIndex);
 
         size_t blendMode = static_cast<size_t>(ps->renderer.blendMode);
         
-        // 6 is None, but pipelines_ might only have 5 (0: Normal, 1: Add, 2: Subtract, 3: Multiply, 4: Screen, 5: None)
-        // Wait, earlier I set up 5 pipelines? Let me check blendModeFuncs.size(). It had 5 modes (Normal, Add, Subtract, Multiply, Screen).
-        // Let's cap it to pipelines_.size() - 1 to prevent crashes.
         if (blendMode >= pipelines_.size()) blendMode = 0; 
 
         if (blendMode != currentBlendMode) {
             if (pipelines_.find(blendMode) != pipelines_.end()) {
                 pipelines_[blendMode]->SetPipelineStateForCommandList(_dxCommand);
                 
-                // Re-bind global parameters just in case root signature was somehow invalidated, 
-                // though usually not needed if RS is shared.
                 cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
                 _camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, CBV_VIEW_PROJECTION);
                 cameraDataBuffer_.BindForGraphicsCommandList(cmdList, CBV_CAMERA_DATA);
@@ -144,6 +145,9 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
                 currentBlendMode = blendMode;
             }
         }
+
+        // Apply per-system root constants
+        cmdList->SetGraphicsRoot32BitConstants(ROOT_PER_SYSTEM, sizeof(PerSystemData) / 4, &perSystemData, 0);
 
         // Try to get texture from material guid if possible
         std::string texturePath = "./Packages/Textures/white.png"; // Default fallback (verified exists)
@@ -204,12 +208,6 @@ void ParticleSystemRenderingPipeline::Draw(ECSGroup* _ecs, CameraComponent* _cam
         particleBuffer_.SRVBindForGraphicsCommandList(cmdList, SRV_PARTICLES);
         materialBuffer_.SRVBindForGraphicsCommandList(cmdList, SRV_MATERIALS);
         textureIdBuffer_.SRVBindForGraphicsCommandList(cmdList, SRV_TEXTURE_IDS);
-
-        // Set instance offset
-        InstanceOffset offsetData;
-        offsetData.offset = static_cast<uint32_t>(startInstance);
-        instanceOffsetBuffer_.SetMappedData(offsetData);
-        instanceOffsetBuffer_.BindForGraphicsCommandList(cmdList, CBV_INSTANCE_OFFSET);
 
         // Draw
         for (auto& mesh : model->GetMeshes()) {

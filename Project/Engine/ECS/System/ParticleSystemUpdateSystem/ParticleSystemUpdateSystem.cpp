@@ -391,7 +391,7 @@ namespace ONEngine {
             float outerRadius = shape.radius;
             float innerRadius = shape.radius * (1.0f - shape.radiusThickness);
 
-            auto DrawCircle = [&](const Matrix4x4& m, float r, float arc, int axis) {
+            auto DrawCircle = [&](const Matrix4x4& m, float r, float arc, int axis, float z = 0.0f) {
                 if (r <= 0.0f) return;
                 const int segments = 32;
                 float arcRad = arc * 3.14159f / 180.0f;
@@ -399,9 +399,9 @@ namespace ONEngine {
                     float t1 = (float)i / segments * arcRad;
                     float t2 = (float)(i + 1) / segments * arcRad;
                     Vector3 p1, p2;
-                    if (axis == 0) { p1 = { r * std::cos(t1), r * std::sin(t1), 0 }; p2 = { r * std::cos(t2), r * std::sin(t2), 0 }; }
-                    else if (axis == 1) { p1 = { r * std::cos(t1), 0, r * std::sin(t1) }; p2 = { r * std::cos(t2), 0, r * std::sin(t2) }; }
-                    else { p1 = { 0, r * std::cos(t1), r * std::sin(t1) }; p2 = { 0, r * std::cos(t2), r * std::sin(t2) }; }
+                    if (axis == 0) { p1 = { r * std::cos(t1), r * std::sin(t1), z }; p2 = { r * std::cos(t2), r * std::sin(t2), z }; }
+                    else if (axis == 1) { p1 = { r * std::cos(t1), z, r * std::sin(t1) }; p2 = { r * std::cos(t2), z, r * std::sin(t2) }; }
+                    else { p1 = { z, r * std::cos(t1), r * std::sin(t1) }; p2 = { z, r * std::cos(t2), r * std::sin(t2) }; }
                     Gizmo::DrawLine(Matrix4x4::Transform(p1, m), Matrix4x4::Transform(p2, m), color);
                 }
             };
@@ -462,17 +462,33 @@ namespace ONEngine {
                 case ParticleSystemShapeType::Cone:
                 {
                     float angleRad = shape.angle * 3.14159f / 180.0f;
-                    float topR = outerRadius + std::tan(angleRad); // Assumes height 1.0
+                    float topOuterR = outerRadius + std::tan(angleRad); 
+                    float topInnerR = innerRadius + std::tan(angleRad);
+                    if (topInnerR < 0.0f) topInnerR = 0.0f;
+
+                    // 外側の円錐
                     DrawCircle(worldMat, outerRadius, shape.arc, 0);
-                    DrawCircle(worldMat, topR, shape.arc, 0);
+                    DrawCircle(worldMat, topOuterR, shape.arc, 0, 1.0f); // 高さ1.0の位置
+                    
+                    // 内側の円錐 (厚みが設定されている場合)
+                    if (shape.radiusThickness < 1.0f) {
+                        DrawCircle(worldMat, innerRadius, shape.arc, 0);
+                        DrawCircle(worldMat, topInnerR, shape.arc, 0, 1.0f);
+                    }
                     
                     int lines = 8;
                     float arcRad = shape.arc * 3.14159f / 180.0f;
                     for (int i = 0; i <= lines; i++) {
                         float t = (float)i / lines * arcRad;
-                        Vector3 pBase = { outerRadius * std::cos(t), outerRadius * std::sin(t), 0 };
-                        Vector3 pTop = { topR * std::cos(t), topR * std::sin(t), 1.0f };
-                        Gizmo::DrawLine(Matrix4x4::Transform(pBase, worldMat), Matrix4x4::Transform(pTop, worldMat), color);
+                        Vector3 pBaseOut = { outerRadius * std::cos(t), outerRadius * std::sin(t), 0 };
+                        Vector3 pTopOut = { topOuterR * std::cos(t), topOuterR * std::sin(t), 1.0f };
+                        Gizmo::DrawLine(Matrix4x4::Transform(pBaseOut, worldMat), Matrix4x4::Transform(pTopOut, worldMat), color);
+
+                        if (shape.radiusThickness < 1.0f) {
+                            Vector3 pBaseIn = { innerRadius * std::cos(t), innerRadius * std::sin(t), 0 };
+                            Vector3 pTopIn = { topInnerR * std::cos(t), topInnerR * std::sin(t), 1.0f };
+                            Gizmo::DrawLine(Matrix4x4::Transform(pBaseIn, worldMat), Matrix4x4::Transform(pTopIn, worldMat), color);
+                        }
                     }
                 }
                 break;
@@ -480,10 +496,11 @@ namespace ONEngine {
                     DrawCircle(worldMat, outerRadius, shape.arc, 0);
                     if (shape.radiusThickness < 1.0f) DrawCircle(worldMat, innerRadius, shape.arc, 0);
                     if (shape.arc < 360.0f) {
-                        Vector3 center = Matrix4x4::Transform(Vector3::Zero, worldMat);
-                        Gizmo::DrawLine(center, Matrix4x4::Transform({ outerRadius, 0, 0 }, worldMat), color);
                         float a = shape.arc * 3.14159f / 180.0f;
-                        Gizmo::DrawLine(center, Matrix4x4::Transform({ outerRadius * std::cos(a), outerRadius * std::sin(a), 0 }, worldMat), color);
+                        float rMin = (shape.radiusThickness >= 1.0f) ? 0.0f : innerRadius;
+                        Gizmo::DrawLine(Matrix4x4::Transform({ rMin, 0, 0 }, worldMat), Matrix4x4::Transform({ outerRadius, 0, 0 }, worldMat), color);
+                        Gizmo::DrawLine(Matrix4x4::Transform({ rMin * std::cos(a), rMin * std::sin(a), 0 }, worldMat), 
+                                        Matrix4x4::Transform({ outerRadius * std::cos(a), outerRadius * std::sin(a), 0 }, worldMat), color);
                     }
                     break;
                 case ParticleSystemShapeType::Edge:
