@@ -84,6 +84,8 @@ protected:
 	/// @param entity 表示対象のエンティティ
 	void DrawEntity(ONEngine::GameEntity* entity);
 
+	void DrawReorderSeparator(ONEngine::GameEntity* parent, uint32_t index);
+
 	void HandleRootDragDrop();
 
 	void HandleEntityDragDrop(ONEngine::GameEntity* entity);
@@ -91,6 +93,8 @@ protected:
 	bool DrawEntityContextMenu(ONEngine::GameEntity* entity, bool selected);
 
 	void HandleEntityShortcuts(ONEngine::GameEntity* entity, bool selected);
+
+	virtual void HandleGlobalShortcuts();
 
 
 protected:
@@ -132,6 +136,10 @@ protected:
 	/// ----- test objects ----- ///
 	bool showInvalidParentPopup_ = false;
 
+	/// ----- new scene ----- ///
+	bool showNewScenePopup_ = false;
+	std::string newSceneName_ = "NewScene";
+
 };
 
 /// ///////////////////////////////////////////////////
@@ -151,7 +159,6 @@ public:
 	/// ----- dialog ----- ///
 	void DrawSceneDialog();
 
-	void HandleGlobalShortcuts();
 
 private:
 	/// ===================================================

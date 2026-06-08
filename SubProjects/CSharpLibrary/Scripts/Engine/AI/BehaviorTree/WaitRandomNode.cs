@@ -8,6 +8,11 @@ public class WaitRandomNode : BehaviorNode
     public float minDuration = 1.0f;
     public float maxDuration = 2.0f;
 
+    /// <summary>
+    /// 待機中に再生するアニメーション名（任意）。
+    /// </summary>
+    public string animationName = "";
+
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("WaitStart_" + NodeIdHash);
@@ -21,6 +26,17 @@ public class WaitRandomNode : BehaviorNode
             float duration = minDuration + (float)new Random().NextDouble() * (maxDuration - minDuration);
             blackboard.SetFloat(startTimeKey, currentTime);
             blackboard.SetFloat(durationKey, duration);
+
+            // アニメーションの再生
+            if (!string.IsNullOrEmpty(animationName))
+            {
+                var animator = owner.GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.CrossFade(animationName, 0.2f);
+                }
+            }
+
             return NodeStatus.Running;
         }
 

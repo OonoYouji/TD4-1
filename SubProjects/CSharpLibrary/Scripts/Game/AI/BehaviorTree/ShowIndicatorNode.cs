@@ -107,9 +107,9 @@ public class ShowIndicatorNode : BehaviorNode
             Entity telegraph = owner.Group.CreateEntity(prefabName);
             if (telegraph != null)
             {
-                telegraph.parent = null;
+    
 
-                // 色の設定（自身または子供のMeshRendererを探す）
+                // 色の設定
                 var renderer = telegraph.GetComponent<MeshRenderer>();
                 if (renderer == null)
                 {
@@ -123,7 +123,10 @@ public class ShowIndicatorNode : BehaviorNode
                         }
                     }
                 }
-                if (renderer != null) renderer.color = color;
+                if (renderer != null) {
+                    renderer.color = color;
+                    renderer.renderQueue = RenderQueue.Telegraph; // レイヤー設定を適用
+                }
 
                 uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
                 Vector3 currentTarget = blackboard.GetVector3(targetKeyHash);

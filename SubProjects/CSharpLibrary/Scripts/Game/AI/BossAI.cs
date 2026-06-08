@@ -27,14 +27,20 @@ public class BossAI : MonoScript {
 		}
 	}
 
-public override void Update()
-{
-    // 実際の更新ロジックは AISystem (C++) -> AIUpdater (C#) -> BehaviorTree.Tick() 
-    // の流れで一括処理されるため、ここでは何もしなくてよい
+	public override void Update() {
+		// --- デバッグ用：HキーでHPを10%減らす ---
+		if (Input.TriggerKey(KeyCode.H)) {
+			var hp = entity.GetScript<HP>();
+			if (hp != null) {
+				hp.TakeDamage(120); // 1200の10%
+				Debug.Log($"<color=orange>[Debug]</color> Boss HP reduced. Current: {hp.currentHp}/{hp.MAX_HP} ({hp.CurrentHpRatio() * 100:F1}%)");
+			}
+		}
 
-    // --- デバッグ用：視線の表示 ---
-    GizmoBatch.DrawRay(transform.position + Vector3.up * 2.0f, transform.forward * 5.0f, new Vector4(0, 1, 0, 1));
+		// 実際の更新ロジックは AISystem (C++) -> AIUpdater (C#) -> BehaviorTree.Tick() 
+		// の流れで一括処理されるため、ここでは何もしなくてよい
 
-    // デバッグログ：ボスの位置
-    // Debug.Log($"[BossAI] {entity.name} at {Vector3.ToSimpleString(transform.position)}");
-    }}
+		// --- デバッグ用：視線の表示 ---
+		GizmoBatch.DrawRay(transform.position + Vector3.up * 2.0f, transform.forward * 5.0f, new Vector4(0, 1, 0, 1));
+	}
+}

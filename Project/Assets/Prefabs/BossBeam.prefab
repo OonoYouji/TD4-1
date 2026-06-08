@@ -1,21 +1,36 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
-            "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
             "type": "Transform"
+        },
+        {
+            "DamageTrigger": {},
+            "type": "Variables"
         },
         {
             "enable": 1,
             "scripts": [
                 {
                     "enable": true,
-                    "damage": 50,
-                    "interval": 0.2,
-                    "targetTag": "Player",
                     "name": "DamageTrigger"
                 }
             ],
@@ -24,22 +39,50 @@
         {
             "enable": 1,
             "material": {
-                "baseColor": { "w": 1.0, "x": 1.0, "y": 0.2, "z": 0.2 },
-                "postEffectFlags": 1
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 0.20000000298023224,
+                    "z": 0.20000000298023224
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
             "meshPath": "./Packages/Models/primitive/cylinder.obj",
+            "renderQueue": 1,
             "type": "MeshRenderer"
         },
         {
-            "center": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "categoryBits": 16,
             "enable": 1,
+            "freezeY": false,
             "isTrigger": true,
-            "size": { "x": 1.0, "y": 1.0, "z": 1.0 },
+            "maskBits": 2,
+            "mass": 1.0,
+            "size": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
             "state": "Dynamic",
             "type": "BoxCollider"
         }
     ],
-    "guid": "b055bea3b055bea3b055bea3b055bea3",
+    "guid": "f40df8ad605746aa850b184497fd012d",
     "name": "BossBeam",
+    "parentGuid": null,
     "prefabName": "BossBeam"
 }

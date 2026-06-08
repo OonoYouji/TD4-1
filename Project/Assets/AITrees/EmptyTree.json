@@ -1,0 +1,19 @@
+{
+    "blackboard": [],
+    "nodes": [
+        {
+            "id": 1, "className": "Entry", "name": "Entry", "pos": [-200.0, 0.0],
+            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }],
+            "properties": {}, "decorators": [], "services": []
+        },
+        {
+            "id": 2, "className": "WaitNode", "name": "Wait Forever", "pos": [100.0, 0.0],
+            "inputs": [{ "id": 11, "name": "In" }], "outputs": [],
+            "properties": { "duration": "9999.0" },
+            "decorators": [], "services": []
+        }
+    ],
+    "links": [
+        { "id": 1, "startPin": 10, "endPin": 11 }
+    ]
+}

@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -15,13 +16,46 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 3.0,
+                "y": 3.0,
+                "z": 3.0
             },
             "type": "Transform"
         },
         {
+            "HP": {
+                "MAX_HP": 10,
+                "currentHp": 10,
+                "disableAutoDestruction": true
+            },
+            "Reinforcement": {
+                "damage": 10.0,
+                "lifeTime": 10.0,
+                "mass": 1.0,
+                "moveSpeed": 8.0,
+                "normalScale": 4.0,
+                "retreatSpeed": 20.0,
+                "sinkDepth": 5.0,
+                "supportBuffRadius": 29.0,
+                "supportedDamage": 15.0,
+                "supportedScale": 5.0,
+                "viewAngle": 60.0
+            },
+            "ReinforcementAnimation": {
+                "expandDuration": 0.10000000149011612,
+                "loopCount": 4,
+                "scaleMultiplier": 1.5,
+                "shrinkDuration": 0.10000000149011612
+            },
+            "ReinforcementDamageHandler": {
+                "damageCooldownTime": 0.0
+            },
+            "ReinforcementFallIn": {
+                "launchSpeed": 30.0,
+                "lerpDuration": 0.30000001192092896,
+                "shakeAmplitude": 1.5,
+                "shakeFrequency": 50.20000076293945
+            },
             "type": "Variables"
         },
         {
@@ -33,12 +67,19 @@
                 },
                 {
                     "enable": true,
-                    "name": "HP",
-                    "MAX_HP": 10
+                    "name": "ReinforcementFallIn"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
                 },
                 {
                     "enable": true,
                     "name": "ReinforcementDamageHandler"
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementAnimation"
                 }
             ],
             "type": "Script"
@@ -82,9 +123,8 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "311115772fcdf96b92ea0cd3fd1a997c",
-    "id": 2,
+    "guid": "4d7a604daba6f00eb61a0f5b3fd86385",
     "name": "Reinforcement",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "Reinforcement"
 }

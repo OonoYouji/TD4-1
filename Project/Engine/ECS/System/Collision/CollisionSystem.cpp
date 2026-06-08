@@ -171,12 +171,14 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 			bool isCollided = collisionCheckItr->second(pair, &info);
 			if(isCollided) {
 
-				/// 押し戻しを行う
-				PushBack(
-					a->GetOwner(), a->GetCollisionState(),
-					b->GetOwner(), b->GetCollisionState(),
-					info
-				);
+				/// 押し戻しを行う (どちらかがTriggerならスキップ)
+				if (!a->IsTrigger() && !b->IsTrigger()) {
+					PushBack(
+						a->GetOwner(), a->GetCollisionState(),
+						b->GetOwner(), b->GetCollisionState(),
+						info
+					);
+				}
 
 
 				/// collidedPairs_にペアがすでに存在しているかチェック
@@ -571,42 +573,89 @@ bool CheckMethod::CollisionCheckBoxVsSphere(BoxCollider* _b, SphereCollider* _s,
 
 bool CheckMethod::CollisionCheckBoxVsBox(BoxCollider* _b1, BoxCollider* _b2, CollisionInfo* _info) {
 	if(!_b1 || !_b2) {
-		return false; // 型が一致しない場合は衝突なし
+		return false;
 	}
 	GameEntity* e1 = _b1->GetOwner();
 	GameEntity* e2 = _b2->GetOwner();
 
-	Vector3 outNormal;
-	float outPenetration;
-	
 	Transform* t1 = e1->GetTransform();
 	Transform* t2 = e2->GetTransform();
 
+	// OBBパラメータの準備
+	Vector3 center1 = e1->GetPosition();
 	Vector3 size1 = Vector3(
 		_b1->GetSize().x * t1->scale.x,
 		_b1->GetSize().y * t1->scale.y,
 		_b1->GetSize().z * t1->scale.z
 	);
+	Vector3 half1 = size1 * 0.5f;
+	Matrix4x4 rot1 = Matrix4x4::MakeRotate(t1->GetRotate());
+	Vector3 axis1[3] = {
+		Vector3::Normalize(Matrix4x4::Transform(Vector3::Right, rot1)),
+		Vector3::Normalize(Matrix4x4::Transform(Vector3::Up, rot1)),
+		Vector3::Normalize(Matrix4x4::Transform(Vector3::Forward, rot1))
+	};
 
+	Vector3 center2 = e2->GetPosition();
 	Vector3 size2 = Vector3(
 		_b2->GetSize().x * t2->scale.x,
 		_b2->GetSize().y * t2->scale.y,
 		_b2->GetSize().z * t2->scale.z
 	);
+	Vector3 half2 = size2 * 0.5f;
+	Matrix4x4 rot2 = Matrix4x4::MakeRotate(t2->GetRotate());
+	Vector3 axis2[3] = {
+		Vector3::Normalize(Matrix4x4::Transform(Vector3::Right, rot2)),
+		Vector3::Normalize(Matrix4x4::Transform(Vector3::Up, rot2)),
+		Vector3::Normalize(Matrix4x4::Transform(Vector3::Forward, rot2))
+	};
 
-	bool collided = CollisionCheck::CubeVsCube(
-		e1->GetPosition(), size1,
-		e2->GetPosition(), size2,
-		&outNormal, &outPenetration
-	);
+	// 分離軸定理 (SAT) による判定
+	Vector3 L = center2 - center1;
 
-	if(collided) {
-		if(_info) {
-			_info->normal = outNormal;
-			_info->penetration = outPenetration;
+	// 各軸への投影半径の和と中心距離の比較
+	float minPenetration = FLT_MAX;
+	Vector3 bestNormal;
+
+	auto checkAxis = [&](const Vector3& axis) -> bool {
+		if (axis.LengthSquared() < 0.0001f) return true; // 軸が潰れている場合はスキップ
+		Vector3 unitAxis = Vector3::Normalize(axis);
+		
+		float r1 = std::abs(Vector3::Dot(axis1[0] * half1.x, unitAxis)) +
+		           std::abs(Vector3::Dot(axis1[1] * half1.y, unitAxis)) +
+		           std::abs(Vector3::Dot(axis1[2] * half1.z, unitAxis));
+		
+		float r2 = std::abs(Vector3::Dot(axis2[0] * half2.x, unitAxis)) +
+		           std::abs(Vector3::Dot(axis2[1] * half2.y, unitAxis)) +
+		           std::abs(Vector3::Dot(axis2[2] * half2.z, unitAxis));
+		
+		float distance = std::abs(Vector3::Dot(L, unitAxis));
+		float penetration = (r1 + r2) - distance;
+
+		if (penetration <= 0.0f) return false; // 分離軸発見、衝突していない
+
+		if (penetration < minPenetration) {
+			minPenetration = penetration;
+			bestNormal = (Vector3::Dot(L, unitAxis) > 0) ? unitAxis : -unitAxis;
+		}
+		return true;
+	};
+
+	// 15本の候補軸をチェック
+	for (int i = 0; i < 3; i++) if (!checkAxis(axis1[i])) return false;
+	for (int i = 0; i < 3; i++) if (!checkAxis(axis2[i])) return false;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (!checkAxis(Vector3::Cross(axis1[i], axis2[j]))) return false;
 		}
 	}
 
-	return collided;
+	if (_info) {
+		_info->normal = bestNormal;
+		_info->penetration = minPenetration;
+		_info->contactPoint = center1 + (bestNormal * (minPenetration * 0.5f)); // 簡易的な接触点
+	}
+
+	return true;
 }
 

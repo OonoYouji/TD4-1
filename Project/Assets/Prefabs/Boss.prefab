@@ -1,18 +1,19 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
+                "x": -77.94999694824219,
+                "y": 0.0,
+                "z": -58.619998931884766
+            },
+            "rotate": {
+                "w": 1.0,
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
-            },
-            "rotate": {
-                "w": -0.13785013556480408,
-                "x": -0.002739193383604288,
-                "y": -0.9903156161308289,
-                "z": -0.016275862231850624
             },
             "scale": {
                 "x": 5.0,
@@ -22,48 +23,147 @@
             "type": "Transform"
         },
         {
+            "animationScale": 1.0,
+            "debugJointSize": 0.18000000715255737,
+            "debugRectSize": 0.009999999776482582,
+            "enable": 1,
+            "isPlaying": true,
+            "meshPath": "./Assets/AssetsWorkspace/models/boss_animation.gltf",
+            "texturePath": "./Assets/Models/Boss/boss.png",
+            "type": "SkinMeshRenderer"
+        },
+        {
             "BossAI": {
-                "treePath": "./Assets/AITrees/BossMain.json"
+                "treePath": "./Assets/AITrees/Test/TestBeamOnly.json"
             },
+            "BossBeamAttack": {},
+            "BossBombBarrage": {},
+            "BossClogAttack": {},
+            "BossMovement": {},
             "BossPerformanceDirector": {
-                "deathPerformancePrefabPath": "",
+                "deathPerformancePrefabPath": "BossDeadEffect.prefab",
+                "deathWaitDuration": 4.0,
                 "performances": [
                     {
-                        "__type": "PhasePerformance",
+                        "__type": "",
                         "hpThreshold": 1.100000023841858,
+                        "isIntro": true,
+                        "name": "Opening Intro",
                         "prefabPath": "BossPhase0Effect.prefab",
-                        "triggered": false
+                        "waitDuration": 3.0
+                    },
+                    {
+                        "__type": "",
+                        "hpThreshold": 0.699999988079071,
+                        "isIntro": false,
+                        "name": "To Phase 2",
+                        "prefabPath": "BossPhase1Effect.prefab",
+                        "waitDuration": 2.0
+                    },
+                    {
+                        "__type": "",
+                        "hpThreshold": 0.4000000059604645,
+                        "isIntro": false,
+                        "name": "To Phase 3",
+                        "prefabPath": "BossPhase2Effect.prefab",
+                        "waitDuration": 2.5
                     }
                 ]
             },
-            "BossPerformanceTrigger": {
-                "effectName": "",
-                "shakeCamera": false,
-                "shakeDuration": 0.0,
-                "shakeIntensity": 0.0,
-                "soundPath": ""
-            },
-            "DamageHandler": {
-                "cooldownTimer": -0.018290702253580093,
-                "damageCooldownTime": 0.10000000149011612
-            },
+            "BossPillarAttack": {},
+            "BossRockAttack": {},
             "HP": {
                 "MAX_HP": 1200,
-                "_isDead": false,
-                "currentHp": 1200
+                "currentHp": 1200,
+                "disableAutoDestruction": true
             },
-            "Knockback": {
-                "KNOCKBACK_DECAY": 0.0,
-                "KNOCKBACK_FORCE_STRENGTH": 0.0,
-                "knockbackStopThreshold": 0.009999999776482582,
-                "knockbackVelocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "SampleBossComponent": {},
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "layers": [
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 3271675795,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 1.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                }
+            ],
+            "type": "Animator"
         },
         {
             "enable": 1,
@@ -78,46 +178,34 @@
                 },
                 {
                     "enable": true,
-                    "name": "DamageHandler"
-                },
-                {
-                    "enable": false,
-                    "name": "Knockback"
+                    "name": "BossPerformanceDirector"
                 },
                 {
                     "enable": true,
-                    "name": "BossPerformanceDirector"
+                    "name": "BossMovement"
+                },
+                {
+                    "enable": true,
+                    "name": "BossBeamAttack"
+                },
+                {
+                    "enable": true,
+                    "name": "BossBombBarrage"
+                },
+                {
+                    "enable": true,
+                    "name": "BossRockAttack"
+                },
+                {
+                    "enable": true,
+                    "name": "BossPillarAttack"
+                },
+                {
+                    "enable": true,
+                    "name": "BossClogAttack"
                 }
             ],
             "type": "Script"
-        },
-        {
-            "enable": 1,
-            "material": {
-                "baseColor": {
-                    "w": 1.0,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
-                "guid": "00000000000000000000000000000000",
-                "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
-                "uvTransform": {
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "rotate": 0.0,
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    }
-                }
-            },
-            "meshPath": "./Assets/AssetsWorkspace/models/boss.obj",
-            "type": "MeshRenderer"
         },
         {
             "categoryBits": 8,
@@ -128,11 +216,30 @@
             "radius": 5.0,
             "state": "Static",
             "type": "SphereCollider"
+        },
+        {
+            "desiredMoveDirection": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "desiredRotation": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "enable": 1,
+            "isAttacking": false,
+            "maxSpeed": 8.0,
+            "rotationSpeed": 5.0,
+            "targetEntityId": 0,
+            "type": "AgentIntentComponent",
+            "useDesiredRotation": true
         }
     ],
-    "guid": "6190718f20ef1485d978d46962165d02",
-    "id": 14,
+    "guid": "8641a2b3c4d5e6f7a8b9c0d1e2f3a4b5",
     "name": "Boss",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "Boss"
 }

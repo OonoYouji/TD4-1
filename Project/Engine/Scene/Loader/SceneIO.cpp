@@ -66,7 +66,8 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 		nlohmann::json entityJson = EntityJsonConverter::ToJson(entity.get());
 		if (entityJson.empty()) continue;
 
-		std::string entityFileName = entity->GetName() + ".entity";
+		// 名前衝突を避けるため、ファイル名にはGUIDを使用する
+		std::string entityFileName = entity->GetGuid().ToString() + ".entity";
 		std::string entityPath = sceneDir + entityFileName;
 		
 		currentEntityFiles.insert(entityFileName);
@@ -81,7 +82,6 @@ void SceneIO::SaveScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 		// シーンファイルには参照を保存
 		nlohmann::json reference;
 		reference["path"] = "./" + sceneName + "/" + entityFileName;
-		// reference["id"] = entity->GetId(); // DEPRECATED
 		reference["guid"] = entity->GetGuid().ToString();
 		if (entity->GetParent()) {
 			reference["parentGuid"] = entity->GetParent()->GetGuid().ToString();
@@ -124,10 +124,30 @@ void SceneIO::LoadScene(const std::string& _filename, ECSGroup* _ecsGroup) {
 	if (!sceneJson.contains("entities")) return;
 
 	nlohmann::json fullSceneJson = nlohmann::json::object();
+	std::string sceneDirName = FileSystem::FileNameWithoutExtension(_filename);
+
 	for (const auto& entityRef : sceneJson["entities"]) {
 		if (entityRef.contains("path")) {
 			std::string entityPath = entityRef["path"];
+			
+			// 1. 指定されたパスをまず試す
 			std::ifstream entityFile(fileDirectory_ + entityPath);
+			
+			// 2. 失敗した場合、新旧両方の命名規則で再試行
+			if (!entityFile.is_open()) {
+				// GUIDベースのパスを作成して試す
+				if (entityRef.contains("guid")) {
+					std::string guidPath = "./" + sceneDirName + "/" + entityRef["guid"].get<std::string>() + ".entity";
+					entityFile.open(fileDirectory_ + guidPath);
+				}
+				
+				// まだ開かない場合、互換性のためエンティティ名ベースで試す (旧仕様)
+				if (!entityFile.is_open() && entityRef.contains("name")) {
+					std::string namePath = "./" + sceneDirName + "/" + entityRef["name"].get<std::string>() + ".entity";
+					entityFile.open(fileDirectory_ + namePath);
+				}
+			}
+
 			if (entityFile.is_open()) {
 				nlohmann::json entityJson;
 				entityFile >> entityJson;

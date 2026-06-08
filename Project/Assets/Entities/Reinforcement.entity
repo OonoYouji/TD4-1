@@ -1,0 +1,15 @@
+{
+    "active": true,
+    "components": [
+        {
+            "ReinforcementAnimation": {
+                "scaleMultiplier": 1.5
+            },
+            "type": "Variables"
+        }
+    ],
+    "guid": "4d7a604daba6f00eb61a0f5b3fd86385",
+    "name": "Reinforcement",
+    "parentGuid": null,
+    "prefabName": "Reinforcement"
+}

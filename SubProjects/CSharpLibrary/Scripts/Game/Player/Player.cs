@@ -35,6 +35,10 @@ public class Player : MonoScript
     // 発射クールタイムタイマー
     public float fireCooldownTimer { get; private set; }
 
+    // 移動速度倍率 (デバフ用)
+    private float _speedMultiplier = 1.0f;
+    private float _debuffTimer = 0.0f;
+
     // ゲーム開始時のフリーズ時間
     [SerializeField] public float startFreezeDuration = 3.0f;
     private bool isFrozen_ = false;
@@ -52,10 +56,23 @@ public class Player : MonoScript
         fireCooldownTimer = fireInterval;
         isFrozen_ = true;
         freezeTimer_ = 0f;
+        _speedMultiplier = 1.0f;
+        _debuffTimer = 0.0f;
     }
 
     public override void Update()
     {
+        // --- デバフの更新 ---
+        if (_debuffTimer > 0)
+        {
+            _debuffTimer -= Time.deltaTime;
+            if (_debuffTimer <= 0)
+            {
+                _speedMultiplier = 1.0f;
+                Debug.Log("[Player] Speed debuff cleared.");
+            }
+        }
+
         if (isFrozen_)
         {
             freezeTimer_ += Time.deltaTime;
@@ -64,6 +81,17 @@ public class Player : MonoScript
                 isFrozen_ = false;
             }
             return;
+        }
+
+        // デバッグ用: YキーでHPを5減らす
+        if (Input.TriggerKey(KeyCode.Y))
+        {
+            HP hp = entity.GetScript<HP>();
+            if (hp != null)
+            {
+                Debug.Log($"<color=orange>[Player:Debug]</color> Manual HP Reduction: {hp.currentHp} -> {hp.currentHp - 5}");
+                hp.TakeDamage(5);
+            }
         }
 
         // 入力モードの更新
@@ -112,7 +140,7 @@ public class Player : MonoScript
         if (Input.PressKey(KeyCode.D) || Input.PressKey(KeyCode.RightArrow)) { input.x += 1f; }
 
         // 入力の大きさと速度の計算
-        float speed = maxMoveSpeed;
+        float speed = maxMoveSpeed * _speedMultiplier;
         float magnitude = input.Length();
 
         // キー入力がなければスティックを使う
@@ -126,7 +154,7 @@ public class Player : MonoScript
             if (magnitude > 0.001f)
             {
                 input = leftStick;
-                speed = maxMoveSpeed * Mathf.Clamp(magnitude, 0.0f, 1.0f);
+                speed = maxMoveSpeed * _speedMultiplier * Mathf.Clamp(magnitude, 0.0f, 1.0f);
             }
         }
 
@@ -216,5 +244,13 @@ public class Player : MonoScript
         {
             fireCooldownTimer = 0.0f;
         }
+    }
+
+    public void ApplySlow(float multiplier, float duration)
+    {
+        // 既にスロウ中の場合は、より強い方、あるいは時間を上書き
+        _speedMultiplier = multiplier;
+        _debuffTimer = duration;
+        Debug.Log($"[Player] Slowed! Multiplier: {multiplier}, Duration: {duration}s");
     }
 }

@@ -15,12 +15,12 @@ public class BossPhaseDecorator : BehaviorDecorator
     /// <summary>
     /// 実行を許可するHP割合の下限。
     /// </summary>
-    public float minRatio = 0.0f;
+    public float minHP = 0.0f;
 
     /// <summary>
     /// 実行を許可するHP割合の上限。
     /// </summary>
-    public float maxRatio = 1.0f;
+    public float maxHP = 1.0f;
 
     public override bool CalculateCondition(Blackboard blackboard, Entity owner)
     {
@@ -28,7 +28,7 @@ public class BossPhaseDecorator : BehaviorDecorator
         float currentRatio = blackboard.GetFloat(keyHash, 1.0f);
 
         // 指定範囲内であれば実行許可
-        return (currentRatio >= minRatio && currentRatio <= maxRatio);
+        return (currentRatio >= minHP && currentRatio <= maxHP);
     }
 
     public override uint GetMonitoredKey()

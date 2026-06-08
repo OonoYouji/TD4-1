@@ -212,4 +212,23 @@ private:
 	uint32_t oldIndex_;
 };
 
+/// ///////////////////////////////////////////////////
+/// プレハブからインスタンスを作成するコマンド
+/// ///////////////////////////////////////////////////
+class InstantiatePrefabCommand : public IEditCommand {
+public:
+	InstantiatePrefabCommand(ONEngine::ECSGroup* _ecs, const std::string& _prefabPath, ONEngine::GameEntity* _parentEntity = nullptr);
+	~InstantiatePrefabCommand() = default;
+
+	EDITOR_STATE Execute() override;
+	EDITOR_STATE Undo() override;
+
+private:
+	ONEngine::ECSGroup* pEcsGroup_ = nullptr;
+	ONEngine::GameEntity* generatedEntity_ = nullptr;
+	ONEngine::Guid generatedGuid_;
+	ONEngine::Guid parentGuid_;
+	const std::string prefabPath_;
+};
+
 } /// Editor

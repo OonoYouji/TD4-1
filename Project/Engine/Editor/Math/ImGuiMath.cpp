@@ -364,6 +364,22 @@ bool Editor::ImGuiInputText(const char* _label, std::string* _text, ImGuiInputTe
 	return ImGui::InputText(_label, _text->data(), _text->capacity() + 1, _flags, callback, &userData);
 }
 
+bool Editor::ImGuiInputText(const char* _label, std::string* _text, ImGuiInputTextFlags _flags, const char* _hint) {
+	if(!_text) return false;
+	_flags |= ImGuiInputTextFlags_CallbackResize;
+	struct CallbackUserData { std::string* text; };
+	auto callback = [](ImGuiInputTextCallbackData* data) -> int {
+		if(data->EventFlag == ImGuiInputTextFlags_CallbackResize) {
+			auto* user = static_cast<CallbackUserData*>(data->UserData);
+			user->text->resize(data->BufTextLen);
+			data->Buf = user->text->data();
+		}
+		return 0;
+	};
+	CallbackUserData userData = { _text };
+	return ImGui::InputTextWithHint(_label, _hint, _text->data(), _text->capacity() + 1, _flags, callback, &userData);
+}
+
 void Editor::ImGuiInputTextReadOnly(const char* _label, const std::string& _text) {
 	std::string temp = _text;
 	ImGuiInputText(_label, &temp, ImGuiInputTextFlags_ReadOnly);
@@ -456,11 +472,41 @@ void ONEngine::EndModuleHeader() {
 void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	if (!_ps) return;
 	if (ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen)) {
-		// --- Playback Controls ---
-		ImGui::Text("Status: %s", _ps->IsPlaying() ? (_ps->IsPaused() ? "Paused" : "Playing") : "Stopped");
+		
+		// --- Editor Preview Controls ---
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "--- Editor Preview ---");
+		ImGui::Text("Status: %s", _ps->isEditorPreview_ ? (_ps->isEditorPaused_ ? "Paused" : "Playing") : "Stopped");
 		ImGui::Text("Time: %.2f / %.2f", _ps->GetTime(), _ps->main.duration);
 		ImGui::Text("Alive: %llu / %d", _ps->aliveCount, _ps->main.maxParticles);
 
+		if (ImGui::Button("Preview Play")) {
+			_ps->isEditorPreview_ = true;
+			_ps->isEditorPaused_ = false;
+			if (!_ps->IsPlaying()) _ps->Play();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Preview Pause")) {
+			_ps->isEditorPaused_ = !_ps->isEditorPaused_;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Preview Stop")) {
+			_ps->isEditorPreview_ = false;
+			_ps->isEditorPaused_ = false;
+			_ps->Stop();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Preview Restart")) {
+			_ps->Stop();
+			_ps->Play();
+			_ps->ResetTime(0.0f); // 内部状態を強制リセット
+			_ps->isEditorPreview_ = true;
+			_ps->isEditorPaused_ = false;
+		}
+
+		ImGui::Separator();
+
+		// --- Playback Controls (Runtime) ---
+		ImGui::Text("Runtime Status: %s", _ps->IsPlaying() ? (_ps->IsPaused() ? "Paused" : "Playing") : "Stopped");
 		if (ImGui::Button("Play")) _ps->Play(); ImGui::SameLine();
 		if (ImGui::Button("Pause")) _ps->Pause(); ImGui::SameLine();
 		if (ImGui::Button("Stop")) _ps->Stop(); ImGui::SameLine();
@@ -538,6 +584,7 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	bool rendererEnabled = true;
 	if (BeginModuleHeader("Renderer", &rendererEnabled)) {
 		Editor::ImMathf::InputEnum<ParticleSystemRenderer::RenderMode>("Render Mode", &_ps->renderer.renderMode);
+		Editor::ImMathf::InputEnum<ParticleSystemRenderer::BlendMode>("Blend Mode", &_ps->renderer.blendMode);
 		DrawAssetGuidField("Material", _ps->renderer.materialGuid, Asset::AssetType::Material);
 		DrawAssetGuidField("Mesh", _ps->renderer.meshGuid, Asset::AssetType::Mesh);
 	}

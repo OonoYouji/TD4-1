@@ -4,6 +4,8 @@ using System.Collections.Generic;
 /// <summary>
 /// 指定された座標に吸引力を発生させるフィールドを生成するノード。
 /// 範囲内のエンティティを中心に引き寄せる。
+/// 
+/// 仕様書v2対応：距離の2乗に反比例する吸引力と、中心部でのダメージ処理を追加。
 /// </summary>
 public class SpawnVortexFieldNode : BehaviorNode
 {
@@ -11,14 +13,19 @@ public class SpawnVortexFieldNode : BehaviorNode
     public string targetPosKey = "TargetPosition";
 
     public string vortexPrefab = "VortexField";
-    public float suctionRadius = 10.0f;
-    public float suctionForce = 5.0f;
-    public float duration = 4.0f;
+    public float suctionRadius = 15.0f;
+    public float suctionForce = 20.0f; // 最大吸引力
+    public float duration = 5.0f;
+    
+    public int centerDamage = 50;
+    public float centerDamageRadius = 3.0f;
+    public float damageInterval = 0.5f;
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("VortexStart_" + NodeIdHash);
         uint entityIdKey = BehaviorTreeLoader.HashString("VortexEntityID_" + NodeIdHash);
+        uint damageTimerKey = BehaviorTreeLoader.HashString("VortexDamageTimer_" + NodeIdHash);
         float currentTime = Time.time;
 
         // 1. 開始処理: プレハブの生成
@@ -29,11 +36,12 @@ public class SpawnVortexFieldNode : BehaviorNode
 
             Vector3 targetPos = blackboard.GetVector3(posKeyHash);
             blackboard.SetFloat(startTimeKey, currentTime);
+            blackboard.SetFloat(damageTimerKey, 0f);
 
             Entity vortex = owner.Group.CreateEntity(vortexPrefab);
             if (vortex != null)
             {
-                vortex.parent = null; // 独立させる
+                vortex.parent = null;
                 vortex.transform.position = targetPos;
                 blackboard.SetInt(entityIdKey, vortex.Id);
             }
@@ -55,26 +63,79 @@ public class SpawnVortexFieldNode : BehaviorNode
                 blackboard.Remove(entityIdKey);
             }
             blackboard.Remove(startTimeKey);
+            blackboard.Remove(damageTimerKey);
             FrameEvent.EnqueueNamedEvent("Effect_Vortex_End", owner.Id);
             return NodeStatus.Success;
         }
 
-        // 3. 吸引ロジック (Running中毎フレーム実行)
+        // 3. 吸引・ダメージロジック
         Vector3 center = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
-        var entities = owner.Group.GetEntities();
-        foreach (var entity in entities)
-        {
-            if (entity.Id == owner.Id) continue;
-            // 既に生成したVortex自体も除外
-            if (blackboard.HasKey(entityIdKey) && entity.Id == blackboard.GetInt(entityIdKey)) continue;
 
-            float dist = Vector3.Distance(center, entity.transform.position);
-            if (dist <= suctionRadius && dist > 0.5f)
+        // デバッグ表示 (吸引範囲を紫、ダメージ範囲を赤で表示、太さ12.0)
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, suctionRadius, new Vector4(0.5f, 0, 1, 1), 32, 12.0f);
+        GizmoBatch.DrawWireCircle(center + Vector3.up * 0.2f, centerDamageRadius, new Vector4(1, 0, 0, 1), 24, 12.0f);
+
+        float dTimer = blackboard.GetFloat(damageTimerKey);
+        bool applyDamage = false;
+        
+        if (currentTime >= dTimer)
+        {
+            applyDamage = true;
+            blackboard.SetFloat(damageTimerKey, currentTime + damageInterval);
+        }
+
+        var entities = owner.Group.GetEntities();
+        List<Entity> objectsToExplode = new List<Entity>();
+
+        foreach (var e in entities)
+        {
+            if (e == null || e.Id == owner.Id) continue;
+            if (blackboard.HasKey(entityIdKey) && e.Id == blackboard.GetInt(entityIdKey)) continue;
+
+            float dist = Vector3.Distance(center, e.transform.position);
+            if (dist <= suctionRadius && dist > 0.1f)
             {
-                Vector3 pullDir = (center - entity.transform.position).Normalized();
-                // 距離が近いほど強く引く、あるいは一定の力で引く
-                entity.transform.position += pullDir * suctionForce * Time.deltaTime;
+                // 距離の2乗に反比例する吸引力 (F = force / dist^2)
+                float power = suctionForce / (dist * dist + 1.0f);
+                
+                // 岩や柱の場合は吸引力を強める
+                bool isObject = e.name.Contains("Rock") || e.name.Contains("Pillar");
+                if (isObject) power *= 1.5f;
+
+                Vector3 pullDir = (center - e.transform.position).Normalized();
+                e.transform.position += pullDir * power * Time.deltaTime;
+
+                // 中心部ダメージ
+                if (applyDamage && dist <= centerDamageRadius)
+                {
+                    // 共通ユーティリティを使用してダメージとスロウを適用（Player, Reinforcement 両対応）
+                    BossDamageUtil.ApplyDamage(e, centerDamage, center);
+                    BossDamageUtil.ApplySlow(e, 0.5f, damageInterval); // 吸引中は移動速度を50%低下
+
+                    if (e.name.Contains("Player"))
+                    {
+                        Debug.Log("<color=red>[Vortex]</color> Player caught in center!");
+                    }
+                    
+                    // 吸い込まれた物体の爆発（後で一括処理）
+                    if (isObject && dist <= 1.5f)
+                    {
+                        objectsToExplode.Add(e);
+                    }
+                }
             }
+        }
+
+        // 破壊・爆発処理を一括実行
+        foreach (var obj in objectsToExplode)
+        {
+            if (obj == null || obj.Id == 0) continue;
+            Debug.Log($"<color=orange>[Vortex]</color> {obj.name} sucked in and exploded!");
+            FrameEvent.EnqueueNamedEvent("Effect_Explosion", obj.Id);
+            owner.Group.DestroyEntity(obj.Id);
+            
+            // 周囲のプレイヤーや援軍に爆発ダメージ
+            BossDamageUtil.ApplyAreaDamage(owner.Group, center, 5.0f, 30);
         }
 
         return NodeStatus.Running;
@@ -89,5 +150,6 @@ public class SpawnVortexFieldNode : BehaviorNode
             blackboard.Remove(entityIdKey);
         }
         blackboard.Remove(BehaviorTreeLoader.HashString("VortexStart_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("VortexDamageTimer_" + NodeIdHash));
     }
 }

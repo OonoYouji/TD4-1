@@ -21,20 +21,27 @@ public class FallingRock : MonoScript
         _hasImpacted = false;
     }
 
-    /// <summary>
-    /// 落下を開始させる。
-    /// </summary>
     public void Launch(Vector3 targetPos)
     {
         _targetPos = targetPos;
         _isFalling = true;
         _hasImpacted = false;
+
+        // トリガー設定を適用（押し戻し防止）
+        var box = entity.GetComponent<BoxCollider>();
+        if (box != null) box.isTrigger = true;
+        var sphere = entity.GetComponent<SphereCollider>();
+        if (sphere != null) sphere.isTrigger = true;
+
         Debug.Log($"[FallingRock] Launched towards {Vector3.ToSimpleString(targetPos)}");
     }
 
     public override void Update()
     {
         if (!_isFalling || _hasImpacted) return;
+
+        // デバッグ表示 (着弾予定地に紫の円を表示、太さ16.0)
+        GizmoBatch.DrawWireCircle(_targetPos + Vector3.up * 0.05f, impactRadius, new Vector4(1, 0, 1, 1), 16, 16.0f);
 
         // 下方向に移動
         transform.position += Vector3.down * fallSpeed * Time.deltaTime;
@@ -56,15 +63,16 @@ public class FallingRock : MonoScript
             Impact();
         }
     }
+private void Impact()
+{
+    if (_hasImpacted) return;
+    _hasImpacted = true;
+    _isFalling = false;
 
-    private void Impact()
-    {
-        if (_hasImpacted) return;
-        _hasImpacted = true;
-        _isFalling = false;
+    Debug.Log($"<color=red>[FallingRock:ImpactArea]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
 
-        // 着弾位置を固定
-        transform.position = new Vector3(transform.position.x, _targetPos.y, transform.position.z);
+    // 着弾位置を固定
+    transform.position = new Vector3(transform.position.x, _targetPos.y, transform.position.z);
 
         // 範囲内のプレイヤーや援軍にダメージとスタンを与える
         var entities = entity.Group.GetEntities();
@@ -89,27 +97,10 @@ public class FallingRock : MonoScript
 
     private void ApplyImpact(Entity e)
     {
-        // 1. 汎用 DamageHandler 経由
-        DamageHandler handler = e.GetScript<DamageHandler>();
-        if (handler != null)
-        {
-            handler.ApplyDamage(damage, transform.position);
-        }
-        else
-        {
-            // 2. 援軍専用 ReinforcementDamageHandler 経由
-            ReinforcementDamageHandler rHandler = e.GetScript<ReinforcementDamageHandler>();
-            if (rHandler != null)
-            {
-                rHandler.ApplyDamage(damage, transform.position);
-            }
-        }
+        // 共通ユーティリティを使用してダメージとスロウを適用
+        BossDamageUtil.ApplyDamage(e, damage, transform.position);
+        BossDamageUtil.ApplySlow(e, 0.5f, stunDuration); // 岩の場合は50%スロウ（スタン扱い）
 
-        // スタン（AgentIntentComponentの移動制限）
-        var intent = e.GetComponent<AgentIntentComponent>();
-        if (intent != null)
-        {
-            Debug.Log($"[FallingRock] STUNNED {e.name} for {stunDuration}s");
-        }
+        Debug.Log($"[FallingRock] Impact applied to {e.name}");
     }
 }
