@@ -27,6 +27,12 @@ public class BossBomb : MonoScript
         _initialScale = transform.scale;
         _startPosition = transform.position;
 
+        // トリガー設定を適用（飛行中の物理反発を防止）
+        var sphere = entity.GetComponent<SphereCollider>();
+        if (sphere != null) sphere.isTrigger = true;
+        var box = entity.GetComponent<BoxCollider>();
+        if (box != null) box.isTrigger = true;
+
         // 初期状態では判定を無効化しておく（着弾時に有効化）
         var trigger = entity.GetScript<DamageTrigger>();
         if (trigger != null) trigger.enable = false;
@@ -47,8 +53,8 @@ public class BossBomb : MonoScript
     {
         if (!_isExploding)
         {
-            // デバッグ表示 (着弾予定地にオレンジの円を表示)
-            GizmoBatch.DrawWireCircle(targetPosition + Vector3.up * 0.05f, explosionScale * 0.5f, new Vector4(1, 0.5f, 0, 1), 16);
+            // デバッグ表示 (着弾予定地に紫の円を表示、太さ16.0)
+            GizmoBatch.DrawWireCircle(targetPosition + Vector3.up * 0.05f, explosionScale * 0.5f, new Vector4(1, 0, 1, 1), 16, 16.0f);
 
             _timer += Time.deltaTime;
             float t = _timer / travelTime;
@@ -72,8 +78,8 @@ public class BossBomb : MonoScript
         }
         else
         {
-            // デバッグ表示 (爆発範囲を赤で表示)
-            GizmoBatch.DrawWireCircle(transform.position + Vector3.up * 0.1f, explosionScale * 0.5f, new Vector4(1, 0, 0, 1), 24);
+            // デバッグ表示 (爆発範囲を紫で表示、太さ16.0)
+            GizmoBatch.DrawWireCircle(transform.position + Vector3.up * 0.1f, explosionScale * 0.5f, new Vector4(1, 0, 1, 1), 24, 16.0f);
 
             // 爆発演出（急拡大）
             _explosionTimer += Time.deltaTime;

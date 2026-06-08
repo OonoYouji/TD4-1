@@ -99,13 +99,26 @@ public:
 	}
 
 
+	/// @brief 押し戻しを発生させない「トリガー」モードかどうかを返す
+	/// @return トリガーモードかどうか
+	bool IsTrigger() const {
+		return isTrigger_;
+	}
+
+	/// @brief トリガーモードを設定する（trueなら押し戻しが発生しなくなる）
+	/// @param _trigger トリガーモードにするか
+	void SetTrigger(bool _trigger) {
+		isTrigger_ = _trigger;
+	}
+
+
 protected:
 	/// ===================================================
 	/// protected : objects
 	/// ===================================================
 
 	Vector3 prevPosition_;
-	bool enablePushBack_ = true;
+	bool isTrigger_ = false;
 	bool freezeY_ = false;
 	float mass_ = 1.0f;
 	CollisionState collisionState_ = CollisionState::Dynamic;

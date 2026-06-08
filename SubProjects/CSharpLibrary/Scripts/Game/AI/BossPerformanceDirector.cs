@@ -116,6 +116,12 @@ public class BossPerformanceDirector : MonoScript
         _intent.desiredMoveDirection = Vector3.zero;
         if (_hp != null) _hp.isInvincible = true;
 
+        // アニメーション再生
+        var animator = entity.GetComponent<Animator>();
+        if (animator != null) {
+            animator.CrossFade("idle", 0.2f);
+        }
+
         Debug.Log($"<color=yellow>[Performance]</color> START: {p.name}. Waiting {p.waitDuration}s...");
 
         if (!string.IsNullOrEmpty(p.prefabPath))
@@ -137,6 +143,12 @@ public class BossPerformanceDirector : MonoScript
         _performanceTimer = deathWaitDuration;
         _intent.isPaused = true;
         if (_hp != null) _hp.isInvincible = true;
+
+        // アニメーション再生
+        var animator = entity.GetComponent<Animator>();
+        if (animator != null) {
+            animator.CrossFade("idle", 0.2f);
+        }
 
         Debug.Log($"<color=red>[Performance]</color> START: Death. Waiting {deathWaitDuration}s...");
 

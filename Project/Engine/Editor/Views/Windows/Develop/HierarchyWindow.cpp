@@ -69,6 +69,17 @@ void HierarchyWindow::ShowImGui() {
 
 	ImGui::EndChild();
 
+	// ★追加: ウィンドウ全体の空きスペースへのドロップを受け入れる
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+			const AssetPayload* assetPayload = *static_cast<AssetPayload**>(payload->Data);
+			if (assetPayload->filePath.ends_with(".prefab")) {
+				pEditorManager_->ExecuteCommand<InstantiatePrefabCommand>(pEcsGroup_, assetPayload->filePath);
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+
 	ImGui::End();
 
 	/// 各種ポップアップの表示

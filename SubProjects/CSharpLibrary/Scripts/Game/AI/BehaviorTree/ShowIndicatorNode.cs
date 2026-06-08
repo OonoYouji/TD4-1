@@ -123,7 +123,10 @@ public class ShowIndicatorNode : BehaviorNode
                         }
                     }
                 }
-                if (renderer != null) renderer.color = color;
+                if (renderer != null) {
+                    renderer.color = color;
+                    renderer.renderQueue = RenderQueue.Telegraph; // レイヤー設定を適用
+                }
 
                 uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
                 Vector3 currentTarget = blackboard.GetVector3(targetKeyHash);

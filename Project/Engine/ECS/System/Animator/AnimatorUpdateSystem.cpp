@@ -72,10 +72,7 @@ void AnimatorUpdateSystem::RuntimeUpdate(ECSGroup* _ecs) {
     for (auto& animator : animatorArray->GetUsedComponents()) {
         if (!animator || !animator->enable || !animator->GetOwner()->active) continue;
 
-        SkinMeshRenderer* skinMesh = nullptr;
-        if (skinMeshArray) {
-            skinMesh = skinMeshArray->GetComponent(animator->GetOwner()->GetId());
-        }
+        SkinMeshRenderer* skinMesh = animator->GetOwner()->GetComponent<SkinMeshRenderer>();
         
         if (!skinMesh) {
             static std::unordered_map<uint32_t, bool> loggedMissing;

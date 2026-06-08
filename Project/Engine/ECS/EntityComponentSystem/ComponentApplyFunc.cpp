@@ -59,13 +59,6 @@ struct SpriteBatch {
 	UVTransform uvTransform;
 };
 
-struct AgentIntentBatch {
-	uint32_t compId;
-	Vector3 desiredMoveDirection;
-	uint8_t isAttacking;
-	uint32_t targetEntityId;
-};
-
 struct CameraBatch {
 	uint32_t compId;
 	Matrix4x4 matVP;
@@ -142,7 +135,7 @@ void ONEngine::ComponentApplyFuncs::ApplySprite(void* _element, ECSGroup* _ecsGr
 }
 
 void ONEngine::ComponentApplyFuncs::ApplyAgentIntent(void* _element, ECSGroup* _ecsGroup) {
-	auto* data = static_cast<AgentIntentBatch*>(_element);
+	auto* data = static_cast<AgentIntentComponent::BatchData*>(_element);
 	auto* array = _ecsGroup->GetComponentArray<AgentIntentComponent>();
 	if(!CheckComponentArrayEnable(array)) {
 		return;
@@ -150,6 +143,10 @@ void ONEngine::ComponentApplyFuncs::ApplyAgentIntent(void* _element, ECSGroup* _
 
 	if(AgentIntentComponent* ai = array->GetComponent(data->compId)) {
 		ai->desiredMoveDirection = data->desiredMoveDirection;
+		ai->desiredRotation = data->desiredRotation;
+		ai->rotationSpeed = data->rotationSpeed;
+		ai->maxSpeed = data->maxSpeed;
+		ai->useDesiredRotation = (data->useDesiredRotation != 0);
 		ai->isAttacking = (data->isAttacking != 0);
 		ai->targetEntityId = data->targetEntityId;
 	}
@@ -246,7 +243,7 @@ void ONEngine::ComponentApplyFuncs::FetchSprite(void* _element, ECSGroup* _ecsGr
 }
 
 void ONEngine::ComponentApplyFuncs::FetchAgentIntent(void* _element, ECSGroup* _ecsGroup) {
-	auto* data = static_cast<AgentIntentBatch*>(_element);
+	auto* data = static_cast<AgentIntentComponent::BatchData*>(_element);
 	auto* array = _ecsGroup->GetComponentArray<AgentIntentComponent>();
 	if(!CheckComponentArrayEnable(array)) {
 		return;
@@ -254,6 +251,10 @@ void ONEngine::ComponentApplyFuncs::FetchAgentIntent(void* _element, ECSGroup* _
 
 	if(AgentIntentComponent* ai = array->GetComponent(data->compId)) {
 		data->desiredMoveDirection = ai->desiredMoveDirection;
+		data->desiredRotation = ai->desiredRotation;
+		data->rotationSpeed = ai->rotationSpeed;
+		data->maxSpeed = ai->maxSpeed;
+		data->useDesiredRotation = ai->useDesiredRotation;
 		data->isAttacking = ai->isAttacking;
 		data->targetEntityId = ai->targetEntityId;
 	} else {
@@ -362,7 +363,7 @@ void ONEngine::ComponentApplyFuncs::Initialize(MonoImage* _monoImage) {
 		if (monoClass) {
 			gApplyFuncMap[monoClass] = ApplyAgentIntent;
 			gFetchFuncMap[monoClass] = FetchAgentIntent;
-			gComponentBatchSize[monoClass] = sizeof(AgentIntentBatch);
+			gComponentBatchSize[monoClass] = sizeof(AgentIntentComponent::BatchData);
 		}
 	}
 

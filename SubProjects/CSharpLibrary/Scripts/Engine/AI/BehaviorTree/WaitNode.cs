@@ -17,6 +17,11 @@ public class WaitNode : BehaviorNode
     [BlackboardKey]
     public string durationKey = "";
 
+    /// <summary>
+    /// 待機中に再生するアニメーション名（任意）。
+    /// </summary>
+    public string animationName = "";
+
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("WaitStart_" + NodeIdHash);
@@ -25,6 +30,17 @@ public class WaitNode : BehaviorNode
         if (!blackboard.HasKey(startTimeKey))
         {
             blackboard.SetFloat(startTimeKey, currentTime);
+
+            // アニメーションの再生
+            if (!string.IsNullOrEmpty(animationName))
+            {
+                var animator = owner.GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.CrossFade(animationName, 0.2f);
+                }
+            }
+
             return NodeStatus.Running;
         }
 

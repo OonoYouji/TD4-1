@@ -1,4 +1,4 @@
-#include "ParticleSystem.hlsli"
+﻿#include "ParticleSystem.hlsli"
 
 StructuredBuffer<float4> materials : register(t1);
 StructuredBuffer<uint> textureIds : register(t2);
@@ -20,7 +20,7 @@ float4 main(VSOutput input) : SV_TARGET {
 
     float4 finalColor = texColor * matColor * input.color;
     
-    if (finalColor.a <= 0.0f) {
+    if (finalColor.a <= 0.01f) {
         discard;
     }
 

@@ -1,24 +1,24 @@
 {
     "entities": [
         {
-            "guid": "c018251e6005d871788771960965f3f4",
+            "guid": "fe71a22bff44d81c1fef11111066f97a",
             "parentGuid": null,
-            "path": "./Workspace_Test/Camera.entity"
+            "path": "./Workspace_Test/fe71a22bff44d81c1fef11111066f97a.entity"
         },
         {
-            "guid": "485731b9044195e0a1d0105e072bff6c",
+            "guid": "c48608ef7bbc9be75e8ed819bcb8fe58",
             "parentGuid": null,
-            "path": "./Workspace_Test/2DCamera.entity"
+            "path": "./Workspace_Test/c48608ef7bbc9be75e8ed819bcb8fe58.entity"
         },
         {
-            "guid": "520b76038bebc8d83e2ed4786934072b",
+            "guid": "f40df8ad605746aa850b184497fd012d",
             "parentGuid": null,
-            "path": "./Workspace_Test/Light.entity"
+            "path": "./Workspace_Test/f40df8ad605746aa850b184497fd012d.entity"
         },
         {
-            "guid": "7507623143fccb9523b40b4e0107ecbf",
+            "guid": "9a8c283ab94c5cfc09f107707287cf14",
             "parentGuid": null,
-            "path": "./Workspace_Test/Mesh.entity"
+            "path": "./Workspace_Test/9a8c283ab94c5cfc09f107707287cf14.entity"
         }
     ]
 }
