@@ -19,41 +19,59 @@ public class BossHPPhaseManager : MonoScript
         Debug.Log("[BossHPPhaseManager] Initializing Multi-Phase HP UI...");
         FindTarget();
 
-        // 子エンティティからBarスクリプトを収集
+        // 子エンティティからBarスクリプトを収集 (名前で判定)
         phaseBars.Clear();
         uint childCount = entity.GetChildCount();
+        Debug.Log($"[BossHPPhaseManager] Parent: {entity.name}, Child Count: {childCount}");
+
+        List<Entity> children = new List<Entity>();
         for (uint i = 0; i < childCount; i++)
         {
             Entity child = entity.GetChild(i);
-            if (child != null)
+            if (child != null) 
             {
-                var bar = child.GetScript<BossHPPhaseBar>();
-                if (bar != null)
-                {
-                    phaseBars.Add(bar);
-                    bar.SetManager(this);
-                }
+                Debug.Log($"[BossHPPhaseManager] Found Child[{i}]: {child.name} (ID: {child.Id})");
+                children.Add(child);
+            }
+            else
+            {
+                Debug.Log($"[BossHPPhaseManager] Child[{i}] is null!");
             }
         }
 
-        // 自動的に範囲を割り振る
-        // インデックスが小さいほど（Phase1に近いほど）、高いHP範囲を担当するようにする。
-        // これにより、ダメージを受けると index 0 から順に減っていく。
-        // 例: 3本ある場合
-        // index 0: 0.66 - 1.00 (最初に減る)
-        // index 1: 0.33 - 0.66
-        // index 2: 0.00 - 0.33 (最後に減る)
+        // 名前順などでソートせず、シーンの構成順序に従う（または明示的に名前でソート）
+        children.Sort((a, b) => string.Compare(a.name, b.name));
+
+        foreach (var child in children)
+        {
+            var bar = child.GetScript<BossHPPhaseBar>();
+            if (bar != null)
+            {
+                phaseBars.Add(bar);
+                bar.SetManager(this);
+                Debug.Log($"[BossHPPhaseManager] Successfully attached BossHPPhaseBar from child: {child.name}");
+            }
+            else
+            {
+                Debug.Log($"[BossHPPhaseManager] Child {child.name} does NOT have BossHPPhaseBar script!");
+            }
+        }
+
+        // 自動的に範囲を割り振る (線形分割)
         if (phaseBars.Count > 0)
         {
             float step = 1.0f / phaseBars.Count;
             int count = phaseBars.Count;
             for (int i = 0; i < count; i++)
             {
-                // i=0 のときに一番高い範囲にする
                 phaseBars[i].minRatio = (count - 1 - i) * step;
                 phaseBars[i].maxRatio = (count - i) * step;
-                Debug.Log($"[BossHPPhaseManager] Bar '{phaseBars[i].entity.name}' (index {i}) assigned range: {phaseBars[i].minRatio:F2} - {phaseBars[i].maxRatio:F2}");
+                Debug.Log($"[BossHPPhaseManager] Bar '{phaseBars[i].entity.name}' assigned range: {phaseBars[i].minRatio:F2} - {phaseBars[i].maxRatio:F2}");
             }
+        }
+        else
+        {
+            Debug.Log("[BossHPPhaseManager] WARNING: No PhaseBars found!");
         }
     }
 

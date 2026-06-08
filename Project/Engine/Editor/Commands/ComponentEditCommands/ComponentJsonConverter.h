@@ -71,6 +71,21 @@ void from_json(const nlohmann::json& _j, Line3DRenderer& _l);
 void to_json(nlohmann::json& _j, const Line3DRenderer& _l);
 
 // ParticleSystem
+void from_json(const nlohmann::json& _j, AnimationCurveKey& _k);
+void to_json(nlohmann::json& _j, const AnimationCurveKey& _k);
+void from_json(const nlohmann::json& _j, AnimationCurve& _c);
+void to_json(nlohmann::json& _j, const AnimationCurve& _c);
+void from_json(const nlohmann::json& _j, MinMaxCurve& _m);
+void to_json(nlohmann::json& _j, const MinMaxCurve& _m);
+void from_json(const nlohmann::json& _j, GradientColorKey& _k);
+void to_json(nlohmann::json& _j, const GradientColorKey& _k);
+void from_json(const nlohmann::json& _j, GradientAlphaKey& _k);
+void to_json(nlohmann::json& _j, const GradientAlphaKey& _k);
+void from_json(const nlohmann::json& _j, ParticleSystemGradient& _g);
+void to_json(nlohmann::json& _j, const ParticleSystemGradient& _g);
+void from_json(const nlohmann::json& _j, MinMaxGradient& _m);
+void to_json(nlohmann::json& _j, const MinMaxGradient& _m);
+
 void from_json(const nlohmann::json& _j, ParticleSystem& _p);
 void to_json(nlohmann::json& _j, const ParticleSystem& _p);
 void from_json(const nlohmann::json& _j, MinMaxFloat& _m);
@@ -91,6 +106,8 @@ void from_json(const nlohmann::json& _j, ParticleSystemColorOverLifetime& _c);
 void to_json(nlohmann::json& _j, const ParticleSystemColorOverLifetime& _c);
 void from_json(const nlohmann::json& _j, ParticleSystemSizeOverLifetime& _s);
 void to_json(nlohmann::json& _j, const ParticleSystemSizeOverLifetime& _s);
+void from_json(const nlohmann::json& _j, ParticleSystemVelocityOverLifetime& _v);
+void to_json(nlohmann::json& _j, const ParticleSystemVelocityOverLifetime& _v);
 
 
 } /// ONEngine

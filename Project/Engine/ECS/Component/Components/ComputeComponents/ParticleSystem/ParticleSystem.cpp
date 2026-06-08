@@ -79,6 +79,9 @@ namespace ONEngine {
         isPlaying_ = true;
         isPaused_ = false;
         playbackTime_ = 0.0f;
+        aliveCount = 0;
+        emitAccumulator = 0.0f;
+        std::fill(burstCycleCounts.begin(), burstCycleCounts.end(), 0);
     }
 
     void ParticleSystem::Stop() {

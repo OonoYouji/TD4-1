@@ -46,4 +46,10 @@ public:
 
 };
 
+/// @brief Mono Internal Calls
+float InternalGetRadius(uint64_t _nativeHandle);
+void InternalSetRadius(uint64_t _nativeHandle, float _radius);
+bool InternalIsTriggerSphere(uint64_t _nativeHandle);
+void InternalSetTriggerSphere(uint64_t _nativeHandle, bool _trigger);
+
 } /// ONEngine

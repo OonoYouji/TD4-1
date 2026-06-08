@@ -21,6 +21,12 @@ public class VortexField : MonoScript
     {
         lifeTimer = duration;
         damageTimer = 0.0f;
+
+        // トリガー設定を適用（吸い込み中に反発しないようにする）
+        var sphere = entity.GetComponent<SphereCollider>();
+        if (sphere != null) sphere.isTrigger = true;
+        var box = entity.GetComponent<BoxCollider>();
+        if (box != null) box.isTrigger = true;
     }
 
     public override void Update()
@@ -67,7 +73,7 @@ public class VortexField : MonoScript
             }
         }
 
-        // デバッグ表示
-        GizmoBatch.DrawWireCircle(center, suctionRadius, new Vector4(0, 0, 1, 0.5f));
+        // デバッグ表示 (紫、太さ16.0)
+        GizmoBatch.DrawWireCircle(center, suctionRadius, new Vector4(1, 0, 1, 0.5f), 32, 16.0f);
     }
 }

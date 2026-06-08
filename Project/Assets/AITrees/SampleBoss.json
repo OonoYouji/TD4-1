@@ -70,7 +70,7 @@
             "inputs": [{ "id": 110, "name": "In" }], "outputs": []
         },
         {
-            "id": 12, "className": "WaitRandomNode", "name": "Idle / Patrol", "isDecorator": false, "hasBreakpoint": false, "properties": { "minDuration": "2.0", "maxDuration": "4.0" },
+            "id": 12, "className": "WaitRandomNode", "name": "Idle / Patrol", "isDecorator": false, "hasBreakpoint": false, "properties": { "minDuration": "2.0", "maxDuration": "4.0", "animationName": "idle" },
             "decorators": [], "services": [], "pos": [450.0, 300.0],
             "inputs": [{ "id": 120, "name": "In" }], "outputs": []
         }

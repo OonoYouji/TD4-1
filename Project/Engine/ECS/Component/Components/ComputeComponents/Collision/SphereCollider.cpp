@@ -31,6 +31,7 @@ void ComponentDebug::SphereColliderDebug(SphereCollider* _c) {
 			_c->collisionState_ = static_cast<CollisionState>(currentIndex);
 		}
 
+		ImGui::Checkbox("Is Trigger", &_c->isTrigger_);
 		ImGui::Checkbox("Freeze Y", &_c->freezeY_);
 		ImGui::DragFloat("Mass", &_c->mass_, 0.1f, 0.001f, 10000.0f);
 	}
@@ -102,6 +103,7 @@ void ComponentDebug::SphereColliderDebug(SphereCollider* _c) {
 void ONEngine::from_json(const nlohmann::json& _j, SphereCollider& _s) {
 	_s.enable = _j.value("enable", 1);
 	_s.radius_ = _j.value("radius", 1.0f);
+	_s.isTrigger_ = _j.value("isTrigger", false);
 	_s.freezeY_ = _j.value("freezeY", false);
 	_s.mass_ = _j.value("mass", 1.0f);
 	_s.collisionState_ = magic_enum::enum_cast<CollisionState>(_j.value("state", "Dynamic")).value_or(CollisionState::Dynamic);
@@ -114,6 +116,7 @@ void ONEngine::to_json(nlohmann::json& _j, const SphereCollider& _s) {
 		{ "type", "SphereCollider" },
 		{ "enable", _s.enable },
 		{ "radius", _s.GetRadius() },
+		{ "isTrigger", _s.IsTrigger() },
 		{ "freezeY", _s.freezeY_ },
 		{ "mass", _s.mass_ },
 		{ "state", magic_enum::enum_name(_s.collisionState_) },
@@ -134,5 +137,25 @@ void SphereCollider::SetRadius(float _radius) {
 
 float SphereCollider::GetRadius() const {
 	return radius_;
+}
+
+float ONEngine::InternalGetRadius(uint64_t _nativeHandle) {
+	SphereCollider* c = reinterpret_cast<SphereCollider*>(_nativeHandle);
+	return c ? c->GetRadius() : 0.0f;
+}
+
+void ONEngine::InternalSetRadius(uint64_t _nativeHandle, float _radius) {
+	SphereCollider* c = reinterpret_cast<SphereCollider*>(_nativeHandle);
+	if(c) c->SetRadius(_radius);
+}
+
+bool ONEngine::InternalIsTriggerSphere(uint64_t _nativeHandle) {
+	SphereCollider* c = reinterpret_cast<SphereCollider*>(_nativeHandle);
+	return c ? c->IsTrigger() : false;
+}
+
+void ONEngine::InternalSetTriggerSphere(uint64_t _nativeHandle, bool _trigger) {
+	SphereCollider* c = reinterpret_cast<SphereCollider*>(_nativeHandle);
+	if(c) c->SetTrigger(_trigger);
 }
 

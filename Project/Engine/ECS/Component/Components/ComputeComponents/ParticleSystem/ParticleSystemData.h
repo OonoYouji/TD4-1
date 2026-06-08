@@ -159,7 +159,7 @@ namespace ONEngine {
     };
 
     struct ParticleSystemRenderer {
-        enum class RenderMode {
+        enum class RenderMode : uint8_t {
             Billboard,
             StretchedBillboard,
             HorizontalBillboard,
@@ -167,6 +167,17 @@ namespace ONEngine {
             Mesh
         };
         RenderMode renderMode = RenderMode::Billboard;
+
+        enum class BlendMode : uint8_t {
+            Normal,
+            Add,
+            Subtract,
+            Multiply,
+            Screen,
+            None
+        };
+        BlendMode blendMode = BlendMode::Normal;
+
         std::string materialGuid; // Reference to material asset
         std::string meshGuid;     // For Mesh mode
     };

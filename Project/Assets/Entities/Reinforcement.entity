@@ -2,14 +2,13 @@
     "active": true,
     "components": [
         {
-            "ReinforcementFallIn": {
-                "shakeAmplitude": 1.5,
-                "shakeFrequency": 50.20000076293945
+            "ReinforcementAnimation": {
+                "scaleMultiplier": 1.5
             },
             "type": "Variables"
         }
     ],
-    "guid": "cc40ca01f0efa9e2c31d58e691374d00",
+    "guid": "4d7a604daba6f00eb61a0f5b3fd86385",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

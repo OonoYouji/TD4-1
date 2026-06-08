@@ -62,7 +62,7 @@
         {
             "className": "WaitNode", "id": 5, "name": "Attack Wait", "pos": [800.0, 50.0],
             "inputs": [{ "id": 120, "name": "In" }], "outputs": [],
-            "properties": { "duration": "3.0" },
+            "properties": { "duration": "3.0", "animationName": "idle" },
             "services": []
         },
         {

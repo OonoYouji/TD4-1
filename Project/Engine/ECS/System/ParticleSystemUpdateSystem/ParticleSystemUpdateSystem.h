@@ -14,6 +14,7 @@ namespace ONEngine {
 
     private:
         void DrawGizmos(class ECSGroup* _ecs);
+        void UpdateSingleSystem(class ParticleSystem* ps, class GameEntity* entity, float dt);
     };
 
 }

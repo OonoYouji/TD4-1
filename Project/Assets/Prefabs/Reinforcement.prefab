@@ -41,6 +41,12 @@
                 "supportedScale": 5.0,
                 "viewAngle": 60.0
             },
+            "ReinforcementAnimation": {
+                "expandDuration": 0.10000000149011612,
+                "loopCount": 4,
+                "scaleMultiplier": 1.5,
+                "shrinkDuration": 0.10000000149011612
+            },
             "ReinforcementDamageHandler": {
                 "damageCooldownTime": 0.0
             },
@@ -70,6 +76,10 @@
                 {
                     "enable": true,
                     "name": "ReinforcementDamageHandler"
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementAnimation"
                 }
             ],
             "type": "Script"
@@ -113,7 +123,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "cc40ca01f0efa9e2c31d58e691374d00",
+    "guid": "4d7a604daba6f00eb61a0f5b3fd86385",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

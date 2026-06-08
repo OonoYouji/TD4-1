@@ -14,7 +14,8 @@ public class BossVortexAttack : MonoScript
     [SerializeField] public float duration = 5.0f;
     [SerializeField] public string vortexPrefabName = "VortexField";
 
-    private bool isActive = false;
+    private bool isActive_ = false;
+    public bool IsActive => isActive_;
 
     public override void Update()
     {
@@ -27,7 +28,7 @@ public class BossVortexAttack : MonoScript
 
     public void StartAttack()
     {
-        if (isActive) return;
+        if (isActive_) return;
         
         Debug.Log($"[BossVortexAttack] Spawning {vortexCount} vortex fields.");
         
