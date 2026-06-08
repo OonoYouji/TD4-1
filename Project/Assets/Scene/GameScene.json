@@ -1295,7 +1295,7 @@
                 },
                 {
                     "enable": 1,
-                    "scripts": null,
+                    "scripts": [],
                     "type": "Script"
                 },
                 {
@@ -1360,7 +1360,7 @@
                 },
                 {
                     "enable": 1,
-                    "scripts": null,
+                    "scripts": [],
                     "type": "Script"
                 },
                 {
