@@ -154,6 +154,11 @@
             "guid": "aa11bb22cc33dd44ee55ff66aa11bb22",
             "parentGuid": null,
             "path": "./GameScene/BossMovementBlockManager.entity"
+        },
+        {
+            "guid": "cbb53877fd57f5550ada1623f9533723",
+            "parentGuid": null,
+            "path": "./GameScene/MovementBounds.entity"
         }
     ]
 }

@@ -140,6 +140,8 @@
     <Compile Include="Scripts\Game\Common\DamageTrigger.cs" />
     <Compile Include="Scripts\Game\Common\HP.cs" />
     <Compile Include="Scripts\Game\Common\RandomUtil.cs" />
+    <Compile Include="Scripts\Game\Common\MovementBounds.cs" />
+    <Compile Include="Scripts\Game\Common\BoundsConstraint.cs" />
     <Compile Include="Scripts\Game\Common\Transition\SceneTransitionController.cs" />
     <Compile Include="Scripts\Game\Common\Transition\TransitionIn.cs" />
     <Compile Include="Scripts\Game\Common\Transition\TransitionOut.cs" />
