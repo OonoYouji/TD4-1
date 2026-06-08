@@ -23,6 +23,9 @@
             "type": "Transform"
         },
         {
+            "BoundsConstraint": {
+                "waitForEntry": true
+            },
             "HP": {
                 "MAX_HP": 10,
                 "currentHp": 10,
@@ -80,6 +83,10 @@
                 {
                     "enable": true,
                     "name": "ReinforcementAnimation"
+                },
+                {
+                    "enable": true,
+                    "name": "BoundsConstraint"
                 }
             ],
             "type": "Script"
@@ -123,7 +130,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "4d7a604daba6f00eb61a0f5b3fd86385",
+    "guid": "f4efdc7168fa741b9ee53b0d2acb9c31",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"
