@@ -3,6 +3,7 @@ using System.Collections.Generic;
 class UiControlManager : MonoScript
 {
     Player playerScript;
+    CallingReinforcement callingReinforcement;
     bool isGamepadMode = true;
     readonly List<UiController> uiControllers = new List<UiController>();
 
@@ -23,6 +24,12 @@ class UiControlManager : MonoScript
             {
                 Debug.LogError("Player script not found on the Player entity.");
             }
+
+            callingReinforcement = player.GetScript<CallingReinforcement>();
+            if (callingReinforcement == null)
+            {
+                Debug.LogError("CallingReinforcement script not found on the Player entity.");
+            }
         }
 
         // UiControllerを子の中から取得
@@ -39,14 +46,14 @@ class UiControlManager : MonoScript
 
     public override void Update()
     {
-        if (playerScript == null)
+        if (playerScript == null || callingReinforcement == null)
         {
-            return; // Player scriptが見つからない場合は処理をスキップ
+            return;
         }
 
         // UIの描画をするかどうか
         // プレイヤーが一定時間操作していない場合はUIを表示する
-        bool isPlayerUncontrolled = playerScript.fireCooldownTimer >= UNCONTROLED_THRESHOLD;
+        bool isPlayerUncontrolled = callingReinforcement.spawnTimer >= UNCONTROLED_THRESHOLD;
         foreach (UiController uiController in uiControllers)
         {
             uiController.entity.enable = isPlayerUncontrolled;
