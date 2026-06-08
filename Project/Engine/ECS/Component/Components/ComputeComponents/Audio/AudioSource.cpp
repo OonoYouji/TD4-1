@@ -10,6 +10,7 @@
 
 /// editor
 #include "Engine/Editor/Math/ImGuiMath.h"
+#include "Engine/Editor/Math/AssetPayload.h"
 
 using namespace ONEngine;
 
@@ -86,16 +87,19 @@ void ComponentDebug::AudioSourceDebug(AudioSource* _as) {
 	if (ImGui::BeginDragDropTarget()) {
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
 			if (payload->Data) {
-				const char* droppedPath = static_cast<const char*>(payload->Data);
-				const std::string&& path = std::string(droppedPath);
-				const std::string&& extension = FileSystem::FileExtension(path);
+				Editor::AssetPayload* assetPayload = *static_cast<Editor::AssetPayload**>(payload->Data);
+				std::string path = assetPayload->filePath;
+				std::string extension = FileSystem::FileExtension(path);
 
 				/// Audioのパスが有効な形式か確認
 				if (extension == ".mp3" ||
-					extension == ".wav") {
+					extension == ".wav" ||
+					extension == ".ogg") {
 					_as->SetAudioPath(path);
 
 					Console::Log(std::format("Audio path set to: {}", path));
+				} else {
+					Console::LogError("Invalid audio format. Please use .mp3, .wav, or .ogg.");
 				}
 			}
 		}

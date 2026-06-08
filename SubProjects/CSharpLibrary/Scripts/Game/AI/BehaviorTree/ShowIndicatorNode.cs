@@ -134,7 +134,7 @@ public class ShowIndicatorNode : BehaviorNode
                 // サンリティチェック
                 if (currentTarget.sqrMagnitude < 0.0001f)
                 {
-                    Debug.LogWarning($"<color=red>[TRACE:Indicator]</color> {owner.name} read ZERO-COORDINATE. Fallback to owner front.");
+//                     Debug.LogWarning($"<color=red>[TRACE:Indicator]</color> {owner.name} read ZERO-COORDINATE. Fallback to owner front.");
                     currentTarget = owner.transform.position + owner.transform.rotate * Vector3.forward * 10.0f;
                 }
 
@@ -242,7 +242,7 @@ public class ShowIndicatorNode : BehaviorNode
                         telegraph.transform.scale = new Vector3(finalSize, 0.01f, finalSize);
 
                         // デバッグログ追加
-                        Debug.Log($"[Indicator:Circle] ID:{telegraph.Id} Name:{name} Pos:{Vector3.ToSimpleString(originPos)} Scale:{finalSize},0.01,{finalSize}");
+//                         Debug.Log($"[Indicator:Circle] ID:{telegraph.Id} Name:{name} Pos:{Vector3.ToSimpleString(originPos)} Scale:{finalSize},0.01,{finalSize}");
 
                         // --- デバッグ用描画 ---
                         GizmoBatch.DrawLine(new Vector3(originPos.x - finalSize*0.5f, 0.1f, originPos.z), new Vector3(originPos.x + finalSize*0.5f, 0.1f, originPos.z), color);

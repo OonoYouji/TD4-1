@@ -20,10 +20,10 @@ public class GameController : MonoScript {
         if (player != null) {
             playerHp = player.GetScript<HP>();
             if (playerHp == null) {
-                Debug.LogWarning("GameController: HP script not found on Player entity!");
+//                 Debug.LogWarning("GameController: HP script not found on Player entity!");
             }
         } else {
-            Debug.LogWarning("GameController: Player entity not found!");
+//             Debug.LogWarning("GameController: Player entity not found!");
         }
     }
 
@@ -38,26 +38,26 @@ public class GameController : MonoScript {
 
         // デバッグ用キー入力
         if (Input.TriggerKey(KeyCode.K)) {
-            Debug.Log("[GameController] Debug Key K pressed - Triggering Game Clear");
+//             Debug.Log("[GameController] Debug Key K pressed - Triggering Game Clear");
             TriggerGameClear();
             return;
         }
         if (Input.TriggerKey(KeyCode.L)) {
-            Debug.Log("[GameController] Debug Key L pressed - Triggering Game Over");
+//             Debug.Log("[GameController] Debug Key L pressed - Triggering Game Over");
             TriggerGameOver();
             return;
         }
 
         // ゲームオーバー判定: プレイヤーのHPが0
         if (playerHp != null && playerHp.currentHp <= 0) {
-            Debug.Log($"[GameController] Player HP is {playerHp.currentHp}. Triggering Game Over.");
+//             Debug.Log($"[GameController] Player HP is {playerHp.currentHp}. Triggering Game Over.");
             TriggerGameOver();
             return;
         }
 
         // ゲームクリア判定: ボスのHPが0
         if (IsBossDefeated()) {
-            Debug.Log("[GameController] IsBossDefeated returned TRUE. Triggering Game Clear.");
+//             Debug.Log("[GameController] IsBossDefeated returned TRUE. Triggering Game Clear.");
             TriggerGameClear();
         }
     }
@@ -99,14 +99,14 @@ public class GameController : MonoScript {
         isGameFinished = true;
         currentStatus = "Game Clear";
         currentPhase = "Defeated";
-        Debug.Log("GameController: ALL ENEMIES DEFEATED! Game Clear!");
+//         Debug.Log("GameController: ALL ENEMIES DEFEATED! Game Clear!");
         Transition(clearSceneName);
     }
 
     private void TriggerGameOver() {
         isGameFinished = true;
         currentStatus = "Game Over";
-        Debug.Log("GameController: PLAYER DIED! Game Over!");
+//         Debug.Log("GameController: PLAYER DIED! Game Over!");
         Transition(overSceneName);
     }
 

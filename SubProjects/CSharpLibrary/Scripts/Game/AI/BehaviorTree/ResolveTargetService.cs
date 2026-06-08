@@ -30,7 +30,7 @@ public class ResolveTargetService : BehaviorService
         string name = currentVal as string;
         if (string.IsNullOrEmpty(name)) {
             // 文字列が見つからない場合のみエラーログ（初回のみに限定するため GetValueAsObject で判定）
-            if (currentVal == null) Debug.Log($"[ResolveTarget] Key '{targetNameKey}' is empty or missing.");
+//             if (currentVal == null) Debug.Log($"[ResolveTarget] Key '{targetNameKey}' is empty or missing.");
             return;
         }
 
@@ -38,12 +38,12 @@ public class ResolveTargetService : BehaviorService
         Entity found = FindEntityByName(name, owner);
         if (found != null)
         {
-            Debug.Log($"[ResolveTarget] Successfully resolved '{name}' to Entity ID:{found.Id}");
+//             Debug.Log($"[ResolveTarget] Successfully resolved '{name}' to Entity ID:{found.Id}");
             // オブジェクトとして保存（これにより次フレームからは 'val is Entity' に入り、文字列は消えても問題なくなる）
             blackboard.SetObject(BehaviorTreeLoader.HashString(resultEntityKey), found);
         }
         else {
-            if ((int)(Time.time * 2) % 10 == 0) Debug.Log($"[ResolveTarget] Could not find entity with name '{name}'.");
+//             if ((int)(Time.time * 2) % 10 == 0) Debug.Log($"[ResolveTarget] Could not find entity with name '{name}'.");
         }
     }
 

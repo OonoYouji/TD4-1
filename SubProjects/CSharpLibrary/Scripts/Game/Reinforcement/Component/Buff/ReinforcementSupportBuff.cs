@@ -11,7 +11,7 @@ public partial class Reinforcement
         // ReinforcementManagerのnullチェック
         if (ReinforcementManager.Instance == null)
         {
-            Debug.Log("<color=red>[SupportBuff]</color> ReinforcementManager.Instance is null.");
+//             Debug.Log("<color=red>[SupportBuff]</color> ReinforcementManager.Instance is null.");
             return;
         }
 
@@ -43,7 +43,7 @@ public partial class Reinforcement
             }
         }
 
-        Debug.Log($"<color=cyan>[SupportBuff]</color> {entity.name} buffed {buffed} units. (radius={supportBuffRadius})");
+//         Debug.Log($"<color=cyan>[SupportBuff]</color> {entity.name} buffed {buffed} units. (radius={supportBuffRadius})");
     }
 
     // バフを受け取ってSupportedに切り替える
@@ -64,6 +64,6 @@ public partial class Reinforcement
         ReinforcementAnimation anim = entity.GetScript<ReinforcementAnimation>();
         anim?.Play(transform.scale.x, supportedScale);
 
-        Debug.Log($"<color=yellow>[SupportBuff:Recv]</color> {entity.name} → Supported ({transform.scale.x:F2}→{supportedScale}, dmg={supportedDamage})");
+//         Debug.Log($"<color=yellow>[SupportBuff:Recv]</color> {entity.name} → Supported ({transform.scale.x:F2}→{supportedScale}, dmg={supportedDamage})");
     }
 }

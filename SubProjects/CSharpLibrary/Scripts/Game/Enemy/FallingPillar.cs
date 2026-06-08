@@ -75,12 +75,12 @@ private void OnImpact()
     _hasImpacted = true;
     _isFalling = false;
 
-    Debug.Log($"<color=red>[FallingPillar:Impact]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
+//     Debug.Log($"<color=red>[FallingPillar:Impact]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
 
     // 1. 衝撃演出
     FrameEvent.EnqueueNamedEvent("Effect_PillarImpact", entity.Id);
     FrameEvent.EnqueueNamedEvent("CameraShake_Strong", entity.Id);
-    Debug.Log($"[FallingPillar] Impact at {Vector3.ToSimpleString(transform.position)}");
+//     Debug.Log($"[FallingPillar] Impact at {Vector3.ToSimpleString(transform.position)}");
 
     // 2. 当たり判定（直撃と衝撃波）の処理
     var entities = entity.Group.GetEntities();
@@ -102,7 +102,7 @@ private void OnImpact()
 
                 if (e.name.Contains("Player"))
                 {
-                    Debug.Log("<color=red>[Pillar]</color> Direct hit on Player! 3s Stun.");
+//                     Debug.Log("<color=red>[Pillar]</color> Direct hit on Player! 3s Stun.");
                 }
             }
             else

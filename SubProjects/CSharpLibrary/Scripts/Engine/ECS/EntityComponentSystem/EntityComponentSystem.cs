@@ -33,7 +33,7 @@ static public class EntityComponentSystem {
 
 		ECSGroup group = new ECSGroup(trimmedName);
 		groups.Add(trimmedName, group);
-		Debug.LogInfo("EntityComponentSystem.AddECSGroup - added: '" + group.groupName + "'  GroupCount " + groups.Count);
+// 		Debug.LogInfo("EntityComponentSystem.AddECSGroup - added: '" + group.groupName + "'  GroupCount " + groups.Count);
 		return group;
 	}
 
@@ -44,7 +44,7 @@ static public class EntityComponentSystem {
 		string trimmedName = _name.Trim();
 		if (groups.TryGetValue(trimmedName, out ECSGroup group)) {
 			group.ClearForSceneTransition();
-			Debug.LogInfo("EntityComponentSystem.ClearECSGroup - cleared: '" + group.groupName + "'");
+// 			Debug.LogInfo("EntityComponentSystem.ClearECSGroup - cleared: '" + group.groupName + "'");
 		}
 	}
 
@@ -68,9 +68,9 @@ static public class EntityComponentSystem {
 			}
 
 #if DEBUG
-			Debug.LogError("EntityComponentSystem.GetECSGroup - ECSGroup not found: '" + trimmedName + "'  GroupCount " + groups.Count);
+// 			Debug.LogError("EntityComponentSystem.GetECSGroup - ECSGroup not found: '" + trimmedName + "'  GroupCount " + groups.Count);
 			foreach (var ecsGroup in groups) {
-				Debug.LogError("Available ECSGroups: '" + ecsGroup.Key + "'");
+// 				Debug.LogError("Available ECSGroups: '" + ecsGroup.Key + "'");
 			}
 #endif
 			return null;
@@ -83,10 +83,10 @@ static public class EntityComponentSystem {
 	/// </summary>
 	static public void DeleteEntityAll() {
 #if DEBUG
-		Debug.Log("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.Log("EntityComponentSystem.DeleteEntityAll - Deleting all entities from all ECSGroups. GroupCount: " + groups.Count);
-		Debug.Log("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.LogInfo("All entities deleted from all ECSGroups.");
+// 		Debug.Log("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+// 		Debug.Log("EntityComponentSystem.DeleteEntityAll - Deleting all entities from all ECSGroups. GroupCount: " + groups.Count);
+// 		Debug.Log("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+// 		Debug.LogInfo("All entities deleted from all ECSGroups.");
 #endif
 
 		foreach (var group in groups.Values) {
@@ -112,7 +112,7 @@ static public class EntityComponentSystem {
 			return group.GetEntity(_id);
 		} else {
 	#if DEBUG
-			Debug.LogError("EntityComponentSystem.GetEntity - ECSGroup not found: " + _groupName);
+// 			Debug.LogError("EntityComponentSystem.GetEntity - ECSGroup not found: " + _groupName);
 	#endif
 			return null;
 		}
@@ -129,13 +129,13 @@ static public class EntityComponentSystem {
 				return entity.GetScript(_scriptName);
 			} else {
 #if DEBUG
-				Debug.LogError("EntityComponentSystem.GetMonoBehavior - Entity not found with ID: " + _entityId);
+// 				Debug.LogError("EntityComponentSystem.GetMonoBehavior - Entity not found with ID: " + _entityId);
 #endif
 				return null;
 			}
 		} else {
 #if DEBUG
-			Debug.LogError("EntityComponentSystem.GetMonoBehavior - ECSGroup not found: " + _groupName);
+// 			Debug.LogError("EntityComponentSystem.GetMonoBehavior - ECSGroup not found: " + _groupName);
 #endif
 			return null;
 		}

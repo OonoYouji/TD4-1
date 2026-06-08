@@ -96,7 +96,7 @@ public class SpawnPillarNode : BehaviorNode
             }
         }
 
-        Debug.Log($"[SpawnPillar] Sequential drop {index+1}/{dropCount} at {finalTargetPos}");
+//         Debug.Log($"[SpawnPillar] Sequential drop {index+1}/{dropCount} at {finalTargetPos}");
     }
 
     public override void OnAbort(Blackboard blackboard, Entity owner)

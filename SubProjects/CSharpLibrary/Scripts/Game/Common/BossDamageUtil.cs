@@ -18,7 +18,7 @@ public static class BossDamageUtil
     {
         if (target == null || target.Id == 0) return;
 
-        Debug.Log($"<color=cyan>[BossDamageUtil]</color> Applying {damage} damage to {target.name} (ID:{target.Id})");
+//         Debug.Log($"<color=cyan>[BossDamageUtil]</color> Applying {damage} damage to {target.name} (ID:{target.Id})");
 
         // 1. 汎用 DamageHandler (HPを持つエンティティ、ボス、障害物など)
         DamageHandler handler = target.GetScript<DamageHandler>();
@@ -43,7 +43,7 @@ public static class BossDamageUtil
             // 衝突判定が有効な場合のみダメージ（穴にはまってる間などは無効）
             if (reinforcement.isCollisionEnabled)
             {
-                Debug.Log($"<color=cyan>[BossDamageUtil]</color> Reinforcement {target.name} TakeDamage() called.");
+//                 Debug.Log($"<color=cyan>[BossDamageUtil]</color> Reinforcement {target.name} TakeDamage() called.");
                 reinforcement.TakeDamage();
             }
             return;
@@ -54,7 +54,7 @@ public static class BossDamageUtil
         {
             HP hp = target.GetScript<HP>();
             if (hp != null) {
-                Debug.Log($"<color=cyan>[BossDamageUtil]</color> Player direct HP reduction: {hp.currentHp} -> {hp.currentHp - damage}");
+//                 Debug.Log($"<color=cyan>[BossDamageUtil]</color> Player direct HP reduction: {hp.currentHp} -> {hp.currentHp - damage}");
                 hp.TakeDamage(damage);
             }
         }
@@ -72,9 +72,9 @@ public static class BossDamageUtil
     /// <param name="damage">ダメージ量</param>
     public static void ApplyAreaDamage(ECSGroup group, Vector3 center, float radius, int damage)
     {
-        Debug.Log($"<color=red>[BossDamageUtil:HitArea]</color> GENERATED Area Attack at {Vector3.ToSimpleString(center)} with Radius: {radius}");
+//         Debug.Log($"<color=red>[BossDamageUtil:HitArea]</color> GENERATED Area Attack at {Vector3.ToSimpleString(center)} with Radius: {radius}");
         
-        if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> --- AreaDamage Start --- Center={Vector3.ToSimpleString(center)}, Radius={radius}");
+//         if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> --- AreaDamage Start --- Center={Vector3.ToSimpleString(center)}, Radius={radius}");
 
         // 開発用デバッグ表示 (赤い円、太さ12.0)
         GizmoBatch.DrawWireCircle(center + Vector3.up * 0.1f, radius, new Vector4(1, 0, 0, 1), 32, 12.0f);
@@ -84,7 +84,7 @@ public static class BossDamageUtil
         var allEntities = group.GetEntities();
         List<Entity> targets = new List<Entity>();
 
-        if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> Scanning {allEntities.Count()} entities in group.");
+//         if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> Scanning {allEntities.Count()} entities in group.");
 
         foreach (var e in allEntities)
         {
@@ -98,14 +98,14 @@ public static class BossDamageUtil
 
             if (_traceHits && isTarget) 
             {
-                Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> Candidate: '{name}' (ID:{e.Id}) at {Vector3.ToSimpleString(e.transform.position)}, Dist:{dist:F2}");
+//                 Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> Candidate: '{name}' (ID:{e.Id}) at {Vector3.ToSimpleString(e.transform.position)}, Dist:{dist:F2}");
             }
 
             if (!isTarget) continue;
 
             if (dist <= radius)
             {
-                if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> HIT: '{name}'");
+//                 if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> HIT: '{name}'");
                 targets.Add(e);
             }
         }
@@ -115,8 +115,8 @@ public static class BossDamageUtil
             ApplyDamage(target, damage, center);
         }
 
-        if (targets.Count > 0) Debug.Log($"<color=cyan>[BossDamageUtil]</color> AreaDamage hit {targets.Count} entities.");
-        if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> --- AreaDamage End ---");
+//         if (targets.Count > 0) Debug.Log($"<color=cyan>[BossDamageUtil]</color> AreaDamage hit {targets.Count} entities.");
+//         if (_traceHits) Debug.Log($"<color=cyan>[BossDamageUtil:Trace]</color> --- AreaDamage End ---");
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public static class BossDamageUtil
             Player player = target.GetScript<Player>();
             if (player != null)
             {
-                Debug.Log($"<color=cyan>[BossDamageUtil]</color> Applying Slow to Player: mult={multiplier}, dur={duration}s");
+//                 Debug.Log($"<color=cyan>[BossDamageUtil]</color> Applying Slow to Player: mult={multiplier}, dur={duration}s");
                 player.ApplySlow(multiplier, duration);
             }
         }

@@ -36,7 +36,7 @@ static public class Input {
 
 	static public Vector2 GamepadThumb(GamepadAxis axis) {
 		int axisIndex = (int)axis;
-		Debug.Log("GamepadThumb: " + axisIndex);
+// 		Debug.Log("GamepadThumb: " + axisIndex);
 		Vector2 output;
 		InternalGetGamepadThumb(axisIndex, out output.x, out output.y);
 		return output;

@@ -32,7 +32,7 @@ public class FireBeamNode : BehaviorNode
         if (!blackboard.HasKey(startTimeKey))
         {
             blackboard.SetFloat(startTimeKey, currentTime);
-            Debug.Log($"<color=red>[FireBeam]</color> {owner.name} started FIRING beam!");
+//             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} started FIRING beam!");
 
             // --- 予測線の削除 ---
             uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
@@ -95,7 +95,7 @@ public class FireBeamNode : BehaviorNode
             }
 
             blackboard.Remove(startTimeKey);
-            Debug.Log($"<color=red>[FireBeam]</color> {owner.name} finished FIRING beam.");
+//             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} finished FIRING beam.");
             
             return NodeStatus.Success;
         }

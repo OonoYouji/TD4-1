@@ -35,20 +35,20 @@ public class RunBehaviorNode : BehaviorNode
         {
             try
             {
-                Debug.Log($"[RunBehavior] Attempting to load subtree: {treePath}");
+//                 Debug.Log($"[RunBehavior] Attempting to load subtree: {treePath}");
                 _subTree = BehaviorTreeLoader.LoadFromFile(treePath, owner);
                 if (_subTree != null)
                 {
-                    Debug.Log($"[RunBehavior] Successfully loaded subtree: {treePath} (Root:{_subTree.RootNode.name})");
+//                     Debug.Log($"[RunBehavior] Successfully loaded subtree: {treePath} (Root:{_subTree.RootNode.name})");
                 }
                 else {
-                    Debug.LogWarning($"[RunBehavior] LoadFromFile returned null for: {treePath}");
+//                     Debug.LogWarning($"[RunBehavior] LoadFromFile returned null for: {treePath}");
                     _failedToLoad = true;
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"RunBehaviorNode: Failed to load subtree {treePath}. Error: {e.Message}");
+//                 Debug.LogError($"RunBehaviorNode: Failed to load subtree {treePath}. Error: {e.Message}");
                 _failedToLoad = true;
             }
         }

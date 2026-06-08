@@ -45,7 +45,7 @@ public class BossMovement : MonoScript
         // 攻撃中は移動スクリプトからのアニメーション上書きを禁止する
         if (IsAnyAttackActive()) return;
 
-        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+//         Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
         animator.CrossFade(clipName, 0.2f);
         currentAnim = clipName;
     }
@@ -75,7 +75,7 @@ public class BossMovement : MonoScript
             
         // 常にログを出力 (検証用)
         if (logCounter++ % 60 == 0) {
-            Debug.Log($"[GizmoDebug] Blue Line (Movement): Dir({blueDir.x:F1}, {blueDir.y:F1}, {blueDir.z:F1}) isMoving:{isMoving}");
+//             Debug.Log($"[GizmoDebug] Blue Line (Movement): Dir({blueDir.x:F1}, {blueDir.y:F1}, {blueDir.z:F1}) isMoving:{isMoving}");
         }
 
         // --- 自動移動の停止 ---
@@ -120,7 +120,7 @@ public class BossMovement : MonoScript
             transform.position = target;
             isMoving = false;
             waitTimer = waitTimeAtWaypoint;
-            Debug.Log($"[BossMovement] Reached Waypoint {currentWaypointIndex}. Waiting...");
+//             Debug.Log($"[BossMovement] Reached Waypoint {currentWaypointIndex}. Waiting...");
         }
         else
         {

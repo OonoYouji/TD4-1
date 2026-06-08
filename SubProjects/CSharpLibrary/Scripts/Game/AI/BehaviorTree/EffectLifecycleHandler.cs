@@ -54,7 +54,7 @@ public class EffectLifecycleHandler : MonoScript
         {
             // AIに対して完了を通知
             BlackboardManager.SetBool(_ownerId, eventName, true);
-            Debug.Log($"[EffectLifecycle] Notified AI: EventComplete_{eventName} for Entity:{_ownerId}");
+//             Debug.Log($"[EffectLifecycle] Notified AI: EventComplete_{eventName} for Entity:{_ownerId}");
         }
 
         entity.Destroy();

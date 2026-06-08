@@ -165,7 +165,7 @@ public partial class Reinforcement : MonoScript
 
         if (!isRetreating && !isCollisionEnabled)
         {
-            Debug.Log($"<color=green>[Reinforcement:Enable]</color> Collision enabled for {entity.name} (ID:{entity.Id}) after delay.");
+//             Debug.Log($"<color=green>[Reinforcement:Enable]</color> Collision enabled for {entity.name} (ID:{entity.Id}) after delay.");
             isCollisionEnabled = true;
         }
 

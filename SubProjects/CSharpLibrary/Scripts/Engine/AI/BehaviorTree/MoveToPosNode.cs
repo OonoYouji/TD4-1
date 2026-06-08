@@ -22,7 +22,7 @@ public class MoveToPosNode : BehaviorNode
         uint key = BehaviorTreeLoader.HashString(posKey);
         if (!blackboard.HasKey(key))
         {
-            Debug.LogWarning($"MoveToPosNode: Key '{posKey}' not found in Blackboard.");
+//             Debug.LogWarning($"MoveToPosNode: Key '{posKey}' not found in Blackboard.");
             return NodeStatus.Failure;
         }
 
@@ -34,7 +34,7 @@ public class MoveToPosNode : BehaviorNode
         float distance = diff.Length();
 
         if ((int)(Time.time * 2) % 10 == 0) {
-            Debug.Log($"[MoveToPos] {owner.name} Dist:{distance:F2} TargetPos:{targetPos}");
+//             Debug.Log($"[MoveToPos] {owner.name} Dist:{distance:F2} TargetPos:{targetPos}");
         }
 
         // 1. 到着判定

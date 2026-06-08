@@ -20,7 +20,7 @@ class TransitionIn : MonoScript
         right = entity.GetChild(1);
         if (left == null || right == null)
         {
-            Debug.LogError("One or both child entities are missing.");
+//             Debug.LogError("One or both child entities are missing.");
         }
         else
         {

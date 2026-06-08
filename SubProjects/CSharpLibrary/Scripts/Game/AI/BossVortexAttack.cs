@@ -30,7 +30,7 @@ public class BossVortexAttack : MonoScript
     {
         if (isActive_) return;
         
-        Debug.Log($"[BossVortexAttack] Spawning {vortexCount} vortex fields.");
+//         Debug.Log($"[BossVortexAttack] Spawning {vortexCount} vortex fields.");
         
         float angleStep = 360.0f / vortexCount;
         for (int i = 0; i < vortexCount; i++)

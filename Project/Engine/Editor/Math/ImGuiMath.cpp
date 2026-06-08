@@ -416,6 +416,32 @@ void ONEngine::AudioSourceDebug(AudioSource* _audioSource) {
 		if (ImGui::Checkbox("enable", &enabled)) {
 			_audioSource->enable = enabled ? 1 : 0;
 		}
+
+		// --- Audio Path with Drag & Drop Support ---
+		std::string path = _audioSource->GetAudioPath();
+		ImGui::Text("audio path");
+		Editor::ImGuiInputTextReadOnly("##audio", path);
+		
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+				if (payload->Data) {
+					using namespace Editor;
+					AssetPayload* assetPayload = *static_cast<AssetPayload**>(payload->Data);
+					std::string droppedPath = assetPayload->filePath;
+					
+					// 拡張子チェック (mp3, wav, etc...)
+					std::string ext = FileSystem::FileExtension(droppedPath);
+					if (ext == ".mp3" || ext == ".wav" || ext == ".ogg") {
+						_audioSource->SetAudioPath(droppedPath);
+						Console::Log(std::format("Audio path set to: {}", droppedPath));
+					} else {
+						Console::LogError("Invalid audio format. Please use .mp3, .wav, or .ogg.");
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		float volume = _audioSource->GetVolume();
 		if (ImGui::DragFloat("volume", &volume, 0.01f, 0.0f, 1.0f)) {
 			_audioSource->SetVolume(volume);
@@ -424,6 +450,10 @@ void ONEngine::AudioSourceDebug(AudioSource* _audioSource) {
         if (ImGui::Checkbox("loop", &loop)) {
             _audioSource->SetLoop(loop);
         }
+
+		if (ImGui::Button("Play")) {
+			_audioSource->Play();
+		}
 	}
 }
 

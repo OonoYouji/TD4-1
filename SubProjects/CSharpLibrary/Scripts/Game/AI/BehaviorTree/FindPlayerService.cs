@@ -27,7 +27,7 @@ public class FindPlayerService : BehaviorService
         if (player != null)
         {
             blackboard.SetInt(idKeyHash, player.Id);
-            Debug.Log($"<color=green>[FindPlayer]</color> Found 'Player' (ID:{player.Id}) in group '{player.Group.groupName}'");
+//             Debug.Log($"<color=green>[FindPlayer]</color> Found 'Player' (ID:{player.Id}) in group '{player.Group.groupName}'");
         }
         else
         {

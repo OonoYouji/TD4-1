@@ -74,7 +74,7 @@ public class ReinforcementDensitySensingService : BehaviorService
         if (maxNeighbors != -1)
         {
             blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), bestPos);
-            Debug.Log($"<color=green>[TargetSensing]</color> Target updated to {Vector3.ToSimpleString(bestPos)} (Cluster size: {maxNeighbors + 1} entities)");
+//             Debug.Log($"<color=green>[TargetSensing]</color> Target updated to {Vector3.ToSimpleString(bestPos)} (Cluster size: {maxNeighbors + 1} entities)");
         }
         else
         {

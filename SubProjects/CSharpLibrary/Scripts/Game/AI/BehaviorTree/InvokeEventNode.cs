@@ -43,7 +43,7 @@ public class InvokeEventNode : BehaviorNode
         if (!blackboard.HasKey(startTimeKey))
         {
             // 1. 初回実行: イベントを発行
-            Debug.Log($"<color=orange>[InvokeEvent]</color> {owner.name} <b>TRIGGERED</b> event: <color=white>{eventName}</color>");
+//             Debug.Log($"<color=orange>[InvokeEvent]</color> {owner.name} <b>TRIGGERED</b> event: <color=white>{eventName}</color>");
             
             // 完了フラグをリセットしてから発行
             blackboard.SetBool(completeKey, false);
@@ -65,7 +65,7 @@ public class InvokeEventNode : BehaviorNode
         // 設定されたタイムアウト時間を超えた場合
         if (elapsed >= timeoutSec)
         {
-            Debug.LogWarning($"<color=red>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>TIMED OUT</b> after {timeoutSec}s.");
+//             Debug.LogWarning($"<color=red>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>TIMED OUT</b> after {timeoutSec}s.");
             blackboard.Remove(startTimeKey);
             return NodeStatus.Failure;
         }
@@ -73,7 +73,7 @@ public class InvokeEventNode : BehaviorNode
         // Blackboardの完了フラグを監視
         if (blackboard.GetBool(completeKey))
         {
-            Debug.Log($"<color=cyan>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>RECEIVED</b> completion signal.");
+//             Debug.Log($"<color=cyan>[InvokeEvent]</color> {owner.name} event '{eventName}' <b>RECEIVED</b> completion signal.");
             blackboard.SetBool(completeKey, false); // 次回のためにリセット
             blackboard.Remove(startTimeKey);
             return NodeStatus.Success;
