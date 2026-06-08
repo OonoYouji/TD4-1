@@ -134,6 +134,7 @@
     <Compile Include="Scripts\Game\AI\GameStateManager.cs" />
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
     <Compile Include="Scripts\Game\Common\AnimationAutoPlay.cs" />
+    <Compile Include="Scripts\Game\Common\AutoY.cs" />
     <Compile Include="Scripts\Game\Common\BlinkSprite.cs" />
     <Compile Include="Scripts\Game\Common\Bound.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />

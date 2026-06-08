@@ -86,4 +86,9 @@ class SceneSelector : MonoScript
 
         controller.SetSceneName(nextSceneName[nextSceneIndex]);
     }
+
+    public int GetNextSceneIndex()
+    {
+        return nextSceneIndex;
+    }
 }

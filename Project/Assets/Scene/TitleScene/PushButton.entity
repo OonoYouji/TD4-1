@@ -23,6 +23,10 @@
             "type": "Transform"
         },
         {
+            "AutoY": {
+                "HEIGHT": 15.0,
+                "SELECTION_NAME": "Selection"
+            },
             "BlinkSprite": {
                 "BLINK_CYCLE": 1.0
             },
@@ -61,6 +65,10 @@
                 {
                     "enable": true,
                     "name": "BlinkSprite"
+                },
+                {
+                    "enable": true,
+                    "name": "AutoY"
                 }
             ],
             "type": "Script"
