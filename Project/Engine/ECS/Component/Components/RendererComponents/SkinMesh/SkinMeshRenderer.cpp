@@ -198,9 +198,37 @@ void ComponentDebug::SkinMeshRendererDebug(SkinMeshRenderer* _smr, Asset::AssetC
 				ImGui::Text("%s", mainClipName.c_str());
 				ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "[Driven by Animator]");
 
-				if (ImGui::TreeNode("Clip Selection / Preview")) {
+				// --- デフォルトクリップの選択 (改善版) ---
+				ImGui::Spacing();
+				std::string defaultClipName = "None (0)";
+				auto itDefault = clips.find(animator->GetDefaultClip());
+				if (itDefault != clips.end()) {
+					defaultClipName = itDefault->second.name;
+				}
+
+				if (ImGui::BeginCombo("Default Clip", defaultClipName.c_str())) {
+					if (ImGui::Selectable("None", animator->GetDefaultClip() == 0)) {
+						animator->SetDefaultClip(0);
+					}
+					for (const auto& [hash, clip] : clips) {
+						bool isSelected = (animator->GetDefaultClip() == hash);
+						if (ImGui::Selectable(clip.name.c_str(), isSelected)) {
+							animator->SetDefaultClip(hash);
+							animator->Play(hash); // 即座に再生を開始して確認できるようにする
+							Console::Log(std::format("Default Clip set and playing: {} (hash: {})", clip.name, hash));
+						}
+						if (isSelected) ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
+				if (ImGui::IsItemHovered()) {
+					ImGui::SetTooltip("Select the animation to play automatically on start.");
+				}
+
+				if (ImGui::TreeNode("Clip Preview / Test Play")) {
 					for (const auto& [hash, clip] : clips) {
 						bool isCurrent = (mainClipName == clip.name);
+
 						if (ImGui::Selectable(clip.name.c_str(), isCurrent)) {
 							animator->Play(hash);
 							Console::Log(std::format("Preview Clip: {}", clip.name));

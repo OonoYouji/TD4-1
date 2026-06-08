@@ -54,12 +54,17 @@ public:
     /// @brief 指定したクリップの再生時間を取得
     float GetAnimationDuration(uint32_t _clipId) const;
 
+    /// @brief デフォルトクリップの設定
+    void SetDefaultClip(uint32_t _clipId) { defaultClipId = _clipId; }
+    uint32_t GetDefaultClip() const { return defaultClipId; }
+
 public:
     /// ----- objects ----- ///
     
     // 固定長バッファによるDoD最適化
     AnimationLayer layers[MAX_ANIMATION_LAYERS];
 
+    uint32_t defaultClipId = 0;
 };
 
 /// @brief json変換

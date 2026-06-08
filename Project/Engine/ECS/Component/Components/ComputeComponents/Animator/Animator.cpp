@@ -135,6 +135,10 @@ void from_json(const nlohmann::json& _j, Animator& _animator) {
         _animator.enable = _j.at("enable").get<int>();
     }
 
+    if (_j.contains("defaultClipId")) {
+        _animator.defaultClipId = _j.at("defaultClipId").get<uint32_t>();
+    }
+
     if (_j.contains("layers")) {
         const auto& layersJson = _j.at("layers");
         for (uint32_t i = 0; i < (uint32_t)layersJson.size() && i < MAX_ANIMATION_LAYERS; ++i) {
@@ -164,7 +168,8 @@ void from_json(const nlohmann::json& _j, Animator& _animator) {
 void to_json(nlohmann::json& _j, const Animator& _animator) {
     _j = nlohmann::json{
         { "type", "Animator" },
-        { "enable", _animator.enable }
+        { "enable", _animator.enable },
+        { "defaultClipId", _animator.defaultClipId }
     };
 
     auto layersJson = nlohmann::json::array();
@@ -239,6 +244,25 @@ namespace ComponentDebug {
         if (_animators.empty()) return;
 
         Animator* first = _animators[0];
+
+        // デフォルトクリップの表示
+        {
+            std::string defaultClipName = "None";
+            auto* owner = first->GetOwner();
+            auto* smr = owner ? owner->GetComponent<SkinMeshRenderer>() : nullptr;
+            if (smr) {
+                auto* ac = Asset::AssetCollection::GetInstance();
+                if (auto* model = ac->GetModel(smr->GetMeshPath())) {
+                    auto it = model->GetAnimationClips().find(first->GetDefaultClip());
+                    if (it != model->GetAnimationClips().end()) defaultClipName = it->second.name;
+                }
+            }
+            ImGui::Text("Default Clip: %s (ID: %u)", defaultClipName.c_str(), first->GetDefaultClip());
+            if (ImGui::Button("Play Default")) {
+                for (auto a : _animators) a->Play(a->GetDefaultClip());
+            }
+            ImGui::Separator();
+        }
 
         if (ImGui::CollapsingHeader("Layers", ImGuiTreeNodeFlags_DefaultOpen)) {
             for (uint32_t i = 0; i < MAX_ANIMATION_LAYERS; ++i) {

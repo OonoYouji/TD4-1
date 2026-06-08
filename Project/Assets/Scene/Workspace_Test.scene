@@ -19,6 +19,11 @@
             "guid": "9a8c283ab94c5cfc09f107707287cf14",
             "parentGuid": null,
             "path": "./Workspace_Test/9a8c283ab94c5cfc09f107707287cf14.entity"
+        },
+        {
+            "guid": "997499d3e207ed6c4a55d893ded53c02",
+            "parentGuid": null,
+            "path": "./Workspace_Test/997499d3e207ed6c4a55d893ded53c02.entity"
         }
     ]
 }

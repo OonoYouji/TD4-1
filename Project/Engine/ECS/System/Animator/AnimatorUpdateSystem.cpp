@@ -104,6 +104,11 @@ void AnimatorUpdateSystem::RuntimeUpdate(ECSGroup* _ecs) {
 
         const auto& clips = model->GetAnimationClips();
 
+        // 0. 何も再生されていない場合、デフォルトクリップを適用
+        if (animator->layers[0].states[0].clipId == 0 && animator->defaultClipId != 0) {
+            animator->Play(animator->defaultClipId);
+        }
+
         bool isAnyStateActive = false;
 
         // 1. タイムラインの進行とウェイトの更新 (クロスフェード)
