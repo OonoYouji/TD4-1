@@ -54,8 +54,8 @@
             "type": "MeshRenderer"
         }
     ],
-    "guid": "936a2ed1d95be073374268cd4149a59f",
+    "guid": "936cb59a1b5749b69a9b571e1dd7403f",
     "name": "Wood",
-    "parentGuid": "b2dc1dd88348790a3982a8fd42eaa168",
+    "parentGuid": "b51e1f3bcc48f54a7474881026af0d5e",
     "prefabName": ""
 }

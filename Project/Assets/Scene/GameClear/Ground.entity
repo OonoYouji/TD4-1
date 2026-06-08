@@ -54,8 +54,8 @@
             "type": "MeshRenderer"
         }
     ],
-    "guid": "f65e27368507219a99a01bf44c18c412",
+    "guid": "1982554ee3edc57b7b299123dd28a62b",
     "name": "Ground",
-    "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+    "parentGuid": "cc9289f1163aa8693643b0738a94cf7c",
     "prefabName": ""
 }

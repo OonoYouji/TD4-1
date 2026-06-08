@@ -7,14 +7,14 @@
                 "z": -1.2206321954727173
             },
             "rotate": {
-                "w": 0.9702957272529602,
-                "y": -0.24192190170288086
+                "w": 0.24192190170288086,
+                "y": 0.9702957272529602
             },
             "type": "Transform"
         }
     ],
-    "guid": "63a741cfdb19643706a375751f822f68",
+    "guid": "7641b64da6a21da022a3df555e44e90d",
     "name": "Human2",
-    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+    "parentGuid": "8d94e2b2705d24475f69d089d9ab4b99",
     "prefabName": "Human"
 }

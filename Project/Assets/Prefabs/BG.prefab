@@ -125,9 +125,9 @@
                             "type": "ParticleSystem"
                         }
                     ],
-                    "guid": "c5bea346f931981b5688af3ad0746ec9",
+                    "guid": "70a5c5fbddd52b1835d157222f7cfa15",
                     "name": "Fire1",
-                    "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+                    "parentGuid": "9319aa5576c35f23df41468cad79cd66",
                     "prefabName": ""
                 },
                 {
@@ -186,9 +186,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "f9313f9d3d8b451872bf5bde35d8914e",
+                    "guid": "14833052cd26adc2b9566c4cf777cadd",
                     "name": "Wood",
-                    "parentGuid": "5f392b2de41d917c3962d82bb631da28",
+                    "parentGuid": "9319aa5576c35f23df41468cad79cd66",
                     "prefabName": ""
                 }
             ],
@@ -218,9 +218,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "5f392b2de41d917c3962d82bb631da28",
+            "guid": "9319aa5576c35f23df41468cad79cd66",
             "name": "Bonfire",
-            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
             "prefabName": "Bonfire"
         },
         {
@@ -279,9 +279,9 @@
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "f65e27368507219a99a01bf44c18c412",
+            "guid": "25bd5f3100e0c7771bab8a47c97d19d1",
             "name": "Ground",
-            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
             "prefabName": ""
         },
         {
@@ -299,9 +299,9 @@
                                 "z": 1.300973892211914
                             },
                             "rotate": {
-                                "w": 0.7771459221839905,
+                                "w": 0.6293204426765442,
                                 "x": 0.0,
-                                "y": -0.6293203830718994,
+                                "y": 0.7771459221839905,
                                 "z": 0.0
                             },
                             "scale": {
@@ -313,8 +313,8 @@
                         },
                         {
                             "animationScale": 1.0,
-                            "debugJointSize": 1.0,
-                            "debugRectSize": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
@@ -325,9 +325,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "61b3d4eb6ec33918c9e1140b7139ca5c",
-                    "name": "Human",
-                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "guid": "656f9d0b663a08900cb7a3f1e8998ea3",
+                    "name": "Human1",
+                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
                     "prefabName": "Human"
                 },
                 {
@@ -342,9 +342,9 @@
                                 "z": -1.2206321954727173
                             },
                             "rotate": {
-                                "w": 0.9702957272529602,
+                                "w": 0.24192190170288086,
                                 "x": 0.0,
-                                "y": -0.24192190170288086,
+                                "y": 0.9702957272529602,
                                 "z": 0.0
                             },
                             "scale": {
@@ -356,8 +356,8 @@
                         },
                         {
                             "animationScale": 1.0,
-                            "debugJointSize": 1.0,
-                            "debugRectSize": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
@@ -368,9 +368,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "63a741cfdb19643706a375751f822f68",
+                    "guid": "ee9d9c49a1148ee9d74cd980f18c6559",
                     "name": "Human2",
-                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
                     "prefabName": "Human"
                 },
                 {
@@ -385,9 +385,9 @@
                                 "z": -0.8623434901237488
                             },
                             "rotate": {
-                                "w": 0.975342333316803,
+                                "w": -0.22069741785526276,
                                 "x": 0.0,
-                                "y": 0.22069743275642395,
+                                "y": 0.975342333316803,
                                 "z": 0.0
                             },
                             "scale": {
@@ -399,8 +399,8 @@
                         },
                         {
                             "animationScale": 1.0,
-                            "debugJointSize": 1.0,
-                            "debugRectSize": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
@@ -411,9 +411,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "dc4a9913223b40b328c1289a16a0beed",
+                    "guid": "1d01b92b9742134ebedab9dc99ce62f5",
                     "name": "Human3",
-                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
                     "prefabName": "Human"
                 },
                 {
@@ -428,9 +428,9 @@
                                 "z": 1.435141921043396
                             },
                             "rotate": {
-                                "w": 0.9426414966583252,
+                                "w": -0.3338068723678589,
                                 "x": 0.0,
-                                "y": 0.3338068723678589,
+                                "y": 0.9426414966583252,
                                 "z": 0.0
                             },
                             "scale": {
@@ -442,8 +442,8 @@
                         },
                         {
                             "animationScale": 1.0,
-                            "debugJointSize": 1.0,
-                            "debugRectSize": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
@@ -454,9 +454,9 @@
                             "type": "Variables"
                         }
                     ],
-                    "guid": "39fd4ea44abc4c798069ce218fbd751b",
+                    "guid": "6d139a385a8c50d9dbf504c90dbdd2c2",
                     "name": "Human4",
-                    "parentGuid": "92ff8bdc4593b3fcb1a3af37e467c215",
+                    "parentGuid": "75fe13f03e9f4652411f0b9184a059d9",
                     "prefabName": "Human"
                 }
             ],
@@ -484,11 +484,16 @@
                 },
                 {
                     "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": null,
+                    "type": "Script"
                 }
             ],
-            "guid": "92ff8bdc4593b3fcb1a3af37e467c215",
+            "guid": "75fe13f03e9f4652411f0b9184a059d9",
             "name": "Humans",
-            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
             "prefabName": ""
         },
         {
@@ -550,9 +555,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "43dc67e4b9188ac5bd1a327039bf2be1",
+                    "guid": "38268db844bfa8ab95a1b33b3f6ae4c1",
                     "name": "Tree",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 },
                 {
@@ -611,9 +616,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "3a3010fbe7466dfffe4efdc7fd3a35b9",
+                    "guid": "1512cc53030558f7a0297c4f4ea48715",
                     "name": "Tree2",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 },
                 {
@@ -672,9 +677,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "20610c8ada21c6b71870f4afc92e5c79",
+                    "guid": "c235aade36d04e74265da20947d269a0",
                     "name": "Tree3",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 },
                 {
@@ -733,9 +738,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "179bb28146cdbdd737eccc6ca77c9cc9",
+                    "guid": "1303a851d633756836dc914c60bd82d9",
                     "name": "Tree4",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 },
                 {
@@ -794,9 +799,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "68b0d59e75579c83282469822195b5d0",
+                    "guid": "9742532982c7d8ef1051c71553a94161",
                     "name": "Tree5",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 },
                 {
@@ -855,9 +860,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "50bd1b9db05026c5cbdd9b4f9bd95d99",
+                    "guid": "5d4a55393dc503acf44a9fb4014bf7d2",
                     "name": "Tree6",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 },
                 {
@@ -916,9 +921,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "8b55a8e0aea2fd516299033d18397a8c",
+                    "guid": "f486d5d3d79a89278bc5cadfbaaa0359",
                     "name": "Tree7",
-                    "parentGuid": "affb15b7acd6b94c25daf7b6aff07f34",
+                    "parentGuid": "fbaf49981322b60a90330a746ade2862",
                     "prefabName": "Tree"
                 }
             ],
@@ -948,9 +953,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "affb15b7acd6b94c25daf7b6aff07f34",
+            "guid": "fbaf49981322b60a90330a746ade2862",
             "name": "Trees",
-            "parentGuid": "f9d419c01eb42d71962a211b8512d2f2",
+            "parentGuid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
             "prefabName": "Trees"
         }
     ],
@@ -980,7 +985,7 @@
             "type": "Variables"
         }
     ],
-    "guid": "f9d419c01eb42d71962a211b8512d2f2",
+    "guid": "3b64c4422a6bf657d1acfae3d5e7e1d8",
     "name": "BG",
     "parentGuid": null,
     "prefabName": "BG"

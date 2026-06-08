@@ -13,8 +13,8 @@
             "type": "Transform"
         }
     ],
-    "guid": "8cd13dd6c02ad2fa3d3a63f5116b6a35",
+    "guid": "d8a4682f92ad1f364aa15a94e8b1e9a6",
     "name": "Tree4",
-    "parentGuid": "a428dcf7f28de003630c3e286dba559c",
+    "parentGuid": "c6b025ff8c0901c59ccefad8bd42582b",
     "prefabName": "Tree"
 }

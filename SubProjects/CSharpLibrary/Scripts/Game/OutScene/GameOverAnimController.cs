@@ -41,7 +41,7 @@ class GameOverAnimController : MonoScript
             return;
         }
 
-        if (bossPlayer.IsPlaying == false)
+        if (bossPlayer.IsPlaying == false && isEscaping == false)
         {
             isEscaping = true;
             // 後ろを向く

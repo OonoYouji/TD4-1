@@ -24,10 +24,15 @@
         },
         {
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": null,
+            "type": "Script"
         }
     ],
-    "guid": "fe21382176b736ac926c70d1649854de",
+    "guid": "73e0870188429172db412e51929c4a57",
     "name": "Humans",
-    "parentGuid": "5181189f4fae82d2061179351e042001",
+    "parentGuid": "b344d40e037abaed8d9212bac9ab2d82",
     "prefabName": ""
 }

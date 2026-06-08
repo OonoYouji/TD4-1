@@ -119,8 +119,8 @@
             "type": "ParticleSystem"
         }
     ],
-    "guid": "d4d0d43c41f2533f08f2f9f921ef02ae",
+    "guid": "01bae1fcdbde45dbddf569e0472d168f",
     "name": "Fire1",
-    "parentGuid": "b2dc1dd88348790a3982a8fd42eaa168",
+    "parentGuid": "b51e1f3bcc48f54a7474881026af0d5e",
     "prefabName": ""
 }
