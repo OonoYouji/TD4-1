@@ -31,16 +31,56 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
     /// </summary>
     public string targetNameFilter = "Reinforcement";
 
+    /// <summary>
+    /// 効果が発生するまでの遅延時間（秒）。アニメーションの「叩きつけ」の瞬間に合わせるために使用。
+    /// </summary>
+    public float delay = 0.0f;
+
+    [BlackboardKey]
+    public string delayKey = "";
+
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        uint keyHash = BehaviorTreeLoader.HashString(targetPosKey);
-        if (!blackboard.HasKey(keyHash))
+        uint startTimeKey = BehaviorTreeLoader.HashString("ScaleUpStart_" + NodeIdHash);
+        float currentTime = Time.time;
+
+        float finalDelay = delay;
+        if (!string.IsNullOrEmpty(delayKey))
         {
-//             Debug.LogWarning($"ScaleUpAreaEntitiesNode: Target position key '{targetPosKey}' not found.");
-            return NodeStatus.Failure;
+            uint keyHash = BehaviorTreeLoader.HashString(delayKey);
+            if (blackboard.HasKey(keyHash))
+            {
+                finalDelay = blackboard.GetFloat(keyHash, delay);
+                if (finalDelay == delay)
+                {
+                    finalDelay = (float)blackboard.GetInt(keyHash, (int)delay);
+                }
+            }
         }
 
-        Vector3 targetPos = blackboard.GetVector3(keyHash);
+        if (!blackboard.HasKey(startTimeKey))
+        {
+            blackboard.SetFloat(startTimeKey, currentTime);
+        }
+
+        float startTime = blackboard.GetFloat(startTimeKey);
+        if (currentTime - startTime < finalDelay)
+        {
+            return NodeStatus.Running;
+        }
+
+        blackboard.Remove(startTimeKey);
+
+        Vector3 targetPos = owner.transform.position;
+
+        if (!string.IsNullOrEmpty(targetPosKey))
+        {
+            uint keyHash = BehaviorTreeLoader.HashString(targetPosKey);
+            if (blackboard.HasKey(keyHash))
+            {
+                targetPos = blackboard.GetVector3(keyHash);
+            }
+        }
 
         float finalRadius = effectRadius;
         if (!string.IsNullOrEmpty(effectRadiusKey)) {
@@ -92,5 +132,10 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
         FrameEvent.EnqueueNamedEvent("Effect_BossRoar", owner.Id);
 
         return NodeStatus.Success;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        blackboard.Remove(BehaviorTreeLoader.HashString("ScaleUpStart_" + NodeIdHash));
     }
 }

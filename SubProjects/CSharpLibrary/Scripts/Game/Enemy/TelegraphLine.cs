@@ -33,19 +33,21 @@ public class TelegraphLine : MonoScript {
 
 		// 2. 長さの決定
 		// ターゲットまでの距離に関わらず、指定された length の値を使用する
-		float finalLength = length;
+		float finalLength = Math.Max(0.001f, length);
+		float safeThickness = Math.Max(0.001f, thickness);
 
 		// 3. 配置座標の制御: 
 		// キューブの原点は中心にあるため、端を起点(visualStartPos)に合わせるには
 		// 進行方向に「長さの半分」だけ座標をずらして配置する。
-		transform.position = visualStartPos;
+		transform.position = visualStartPos + direction * (finalLength * 0.5f);
 
 		// 4. 回転の制御
 		transform.rotation = Quaternion.LookRotation(direction).Conjugate();
 
 		// 5. スケールの制御:
 		// Z は予測線の長さ(finalLength)の半分とする（モデルの原点が中心にあるため、エンジン側の仕様に合わせる）。
-		transform.scale = new Vector3(thickness, 0.1f, finalLength * 0.5f);
+		transform.scale = new Vector3(safeThickness, 0.1f, finalLength * 0.5f);
+
 
 		// レイヤーと色の適用
 		var renderer = entity.GetComponent<MeshRenderer>();

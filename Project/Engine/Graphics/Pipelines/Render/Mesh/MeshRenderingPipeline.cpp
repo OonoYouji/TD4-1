@@ -130,35 +130,33 @@ void MeshRenderingPipeline::Draw(class ECSGroup* _ecs, CameraComponent* _camera,
 
 	auto cmdList = _dxCommand->GetCommandList();
 
-	/// ----- CommandListに必要な設定を行う ----- ///
-	// 先にパイプライン（およびルートシグネチャ）を設定しないとBindでクラッシュする
-	pipeline_->SetPipelineStateForCommandList(_dxCommand);
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	/// Bufferのバインド
-	_camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, 0);
 	auto& textures = pAssetCollection_->GetTextures();
-	cmdList->SetGraphicsRootDescriptorTable(3, (*textures.begin()).GetSRVGPUHandle());
 
 	transformIndex_ = 0;
 	instanceIndex_ = 0;
 
 	/// 1. Backgroundの描画
 	if (queueMap.count(RenderQueue::Background)) {
-		// Backgroundは通常のパイプラインを使用（設定済み）
+		pipeline_->SetPipelineStateForCommandList(_dxCommand);
+		_camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, 0);
+		cmdList->SetGraphicsRootDescriptorTable(3, (*textures.begin()).GetSRVGPUHandle());
 		Drawing(cmdList, queueMap[RenderQueue::Background], textures);
 	}
 
 	/// 2. Telegraphの描画 (専用のZ-Test無視パイプライン)
 	if (queueMap.count(RenderQueue::Telegraph)) {
 		telegraphPipeline_->SetPipelineStateForCommandList(_dxCommand);
+		_camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, 0);
+		cmdList->SetGraphicsRootDescriptorTable(3, (*textures.begin()).GetSRVGPUHandle());
 		Drawing(cmdList, queueMap[RenderQueue::Telegraph], textures);
 	}
 
 	/// 3. Defaultの描画 (通常のパイプライン)
 	if (queueMap.count(RenderQueue::Default)) {
-		// Defaultに戻す
 		pipeline_->SetPipelineStateForCommandList(_dxCommand);
+		_camera->GetViewProjectionBuffer().BindForGraphicsCommandList(cmdList, 0);
+		cmdList->SetGraphicsRootDescriptorTable(3, (*textures.begin()).GetSRVGPUHandle());
 		Drawing(cmdList, queueMap[RenderQueue::Default], textures);
 	}
 

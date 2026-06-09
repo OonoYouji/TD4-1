@@ -42,7 +42,6 @@ public class Parallel : CompositeNode
         for (int i = 0; i < children.Count; i++)
         {
             // 並列ノードでは毎フレーム全子ノードを評価する。
-            // 各子ノードの状態は Tick 内で LastStatus に保存される。
             var status = children[i].Tick(blackboard, owner);
             
             if (status == NodeStatus.Success) successCount++;
@@ -50,16 +49,43 @@ public class Parallel : CompositeNode
             else if (status == NodeStatus.Running) runningCount++;
         }
 
+        NodeStatus finalStatus = NodeStatus.Running;
+
         // 1. 失敗判定のチェック
-        if (failurePolicy == Policy.One && failureCount > 0) return NodeStatus.Failure;
-        if (failurePolicy == Policy.All && failureCount == children.Count && children.Count > 0) return NodeStatus.Failure;
+        if (failurePolicy == Policy.One && failureCount > 0) finalStatus = NodeStatus.Failure;
+        else if (failurePolicy == Policy.All && failureCount == children.Count && children.Count > 0) finalStatus = NodeStatus.Failure;
 
         // 2. 成功判定のチェック
-        if (successPolicy == Policy.One && successCount > 0) return NodeStatus.Success;
-        if (successPolicy == Policy.All && successCount == children.Count && children.Count > 0) return NodeStatus.Success;
+        if (finalStatus == NodeStatus.Running)
+        {
+            if (successPolicy == Policy.One && successCount > 0) finalStatus = NodeStatus.Success;
+            else if (successPolicy == Policy.All && successCount == children.Count && children.Count > 0) finalStatus = NodeStatus.Success;
+        }
 
-        // どちらの完了条件も満たしていない場合は継続中とする
+        // 完了した場合、まだ Running 状態の子ノードをすべて中断させる
+        if (finalStatus != NodeStatus.Running)
+        {
+            AbortRunningChildren(blackboard, owner);
+            return finalStatus;
+        }
+
         return NodeStatus.Running;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        AbortRunningChildren(blackboard, owner);
+    }
+
+    private void AbortRunningChildren(Blackboard blackboard, Entity owner)
+    {
+        foreach (var child in children)
+        {
+            if (child.LastStatus == NodeStatus.Running)
+            {
+                child.OnAbort(blackboard, owner);
+            }
+        }
     }
 
     /// <summary>
