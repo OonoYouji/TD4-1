@@ -16,6 +16,12 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
     public float effectRadius = 5.0f;
 
     /// <summary>
+    /// Blackboardから半径を取得する場合のキー名。
+    /// </summary>
+    [BlackboardKey]
+    public string effectRadiusKey = "";
+
+    /// <summary>
     /// 拡大するスケールの倍率。
     /// </summary>
     public float scaleMultiplier = 3.0f;
@@ -36,8 +42,19 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
 
         Vector3 targetPos = blackboard.GetVector3(keyHash);
 
+        float finalRadius = effectRadius;
+        if (!string.IsNullOrEmpty(effectRadiusKey)) {
+            uint radiusKeyHash = BehaviorTreeLoader.HashString(effectRadiusKey);
+            if (blackboard.HasKey(radiusKeyHash)) {
+                finalRadius = blackboard.GetFloat(radiusKeyHash, effectRadius);
+                if (finalRadius == effectRadius) {
+                    finalRadius = (float)blackboard.GetInt(radiusKeyHash, (int)effectRadius);
+                }
+            }
+        }
+
         // 判定範囲をGizmoで可視化 (マゼンタ色、太さ12.0)
-        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, effectRadius, new Vector4(1, 0, 1, 1), 32, 12.0f);
+        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, finalRadius, new Vector4(1, 0, 1, 1), 32, 12.0f);
 
         var entities = owner.Group.GetEntities();
         int affectedCount = 0;
@@ -54,7 +71,7 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
             // 距離判定
             float dist = Vector3.Distance(targetPos, entity.transform.position);
             
-            if (dist <= effectRadius)
+            if (dist <= finalRadius)
             {
                 // 何度も巨大化しないように、現在のスケール値をチェックする
                 if (entity.transform.scale.x < scaleMultiplier * 0.8f)

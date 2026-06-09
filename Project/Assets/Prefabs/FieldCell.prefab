@@ -44,7 +44,7 @@
                 "baseTextureGuid": "bf41deabb8d3b499fda8edb63ccb7c7d",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
+                "postEffectFlags": 9,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -72,7 +72,7 @@
             "type": "Script"
         }
     ],
-    "guid": "b84066a726376fd6a83158d803fd30ae",
+    "guid": "6023f3ce3f21649b1b0ab2c65e093162",
     "name": "FieldCell",
     "parentGuid": null,
     "prefabName": "FieldCell"

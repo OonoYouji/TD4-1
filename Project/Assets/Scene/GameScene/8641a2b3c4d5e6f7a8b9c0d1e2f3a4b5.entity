@@ -2,15 +2,15 @@
     "active": true,
     "components": [
         {
-            "rotate": {
-                "w": 0.8947159647941589,
-                "y": -0.44663572311401367
+            "position": {
+                "x": -86.1153335571289,
+                "z": -58.63443374633789
             },
             "type": "Transform"
         },
         {
             "BossAI": {
-                "treePath": "./Assets/AITrees/BossAttacks/Attack_Bomb.json"
+                "treePath": "./Assets/AITrees/BossAttacks/Attack_Giant.json"
             },
             "BossBeamAttack": {
                 "beamHeight": 17.0,
@@ -106,7 +106,7 @@
                             "clipId": 3271675795,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
-                            "time": 0.14817550778388977,
+                            "time": 0.4665592908859253,
                             "weight": 1.0
                         },
                         {
