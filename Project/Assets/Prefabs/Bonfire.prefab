@@ -13,9 +13,9 @@
                         "z": 0.0
                     },
                     "rotate": {
-                        "w": 1.0,
+                        "w": 0.9238795042037964,
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": 0.3826834559440613,
                         "z": 0.0
                     },
                     "scale": {
@@ -260,9 +260,9 @@
                     }
                 }
             ],
-            "guid": "193865432ac7c81f112a48f7952bf3d2",
+            "guid": "1e57899214679437ff9cdc88e0602fb9",
             "name": "Fire1",
-            "parentGuid": "473d422a246bddf403a86af1f518cf2a",
+            "parentGuid": "e751a7255956db3c252c9274135ea65e",
             "prefabName": ""
         },
         {
@@ -317,14 +317,14 @@
                             }
                         }
                     },
-                    "meshPath": "./Assets/Models/bg/bonfire.gltf",
+                    "meshPath": "./Assets/Models/Outgame/bg/bonfire.gltf",
                     "renderQueue": 2,
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "be9286c00deffab26e64595323412bf9",
+            "guid": "a1e1e9f67380b9949bb63b5857ad5392",
             "name": "Wood",
-            "parentGuid": "473d422a246bddf403a86af1f518cf2a",
+            "parentGuid": "e751a7255956db3c252c9274135ea65e",
             "prefabName": ""
         }
     ],
@@ -354,8 +354,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "473d422a246bddf403a86af1f518cf2a",
+    "guid": "e751a7255956db3c252c9274135ea65e",
     "name": "Bonfire",
-    "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+    "parentGuid": null,
     "prefabName": "Bonfire"
 }

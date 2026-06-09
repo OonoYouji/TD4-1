@@ -10,15 +10,15 @@
                 "z": 0.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
+                "w": 0.7071067690849304,
+                "x": -0.7071067690849304,
                 "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 1.399999976158142,
-                "y": 1.4000003337860107,
-                "z": 1.4000003337860107
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.99998474121094
             },
             "type": "Transform"
         },
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
+                "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -45,18 +45,18 @@
                     },
                     "rotate": 0.0,
                     "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 20.0,
+                        "y": 20.0
                     }
                 }
             },
-            "meshPath": "./Assets/Models/bg/bonfire.gltf",
+            "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
             "renderQueue": 2,
             "type": "MeshRenderer"
         }
     ],
-    "guid": "be9286c00deffab26e64595323412bf9",
-    "name": "Wood",
-    "parentGuid": "473d422a246bddf403a86af1f518cf2a",
+    "guid": "050e165a8747b226f3cb1cb501c64cbf",
+    "name": "Ground",
+    "parentGuid": "3e57d64a407055d4697a03890e48d17a",
     "prefabName": ""
 }

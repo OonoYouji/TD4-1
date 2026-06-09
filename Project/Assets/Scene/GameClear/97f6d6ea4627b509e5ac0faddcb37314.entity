@@ -9,8 +9,8 @@
             "type": "Transform"
         }
     ],
-    "guid": "8371310b3882a7821fac85486f3ca75c",
+    "guid": "97f6d6ea4627b509e5ac0faddcb37314",
     "name": "Human1",
-    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+    "parentGuid": "aa6f64f5384631d84aaa23bcc12bcd91",
     "prefabName": "Human"
 }

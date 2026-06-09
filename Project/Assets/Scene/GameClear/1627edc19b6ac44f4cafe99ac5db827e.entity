@@ -10,9 +10,9 @@
                 "z": 0.0
             },
             "rotate": {
-                "w": 1.0,
+                "w": 0.9238795042037964,
                 "x": 0.0,
-                "y": 0.0,
+                "y": 0.3826834559440613,
                 "z": 0.0
             },
             "scale": {
@@ -257,8 +257,8 @@
             }
         }
     ],
-    "guid": "193865432ac7c81f112a48f7952bf3d2",
+    "guid": "1627edc19b6ac44f4cafe99ac5db827e",
     "name": "Fire1",
-    "parentGuid": "473d422a246bddf403a86af1f518cf2a",
+    "parentGuid": "15479c16c37c7ddf568c65800170c7d5",
     "prefabName": ""
 }

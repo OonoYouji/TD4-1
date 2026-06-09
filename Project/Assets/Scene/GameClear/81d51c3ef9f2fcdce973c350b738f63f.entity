@@ -13,8 +13,8 @@
             "type": "Transform"
         }
     ],
-    "guid": "f0d769a241534b3f312057899752160d",
+    "guid": "81d51c3ef9f2fcdce973c350b738f63f",
     "name": "Human2",
-    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+    "parentGuid": "aa6f64f5384631d84aaa23bcc12bcd91",
     "prefabName": "Human"
 }

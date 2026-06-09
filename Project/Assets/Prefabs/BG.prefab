@@ -3,6 +3,1097 @@
     "children": [
         {
             "active": true,
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 0.7071067690849304,
+                        "x": -0.7071067690849304,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 100.0,
+                        "y": 99.99998474121094,
+                        "z": 99.99998474121094
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "material": {
+                        "baseColor": {
+                            "w": 1.0,
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
+                        "guid": "00000000000000000000000000000000",
+                        "normalTextureGuid": "00000000000000000000000000000000",
+                        "postEffectFlags": 1,
+                        "uvTransform": {
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "rotate": 0.0,
+                            "scale": {
+                                "x": 20.0,
+                                "y": 20.0
+                            }
+                        }
+                    },
+                    "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+                    "renderQueue": 2,
+                    "type": "MeshRenderer"
+                }
+            ],
+            "guid": "d74a95b59247020fd9a5dd5574c4d936",
+            "name": "Ground",
+            "parentGuid": "fa7f35f7bcaeb04ad564cf6067540dca",
+            "prefabName": ""
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 3.517876625061035,
+                                "y": 0.0,
+                                "z": 1.300973892211914
+                            },
+                            "rotate": {
+                                "w": 0.6293204426765442,
+                                "x": 0.0,
+                                "y": 0.7771459221839905,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "animationScale": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
+                            "enable": 1,
+                            "isPlaying": true,
+                            "meshPath": "./Assets/Models/Soldier/soldier.gltf",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
+                            "type": "SkinMeshRenderer"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
+                        }
+                    ],
+                    "guid": "38a75d468d5e8b12273ec399ae2e5cb6",
+                    "name": "Human1",
+                    "parentGuid": "0da85a4936e128793009cef4b089186f",
+                    "prefabName": "Human"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 1.1652930974960327,
+                                "y": 0.0,
+                                "z": -1.2206321954727173
+                            },
+                            "rotate": {
+                                "w": 0.24192190170288086,
+                                "x": 0.0,
+                                "y": 0.9702957272529602,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "animationScale": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
+                            "enable": 1,
+                            "isPlaying": true,
+                            "meshPath": "./Assets/Models/Soldier/soldier.gltf",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
+                            "type": "SkinMeshRenderer"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
+                        }
+                    ],
+                    "guid": "d0ea56a8394852681afc1d0f0e1fd5df",
+                    "name": "Human2",
+                    "parentGuid": "0da85a4936e128793009cef4b089186f",
+                    "prefabName": "Human"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -1.8815335035324097,
+                                "y": 0.0,
+                                "z": -0.8623434901237488
+                            },
+                            "rotate": {
+                                "w": -0.22069741785526276,
+                                "x": 0.0,
+                                "y": 0.975342333316803,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "animationScale": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
+                            "enable": 1,
+                            "isPlaying": true,
+                            "meshPath": "./Assets/Models/Soldier/soldier.gltf",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
+                            "type": "SkinMeshRenderer"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
+                        }
+                    ],
+                    "guid": "662f4e58b23a5f2758a17be6e9b867bd",
+                    "name": "Human3",
+                    "parentGuid": "0da85a4936e128793009cef4b089186f",
+                    "prefabName": "Human"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -3.851181983947754,
+                                "y": 0.0,
+                                "z": 1.435141921043396
+                            },
+                            "rotate": {
+                                "w": -0.3338068723678589,
+                                "x": 0.0,
+                                "y": 0.9426414966583252,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "animationScale": 1.0,
+                            "debugJointSize": 0.10000000149011612,
+                            "debugRectSize": 0.019999999552965164,
+                            "enable": 1,
+                            "isPlaying": true,
+                            "meshPath": "./Assets/Models/Soldier/soldier.gltf",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
+                            "type": "SkinMeshRenderer"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
+                        }
+                    ],
+                    "guid": "0d571d05a4bee36fa6fa4d152ef912c1",
+                    "name": "Human4",
+                    "parentGuid": "0da85a4936e128793009cef4b089186f",
+                    "prefabName": "Human"
+                }
+            ],
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                },
+                {
+                    "enable": 1,
+                    "scripts": null,
+                    "type": "Script"
+                }
+            ],
+            "guid": "0da85a4936e128793009cef4b089186f",
+            "name": "Humans",
+            "parentGuid": "fa7f35f7bcaeb04ad564cf6067540dca",
+            "prefabName": ""
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 6.973041534423828,
+                                "y": 0.0,
+                                "z": -7.6098198890686035
+                            },
+                            "rotate": {
+                                "w": 0.5187732577323914,
+                                "x": 0.0,
+                                "y": -0.8549118638038635,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "b94a04b4d8933a030f9a297727bc8232",
+                    "name": "Tree",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -0.9408919811248779,
+                                "y": 0.0,
+                                "z": -4.80606746673584
+                            },
+                            "rotate": {
+                                "w": 0.3338069021701813,
+                                "x": 0.0,
+                                "y": 0.9426414966583252,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "125b2bd0334cb8d68e61b341b021fdb0",
+                    "name": "Tree2",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -5.720865726470947,
+                                "y": 0.0,
+                                "z": -0.007855236530303955
+                            },
+                            "rotate": {
+                                "w": -0.2503800392150879,
+                                "x": 0.0,
+                                "y": -0.9681476354598999,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "279b502b0f5baf4c5ece4555fe2dbeb2",
+                    "name": "Tree3",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 6.8896942138671875,
+                                "y": 0.0,
+                                "z": -1.5894653797149658
+                            },
+                            "rotate": {
+                                "w": -0.882947564125061,
+                                "x": 0.0,
+                                "y": 0.4694715738296509,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "63897ddb3b8557b3368234970946ec08",
+                    "name": "Tree4",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 3.7798328399658203,
+                                "y": 0.0,
+                                "z": -3.2936835289001465
+                            },
+                            "rotate": {
+                                "w": 0.6122172474861145,
+                                "x": 0.0,
+                                "y": -0.7906895875930786,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "109cf975815670d7de977f67ce221f76",
+                    "name": "Tree5",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": 2.6632957458496094,
+                                "y": 0.0,
+                                "z": -7.914466381072998
+                            },
+                            "rotate": {
+                                "w": 0.9807852506637573,
+                                "x": 0.0,
+                                "y": 0.19509032368659973,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "72ed8a1a4f6c02da3dad2fd10c0965f5",
+                    "name": "Tree6",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                },
+                {
+                    "active": true,
+                    "components": [
+                        {
+                            "enable": 1,
+                            "matrixCalcFlags": 7,
+                            "position": {
+                                "x": -5.695330619812012,
+                                "y": 0.0,
+                                "z": -4.848125457763672
+                            },
+                            "rotate": {
+                                "w": 0.9670459628105164,
+                                "x": 0.0,
+                                "y": 0.25460195541381836,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.7999999523162842,
+                                "y": 1.7999999523162842,
+                                "z": 1.7999999523162842
+                            },
+                            "type": "Transform"
+                        },
+                        {
+                            "type": "Variables"
+                        },
+                        {
+                            "enable": 1,
+                            "material": {
+                                "baseColor": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
+                                "guid": "00000000000000000000000000000000",
+                                "normalTextureGuid": "00000000000000000000000000000000",
+                                "postEffectFlags": 1,
+                                "uvTransform": {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "rotate": 0.0,
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
+                            "renderQueue": 2,
+                            "type": "MeshRenderer"
+                        }
+                    ],
+                    "guid": "961cfba0780fed64c8466c5e952233c0",
+                    "name": "Tree7",
+                    "parentGuid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+                    "prefabName": "Tree"
+                }
+            ],
+            "components": [
+                {
+                    "enable": 1,
+                    "matrixCalcFlags": 7,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotate": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "type": "Transform"
+                },
+                {
+                    "type": "Variables"
+                }
+            ],
+            "guid": "8019d9ffeb99ff04739a11fd70d3f2e0",
+            "name": "Trees",
+            "parentGuid": "fa7f35f7bcaeb04ad564cf6067540dca",
+            "prefabName": "Trees"
+        },
+        {
+            "active": true,
             "children": [
                 {
                     "active": true,
@@ -16,9 +1107,9 @@
                                 "z": 0.0
                             },
                             "rotate": {
-                                "w": 1.0,
+                                "w": 0.9238795042037964,
                                 "x": 0.0,
-                                "y": 0.0,
+                                "y": 0.3826834559440613,
                                 "z": 0.0
                             },
                             "scale": {
@@ -263,9 +1354,9 @@
                             }
                         }
                     ],
-                    "guid": "34d4da5f9e7bccdb060d215624e64efc",
+                    "guid": "69fc472d875fcfff5b35a0788dfb6d5d",
                     "name": "Fire1",
-                    "parentGuid": "bd8edd0b5352e7d0695b47fa246a7e80",
+                    "parentGuid": "1c09744e154e3bc88f0663c6cec3f992",
                     "prefabName": ""
                 },
                 {
@@ -320,14 +1411,14 @@
                                     }
                                 }
                             },
-                            "meshPath": "./Assets/Models/bg/bonfire.gltf",
+                            "meshPath": "./Assets/Models/Outgame/bg/bonfire.gltf",
                             "renderQueue": 2,
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "ece2b40a3a133aaf8c09b233a4dde412",
+                    "guid": "84bcf0775214ee6271293ffcb5fd6d43",
                     "name": "Wood",
-                    "parentGuid": "bd8edd0b5352e7d0695b47fa246a7e80",
+                    "parentGuid": "1c09744e154e3bc88f0663c6cec3f992",
                     "prefabName": ""
                 }
             ],
@@ -357,1101 +1448,10 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "bd8edd0b5352e7d0695b47fa246a7e80",
+            "guid": "1c09744e154e3bc88f0663c6cec3f992",
             "name": "Bonfire",
-            "parentGuid": "2726b06352068f2bf4771210511c4c60",
+            "parentGuid": "fa7f35f7bcaeb04ad564cf6067540dca",
             "prefabName": "Bonfire"
-        },
-        {
-            "active": true,
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 0.7071067690849304,
-                        "x": -0.7071067690849304,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 100.0,
-                        "y": 99.99998474121094,
-                        "z": 99.99998474121094
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "material": {
-                        "baseColor": {
-                            "w": 1.0,
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
-                        "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
-                        "uvTransform": {
-                            "position": {
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "rotate": 0.0,
-                            "scale": {
-                                "x": 20.0,
-                                "y": 20.0
-                            }
-                        }
-                    },
-                    "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
-                    "renderQueue": 2,
-                    "type": "MeshRenderer"
-                }
-            ],
-            "guid": "e368222294fd45202a2c0f8db582a047",
-            "name": "Ground",
-            "parentGuid": "2726b06352068f2bf4771210511c4c60",
-            "prefabName": ""
-        },
-        {
-            "active": true,
-            "children": [
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": 3.517876625061035,
-                                "y": 0.0,
-                                "z": 1.300973892211914
-                            },
-                            "rotate": {
-                                "w": 0.6293204426765442,
-                                "x": 0.0,
-                                "y": 0.7771459221839905,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "animationScale": 1.0,
-                            "debugJointSize": 0.10000000149011612,
-                            "debugRectSize": 0.019999999552965164,
-                            "enable": 1,
-                            "isPlaying": true,
-                            "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/Models/Soldier/soldier.png",
-                            "type": "SkinMeshRenderer"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "defaultClipId": 4162136220,
-                            "enable": 1,
-                            "layers": [
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 4162136220,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 1.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                }
-                            ],
-                            "type": "Animator"
-                        }
-                    ],
-                    "guid": "54094ebc8c2f89329d6d4a012530279a",
-                    "name": "Human1",
-                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
-                    "prefabName": "Human"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": 1.1652930974960327,
-                                "y": 0.0,
-                                "z": -1.2206321954727173
-                            },
-                            "rotate": {
-                                "w": 0.24192190170288086,
-                                "x": 0.0,
-                                "y": 0.9702957272529602,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "animationScale": 1.0,
-                            "debugJointSize": 0.10000000149011612,
-                            "debugRectSize": 0.019999999552965164,
-                            "enable": 1,
-                            "isPlaying": true,
-                            "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/Models/Soldier/soldier.png",
-                            "type": "SkinMeshRenderer"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "defaultClipId": 4162136220,
-                            "enable": 1,
-                            "layers": [
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 4162136220,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 1.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                }
-                            ],
-                            "type": "Animator"
-                        }
-                    ],
-                    "guid": "732de61b12ebedf67d267971fe3c0eba",
-                    "name": "Human2",
-                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
-                    "prefabName": "Human"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": -1.8815335035324097,
-                                "y": 0.0,
-                                "z": -0.8623434901237488
-                            },
-                            "rotate": {
-                                "w": -0.22069741785526276,
-                                "x": 0.0,
-                                "y": 0.975342333316803,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "animationScale": 1.0,
-                            "debugJointSize": 0.10000000149011612,
-                            "debugRectSize": 0.019999999552965164,
-                            "enable": 1,
-                            "isPlaying": true,
-                            "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/Models/Soldier/soldier.png",
-                            "type": "SkinMeshRenderer"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "defaultClipId": 4162136220,
-                            "enable": 1,
-                            "layers": [
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 4162136220,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 1.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                }
-                            ],
-                            "type": "Animator"
-                        }
-                    ],
-                    "guid": "356ed251ee6de70a1e13a3bd9ae40820",
-                    "name": "Human3",
-                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
-                    "prefabName": "Human"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": -3.851181983947754,
-                                "y": 0.0,
-                                "z": 1.435141921043396
-                            },
-                            "rotate": {
-                                "w": -0.3338068723678589,
-                                "x": 0.0,
-                                "y": 0.9426414966583252,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "animationScale": 1.0,
-                            "debugJointSize": 0.10000000149011612,
-                            "debugRectSize": 0.019999999552965164,
-                            "enable": 1,
-                            "isPlaying": true,
-                            "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/Models/Soldier/soldier.png",
-                            "type": "SkinMeshRenderer"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "defaultClipId": 4162136220,
-                            "enable": 1,
-                            "layers": [
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 4162136220,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 1.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                },
-                                {
-                                    "boneMaskHash": 0,
-                                    "states": [
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        },
-                                        {
-                                            "clipId": 0,
-                                            "isLoop": true,
-                                            "playbackSpeed": 1.0,
-                                            "time": 0.0,
-                                            "weight": 0.0
-                                        }
-                                    ],
-                                    "weight": 1.0
-                                }
-                            ],
-                            "type": "Animator"
-                        }
-                    ],
-                    "guid": "9bbe3dcd8256dadd44dc0085474c745d",
-                    "name": "Human4",
-                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
-                    "prefabName": "Human"
-                }
-            ],
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                },
-                {
-                    "enable": 1,
-                    "scripts": null,
-                    "type": "Script"
-                }
-            ],
-            "guid": "172ceb04c243562ec78339ef18d549d4",
-            "name": "Humans",
-            "parentGuid": "2726b06352068f2bf4771210511c4c60",
-            "prefabName": ""
-        },
-        {
-            "active": true,
-            "children": [
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": 6.973041534423828,
-                                "y": 0.0,
-                                "z": -7.6098198890686035
-                            },
-                            "rotate": {
-                                "w": 0.5187732577323914,
-                                "x": 0.0,
-                                "y": -0.8549118638038635,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "5f62d05dd1b4d2192609562e4e46ec87",
-                    "name": "Tree",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": -0.9408919811248779,
-                                "y": 0.0,
-                                "z": -4.80606746673584
-                            },
-                            "rotate": {
-                                "w": 0.3338069021701813,
-                                "x": 0.0,
-                                "y": 0.9426414966583252,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "3060cb38171ddf07dd1245fee978af0f",
-                    "name": "Tree2",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": -5.720865726470947,
-                                "y": 0.0,
-                                "z": -0.007855236530303955
-                            },
-                            "rotate": {
-                                "w": -0.2503800392150879,
-                                "x": 0.0,
-                                "y": -0.9681476354598999,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "0468d35a304851dfaa89ebea95ede2c7",
-                    "name": "Tree3",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": 6.8896942138671875,
-                                "y": 0.0,
-                                "z": -1.5894653797149658
-                            },
-                            "rotate": {
-                                "w": -0.882947564125061,
-                                "x": 0.0,
-                                "y": 0.4694715738296509,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "de7130b647290766fc6bde7cabd5d32f",
-                    "name": "Tree4",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": 3.7798328399658203,
-                                "y": 0.0,
-                                "z": -3.2936835289001465
-                            },
-                            "rotate": {
-                                "w": 0.6122172474861145,
-                                "x": 0.0,
-                                "y": -0.7906895875930786,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "81ad6e0988767bd2cdbe84a61ed9c3bd",
-                    "name": "Tree5",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": 2.6632957458496094,
-                                "y": 0.0,
-                                "z": -7.914466381072998
-                            },
-                            "rotate": {
-                                "w": 0.9807852506637573,
-                                "x": 0.0,
-                                "y": 0.19509032368659973,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "9f8fa2963241854a01dfdbc5388e4400",
-                    "name": "Tree6",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                },
-                {
-                    "active": true,
-                    "components": [
-                        {
-                            "enable": 1,
-                            "matrixCalcFlags": 7,
-                            "position": {
-                                "x": -5.695330619812012,
-                                "y": 0.0,
-                                "z": -4.848125457763672
-                            },
-                            "rotate": {
-                                "w": 0.9670459628105164,
-                                "x": 0.0,
-                                "y": 0.25460195541381836,
-                                "z": 0.0
-                            },
-                            "scale": {
-                                "x": 1.7999999523162842,
-                                "y": 1.7999999523162842,
-                                "z": 1.7999999523162842
-                            },
-                            "type": "Transform"
-                        },
-                        {
-                            "type": "Variables"
-                        },
-                        {
-                            "enable": 1,
-                            "material": {
-                                "baseColor": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 1.0,
-                                    "z": 1.0
-                                },
-                                "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
-                                "guid": "00000000000000000000000000000000",
-                                "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
-                                "uvTransform": {
-                                    "position": {
-                                        "x": 0.0,
-                                        "y": 0.0
-                                    },
-                                    "rotate": 0.0,
-                                    "scale": {
-                                        "x": 1.0,
-                                        "y": 1.0
-                                    }
-                                }
-                            },
-                            "meshPath": "./Packages/Models/BackgroundObjects/Tree3.obj",
-                            "renderQueue": 2,
-                            "type": "MeshRenderer"
-                        }
-                    ],
-                    "guid": "c98da2bdfdd1d72346642d5b33bd1c92",
-                    "name": "Tree7",
-                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-                    "prefabName": "Tree"
-                }
-            ],
-            "components": [
-                {
-                    "enable": 1,
-                    "matrixCalcFlags": 7,
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotate": {
-                        "w": 1.0,
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    },
-                    "type": "Transform"
-                },
-                {
-                    "type": "Variables"
-                }
-            ],
-            "guid": "9d23425c0c0ff9d14d777c3b4afa7be9",
-            "name": "Trees",
-            "parentGuid": "2726b06352068f2bf4771210511c4c60",
-            "prefabName": "Trees"
         }
     ],
     "components": [
@@ -1480,7 +1480,7 @@
             "type": "Variables"
         }
     ],
-    "guid": "2726b06352068f2bf4771210511c4c60",
+    "guid": "fa7f35f7bcaeb04ad564cf6067540dca",
     "name": "BG",
     "parentGuid": null,
     "prefabName": "BG"

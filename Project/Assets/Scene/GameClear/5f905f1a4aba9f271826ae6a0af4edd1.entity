@@ -10,15 +10,15 @@
                 "z": 0.0
             },
             "rotate": {
-                "w": 0.7071067690849304,
-                "x": -0.7071067690849304,
+                "w": 1.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 100.0,
-                "y": 99.99998474121094,
-                "z": 99.99998474121094
+                "x": 1.399999976158142,
+                "y": 1.4000003337860107,
+                "z": 1.4000003337860107
             },
             "type": "Transform"
         },
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
+                "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -45,18 +45,18 @@
                     },
                     "rotate": 0.0,
                     "scale": {
-                        "x": 20.0,
-                        "y": 20.0
+                        "x": 1.0,
+                        "y": 1.0
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+            "meshPath": "./Assets/Models/Outgame/bg/bonfire.gltf",
             "renderQueue": 2,
             "type": "MeshRenderer"
         }
     ],
-    "guid": "d13ab332ea9b72f6879b4527fff4fe35",
-    "name": "Ground",
-    "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+    "guid": "5f905f1a4aba9f271826ae6a0af4edd1",
+    "name": "Wood",
+    "parentGuid": "15479c16c37c7ddf568c65800170c7d5",
     "prefabName": ""
 }

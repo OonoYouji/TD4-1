@@ -3,12 +3,12 @@
     "components": [
         {
             "position": {
-                "x": -5.695330619812012,
-                "z": -4.848125457763672
+                "x": 6.8896942138671875,
+                "z": -1.5894653797149658
             },
             "rotate": {
-                "w": 0.9670459628105164,
-                "y": 0.25460195541381836
+                "w": -0.882947564125061,
+                "y": 0.4694715738296509
             },
             "type": "Transform"
         },
@@ -17,8 +17,8 @@
             "type": "MeshRenderer"
         }
     ],
-    "guid": "6eb303f55241d63107fc76b600bcbfa8",
-    "name": "Tree7",
-    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+    "guid": "2300b8ef1795253ebd8b070ba0fc428a",
+    "name": "Tree4",
+    "parentGuid": "626f1fb655ef32f601fd6f0c92c3bad5",
     "prefabName": "Tree"
 }
