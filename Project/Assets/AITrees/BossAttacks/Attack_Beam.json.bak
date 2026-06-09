@@ -176,12 +176,12 @@
             ],
             "properties": {
                 "centerType": "Boss",
-                "color": "1.0,0.0,0.0,0.5",
+                "color": "0.907735,1,0.046594977,0.5",
                 "duration": "1.5",
                 "durationKey": "",
                 "length": "20.000000",
                 "lockPosition": "false",
-                "offsetForward": "",
+                "offsetForward": "0.800000",
                 "offsetHeight": "",
                 "shape": "Line",
                 "size": "8.000000",
@@ -209,10 +209,10 @@
                 200.0
             ],
             "properties": {
-                "beamHeight": "",
-                "beamLength": "20.000000",
+                "beamHeight": "17.000000",
+                "beamLength": "100.000000",
                 "beamOffsetForward": "",
-                "beamRadius": "",
+                "beamRadius": "7.000000",
                 "damage": "50",
                 "duration": "2.0",
                 "slowDuration": "",

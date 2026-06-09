@@ -40,7 +40,7 @@
                 "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
-                        "x": 0.0,
+                        "x": 1.0,
                         "y": 0.0
                     },
                     "rotate": 0.0,
@@ -57,14 +57,14 @@
         {
             "autoPlay": true,
             "clipPath": "./Assets/Anims/Telegraph.anim",
-            "currentTime": 0.0,
+            "currentTime": 0.0897221639752388,
             "isLooping": true,
-            "isPlaying": false,
+            "isPlaying": true,
             "speed": 1.0,
             "type": "AnimationPlayer"
         }
     ],
-    "guid": "64f06619525066e762b4003bc65bb143",
+    "guid": "ebe05dfa85dcf53cc469a2f41bfd69b2",
     "name": "TelegraphLine",
     "parentGuid": null,
     "prefabName": "TelegraphLine"

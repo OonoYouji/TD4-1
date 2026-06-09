@@ -48,6 +48,12 @@ public class ShowIndicatorNode : BehaviorNode {
 	public float length = 20.0f;
 
 	/// <summary>
+	/// Blackboardから長さを取得する場合のキー名。
+	/// </summary>
+	[BlackboardKey]
+	public string lengthKey = "";
+
+	/// <summary>
 	/// 予兆の色。
 	/// </summary>
 	public Vector4 color = new Vector4(1.0f, 0.0f, 0.0f, 0.5f);
@@ -63,6 +69,12 @@ public class ShowIndicatorNode : BehaviorNode {
 	/// </summary>
 	[BlackboardKey]
 	public string targetPosKey = "TargetPosition";
+
+	/// <summary>
+	/// 決定された発射方向（Vector3）を書き込むBlackboardのキー。
+	/// </summary>
+	[BlackboardKey]
+	public string fireDirectionKey = "";
 
 	/// <summary>
 	/// 生成時に位置を固定するかどうか。trueの場合、ターゲットが動いても予兆は追従しません。
@@ -93,7 +105,24 @@ public class ShowIndicatorNode : BehaviorNode {
 		float finalSize = size;
 		if (!string.IsNullOrEmpty(sizeKey)) {
 			uint keyHash = BehaviorTreeLoader.HashString(sizeKey);
-			finalSize = blackboard.GetFloat(keyHash, size);
+			if (blackboard.HasKey(keyHash)) {
+				finalSize = blackboard.GetFloat(keyHash, size);
+				// Floatとして取得できなかった（デフォルト値のままだった）場合、Intとしての取得を試みる
+				if (finalSize == size) {
+					finalSize = (float)blackboard.GetInt(keyHash, (int)size);
+				}
+			}
+		}
+
+		float finalLength = length;
+		if (!string.IsNullOrEmpty(lengthKey)) {
+			uint keyHash = BehaviorTreeLoader.HashString(lengthKey);
+			if (blackboard.HasKey(keyHash)) {
+				finalLength = blackboard.GetFloat(keyHash, length);
+				if (finalLength == length) {
+					finalLength = (float)blackboard.GetInt(keyHash, (int)length);
+				}
+			}
 		}
 
 		if (!blackboard.HasKey(startTimeKey)) {
@@ -113,7 +142,7 @@ public class ShowIndicatorNode : BehaviorNode {
 					var script = telegraph.GetScript<TelegraphLine>();
 					if (script == null) script = telegraph.AddScript<TelegraphLine>();
 					script.thickness = finalSize;
-					script.length = length;
+					script.length = finalLength;
 					script.offsetForward = offsetForward;
 					script.offsetHeight = offsetHeight;
 					script.color = color;
@@ -150,7 +179,14 @@ public class ShowIndicatorNode : BehaviorNode {
 					currentTarget = owner.transform.position + owner.transform.rotate * Vector3.forward * 10.0f;
 				}
 
-				UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
+				UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize, finalLength);
+
+				// 発射方向の計算とBlackboardへの書き込み
+				if (!string.IsNullOrEmpty(fireDirectionKey)) {
+					Vector3 diff = new Vector3(currentTarget.x - owner.transform.position.x, 0.0f, currentTarget.z - owner.transform.position.z);
+					Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : owner.transform.forward;
+					blackboard.SetVector3(BehaviorTreeLoader.HashString(fireDirectionKey), direction);
+				}
 
 				// Blackboardに保存（後で消すため。ノードごとにユニークなキーにする）
 				blackboard.SetInt(BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash), telegraph.Id);
@@ -179,7 +215,14 @@ public class ShowIndicatorNode : BehaviorNode {
 					}
 
 					if (!lockPosition) {
-						UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize);
+						UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize, finalLength);
+
+						// 毎フレーム更新時も方向を書き込む
+						if (!string.IsNullOrEmpty(fireDirectionKey)) {
+							Vector3 diff = new Vector3(currentTarget.x - owner.transform.position.x, 0.0f, currentTarget.z - owner.transform.position.z);
+							Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : owner.transform.forward;
+							blackboard.SetVector3(BehaviorTreeLoader.HashString(fireDirectionKey), direction);
+						}
 					}
 				}
 			}
@@ -202,14 +245,14 @@ public class ShowIndicatorNode : BehaviorNode {
 		return NodeStatus.Running;
 	}
 
-	private void UpdateTelegraphTransform(Entity telegraph, Vector3 bossPos, Vector3 originPos, Vector3 targetPos, float finalSize) {
+	private void UpdateTelegraphTransform(Entity telegraph, Vector3 bossPos, Vector3 originPos, Vector3 targetPos, float finalSize, float finalLength) {
 		if (shape == IndicatorShape.Line) {
 			var script = telegraph.GetScript<TelegraphLine>();
 			if (script != null) {
 				script.bossPosition = bossPos;
 				script.targetPosition = targetPos;
 				script.thickness = finalSize;
-				script.length = length;
+				script.length = finalLength;
 			}
 		} else if (shape == IndicatorShape.Circle) {
 			var script = telegraph.GetScript<TelegraphCircle>();
