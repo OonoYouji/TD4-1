@@ -28,8 +28,8 @@
             "debugRectSize": 0.019999999552965164,
             "enable": 1,
             "isPlaying": true,
-            "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-            "texturePath": "./Assets/AssetsWorkspace/models/soldier.png",
+            "meshPath": "./Assets/Models/Soldier/soldier.gltf",
+            "texturePath": "./Assets/Models/Soldier/soldier.png",
             "type": "SkinMeshRenderer"
         },
         {
@@ -123,7 +123,7 @@
             "type": "Animator"
         }
     ],
-    "guid": "a033e3842d880e67c01aebb7cb41b0cc",
+    "guid": "26c7e8968a8c5f445b544f6163a167f6",
     "name": "Human",
     "parentGuid": null,
     "prefabName": "Human"

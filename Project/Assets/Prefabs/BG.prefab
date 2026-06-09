@@ -263,9 +263,9 @@
                             }
                         }
                     ],
-                    "guid": "193865432ac7c81f112a48f7952bf3d2",
+                    "guid": "34d4da5f9e7bccdb060d215624e64efc",
                     "name": "Fire1",
-                    "parentGuid": "473d422a246bddf403a86af1f518cf2a",
+                    "parentGuid": "bd8edd0b5352e7d0695b47fa246a7e80",
                     "prefabName": ""
                 },
                 {
@@ -325,9 +325,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "be9286c00deffab26e64595323412bf9",
+                    "guid": "ece2b40a3a133aaf8c09b233a4dde412",
                     "name": "Wood",
-                    "parentGuid": "473d422a246bddf403a86af1f518cf2a",
+                    "parentGuid": "bd8edd0b5352e7d0695b47fa246a7e80",
                     "prefabName": ""
                 }
             ],
@@ -357,9 +357,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "473d422a246bddf403a86af1f518cf2a",
+            "guid": "bd8edd0b5352e7d0695b47fa246a7e80",
             "name": "Bonfire",
-            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+            "parentGuid": "2726b06352068f2bf4771210511c4c60",
             "prefabName": "Bonfire"
         },
         {
@@ -419,9 +419,9 @@
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "d13ab332ea9b72f6879b4527fff4fe35",
+            "guid": "e368222294fd45202a2c0f8db582a047",
             "name": "Ground",
-            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+            "parentGuid": "2726b06352068f2bf4771210511c4c60",
             "prefabName": ""
         },
         {
@@ -458,16 +458,103 @@
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/AssetsWorkspace/models/soldier.png",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
                             "type": "SkinMeshRenderer"
                         },
                         {
                             "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
                         }
                     ],
-                    "guid": "8371310b3882a7821fac85486f3ca75c",
+                    "guid": "54094ebc8c2f89329d6d4a012530279a",
                     "name": "Human1",
-                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
                     "prefabName": "Human"
                 },
                 {
@@ -501,16 +588,103 @@
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/AssetsWorkspace/models/soldier.png",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
                             "type": "SkinMeshRenderer"
                         },
                         {
                             "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
                         }
                     ],
-                    "guid": "f0d769a241534b3f312057899752160d",
+                    "guid": "732de61b12ebedf67d267971fe3c0eba",
                     "name": "Human2",
-                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
                     "prefabName": "Human"
                 },
                 {
@@ -544,16 +718,103 @@
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/AssetsWorkspace/models/soldier.png",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
                             "type": "SkinMeshRenderer"
                         },
                         {
                             "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
                         }
                     ],
-                    "guid": "64fc2b5168006802c06bf9375ececb9f",
+                    "guid": "356ed251ee6de70a1e13a3bd9ae40820",
                     "name": "Human3",
-                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
                     "prefabName": "Human"
                 },
                 {
@@ -587,16 +848,103 @@
                             "enable": 1,
                             "isPlaying": true,
                             "meshPath": "./Assets/AssetsWorkspace/models/soldier.gltf",
-                            "texturePath": "./Assets/AssetsWorkspace/models/soldier.png",
+                            "texturePath": "./Assets/Models/Soldier/soldier.png",
                             "type": "SkinMeshRenderer"
                         },
                         {
                             "type": "Variables"
+                        },
+                        {
+                            "defaultClipId": 4162136220,
+                            "enable": 1,
+                            "layers": [
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 4162136220,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 1.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "boneMaskHash": 0,
+                                    "states": [
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        },
+                                        {
+                                            "clipId": 0,
+                                            "isLoop": true,
+                                            "playbackSpeed": 1.0,
+                                            "time": 0.0,
+                                            "weight": 0.0
+                                        }
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "Animator"
                         }
                     ],
-                    "guid": "e2c340aa0867d35c83937ec00721496c",
+                    "guid": "9bbe3dcd8256dadd44dc0085474c745d",
                     "name": "Human4",
-                    "parentGuid": "a40e60c075c884ac6a89855f08f061ab",
+                    "parentGuid": "172ceb04c243562ec78339ef18d549d4",
                     "prefabName": "Human"
                 }
             ],
@@ -631,9 +979,9 @@
                     "type": "Script"
                 }
             ],
-            "guid": "a40e60c075c884ac6a89855f08f061ab",
+            "guid": "172ceb04c243562ec78339ef18d549d4",
             "name": "Humans",
-            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+            "parentGuid": "2726b06352068f2bf4771210511c4c60",
             "prefabName": ""
         },
         {
@@ -696,9 +1044,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "26932024b8531ba9f658779516b1dca3",
+                    "guid": "5f62d05dd1b4d2192609562e4e46ec87",
                     "name": "Tree",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 },
                 {
@@ -758,9 +1106,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "43cd0558b689904458bdab65b876c4b3",
+                    "guid": "3060cb38171ddf07dd1245fee978af0f",
                     "name": "Tree2",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 },
                 {
@@ -820,9 +1168,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "7ae84d97eae654ca12659dadc0ac471e",
+                    "guid": "0468d35a304851dfaa89ebea95ede2c7",
                     "name": "Tree3",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 },
                 {
@@ -882,9 +1230,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "6e42a8bb6d5c5c763b9f4ad19ee6b022",
+                    "guid": "de7130b647290766fc6bde7cabd5d32f",
                     "name": "Tree4",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 },
                 {
@@ -944,9 +1292,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "7d84c9333c0d7cf5f417441ad6a1fd29",
+                    "guid": "81ad6e0988767bd2cdbe84a61ed9c3bd",
                     "name": "Tree5",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 },
                 {
@@ -1006,9 +1354,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "860a4dd426fcede1ec22080e2f7ab6e5",
+                    "guid": "9f8fa2963241854a01dfdbc5388e4400",
                     "name": "Tree6",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 },
                 {
@@ -1068,9 +1416,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "6eb303f55241d63107fc76b600bcbfa8",
+                    "guid": "c98da2bdfdd1d72346642d5b33bd1c92",
                     "name": "Tree7",
-                    "parentGuid": "b08b7a1646b814ce9ff79acd4e0773b3",
+                    "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
                     "prefabName": "Tree"
                 }
             ],
@@ -1100,9 +1448,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "b08b7a1646b814ce9ff79acd4e0773b3",
+            "guid": "9d23425c0c0ff9d14d777c3b4afa7be9",
             "name": "Trees",
-            "parentGuid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+            "parentGuid": "2726b06352068f2bf4771210511c4c60",
             "prefabName": "Trees"
         }
     ],
@@ -1132,7 +1480,7 @@
             "type": "Variables"
         }
     ],
-    "guid": "6b8d786a33fd0620fcc14f64ebdea7b4",
+    "guid": "2726b06352068f2bf4771210511c4c60",
     "name": "BG",
     "parentGuid": null,
     "prefabName": "BG"

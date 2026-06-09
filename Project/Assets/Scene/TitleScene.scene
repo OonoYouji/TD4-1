@@ -139,6 +139,11 @@
             "guid": "c98da2bdfdd1d72346642d5b33bd1c92",
             "parentGuid": "9d23425c0c0ff9d14d777c3b4afa7be9",
             "path": "./TitleScene/c98da2bdfdd1d72346642d5b33bd1c92.entity"
+        },
+        {
+            "guid": "62b2f7702cc452ff13a5592175d5c4c6",
+            "parentGuid": "172ceb04c243562ec78339ef18d549d4",
+            "path": "./TitleScene/62b2f7702cc452ff13a5592175d5c4c6.entity"
         }
     ]
 }
