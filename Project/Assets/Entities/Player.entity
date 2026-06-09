@@ -5,24 +5,27 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -70.32074737548828,
+                "x": -169.3544158935547,
                 "y": 11.189128875732422,
-                "z": -120.71885681152344
+                "z": -136.4315948486328
             },
             "rotate": {
-                "w": 0.8340273499488831,
+                "w": 0.3346511423587799,
                 "x": 0.0,
-                "y": 0.5517231225967407,
+                "y": 0.9423421025276184,
                 "z": 0.0
             },
             "scale": {
-                "x": 5.287853717803955,
-                "y": 5.287853717803955,
-                "z": 5.287853717803955
+                "x": 6.9829607009887695,
+                "y": 6.9829607009887695,
+                "z": 6.9829607009887695
             },
             "type": "Transform"
         },
         {
+            "BoundsConstraint": {
+                "waitForEntry": false
+            },
             "CallingReinforcement": {
                 "reinforcementSpeed": 79.0,
                 "smashInterval": 1.0,
@@ -121,6 +124,10 @@
                 {
                     "enable": true,
                     "name": "PlayerCallMotion"
+                },
+                {
+                    "enable": true,
+                    "name": "BoundsConstraint"
                 }
             ],
             "type": "Script"

@@ -1,0 +1,83 @@
+{
+    "components": [
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            },
+            "type": "Transform"
+        },
+        {
+            "TimedDestruction": {
+                "lifeTime": 0.0,
+                "remainingTime": 0.0
+            },
+            "type": "Variables"
+        },
+        {
+            "autoPlay": true,
+            "clipPath": "./Assets/Anims/explode.anim",
+            "currentTime": 0.0,
+            "isLooping": false,
+            "isPlaying": false,
+            "speed": 1.0,
+            "type": "AnimationPlayer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "TimedDestruction"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "00000000000000000000000000000000",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshPath": "./Packages/Models/primitive/cube.obj",
+            "type": "MeshRenderer"
+        }
+    ],
+    "guid": "56860dc5ba91cce55130366ddc0b405e",
+    "name": "Mesh",
+    "parentGuid": null,
+    "prefabName": ""
+}

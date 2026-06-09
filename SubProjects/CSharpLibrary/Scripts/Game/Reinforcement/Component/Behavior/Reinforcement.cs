@@ -19,8 +19,6 @@ public partial class Reinforcement : MonoScript
     [SerializeField] public float moveSpeed = 8.0f;
     // 質量
     [SerializeField] public float mass = 1.0f;
-    // 生存時間
-    [SerializeField] public float lifeTime = 10.0f;
     // ボスへのダメージ量
     [SerializeField] public float damage = 10.0f;
     // 退散時の速度
@@ -74,8 +72,6 @@ public partial class Reinforcement : MonoScript
     private bool isRetreating = false;
     // 退散時の移動ベクトル
     private Vector3 retreatVelocity = Vector3.zero;
-    // 生存タイマー
-    private float timer = 0.0f;
     // スポーン直後の衝突を防ぐフレームカウンター
     private int spawnDelayFrames = 5;
     // バフ前の色を保持しておく
@@ -111,8 +107,6 @@ public partial class Reinforcement : MonoScript
 
         // スケールの初期化
         transform.scale = new Vector3(normalScale, normalScale, normalScale);
-        // タイマーの初期化
-        timer = 0.0f;
         // スポーン直後の衝突を防ぐフレームカウンターの初期化
         spawnDelayFrames = 2;
 
@@ -181,12 +175,6 @@ public partial class Reinforcement : MonoScript
             return;
         }
 
-        // 寿命切れなら早期リターン
-        if (UpdateTimer())
-        {
-            return;
-        }
-
         // 乗ってるフィールド床が落ちてるかチェック
         CheckFieldFall();
         // カメラの視野内にいるか判定して色を変える
@@ -215,25 +203,4 @@ public partial class Reinforcement : MonoScript
         positionApplied = true;
     }
 
-    private bool UpdateTimer()
-    {
-
-        // タイム更新
-        timer += Time.deltaTime;
-        if (timer < lifeTime)
-        {
-            return false;
-        }
-        // 画面内なら退散
-        if (isCollisionEnabled)
-        {
-            Retreat();
-        }
-        else
-        {
-            entity.Destroy();
-            return true;
-        }
-        return false;
-    }
 }
