@@ -50,7 +50,7 @@ public class AgentIntentComponent : Component {
     public void LoadBehaviorTree(string path) {
         behaviorTree = BehaviorTreeLoader.LoadFromFile(path, this.entity);
         if (behaviorTree != null) {
-            Debug.Log($"AgentIntentComponent: Loaded AI tree from {path}");
+//             Debug.Log($"AgentIntentComponent: Loaded AI tree from {path}");
         }
     }
 }

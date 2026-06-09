@@ -22,7 +22,7 @@ public static class AIUpdater {
 
         // デバッグ用：どのグループが更新されているかログに出す（頻度を抑える）
         if ((int)(Time.time * 5) % 100 == 0) {
-            Debug.Log($"AIUpdater: Updating intents for group '{groupName}' with {entityCount} entities.");
+//             Debug.Log($"AIUpdater: Updating intents for group '{groupName}' with {entityCount} entities.");
         }
 
         // キャッシュを更新
@@ -61,7 +61,7 @@ public static class AIUpdater {
 
                     // デバッグ用：毎フレームは多すぎるので定期的にログを出す
                     if ((int)(Time.time * 5) % 100 == 0) {
-                        Debug.Log($"AIUpdater: Ticking BT for {component.entity.name} (Root:{(component.behaviorTree.RootNode != null ? component.behaviorTree.RootNode.name : "null")}, Path:{component.behaviorTree.SourcePath})");
+//                         Debug.Log($"AIUpdater: Ticking BT for {component.entity.name} (Root:{(component.behaviorTree.RootNode != null ? component.behaviorTree.RootNode.name : "null")}, Path:{component.behaviorTree.SourcePath})");
                     }
 
                     component.behaviorTree.Tick();

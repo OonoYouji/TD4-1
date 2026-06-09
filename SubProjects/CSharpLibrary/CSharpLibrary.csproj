@@ -195,6 +195,8 @@
     <Compile Include="Scripts\Game\Enemy\VortexField.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
     <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
+    <Compile Include="Scripts\Game\Enemy\TelegraphLine.cs" />
+    <Compile Include="Scripts\Game\Enemy\TelegraphCircle.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerCallMotion.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Calling\CallingReinforcement.cs" />

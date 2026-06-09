@@ -11,10 +11,10 @@ public class EndSceneController : MonoScript {
         // スペースキーまたはゲームパッドのAボタンで遷移
         if (Input.TriggerKey(KeyCode.Space) || Input.TriggerGamepad(Gamepad.A)) {
             if (SceneTransition.Instance != null) {
-                Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
+//                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
                 SceneTransition.Instance.TransitionTo(nextSceneName);
             } else {
-                Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
+//                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
                 SceneManager.LoadScene(nextSceneName);
             }
         }

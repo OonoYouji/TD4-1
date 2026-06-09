@@ -30,7 +30,7 @@ public class BossPhaseManager : MonoScript
         
         if (hpComponent == null)
         {
-            Debug.LogError("[BossPhaseManager] HP component not found!");
+//             Debug.LogError("[BossPhaseManager] HP component not found!");
             return;
         }
 
@@ -80,7 +80,7 @@ public class BossPhaseManager : MonoScript
 
     private void OnPhaseChanged(int newPhase)
     {
-        Debug.Log($"[BossPhaseManager] Phase Changed to: {newPhase} (HP Ratio: {hpComponent.CurrentHpRatio():F2})");
+//         Debug.Log($"[BossPhaseManager] Phase Changed to: {newPhase} (HP Ratio: {hpComponent.CurrentHpRatio():F2})");
         
         // フェーズごとのパラメータ適用
         var settings = phases.Find(p => p.phaseIndex == newPhase);

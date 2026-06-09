@@ -9,19 +9,19 @@
 
 	public override void Update() {
 		if(attachedEntity == null) {
-			Debug.LogError("Attached entity is not set.");
+// 			Debug.LogError("Attached entity is not set.");
 			return;
 		}
 
 		SkinMeshRenderer smr = entity.GetComponent<SkinMeshRenderer>();
 		if(smr == null) {
-			Debug.LogError("SkinMeshRenderer not found on entity.");
+// 			Debug.LogError("SkinMeshRenderer not found on entity.");
 			return;
 		}
 
 		TransformData jointTransform = smr.GetJointTransform(jointName);
 		if (jointTransform == null) {
-			Debug.LogError("Joint not found: " + jointName);
+// 			Debug.LogError("Joint not found: " + jointName);
 			return;
 		}
 

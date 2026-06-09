@@ -20,7 +20,7 @@ public class DebugMovementAI : MonoScript
         // 旋回速度をテスト用に設定 (低めに設定して補間を見やすくする)
         _intent.rotationSpeed = 2.0f;
         
-        Debug.Log($"[DebugMovementAI] Initialized on {entity.name}. Starting behavior loop.");
+//         Debug.Log($"[DebugMovementAI] Initialized on {entity.name}. Starting behavior loop.");
     }
 
     public override void Update()
@@ -32,7 +32,7 @@ public class DebugMovementAI : MonoScript
         {
             _timer = 0;
             _phase = (_phase + 1) % 3;
-            Debug.Log($"[DebugMovementAI] Switching to Phase: {_phase}");
+//             Debug.Log($"[DebugMovementAI] Switching to Phase: {_phase}");
         }
 
         switch (_phase)

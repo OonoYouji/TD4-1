@@ -168,6 +168,12 @@ namespace ONEngine {
         };
         RenderMode renderMode = RenderMode::Billboard;
 
+        enum class RenderAlignment : uint8_t {
+            View,
+            Velocity
+        };
+        RenderAlignment alignment = RenderAlignment::View;
+
         enum class BlendMode : uint8_t {
             Normal,
             Add,
@@ -177,6 +183,9 @@ namespace ONEngine {
             None
         };
         BlendMode blendMode = BlendMode::Normal;
+
+        float speedScale = 0.0f;
+        float lengthScale = 2.0f;
 
         std::string materialGuid; // Reference to material asset
         std::string meshGuid;     // For Mesh mode

@@ -15,20 +15,20 @@ class UiControlManager : MonoScript
         Entity player = ecsGroup.FindEntity("Player");
         if (player == null)
         {
-            Debug.LogError("Player entity not found in the ECS group.");
+//             Debug.LogError("Player entity not found in the ECS group.");
         }
         else
         {
             playerScript = player.GetScript<Player>();
             if (playerScript == null)
             {
-                Debug.LogError("Player script not found on the Player entity.");
+//                 Debug.LogError("Player script not found on the Player entity.");
             }
 
             callingReinforcement = player.GetScript<CallingReinforcement>();
             if (callingReinforcement == null)
             {
-                Debug.LogError("CallingReinforcement script not found on the Player entity.");
+//                 Debug.LogError("CallingReinforcement script not found on the Player entity.");
             }
         }
 
@@ -64,7 +64,7 @@ class UiControlManager : MonoScript
         if (isCurrentGamepadMode != isGamepadMode)
         {
             isGamepadMode = isCurrentGamepadMode;
-            Debug.LogInfo($"Gamepad mode changed to: {isGamepadMode}");
+//             Debug.LogInfo($"Gamepad mode changed to: {isGamepadMode}");
             foreach (UiController uiController in uiControllers)
             {
                 uiController.SetSpriteByMode(isGamepadMode);

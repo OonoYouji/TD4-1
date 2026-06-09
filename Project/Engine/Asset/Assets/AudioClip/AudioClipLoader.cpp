@@ -2,6 +2,7 @@
 
 /// std
 #include <fstream>
+#include <algorithm>
 
 /// sound api
 #include <mfapi.h>
@@ -24,21 +25,32 @@ namespace ONEngine::Asset {
 std::optional<AudioClip> AssetLoader<AudioClip>::Load(const std::string& _filepath, Meta<AudioClip::MetaData> meta) {
 	/// ----- オーディオクリップの読み込み ----- ///
 
+	/// Media Foundationの初期化 (一度だけ実行)
+	static HRESULT mfStartupResult = MFStartup(MF_VERSION);
+	if (!SUCCEEDED(mfStartupResult)) {
+		Console::LogError("[Load Failed] [AudioClip] - MFStartup failed.");
+		return std::nullopt;
+	}
+
 	/// ファイルが存在するのかチェックする
 	if(!std::filesystem::exists(_filepath)) {
 		Console::LogError("[Load Failed] [AudioClip] - File not found: \"" + _filepath + "\"");
 		return std::nullopt;
 	}
 
+	/// パスをWindows形式（バックスラッシュ）に変換
+	std::string fixedPath = _filepath;
+	std::replace(fixedPath.begin(), fixedPath.end(), '/', '\\');
+
 	/// wstringに変換
-	std::wstring filePathW = ConvertString(_filepath);
+	std::wstring filePathW = ConvertString(fixedPath);
 	HRESULT result;
 
 	/// SourceReaderの作成
 	ComPtr<IMFSourceReader> sourceReader;
 	result = MFCreateSourceReaderFromURL(filePathW.c_str(), nullptr, &sourceReader);
 	if(!SUCCEEDED(result)) {
-		Console::LogError("[Load Failed] [AudioClip] - MFCreateSourceReaderFromURL failed: \"" + _filepath + "\"");
+		Console::LogError(std::format("[Load Failed] [AudioClip] - MFCreateSourceReaderFromURL failed (HRESULT: 0x{:08X}): \"{}\"", (uint32_t)result, _filepath));
 		return std::nullopt;
 	}
 

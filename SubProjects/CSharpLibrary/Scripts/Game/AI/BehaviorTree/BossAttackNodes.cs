@@ -10,7 +10,7 @@ public abstract class BossActionNode<T> : BehaviorNode where T : MonoScript
         T attackScript = owner.GetScript<T>();
         if (attackScript == null)
         {
-            Debug.LogError($"[BTNode] {typeof(T).Name} not found on {owner.name}");
+//             Debug.LogError($"[BTNode] {typeof(T).Name} not found on {owner.name}");
             return NodeStatus.Failure;
         }
 

@@ -30,14 +30,14 @@ public class RotateToFaceNode : BehaviorNode
 
         if (target == null)
         {
-            Debug.LogWarning($"RotateToFaceNode: Target '{targetKey}' is null.");
+//             Debug.LogWarning($"RotateToFaceNode: Target '{targetKey}' is null.");
             return NodeStatus.Failure;
         }
 
         var intent = owner.GetComponent<AgentIntentComponent>();
         if (intent == null)
         {
-            Debug.LogWarning($"RotateToFaceNode: AgentIntentComponent not found on {owner.name}.");
+//             Debug.LogWarning($"RotateToFaceNode: AgentIntentComponent not found on {owner.name}.");
             return NodeStatus.Failure;
         }
 

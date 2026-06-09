@@ -35,13 +35,13 @@ public class SceneTransition : MonoScript {
     public override void Initialize() {
         // もし古いインスタンスが残っていたら警告
         if (instance != null && instance != this) {
-            Debug.LogWarning("SceneTransition: Overwriting existing instance. This usually happens during scene load.");
+//             Debug.LogWarning("SceneTransition: Overwriting existing instance. This usually happens during scene load.");
         }
         instance = this;
         faderSprite = entity.GetComponent<SpriteRenderer>();
         
         if (faderSprite == null) {
-            Debug.LogError("SceneTransition: SpriteRenderer not found on Fader entity!");
+//             Debug.LogError("SceneTransition: SpriteRenderer not found on Fader entity!");
         }
 
         if (fadeDuration <= 0) fadeDuration = 0.5f;
@@ -68,7 +68,7 @@ public class SceneTransition : MonoScript {
             
             if (timer >= fadeDuration) {
                 isFadingOut = false;
-                Debug.Log("SceneTransition: Fade out finished. Loading: " + nextScene);
+//                 Debug.Log("SceneTransition: Fade out finished. Loading: " + nextScene);
                 SceneManager.LoadScene(nextScene);
             }
         } else if (isFadingIn) {
@@ -85,7 +85,7 @@ public class SceneTransition : MonoScript {
     public override void OnDestroy() {
         if (instance == this) {
             instance = null;
-            Debug.Log("SceneTransition instance cleared on destroy.");
+//             Debug.Log("SceneTransition instance cleared on destroy.");
         }
     }
 
@@ -101,7 +101,7 @@ public class SceneTransition : MonoScript {
         timer = 0.0f;
         UpdateAlpha(0.0f);
         
-        Debug.Log("SceneTransition: Transition started to: " + sceneName);
+//         Debug.Log("SceneTransition: Transition started to: " + sceneName);
     }
 
     private void UpdateAlpha(float alpha) {

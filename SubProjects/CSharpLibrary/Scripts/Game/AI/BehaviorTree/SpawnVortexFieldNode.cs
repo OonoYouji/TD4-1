@@ -47,7 +47,7 @@ public class SpawnVortexFieldNode : BehaviorNode
             }
 
             FrameEvent.EnqueueEffectEvent("Vortex_Activate", owner.Id, suctionRadius, duration);
-            Debug.Log($"<color=blue>[VortexAttack]</color> {owner.name} spawned vortex at {targetPos}");
+//             Debug.Log($"<color=blue>[VortexAttack]</color> {owner.name} spawned vortex at {targetPos}");
             return NodeStatus.Running;
         }
 
@@ -114,7 +114,7 @@ public class SpawnVortexFieldNode : BehaviorNode
 
                     if (e.name.Contains("Player"))
                     {
-                        Debug.Log("<color=red>[Vortex]</color> Player caught in center!");
+//                         Debug.Log("<color=red>[Vortex]</color> Player caught in center!");
                     }
                     
                     // 吸い込まれた物体の爆発（後で一括処理）
@@ -130,7 +130,7 @@ public class SpawnVortexFieldNode : BehaviorNode
         foreach (var obj in objectsToExplode)
         {
             if (obj == null || obj.Id == 0) continue;
-            Debug.Log($"<color=orange>[Vortex]</color> {obj.name} sucked in and exploded!");
+//             Debug.Log($"<color=orange>[Vortex]</color> {obj.name} sucked in and exploded!");
             FrameEvent.EnqueueNamedEvent("Effect_Explosion", obj.Id);
             owner.Group.DestroyEntity(obj.Id);
             

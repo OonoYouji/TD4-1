@@ -66,21 +66,21 @@ public class Mapchip : MonoScript {
 	}
 
 	public void LoadMap(string directory, string filename) {
-		Debug.Log(filename);
+// 		Debug.Log(filename);
 		loadedText_ = Mathf.LoadFile(directory + filename);
 		root_ = JsonConvert.DeserializeObject<Stage.Root>(loadedText_);
 		root_.map.tiles.Reverse();
 
 		/// partitionのデバッグ出力
-		Debug.Log("---------------------------------------------------------------");
+// 		Debug.Log("---------------------------------------------------------------");
 		if (root_.partitionList != null) {
 			foreach (var d in root_.partitionList.date) {
-				Debug.Log("address1: x=" + d.address1.x + "  y=" + d.address1.y);
-				Debug.Log("address1: x=" + d.address2.x + "  y=" + d.address2.y);
-				Debug.Log("type=" + d.type);
+// 				Debug.Log("address1: x=" + d.address1.x + "  y=" + d.address1.y);
+// 				Debug.Log("address1: x=" + d.address2.x + "  y=" + d.address2.y);
+// 				Debug.Log("type=" + d.type);
 			}
 		}
-		Debug.Log("---------------------------------------------------------------");
+// 		Debug.Log("---------------------------------------------------------------");
 	}
 
 	public List<List<int>> GetStartMapData() {

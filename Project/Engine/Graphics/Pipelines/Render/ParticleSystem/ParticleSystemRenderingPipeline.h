@@ -7,6 +7,8 @@
 #include "Engine/Graphics/Buffer/ConstantBuffer.h"
 #include "Engine/ECS/Component/Components/ComputeComponents/ParticleSystem/ParticleSystem.h"
 #include "Engine/Core/Utility/Math/Matrix4x4.h"
+#include "Engine/Core/DirectX12/Command/DxCommand.h"
+#include "Engine/Core/DirectX12/DescriptorHeap/DxSRVHeap.h"
 
 namespace ONEngine {
 class ShaderCompiler;
@@ -21,16 +23,24 @@ class AssetCollection;
 class ParticleSystemRenderingPipeline : public IRenderingPipeline {
     struct CameraData {
         Matrix4x4 billboardMatrix;
+        Vector3 cameraPosition;
+        float padding;
     };
 
-    struct InstanceOffset {
-        uint32_t offset;
+    struct alignas(16) PerSystemData {
+        Matrix4x4 emitterWorldMatrix;
+        uint32_t renderMode;
+        uint32_t renderAlignment;
+        float speedScale;
+        float lengthScale;
+        uint32_t instanceOffset;
+        uint32_t padding[3];
     };
 
     enum ROOT_PARAM {
         CBV_VIEW_PROJECTION,
         CBV_CAMERA_DATA,
-        CBV_INSTANCE_OFFSET,
+        ROOT_PER_SYSTEM,
         SRV_PARTICLES,
         SRV_MATERIALS,
         SRV_TEXTURE_IDS,
@@ -49,7 +59,6 @@ private:
     DxManager* pDxManager_ = nullptr;
     
     ConstantBuffer<CameraData> cameraDataBuffer_;
-    ConstantBuffer<InstanceOffset> instanceOffsetBuffer_;
 
     const size_t kMaxParticlesTotal_ = size_t(std::pow(2, 20)); // Up to 1M particles total per frame
     StructuredBuffer<Particle> particleBuffer_;

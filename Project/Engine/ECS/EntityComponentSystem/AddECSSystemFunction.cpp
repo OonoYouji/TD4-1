@@ -37,6 +37,7 @@ void ONEngine::GameECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, As
 	_ecs->AddSystem<GrassBufferCreateSystem>(_dxm);
 
 	/// 更新に使うsystem
+	_ecs->AddSystem<TransformUpdateSystem>();
 	_ecs->AddSystem<AnimationSystem>();
 	_ecs->AddSystem<AnimatorUpdateSystem>();
 	_ecs->AddSystem<SkinMeshUpdateSystem>(_dxm, _assetCollection);
@@ -46,7 +47,6 @@ void ONEngine::GameECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, As
 	_ecs->AddSystem<AudioPlaybackSystem>(_assetCollection);
 	_ecs->AddSystem<EffectUpdateSystem>();
 	_ecs->AddSystem<ParticleSystemUpdateSystem>();
-	_ecs->AddSystem<TransformUpdateSystem>();
 
 	/// 衝突判定に使うsystem
 	_ecs->AddSystem<TerrainCollision>();
@@ -73,6 +73,7 @@ void ONEngine::DebugECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, A
 	_ecs->AddSystem<GrassBufferCreateSystem>(_dxm);
 
 	/// 更新に使うsystem
+	_ecs->AddSystem<TransformUpdateSystem>();
 	_ecs->AddSystem<AnimationSystem>();
 	_ecs->AddSystem<CameraUpdateSystem>(_dxm->GetDxDevice());
 	_ecs->AddSystem<AnimatorUpdateSystem>();
@@ -84,7 +85,6 @@ void ONEngine::DebugECSGroupAddSystemFunction(ECSGroup* _ecs, DxManager* _dxm, A
 	_ecs->AddSystem<EffectUpdateSystem>();
 	_ecs->AddSystem<ParticleSystemUpdateSystem>();
 	_ecs->AddSystem<ShadowCasterUpdateSystem>();
-	_ecs->AddSystem<TransformUpdateSystem>();
 
 	/// 衝突判定に使うsystem
 	_ecs->AddSystem<TerrainCollision>();

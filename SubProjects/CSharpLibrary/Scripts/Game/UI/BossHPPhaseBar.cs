@@ -92,7 +92,7 @@ public class BossHPPhaseBar : MonoScript
         if (isBroken) return;
         isBroken = true;
         
-        Debug.Log($"<color=white>[BossUI]</color> Bar Shattered! ({entity.name})");
+//         Debug.Log($"<color=white>[BossUI]</color> Bar Shattered! ({entity.name})");
         
         // 1. パーティクル発生 (Effectシステムを利用)
         // 既存の破壊エフェクトを流用、またはログで代替

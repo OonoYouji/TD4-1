@@ -137,7 +137,7 @@ namespace PuzzleCommands {
 
 		public override CommandState Execution() {
 			if (prevAddress_ == nextAddress_) {
-				Debug.Log("===== MoveWhiteBlockCommand Execution - 移動先が同じため移動しない");
+// 				Debug.Log("===== MoveWhiteBlockCommand Execution - 移動先が同じため移動しない");
 				return CommandState.Finished;
 			}
 
@@ -170,7 +170,7 @@ namespace PuzzleCommands {
 			pp?.Move(moveDir_);
 
 			if (maxMoveStep_ <= moveStep_) {
-				Debug.Log("===== MoveWhiteBlockCommand Execution - 移動完了");
+// 				Debug.Log("===== MoveWhiteBlockCommand Execution - 移動完了");
 				/// 移動完了
 				return CommandState.Finished;
 			}
@@ -303,7 +303,7 @@ namespace PuzzleCommands {
 
 		public override CommandState Execution() {
 			if (prevAddress_ == nextAddress_) {
-				Debug.Log("===== MoveBlackBlockCommand Execution - 移動先が同じため移動しない");
+// 				Debug.Log("===== MoveBlackBlockCommand Execution - 移動先が同じため移動しない");
 				return CommandState.Finished;
 			}
 			/// 移動先に移動
@@ -332,7 +332,7 @@ namespace PuzzleCommands {
 			/// 移動実行
 			pp?.Move(moveDir_);
 			if (maxMoveStep_ <= moveStep_) {
-				Debug.Log("===== MoveBlackBlockCommand Execution - 移動完了");
+// 				Debug.Log("===== MoveBlackBlockCommand Execution - 移動完了");
 				/// 移動完了
 				return CommandState.Finished;
 			}

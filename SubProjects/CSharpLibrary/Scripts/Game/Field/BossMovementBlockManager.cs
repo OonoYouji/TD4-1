@@ -35,14 +35,14 @@ public class BossMovementBlockManager : MonoScript
         Entity FieldManagerEntity = ecsGroup.FindEntity("FieldManager");
         if (FieldManagerEntity == null)
         {
-            Debug.LogWarning("[BossMovementBlockManager] FieldManager が見つかりません。");
+//             Debug.LogWarning("[BossMovementBlockManager] FieldManager が見つかりません。");
             return;
         }
 
         // FieldManagerスクリプトを取得
         FieldManager fieldManagerScript = FieldManagerEntity.GetScript<FieldManager>();
         if (fieldManagerScript == null) {
-            Debug.LogWarning("[BossMovementBlockManager] FieldManagerスクリプトが見つかりません。");
+//             Debug.LogWarning("[BossMovementBlockManager] FieldManagerスクリプトが見つかりません。");
             return; 
         }
 
@@ -52,7 +52,7 @@ public class BossMovementBlockManager : MonoScript
             RegisterBlock(blockConfigs[i], i, fieldManagerScript);
         }
 
-        Debug.Log($"[BossMovementBlockManager] {blocks_.Count} 個のボス移動ブロックを登録しました。");
+//         Debug.Log($"[BossMovementBlockManager] {blocks_.Count} 個のボス移動ブロックを登録しました。");
     }
 
     // =========================================================
@@ -67,7 +67,7 @@ public class BossMovementBlockManager : MonoScript
         // ブロックの有効性をチェック
         if (!block.IsValid)
         {
-            Debug.LogWarning($"[BossMovementBlockManager] Block_{index} (row={cfg.centerRow}, col={cfg.centerCol}) が無効です。端から1マス以上内側を指定してください。");
+//             Debug.LogWarning($"[BossMovementBlockManager] Block_{index} (row={cfg.centerRow}, col={cfg.centerCol}) が無効です。端から1マス以上内側を指定してください。");
             return;
         }
 

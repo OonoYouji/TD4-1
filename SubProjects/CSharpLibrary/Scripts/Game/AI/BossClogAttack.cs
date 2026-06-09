@@ -27,15 +27,13 @@ public class BossClogAttack : MonoScript {
 	}
 	private List<AffectedReinforcement> affectedList = new List<AffectedReinforcement>();
 
-	public override void Initialize()
-	{
+	public override void Initialize() {
 		animator = entity.GetComponent<Animator>();
 	}
 
-	private void PlayAnimation(string clipName)
-	{
+	private void PlayAnimation(string clipName) {
 		if (animator == null || currentAnim == clipName) return;
-		Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+		// 		Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
 		animator.CrossFade(clipName, 0.15f);
 		currentAnim = clipName;
 	}
@@ -81,13 +79,13 @@ public class BossClogAttack : MonoScript {
 		if (currentState != State.Idle) return;
 		currentState = State.Preparation;
 		stateTimer = preparationTime;
-		Debug.Log("[BossClogAttack] Preparation started...");
+		// 		Debug.Log("[BossClogAttack] Preparation started...");
 	}
 
 	private void ExecuteAttack() {
 		currentState = State.Active;
 		stateTimer = duration;
-		Debug.Log("[BossClogAttack] Clog Attack Active!");
+		// 		Debug.Log("[BossClogAttack] Clog Attack Active!");
 
 		foreach (var entity in ecsGroup.GetEntities()) {
 			if (!entity.name.Contains(targetTag)) continue;

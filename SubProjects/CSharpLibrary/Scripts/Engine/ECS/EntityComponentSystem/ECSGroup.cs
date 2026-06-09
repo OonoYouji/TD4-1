@@ -85,7 +85,7 @@ public class ECSGroup {
             if (!awakeList_.Contains(entity) && !initList_.Contains(entity)) {
                 _behavior.Awake();
                 _behavior.Initialize();
-                Debug.Log($"ECSGroup: Dynamically initialized script {_behavior.GetType().Name} for Entity {_entityId}");
+//                 Debug.Log($"ECSGroup: Dynamically initialized script {_behavior.GetType().Name} for Entity {_entityId}");
             }
 		} else {
 			//Debug.LogError("Entity.AddScript - Entity not found with ID: " + _entityId);
@@ -103,7 +103,7 @@ public class ECSGroup {
 		entities_.Add(entity);
 
 		// 誰が生成しているかログを出す
-		Debug.LogInfo($"[ENTITY_SPAWN] Prefab: {_prefabName} spawned by C# script. ID: {id}");
+// 		Debug.LogInfo($"[ENTITY_SPAWN] Prefab: {_prefabName} spawned by C# script. ID: {id}");
 
 
 		awakeList_.Add(entity); //!< 生成されたエンティティを生成リストに追加
@@ -146,7 +146,7 @@ public class ECSGroup {
 
 			sw.Stop();
 		} catch (Exception e) {
-			Debug.LogError($"[ECSGroup] Exception in UpdateEntities ({groupName}): {e.Message}\n{e.StackTrace}");
+// 			Debug.LogError($"[ECSGroup] Exception in UpdateEntities ({groupName}): {e.Message}\n{e.StackTrace}");
 			throw;
 		}
 	}
@@ -181,7 +181,7 @@ public class ECSGroup {
 					try {
 						script.Update();
 					} catch (Exception e) {
-						Debug.LogError($"[ECSGroup] Exception in script '{script.GetType().Name}' on entity '{current.name}' (ID:{current.Id}): {e.Message}\n{e.StackTrace}");
+// 						Debug.LogError($"[ECSGroup] Exception in script '{script.GetType().Name}' on entity '{current.name}' (ID:{current.Id}): {e.Message}\n{e.StackTrace}");
 						throw;
 					}
 				}
@@ -297,9 +297,9 @@ public class ECSGroup {
 			entities_.Remove(entity);
 			InternalDestroyEntity(groupName, _id);
 #if DEBUG
-			Debug.Log("Entity destroyed with ID: " + _id);
+// 			Debug.Log("Entity destroyed with ID: " + _id);
 		} else {
-			Debug.LogError("Entity not found with ID: " + _id);
+// 			Debug.LogError("Entity not found with ID: " + _id);
 #endif
 		}
 	}
@@ -309,8 +309,8 @@ public class ECSGroup {
 	/// </summary>
 	public void DeleteEntityAll() {
 #if DEBUG
-		Debug.Log("ECSGroup.DeleteEntityAll - Deleting all entities in group: " + groupName + ", EntityCount: "
-				  + entities_.Count);
+// 		Debug.Log("ECSGroup.DeleteEntityAll - Deleting all entities in group: " + groupName + ", EntityCount: "
+// 				  + entities_.Count);
 #endif
 
 		var entitiesToDestroy = new List<Entity>(entities_);
@@ -324,8 +324,8 @@ public class ECSGroup {
 	/// </summary>
 	public void ClearForSceneTransition() {
 #if DEBUG
-		Debug.Log("ECSGroup.ClearForSceneTransition - Clearing C# state for group: " + groupName + ", EntityCount: "
-				  + entities_.Count);
+// 		Debug.Log("ECSGroup.ClearForSceneTransition - Clearing C# state for group: " + groupName + ", EntityCount: "
+// 				  + entities_.Count);
 #endif
 		// スクリプトの破棄イベントを呼ぶ
 		foreach (var entity in entities_) {
@@ -360,7 +360,7 @@ public class ECSGroup {
 		}
 
 #if DEBUG
-		Debug.LogError("Entity not found with name: " + _name);
+// 		Debug.LogError("Entity not found with name: " + _name);
 #endif
 		return null;
 	}

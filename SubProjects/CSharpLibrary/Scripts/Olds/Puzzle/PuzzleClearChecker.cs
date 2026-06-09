@@ -17,14 +17,14 @@ public class PuzzleClearChecker : MonoScript {
 	public override void Initialize() {
 		puzzleStage_ = entity.GetScript<PuzzleStage>();
 		if (!puzzleStage_) {
-			Debug.LogWarning("===== puzzle stage is null");
+// 			Debug.LogWarning("===== puzzle stage is null");
 			return;
 		} 
 		
 		/// ゴールのアドレスを確保
 		List<List<int>> mapData = puzzleStage_.GetMapData();
 		if (mapData == null || mapData.Count == 0) {
-			Debug.LogWarning("===== map data is null");
+// 			Debug.LogWarning("===== map data is null");
 			return;
 		}
 		

@@ -98,7 +98,7 @@ public class GameStateManager : MonoScript
                 if (_bossIntent != null && !_bossIntent.isPaused)
                 {
                     currentPhase = GamePhase.BossPhase1;
-                    Debug.Log("<color=gold>[GameStateManager]</color> Intro Finished. Battle Start!");
+//                     Debug.Log("<color=gold>[GameStateManager]</color> Intro Finished. Battle Start!");
                 }
                 break;
 
@@ -106,7 +106,7 @@ public class GameStateManager : MonoScript
                 if (hpRatio < 0.7f)
                 {
                     currentPhase = GamePhase.BossPhase2;
-                    Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase2 (HP < 70%)");
+//                     Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase2 (HP < 70%)");
                 }
                 break;
 
@@ -114,7 +114,7 @@ public class GameStateManager : MonoScript
                 if (hpRatio < 0.3f)
                 {
                     currentPhase = GamePhase.BossPhase3;
-                    Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase3 (HP < 30%)");
+//                     Debug.Log("<color=cyan>[GameStateManager]</color> Transition to BossPhase3 (HP < 30%)");
                 }
                 break;
         }
@@ -130,11 +130,11 @@ public class GameStateManager : MonoScript
 
         if (result == GameResult.Clear)
         {
-            Debug.Log("<color=green>[GameStateManager]</color> BOSS DEFEATED! Playing death sequence...");
+//             Debug.Log("<color=green>[GameStateManager]</color> BOSS DEFEATED! Playing death sequence...");
         }
         else
         {
-            Debug.Log("<color=red>[GameStateManager]</color> PLAYER DIED...");
+//             Debug.Log("<color=red>[GameStateManager]</color> PLAYER DIED...");
         }
     }
 

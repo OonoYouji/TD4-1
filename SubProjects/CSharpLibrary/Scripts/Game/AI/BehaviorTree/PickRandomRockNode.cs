@@ -32,7 +32,7 @@ public class PickRandomRockNode : BehaviorNode
 
         if (candidateRocks.Count == 0)
         {
-            Debug.LogWarning("[PickRock] No rocks found within radius.");
+//             Debug.LogWarning("[PickRock] No rocks found within radius.");
             return NodeStatus.Failure;
         }
 
@@ -41,7 +41,7 @@ public class PickRandomRockNode : BehaviorNode
         Entity selectedRock = candidateRocks[rand.Next(candidateRocks.Count)];
 
         blackboard.SetObject(BehaviorTreeLoader.HashString(outputRockKey), selectedRock);
-        Debug.Log($"<color=brown>[PickRock]</color> Selected rock: {selectedRock.name} at {selectedRock.transform.position}");
+//         Debug.Log($"<color=brown>[PickRock]</color> Selected rock: {selectedRock.name} at {selectedRock.transform.position}");
 
         return NodeStatus.Success;
     }
