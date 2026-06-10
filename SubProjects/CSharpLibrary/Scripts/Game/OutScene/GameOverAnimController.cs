@@ -20,7 +20,7 @@ class GameOverAnimController : MonoScript
             bossPlayer = boss.GetComponent<AnimationPlayer>();
         }
 
-        for (int i = 0; ; i++)
+        for (int i = 1; ; i++)
         {
             var human = ecsGroup.FindEntity("Human" + i);
             if (human != null)
@@ -32,6 +32,7 @@ class GameOverAnimController : MonoScript
                 break;
             }
         }
+        Debug.LogInfo("GameOverAnimController: Found " + humans.Count + " humans.");
     }
 
     public override void Update()
@@ -47,9 +48,15 @@ class GameOverAnimController : MonoScript
             // 後ろを向く
             foreach (Entity human in humans)
             {
-                Vector3 forward = human.transform.forward;
-                Vector3 backword = -forward;
-                human.transform.rotation = Quaternion.LookRotation(backword);
+                Quaternion baseRotate = human.transform.rotate;
+                human.transform.rotation = Quaternion.MakeFromAxis(Vector3.up, Mathf.PI) * baseRotate;
+            }
+
+            SkinMeshRenderer renderer= boss.GetComponent<SkinMeshRenderer>();
+            if (renderer != null)
+            {
+                // アニメーション変更
+                // TODO: アニメーションの切り替えに対応したら、ここも変更する
             }
         }
 
@@ -57,9 +64,14 @@ class GameOverAnimController : MonoScript
         {
             foreach (Entity human in humans)
             {
-                Vector3 forward = human.transform.forward;
+                // 前に進む
+                Quaternion baseRotate = human.transform.rotate;
+                Vector3 forward = baseRotate * Vector3.back; // なぜか後ろ向きで前に進む <- ？？？
                 Vector3 velocity = forward * ESCAPE_SPEED;
                 human.transform.position += velocity * Time.deltaTime;
+
+                // サイズをだんだん小さくする
+                human.transform.scale *= 0.999f;
             }
         }
     }

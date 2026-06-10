@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 public class EndSceneController : MonoScript
 {
     [SerializeField] public string nextSceneName = "TitleScene";
@@ -14,14 +11,19 @@ public class EndSceneController : MonoScript
         // スペースキーまたはゲームパッドのAボタンで遷移
         if (Input.TriggerKey(KeyCode.Space) || Input.TriggerGamepad(Gamepad.A))
         {
-            if (SceneTransition.Instance != null)
+            if (nextSceneName == "Null")
             {
-                //                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
+                // TODO: ここにゲーム終了を書く
+                Debug.LogInfo("EndSceneController: No next scene specified. Exiting game.");
+            }
+            else if (SceneTransition.Instance != null)
+            {
+                Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
                 SceneTransition.Instance.TransitionTo(nextSceneName);
             }
             else
             {
-                //                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
+                Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
                 SceneManager.LoadScene(nextSceneName);
             }
         }
