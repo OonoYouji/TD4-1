@@ -1,0 +1,106 @@
+{
+    "active": true,
+    "components": [
+        {
+            "position": {
+                "x": 1.1652930974960327,
+                "z": -1.2206321954727173
+            },
+            "rotate": {
+                "w": 0.24192190170288086,
+                "y": 0.9702957272529602
+            },
+            "type": "Transform"
+        },
+        {
+            "defaultClipId": 4138087844,
+            "layers": [
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 4138087844,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 1.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                }
+            ],
+            "type": "Animator"
+        }
+    ],
+    "guid": "6ac656677aecf528d6d4bdaedb2894b0",
+    "name": "Human2",
+    "parentGuid": "ad5c1373a22aff567cef74f1c737f140",
+    "prefabName": "Human"
+}

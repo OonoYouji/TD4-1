@@ -144,6 +144,11 @@
             "guid": "1e6011da3fc15cedc6cce2b2781942d5",
             "parentGuid": null,
             "path": "./TitleScene/1e6011da3fc15cedc6cce2b2781942d5.entity"
+        },
+        {
+            "guid": "392a398b6b7aef457281ae07f6e9fdce",
+            "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
+            "path": "./TitleScene/392a398b6b7aef457281ae07f6e9fdce.entity"
         }
     ]
 }

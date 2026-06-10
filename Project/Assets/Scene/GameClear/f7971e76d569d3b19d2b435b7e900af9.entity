@@ -2,22 +2,6 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.0,
-                "y": -1.0,
-                "z": 0.0
-            },
-            "enable": 1,
-            "intensity": 0.699999988079071,
-            "type": "DirectionalLight"
-        },
-        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
@@ -40,10 +24,15 @@
         },
         {
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": null,
+            "type": "Script"
         }
     ],
-    "guid": "56a09c4bf4c2f1bc76ee89034164079b",
-    "name": "Light",
-    "parentGuid": null,
+    "guid": "f7971e76d569d3b19d2b435b7e900af9",
+    "name": "Humans",
+    "parentGuid": "09a665258b87e0eaad4bb5288c4c1817",
     "prefabName": ""
 }
