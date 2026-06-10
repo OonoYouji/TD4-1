@@ -122,7 +122,7 @@ public class BossPerformanceDirector : MonoScript
             animator.CrossFade("idle", 0.2f);
         }
 
-        Debug.Log($"<color=yellow>[Performance]</color> START: {p.name}. Waiting {p.waitDuration}s...");
+//         Debug.Log($"<color=yellow>[Performance]</color> START: {p.name}. Waiting {p.waitDuration}s...");
 
         if (!string.IsNullOrEmpty(p.prefabPath))
         {
@@ -150,7 +150,7 @@ public class BossPerformanceDirector : MonoScript
             animator.CrossFade("idle", 0.2f);
         }
 
-        Debug.Log($"<color=red>[Performance]</color> START: Death. Waiting {deathWaitDuration}s...");
+//         Debug.Log($"<color=red>[Performance]</color> START: Death. Waiting {deathWaitDuration}s...");
 
         if (!string.IsNullOrEmpty(deathPerformancePrefabPath))
         {
@@ -171,18 +171,18 @@ public class BossPerformanceDirector : MonoScript
 
         if (_isDead)
         {
-            Debug.Log("[Performance] END: Death. Destroying boss.");
+//             Debug.Log("[Performance] END: Death. Destroying boss.");
             entity.Destroy();
         }
         else
         {
-            Debug.Log($"[Performance] END: {(_currentActivePerformance != null ? _currentActivePerformance.name : "Transition")}. Resuming AI.");
+//             Debug.Log($"[Performance] END: {(_currentActivePerformance != null ? _currentActivePerformance.name : "Transition")}. Resuming AI.");
             
             // 開幕演出(Intro)が終わったなら、HPを100%に下げて戦闘開始
             if (_currentActivePerformance != null && _currentActivePerformance.isIntro)
             {
                 if (_hp != null) _hp.currentHp = _hp.MAX_HP;
-                Debug.Log("[Performance] Intro finished. Combat starts now (HP normalized to 100%).");
+//                 Debug.Log("[Performance] Intro finished. Combat starts now (HP normalized to 100%).");
             }
 
             _intent.isPaused = false;

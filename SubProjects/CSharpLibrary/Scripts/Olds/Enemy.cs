@@ -14,7 +14,7 @@ public class Enemy : MonoScript {
 
 		if (hp <= 0f) {
 			isAlive = false;
-			Debug.Log("Enemy defeated." + entity.Id);
+// 			Debug.Log("Enemy defeated." + entity.Id);
 			return;
 		}
 	}

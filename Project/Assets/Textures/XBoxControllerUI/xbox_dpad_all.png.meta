@@ -1,4 +1,8 @@
 {
-    "version": 1,
-    "guid": "e8a2c91de58ac5531be26e870ef905bb"
+    "colorSpace": "Linear",
+    "format": "RGBA8_UNORM",
+    "guid": "5e9c159cba76545ecc34a2874c671bee",
+    "name": "xbox_dpad_all",
+    "type": "Texture",
+    "version": 1
 }

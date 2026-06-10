@@ -23,28 +23,29 @@ namespace ONEngine {
 
     static Color GetMinMaxColor(const MinMaxColor& mmc) {
         if (mmc.state == MinMaxState::Constant) return mmc.constant;
+        float t = Random::Float(0.0f, 1.0f);
         return Color(
-            Random::Float(mmc.minVal.r, mmc.maxVal.r),
-            Random::Float(mmc.minVal.g, mmc.maxVal.g),
-            Random::Float(mmc.minVal.b, mmc.maxVal.b),
-            Random::Float(mmc.minVal.a, mmc.maxVal.a)
+            mmc.minVal.r + (mmc.maxVal.r - mmc.minVal.r) * t,
+            mmc.minVal.g + (mmc.maxVal.g - mmc.minVal.g) * t,
+            mmc.minVal.b + (mmc.maxVal.b - mmc.minVal.b) * t,
+            mmc.minVal.a + (mmc.maxVal.a - mmc.minVal.a) * t
         );
     }
 
-    static float EvaluateMinMaxCurve(const MinMaxCurve& mmc, float time) {
+    static float EvaluateMinMaxCurve(const MinMaxCurve& mmc, float time, float randomValue = 0.5f) {
         switch (mmc.state) {
             case MinMaxState::Constant: return mmc.constant;
             case MinMaxState::Curve: return mmc.curve.Evaluate(time);
             case MinMaxState::RandomBetweenTwoCurves: {
                 float vMin = mmc.curveMin.Evaluate(time);
                 float vMax = mmc.curveMax.Evaluate(time);
-                return vMin + (vMax - vMin) * 0.5f; 
+                return vMin + (vMax - vMin) * randomValue; 
             }
             default: return mmc.constant;
         }
     }
 
-    static Color EvaluateMinMaxGradient(const MinMaxGradient& mmg, float time) {
+    static Color EvaluateMinMaxGradient(const MinMaxGradient& mmg, float time, float randomValue = 0.5f) {
         switch (mmg.state) {
             case MinMaxState::Constant: return mmg.gradient.Evaluate(time);
             case MinMaxState::Curve: return mmg.gradient.Evaluate(time);
@@ -52,10 +53,10 @@ namespace ONEngine {
                 Color cMin = mmg.gradientMin.Evaluate(time);
                 Color cMax = mmg.gradientMax.Evaluate(time);
                 return Color(
-                    cMin.r + (cMax.r - cMin.r) * 0.5f,
-                    cMin.g + (cMax.g - cMin.g) * 0.5f,
-                    cMin.b + (cMax.b - cMin.b) * 0.5f,
-                    cMin.a + (cMax.a - cMin.a) * 0.5f
+                    cMin.r + (cMax.r - cMin.r) * randomValue,
+                    cMin.g + (cMax.g - cMin.g) * randomValue,
+                    cMin.b + (cMax.b - cMin.b) * randomValue,
+                    cMin.a + (cMax.a - cMin.a) * randomValue
                 );
             }
             default: return Color::kWhite;
@@ -236,9 +237,11 @@ namespace ONEngine {
                 if (ps->main.simulationSpace == SimulationSpace::World) {
                     p.position = Matrix4x4::Transform(shapePos, emitMat);
                     p.velocity = Matrix4x4::TransformNormal(shapeDir, emitMat).Normalize() * GetMinMaxFloat(ps->main.startSpeed);
+                    p.simulationSpace = 0; // World
                 } else {
                     p.position = shapePos;
                     p.velocity = shapeDir * GetMinMaxFloat(ps->main.startSpeed);
+                    p.simulationSpace = 1; // Local
                 }
 
                 p.baseVelocity = p.velocity;
@@ -249,6 +252,7 @@ namespace ONEngine {
                 p.startSize = GetMinMaxFloat(ps->main.startSize);
                 p.size = p.startSize;
                 p.rotation = GetMinMaxFloat(ps->main.startRotation);
+                p.randomValue = Random::Float(0.0f, 1.0f);
             }
 
             for (size_t i = 0; i < ps->emission.bursts.size(); ++i) {
@@ -271,9 +275,11 @@ namespace ONEngine {
                                 if (ps->main.simulationSpace == SimulationSpace::World) {
                                     p.position = Matrix4x4::Transform(shapePos, worldMat);
                                     p.velocity = Matrix4x4::TransformNormal(shapeDir, worldMat).Normalize() * GetMinMaxFloat(ps->main.startSpeed);
+                                    p.simulationSpace = 0; // World
                                 } else {
                                     p.position = shapePos;
                                     p.velocity = shapeDir * GetMinMaxFloat(ps->main.startSpeed);
+                                    p.simulationSpace = 1; // Local
                                 }
 
                                 p.startLifetime = GetMinMaxFloat(ps->main.startLifetime);
@@ -283,6 +289,7 @@ namespace ONEngine {
                                 p.startSize = GetMinMaxFloat(ps->main.startSize);
                                 p.size = p.startSize;
                                 p.rotation = GetMinMaxFloat(ps->main.startRotation);
+                                p.randomValue = Random::Float(0.0f, 1.0f);
                             }
                         }
                         cycleCount++;
@@ -319,11 +326,11 @@ namespace ONEngine {
 
                     if (ps->velocityOverLifetime.enabled) {
                         Vector3 linearVelocity(
-                            EvaluateMinMaxCurve(ps->velocityOverLifetime.x, normalizedTime),
-                            EvaluateMinMaxCurve(ps->velocityOverLifetime.y, normalizedTime),
-                            EvaluateMinMaxCurve(ps->velocityOverLifetime.z, normalizedTime)
+                            EvaluateMinMaxCurve(ps->velocityOverLifetime.x, normalizedTime, p.randomValue),
+                            EvaluateMinMaxCurve(ps->velocityOverLifetime.y, normalizedTime, p.randomValue),
+                            EvaluateMinMaxCurve(ps->velocityOverLifetime.z, normalizedTime, p.randomValue)
                         );
-                        float speedMultiplier = EvaluateMinMaxCurve(ps->velocityOverLifetime.speedModifier, normalizedTime);
+                        float speedMultiplier = EvaluateMinMaxCurve(ps->velocityOverLifetime.speedModifier, normalizedTime, p.randomValue);
 
                         if (ps->velocityOverLifetime.space == SimulationSpace::World) {
                             p.velocity = p.baseVelocity * speedMultiplier + linearVelocity;
@@ -332,18 +339,27 @@ namespace ONEngine {
                         }
                     }
 
-                    p.velocity += gravity * dt;
+                    // 重力の適用 (Local Simulationの場合は重力もローカル座標系に変換する必要があるが、一旦簡易化してWorldのみか、Localの場合は無視するか検討)
+                    // Unity ShurikenのLocal Spaceでは重力はWorld空間のまま掛かるが、パーティクルの速度には適切に反映される。
+                    if (p.simulationSpace == 1) { // Local
+                        // ローカル座標系での重力方向を計算
+                        Vector3 localGravity = Matrix4x4::TransformNormal(gravity, Matrix4x4::MakeInverse(transform->matWorld));
+                        p.velocity += localGravity * dt;
+                    } else {
+                        p.velocity += gravity * dt;
+                    }
+
                     p.position += p.velocity * dt;
 
                     if (ps->colorOverLifetime.enabled) {
-                        Color overLifeColor = EvaluateMinMaxGradient(ps->colorOverLifetime.color, normalizedTime);
+                        Color overLifeColor = EvaluateMinMaxGradient(ps->colorOverLifetime.color, normalizedTime, p.randomValue);
                         p.color.r = p.startColor.r * overLifeColor.r;
                         p.color.g = p.startColor.g * overLifeColor.g;
                         p.color.b = p.startColor.b * overLifeColor.b;
                         p.color.a = p.startColor.a * overLifeColor.a;
                     }
                     if (ps->sizeOverLifetime.enabled) {
-                        p.size = p.startSize * EvaluateMinMaxCurve(ps->sizeOverLifetime.size, normalizedTime);
+                        p.size = p.startSize * EvaluateMinMaxCurve(ps->sizeOverLifetime.size, normalizedTime, p.randomValue);
                     }
                     i++;
                 }
@@ -354,6 +370,7 @@ namespace ONEngine {
     }
 
     void ParticleSystemUpdateSystem::DrawGizmos(class ECSGroup* _ecs) {
+        if (!_ecs) return;
         auto& entities = _ecs->GetEntities();
         for (auto& entityPtr : entities) {
             GameEntity* entity = entityPtr.get();
@@ -369,58 +386,126 @@ namespace ONEngine {
             if (!shape.enabled) continue;
 
             Matrix4x4 worldMat = transform->matWorld;
-            Vector3 center(worldMat.m[3][0], worldMat.m[3][1], worldMat.m[3][2]);
             Vector4 color = Vector4(1.0f, 1.0f, 0.0f, 0.5f);
+
+            float outerRadius = shape.radius;
+            float innerRadius = shape.radius * (1.0f - shape.radiusThickness);
+
+            auto DrawCircle = [&](const Matrix4x4& m, float r, float arc, int axis, float z = 0.0f) {
+                if (r <= 0.0f) return;
+                const int segments = 32;
+                float arcRad = arc * 3.14159f / 180.0f;
+                for (int i = 0; i < segments; i++) {
+                    float t1 = (float)i / segments * arcRad;
+                    float t2 = (float)(i + 1) / segments * arcRad;
+                    Vector3 p1, p2;
+                    if (axis == 0) { p1 = { r * std::cos(t1), r * std::sin(t1), z }; p2 = { r * std::cos(t2), r * std::sin(t2), z }; }
+                    else if (axis == 1) { p1 = { r * std::cos(t1), z, r * std::sin(t1) }; p2 = { r * std::cos(t2), z, r * std::sin(t2) }; }
+                    else { p1 = { z, r * std::cos(t1), r * std::sin(t1) }; p2 = { z, r * std::cos(t2), r * std::sin(t2) }; }
+                    Gizmo::DrawLine(Matrix4x4::Transform(p1, m), Matrix4x4::Transform(p2, m), color);
+                }
+            };
 
             switch (shape.type) {
                 case ParticleSystemShapeType::Sphere:
-                    Gizmo::DrawWireSphere(center, shape.radius, color);
+                    DrawCircle(worldMat, outerRadius, 360, 0);
+                    DrawCircle(worldMat, outerRadius, 360, 1);
+                    DrawCircle(worldMat, outerRadius, 360, 2);
+                    if (shape.radiusThickness < 1.0f) {
+                        DrawCircle(worldMat, innerRadius, 360, 0);
+                        DrawCircle(worldMat, innerRadius, 360, 1);
+                        DrawCircle(worldMat, innerRadius, 360, 2);
+                    }
                     break;
                 case ParticleSystemShapeType::Hemisphere:
-                    Gizmo::DrawWireSphere(center, shape.radius, color);
-                    break;
+                {
+                    const int segments = 32;
+                    for (int i = 0; i < segments; i++) {
+                        float t1 = (float)i / segments * 3.14159f;
+                        float t2 = (float)(i + 1) / segments * 3.14159f;
+                        // XZ half circle (+Z direction)
+                        Gizmo::DrawLine(Matrix4x4::Transform({ outerRadius * std::cos(t1), 0, outerRadius * std::sin(t1) }, worldMat),
+                                        Matrix4x4::Transform({ outerRadius * std::cos(t2), 0, outerRadius * std::sin(t2) }, worldMat), color);
+                        // YZ half circle (+Z direction)
+                        Gizmo::DrawLine(Matrix4x4::Transform({ 0, outerRadius * std::cos(t1), outerRadius * std::sin(t1) }, worldMat),
+                                        Matrix4x4::Transform({ 0, outerRadius * std::cos(t2), outerRadius * std::sin(t2) }, worldMat), color);
+                    }
+                    DrawCircle(worldMat, outerRadius, 360, 0);
+                    if (shape.radiusThickness < 1.0f) {
+                        for (int i = 0; i < segments; i++) {
+                            float t1 = (float)i / segments * 3.14159f;
+                            float t2 = (float)(i + 1) / segments * 3.14159f;
+                            Gizmo::DrawLine(Matrix4x4::Transform({ innerRadius * std::cos(t1), 0, innerRadius * std::sin(t1) }, worldMat),
+                                            Matrix4x4::Transform({ innerRadius * std::cos(t2), 0, innerRadius * std::sin(t2) }, worldMat), color);
+                            Gizmo::DrawLine(Matrix4x4::Transform({ 0, innerRadius * std::cos(t1), innerRadius * std::sin(t1) }, worldMat),
+                                            Matrix4x4::Transform({ 0, innerRadius * std::cos(t2), innerRadius * std::sin(t2) }, worldMat), color);
+                        }
+                        DrawCircle(worldMat, innerRadius, 360, 0);
+                    }
+                }
+                break;
                 case ParticleSystemShapeType::Box:
-                    Gizmo::DrawWireCube(center, shape.boxScale, transform->GetRotate(), color);
-                    break;
-                case ParticleSystemShapeType::Cone: {
+                {
+                    Vector3 h = shape.boxScale * 0.5f;
+                    Vector3 v[8] = {
+                        {-h.x, -h.y, -h.z}, {h.x, -h.y, -h.z}, {h.x, h.y, -h.z}, {-h.x, h.y, -h.z},
+                        {-h.x, -h.y, h.z}, {h.x, -h.y, h.z}, {h.x, h.y, h.z}, {-h.x, h.y, h.z}
+                    };
+                    for (int i = 0; i < 8; i++) v[i] = Matrix4x4::Transform(v[i], worldMat);
+                    for (int i = 0; i < 4; i++) {
+                        Gizmo::DrawLine(v[i], v[(i + 1) % 4], color);
+                        Gizmo::DrawLine(v[i + 4], v[((i + 1) % 4) + 4], color);
+                        Gizmo::DrawLine(v[i], v[i + 4], color);
+                    }
+                }
+                break;
+                case ParticleSystemShapeType::Cone:
+                {
                     float angleRad = shape.angle * 3.14159f / 180.0f;
-                    float topRadius = shape.radius + std::tan(angleRad);
-                    int segments = 16;
-                    for (int i = 0; i < segments; ++i) {
-                        float theta1 = (float)i / segments * 2.0f * 3.14159f;
-                        float theta2 = (float)(i + 1) / segments * 2.0f * 3.14159f;
-                        Vector3 p1 = Vector3(std::cos(theta1), std::sin(theta1), 0) * shape.radius;
-                        Vector3 p2 = Vector3(std::cos(theta2), std::sin(theta2), 0) * shape.radius;
-                        Vector3 p3 = Vector3(std::cos(theta1), std::sin(theta1), 1) * topRadius;
-                        Vector3 p4 = Vector3(std::cos(theta2), std::sin(theta2), 1) * topRadius;
-                        Gizmo::DrawLine(Matrix4x4::Transform(p1, worldMat), Matrix4x4::Transform(p2, worldMat), color);
-                        Gizmo::DrawLine(Matrix4x4::Transform(p3, worldMat), Matrix4x4::Transform(p4, worldMat), color);
-                        if (i % 4 == 0) Gizmo::DrawLine(Matrix4x4::Transform(p1, worldMat), Matrix4x4::Transform(p3, worldMat), color);
+                    float topOuterR = outerRadius + std::tan(angleRad); 
+                    float topInnerR = innerRadius + std::tan(angleRad);
+                    if (topInnerR < 0.0f) topInnerR = 0.0f;
+
+                    // 外側の円錐
+                    DrawCircle(worldMat, outerRadius, shape.arc, 0);
+                    DrawCircle(worldMat, topOuterR, shape.arc, 0, 1.0f); // 高さ1.0の位置
+                    
+                    // 内側の円錐 (厚みが設定されている場合)
+                    if (shape.radiusThickness < 1.0f) {
+                        DrawCircle(worldMat, innerRadius, shape.arc, 0);
+                        DrawCircle(worldMat, topInnerR, shape.arc, 0, 1.0f);
                     }
-                    break;
-                }
-                case ParticleSystemShapeType::Circle: {
-                    int segments = 16;
+                    
+                    int lines = 8;
                     float arcRad = shape.arc * 3.14159f / 180.0f;
-                    for (int i = 0; i < segments; ++i) {
-                        float theta1 = (float)i / segments * arcRad;
-                        float theta2 = (float)(i + 1) / segments * arcRad;
-                        Vector3 p1 = Vector3(std::cos(theta1), std::sin(theta1), 0) * shape.radius;
-                        Vector3 p2 = Vector3(std::cos(theta2), std::sin(theta2), 0) * shape.radius;
-                        Gizmo::DrawLine(Matrix4x4::Transform(p1, worldMat), Matrix4x4::Transform(p2, worldMat), color);
+                    for (int i = 0; i <= lines; i++) {
+                        float t = (float)i / lines * arcRad;
+                        Vector3 pBaseOut = { outerRadius * std::cos(t), outerRadius * std::sin(t), 0 };
+                        Vector3 pTopOut = { topOuterR * std::cos(t), topOuterR * std::sin(t), 1.0f };
+                        Gizmo::DrawLine(Matrix4x4::Transform(pBaseOut, worldMat), Matrix4x4::Transform(pTopOut, worldMat), color);
+
+                        if (shape.radiusThickness < 1.0f) {
+                            Vector3 pBaseIn = { innerRadius * std::cos(t), innerRadius * std::sin(t), 0 };
+                            Vector3 pTopIn = { topInnerR * std::cos(t), topInnerR * std::sin(t), 1.0f };
+                            Gizmo::DrawLine(Matrix4x4::Transform(pBaseIn, worldMat), Matrix4x4::Transform(pTopIn, worldMat), color);
+                        }
                     }
+                }
+                break;
+                case ParticleSystemShapeType::Circle:
+                    DrawCircle(worldMat, outerRadius, shape.arc, 0);
+                    if (shape.radiusThickness < 1.0f) DrawCircle(worldMat, innerRadius, shape.arc, 0);
                     if (shape.arc < 360.0f) {
-                        Gizmo::DrawLine(center, Matrix4x4::Transform(Vector3(shape.radius, 0, 0), worldMat), color);
-                        Gizmo::DrawLine(center, Matrix4x4::Transform(Vector3(std::cos(arcRad), std::sin(arcRad), 0) * shape.radius, worldMat), color);
+                        float a = shape.arc * 3.14159f / 180.0f;
+                        float rMin = (shape.radiusThickness >= 1.0f) ? 0.0f : innerRadius;
+                        Gizmo::DrawLine(Matrix4x4::Transform({ rMin, 0, 0 }, worldMat), Matrix4x4::Transform({ outerRadius, 0, 0 }, worldMat), color);
+                        Gizmo::DrawLine(Matrix4x4::Transform({ rMin * std::cos(a), rMin * std::sin(a), 0 }, worldMat), 
+                                        Matrix4x4::Transform({ outerRadius * std::cos(a), outerRadius * std::sin(a), 0 }, worldMat), color);
                     }
                     break;
-                }
-                case ParticleSystemShapeType::Edge: {
-                    Vector3 p1 = Vector3(-shape.radius, 0, 0);
-                    Vector3 p2 = Vector3(shape.radius, 0, 0);
-                    Gizmo::DrawLine(Matrix4x4::Transform(p1, worldMat), Matrix4x4::Transform(p2, worldMat), color);
+                case ParticleSystemShapeType::Edge:
+                    Gizmo::DrawLine(Matrix4x4::Transform({ -shape.radius, 0, 0 }, worldMat), Matrix4x4::Transform({ shape.radius, 0, 0 }, worldMat), color);
                     break;
-                }
             }
         }
     }

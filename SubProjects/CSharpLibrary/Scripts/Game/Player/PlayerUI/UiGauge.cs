@@ -15,23 +15,23 @@ class UiGauge : MonoScript
         renderer = entity.GetComponent<SpriteRenderer>();
         if (renderer == null)
         {
-            Debug.LogError("SpriteRenderer component not found on the UiGauge entity.");
+//             Debug.LogError("SpriteRenderer component not found on the UiGauge entity.");
         }
 
         Entity playerCore = ecsGroup.FindEntity("Player");
         if (playerCore == null)
         {
-            Debug.LogError("Player entity not found in the ECS group.");
+//             Debug.LogError("Player entity not found in the ECS group.");
             return;
         }
         playerHp = playerCore.GetScript<HP>();
         if (playerHp == null)
         {
-            Debug.LogError("HP component not found on the Player entity.");
+//             Debug.LogError("HP component not found on the Player entity.");
             return;
         }
         defaultX = transform.position.x;
-        Debug.LogInfo($"defaultX: {defaultX}");
+//         Debug.LogInfo($"defaultX: {defaultX}");
     }
 
     private float lastLoggedRatio = -1.0f;
@@ -48,7 +48,7 @@ class UiGauge : MonoScript
         // 変化があった時だけログを出す
         if (Mathf.Abs(hpRatio - lastLoggedRatio) > 0.001f)
         {
-            Debug.Log($"<color=green>[UiGauge]</color> HP Ratio Changed: {hpRatio:F2}. Scaling gauge to {width * hpRatio}");
+//             Debug.Log($"<color=green>[UiGauge]</color> HP Ratio Changed: {hpRatio:F2}. Scaling gauge to {width * hpRatio}");
             lastLoggedRatio = hpRatio;
         }
 

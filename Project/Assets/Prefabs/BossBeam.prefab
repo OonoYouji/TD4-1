@@ -62,7 +62,7 @@
                 }
             },
             "meshPath": "./Packages/Models/primitive/cylinder.obj",
-            "renderQueue": 1,
+            "renderQueue": 2,
             "type": "MeshRenderer"
         },
         {
@@ -81,7 +81,7 @@
             "type": "BoxCollider"
         }
     ],
-    "guid": "f40df8ad605746aa850b184497fd012d",
+    "guid": "580b495b7c1f9d900a07947952a3cf2f",
     "name": "BossBeam",
     "parentGuid": null,
     "prefabName": "BossBeam"

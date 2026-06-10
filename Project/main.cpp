@@ -8,7 +8,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	std::unique_ptr<ONEngine::GameFramework> gameFramework = std::make_unique<ONEngine::GameFramework>();
 	gameFramework->Initialize(ONEngine::GameFrameworkConfig{
-		.windowName = L"TwoEngine",
+		.windowName = L"ハンドサイズ石器時代",
 		.windowSize = ONEngine::Vector2::HD,
 	});
 

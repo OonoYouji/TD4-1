@@ -32,7 +32,7 @@ public class BossBombBarrage : MonoScript
     private void PlayAnimation(string clipName)
     {
         if (animator == null || currentAnim == clipName) return;
-        Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
+//         Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
         animator.CrossFade(clipName, 0.2f);
         currentAnim = clipName;
     }
@@ -72,7 +72,7 @@ public class BossBombBarrage : MonoScript
         {
             isActive_ = false;
             PlayAnimation("bomb_end");
-            Debug.Log("[BossBombBarrage] Attack Finished.");
+//             Debug.Log("[BossBombBarrage] Attack Finished.");
         }
 
         // 予測位置の表示
@@ -87,7 +87,7 @@ public class BossBombBarrage : MonoScript
         totalRotatedAngle = 0.0f;
         useDistance1 = true;
         PlayAnimation("bomb_start");
-        Debug.Log("[BossBombBarrage] Starting Rotating Bomb Barrage.");
+//         Debug.Log("[BossBombBarrage] Starting Rotating Bomb Barrage.");
     }
 
     private void ThrowBomb()

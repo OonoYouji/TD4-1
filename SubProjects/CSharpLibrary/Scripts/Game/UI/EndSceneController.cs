@@ -1,32 +1,34 @@
+using System;
 using System.Collections.Generic;
 
 public class EndSceneController : MonoScript
 {
-    [SerializeField]
-    public string nextSceneName = "TitleScene";
+    [SerializeField] public string nextSceneName = "TitleScene";
 
-    public void SetSceneName(string nextSceneName_)
+    public override void Initialize()
     {
-        nextSceneName = nextSceneName_;
     }
-       
 
     public override void Update()
     {
-
         // スペースキーまたはゲームパッドのAボタンで遷移
         if (Input.TriggerKey(KeyCode.Space) || Input.TriggerGamepad(Gamepad.A))
         {
             if (SceneTransition.Instance != null)
             {
-                Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
+                //                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
                 SceneTransition.Instance.TransitionTo(nextSceneName);
             }
             else
             {
-                Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
+                //                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
                 SceneManager.LoadScene(nextSceneName);
             }
         }
+    }
+
+    public void SetNextSceneName(string nextSceneName_)
+    {
+        nextSceneName = nextSceneName_;
     }
 }

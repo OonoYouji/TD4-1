@@ -22,14 +22,14 @@ public class DebugAngerService : BehaviorService
         // 2秒おきに進捗をログ出力
         if ((int)(timer * 2) % 4 == 0)
         {
-            Debug.Log($"[DebugAnger] Countdown: {timer:F1} / {delay:F1}");
+//             Debug.Log($"[DebugAnger] Countdown: {timer:F1} / {delay:F1}");
         }
 
         if (timer >= delay)
         {
             blackboard.SetBool(triggeredKey, true);
             blackboard.SetInt(BehaviorTreeLoader.HashString("CombatPhase"), 2);
-            Debug.Log("<color=red>[DebugAnger]</color> Force triggered ANGER PHASE (Phase 2)!");
+//             Debug.Log("<color=red>[DebugAnger]</color> Force triggered ANGER PHASE (Phase 2)!");
         }
     }
 }

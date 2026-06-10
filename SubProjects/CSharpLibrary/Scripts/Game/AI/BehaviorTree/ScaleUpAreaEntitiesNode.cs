@@ -30,7 +30,7 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
         uint keyHash = BehaviorTreeLoader.HashString(targetPosKey);
         if (!blackboard.HasKey(keyHash))
         {
-            Debug.LogWarning($"ScaleUpAreaEntitiesNode: Target position key '{targetPosKey}' not found.");
+//             Debug.LogWarning($"ScaleUpAreaEntitiesNode: Target position key '{targetPosKey}' not found.");
             return NodeStatus.Failure;
         }
 
@@ -69,7 +69,7 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
             }
         }
 
-        Debug.Log($"<color=magenta>[ScaleUpAttack]</color> {owner.name} scaled up {affectedCount} Reinforcements at {Vector3.ToSimpleString(targetPos)}. (Multiplier: {scaleMultiplier})");
+//         Debug.Log($"<color=magenta>[ScaleUpAttack]</color> {owner.name} scaled up {affectedCount} Reinforcements at {Vector3.ToSimpleString(targetPos)}. (Multiplier: {scaleMultiplier})");
         
         // 演出としてボス自身の咆哮イベントも発行
         FrameEvent.EnqueueNamedEvent("Effect_BossRoar", owner.Id);

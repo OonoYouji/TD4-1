@@ -51,13 +51,13 @@ public class UpdateTargetTrackerNode : BehaviorService
             blackboard.SetVector3(keyHash, pos);
 
             // 超詳細ログ
-            Debug.Log($"<color=orange>[TRACE:TargetTracker]</color> {owner.name}(ID:{owner.Id}) -> Found {target.name}(ID:{targetId}) at {Vector3.ToSimpleString(pos)}. Wrote to BB key:{targetPosKey}({keyHash})");
+//             Debug.Log($"<color=orange>[TRACE:TargetTracker]</color> {owner.name}(ID:{owner.Id}) -> Found {target.name}(ID:{targetId}) at {Vector3.ToSimpleString(pos)}. Wrote to BB key:{targetPosKey}({keyHash})");
         }
         else
         {
             // IDはあるが見つからない場合はリセット（再検索を促す）
             blackboard.SetInt(idKeyHash, 0);
-            Debug.LogWarning($"<color=orange>[TRACE:TargetTracker]</color> Target ID {targetId} became invalid for {owner.name}. Resetting TargetId.");
+//             Debug.LogWarning($"<color=orange>[TRACE:TargetTracker]</color> Target ID {targetId} became invalid for {owner.name}. Resetting TargetId.");
         }
     }
 }

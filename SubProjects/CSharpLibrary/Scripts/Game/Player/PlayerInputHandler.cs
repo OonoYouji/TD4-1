@@ -18,15 +18,15 @@ class PlayerInputHandler : MonoScript
 
     public override void Initialize()
     {
-        Debug.Log("PlayerInputHandler Initializing");
+//         Debug.Log("PlayerInputHandler Initializing");
         bulletLauncher = entity.GetScript<PlayerBulletLauncher>();
         player_ = entity.GetScript<Player>();
         if (bulletLauncher == null)
         {
-            Debug.LogWarning("PlayerBulletLauncher script not found on the entity.");
+//             Debug.LogWarning("PlayerBulletLauncher script not found on the entity.");
         }
 
-        Debug.Log("PlayerInputHandler initialized.");
+//         Debug.Log("PlayerInputHandler initialized.");
     }
 
     public override void Update()

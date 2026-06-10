@@ -21,9 +21,14 @@
             "path": "./Workspace_Test/9a8c283ab94c5cfc09f107707287cf14.entity"
         },
         {
-            "guid": "997499d3e207ed6c4a55d893ded53c02",
+            "guid": "a823e5bc55bc33b5f1be0028eaca327b",
             "parentGuid": null,
-            "path": "./Workspace_Test/997499d3e207ed6c4a55d893ded53c02.entity"
+            "path": "./Workspace_Test/a823e5bc55bc33b5f1be0028eaca327b.entity"
+        },
+        {
+            "guid": "c8be6872226176a1c4cd0b70695201c6",
+            "parentGuid": null,
+            "path": "./Workspace_Test/c8be6872226176a1c4cd0b70695201c6.entity"
         }
     ]
 }

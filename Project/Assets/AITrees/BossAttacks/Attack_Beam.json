@@ -12,29 +12,73 @@
                 0.0,
                 0.0
             ]
+        },
+        {
+            "bVal": false,
+            "fVal": 100.0,
+            "iVal": 0,
+            "key": "BeamLength",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 8.0,
+            "iVal": 0,
+            "key": "BeamSize",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "FireDirection",
+            "sVal": "",
+            "type": 3,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     ],
     "comments": [],
     "links": [
         {
             "endPin": 4,
-            "id": 13,
+            "id": 16,
             "startPin": 2
         },
         {
             "endPin": 8,
-            "id": 14,
+            "id": 17,
             "startPin": 5
         },
         {
-            "endPin": 10,
-            "id": 15,
+            "endPin": 15,
+            "id": 18,
             "startPin": 5
         },
         {
-            "endPin": 12,
-            "id": 16,
-            "startPin": 5
+            "endPin": 11,
+            "id": 19,
+            "startPin": 9
+        },
+        {
+            "endPin": 13,
+            "id": 20,
+            "startPin": 9
         }
     ],
     "nodes": [
@@ -96,10 +140,10 @@
             ]
         },
         {
-            "className": "AttackTelegraphWaitNode",
+            "className": "Parallel",
             "decorators": [],
             "hasBreakpoint": false,
-            "id": 3,
+            "id": 6,
             "inputs": [
                 {
                     "id": 8,
@@ -107,11 +151,40 @@
                 }
             ],
             "isDecorator": false,
+            "name": "Telegraph Group",
+            "outputs": [
+                {
+                    "id": 9,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                400.0,
+                0.0
+            ],
+            "properties": {
+                "failurePolicy": "One",
+                "successPolicy": "All"
+            },
+            "services": []
+        },
+        {
+            "className": "AttackTelegraphWaitNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 3,
+            "inputs": [
+                {
+                    "id": 11,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
             "name": "Telegraph (Beam)",
             "outputs": [],
             "pos": [
-                400.0,
-                -100.0
+                600.0,
+                -50.0
             ],
             "properties": {
                 "duration": "1.5",
@@ -129,7 +202,7 @@
             "id": 4,
             "inputs": [
                 {
-                    "id": 10,
+                    "id": 13,
                     "name": "In"
                 }
             ],
@@ -137,19 +210,23 @@
             "name": "Show Line",
             "outputs": [],
             "pos": [
-                400.0,
-                0.0
+                600.0,
+                50.0
             ],
             "properties": {
-                "centerType": "",
-                "color": "1.0,0.0,0.0,0.5",
+                "centerType": "Boss",
+                "color": "0.8996416,0.06126589,0.06126589,0.5",
                 "duration": "1.5",
                 "durationKey": "",
-                "length": "",
-                "lockPosition": "",
+                "fireDirectionKey": "FireDirection",
+                "length": "20.000000",
+                "lengthKey": "BeamLength",
+                "lockPosition": "false",
+                "offsetForward": "0.800000",
+                "offsetHeight": "",
                 "shape": "Line",
                 "size": "8.000000",
-                "sizeKey": "",
+                "sizeKey": "BeamSize",
                 "targetPosKey": "TargetPosition"
             },
             "services": []
@@ -161,7 +238,7 @@
             "id": 5,
             "inputs": [
                 {
-                    "id": 12,
+                    "id": 15,
                     "name": "In"
                 }
             ],
@@ -170,11 +247,21 @@
             "outputs": [],
             "pos": [
                 400.0,
-                100.0
+                200.0
             ],
             "properties": {
+                "beamHeight": "17.000000",
+                "beamLength": "100.000000",
+                "beamLengthKey": "BeamLength",
+                "beamOffsetForward": "",
+                "beamRadius": "7.000000",
+                "beamRadiusKey": "BeamSize",
                 "damage": "50",
                 "duration": "2.0",
+                "fireDirectionKey": "FireDirection",
+                "slowDuration": "",
+                "slowMultiplier": "",
+                "targetPosKey": "",
                 "trackingRotationSpeed": "1.0"
             },
             "services": []

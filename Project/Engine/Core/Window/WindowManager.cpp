@@ -82,7 +82,7 @@ void WindowManager::Initialize() {
 void WindowManager::Finalize() {
 	windows_.clear();
 	/// COM終了
-	CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+	CoUninitialize();
 }
 
 void WindowManager::Update() {

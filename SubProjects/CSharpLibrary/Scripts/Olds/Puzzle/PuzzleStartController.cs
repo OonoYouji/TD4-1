@@ -43,7 +43,7 @@ public class PuzzleStartController : MonoScript {
 		player_ = ePlayer.GetScript<Player>();
 		if (!player_) {
 			/// 見つからなかったログを出力する
-			Debug.LogError("PuzzleStartController.Initialize - Player script not found.");
+// 			Debug.LogError("PuzzleStartController.Initialize - Player script not found.");
 		}
 
 		Billboard uiBillboard = startUI_.GetScript<Billboard>();

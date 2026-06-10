@@ -14,7 +14,7 @@ public class PuzzleCameraController : MonoScript {
 
 		cameraEntity = ecsGroup.FindEntity("Camera");
 		if (!cameraEntity) {
-			Debug.LogError("PuzzleCameraController.Initialize - Camera entity not found.");
+// 			Debug.LogError("PuzzleCameraController.Initialize - Camera entity not found.");
 		}
 	}
 

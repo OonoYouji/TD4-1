@@ -31,7 +31,7 @@ public class DropObjectAtTargetNode : BehaviorNode
                 rock.parent = null; // 独立させる
                 rock.transform.position = owner.transform.position;
                 blackboard.SetObject(BehaviorTreeLoader.HashString(objectKey), rock);
-                Debug.Log("[DropRock] Fallback: Created BossRock prefab.");
+//                 Debug.Log("[DropRock] Fallback: Created BossRock prefab.");
             }
             else
             {
@@ -44,7 +44,7 @@ public class DropObjectAtTargetNode : BehaviorNode
         if (!blackboard.HasKey(startTimeKey))
         {
             blackboard.SetFloat(startTimeKey, currentTime);
-            Debug.Log($"<color=brown>[DropRock]</color> Starting attack with {rock.name}");
+//             Debug.Log($"<color=brown>[DropRock]</color> Starting attack with {rock.name}");
         }
 
         float startTime = blackboard.GetFloat(startTimeKey);
@@ -59,7 +59,7 @@ public class DropObjectAtTargetNode : BehaviorNode
             if (elapsed >= liftDuration)
             {
                 blackboard.SetInt(stateKey, 1);
-                Debug.Log("[DropRock] Rock lifted. Ready to throw.");
+//                 Debug.Log("[DropRock] Rock lifted. Ready to throw.");
                 
                 // 次のフレームですぐに投げるように startTime を更新せず、そのまま state 1 に遷移させる
                 // もしくはここでそのまま処理を続行させることも可能だが、一旦 Running を返す
@@ -84,7 +84,7 @@ public class DropObjectAtTargetNode : BehaviorNode
             else
             {
                 // スクリプトがない場合は簡易的に飛ばす演出
-                Debug.Log($"<color=brown>[DropRock]</color> THROWING {rock.name} towards {targetPos}");
+//                 Debug.Log($"<color=brown>[DropRock]</color> THROWING {rock.name} towards {targetPos}");
             }
             
             FrameEvent.EnqueueNamedEvent("Effect_RockThrow", owner.Id);

@@ -1,4 +1,8 @@
 {
-    "version": 1,
-    "guid": "4920acb81537a83f27e921297e6f6fa0"
+    "colorSpace": "Linear",
+    "format": "RGBA8_UNORM",
+    "guid": "28b85c8ce514308e594cccfd74fcca23",
+    "name": "xbox_stick_side_r",
+    "type": "Texture",
+    "version": 1
 }

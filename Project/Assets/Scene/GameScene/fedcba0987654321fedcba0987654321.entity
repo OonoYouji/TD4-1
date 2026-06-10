@@ -3,7 +3,7 @@
     "components": [
         {
             "GameController": {
-                "currentPhase": "Phase 2",
+                "currentPhase": "Phase 1",
                 "currentStatus": "Playing"
             },
             "type": "Variables"

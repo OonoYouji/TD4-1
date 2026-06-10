@@ -1,4 +1,8 @@
 {
-    "version": 1,
-    "guid": "dc09bafc9040a5aad0062abe9a0c2c21"
+    "colorSpace": "Linear",
+    "format": "RGBA8_UNORM",
+    "guid": "a86f3b09801823ae26d35f3e464f3021",
+    "name": "controller_xbox_adaptive",
+    "type": "Texture",
+    "version": 1
 }

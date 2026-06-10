@@ -40,7 +40,7 @@ public class ReinforcementDamageHandler : MonoScript
     {
         if (cooldownTimer > 0 || hp == null) return;
 
-        Debug.Log($"<color=orange>[ReinforcementDamageHandler]</color> Received {damage} damage from boss attack.");
+//         Debug.Log($"<color=orange>[ReinforcementDamageHandler]</color> Received {damage} damage from boss attack.");
 
         hp.TakeDamage(damage);
         cooldownTimer = damageCooldownTime;

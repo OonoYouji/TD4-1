@@ -11,7 +11,7 @@ public class EnemyBulletLauncher : MonoScript {
 	Entity target;
 
 	public override void Initialize() {
-		Debug.LogInfo("EnemyBulletLauncher Initializing on entity: " + entity.Id);
+// 		Debug.LogInfo("EnemyBulletLauncher Initializing on entity: " + entity.Id);
 		target = ecsGroup.FindEntity("PlayerCore");
 	}
 

@@ -120,7 +120,7 @@ public class Entity {
 		for (uint i = 0; i < GetChildCount(); i++) {
 			Entity child = GetChild(i);
 			if (child) {
-				Debug.LogInfo("Entity.Destroy - Destroying child entity ID: " + child.Id + " of parent entity ID: " + entityId_);
+// 				Debug.LogInfo("Entity.Destroy - Destroying child entity ID: " + child.Id + " of parent entity ID: " + entityId_);
 				child.Destroy();
 			}
 		}
@@ -161,12 +161,12 @@ public class Entity {
 		components_[typeName] = comp;
 
 		if (comp == null) {
-			Debug.LogError("Failed to create component: " + typeName + " (Entity ID: " + entityId_ + ")");
+// 			Debug.LogError("Failed to create component: " + typeName + " (Entity ID: " + entityId_ + ")");
 		}
 
-		Debug.Log("---");
-		Debug.Log("--- add component: \n     - component id: " + components_[typeName].compId);
-		Debug.Log("---");
+// 		Debug.Log("---");
+// 		Debug.Log("--- add component: \n     - component id: " + components_[typeName].compId);
+// 		Debug.Log("---");
 
 		ecsGroup_.componentCollection.AddComponent(comp);
 		return comp;

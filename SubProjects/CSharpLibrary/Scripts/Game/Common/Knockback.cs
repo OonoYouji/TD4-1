@@ -9,27 +9,27 @@ class Knockback : MonoScript
 
     public override void Initialize()
     {
-        Debug.LogInfo("Knockback Initializing");
-        Debug.LogInfo("Knockback Initialized");
+//         Debug.LogInfo("Knockback Initializing");
+//         Debug.LogInfo("Knockback Initialized");
     }
 
     public void ApplyKnockback(Vector3 direction)
     {
         enable = true;
         knockbackVelocity += direction * KNOCKBACK_FORCE_STRENGTH;
-        Debug.LogInfo($"Knockback applied: ({knockbackVelocity.x}, {knockbackVelocity.y}, {knockbackVelocity.z})");
+//         Debug.LogInfo($"Knockback applied: ({knockbackVelocity.x}, {knockbackVelocity.y}, {knockbackVelocity.z})");
     }
 
     public override void Update()
     {
-        Debug.LogInfo($"Knockback Update: ({knockbackVelocity.x}, {knockbackVelocity.y}, {knockbackVelocity.z})");
+//         Debug.LogInfo($"Knockback Update: ({knockbackVelocity.x}, {knockbackVelocity.y}, {knockbackVelocity.z})");
         transform.position += knockbackVelocity * Time.deltaTime;
         // 減衰
         knockbackVelocity -= knockbackVelocity * KNOCKBACK_DECAY * Time.deltaTime;
         // 閾値以下になったら停止
         if (knockbackVelocity.Length() < knockbackStopThreshold)
         {
-            Debug.LogInfo("Knockback stopped");
+//             Debug.LogInfo("Knockback stopped");
             knockbackVelocity = Vector3.zero;
             enable = false;
         }

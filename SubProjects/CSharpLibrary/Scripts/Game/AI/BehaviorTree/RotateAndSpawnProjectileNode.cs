@@ -88,18 +88,16 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
                 Entity telegraph = owner.Group.CreateEntity("TelegraphCircle");
                 if (telegraph != null)
                 {
-                    telegraph.transform.position = new Vector3(targetPos.x, 0.05f, targetPos.z);
-                    telegraph.transform.rotation = Quaternion.identity;
-                    telegraph.transform.scale = new Vector3(indicatorSize, 0.05f, indicatorSize);
+                    var tCircle = telegraph.GetScript<TelegraphCircle>();
+                    if (tCircle == null) tCircle = telegraph.AddScript<TelegraphCircle>();
+                    tCircle.centerPosition = targetPos;
+                    tCircle.size = indicatorSize;
+                    tCircle.offsetHeight = 0.05f;
+                    tCircle.color = new Vector4(1.0f, 0.5f, 0.0f, 0.6f);
 
                     var timedDestruction = telegraph.GetScript<TimedDestruction>();
                     if (timedDestruction == null) timedDestruction = telegraph.AddScript<TimedDestruction>();
                     if (timedDestruction != null) timedDestruction.lifeTime = 1.6f;
-                    
-                    var renderer = telegraph.GetComponent<MeshRenderer>();
-                    if (renderer != null) {
-                        renderer.color = new Vector4(1.0f, 0.5f, 0.0f, 0.6f);
-                    }
                 }
             }
             

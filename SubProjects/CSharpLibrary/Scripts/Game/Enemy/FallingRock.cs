@@ -33,7 +33,7 @@ public class FallingRock : MonoScript
         var sphere = entity.GetComponent<SphereCollider>();
         if (sphere != null) sphere.isTrigger = true;
 
-        Debug.Log($"[FallingRock] Launched towards {Vector3.ToSimpleString(targetPos)}");
+//         Debug.Log($"[FallingRock] Launched towards {Vector3.ToSimpleString(targetPos)}");
     }
 
     public override void Update()
@@ -69,7 +69,7 @@ private void Impact()
     _hasImpacted = true;
     _isFalling = false;
 
-    Debug.Log($"<color=red>[FallingRock:ImpactArea]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
+//     Debug.Log($"<color=red>[FallingRock:ImpactArea]</color> GENERATED Impact at {Vector3.ToSimpleString(transform.position)} with Radius: {impactRadius}");
 
     // 着弾位置を固定
     transform.position = new Vector3(transform.position.x, _targetPos.y, transform.position.z);
@@ -92,7 +92,7 @@ private void Impact()
 
         // 演出
         FrameEvent.EnqueueNamedEvent("Effect_RockImpact", entity.Id);
-        Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
+//         Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
     }
 
     private void ApplyImpact(Entity e)
@@ -101,6 +101,6 @@ private void Impact()
         BossDamageUtil.ApplyDamage(e, damage, transform.position);
         BossDamageUtil.ApplySlow(e, 0.5f, stunDuration); // 岩の場合は50%スロウ（スタン扱い）
 
-        Debug.Log($"[FallingRock] Impact applied to {e.name}");
+//         Debug.Log($"[FallingRock] Impact applied to {e.name}");
     }
 }

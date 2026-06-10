@@ -1,4 +1,8 @@
 {
-    "version": 1,
-    "guid": "5a78a0d2866bcb38f603cf247ef82e9d"
+    "colorSpace": "Linear",
+    "format": "RGBA8_UNORM",
+    "guid": "ba34928e523457eaf11c5003254820b0",
+    "name": "xbox_button_menu_outline",
+    "type": "Texture",
+    "version": 1
 }

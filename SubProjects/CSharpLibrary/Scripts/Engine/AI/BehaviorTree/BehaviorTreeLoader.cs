@@ -8,319 +8,267 @@ using Newtonsoft.Json.Linq;
 /// C++エディタで作成され JSON フォーマットで保存されたビヘイビアツリー資産を読み込み、
 /// C#の実行用インスタンスとして展開（デシリアライズ）する静的ローダークラス。
 /// </summary>
-public static class BehaviorTreeLoader
-{
-    /// <summary>
-    /// 指定されたファイルパスのJSONを読み込み、ビヘイビアツリーを構築する。
-    /// </summary>
-    /// <param name="path">JSONファイルのパス</param>
-    /// <param name="owner">このツリーを実行するエンティティ（AI本体）</param>
-    /// <returns>構築済みのBehaviorTreeインスタンス、失敗した場合はnull</returns>
-    public static BehaviorTree LoadFromFile(string path, Entity owner)
-    {
-        // 1. ファイルの読み込みとパース
-        string jsonText = Mathf.LoadFile(path);
-        if (string.IsNullOrEmpty(jsonText)) {
-            Debug.LogError($"BTLoader: File not found or empty: {path}");
-            return null;
-        }
+public static class BehaviorTreeLoader {
+	/// <summary>
+	/// 指定されたファイルパスのJSONを読み込み、ビヘイビアツリーを構築する。
+	/// </summary>
+	/// <param name="path">JSONファイルのパス</param>
+	/// <param name="owner">このツリーを実行するエンティティ（AI本体）</param>
+	/// <returns>構築済みのBehaviorTreeインスタンス、失敗した場合はnull</returns>
+	public static BehaviorTree LoadFromFile(string path, Entity owner) {
+		// 1. ファイルの読み込みとパース
+		string jsonText = Mathf.LoadFile(path);
+		if (string.IsNullOrEmpty(jsonText)) {
+			//             Debug.LogError($"BTLoader: File not found or empty: {path}");
+			return null;
+		}
 
-        var root = JObject.Parse(jsonText);
-        BehaviorTree tree = new BehaviorTree(owner);
-        tree.SourcePath = path; // Normalized in property setter
+		var root = JObject.Parse(jsonText);
+		BehaviorTree tree = new BehaviorTree(owner);
+		tree.SourcePath = path; // Normalized in property setter
 
-        Debug.Log($"BTLoader: Loading tree for {owner.name} from {tree.SourcePath}");
+		//         Debug.Log($"BTLoader: Loading tree for {owner.name} from {tree.SourcePath}");
 
-        // 2. Blackboard（共有変数）のロード
-        if (root["blackboard"] != null)
-        {
-            foreach (var v in root["blackboard"])
-            {
-                string key = (string)v["key"];
-                uint keyHash = HashString(key);
-                int type = (int)v["type"];
-                
-                switch (type)
-                {
-                    case 0: // Int
-                        tree.Blackboard.SetInt(keyHash, (int)v["iVal"]);
-                        break;
-                    case 1: // Float
-                        tree.Blackboard.SetFloat(keyHash, (float)v["fVal"]);
-                        break;
-                    case 2: // Bool
-                        tree.Blackboard.SetBool(keyHash, (bool)v["bVal"]);
-                        break;
-                    case 3: // Vector3
-                        var va = v["vVal"];
-                        Vector3 v3 = new Vector3((float)va[0], (float)va[1], (float)va[2]);
-                        tree.Blackboard.SetVector3(keyHash, v3);
-                        // Debug.Log($"BTLoader: BB SetVector3 {key} = {v3}");
-                        break;
-                    case 4: // String
-                        tree.Blackboard.SetString(keyHash, (string)v["sVal"]);
-                        break;
-                }
-            }
-        }
+		// 2. Blackboard（共有変数）のロード
+		if (root["blackboard"] != null) {
+			foreach (var v in root["blackboard"]) {
+				string key = (string)v["key"];
+				uint keyHash = HashString(key);
+				int type = (int)v["type"];
 
-        // 3. ノード（タスク・コンポジット）とモジュール（デコレーター・サービス）のインスタンス化
-        Dictionary<ulong, BehaviorNode> nodeInstances = new Dictionary<ulong, BehaviorNode>();
-        Dictionary<ulong, ulong> pinToNodeMap = new Dictionary<ulong, ulong>();
-        ulong entryNodeId = 0;
+				switch (type) {
+				case 0: // Int
+					tree.Blackboard.SetInt(keyHash, (int)v["iVal"]);
+					break;
+				case 1: // Float
+					tree.Blackboard.SetFloat(keyHash, (float)v["fVal"]);
+					break;
+				case 2: // Bool
+					tree.Blackboard.SetBool(keyHash, (bool)v["bVal"]);
+					break;
+				case 3: // Vector3
+					var va = v["vVal"];
+					Vector3 v3 = new Vector3((float)va[0], (float)va[1], (float)va[2]);
+					tree.Blackboard.SetVector3(keyHash, v3);
+					// Debug.Log($"BTLoader: BB SetVector3 {key} = {v3}");
+					break;
+				case 4: // String
+					tree.Blackboard.SetString(keyHash, (string)v["sVal"]);
+					break;
+				}
+			}
+		}
 
-        foreach (var n in root["nodes"])
-        {
-            ulong id = (ulong)n["id"];
-            string className = (string)n["className"];
+		// 3. ノード（タスク・コンポジット）とモジュール（デコレーター・サービス）のインスタンス化
+		Dictionary<ulong, BehaviorNode> nodeInstances = new Dictionary<ulong, BehaviorNode>();
+		Dictionary<ulong, ulong> pinToNodeMap = new Dictionary<ulong, ulong>();
+		ulong entryNodeId = 0;
 
-            if (className == "Entry")
-            {
-                entryNodeId = id;
-                tree.EntryNodeId = (uint)id;
-                foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
-                continue;
-            }
+		foreach (var n in root["nodes"]) {
+			ulong id = (ulong)n["id"];
+			string className = (string)n["className"];
 
-            Type type = Type.GetType(className);
-            if (type == null) type = Type.GetType(className + ", CSharpLibrary");
-            if (type == null) type = Type.GetType(className + ", Engine");
+			if (className == "Entry") {
+				entryNodeId = id;
+				tree.EntryNodeId = (uint)id;
+				foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
+				continue;
+			}
 
-            if (type != null)
-            {
-                BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
-                node.NodeId = (int)id; // 生のIDを保存
-                node.NodeIdHash = (uint)id;
-                node.name = (string)n["name"] ?? className;
-                if (string.IsNullOrEmpty(node.name)) node.name = className;
+			Type type = Type.GetType(className);
+			if (type == null) type = Type.GetType(className + ", CSharpLibrary");
+			if (type == null) type = Type.GetType(className + ", Engine");
 
-                node.Tree = tree;
-                if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
+			if (type != null) {
+				BehaviorNode node = (BehaviorNode)Activator.CreateInstance(type);
+				node.NodeId = (int)id; // 生のIDを保存
+				node.NodeIdHash = (uint)id;
+				node.name = (string)n["name"] ?? className;
+				if (string.IsNullOrEmpty(node.name)) node.name = className;
 
-                nodeInstances[id] = node;
+				node.Tree = tree;
+				if (n["hasBreakpoint"] != null) node.HasBreakpoint = (bool)n["hasBreakpoint"];
 
-                ApplyProperties(type, node, n["properties"]);
+				nodeInstances[id] = node;
 
-                // 4. Decorator のロード
-                if (n["decorators"] is JArray decorators)
-                {
-                    foreach (var d in decorators)
-                    {
-                        string dClassName = (string)d["className"];
-                        Type dType = Type.GetType(dClassName);
-                        if (dType == null) dType = Type.GetType(dClassName + ", CSharpLibrary");
-                        if (dType != null)
-                        {
-                            var decorator = (BehaviorDecorator)Activator.CreateInstance(dType);
-                            if (d["id"] != null) decorator.NodeIdHash = (uint)d["id"];
-                            ApplyProperties(dType, decorator, d["properties"]);
-                            node.AddDecorator(decorator);
-                        }
-                    }
-                }
+				ApplyProperties(type, node, n["properties"]);
 
-                // 5. Service のロード
-                if (n["services"] is JArray services)
-                {
-                    foreach (var s in services)
-                    {
-                        string sClassName = (string)s["className"];
-                        Type sType = Type.GetType(sClassName);
-                        if (sType == null) sType = Type.GetType(sClassName + ", CSharpLibrary");
-                        if (sType != null)
-                        {
-                            var service = (BehaviorService)Activator.CreateInstance(sType);
-                            if (s["id"] != null) service.NodeIdHash = (uint)s["id"];
-                            ApplyProperties(sType, service, s["properties"]);
-                            node.AddService(service);
-                        }
-                    }
-                }
+				// 4. Decorator のロード
+				if (n["decorators"] is JArray decorators) {
+					foreach (var d in decorators) {
+						string dClassName = (string)d["className"];
+						Type dType = Type.GetType(dClassName);
+						if (dType == null) dType = Type.GetType(dClassName + ", CSharpLibrary");
+						if (dType != null) {
+							var decorator = (BehaviorDecorator)Activator.CreateInstance(dType);
+							if (d["id"] != null) decorator.NodeIdHash = (uint)d["id"];
+							ApplyProperties(dType, decorator, d["properties"]);
+							node.AddDecorator(decorator);
+						}
+					}
+				}
 
-                if (n["inputs"] != null) foreach (var pin in n["inputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
-                if (n["outputs"] != null) foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
-            }
-            else
-            {
-                Debug.LogError($"BTLoader: Could not find type {className} for node {n["name"]} (ID:{id})");
-            }
-        }
+				// 5. Service のロード
+				if (n["services"] is JArray services) {
+					foreach (var s in services) {
+						string sClassName = (string)s["className"];
+						Type sType = Type.GetType(sClassName);
+						if (sType == null) sType = Type.GetType(sClassName + ", CSharpLibrary");
+						if (sType != null) {
+							var service = (BehaviorService)Activator.CreateInstance(sType);
+							if (s["id"] != null) service.NodeIdHash = (uint)s["id"];
+							ApplyProperties(sType, service, s["properties"]);
+							node.AddService(service);
+						}
+					}
+				}
 
-        // 7. リンク情報の構築とバリデーション
-        var links = new List<JToken>(root["links"]);
-        int linkErrorCount = 0;
+				if (n["inputs"] != null) foreach (var pin in n["inputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
+				if (n["outputs"] != null) foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
+			} else {
+				//                 Debug.LogError($"BTLoader: Could not find type {className} for node {n["name"]} (ID:{id})");
+			}
+		}
 
-        // リンクで使用されているピンがすべて存在するか事前にチェック
-        foreach (var l in links)
-        {
-            ulong startPin = (ulong)l["startPin"];
-            ulong endPin = (ulong)l["endPin"];
-            ulong linkId = (ulong)l["id"];
+		// 7. リンク情報の構築とバリデーション
+		var links = new List<JToken>(root["links"]);
+		int linkErrorCount = 0;
 
-            if (!pinToNodeMap.ContainsKey(startPin))
-            {
-                Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID startPin {startPin}. (Orphaned Link)");
-                linkErrorCount++;
-            }
-            if (!pinToNodeMap.ContainsKey(endPin))
-            {
-                Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID endPin {endPin}. (Broken Connection)");
-                linkErrorCount++;
-            }
-        }
+		// リンクで使用されているピンがすべて存在するか事前にチェック
+		foreach (var l in links) {
+			ulong startPin = (ulong)l["startPin"];
+			ulong endPin = (ulong)l["endPin"];
+			ulong linkId = (ulong)l["id"];
 
-        if (linkErrorCount > 0)
-        {
-            Debug.LogError($"[BT_LOADER] Total {linkErrorCount} structural errors detected in '{path}'. Behavior may be corrupted.");
-        }
+			if (!pinToNodeMap.ContainsKey(startPin)) {
+				//                 Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID startPin {startPin}. (Orphaned Link)");
+				linkErrorCount++;
+			}
+			if (!pinToNodeMap.ContainsKey(endPin)) {
+				//                 Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID endPin {endPin}. (Broken Connection)");
+				linkErrorCount++;
+			}
+		}
 
-        links.Sort((a, b) => {
-            ulong childIdA = 0, childIdB = 0;
-            pinToNodeMap.TryGetValue((ulong)a["endPin"], out childIdA);
-            pinToNodeMap.TryGetValue((ulong)b["endPin"], out childIdB);
+		if (linkErrorCount > 0) {
+			//             Debug.LogError($"[BT_LOADER] Total {linkErrorCount} structural errors detected in '{path}'. Behavior may be corrupted.");
+		}
 
-            float yA = 0, yB = 0;
-            foreach (var n in root["nodes"]) {
-                if ((ulong)n["id"] == childIdA) yA = (float)n["pos"][1];
-                if ((ulong)n["id"] == childIdB) yB = (float)n["pos"][1];
-            }
-            return yA.CompareTo(yB);
-        });
+		links.Sort((a, b) => {
+			ulong childIdA = 0, childIdB = 0;
+			pinToNodeMap.TryGetValue((ulong)a["endPin"], out childIdA);
+			pinToNodeMap.TryGetValue((ulong)b["endPin"], out childIdB);
 
-        foreach (var l in links)
-        {
-            ulong startPin = (ulong)l["startPin"];
-            ulong endPin = (ulong)l["endPin"];
+			float yA = 0, yB = 0;
+			foreach (var n in root["nodes"]) {
+				if ((ulong)n["id"] == childIdA) yA = (float)n["pos"][1];
+				if ((ulong)n["id"] == childIdB) yB = (float)n["pos"][1];
+			}
+			return yA.CompareTo(yB);
+		});
 
-            if (pinToNodeMap.TryGetValue(startPin, out ulong parentId) &&
-                pinToNodeMap.TryGetValue(endPin, out ulong childId))
-            {
-                if (parentId == entryNodeId)
-                {
-                    if (nodeInstances.TryGetValue(childId, out var rootNode))
-                    {
-                        tree.RootNode = rootNode;
-                    }
-                    else {
-                        Debug.LogError($"[BT_VALIDATION] Entry is connected to ID {childId}, but that node failed to instantiate.");
-                    }
-                }
-                else if (nodeInstances.TryGetValue(parentId, out var parentNode) && 
-                         nodeInstances.TryGetValue(childId, out var childNode))
-                {
-                    if (parentNode is CompositeNode composite)
-                    {
-                        composite.AddChild(childNode);
-                        childNode.Parent = parentNode;
-                    }
-                    else {
-                        Debug.LogWarning($"[BT_VALIDATION] Node '{parentNode.name}' is NOT a Composite (Sequence/Selector), but has a child connection. Link will be ignored.");
-                    }
-                }
-                else {
-                    if (!nodeInstances.ContainsKey(parentId) && parentId != entryNodeId) 
-                        Debug.LogError($"[BT_VALIDATION] Link points to non-existent parent node ID:{parentId}");
-                    if (!nodeInstances.ContainsKey(childId)) 
-                        Debug.LogError($"[BT_VALIDATION] Link points to non-existent child node ID:{childId}");
-                }
-            }
-        }
+		foreach (var l in links) {
+			ulong startPin = (ulong)l["startPin"];
+			ulong endPin = (ulong)l["endPin"];
 
-        if (tree.RootNode == null)
-        {
-            Debug.LogError($"[BT_FATAL] Loaded tree from '{path}' has NO ROOT connected to the Entry point! AI execution will be skipped.");
-        }
+			if (pinToNodeMap.TryGetValue(startPin, out ulong parentId) &&
+				pinToNodeMap.TryGetValue(endPin, out ulong childId)) {
+				if (parentId == entryNodeId) {
+					if (nodeInstances.TryGetValue(childId, out var rootNode)) {
+						tree.RootNode = rootNode;
+					} else {
+						//                         Debug.LogError($"[BT_VALIDATION] Entry is connected to ID {childId}, but that node failed to instantiate.");
+					}
+				} else if (nodeInstances.TryGetValue(parentId, out var parentNode) &&
+						   nodeInstances.TryGetValue(childId, out var childNode)) {
+					if (parentNode is CompositeNode composite) {
+						composite.AddChild(childNode);
+						childNode.Parent = parentNode;
+					} else {
+						//                         Debug.LogWarning($"[BT_VALIDATION] Node '{parentNode.name}' is NOT a Composite (Sequence/Selector), but has a child connection. Link will be ignored.");
+					}
+				} else {
+					if (!nodeInstances.ContainsKey(parentId) && parentId != entryNodeId) {
+						// Debug.LogError($"[BT_VALIDATION] Link points to non-existent parent node ID:{parentId}");
+					}
+					if (!nodeInstances.ContainsKey(childId)) {
+						// Debug.LogError($"[BT_VALIDATION] Link points to non-existent child node ID:{childId}");
+					}
+				}
+			}
+		}
 
-        tree.InitializeMonitoring();
-        return tree;
-    }
+		if (tree.RootNode == null) {
+			//             Debug.LogError($"[BT_FATAL] Loaded tree from '{path}' has NO ROOT connected to the Entry point! AI execution will be skipped.");
+		}
 
-    private static void ApplyProperties(Type type, object instance, JToken props)
-    {
-        if (props == null) return;
-        foreach (var p in props.Children<JProperty>())
-        {
-            FieldInfo field = type.GetField(p.Name, BindingFlags.Public | BindingFlags.Instance);
-            if (field != null)
-            {
-                try
-                {
-                    object val = ConvertValue(field.FieldType, p.Value.ToString());
-                    field.SetValue(instance, val);
-                    // Debug.Log($"BTLoader: Set field {p.Name} = {val} on {instance.GetType().Name}");
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning($"BTLoader: Failed to set field {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
-                }
-            }
-            else
-            {
-                PropertyInfo prop = type.GetProperty(p.Name, BindingFlags.Public | BindingFlags.Instance);
-                if (prop != null && prop.CanWrite)
-                {
-                    try
-                    {
-                        object val = ConvertValue(prop.PropertyType, p.Value.ToString());
-                        prop.SetValue(instance, val);
-                        // Debug.Log($"BTLoader: Set property {p.Name} = {val} on {instance.GetType().Name}");
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogWarning($"BTLoader: Failed to set property {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
-                    }
-                }
-                else
-                {
-                    // Debug.LogWarning($"BTLoader: Field or property {p.Name} not found on {type.Name}");
-                }
-            }
-        }
-    }
+		tree.InitializeMonitoring();
+		return tree;
+	}
 
-    private static object ConvertValue(Type type, string value)
-    {
-        if (type == typeof(string)) return value;
-        if (type == typeof(int)) return int.Parse(value);
-        if (type == typeof(float)) return float.Parse(value);
-        if (type == typeof(bool)) return bool.Parse(value);
-        if (type == typeof(Vector3))
-        {
-            var parts = value.Split(',');
-            if (parts.Length == 3)
-            {
-                return new Vector3(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
-            }
-        }
-        if (type == typeof(Vector4))
-        {
-            var parts = value.Split(',');
-            if (parts.Length == 4)
-            {
-                return new Vector4(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
-            }
-        }
-        if (type.IsEnum)
-        {
-            if (int.TryParse(value, out int intVal))
-            {
-                object result = Enum.ToObject(type, intVal);
-                // Debug.Log($"BTLoader: Enum Convert {value} -> {intVal} -> {result} (Type: {type.Name})");
-                return result;
-            }
-            return Enum.Parse(type, value, true);
-        }
-        return null;
-    }
+	private static void ApplyProperties(Type type, object instance, JToken props) {
+		if (props == null) return;
+		foreach (var p in props.Children<JProperty>()) {
+			FieldInfo field = type.GetField(p.Name, BindingFlags.Public | BindingFlags.Instance);
+			if (field != null) {
+				try {
+					object val = ConvertValue(field.FieldType, p.Value.ToString());
+					field.SetValue(instance, val);
+					// Debug.Log($"BTLoader: Set field {p.Name} = {val} on {instance.GetType().Name}");
+				} catch (Exception e) {
+					//                     Debug.LogWarning($"BTLoader: Failed to set field {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
+				}
+			} else {
+				PropertyInfo prop = type.GetProperty(p.Name, BindingFlags.Public | BindingFlags.Instance);
+				if (prop != null && prop.CanWrite) {
+					try {
+						object val = ConvertValue(prop.PropertyType, p.Value.ToString());
+						prop.SetValue(instance, val);
+						// Debug.Log($"BTLoader: Set property {p.Name} = {val} on {instance.GetType().Name}");
+					} catch (Exception e) {
+						//                         Debug.LogWarning($"BTLoader: Failed to set property {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
+					}
+				} else {
+					// Debug.LogWarning($"BTLoader: Field or property {p.Name} not found on {type.Name}");
+				}
+			}
+		}
+	}
 
-    public static uint HashString(string str)
-    {
-        if (string.IsNullOrEmpty(str)) return 0;
-        uint hash = 2166136261;
-        foreach (char c in str)
-        {
-            hash = (hash ^ c) * 16777619;
-        }
-        return hash;
-    }
+	private static object ConvertValue(Type type, string value) {
+		if (type == typeof(string)) return value;
+		if (type == typeof(int)) return int.Parse(value);
+		if (type == typeof(float)) return float.Parse(value);
+		if (type == typeof(bool)) return bool.Parse(value);
+		if (type == typeof(Vector3)) {
+			var parts = value.Split(',');
+			if (parts.Length == 3) {
+				return new Vector3(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
+			}
+		}
+		if (type == typeof(Vector4)) {
+			var parts = value.Split(',');
+			if (parts.Length == 4) {
+				return new Vector4(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+			}
+		}
+		if (type.IsEnum) {
+			if (int.TryParse(value, out int intVal)) {
+				object result = Enum.ToObject(type, intVal);
+				// Debug.Log($"BTLoader: Enum Convert {value} -> {intVal} -> {result} (Type: {type.Name})");
+				return result;
+			}
+			return Enum.Parse(type, value, true);
+		}
+		return null;
+	}
+
+	public static uint HashString(string str) {
+		if (string.IsNullOrEmpty(str)) return 0;
+		uint hash = 2166136261;
+		foreach (char c in str) {
+			hash = (hash ^ c) * 16777619;
+		}
+		return hash;
+	}
 }

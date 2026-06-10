@@ -38,13 +38,13 @@ void EditorManager::Initialize(ONEngine::DxManager* dxm, ONEngine::ShaderCompile
 
 	/// editor compute の登録
 	AddEditorCompute(dxm, sc, std::make_unique<GameEntityPickingPipeline>());
-	AddEditorCompute(dxm, sc, std::make_unique<TerrainDataOutput>());
-	AddEditorCompute(dxm, sc, std::make_unique<TerrainVertexCreator>());
-	AddEditorCompute(dxm, sc, std::make_unique<TerrainVertexEditorCompute>());
-	AddEditorCompute(dxm, sc, std::make_unique<RiverMeshGeneratePipeline>());
-	AddEditorCompute(dxm, sc, std::make_unique<RiverTerrainAdjustPipeline>());
-	AddEditorCompute(dxm, sc, std::make_unique<GrassArrangementPipeline>());
-	AddEditorCompute(dxm, sc, std::make_unique<VoxelTerrainEditorComputePipeline>());
+	//AddEditorCompute(dxm, sc, std::make_unique<TerrainDataOutput>());
+	//AddEditorCompute(dxm, sc, std::make_unique<TerrainVertexCreator>());
+	//AddEditorCompute(dxm, sc, std::make_unique<TerrainVertexEditorCompute>());
+	//AddEditorCompute(dxm, sc, std::make_unique<RiverMeshGeneratePipeline>());
+	//AddEditorCompute(dxm, sc, std::make_unique<RiverTerrainAdjustPipeline>());
+	//AddEditorCompute(dxm, sc, std::make_unique<GrassArrangementPipeline>());
+	//AddEditorCompute(dxm, sc, std::make_unique<VoxelTerrainEditorComputePipeline>());
 }
 
 void EditorManager::Update(ONEngine::Asset::AssetCollection* ac) {

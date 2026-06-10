@@ -48,7 +48,7 @@
                 "bursts": [],
                 "enabled": true,
                 "rateOverDistance": 0.0,
-                "rateOverTime": 10.0
+                "rateOverTime": 256.0
             },
             "enable": 1,
             "main": {
@@ -68,17 +68,17 @@
                     },
                     "max": {
                         "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
+                        "b": 0.0,
+                        "g": 0.0,
                         "r": 1.0
                     },
                     "min": {
                         "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
-                        "r": 1.0
+                        "b": 0.11443838477134705,
+                        "g": 0.8415312170982361,
+                        "r": 0.939068078994751
                     },
-                    "state": 0
+                    "state": 1
                 },
                 "startDelay": {
                     "constant": 0.0,
@@ -87,7 +87,7 @@
                     "state": 0
                 },
                 "startLifetime": {
-                    "constant": 5.0,
+                    "constant": 0.46700000762939453,
                     "max": 1.0,
                     "min": 0.0,
                     "state": 0
@@ -105,7 +105,7 @@
                     "state": 0
                 },
                 "startSpeed": {
-                    "constant": 5.0,
+                    "constant": -23.399999618530273,
                     "max": 1.0,
                     "min": 0.0,
                     "state": 0
@@ -113,7 +113,7 @@
             },
             "renderer": {
                 "blendMode": 1,
-                "materialGuid": "6d46b53d01009d0166af6d4aee0acb0c",
+                "materialGuid": "9256323717f27b651127f38d8cc7b1fa",
                 "meshGuid": "",
                 "renderMode": 0
             },
@@ -126,24 +126,38 @@
                     "z": 1.0
                 },
                 "enabled": true,
-                "radius": 1.0,
-                "radiusThickness": 1.0,
+                "radius": 12.800000190734863,
+                "radiusThickness": 0.15199999511241913,
                 "type": 0
             },
             "sizeOverLifetime": {
-                "enabled": false,
+                "enabled": true,
                 "size": {
-                    "constant": 1.0,
+                    "constant": 3.5,
                     "curve": {
-                        "keys": []
+                        "keys": [
+                            {
+                                "time": 0.0,
+                                "value": 1.1299999952316284
+                            },
+                            {
+                                "time": 1.0,
+                                "value": 3.109999895095825
+                            }
+                        ]
                     },
                     "curveMax": {
                         "keys": []
                     },
                     "curveMin": {
-                        "keys": []
+                        "keys": [
+                            {
+                                "time": 1.0,
+                                "value": 1.0
+                            }
+                        ]
                     },
-                    "state": 0
+                    "state": 2
                 }
             },
             "type": "ParticleSystem",
@@ -164,7 +178,7 @@
                     "state": 0
                 },
                 "x": {
-                    "constant": 1.0,
+                    "constant": 24.799999237060547,
                     "curve": {
                         "keys": []
                     },
@@ -177,7 +191,7 @@
                     "state": 0
                 },
                 "y": {
-                    "constant": 1.0,
+                    "constant": 14.899999618530273,
                     "curve": {
                         "keys": []
                     },
@@ -190,7 +204,7 @@
                     "state": 0
                 },
                 "z": {
-                    "constant": 1.0,
+                    "constant": 22.0,
                     "curve": {
                         "keys": []
                     },

@@ -1,4 +1,8 @@
 {
-    "version": 1,
-    "guid": "a2ace2c22ccdd06d7c8599c0fbe2100d"
+    "colorSpace": "Linear",
+    "format": "RGBA8_UNORM",
+    "guid": "6c1e11d762d02d67cba2faf1f606c483",
+    "name": "xbox_ls_outline",
+    "type": "Texture",
+    "version": 1
 }

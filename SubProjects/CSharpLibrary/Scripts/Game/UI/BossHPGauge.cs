@@ -21,11 +21,11 @@ public class BossHPGauge : MonoScript
         renderer = entity.GetComponent<SpriteRenderer>();
         if (renderer == null)
         {
-            Debug.LogError("SpriteRenderer component not found on the BossHPGauge entity.");
+//             Debug.LogError("SpriteRenderer component not found on the BossHPGauge entity.");
         }
 
         defaultX = transform.position.x;
-        Debug.Log($"[BossHPGauge] UI Initialized. ID:{entity.Id}, DefaultX:{defaultX}");
+//         Debug.Log($"[BossHPGauge] UI Initialized. ID:{entity.Id}, DefaultX:{defaultX}");
 
         FindTarget();
     }
@@ -38,11 +38,11 @@ public class BossHPGauge : MonoScript
             targetHP = target.GetScript<HP>();
             if (targetHP != null)
             {
-                Debug.Log($"[BossHPGauge] Linked to target '{targetEntityName}'(ID:{target.Id}). HP:{targetHP.currentHp}/{targetHP.MAX_HP}");
+//                 Debug.Log($"[BossHPGauge] Linked to target '{targetEntityName}'(ID:{target.Id}). HP:{targetHP.currentHp}/{targetHP.MAX_HP}");
             }
             else
             {
-                Debug.LogWarning($"[BossHPGauge] Target '{targetEntityName}' found but no HP script attached.");
+//                 Debug.LogWarning($"[BossHPGauge] Target '{targetEntityName}' found but no HP script attached.");
             }
         }
     }

@@ -1,4 +1,7 @@
 {
-    "version": 1,
-    "guid": "1d9208cbdd19be3741ef50a2d36e481c"
+    "duration": 0.0,
+    "guid": "c49942455f539c1214888a8b06060082",
+    "name": "stageChange",
+    "type": "Audio",
+    "version": 1
 }

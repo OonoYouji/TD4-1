@@ -76,7 +76,7 @@ public class ReinforcementManager : MonoScript
     // 援軍が死ぬたびにプレイヤーにダメージを1与える
     private void OnReinforcementDied(Reinforcement reinforcement)
     {
-        Debug.Log($"<color=orange>[ReinforcementManager]</color> Reinforcement (ID:{reinforcement.entity.Id}) died. Applying penalty to Player.");
+//         Debug.Log($"<color=orange>[ReinforcementManager]</color> Reinforcement (ID:{reinforcement.entity.Id}) died. Applying penalty to Player.");
 
         if (playerEntity == null)
         {
@@ -84,7 +84,7 @@ public class ReinforcementManager : MonoScript
         }
         if (playerEntity == null)
         {
-            Debug.LogError("<color=red>[ReinforcementManager]</color> Player not found! Cannot apply death penalty.");
+//             Debug.LogError("<color=red>[ReinforcementManager]</color> Player not found! Cannot apply death penalty.");
             return;
         }
 
@@ -93,11 +93,11 @@ public class ReinforcementManager : MonoScript
         {
             int oldHp = hp.currentHp;
             hp.TakeDamage(1);
-            Debug.Log($"<color=orange>[ReinforcementManager]</color> Player HP: {oldHp} -> {hp.currentHp}");
+//             Debug.Log($"<color=orange>[ReinforcementManager]</color> Player HP: {oldHp} -> {hp.currentHp}");
         }
         else
         {
-            Debug.LogError("<color=red>[ReinforcementManager]</color> Player found but HP component is missing!");
+//             Debug.LogError("<color=red>[ReinforcementManager]</color> Player found but HP component is missing!");
         }
     }
 }

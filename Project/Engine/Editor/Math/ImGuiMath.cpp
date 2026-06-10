@@ -416,6 +416,32 @@ void ONEngine::AudioSourceDebug(AudioSource* _audioSource) {
 		if (ImGui::Checkbox("enable", &enabled)) {
 			_audioSource->enable = enabled ? 1 : 0;
 		}
+
+		// --- Audio Path with Drag & Drop Support ---
+		std::string path = _audioSource->GetAudioPath();
+		ImGui::Text("audio path");
+		Editor::ImGuiInputTextReadOnly("##audio", path);
+		
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("AssetData")) {
+				if (payload->Data) {
+					using namespace Editor;
+					AssetPayload* assetPayload = *static_cast<AssetPayload**>(payload->Data);
+					std::string droppedPath = assetPayload->filePath;
+					
+					// 拡張子チェック (mp3, wav, etc...)
+					std::string ext = FileSystem::FileExtension(droppedPath);
+					if (ext == ".mp3" || ext == ".wav" || ext == ".ogg") {
+						_audioSource->SetAudioPath(droppedPath);
+						Console::Log(std::format("Audio path set to: {}", droppedPath));
+					} else {
+						Console::LogError("Invalid audio format. Please use .mp3, .wav, or .ogg.");
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		float volume = _audioSource->GetVolume();
 		if (ImGui::DragFloat("volume", &volume, 0.01f, 0.0f, 1.0f)) {
 			_audioSource->SetVolume(volume);
@@ -424,6 +450,10 @@ void ONEngine::AudioSourceDebug(AudioSource* _audioSource) {
         if (ImGui::Checkbox("loop", &loop)) {
             _audioSource->SetLoop(loop);
         }
+
+		if (ImGui::Button("Play")) {
+			_audioSource->Play();
+		}
 	}
 }
 
@@ -545,14 +575,28 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	EndModuleHeader();
 	if (BeginModuleHeader("Shape", &_ps->shape.enabled)) {
 		Editor::ImMathf::InputEnum<ParticleSystemShapeType>("Shape Type", &_ps->shape.type);
-		Editor::ImMathf::DragFloat("Radius", &_ps->shape.radius);
-		Editor::ImMathf::DragFloat("Radius Thickness", &_ps->shape.radiusThickness);
-		Editor::ImMathf::DragFloat("Arc", &_ps->shape.arc);
-		
-		if (_ps->shape.type == ParticleSystemShapeType::Cone) {
-			Editor::ImMathf::DragFloat("Angle", &_ps->shape.angle);
-		} else if (_ps->shape.type == ParticleSystemShapeType::Box) {
+
+		if (_ps->shape.type == ParticleSystemShapeType::Box) {
+			// Boxの場合はスケールのみ表示
 			Editor::ImMathf::DragFloat3("Box Scale", &_ps->shape.boxScale);
+		} else {
+			// それ以外の形状はRadiusを基本とする
+			Editor::ImMathf::DragFloat("Radius", &_ps->shape.radius);
+
+			// Edge以外は厚みの設定が可能
+			if (_ps->shape.type != ParticleSystemShapeType::Edge) {
+				Editor::ImMathf::DragFloat("Radius Thickness", &_ps->shape.radiusThickness);
+			}
+
+			// ConeとCircleはArc（角度）の設定が可能
+			if (_ps->shape.type == ParticleSystemShapeType::Cone || _ps->shape.type == ParticleSystemShapeType::Circle) {
+				Editor::ImMathf::DragFloat("Arc", &_ps->shape.arc);
+			}
+
+			// Cone特有のパラメータ
+			if (_ps->shape.type == ParticleSystemShapeType::Cone) {
+				Editor::ImMathf::DragFloat("Angle", &_ps->shape.angle);
+			}
 		}
 
 		if (!_ps->shape.enabled) ImGui::EndDisabled();
@@ -584,6 +628,13 @@ void ONEngine::ParticleSystemDebug(ParticleSystem* _ps) {
 	bool rendererEnabled = true;
 	if (BeginModuleHeader("Renderer", &rendererEnabled)) {
 		Editor::ImMathf::InputEnum<ParticleSystemRenderer::RenderMode>("Render Mode", &_ps->renderer.renderMode);
+		Editor::ImMathf::InputEnum<ParticleSystemRenderer::RenderAlignment>("Render Alignment", &_ps->renderer.alignment);
+		
+		if (_ps->renderer.renderMode == ParticleSystemRenderer::RenderMode::StretchedBillboard) {
+			Editor::ImMathf::DragFloat("Speed Scale", &_ps->renderer.speedScale);
+			Editor::ImMathf::DragFloat("Length Scale", &_ps->renderer.lengthScale);
+		}
+
 		Editor::ImMathf::InputEnum<ParticleSystemRenderer::BlendMode>("Blend Mode", &_ps->renderer.blendMode);
 		DrawAssetGuidField("Material", _ps->renderer.materialGuid, Asset::AssetType::Material);
 		DrawAssetGuidField("Mesh", _ps->renderer.meshGuid, Asset::AssetType::Mesh);

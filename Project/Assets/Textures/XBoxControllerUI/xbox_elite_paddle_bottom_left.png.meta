@@ -1,4 +1,8 @@
 {
-    "version": 1,
-    "guid": "ebe8d020b3832c0f5f2fb5d2ea33685d"
+    "colorSpace": "Linear",
+    "format": "RGBA8_UNORM",
+    "guid": "c6ffbc625167b3b49d12d9883725e7bb",
+    "name": "xbox_elite_paddle_bottom_left",
+    "type": "Texture",
+    "version": 1
 }

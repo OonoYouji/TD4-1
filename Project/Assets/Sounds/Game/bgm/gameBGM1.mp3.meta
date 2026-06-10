@@ -1,4 +1,7 @@
 {
-    "version": 1,
-    "guid": "56c7e143922c9654559ee8de56084b29"
+    "duration": 0.0,
+    "guid": "5d84b15b884aa355170f5cc3923afc26",
+    "name": "gameBGM1",
+    "type": "Audio",
+    "version": 1
 }

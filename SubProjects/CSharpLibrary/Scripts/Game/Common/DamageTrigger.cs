@@ -76,7 +76,7 @@ public class DamageTrigger : MonoScript
 
     private void ApplyDamageTo(Entity e)
     {
-        Debug.Log($"[DamageTrigger] ApplyDamageTo: {e.name}");
+//         Debug.Log($"[DamageTrigger] ApplyDamageTo: {e.name}");
         
         // --- 共通ユーティリティを使用してダメージ適用 ---
         BossDamageUtil.ApplyDamage(e, damage, transform.position);

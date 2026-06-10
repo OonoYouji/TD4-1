@@ -16,7 +16,7 @@ public class PuzzleClearEffect : MonoScript {
 		puzzleStage_ = entity.GetScript<PuzzleStage>();
 		puzzleClearChecker_ = entity.GetScript<PuzzleClearChecker>();
 		if (!puzzleStage_) {
-			Debug.LogError("No puzzle stage found");
+// 			Debug.LogError("No puzzle stage found");
 			return;
 		}
 	}
