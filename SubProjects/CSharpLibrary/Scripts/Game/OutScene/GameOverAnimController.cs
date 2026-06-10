@@ -71,7 +71,7 @@ class GameOverAnimController : MonoScript
                 human.transform.position += velocity * Time.deltaTime;
 
                 // サイズをだんだん小さくする
-                human.transform.scale *= 0.999f;
+                human.transform.scale *= 0.993f;
             }
         }
     }

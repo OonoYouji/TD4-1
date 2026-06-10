@@ -23,7 +23,9 @@
             "type": "Transform"
         },
         {
-            "AnimationAutoPlay": {},
+            "AnimationAutoPlay": {
+                "DELAY": 0.5
+            },
             "type": "Variables"
         },
         {
@@ -54,7 +56,7 @@
             "type": "SpriteRenderer"
         },
         {
-            "autoPlay": true,
+            "autoPlay": false,
             "clipPath": "./Assets/Anims/GameOverText.anim",
             "currentTime": 0.0,
             "isLooping": false,
