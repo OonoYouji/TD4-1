@@ -35,13 +35,13 @@ class SceneSelector : MonoScript
         }
 
         if (
-            Input.TriggerKey(KeyCode.UpArrow) &&
-            Input.TriggerKey(KeyCode.W) &&
-            Input.TriggerGamepad(Gamepad.DPadUp) &&
+            Input.ReleaseKey(KeyCode.UpArrow) &&
+            Input.ReleaseKey(KeyCode.W) &&
+            Input.ReleaseGamepad(Gamepad.DPadUp) &&
 
-            Input.TriggerKey(KeyCode.DownArrow) &&
-            Input.TriggerKey(KeyCode.S) &&
-            Input.TriggerGamepad(Gamepad.DPadDown) &&
+            Input.ReleaseKey(KeyCode.DownArrow) &&
+            Input.ReleaseKey(KeyCode.S) &&
+            Input.ReleaseGamepad(Gamepad.DPadDown) &&
 
             Mathf.Abs(Input.GamepadThumb(GamepadAxis.LeftThumb).y) < 0.5f
             )
@@ -65,6 +65,10 @@ class SceneSelector : MonoScript
             if (nextSceneIndex != 0)
             {
                 nextSceneIndex = nextSceneIndex - 1;
+            }
+            else
+            {
+
             }
         }
 
