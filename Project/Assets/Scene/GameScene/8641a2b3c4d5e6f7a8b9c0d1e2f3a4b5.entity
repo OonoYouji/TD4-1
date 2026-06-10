@@ -6,11 +6,19 @@
                 "x": -86.1153335571289,
                 "z": -58.63443374633789
             },
+            "rotate": {
+                "w": 0.8947216272354126,
+                "y": -0.4466242790222168
+            },
             "type": "Transform"
         },
         {
+            "isPlaying": false,
+            "type": "SkinMeshRenderer"
+        },
+        {
             "BossAI": {
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json"
+                "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json"
             },
             "BossBeamAttack": {
                 "beamHeight": 17.0,
@@ -106,7 +114,7 @@
                             "clipId": 3271675795,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
-                            "time": 0.4665592908859253,
+                            "time": 0.376666396856308,
                             "weight": 1.0
                         },
                         {
