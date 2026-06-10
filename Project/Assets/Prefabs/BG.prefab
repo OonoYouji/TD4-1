@@ -10,18 +10,18 @@
                     "position": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": -40.0
                     },
                     "rotate": {
-                        "w": 0.7071067690849304,
-                        "x": -0.7071067690849304,
+                        "w": 1.0,
+                        "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 100.0,
-                        "y": 99.99998474121094,
-                        "z": 99.99998474121094
+                        "x": 10.0,
+                        "y": 10.0,
+                        "z": 10.0
                     },
                     "type": "Transform"
                 },
@@ -53,14 +53,14 @@
                             }
                         }
                     },
-                    "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+                    "meshPath": "./Assets/Models/Outgame/bg/ground.gltf",
                     "renderQueue": 2,
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "d5b69df2bf92f6ec6e054e3c36115b91",
+            "guid": "c39d65468b3ec5324f6fb208ed476676",
             "name": "Ground",
-            "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
+            "parentGuid": "2f826855171f2544e425bb81f9a12faf",
             "prefabName": ""
         },
         {
@@ -191,9 +191,9 @@
                             "type": "Animator"
                         }
                     ],
-                    "guid": "4ce2eccc7985497d6a6f1b19b2799d7e",
+                    "guid": "fb899e07a348e37450f3a8d2b96b25d7",
                     "name": "Human1",
-                    "parentGuid": "367e5442a8164a29ff0cc0c42f28670a",
+                    "parentGuid": "d96218cbe2cddd879f9091e886f69895",
                     "prefabName": "Human"
                 },
                 {
@@ -321,9 +321,9 @@
                             "type": "Animator"
                         }
                     ],
-                    "guid": "4333233ee0222f85830faba0c9adadc7",
+                    "guid": "147db5a0c9bf806a6c6b119238fdb417",
                     "name": "Human2",
-                    "parentGuid": "367e5442a8164a29ff0cc0c42f28670a",
+                    "parentGuid": "d96218cbe2cddd879f9091e886f69895",
                     "prefabName": "Human"
                 },
                 {
@@ -451,9 +451,9 @@
                             "type": "Animator"
                         }
                     ],
-                    "guid": "6d63c68e784d1ebefaac9bf49e71f747",
+                    "guid": "c4dc92923e71784df2cd85b725b6017f",
                     "name": "Human3",
-                    "parentGuid": "367e5442a8164a29ff0cc0c42f28670a",
+                    "parentGuid": "d96218cbe2cddd879f9091e886f69895",
                     "prefabName": "Human"
                 },
                 {
@@ -581,9 +581,9 @@
                             "type": "Animator"
                         }
                     ],
-                    "guid": "d43d2ba476c9c2b33a147603d8cf93e5",
+                    "guid": "8f0aaa7af9b39756b02008793f73ac58",
                     "name": "Human4",
-                    "parentGuid": "367e5442a8164a29ff0cc0c42f28670a",
+                    "parentGuid": "d96218cbe2cddd879f9091e886f69895",
                     "prefabName": "Human"
                 }
             ],
@@ -618,9 +618,9 @@
                     "type": "Script"
                 }
             ],
-            "guid": "367e5442a8164a29ff0cc0c42f28670a",
+            "guid": "d96218cbe2cddd879f9091e886f69895",
             "name": "Humans",
-            "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
+            "parentGuid": "2f826855171f2544e425bb81f9a12faf",
             "prefabName": ""
         },
         {
@@ -683,9 +683,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "cf6cbc69cfbd893edc3aedb846a8dde5",
+                    "guid": "932aa141338cec9581a8feb5b7f7705a",
                     "name": "Tree",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 },
                 {
@@ -745,9 +745,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "dddb8fca72d686b1c490c1d207afe110",
+                    "guid": "297d474a331865b48824ac600e66852a",
                     "name": "Tree2",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 },
                 {
@@ -807,9 +807,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "7bb1d9b64e559c786a68aa2c2baf288e",
+                    "guid": "9fcc5ab017aba13b45b5c8af427467be",
                     "name": "Tree3",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 },
                 {
@@ -869,9 +869,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "d6d85a3e1c5ba2ee8e94a4596e50a26c",
+                    "guid": "c5854e55faac4672c0c1067243a56183",
                     "name": "Tree4",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 },
                 {
@@ -931,9 +931,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "33856bed355efe2bad3af026a899195f",
+                    "guid": "0866fe8350631286b47ee43498a70ae4",
                     "name": "Tree5",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 },
                 {
@@ -993,9 +993,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "cc504f7c188882a961956950f9223a23",
+                    "guid": "f6c5a0ef3c09197511eeba2f10ab05d4",
                     "name": "Tree6",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 },
                 {
@@ -1055,9 +1055,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "df97b0921a5d2ef057263a3aece7810d",
+                    "guid": "7b2fc614997982c8d137daa232aa3db4",
                     "name": "Tree7",
-                    "parentGuid": "eedc76f02b43441774cf7cc152b74d3f",
+                    "parentGuid": "1a065efcebbcafeabb5e072d352a5f98",
                     "prefabName": "Tree"
                 }
             ],
@@ -1087,9 +1087,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "eedc76f02b43441774cf7cc152b74d3f",
+            "guid": "1a065efcebbcafeabb5e072d352a5f98",
             "name": "Trees",
-            "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
+            "parentGuid": "2f826855171f2544e425bb81f9a12faf",
             "prefabName": "Trees"
         },
         {
@@ -1354,9 +1354,9 @@
                             }
                         }
                     ],
-                    "guid": "a154be76ab50b09e4f32f4b43f016c41",
+                    "guid": "650bb21cc6df6a07d0b94aee3d239a6a",
                     "name": "Fire1",
-                    "parentGuid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
+                    "parentGuid": "591f81d435a7912d8002631cb89ed6f4",
                     "prefabName": ""
                 },
                 {
@@ -1416,9 +1416,9 @@
                             "type": "MeshRenderer"
                         }
                     ],
-                    "guid": "64264196c7126d14f58f8553b84ba803",
+                    "guid": "158024b8a9ae4adcaca6d06dd7c8a8b0",
                     "name": "Wood",
-                    "parentGuid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
+                    "parentGuid": "591f81d435a7912d8002631cb89ed6f4",
                     "prefabName": ""
                 }
             ],
@@ -1448,9 +1448,9 @@
                     "type": "Variables"
                 }
             ],
-            "guid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
+            "guid": "591f81d435a7912d8002631cb89ed6f4",
             "name": "Bonfire",
-            "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
+            "parentGuid": "2f826855171f2544e425bb81f9a12faf",
             "prefabName": "Bonfire"
         },
         {
@@ -1486,9 +1486,9 @@
                     "type": "Skybox"
                 }
             ],
-            "guid": "392a398b6b7aef457281ae07f6e9fdce",
+            "guid": "1fb716163802eead53fc38ba14c25854",
             "name": "Sky",
-            "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
+            "parentGuid": "2f826855171f2544e425bb81f9a12faf",
             "prefabName": ""
         }
     ],
@@ -1518,7 +1518,7 @@
             "type": "Variables"
         }
     ],
-    "guid": "5c177e328607b76d7062d01f9d021e0e",
+    "guid": "2f826855171f2544e425bb81f9a12faf",
     "name": "BG",
     "parentGuid": null,
     "prefabName": "BG"
