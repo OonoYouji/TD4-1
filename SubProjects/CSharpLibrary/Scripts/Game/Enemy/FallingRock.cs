@@ -36,12 +36,6 @@ public class FallingRock : MonoScript
         // 距離に応じて到達時間を計算 (秒速40m程度)
         float horizontalDist = Vector3.Distance(new Vector3(_startPos.x, 0, _startPos.z), new Vector3(_targetPos.x, 0, _targetPos.z));
         _throwDuration = Math.Max(0.5f, horizontalDist / 40.0f);
-
-        // トリガー設定を適用（押し戻し防止）
-        var box = entity.GetComponent<BoxCollider>();
-        if (box != null) box.isTrigger = true;
-        var sphere = entity.GetComponent<SphereCollider>();
-        if (sphere != null) sphere.isTrigger = true;
     }
 
     public override void Update()
@@ -78,26 +72,32 @@ public class FallingRock : MonoScript
         if (_isFalling && !_hasImpacted)
         {
             // プレイヤーなどに当たってもダメージだけ与え、移動は継続（空中浮遊防止）
-            Impact();
+            Impact(collision);
         }
     }
 
-    // Triggerにも対応
-    public void OnTriggerEnter(Entity other)
-    {
-        OnCollisionEnter(other);
-    }
-
-    private void Impact()
+    private void Impact(Entity primaryTarget = null)
     {
         if (_hasImpacted) return;
         _hasImpacted = true;
+
+        // 直接当たった対象がいれば優先的に適用
+        if (primaryTarget != null)
+        {
+            if (primaryTarget.name.Contains("Player") || primaryTarget.name.Contains("Reinforcement"))
+            {
+                ApplyImpact(primaryTarget);
+            }
+        }
 
         // 範囲内のプレイヤーや援軍にダメージとスタンを与える
         var entities = entity.Group.GetEntities();
         foreach (var e in entities)
         {
             if (e == null || e.Id == 0) continue;
+            
+            // 直接当たった対象は二重適用を避ける
+            if (primaryTarget != null && e.Id == primaryTarget.Id) continue;
 
             if (e.name.Contains("Player") || e.name.Contains("Reinforcement"))
             {

@@ -193,10 +193,9 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 				} else {
 					/// 新たにペアが追加された場合は enterPairs_ に追加
 					enterPairs_.emplace_back(pair);
+					/// 新たに衝突した場合はペアを記録
+					collidedPairs_.emplace_back(pair);
 				}
-
-				/// 衝突している場合はペアを記録
-				collidedPairs_.emplace_back(pair);
 
 			} else {
 

@@ -10,16 +10,8 @@
             "type": "Transform"
         },
         {
-            "renderQueue": 2,
+            "meshPath": "./Packages/Models/BackgroundObjects/Rock1.obj",
             "type": "MeshRenderer"
-        },
-        {
-            "isTrigger": false,
-            "type": "SphereCollider"
-        },
-        {
-            "isTrigger": false,
-            "type": "BoxCollider"
         }
     ],
     "guid": "f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2",
