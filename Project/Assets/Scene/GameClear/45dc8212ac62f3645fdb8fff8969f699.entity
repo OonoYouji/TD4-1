@@ -7,28 +7,22 @@
             "position": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 2.0814919471740723
+                "z": 0.0
             },
             "rotate": {
-                "w": -4.371138828673793e-08,
+                "w": 1.0,
                 "x": 0.0,
-                "y": 1.0,
-                "z": -0.0
+                "y": 0.0,
+                "z": 0.0
             },
             "scale": {
-                "x": 1.0000001192092896,
-                "y": 0.9999999403953552,
-                "z": 1.0000001192092896
+                "x": 1.399999976158142,
+                "y": 1.4000003337860107,
+                "z": 1.4000003337860107
             },
             "type": "Transform"
         },
         {
-            "Bound": {
-                "COEFFICIENT_OF_RESTITUTION": 0.1599999964237213,
-                "START_VELOCITY_Y": -10.0,
-                "START_Y": 10.0,
-                "velocityY": -5.0
-            },
             "type": "Variables"
         },
         {
@@ -40,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "201498d33942d8e8fb18f9ee47983887",
+                "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 9,
@@ -56,23 +50,13 @@
                     }
                 }
             },
-            "meshPath": "./Assets/Models/Outgame/boss_head.gltf",
+            "meshPath": "./Assets/Models/Outgame/bg/bonfire.gltf",
             "renderQueue": 2,
             "type": "MeshRenderer"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "Bound"
-                }
-            ],
-            "type": "Script"
         }
     ],
-    "guid": "f3e14322a542ebd3994338914635d94c",
-    "name": "BossHead",
-    "parentGuid": null,
+    "guid": "45dc8212ac62f3645fdb8fff8969f699",
+    "name": "Wood",
+    "parentGuid": "0c8614a5db4282c18fa008b85e8e47aa",
     "prefabName": ""
 }

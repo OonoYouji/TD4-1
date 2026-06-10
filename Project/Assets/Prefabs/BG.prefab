@@ -39,8 +39,8 @@
                         },
                         "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
                         "guid": "00000000000000000000000000000000",
-                        "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
+                        "normalTextureGuid": "d3f6a8d1e674a57ddf150fffb3c3c873",
+                        "postEffectFlags": 9,
                         "uvTransform": {
                             "position": {
                                 "x": 0.0,
@@ -665,7 +665,7 @@
                                 "baseTextureGuid": "8e4d132dec290253649c1892dfd920c3",
                                 "guid": "00000000000000000000000000000000",
                                 "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
+                                "postEffectFlags": 9,
                                 "uvTransform": {
                                     "position": {
                                         "x": 0.0,
@@ -1398,7 +1398,7 @@
                                 "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
                                 "guid": "00000000000000000000000000000000",
                                 "normalTextureGuid": "00000000000000000000000000000000",
-                                "postEffectFlags": 1,
+                                "postEffectFlags": 9,
                                 "uvTransform": {
                                     "position": {
                                         "x": 0.0,

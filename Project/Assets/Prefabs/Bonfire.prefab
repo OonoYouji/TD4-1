@@ -260,9 +260,9 @@
                     }
                 }
             ],
-            "guid": "1e57899214679437ff9cdc88e0602fb9",
+            "guid": "a154be76ab50b09e4f32f4b43f016c41",
             "name": "Fire1",
-            "parentGuid": "e751a7255956db3c252c9274135ea65e",
+            "parentGuid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
             "prefabName": ""
         },
         {
@@ -304,7 +304,7 @@
                         "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
                         "guid": "00000000000000000000000000000000",
                         "normalTextureGuid": "00000000000000000000000000000000",
-                        "postEffectFlags": 1,
+                        "postEffectFlags": 9,
                         "uvTransform": {
                             "position": {
                                 "x": 0.0,
@@ -322,9 +322,9 @@
                     "type": "MeshRenderer"
                 }
             ],
-            "guid": "a1e1e9f67380b9949bb63b5857ad5392",
+            "guid": "64264196c7126d14f58f8553b84ba803",
             "name": "Wood",
-            "parentGuid": "e751a7255956db3c252c9274135ea65e",
+            "parentGuid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
             "prefabName": ""
         }
     ],
@@ -354,8 +354,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "e751a7255956db3c252c9274135ea65e",
+    "guid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
     "name": "Bonfire",
-    "parentGuid": null,
+    "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
     "prefabName": "Bonfire"
 }
