@@ -104,11 +104,7 @@ public class ShowIndicatorNode : BehaviorNode {
 
 	protected override NodeStatus Execute(Blackboard blackboard, Entity owner) {
 		uint startTimeKey = BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash);
-		uint doneKey = BehaviorTreeLoader.HashString("IndicatorDone_" + NodeIdHash);
 		float currentTime = Time.time;
-
-		// すでにこのアクティベーションで完了している場合は再実行（再生成）しない
-		if (blackboard.HasKey(doneKey)) return NodeStatus.Success;
 
 		float finalDuration = duration;
 		if (!string.IsNullOrEmpty(durationKey)) {
@@ -273,7 +269,6 @@ public class ShowIndicatorNode : BehaviorNode {
 			}
 
 			blackboard.Remove(startTimeKey);
-			blackboard.SetBool(doneKey, true);
 			return NodeStatus.Success;
 		}
 
@@ -315,7 +310,6 @@ public class ShowIndicatorNode : BehaviorNode {
 
 	public override void OnAbort(Blackboard blackboard, Entity owner) {
 		blackboard.Remove(BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash));
-		blackboard.Remove(BehaviorTreeLoader.HashString("IndicatorDone_" + NodeIdHash));
 
 		uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
 		if (blackboard.HasKey(telegraphKey)) {

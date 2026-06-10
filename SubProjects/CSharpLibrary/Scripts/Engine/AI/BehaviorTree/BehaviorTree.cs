@@ -170,7 +170,7 @@ public class BehaviorTree
     /// <summary>
     /// 指定したノードとそのすべての子孫ノードに対して Abort 処理を再帰的に実行する。
     /// </summary>
-    private void AbortRecursive(BehaviorNode node)
+    public void AbortRecursive(BehaviorNode node)
     {
         if (node == null) return;
 

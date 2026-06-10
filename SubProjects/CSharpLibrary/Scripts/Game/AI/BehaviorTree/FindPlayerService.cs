@@ -34,8 +34,8 @@ public class FindPlayerService : BehaviorService
             
             // ターゲット座標を更新
             Vector3 pos = player.transform.position;
-            // プレイヤーが空中にいても、岩は地面（Y=0）を目指すように固定
-            pos.y = 0.0f; 
+            // プレイヤーが空中にいても、岩は地面（ボスと同じ高さ）を目指すように固定
+            pos.y = owner.transform.position.y; 
             
             blackboard.SetVector3(posKeyHash, pos);
         }

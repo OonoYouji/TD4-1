@@ -41,12 +41,33 @@ public class Parallel : CompositeNode
 
         for (int i = 0; i < children.Count; i++)
         {
-            // 並列ノードでは毎フレーム全子ノードを評価する。
+            // この並列ノードの現在の実行サイクルにおいて、既に完了した子ノードの状態をチェック
+            uint doneKey = BehaviorTreeLoader.HashString("ParChildDone_" + NodeIdHash + "_" + i);
+            if (blackboard.HasKey(doneKey))
+            {
+                NodeStatus savedStatus = (NodeStatus)blackboard.GetInt(doneKey);
+                if (savedStatus == NodeStatus.Success) successCount++;
+                else failureCount++;
+                continue;
+            }
+
+            // まだ完了していない子ノードのみ Tick を実行
             var status = children[i].Tick(blackboard, owner);
             
-            if (status == NodeStatus.Success) successCount++;
-            else if (status == NodeStatus.Failure) failureCount++;
-            else if (status == NodeStatus.Running) runningCount++;
+            if (status == NodeStatus.Success)
+            {
+                successCount++;
+                blackboard.SetInt(doneKey, (int)NodeStatus.Success);
+            }
+            else if (status == NodeStatus.Failure)
+            {
+                failureCount++;
+                blackboard.SetInt(doneKey, (int)NodeStatus.Failure);
+            }
+            else
+            {
+                runningCount++;
+            }
         }
 
         NodeStatus finalStatus = NodeStatus.Running;
@@ -62,10 +83,11 @@ public class Parallel : CompositeNode
             else if (successPolicy == Policy.All && successCount == children.Count && children.Count > 0) finalStatus = NodeStatus.Success;
         }
 
-        // 完了した場合、まだ Running 状態の子ノードをすべて中断させる
+        // 完了した場合、まだ Running 状態の子ノードをすべて中断させ、完了フラグを掃除する
         if (finalStatus != NodeStatus.Running)
         {
             AbortRunningChildren(blackboard, owner);
+            ClearFinishedFlags(blackboard);
             return finalStatus;
         }
 
@@ -75,6 +97,7 @@ public class Parallel : CompositeNode
     public override void OnAbort(Blackboard blackboard, Entity owner)
     {
         AbortRunningChildren(blackboard, owner);
+        ClearFinishedFlags(blackboard);
     }
 
     private void AbortRunningChildren(Blackboard blackboard, Entity owner)
@@ -85,6 +108,14 @@ public class Parallel : CompositeNode
             {
                 child.OnAbort(blackboard, owner);
             }
+        }
+    }
+
+    private void ClearFinishedFlags(Blackboard blackboard)
+    {
+        for (int i = 0; i < children.Count; i++)
+        {
+            blackboard.Remove(BehaviorTreeLoader.HashString("ParChildDone_" + NodeIdHash + "_" + i));
         }
     }
 

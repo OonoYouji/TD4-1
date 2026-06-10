@@ -24,10 +24,7 @@ public class RockThrowNode : BehaviorNode
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("RockThrowStart_" + NodeIdHash);
-        uint doneKey = BehaviorTreeLoader.HashString("RockThrowDone_" + NodeIdHash);
         float currentTime = Time.time;
-
-        if (blackboard.HasKey(doneKey)) return NodeStatus.Success;
 
         float finalDelay = delay;
         if (!string.IsNullOrEmpty(delayKey))
@@ -52,7 +49,6 @@ public class RockThrowNode : BehaviorNode
         }
 
         blackboard.Remove(startTimeKey);
-        blackboard.SetBool(doneKey, true);
 
         Entity rock = blackboard.GetEntity(BehaviorTreeLoader.HashString(objectKey));
         if (rock == null) return NodeStatus.Failure;
@@ -95,6 +91,5 @@ public class RockThrowNode : BehaviorNode
     public override void OnAbort(Blackboard blackboard, Entity owner)
     {
         blackboard.Remove(BehaviorTreeLoader.HashString("RockThrowStart_" + NodeIdHash));
-        blackboard.Remove(BehaviorTreeLoader.HashString("RockThrowDone_" + NodeIdHash));
     }
 }

@@ -56,6 +56,7 @@ public static class BehaviorTreeLoader {
 					tree.Blackboard.SetString(keyHash, (string)v["sVal"]);
 					break;
 				}
+				tree.Blackboard.SaveAsDefault(keyHash);
 			}
 		}
 

@@ -32,6 +32,7 @@ public class FallingRock : MonoScript
         _isFalling = true;
         _hasImpacted = false;
         _throwElapsed = 0f;
+        _destroyTimer = 0f;
 
         // 距離に応じて到達時間を計算 (秒速40m程度)
         float horizontalDist = Vector3.Distance(new Vector3(_startPos.x, 0, _startPos.z), new Vector3(_targetPos.x, 0, _targetPos.z));
@@ -59,7 +60,8 @@ public class FallingRock : MonoScript
 
         if (t >= 1.0f)
         {
-            Impact();
+            // 着弾（地面）
+            Impact(null, true); 
             _isFalling = false;
             transform.position = _targetPos;
         }
@@ -69,49 +71,62 @@ public class FallingRock : MonoScript
     {
         if (collision == null || collision.Id == 0) return;
 
-        if (_isFalling && !_hasImpacted)
+        if (_isFalling)
         {
             // プレイヤーなどに当たってもダメージだけ与え、移動は継続（空中浮遊防止）
-            Impact(collision);
+            Impact(collision, false);
         }
     }
 
-    private void Impact(Entity primaryTarget = null)
+    private void Impact(Entity primaryTarget, bool isFinalImpact)
     {
-        if (_hasImpacted) return;
-        _hasImpacted = true;
+        // すでに着弾演出済みで、かつ今回が空中衝突なら何もしない
+        if (_hasImpacted && !isFinalImpact) return;
 
-        // 直接当たった対象がいれば優先的に適用
-        if (primaryTarget != null)
+        // まだダメージを与えていないなら計算（空中または地面で一度だけ実行）
+        if (!_hasImpacted)
         {
-            if (primaryTarget.name.Contains("Player") || primaryTarget.name.Contains("Reinforcement"))
-            {
-                ApplyImpact(primaryTarget);
-            }
-        }
+            _hasImpacted = true;
 
-        // 範囲内のプレイヤーや援軍にダメージとスタンを与える
-        var entities = entity.Group.GetEntities();
-        foreach (var e in entities)
-        {
-            if (e == null || e.Id == 0) continue;
-            
-            // 直接当たった対象は二重適用を避ける
-            if (primaryTarget != null && e.Id == primaryTarget.Id) continue;
-
-            if (e.name.Contains("Player") || e.name.Contains("Reinforcement"))
+            // 直接当たった対象がいれば優先的に適用
+            if (primaryTarget != null)
             {
-                float dist = Vector3.Distance(transform.position, e.transform.position);
-                if (dist <= impactRadius)
+                if (primaryTarget.name.Contains("Player") || primaryTarget.name.Contains("Reinforcement"))
                 {
-                    ApplyImpact(e);
+                    ApplyImpact(primaryTarget);
                 }
             }
+
+            // 範囲内のプレイヤーや援軍にダメージとスタンを与える
+            var entities = entity.Group.GetEntities();
+            foreach (var e in entities)
+            {
+                if (e == null || e.Id == 0) continue;
+                
+                // 直接当たった対象は二重適用を避ける
+                if (primaryTarget != null && e.Id == primaryTarget.Id) continue;
+
+                if (e.name.Contains("Player") || e.name.Contains("Reinforcement"))
+                {
+                    float dist = Vector3.Distance(transform.position, e.transform.position);
+                    if (dist <= impactRadius)
+                    {
+                        ApplyImpact(e);
+                    }
+                }
+            }
+
+            // 演出（一度だけ）
+            FrameEvent.EnqueueNamedEvent("Effect_RockImpact", entity.Id);
         }
 
-        // 演出
-        FrameEvent.EnqueueNamedEvent("Effect_RockImpact", entity.Id);
-//         Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
+        // 地面着弾時のみフラグを最終確定（必要ならここでエフェクト分岐なども可能）
+        if (isFinalImpact)
+        {
+            _hasImpacted = true;
+        }
+
+        //         Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
     }
 
     private void ApplyImpact(Entity e)

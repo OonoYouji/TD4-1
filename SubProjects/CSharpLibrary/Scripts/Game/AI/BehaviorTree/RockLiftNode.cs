@@ -22,10 +22,7 @@ public class RockLiftNode : BehaviorNode
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("RockLiftStart_" + NodeIdHash);
-        uint doneKey = BehaviorTreeLoader.HashString("RockLiftDone_" + NodeIdHash);
         float currentTime = Time.time;
-
-        if (blackboard.HasKey(doneKey)) return NodeStatus.Success;
 
         Entity rock = blackboard.GetEntity(BehaviorTreeLoader.HashString(objectKey));
         if (rock == null) return NodeStatus.Failure;
@@ -82,10 +79,8 @@ public class RockLiftNode : BehaviorNode
         rock.transform.position = Vector3.Lerp(owner.transform.position, targetPos, progress);
 
         if (progress >= 1.0f)
-
         {
             blackboard.Remove(startTimeKey);
-            blackboard.SetBool(doneKey, true);
             return NodeStatus.Success;
         }
 
@@ -95,6 +90,5 @@ public class RockLiftNode : BehaviorNode
     public override void OnAbort(Blackboard blackboard, Entity owner)
     {
         blackboard.Remove(BehaviorTreeLoader.HashString("RockLiftStart_" + NodeIdHash));
-        blackboard.Remove(BehaviorTreeLoader.HashString("RockLiftDone_" + NodeIdHash));
     }
 }
