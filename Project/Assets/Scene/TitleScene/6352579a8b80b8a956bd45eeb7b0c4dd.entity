@@ -51,6 +51,15 @@
                 }
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "autoPlay": true,
+            "clipPath": "",
+            "currentTime": 0.0,
+            "isLooping": true,
+            "isPlaying": false,
+            "speed": 1.0,
+            "type": "AnimationPlayer"
         }
     ],
     "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",

@@ -134,6 +134,11 @@
             "guid": "f85cd49c5a87e88a0c91c222061eb5bb",
             "parentGuid": "89dac9c5339080ba1f5089ad233fb7ec",
             "path": "./GameClear/f85cd49c5a87e88a0c91c222061eb5bb.entity"
+        },
+        {
+            "guid": "37fd4f77d9b74d753ffe1dc3cea6240c",
+            "parentGuid": null,
+            "path": "./GameClear/37fd4f77d9b74d753ffe1dc3cea6240c.entity"
         }
     ]
 }

@@ -6,7 +6,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 34.560001373291016,
+                "y": 10.0,
                 "z": 0.0
             },
             "rotate": {
@@ -23,6 +23,7 @@
             "type": "Transform"
         },
         {
+            "AnimationAutoPlay": {},
             "type": "Variables"
         },
         {
@@ -51,6 +52,25 @@
                 }
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "autoPlay": true,
+            "clipPath": "./Assets/Anims/GameOverText.anim",
+            "currentTime": 0.0,
+            "isLooping": false,
+            "isPlaying": false,
+            "speed": 1.0,
+            "type": "AnimationPlayer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "AnimationAutoPlay"
+                }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "6352579a8b80b8a956bd45eeb7b0c4df",
