@@ -7,6 +7,92 @@
                 "y": 0.7771459221839905
             },
             "type": "Transform"
+        },
+        {
+            "defaultClipId": 4138087844,
+            "layers": [
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 4138087844,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 1.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                }
+            ],
+            "type": "Animator"
         }
     ],
     "guid": "bcea6ed7c28799543b6dc75f1bfe62dd",

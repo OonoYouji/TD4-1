@@ -2,24 +2,48 @@
     "active": true,
     "components": [
         {
+            "enable": 1,
+            "matrixCalcFlags": 7,
             "position": {
-                "x": 1.1652930974960327,
-                "z": -1.2206321954727173
+                "x": 3.0,
+                "y": -0.4000000059604645,
+                "z": -3.200000047683716
             },
             "rotate": {
-                "w": 0.24192190170288086,
-                "y": 0.9702957272529602
+                "w": 0.0,
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "type": "Transform"
         },
         {
-            "defaultClipId": 4138087844,
+            "animationScale": 1.0,
+            "debugJointSize": 1.0,
+            "debugRectSize": 1.0,
+            "enable": 1,
+            "isPlaying": true,
+            "meshPath": "./Assets/Models/Soldier/soldier_support.gltf",
+            "texturePath": "./Assets/Models/Soldier/soldier_support.png",
+            "type": "SkinMeshRenderer"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "defaultClipId": 4182670843,
+            "enable": 1,
             "layers": [
                 {
                     "boneMaskHash": 0,
                     "states": [
                         {
-                            "clipId": 4138087844,
+                            "clipId": 4182670843,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
                             "time": 0.0,
@@ -99,8 +123,8 @@
             "type": "Animator"
         }
     ],
-    "guid": "1a3adfac009795df360cca91b2011070",
-    "name": "Human2",
-    "parentGuid": "2baeefa093b6148e353f29746cdff42d",
-    "prefabName": "Human"
+    "guid": "dc80ff87fa57be8efae610b5cf957ee3",
+    "name": "HumanBeat",
+    "parentGuid": null,
+    "prefabName": ""
 }
