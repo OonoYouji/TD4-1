@@ -29,7 +29,10 @@ public class PlayAnimationNode : BehaviorNode
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
         uint startTimeKey = BehaviorTreeLoader.HashString("PlayAnimStart_" + NodeIdHash);
+        uint doneKey = BehaviorTreeLoader.HashString("PlayAnimDone_" + NodeIdHash);
         float currentTime = Time.time;
+
+        if (blackboard.HasKey(doneKey)) return NodeStatus.Success;
 
         if (!blackboard.HasKey(startTimeKey))
         {
@@ -72,6 +75,7 @@ public class PlayAnimationNode : BehaviorNode
         {
             blackboard.Remove(startTimeKey);
             blackboard.Remove(BehaviorTreeLoader.HashString("PlayAnimTargetTime_" + NodeIdHash));
+            blackboard.SetBool(doneKey, true);
             return NodeStatus.Success;
         }
 
@@ -82,5 +86,6 @@ public class PlayAnimationNode : BehaviorNode
     {
         blackboard.Remove(BehaviorTreeLoader.HashString("PlayAnimStart_" + NodeIdHash));
         blackboard.Remove(BehaviorTreeLoader.HashString("PlayAnimTargetTime_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("PlayAnimDone_" + NodeIdHash));
     }
 }

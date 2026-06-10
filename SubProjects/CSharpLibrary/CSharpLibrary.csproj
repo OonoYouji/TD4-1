@@ -157,8 +157,10 @@
     <Compile Include="Scripts/Game/AI/BehaviorTree/FindPlayerService.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/HPMonitorService.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/HPRegenService.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/HPRegenNode.cs" />
-    <Compile Include="Scripts/Game/AI/BehaviorTree/InvokeEventNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\HPRegenNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\RockLiftNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\RockThrowNode.cs" />
+    <Compile Include="Scripts\Game\AI\BehaviorTree\InvokeEventNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/MoveToPlayerNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/PatrolWaypointsNode.cs" />
     <Compile Include="Scripts/Game/AI/BehaviorTree/PlayAnimationNode.cs" />

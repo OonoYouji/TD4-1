@@ -10,7 +10,7 @@
         },
         {
             "BossAI": {
-                "treePath": "./Assets/AITrees/BossAttacks/Attack_Giant.json"
+                "treePath": "Assets/AITrees/BossAttacks/Attack_Rock.json"
             },
             "BossBeamAttack": {
                 "beamHeight": 17.0,

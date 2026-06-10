@@ -74,18 +74,25 @@ public class ReinforcementDensitySensingService : BehaviorService
         if (maxNeighbors != -1)
         {
             blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), bestPos);
-//             Debug.Log($"<color=green>[TargetSensing]</color> Target updated to {Vector3.ToSimpleString(bestPos)} (Cluster size: {maxNeighbors + 1} entities)");
         }
         else
         {
-            // ターゲットが見つからない場合、プレイヤーを検索してその位置をセットする
-            foreach (var target in entities)
+            // ターゲットが見つからない場合、全グループからプレイヤーを検索する
+            var allGroups = EntityComponentSystem.GetAllGroups();
+            bool found = false;
+            foreach (var group in allGroups)
             {
-                if (target.name.ToLower().Contains("player"))
+                var allEntities = group.GetEntities();
+                foreach (var target in allEntities)
                 {
-                    blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), target.transform.position);
-                    break;
+                    if (target.name.ToLower().Contains("player"))
+                    {
+                        blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), target.transform.position);
+                        found = true;
+                        break;
+                    }
                 }
+                if (found) break;
             }
         }
     }
