@@ -6,19 +6,19 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 34.56087112426758,
+                "y": 0.0,
                 "z": 0.0
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
+                "w": 0.7071067690849304,
+                "x": -0.7071067690849304,
                 "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 72.0,
-                "z": 1.0
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.99998474121094
             },
             "type": "Transform"
         },
@@ -34,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "aa12b5c33ebf649f4c3284ecb16398a3",
+                "baseTextureGuid": "c70f72da38c5615485da4d89af9e0810",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -45,16 +45,18 @@
                     },
                     "rotate": 0.0,
                     "scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 20.0,
+                        "y": 20.0
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Packages/Models/primitive/frontToPlane.obj",
+            "renderQueue": 2,
+            "type": "MeshRenderer"
         }
     ],
-    "guid": "7352579a8b80b8a956bd45eeb7b0c4de",
-    "name": "ClearText",
-    "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+    "guid": "d5b69df2bf92f6ec6e054e3c36115b91",
+    "name": "Ground",
+    "parentGuid": "5c177e328607b76d7062d01f9d021e0e",
     "prefabName": ""
 }

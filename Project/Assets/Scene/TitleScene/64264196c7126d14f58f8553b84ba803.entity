@@ -6,7 +6,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 34.56087112426758,
+                "y": 0.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 72.0,
-                "z": 1.0
+                "x": 1.399999976158142,
+                "y": 1.4000003337860107,
+                "z": 1.4000003337860107
             },
             "type": "Transform"
         },
@@ -34,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "aa12b5c33ebf649f4c3284ecb16398a3",
+                "baseTextureGuid": "0a1b9e64bce06779e15f2ce12c81d162",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 0,
+                "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -50,11 +50,13 @@
                     }
                 }
             },
-            "type": "SpriteRenderer"
+            "meshPath": "./Assets/Models/Outgame/bg/bonfire.gltf",
+            "renderQueue": 2,
+            "type": "MeshRenderer"
         }
     ],
-    "guid": "7352579a8b80b8a956bd45eeb7b0c4de",
-    "name": "ClearText",
-    "parentGuid": "f059d18c3aa6d0577e148c0870d37d32",
+    "guid": "64264196c7126d14f58f8553b84ba803",
+    "name": "Wood",
+    "parentGuid": "e9e860e0a1fd9d7044c1c5c82a7d08ca",
     "prefabName": ""
 }

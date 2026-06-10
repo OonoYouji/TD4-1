@@ -1,0 +1,24 @@
+{
+    "active": true,
+    "components": [
+        {
+            "position": {
+                "x": 6.973041534423828,
+                "z": -7.6098198890686035
+            },
+            "rotate": {
+                "w": 0.5187732577323914,
+                "y": -0.8549118638038635
+            },
+            "type": "Transform"
+        },
+        {
+            "renderQueue": 2,
+            "type": "MeshRenderer"
+        }
+    ],
+    "guid": "1b6a8c7d892427a4fbfe872b7c6ea8b9",
+    "name": "Tree",
+    "parentGuid": "d0a24fb8656128216874b1ee1974d551",
+    "prefabName": "Tree"
+}

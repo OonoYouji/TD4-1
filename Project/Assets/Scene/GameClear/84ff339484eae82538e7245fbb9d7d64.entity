@@ -30,6 +30,16 @@
         },
         {
             "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BlinkSprite"
+                }
+            ],
+            "type": "Script"
+        },
+        {
+            "enable": 1,
             "material": {
                 "baseColor": {
                     "w": 1.0,
@@ -37,7 +47,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "1eecfb5b05d3f9c33c093ad1eb18ec97",
+                "baseTextureGuid": "a7be4c293e3a25d07d66ee3209f3edff",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -54,16 +64,6 @@
                 }
             },
             "type": "SpriteRenderer"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "BlinkSprite"
-                }
-            ],
-            "type": "Script"
         }
     ],
     "guid": "84ff339484eae82538e7245fbb9d7d64",
