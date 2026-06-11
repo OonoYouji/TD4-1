@@ -73,6 +73,14 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 			as->state_ = state;
 		}
 
+		/// 再生中のボイスのパラメータを更新
+		for (auto& voice : as->sourceVoices_) {
+			if (voice) {
+				voice->SetVolume(as->volume_);
+				voice->SetFrequencyRatio(as->pitch_);
+			}
+		}
+
 
 		/// OneShotAudioの再生リクエストチェック
 		for(auto& req : as->oneShotAudioRequests_) {

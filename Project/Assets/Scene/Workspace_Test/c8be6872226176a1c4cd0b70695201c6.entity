@@ -23,6 +23,9 @@
             "type": "Transform"
         },
         {
+            "Test": {
+                "soundVolume": 1.0
+            },
             "type": "Variables"
         },
         {
@@ -31,6 +34,16 @@
             "pitch": 1.0,
             "type": "AudioSource",
             "volume": 1.0
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "Test"
+                }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "c8be6872226176a1c4cd0b70695201c6",
