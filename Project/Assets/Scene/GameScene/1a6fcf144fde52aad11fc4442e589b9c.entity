@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 810.8997192382813,
-                "y": 40.044437408447266,
-                "z": 1.0011106729507446
+                "x": 1000.0,
+                "y": 195.9998779296875,
+                "z": 1.2513885498046875
             },
             "type": "Transform"
         },
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "baseTextureGuid": "2efeea7a72af76947453f76c57b1a4b7",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -53,8 +53,8 @@
             "type": "SpriteRenderer"
         }
     ],
-    "guid": "69d0976be43ff50ce6b518f3e59028f6",
+    "guid": "1a6fcf144fde52aad11fc4442e589b9c",
     "name": "BG_1",
-    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+    "parentGuid": "8ff27c3e2292a09dab12f03c93bc7408",
     "prefabName": ""
 }
