@@ -2,12 +2,6 @@
     "active": true,
     "components": [
         {
-            "BoundsConstraint": {
-                "waitForEntry": true
-            },
-            "type": "Variables"
-        },
-        {
             "scripts": [
                 {
                     "enable": true,
@@ -31,13 +25,21 @@
                 },
                 {
                     "enable": true,
+                    "name": "ReinforcementGltfAnimator"
+                },
+                {
+                    "enable": true,
                     "name": "BoundsConstraint"
                 }
             ],
             "type": "Script"
+        },
+        {
+            "isTrigger": false,
+            "type": "SphereCollider"
         }
     ],
-    "guid": "f4efdc7168fa741b9ee53b0d2acb9c31",
+    "guid": "df4e3ae0c07e0efed9fdf8b81391d9b0",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"
