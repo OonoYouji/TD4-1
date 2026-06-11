@@ -89,7 +89,7 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 }
 
 void AudioPlaybackSystem::SetAudioClip(AudioSource* _audioSource) {
-	if(_audioSource->path_.empty()) return;
+	if (_audioSource->path_.empty()) return;
 
 	Asset::AudioClip* clip = pAssetCollection_->GetAudioClip(_audioSource->path_);
 	if(clip) {
@@ -100,13 +100,13 @@ void AudioPlaybackSystem::SetAudioClip(AudioSource* _audioSource) {
 }
 
 void AudioPlaybackSystem::PlayAudio(AudioSource* _audioSource) {
-	if(!_audioSource->pAudioClip_) {
+	if (!_audioSource->pAudioClip_) {
 		Console::LogError("[CPP Audio] Cannot play - AudioClip is null");
 		return;
 	}
 
 	Console::Log(std::format("[CPP Audio] Playing Sustained Sound: {}", _audioSource->path_));
-	if(_audioSource->path_ == "") {
+	if (_audioSource->path_ == "") {
 		return;
 	}
 
