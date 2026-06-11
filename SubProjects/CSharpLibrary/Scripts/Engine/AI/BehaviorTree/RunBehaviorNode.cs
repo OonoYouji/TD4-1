@@ -56,11 +56,29 @@ public class RunBehaviorNode : BehaviorNode
         // ロードできなかった場合（ファイルが存在しない、フォーマットエラー等）
         if (_subTree == null || _subTree.RootNode == null) return NodeStatus.Failure;
 
+        // --- 修正：サブツリーの再実行時にBlackboardをクリアする ---
+        // これにより、サブツリー内のアクションノードが持つ「Done」フラグなどがリセットされ、
+        // 2回目以降の攻撃が正しく動作するようになる。
+        // ResetToDefaults() を使うことで、JSONで定義された初期値（RockRadius等）は確実に復元されます。
+        uint startKey = BehaviorTreeLoader.HashString("RunBehaviorStart_" + NodeIdHash);
+        if (!blackboard.HasKey(startKey))
+        {
+            _subTree.Blackboard.ResetToDefaults();
+            blackboard.SetFloat(startKey, Time.time);
+        }
+
         // 2. サブツリーの実行
         _subTree.TickCount = this.Tree.TickCount; // Tick回数を同期
 
         // 共通キーの同期 (親 -> 子)
         SyncBlackboard(blackboard, _subTree.Blackboard);
+        
+        // 同期したキーを子ツリー側で「デフォルト」として扱う（リセット時に消えないようにする）
+        string[] syncKeys = { "CurrentHP", "HPRatio", "TargetPosition", "TargetEntity" };
+        foreach (var key in syncKeys)
+        {
+            _subTree.Blackboard.SaveAsDefault(BehaviorTreeLoader.HashString(key));
+        }
 
         var status = _subTree.RootNode.Tick(_subTree.Blackboard, owner);
         
@@ -68,7 +86,24 @@ public class RunBehaviorNode : BehaviorNode
         _subTree.ActiveNode = null;
         _subTree.UpdateActiveNodeRecursive(_subTree.RootNode);
         
+        // 完了した場合は開始フラグを削除して、次回実行時に再度リセットがかかるようにする
+        if (status != NodeStatus.Running)
+        {
+            blackboard.Remove(startKey);
+        }
+
         return status;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        blackboard.Remove(BehaviorTreeLoader.HashString("RunBehaviorStart_" + NodeIdHash));
+        
+        // サブツリーも中断処理を行う
+        if (_subTree != null && _subTree.RootNode != null)
+        {
+            _subTree.AbortRecursive(_subTree.RootNode);
+        }
     }
 
     private void SyncBlackboard(Blackboard parent, Blackboard child)

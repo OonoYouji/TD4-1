@@ -13,6 +13,17 @@ public class SphereCollider : Component {
         set { InternalSetTrigger(nativeHandle, value); }
     }
 
+    public float mass {
+        get { return InternalGetMass(nativeHandle); }
+        set { InternalSetMass(nativeHandle, value); }
+    }
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern float InternalGetMass(ulong nativeHandle);
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern void InternalSetMass(ulong nativeHandle, float mass);
+
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern float InternalGetRadius(ulong nativeHandle);
 

@@ -30,14 +30,18 @@ public class BoundsConstraint : MonoScript
     {
 
         // 無ければ取得する
-        if (movementBoundsEntity_ == null)
+        if (movementBoundsEntity_ == null || movementBoundsEntity_.Id == 0)
         {
             movementBoundsEntity_ = ecsGroup.FindEntity("MovementBounds");
-            return;
+            if (movementBoundsEntity_ == null) return;
         }
 
         // スクリプト取得
         MovementBounds script = movementBoundsEntity_.GetScript<MovementBounds>();
+        if (script == null) return;
+
+        // transformの有効性チェック
+        if (transform == null) return;
 
         if (!hasEntered_)
         {

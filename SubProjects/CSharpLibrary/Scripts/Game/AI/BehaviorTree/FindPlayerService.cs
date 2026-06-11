@@ -13,26 +13,31 @@ public class FindPlayerService : BehaviorService
     public string targetIdKey = "TargetId";
 
     /// <summary>
-    /// 定期的に実行されるプレイヤー検索処理。
+    /// プレイヤーの現在座標を保存するBlackboardのキー。
+    /// </summary>
+    [BlackboardKey]
+    public string targetPosKey = "TargetPosition";
+
+    /// <summary>
+    /// 定期的に実行されるプレイヤー検索と位置更新処理。
     /// </summary>
     public override void OnTick(Blackboard blackboard, Entity owner)
     {
         uint idKeyHash = BehaviorTreeLoader.HashString(targetIdKey);
-        
-        // すでに有効なターゲットがいればスキップ（必要に応じて再検索ロジックを入れる）
-        if (blackboard.HasKey(idKeyHash) && blackboard.GetInt(idKeyHash) != 0) return;
+        uint posKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
 
         // プレイヤーを検索
         Entity player = FindPlayer(owner);
         if (player != null)
         {
             blackboard.SetInt(idKeyHash, player.Id);
-//             Debug.Log($"<color=green>[FindPlayer]</color> Found 'Player' (ID:{player.Id}) in group '{player.Group.groupName}'");
-        }
-        else
-        {
-            // 定期的に警告を出す（デバッグ用）
-            // Debug.LogWarning($"<color=red>[FindPlayer]</color> {owner.name} could not find 'Player' in any common groups.");
+            
+            // ターゲット座標を更新
+            Vector3 pos = player.transform.position;
+            // プレイヤーが空中にいても、岩は地面（ボスと同じ高さ）を目指すように固定
+            pos.y = owner.transform.position.y; 
+            
+            blackboard.SetVector3(posKeyHash, pos);
         }
     }
 

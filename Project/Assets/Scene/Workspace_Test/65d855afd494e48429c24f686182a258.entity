@@ -1,0 +1,79 @@
+{
+    "active": true,
+    "components": [
+        {
+            "dissolveCompare": 1,
+            "dissolveTexture": "c60494a221308e88475951568da07b0c",
+            "dissolveThreshold": 0.17800000309944153,
+            "edgeColor": {
+                "w": 1.0,
+                "x": 1.0,
+                "y": 0.5,
+                "z": 0.0
+            },
+            "edgeWidth": 0.4699999988079071,
+            "material": {
+                "baseColor": {
+                    "w": 1.0,
+                    "x": 0.8637992739677429,
+                    "y": 0.18885934352874756,
+                    "z": 0.18885934352874756
+                },
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.6000000238418579,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
+            },
+            "meshGuid": "6bfa53b0bf5459150249a7707d590ec7",
+            "type": "DissolveMeshRenderer"
+        },
+        {
+            "enable": 1,
+            "matrixCalcFlags": 7,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": -0.9228119254112244,
+                "x": 0.0,
+                "y": 0.3852508068084717,
+                "z": -0.0
+            },
+            "scale": {
+                "x": 1.409999966621399,
+                "y": 1.0,
+                "z": 1.409999966621399
+            },
+            "type": "Transform"
+        },
+        {
+            "type": "Variables"
+        },
+        {
+            "autoPlay": true,
+            "clipPath": "./Assets/Anims/BeamDissolve1.anim",
+            "currentTime": 1.748229742050171,
+            "isLooping": true,
+            "isPlaying": true,
+            "speed": 3.0,
+            "type": "AnimationPlayer"
+        }
+    ],
+    "guid": "65d855afd494e48429c24f686182a258",
+    "name": "out_1",
+    "parentGuid": "f40df8ad605746aa850b184497fd012d",
+    "prefabName": ""
+}

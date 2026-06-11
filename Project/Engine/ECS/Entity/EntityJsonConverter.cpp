@@ -162,6 +162,8 @@ void EntityJsonConverter::FromJson(const nlohmann::json& _json, GameEntity* _ent
 
 			const std::string componentType = componentJson.at("type").get<std::string>();
 
+			Console::Log(std::format("[CPP ECS] FromJson - Adding component '{}' to entity '{}'", componentType, _entity->GetName()));
+
 			IComponent* comp = _entity->AddComponent(componentType);
 			if (comp) {
 				if (_merge) {

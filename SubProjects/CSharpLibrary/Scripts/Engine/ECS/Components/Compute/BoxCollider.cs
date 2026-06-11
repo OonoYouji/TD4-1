@@ -13,6 +13,17 @@ public class BoxCollider : Component {
         set { InternalSetTrigger(nativeHandle, value); }
     }
 
+    public float mass {
+        get { return InternalGetMassBox(nativeHandle); }
+        set { InternalSetMassBox(nativeHandle, value); }
+    }
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern float InternalGetMassBox(ulong nativeHandle);
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    private static extern void InternalSetMassBox(ulong nativeHandle, float mass);
+
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern Vector3 InternalGetSize(ulong nativeHandle);
 

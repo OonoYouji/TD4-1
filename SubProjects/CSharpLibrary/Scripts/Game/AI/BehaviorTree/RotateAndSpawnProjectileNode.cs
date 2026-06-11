@@ -30,6 +30,18 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
             blackboard.SetFloat(lastFireTimeKey, 0.0f);
             blackboard.SetInt(toggleKey, 0); // 0: distance1, 1: distance2
             
+            // --- 音声の再生 (持続音) ---
+            var audio = owner.GetComponent<AudioSource>();
+            if (audio == null) audio = owner.AddComponent<AudioSource>();
+
+            if (audio != null)
+            {
+                Debug.Log($"[RotateAndSpawnProjectileNode] Playing bomb sound. Path: ./Assets/Sounds/MainGameSounds/se/boss/bomb.mp3, Vol: 0.7");
+                audio.path = "./Assets/Sounds/MainGameSounds/se/boss/bomb.mp3";
+                audio.volume = 0.7f;
+                audio.Play();
+            }
+
             var intent = owner.GetComponent<AgentIntentComponent>();
             if (intent != null) intent.useDesiredRotation = false;
 
@@ -41,6 +53,10 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
 
         if (elapsed >= totalDuration)
         {
+            // --- 音声の停止 ---
+            var audio = owner.GetComponent<AudioSource>();
+            if (audio != null) audio.Stop();
+
             blackboard.Remove(startTimeKey);
             blackboard.Remove(lastFireTimeKey);
             blackboard.Remove(toggleKey);
@@ -107,6 +123,10 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
 
     public override void OnAbort(Blackboard blackboard, Entity owner)
     {
+        // --- 音声の停止 ---
+        var audio = owner.GetComponent<AudioSource>();
+        if (audio != null) audio.Stop();
+
         blackboard.Remove(BehaviorTreeLoader.HashString("RotateAttackStart_" + NodeIdHash));
         blackboard.Remove(BehaviorTreeLoader.HashString("LastFireTime_" + NodeIdHash));
         blackboard.Remove(BehaviorTreeLoader.HashString("FireDistToggle_" + NodeIdHash));

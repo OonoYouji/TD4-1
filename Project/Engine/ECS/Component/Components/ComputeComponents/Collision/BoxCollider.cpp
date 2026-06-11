@@ -154,4 +154,14 @@ void ONEngine::InternalSetTriggerBox(uint64_t _nativeHandle, bool _trigger) {
 	if(c) c->SetTrigger(_trigger);
 }
 
+float ONEngine::InternalGetMassBox(uint64_t _nativeHandle) {
+	BoxCollider* c = reinterpret_cast<BoxCollider*>(_nativeHandle);
+	return c ? c->GetMass() : 1.0f;
+}
+
+void ONEngine::InternalSetMassBox(uint64_t _nativeHandle, float _mass) {
+	BoxCollider* c = reinterpret_cast<BoxCollider*>(_nativeHandle);
+	if(c) c->SetMass(_mass);
+}
+
 

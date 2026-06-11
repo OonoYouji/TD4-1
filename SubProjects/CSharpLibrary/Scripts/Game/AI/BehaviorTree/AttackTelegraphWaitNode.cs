@@ -11,6 +11,9 @@ public class AttackTelegraphWaitNode : BehaviorNode
     /// </summary>
     public float duration = 1.5f;
 
+    [BlackboardKey]
+    public string durationKey = "";
+
     /// <summary>
     /// 溜め開始時に発行する演出イベント名（例："Effect_BossCharge", "Voice_Roar"）。
     /// </summary>
@@ -34,6 +37,17 @@ public class AttackTelegraphWaitNode : BehaviorNode
         uint startTimeKey = BehaviorTreeLoader.HashString("TelegraphStart_" + NodeIdHash);
         float currentTime = Time.time;
 
+        float finalDuration = duration;
+        if (!string.IsNullOrEmpty(durationKey)) {
+            uint keyHash = BehaviorTreeLoader.HashString(durationKey);
+            if (blackboard.HasKey(keyHash)) {
+                finalDuration = blackboard.GetFloat(keyHash, duration);
+                if (finalDuration == duration) {
+                    finalDuration = (float)blackboard.GetInt(keyHash, (int)duration);
+                }
+            }
+        }
+
         if (!blackboard.HasKey(startTimeKey))
         {
             blackboard.SetFloat(startTimeKey, currentTime);
@@ -49,7 +63,7 @@ public class AttackTelegraphWaitNode : BehaviorNode
         float startTime = blackboard.GetFloat(startTimeKey);
         float elapsed = currentTime - startTime;
 
-        if (elapsed >= duration)
+        if (elapsed >= finalDuration)
         {
             blackboard.Remove(startTimeKey);
             return NodeStatus.Success;

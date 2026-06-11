@@ -132,17 +132,23 @@ void ONEngine::AddComponentInternalCalls() {
 	mono_add_internal_call("SphereCollider::InternalSetRadius", (void*)InternalSetRadius);
 	mono_add_internal_call("SphereCollider::InternalIsTrigger", (void*)InternalIsTriggerSphere);
 	mono_add_internal_call("SphereCollider::InternalSetTrigger", (void*)InternalSetTriggerSphere);
+	mono_add_internal_call("SphereCollider::InternalGetMass", (void*)InternalGetMass);
+	mono_add_internal_call("SphereCollider::InternalSetMass", (void*)InternalSetMass);
 
 	/// box collider
 	mono_add_internal_call("BoxCollider::InternalGetSize", (void*)InternalGetSize);
 	mono_add_internal_call("BoxCollider::InternalSetSize", (void*)InternalSetSize);
 	mono_add_internal_call("BoxCollider::InternalIsTrigger", (void*)InternalIsTriggerBox);
 	mono_add_internal_call("BoxCollider::InternalSetTrigger", (void*)InternalSetTriggerBox);
+	mono_add_internal_call("BoxCollider::InternalGetMassBox", (void*)InternalGetMassBox);
+	mono_add_internal_call("BoxCollider::InternalSetMassBox", (void*)InternalSetMassBox);
 	mono_add_internal_call("SpriteRenderer::InternalGetTextureSize", (void*)InternalGetTextureSize);
 
 	/// audio source
 	mono_add_internal_call("AudioSource::InternalGetParams", (void*)InternalGetParams);
 	mono_add_internal_call("AudioSource::InternalSetParams", (void*)InternalSetParams);
+	mono_add_internal_call("AudioSource::InternalPlay", (void*)InternalPlay);
+	mono_add_internal_call("AudioSource::InternalStop", (void*)InternalStop);
 	mono_add_internal_call("AudioSource::InternalPlayOneShot", (void*)InternalPlayOneShot);
 
 }

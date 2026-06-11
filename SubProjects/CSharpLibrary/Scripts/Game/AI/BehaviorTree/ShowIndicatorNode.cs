@@ -78,7 +78,6 @@ public class ShowIndicatorNode : BehaviorNode {
 
 	/// <summary>
 	/// 生成時に位置を固定するかどうか。trueの場合、ターゲットが動いても予兆は追従しません。
-	/// 岩落としなどで着弾地点を確定させる際に使用します。
 	/// </summary>
 	public bool lockPosition = false;
 
@@ -92,6 +91,17 @@ public class ShowIndicatorNode : BehaviorNode {
 	/// </summary>
 	public float offsetHeight = 0.1f;
 
+	/// <summary>
+	/// 指定した時間をかけて0から目標の大きさまで拡大する演出を行う場合の時間（秒）。
+	/// </summary>
+	public float expandDuration = 0.0f;
+
+	/// <summary>
+	/// Blackboardから拡大時間を取得する場合のキー名。
+	/// </summary>
+	[BlackboardKey]
+	public string expandDurationKey = "";
+
 	protected override NodeStatus Execute(Blackboard blackboard, Entity owner) {
 		uint startTimeKey = BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash);
 		float currentTime = Time.time;
@@ -99,7 +109,12 @@ public class ShowIndicatorNode : BehaviorNode {
 		float finalDuration = duration;
 		if (!string.IsNullOrEmpty(durationKey)) {
 			uint keyHash = BehaviorTreeLoader.HashString(durationKey);
-			finalDuration = blackboard.GetFloat(keyHash, duration);
+			if (blackboard.HasKey(keyHash)) {
+				finalDuration = blackboard.GetFloat(keyHash, duration);
+				if (finalDuration == duration) {
+					finalDuration = (float)blackboard.GetInt(keyHash, (int)duration);
+				}
+			}
 		}
 
 		float finalSize = size;
@@ -107,7 +122,6 @@ public class ShowIndicatorNode : BehaviorNode {
 			uint keyHash = BehaviorTreeLoader.HashString(sizeKey);
 			if (blackboard.HasKey(keyHash)) {
 				finalSize = blackboard.GetFloat(keyHash, size);
-				// Floatとして取得できなかった（デフォルト値のままだった）場合、Intとしての取得を試みる
 				if (finalSize == size) {
 					finalSize = (float)blackboard.GetInt(keyHash, (int)size);
 				}
@@ -125,6 +139,30 @@ public class ShowIndicatorNode : BehaviorNode {
 			}
 		}
 
+		float finalExpandDuration = expandDuration;
+		if (!string.IsNullOrEmpty(expandDurationKey)) {
+			uint keyHash = BehaviorTreeLoader.HashString(expandDurationKey);
+			if (blackboard.HasKey(keyHash)) {
+				finalExpandDuration = blackboard.GetFloat(keyHash, expandDuration);
+				if (finalExpandDuration == expandDuration) {
+					finalExpandDuration = (float)blackboard.GetInt(keyHash, (int)expandDuration);
+				}
+			}
+		}
+
+		float elapsed = 0.0f;
+		if (blackboard.HasKey(startTimeKey)) {
+			elapsed = currentTime - blackboard.GetFloat(startTimeKey);
+		}
+
+		float progress = 1.0f;
+		if (finalExpandDuration > 0.001f) {
+			progress = Math.Min(1.0f, elapsed / finalExpandDuration);
+		}
+
+		float currentSize = finalSize * progress;
+		float currentLength = finalLength * progress;
+
 		if (!blackboard.HasKey(startTimeKey)) {
 			// 初回実行
 			Vector3 originPos = owner.transform.position;
@@ -141,15 +179,15 @@ public class ShowIndicatorNode : BehaviorNode {
 				if (shape == IndicatorShape.Line) {
 					var script = telegraph.GetScript<TelegraphLine>();
 					if (script == null) script = telegraph.AddScript<TelegraphLine>();
-					script.thickness = finalSize;
-					script.length = finalLength;
+					script.thickness = currentSize;
+					script.length = currentLength;
 					script.offsetForward = offsetForward;
 					script.offsetHeight = offsetHeight;
 					script.color = color;
 				} else {
 					var script = telegraph.GetScript<TelegraphCircle>();
 					if (script == null) script = telegraph.AddScript<TelegraphCircle>();
-					script.size = finalSize;
+					script.size = currentSize;
 					script.offsetHeight = offsetHeight;
 					script.color = color;
 				}
@@ -167,39 +205,37 @@ public class ShowIndicatorNode : BehaviorNode {
 				}
 				if (renderer != null) {
 					renderer.color = color;
-					renderer.renderQueue = RenderQueue.Telegraph; // レイヤー設定を適用
+					renderer.renderQueue = RenderQueue.Telegraph;
 				}
 
 				uint targetKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
-				Vector3 currentTarget = blackboard.GetVector3(targetKeyHash);
+				Vector3 currentTarget = blackboard.HasKey(targetKeyHash) ? blackboard.GetVector3(targetKeyHash) : owner.transform.position;
 
-				// サンリティチェック
 				if (currentTarget.sqrMagnitude < 0.0001f) {
-					//                     Debug.LogWarning($"<color=red>[TRACE:Indicator]</color> {owner.name} read ZERO-COORDINATE. Fallback to owner front.");
 					currentTarget = owner.transform.position + owner.transform.rotate * Vector3.forward * 10.0f;
 				}
 
-				UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize, finalLength);
+				UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, currentSize, currentLength);
 
-				// 発射方向の計算とBlackboardへの書き込み
 				if (!string.IsNullOrEmpty(fireDirectionKey)) {
-					Vector3 diff = new Vector3(currentTarget.x - owner.transform.position.x, 0.0f, currentTarget.z - owner.transform.position.z);
+					Vector3 origin = new Vector3(owner.transform.position.x, owner.transform.position.y + offsetHeight, owner.transform.position.z);
+					// 修正：水平方向のみを考慮（Y軸の変化を無視）
+					Vector3 diff = currentTarget - origin;
+					diff.y = 0.0f;
 					Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : owner.transform.forward;
 					blackboard.SetVector3(BehaviorTreeLoader.HashString(fireDirectionKey), direction);
 				}
 
-				// Blackboardに保存（後で消すため。ノードごとにユニークなキーにする）
 				blackboard.SetInt(BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash), telegraph.Id);
 			}
 
 			blackboard.SetFloat(startTimeKey, currentTime);
-
 			return NodeStatus.Running;
 		}
 
 		float startTime = blackboard.GetFloat(startTimeKey);
 
-		// 毎フレーム、ターゲット位置とボスの位置関係から予兆を更新する
+		// 毎フレーム更新
 		uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
 		if (blackboard.HasKey(telegraphKey)) {
 			int telegraphId = blackboard.GetInt(telegraphKey);
@@ -210,31 +246,31 @@ public class ShowIndicatorNode : BehaviorNode {
 					Vector3 currentTarget = blackboard.HasKey(targetKeyHash) ? blackboard.GetVector3(targetKeyHash) : owner.transform.position;
 
 					Vector3 originPos = owner.transform.position;
-					if (centerType == IndicatorCenterType.Target) {
-						originPos = currentTarget;
-					}
+					if (centerType == IndicatorCenterType.Target) originPos = currentTarget;
 
 					if (!lockPosition) {
-						UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, finalSize, finalLength);
+						UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, currentSize, currentLength);
 
-						// 毎フレーム更新時も方向を書き込む
 						if (!string.IsNullOrEmpty(fireDirectionKey)) {
-							Vector3 diff = new Vector3(currentTarget.x - owner.transform.position.x, 0.0f, currentTarget.z - owner.transform.position.z);
+							Vector3 origin = new Vector3(owner.transform.position.x, owner.transform.position.y + offsetHeight, owner.transform.position.z);
+							// 修正：水平方向のみを考慮（Y軸の変化を無視）
+							Vector3 diff = currentTarget - origin;
+							diff.y = 0.0f;
 							Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : owner.transform.forward;
 							blackboard.SetVector3(BehaviorTreeLoader.HashString(fireDirectionKey), direction);
 						}
+					} else {
+						UpdateTelegraphSizeOnly(telegraph, currentSize, currentLength);
 					}
 				}
 			}
 		}
 
-		if (currentTime - startTime >= finalDuration) {
-			// 終了時にエンティティを削除
+		// 完了判定
+		if (finalDuration > 0.001f && currentTime - startTime >= finalDuration) {
 			if (blackboard.HasKey(telegraphKey)) {
 				int telegraphId = blackboard.GetInt(telegraphKey);
-				if (telegraphId != 0) {
-					owner.Group.DestroyEntity(telegraphId);
-				}
+				if (telegraphId != 0) owner.Group.DestroyEntity(telegraphId);
 				blackboard.Remove(telegraphKey);
 			}
 
@@ -263,14 +299,28 @@ public class ShowIndicatorNode : BehaviorNode {
 		}
 	}
 
+	private void UpdateTelegraphSizeOnly(Entity telegraph, float finalSize, float finalLength) {
+		if (shape == IndicatorShape.Line) {
+			var script = telegraph.GetScript<TelegraphLine>();
+			if (script != null) {
+				script.thickness = finalSize;
+				script.length = finalLength;
+			}
+		} else if (shape == IndicatorShape.Circle) {
+			var script = telegraph.GetScript<TelegraphCircle>();
+			if (script != null) {
+				script.size = finalSize;
+			}
+		}
+	}
+
 	public override void OnAbort(Blackboard blackboard, Entity owner) {
 		blackboard.Remove(BehaviorTreeLoader.HashString("IndicatorStart_" + NodeIdHash));
 
-		// アボート時も予測線を消す
 		uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
 		if (blackboard.HasKey(telegraphKey)) {
 			int telegraphId = blackboard.GetInt(telegraphKey);
-			owner.Group.DestroyEntity(telegraphId);
+			if (telegraphId != 0) owner.Group.DestroyEntity(telegraphId);
 			blackboard.Remove(telegraphKey);
 		}
 	}

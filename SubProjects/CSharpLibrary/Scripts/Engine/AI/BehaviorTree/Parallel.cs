@@ -41,25 +41,82 @@ public class Parallel : CompositeNode
 
         for (int i = 0; i < children.Count; i++)
         {
-            // 並列ノードでは毎フレーム全子ノードを評価する。
-            // 各子ノードの状態は Tick 内で LastStatus に保存される。
+            // この並列ノードの現在の実行サイクルにおいて、既に完了した子ノードの状態をチェック
+            uint doneKey = BehaviorTreeLoader.HashString("ParChildDone_" + NodeIdHash + "_" + i);
+            if (blackboard.HasKey(doneKey))
+            {
+                NodeStatus savedStatus = (NodeStatus)blackboard.GetInt(doneKey);
+                if (savedStatus == NodeStatus.Success) successCount++;
+                else failureCount++;
+                continue;
+            }
+
+            // まだ完了していない子ノードのみ Tick を実行
             var status = children[i].Tick(blackboard, owner);
             
-            if (status == NodeStatus.Success) successCount++;
-            else if (status == NodeStatus.Failure) failureCount++;
-            else if (status == NodeStatus.Running) runningCount++;
+            if (status == NodeStatus.Success)
+            {
+                successCount++;
+                blackboard.SetInt(doneKey, (int)NodeStatus.Success);
+            }
+            else if (status == NodeStatus.Failure)
+            {
+                failureCount++;
+                blackboard.SetInt(doneKey, (int)NodeStatus.Failure);
+            }
+            else
+            {
+                runningCount++;
+            }
         }
 
+        NodeStatus finalStatus = NodeStatus.Running;
+
         // 1. 失敗判定のチェック
-        if (failurePolicy == Policy.One && failureCount > 0) return NodeStatus.Failure;
-        if (failurePolicy == Policy.All && failureCount == children.Count && children.Count > 0) return NodeStatus.Failure;
+        if (failurePolicy == Policy.One && failureCount > 0) finalStatus = NodeStatus.Failure;
+        else if (failurePolicy == Policy.All && failureCount == children.Count && children.Count > 0) finalStatus = NodeStatus.Failure;
 
         // 2. 成功判定のチェック
-        if (successPolicy == Policy.One && successCount > 0) return NodeStatus.Success;
-        if (successPolicy == Policy.All && successCount == children.Count && children.Count > 0) return NodeStatus.Success;
+        if (finalStatus == NodeStatus.Running)
+        {
+            if (successPolicy == Policy.One && successCount > 0) finalStatus = NodeStatus.Success;
+            else if (successPolicy == Policy.All && successCount == children.Count && children.Count > 0) finalStatus = NodeStatus.Success;
+        }
 
-        // どちらの完了条件も満たしていない場合は継続中とする
+        // 完了した場合、まだ Running 状態の子ノードをすべて中断させ、完了フラグを掃除する
+        if (finalStatus != NodeStatus.Running)
+        {
+            AbortRunningChildren(blackboard, owner);
+            ClearFinishedFlags(blackboard);
+            return finalStatus;
+        }
+
         return NodeStatus.Running;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        AbortRunningChildren(blackboard, owner);
+        ClearFinishedFlags(blackboard);
+    }
+
+    private void AbortRunningChildren(Blackboard blackboard, Entity owner)
+    {
+        foreach (var child in children)
+        {
+            if (child.LastStatus == NodeStatus.Running)
+            {
+                child.OnAbort(blackboard, owner);
+            }
+        }
+    }
+
+    private void ClearFinishedFlags(Blackboard blackboard)
+    {
+        for (int i = 0; i < children.Count; i++)
+        {
+            blackboard.Remove(BehaviorTreeLoader.HashString("ParChildDone_" + NodeIdHash + "_" + i));
+        }
     }
 
     /// <summary>

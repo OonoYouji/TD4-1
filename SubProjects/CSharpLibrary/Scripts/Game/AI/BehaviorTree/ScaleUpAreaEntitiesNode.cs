@@ -2,78 +2,116 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// 指定された座標の範囲内にいるエンティティ（特に援軍）を巨大化させるアクションノード。
-/// ボスの「詰まらせ攻撃」の中核ロジック。
+/// 指定された範囲内にいる援軍などのエンティティを一斉に巨大化させるノード。
 /// </summary>
 public class ScaleUpAreaEntitiesNode : BehaviorNode
 {
     [BlackboardKey]
     public string targetPosKey = "TargetPosition";
 
-    /// <summary>
-    /// 影響を及ぼす半径。
-    /// </summary>
-    public float effectRadius = 5.0f;
+    public float effectRadius = 15.0f;
+    [BlackboardKey]
+    public string effectRadiusKey = "";
 
-    /// <summary>
-    /// 拡大するスケールの倍率。
-    /// </summary>
     public float scaleMultiplier = 3.0f;
+    public float duration = 5.0f;
 
-    /// <summary>
-    /// 対象とするエンティティの名前のキーワード（例："Reinforcement"）。空なら全て対象。
-    /// </summary>
-    public string targetNameFilter = "Reinforcement";
+    public float delay = 0.0f;
+    [BlackboardKey]
+    public string delayKey = "";
+
+    public string targetNameFilter = "";
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-        uint keyHash = BehaviorTreeLoader.HashString(targetPosKey);
-        if (!blackboard.HasKey(keyHash))
+        uint startTimeKey = BehaviorTreeLoader.HashString("ScaleUpStart_" + NodeIdHash);
+        uint doneKey = BehaviorTreeLoader.HashString("ScaleUpDone_" + NodeIdHash);
+        float currentTime = Time.time;
+
+        float finalRadius = effectRadius;
+        if (!string.IsNullOrEmpty(effectRadiusKey))
         {
-//             Debug.LogWarning($"ScaleUpAreaEntitiesNode: Target position key '{targetPosKey}' not found.");
-            return NodeStatus.Failure;
+            uint keyHash = BehaviorTreeLoader.HashString(effectRadiusKey);
+            if (blackboard.HasKey(keyHash)) finalRadius = blackboard.GetFloat(keyHash, effectRadius);
         }
 
-        Vector3 targetPos = blackboard.GetVector3(keyHash);
-
-        // 判定範囲をGizmoで可視化 (マゼンタ色、太さ12.0)
-        GizmoBatch.DrawWireCircle(targetPos + Vector3.up * 0.1f, effectRadius, new Vector4(1, 0, 1, 1), 32, 12.0f);
-
-        var entities = owner.Group.GetEntities();
-        int affectedCount = 0;
-
-        foreach (var entity in entities)
+        float finalDelay = delay;
+        if (!string.IsNullOrEmpty(delayKey))
         {
-            // 自身は除外
-            if (entity.Id == owner.Id) continue;
+            uint keyHash = BehaviorTreeLoader.HashString(delayKey);
+            if (blackboard.HasKey(keyHash)) finalDelay = blackboard.GetFloat(keyHash, delay);
+        }
 
-            // フィルタリング (大文字小文字を区別せず、スクリプトもチェック)
-            bool isTarget = entity.name.ToLower().Contains("reinforcement") || entity.GetScript<Reinforcement>() != null;
-            if (!isTarget) continue;
+        if (!blackboard.HasKey(startTimeKey))
+        {
+            blackboard.SetFloat(startTimeKey, currentTime);
+            return NodeStatus.Running;
+        }
 
-            // 距離判定
-            float dist = Vector3.Distance(targetPos, entity.transform.position);
+        float startTime = blackboard.GetFloat(startTimeKey);
+        float elapsed = currentTime - startTime;
+
+        // 条件を満たせば拡大実行
+        if (elapsed >= finalDelay && !blackboard.HasKey(doneKey))
+        {
+            blackboard.SetBool(doneKey, true);
             
-            if (dist <= effectRadius)
-            {
-                // 何度も巨大化しないように、現在のスケール値をチェックする
-                if (entity.transform.scale.x < scaleMultiplier * 0.8f)
-                {
-                    // スケールアップ処理
-                    entity.transform.scale *= scaleMultiplier;
-                    affectedCount++;
+            // --- 音声の再生 (ワンショット) ---
+            var audio = owner.GetComponent<AudioSource>();
+            if (audio == null) audio = owner.AddComponent<AudioSource>();
 
-                    // 巨大化エフェクトのイベント発行
-                    FrameEvent.EnqueueNamedEvent("Effect_ScaleUp", entity.Id);
+            if (audio != null)
+            {
+                Debug.Log($"[ScaleUpAreaEntitiesNode] Playing clog sound. Path: ./Assets/Sounds/MainGameSounds/se/boss/clog.mp3, Vol: 0.9");
+                audio.OneShotPlay(0.9f, 1.0f, "./Assets/Sounds/MainGameSounds/se/boss/clog.mp3");
+            }
+
+            // 範囲内のエンティティを走査
+            Vector3 center = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
+            var entities = owner.Group.GetEntities();
+
+            foreach (var e in entities)
+            {
+                if (e == null || e.Id == owner.Id) continue;
+                
+                // --- 修正：吸引と同様、対象を「援軍」に厳格に制限する ---
+                // 名前フィルターが空の場合でも、プレイヤーや地面タイルを巨大化させないようにガード
+                string ename = e.name;
+                bool isReinforcement = ename.Contains("Reinforcement");
+                
+                // カスタムフィルターがあればそれも考慮するが、基本は援軍のみ
+                if (!string.IsNullOrEmpty(targetNameFilter)) {
+                    if (!ename.Contains(targetNameFilter)) continue;
+                } else {
+                    if (!isReinforcement) continue;
+                }
+
+                float dist = Vector3.Distance(center, e.transform.position);
+                if (dist <= finalRadius)
+                {
+                    // 巨大化処理 (一時的なスケール変更など)
+                    // ここでは簡易的に Transform を直接操作するか、バフスクリプトを付与する
+                    e.transform.scale *= scaleMultiplier;
+                    
+                    // エフェクト
+                    FrameEvent.EnqueueNamedEvent("Effect_GiantScale", e.Id);
                 }
             }
         }
 
-//         Debug.Log($"<color=magenta>[ScaleUpAttack]</color> {owner.name} scaled up {affectedCount} Reinforcements at {Vector3.ToSimpleString(targetPos)}. (Multiplier: {scaleMultiplier})");
-        
-        // 演出としてボス自身の咆哮イベントも発行
-        FrameEvent.EnqueueNamedEvent("Effect_BossRoar", owner.Id);
+        if (elapsed >= finalDelay + 0.1f)
+        {
+            blackboard.Remove(startTimeKey);
+            blackboard.Remove(doneKey);
+            return NodeStatus.Success;
+        }
 
-        return NodeStatus.Success;
+        return NodeStatus.Running;
+    }
+
+    public override void OnAbort(Blackboard blackboard, Entity owner)
+    {
+        blackboard.Remove(BehaviorTreeLoader.HashString("ScaleUpStart_" + NodeIdHash));
+        blackboard.Remove(BehaviorTreeLoader.HashString("ScaleUpDone_" + NodeIdHash));
     }
 }

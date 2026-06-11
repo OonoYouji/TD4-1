@@ -25,6 +25,53 @@ public class Blackboard
     private readonly Dictionary<uint, string> _stringData = new Dictionary<uint, string>();
     private readonly Dictionary<uint, object> _objectData = new Dictionary<uint, object>();
 
+    // ロード時の初期値を保存するストレージ
+    private readonly Dictionary<uint, object> _defaultValues = new Dictionary<uint, object>();
+
+    /// <summary>
+    /// 現在の値を「デフォルト値」として保存する。
+    /// ResetToDefaults() を実行した際に、この値に復元される。
+    /// </summary>
+    public void SaveAsDefault(uint key)
+    {
+        object val = GetValueAsObject(key);
+        if (val != null)
+        {
+            _defaultValues[key] = val;
+        }
+    }
+
+    /// <summary>
+    /// ブラックボードをロード時の初期状態にリセットする。
+    /// 実行中に生成された一時的なデータは削除され、初期設定値は復元される。
+    /// </summary>
+    public void ResetToDefaults()
+    {
+        // 1. 全てを一度クリア
+        _intData.Clear();
+        _floatData.Clear();
+        _boolData.Clear();
+        _vector3Data.Clear();
+        _stringData.Clear();
+        _objectData.Clear();
+
+        // 2. デフォルト値を復元
+        foreach (var kvp in _defaultValues)
+        {
+            uint key = kvp.Key;
+            object val = kvp.Value;
+
+            if (val is int i) _intData[key] = i;
+            else if (val is float f) _floatData[key] = f;
+            else if (val is bool b) _boolData[key] = b;
+            else if (val is Vector3 v) _vector3Data[key] = v;
+            else if (val is string s) _stringData[key] = s;
+            else _objectData[key] = val;
+            
+            // エディタへの通知などは省略（初期化時のみのため）
+        }
+    }
+
     public void SetInt(uint key, int value) 
     { 
         if (_intData.TryGetValue(key, out var old) && old == value) return;

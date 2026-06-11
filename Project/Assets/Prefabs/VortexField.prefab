@@ -1,20 +1,58 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
-            "position": { "x": 0.0, "y": 0.1, "z": 0.0 },
-            "rotate": { "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 },
-            "scale": { "x": 10.0, "y": 0.05, "z": 10.0 },
+            "position": {
+                "x": 0.0,
+                "y": 0.10000000149011612,
+                "z": 0.0
+            },
+            "rotate": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 10.0,
+                "y": 0.05000000074505806,
+                "z": 10.0
+            },
             "type": "Transform"
+        },
+        {
+            "SimpleRotation": {},
+            "type": "Variables"
         },
         {
             "enable": 1,
             "material": {
-                "baseColor": { "w": 0.4, "x": 0.2, "y": 0.2, "z": 1.0 },
-                "postEffectFlags": 1
+                "baseColor": {
+                    "w": 0.4000000059604645,
+                    "x": 0.20000000298023224,
+                    "y": 0.20000000298023224,
+                    "z": 1.0
+                },
+                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "guid": "00000000000000000000000000000000",
+                "normalTextureGuid": "00000000000000000000000000000000",
+                "postEffectFlags": 1,
+                "uvTransform": {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "rotate": 0.0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    }
+                }
             },
             "meshPath": "./Packages/Models/primitive/cylinder.obj",
+            "renderQueue": 1,
             "type": "MeshRenderer"
         },
         {
@@ -22,14 +60,14 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "SimpleRotation",
-                    "rotationSpeed": 360.0
+                    "name": "SimpleRotation"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "v0r7ex0r7ex0r7ex0r7ex0r7ex0r7ex0",
+    "guid": "8c41d9a0adb203bb8ccf373f83c951bd",
     "name": "VortexField",
+    "parentGuid": null,
     "prefabName": "VortexField"
 }

@@ -1,48 +1,529 @@
 {
     "blackboard": [
-        { "key": "TargetPosition", "type": 3, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
-        { "key": "TargetId", "type": 0, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" },
-        { "key": "TargetRock", "type": 4, "iVal": 0, "fVal": 0.0, "bVal": false, "vVal": [0.0, 0.0, 0.0], "sVal": "" }
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "TargetPosition",
+            "sVal": "",
+            "type": 3,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "TargetRock",
+            "sVal": "",
+            "type": 4,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 8.0,
+            "iVal": 0,
+            "key": "RockRadius",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 1.5,
+            "iVal": 0,
+            "key": "RockPrepTime",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 1.0,
+            "iVal": 0,
+            "key": "RockActionTime",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 1.5,
+            "iVal": 0,
+            "key": "RockRecoveryTime",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 2.5,
+            "iVal": 0,
+            "key": "RockIndicatorTime",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 5.0,
+            "iVal": 0,
+            "key": "RockForwardOffset",
+            "sVal": "",
+            "type": 3,
+            "vVal": [
+                0.0,
+                16.600000381469727,
+                -20.0
+            ]
+        }
+    ],
+    "comments": [],
+    "links": [
+        {
+            "endPin": 4,
+            "id": 33,
+            "startPin": 2
+        },
+        {
+            "endPin": 8,
+            "id": 34,
+            "startPin": 5
+        },
+        {
+            "endPin": 10,
+            "id": 35,
+            "startPin": 5
+        },
+        {
+            "endPin": 13,
+            "id": 36,
+            "startPin": 11
+        },
+        {
+            "endPin": 15,
+            "id": 37,
+            "startPin": 11
+        },
+        {
+            "endPin": 18,
+            "id": 38,
+            "startPin": 16
+        },
+        {
+            "endPin": 25,
+            "id": 39,
+            "startPin": 16
+        },
+        {
+            "endPin": 32,
+            "id": 40,
+            "startPin": 16
+        },
+        {
+            "endPin": 21,
+            "id": 41,
+            "startPin": 19
+        },
+        {
+            "endPin": 23,
+            "id": 42,
+            "startPin": 19
+        },
+        {
+            "endPin": 28,
+            "id": 43,
+            "startPin": 26
+        },
+        {
+            "endPin": 30,
+            "id": 44,
+            "startPin": 26
+        }
     ],
     "nodes": [
         {
-            "id": 1, "className": "Entry", "name": "Entry", "isDecorator": false, "hasBreakpoint": false, "properties": {}, "decorators": [], "services": [], "pos": [0.0, 0.0],
-            "inputs": [], "outputs": [{ "id": 10, "name": "Out" }]
+            "className": "Entry",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 1,
+            "inputs": [],
+            "isDecorator": false,
+            "name": "Entry",
+            "outputs": [
+                {
+                    "id": 2,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                0.0,
+                0.0
+            ],
+            "properties": {},
+            "services": []
         },
         {
-            "id": 2, "className": "Sequence", "name": "Rock Logic", "isDecorator": false, "hasBreakpoint": false, "properties": {}, 
-            "decorators": [], 
+            "className": "Sequence",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 2,
+            "inputs": [
+                {
+                    "id": 4,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Root Sequence",
+            "outputs": [
+                {
+                    "id": 5,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                250.0,
+                0.0
+            ],
+            "properties": {},
             "services": [
-                { "id": 203, "className": "HPRegenService", "name": "HP Regen", "properties": { "currentHPKey": "CurrentHP", "regenPerSecond": "20.0", "Interval": "0.5" }, "isService": true },
-                { "id": 204, "className": "ReinforcementDensitySensingService", "name": "Reinforcement Sensor", "properties": { "targetPosKey": "TargetPosition", "searchRadius": "20.0", "Interval": "1.0" }, "isService": true }
-            ], 
-            "pos": [200.0, 0.0],
-            "inputs": [{ "id": 20, "name": "In" }], "outputs": [{ "id": 21, "name": "Out" }]
+                {
+                    "className": "FindPlayerService",
+                    "name": "Track Player",
+                    "properties": {
+                        "Interval": "0.1",
+                        "targetIdKey": "TargetEntityId",
+                        "targetPosKey": "TargetPosition"
+                    }
+                },
+                {
+                    "className": "FocusPositionService",
+                    "name": "Look At Target",
+                    "properties": {
+                        "Interval": "0.02",
+                        "rotationSpeed": "5.0",
+                        "targetPosKey": "TargetPosition"
+                    }
+                }
+            ]
         },
         {
-            "id": 3, "className": "PickRandomRockNode", "name": "Pick Rock", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "outputRockKey": "TargetRock" }, 
-            "decorators": [], "services": [], "pos": [400.0, -100.0],
-            "inputs": [{ "id": 30, "name": "In" }], "outputs": []
+            "className": "PickRandomRockNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 3,
+            "inputs": [
+                {
+                    "id": 8,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Pick Rock",
+            "outputs": [],
+            "pos": [
+                550.0,
+                -100.0
+            ],
+            "properties": {
+                "outputRockKey": "TargetRock",
+                "searchRadius": "500.0"
+            },
+            "services": []
         },
         {
-            "id": 4, "className": "ShowIndicatorNode", "name": "Landing Preview", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "shape": "Circle", "duration": "1.5", "size": "4.0", "color": "1.0,0.0,0.0,0.5", "targetPosKey": "TargetPosition", "lockPosition": "true" }, 
-            "decorators": [], "services": [], "pos": [400.0, 0.0],
-            "inputs": [{ "id": 40, "name": "In" }], "outputs": []
+            "className": "Parallel",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 4,
+            "inputs": [
+                {
+                    "id": 10,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Attack Parallel",
+            "outputs": [
+                {
+                    "id": 11,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                550.0,
+                100.0
+            ],
+            "properties": {
+                "failurePolicy": "One",
+                "successPolicy": "All"
+            },
+            "services": []
         },
         {
-            "id": 5, "className": "DropObjectAtTargetNode", "name": "Throw Rock", "isDecorator": false, "hasBreakpoint": false, 
-            "properties": { "objectKey": "TargetRock", "targetPosKey": "TargetPosition", "speed": "20.0" }, 
-            "decorators": [], "services": [], "pos": [400.0, 100.0],
-            "inputs": [{ "id": 50, "name": "In" }], "outputs": []
+            "className": "ShowIndicatorNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 5,
+            "inputs": [
+                {
+                    "id": 13,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Show Range",
+            "outputs": [],
+            "pos": [
+                850.0,
+                0.0
+            ],
+            "properties": {
+                "centerType": "Target",
+                "color": "1.0,0.0,0.0,0.5",
+                "durationKey": "RockIndicatorTime",
+                "lockPosition": "false",
+                "shape": "Circle",
+                "sizeKey": "RockRadius"
+            },
+            "services": []
+        },
+        {
+            "className": "Sequence",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 6,
+            "inputs": [
+                {
+                    "id": 15,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Action Sequence",
+            "outputs": [
+                {
+                    "id": 16,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                850.0,
+                200.0
+            ],
+            "properties": {},
+            "services": []
+        },
+        {
+            "className": "Parallel",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 7,
+            "inputs": [
+                {
+                    "id": 18,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Prep Parallel",
+            "outputs": [
+                {
+                    "id": 19,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                1150.0,
+                100.0
+            ],
+            "properties": {
+                "successPolicy": "All"
+            },
+            "services": []
+        },
+        {
+            "className": "PlayAnimationNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 8,
+            "inputs": [
+                {
+                    "id": 21,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Anim Start",
+            "outputs": [],
+            "pos": [
+                1450.0,
+                50.0
+            ],
+            "properties": {
+                "clipName": "rock_start",
+                "durationKey": "RockPrepTime",
+                "isWait": "true"
+            },
+            "services": []
+        },
+        {
+            "className": "RockLiftNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 9,
+            "inputs": [
+                {
+                    "id": 23,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Lift Rock",
+            "outputs": [],
+            "pos": [
+                1450.0,
+                150.0
+            ],
+            "properties": {
+                "durationKey": "RockPrepTime",
+                "forwardKey": "RockForwardOffset",
+                "liftHeight": "10.0",
+                "objectKey": "TargetRock"
+            },
+            "services": []
+        },
+        {
+            "className": "Parallel",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 10,
+            "inputs": [
+                {
+                    "id": 25,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Action Parallel",
+            "outputs": [
+                {
+                    "id": 26,
+                    "name": "Out"
+                }
+            ],
+            "pos": [
+                1150.0,
+                250.0
+            ],
+            "properties": {
+                "successPolicy": "All"
+            },
+            "services": []
+        },
+        {
+            "className": "PlayAnimationNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 11,
+            "inputs": [
+                {
+                    "id": 28,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Anim During",
+            "outputs": [],
+            "pos": [
+                1450.0,
+                200.0
+            ],
+            "properties": {
+                "clipName": "rock",
+                "durationKey": "RockActionTime",
+                "isWait": "false"
+            },
+            "services": []
+        },
+        {
+            "className": "RockThrowNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 12,
+            "inputs": [
+                {
+                    "id": 30,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Throw Rock",
+            "outputs": [],
+            "pos": [
+                1450.0,
+                300.0
+            ],
+            "properties": {
+                "delayKey": "RockActionTime",
+                "objectKey": "TargetRock",
+                "radiusKey": "RockRadius",
+                "targetPosKey": "TargetPosition"
+            },
+            "services": []
+        },
+        {
+            "className": "PlayAnimationNode",
+            "decorators": [],
+            "hasBreakpoint": false,
+            "id": 13,
+            "inputs": [
+                {
+                    "id": 32,
+                    "name": "In"
+                }
+            ],
+            "isDecorator": false,
+            "name": "Anim End",
+            "outputs": [],
+            "pos": [
+                1150.0,
+                400.0
+            ],
+            "properties": {
+                "clipName": "rock_end",
+                "durationKey": "RockRecoveryTime",
+                "isWait": "true"
+            },
+            "services": []
         }
-    ],
-    "links": [
-        { "id": 1001, "startPin": 10, "endPin": 20 },
-        { "id": 1002, "startPin": 21, "endPin": 30 },
-        { "id": 1003, "startPin": 21, "endPin": 40 },
-        { "id": 1004, "startPin": 21, "endPin": 50 }
-    ],
-    "comments": []
+    ]
 }
