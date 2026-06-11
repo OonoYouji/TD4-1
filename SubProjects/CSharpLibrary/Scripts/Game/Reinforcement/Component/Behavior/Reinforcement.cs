@@ -195,7 +195,9 @@ public partial class Reinforcement : MonoScript
         UpdateFrustumVisibility();
         //  移動更新
         UpdateMovement();
-    }
+        ApplyColliderSize();
+
+	}
 
     // =========================================================
     // Update サブルーチン
@@ -221,6 +223,16 @@ public partial class Reinforcement : MonoScript
             positionApplied = true;
         }
     }
+
+    private void ApplyColliderSize() {
+        // コライダーサイズの適用
+        SphereCollider collider = entity.GetComponent<SphereCollider>();
+        if (collider != null)
+        {
+            float radius = transform.scale.x + 1.0f;
+            collider.radius = radius;
+		}
+	}
 
 }
 
