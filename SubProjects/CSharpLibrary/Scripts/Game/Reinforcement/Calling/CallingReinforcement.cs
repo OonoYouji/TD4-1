@@ -7,7 +7,7 @@ public class CallingReinforcement : MonoScript
     // パラメーター
     // =========================================================
 
-    [SerializeField] public float xOffset             = 2.0f;
+    [SerializeField] public float xOffset = 2.0f;
     [SerializeField] public float spawnBehindDistance = 5.0f;
 
     // =========================================================
@@ -31,7 +31,7 @@ public class CallingReinforcement : MonoScript
         Entity playerEntity = ecsGroup.FindEntity("Player");
         if (playerEntity != null)
         {
-            player     = playerEntity.GetScript<Player>();
+            player = playerEntity.GetScript<Player>();
             callMotion = playerEntity.GetScript<PlayerCallMotion>();
         }
         playerAudio_ = entity.GetScript<PlayerAudio>();
@@ -55,8 +55,8 @@ public class CallingReinforcement : MonoScript
 
         bool wantFire =
             Input.TriggerMouse(Mouse.Left) ||
-            Input.TriggerGamepad(Gamepad.LeftShoulder) ||
-            Input.TriggerGamepad(Gamepad.RightShoulder);
+            Input.TriggerGamepad(Gamepad.RightShoulder) ||
+            Input.TriggerGamepad(Gamepad.RightThumb);
 
         if (!wantFire) { return; }
 
@@ -73,8 +73,11 @@ public class CallingReinforcement : MonoScript
     private void HandleRetreat()
     {
         bool wantRetreat =
-            Input.TriggerKey(KeyCode.E) ||
-            Input.TriggerGamepad(Gamepad.B);
+            Input.TriggerMouse(Mouse.Right) ||
+            Input.TriggerGamepad(Gamepad.B) ||
+        Input.TriggerGamepad(Gamepad.A) ||
+        Input.TriggerGamepad(Gamepad.X) ||
+        Input.TriggerGamepad(Gamepad.Y);
 
         if (!wantRetreat) return;
 
@@ -94,10 +97,10 @@ public class CallingReinforcement : MonoScript
 
     private void SpawnReinforcements()
     {
-        Matrix4x4 rotMat    = Matrix4x4.Rotate(player.transform.rotate);
-        Vector3   forward   = Matrix4x4.Transform(Vector3.forward, rotMat);
-        Vector3   right     = Matrix4x4.Transform(Vector3.right, rotMat);
-        Vector3   spawnBase = player.transform.position - forward * spawnBehindDistance;
+        Matrix4x4 rotMat = Matrix4x4.Rotate(player.transform.rotate);
+        Vector3 forward = Matrix4x4.Transform(Vector3.forward, rotMat);
+        Vector3 right = Matrix4x4.Transform(Vector3.right, rotMat);
+        Vector3 spawnBase = player.transform.position - forward * spawnBehindDistance;
 
         SpawnOne(spawnBase - right * xOffset, forward);
         SpawnOne(spawnBase + right * xOffset, forward);
@@ -114,7 +117,7 @@ public class CallingReinforcement : MonoScript
         if (reinforcement == null) return;
 
         reinforcement.startPosition = spawnPos;
-        reinforcement.direction     = dir;
+        reinforcement.direction = dir;
 
         activeReinforcements.Add(reinforcementEntity);
         ReinforcementManager.Instance?.AddReinforcement(reinforcementEntity);

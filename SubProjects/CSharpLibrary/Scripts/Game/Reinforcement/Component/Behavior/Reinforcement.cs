@@ -135,6 +135,12 @@ public partial class Reinforcement : MonoScript
             hp.MAX_HP = 10;
             hp.currentHp = 10;
         }
+
+        //Animator animator = entity.GetComponents<Animator>();
+        //if (animator != null)
+        //{
+        //    animator.Play("");
+        //}
     }
 
     public override void Update()
@@ -163,7 +169,7 @@ public partial class Reinforcement : MonoScript
 
         if (!isRetreating && !isCollisionEnabled)
         {
-//             Debug.Log($"<color=green>[Reinforcement:Enable]</color> Collision enabled for {entity.name} (ID:{entity.Id}) after delay.");
+            //             Debug.Log($"<color=green>[Reinforcement:Enable]</color> Collision enabled for {entity.name} (ID:{entity.Id}) after delay.");
             isCollisionEnabled = true;
         }
 

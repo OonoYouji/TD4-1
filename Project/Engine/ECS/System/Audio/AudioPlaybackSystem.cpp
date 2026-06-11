@@ -106,6 +106,9 @@ void AudioPlaybackSystem::PlayAudio(AudioSource* _audioSource) {
 	}
 
 	Console::Log(std::format("[CPP Audio] Playing Sustained Sound: {}", _audioSource->path_));
+	if (_audioSource->path_ == "") {
+		return;
+	}
 
 	/// stateをPlayingに変更
 	_audioSource->state_ = static_cast<int>(AudioState::Playing);
