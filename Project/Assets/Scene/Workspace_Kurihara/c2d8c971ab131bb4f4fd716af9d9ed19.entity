@@ -1,12 +1,13 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 129.65211486816406,
-                "y": 0.0,
-                "z": 107.5848159790039
+                "x": 280.0001525878906,
+                "y": 4.016330058220774e-05,
+                "z": 0.0
             },
             "rotate": {
                 "w": 1.0,
@@ -15,29 +16,34 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 3.0,
-                "y": 3.0,
-                "z": 3.0
+                "x": 4.199996471405029,
+                "y": 30.0,
+                "z": 1.0
             },
             "type": "Transform"
         },
         {
-            "type": "Variables",
-            "PlayerCore": {}
+            "BossHPPhaseBar": {
+                "barHeight": 30.0,
+                "fullWidth": 4.199996471405029,
+                "maxRatio": 1.0,
+                "minRatio": 0.6666666865348816
+            },
+            "type": "Variables"
         },
         {
             "enable": 1,
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 0.20000000298023224,
+                    "y": 0.800000011920929,
+                    "z": 0.20000000298023224
                 },
-                "baseTextureGuid": "00000000000000000000000000000000",
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
+                "postEffectFlags": 0,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -50,31 +56,21 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/sphere.obj",
-            "type": "MeshRenderer"
+            "type": "SpriteRenderer"
         },
         {
             "enable": 1,
             "scripts": [
                 {
                     "enable": true,
-                    "name": "PlayerCore"
+                    "name": "BossHPPhaseBar"
                 }
             ],
             "type": "Script"
-        },
-        {
-            "categoryBits": 2,
-            "enable": 1,
-            "maskBits": 0,
-            "radius": 1.0,
-            "state": "Dynamic",
-            "type": "SphereCollider"
         }
     ],
-    "guid": "a3f1c2d4e5b6789012345678abcdef01",
-    "id": 10,
-    "name": "PlayerCore",
-    "parent": null,
+    "guid": "c2d8c971ab131bb4f4fd716af9d9ed19",
+    "name": "Phase1Bar",
+    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
     "prefabName": ""
 }

@@ -5,20 +5,20 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -169.3544158935547,
+                "x": -95.8822021484375,
                 "y": 11.189128875732422,
-                "z": -136.4315948486328
+                "z": -129.1013641357422
             },
             "rotate": {
-                "w": 0.3346511423587799,
+                "w": 0.8524641990661621,
                 "x": 0.0,
-                "y": 0.9423421025276184,
+                "y": -0.5227855443954468,
                 "z": 0.0
             },
             "scale": {
-                "x": 6.9829607009887695,
-                "y": 6.9829607009887695,
-                "z": 6.9829607009887695
+                "x": 2.8104147911071777,
+                "y": 2.8104147911071777,
+                "z": 2.8104147911071777
             },
             "type": "Transform"
         },
@@ -59,6 +59,7 @@
                 "rotationSpeed": 8.0,
                 "startFreezeDuration": 5.0
             },
+            "PlayerAudio": {},
             "PlayerCallMotion": {
                 "expandDuration": 0.10000000149011612,
                 "loopCount": 3,
@@ -100,6 +101,7 @@
                 }
             },
             "meshPath": "./Assets/Models/Player/hand.obj",
+            "renderQueue": 2,
             "type": "MeshRenderer"
         },
         {
@@ -128,6 +130,10 @@
                 {
                     "enable": true,
                     "name": "BoundsConstraint"
+                },
+                {
+                    "enable": true,
+                    "name": "PlayerAudio"
                 }
             ],
             "type": "Script"
@@ -136,14 +142,22 @@
             "categoryBits": 2,
             "enable": 1,
             "freezeY": true,
+            "isTrigger": false,
             "maskBits": 32,
             "mass": 1.0,
             "radius": 3.200000047683716,
             "state": "Dynamic",
             "type": "SphereCollider"
+        },
+        {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
         }
     ],
-    "guid": "50ee0d6d6376d262198a7126f641b924",
+    "guid": "3370b7634a7c461296955cfc29c981c6",
     "name": "Player",
     "parentGuid": null,
     "prefabName": ""

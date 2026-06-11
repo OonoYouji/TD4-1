@@ -55,6 +55,9 @@ public partial class Reinforcement
         }
         isRetreating    = true;
         retreatVelocity = ComputeRetreatVelocity();
+
+        BoundsConstraint bc = entity.GetScript<BoundsConstraint>();
+        if (bc != null) bc.enable = false;
     }
 
     // プレイヤーから離れる方向に退散速度を計算する

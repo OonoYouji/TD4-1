@@ -5,35 +5,41 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -141.4119873046875,
+                "x": -95.8822021484375,
                 "y": 11.189128875732422,
-                "z": -117.1068344116211
+                "z": -129.1013641357422
             },
             "rotate": {
-                "w": -0.9203310012817383,
+                "w": 0.8524641990661621,
                 "x": 0.0,
-                "y": 0.3911404013633728,
-                "z": -0.0
+                "y": -0.5227855443954468,
+                "z": 0.0
             },
             "scale": {
-                "x": 3.7400035858154297,
-                "y": 3.7400014400482178,
-                "z": 3.740001678466797
+                "x": 2.8104147911071777,
+                "y": 2.8104147911071777,
+                "z": 2.8104147911071777
             },
             "type": "Transform"
         },
         {
+            "BoundsConstraint": {
+                "waitForEntry": false
+            },
             "CallingReinforcement": {
                 "reinforcementSpeed": 79.0,
+                "smashInterval": 1.0,
                 "spawnBehindDistance": 37.0,
-                "spawnInterval": 0.6000000238418579,
+                "spawnInterval": 1.0,
                 "spawnTimer": 0.4618699252605438,
                 "xOffset": 8.0
             },
             "HP": {
                 "MAX_HP": 1000,
                 "currentHp": 1000,
-                "disableAutoDestruction": false
+                "disableAutoDestruction": false,
+                "isInvincible": false,
+                "regenPerSecond": 0.0
             },
             "Player": {
                 "<fireCooldownTimer>k__BackingField": 31.16332244873047,
@@ -53,10 +59,17 @@
                 "rotationSpeed": 8.0,
                 "startFreezeDuration": 5.0
             },
+            "PlayerCallMotion": {
+                "expandDuration": 0.10000000149011612,
+                "loopCount": 3,
+                "scaleMultiplier": 1.399999976158142,
+                "shrinkDuration": 0.10000000149011612
+            },
             "PlayerSmashUp": {
                 "fallDuration": 0.10000000149011612,
                 "riseDuration": 0.20000000298023224,
                 "riseHeight": 3.0,
+                "smashInterval": 1.0,
                 "waitTimeAfterRise": 0.10000000149011612
             },
             "type": "Variables"
@@ -87,6 +100,7 @@
                 }
             },
             "meshPath": "./Assets/Models/Player/hand.obj",
+            "renderQueue": 2,
             "type": "MeshRenderer"
         },
         {
@@ -110,22 +124,20 @@
                 },
                 {
                     "enable": true,
-                    "name": "PlayerAudio"
+                    "name": "PlayerCallMotion"
+                },
+                {
+                    "enable": true,
+                    "name": "BoundsConstraint"
                 }
             ],
             "type": "Script"
         },
         {
-            "enable": 1,
-            "path": "",
-            "pitch": 1.0,
-            "type": "AudioSource",
-            "volume": 1.0
-        },
-        {
             "categoryBits": 2,
             "enable": 1,
             "freezeY": true,
+            "isTrigger": false,
             "maskBits": 32,
             "mass": 1.0,
             "radius": 3.200000047683716,
@@ -133,7 +145,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "50ee0d6d6376d262198a7126f641b924",
+    "guid": "3370b7634a7c461296955cfc29c981c6",
     "name": "Player",
     "parentGuid": null,
     "prefabName": ""

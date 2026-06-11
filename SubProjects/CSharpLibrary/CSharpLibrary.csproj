@@ -203,6 +203,7 @@
     <Compile Include="Scripts\Game\OutScene\GameOverAnimController.cs" />
     <Compile Include="Scripts\Game\Enemy\TelegraphLine.cs" />
     <Compile Include="Scripts\Game\Enemy\TelegraphCircle.cs" />
+    <Compile Include="Scripts\Game\Player\Behavior\PlayerAudio.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerSmashUp.cs" />
     <Compile Include="Scripts\Game\Player\Behavior\PlayerCallMotion.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Calling\CallingReinforcement.cs" />

@@ -1,27 +1,35 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 32.127498626708984,
-                "y": -7.4569275057001505e-06,
-                "z": -0.026893138885498047
+                "x": 749.999755859375,
+                "y": -330.0001525878906,
+                "z": 0.0
             },
             "rotate": {
-                "w": 0.7160019278526306,
+                "w": 1.0,
                 "x": 0.0,
-                "y": 0.6980983018875122,
+                "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 14.000031471252441,
-                "y": 4.000014781951904,
-                "z": 2.0000054836273193
+                "x": 400.0,
+                "y": 400.0000305175781,
+                "z": 400.0000305175781
             },
             "type": "Transform"
         },
         {
+            "GameController": {
+                "clearSceneName": "GameClear",
+                "currentPhase": "Phase 1",
+                "currentStatus": "Playing",
+                "isGameFinished": false,
+                "overSceneName": "GameOver"
+            },
             "type": "Variables"
         },
         {
@@ -33,10 +41,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "6bea29fbbc8606c56006ac7d65dbe6e4",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
+                "postEffectFlags": 0,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -49,25 +57,11 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
-            "type": "MeshRenderer"
-        },
-        {
-            "categoryBits": 1,
-            "enable": 1,
-            "maskBits": 4294967295,
-            "size": {
-                "x": 2.0,
-                "y": 2.0,
-                "z": 2.0
-            },
-            "state": "Static",
-            "type": "BoxCollider"
+            "type": "SpriteRenderer"
         }
     ],
-    "guid": "b7478db776da961a761d0059a62fc4a8",
-    "id": 8,
-    "name": "Wall_2",
-    "parent": 4,
+    "guid": "4b21f44ef715b86fae07c176e33432f7",
+    "name": "SpreadUi",
+    "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
     "prefabName": ""
 }

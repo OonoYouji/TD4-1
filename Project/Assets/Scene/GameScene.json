@@ -177,9 +177,24 @@
                         {
                             "enable": true,
                             "name": "HP"
+                        },
+                        {
+                            "enable": true,
+                            "name": "PlayerSmashUp"
+                        },
+                        {
+                            "enable": true,
+                            "name": "PlayerAudio"
                         }
                     ],
                     "type": "Script"
+                },
+                {
+                    "enable": 1,
+                    "path": "",
+                    "pitch": 1.0,
+                    "type": "AudioSource",
+                    "volume": 1.0
                 }
             ],
             "guid": "50ee0d6d6376d262198a7126f641b924",

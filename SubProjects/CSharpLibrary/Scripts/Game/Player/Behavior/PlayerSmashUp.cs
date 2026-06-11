@@ -29,6 +29,7 @@ public class PlayerSmashUp : MonoScript
     public bool IsPlaying => isPlaying_;
     private System.Action currentPhase_;
     private FieldManager fieldManager_;
+    private PlayerAudio playerAudio_;
 
     // =========================================================
     // ライフサイクル
@@ -53,6 +54,7 @@ public class PlayerSmashUp : MonoScript
         // プレイヤーの取得
         player_ = entity.GetScript<Player>();
         smashTimer_ = smashInterval;
+        playerAudio_ = entity.GetScript<PlayerAudio>();
     }
 
     public override void Update()
@@ -138,6 +140,7 @@ public class PlayerSmashUp : MonoScript
             transform.position = originPos_;
             isPlaying_ = false;
             fieldManager_?.TriggerCellAt(originPos_);
+            playerAudio_?.PlayHit();
         }
     }
 

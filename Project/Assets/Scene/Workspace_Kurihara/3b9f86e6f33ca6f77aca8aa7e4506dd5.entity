@@ -1,23 +1,24 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -32.60081100463867,
+                "x": -0.050000011920928955,
                 "y": 0.0,
-                "z": 0.14931297302246094
+                "z": -0.009999999776482582
             },
             "rotate": {
-                "w": 0.8835885524749756,
-                "x": -5.9091355808504886e-08,
-                "y": -0.468264102935791,
-                "z": 1.8154409531234705e-08
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "scale": {
-                "x": 14.000025749206543,
-                "y": 4.000010967254639,
-                "z": 2.000000238418579
+                "x": 1.899999976158142,
+                "y": 0.10000000149011612,
+                "z": 1.0
             },
             "type": "Transform"
         },
@@ -33,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
+                "postEffectFlags": 0,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -49,25 +50,11 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
-            "type": "MeshRenderer"
-        },
-        {
-            "categoryBits": 1,
-            "enable": 1,
-            "maskBits": 4294967295,
-            "size": {
-                "x": 2.0,
-                "y": 2.0,
-                "z": 2.0
-            },
-            "state": "Static",
-            "type": "BoxCollider"
+            "type": "SpriteRenderer"
         }
     ],
-    "guid": "2d208766f2b718939769f6857bb262a3",
-    "id": 9,
-    "name": "Wall_3",
-    "parent": 4,
+    "guid": "3b9f86e6f33ca6f77aca8aa7e4506dd5",
+    "name": "Gauge",
+    "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
     "prefabName": ""
 }

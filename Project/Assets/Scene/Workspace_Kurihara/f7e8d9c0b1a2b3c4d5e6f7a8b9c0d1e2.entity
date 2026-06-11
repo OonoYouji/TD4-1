@@ -1,0 +1,29 @@
+{
+    "active": true,
+    "components": [
+        {
+            "position": {
+                "x": -264.4410400390625,
+                "y": 4.524888038635254,
+                "z": -130.7352752685547
+            },
+            "type": "Transform"
+        },
+        {
+            "renderQueue": 2,
+            "type": "MeshRenderer"
+        },
+        {
+            "isTrigger": false,
+            "type": "SphereCollider"
+        },
+        {
+            "isTrigger": false,
+            "type": "BoxCollider"
+        }
+    ],
+    "guid": "f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2",
+    "name": "TargetRock",
+    "parentGuid": null,
+    "prefabName": "TargetRock"
+}
