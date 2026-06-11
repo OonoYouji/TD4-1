@@ -35,7 +35,7 @@
                     "y": 0.20000000298023224,
                     "z": 1.0
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -66,7 +66,7 @@
             "type": "Script"
         }
     ],
-    "guid": "8c41d9a0adb203bb8ccf373f83c951bd",
+    "guid": "11b371b61577f97e7060c01e8f89dda1",
     "name": "VortexField",
     "parentGuid": null,
     "prefabName": "VortexField"
