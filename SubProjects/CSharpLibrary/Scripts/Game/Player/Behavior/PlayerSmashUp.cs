@@ -13,6 +13,8 @@ public class PlayerSmashUp : MonoScript
     [SerializeField] public float riseHeight = 3.0f;
     [SerializeField] public float riseDuration = 0.2f;
     [SerializeField] public float fallDuration = 0.1f;
+    [SerializeField] public float fallPosY = 0.1f;
+    [SerializeField] public float returnDuration = 0.1f;
 
     // 待機時間
     [SerializeField] public float waitTimeAfterRise = 0.1f;
@@ -133,15 +135,31 @@ public class PlayerSmashUp : MonoScript
     {
         // 落下の動き
         float t = Mathf.Clamp01(timer_ / fallDuration);
-        transform.position = originPos_ + new Vector3(0, riseHeight * (1f - t), 0);
+        transform.position = transform.position = new Vector3(originPos_.x, fallPosY * t, originPos_.z);
 
         // 落下が終わったら元の位置に戻す
         if (timer_ >= fallDuration)
         {
-            transform.position = originPos_;
-            isPlaying_ = false;
+            timer_ = 0f;
+            currentPhase_ = Returning;
             fieldManager_?.TriggerCellAt(originPos_);
             playerAudio_?.PlayHit();
+        }
+    }
+
+    private void Returning()
+    {
+        // 落下の動き
+        float t = Mathf.Clamp01(timer_ / returnDuration);
+        transform.position = new Vector3(originPos_.x, originPos_.y * t, originPos_.z);
+
+        // 戻るのが終わったら終わり
+        if (timer_ >= returnDuration)
+        {
+            currentPhase_ = null;
+            transform.position = originPos_;
+            isPlaying_ = false;
+
         }
     }
 

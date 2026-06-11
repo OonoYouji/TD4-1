@@ -5,20 +5,20 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -81.10124206542969,
-                "y": 11.189128875732422,
-                "z": -110.99087524414063
+                "x": -107.30145263671875,
+                "y": 11.121682167053223,
+                "z": -105.95301055908203
             },
             "rotate": {
-                "w": 0.9827673435211182,
+                "w": -0.915581226348877,
                 "x": 0.0,
-                "y": -0.18484680354595184,
-                "z": 0.0
+                "y": 0.40213310718536377,
+                "z": -0.0
             },
             "scale": {
-                "x": 4.199999809265137,
-                "y": 4.199999809265137,
-                "z": 4.199999809265137
+                "x": 8.481212615966797,
+                "y": 8.481212615966797,
+                "z": 8.481212615966797
             },
             "type": "Transform"
         },
@@ -27,6 +27,7 @@
                 "waitForEntry": false
             },
             "CallingReinforcement": {
+                "callCollTime": 0.5,
                 "reinforcementSpeed": 79.0,
                 "retreatCooldown": 0.30000001192092896,
                 "smashInterval": 1.0,
@@ -38,7 +39,7 @@
             },
             "HP": {
                 "MAX_HP": 1000,
-                "currentHp": 1000,
+                "currentHp": 550,
                 "disableAutoDestruction": false,
                 "isInvincible": false,
                 "regenPerSecond": 0.0
@@ -59,7 +60,7 @@
                 "maxMoveSpeed": 10.0,
                 "mouseIsMovePixel": 0.0,
                 "rotationSpeed": 8.0,
-                "startFreezeDuration": 5.0
+                "startFreezeDuration": 0.0
             },
             "PlayerAudio": {},
             "PlayerCallMotion": {
@@ -70,6 +71,8 @@
             },
             "PlayerSmashUp": {
                 "fallDuration": 0.10000000149011612,
+                "fallPosY": 0.0,
+                "returnDuration": 0.30000001192092896,
                 "riseDuration": 0.20000000298023224,
                 "riseHeight": 3.0,
                 "smashInterval": 1.0,
@@ -141,6 +144,13 @@
             "type": "Script"
         },
         {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
+        },
+        {
             "categoryBits": 2,
             "enable": 1,
             "freezeY": true,
@@ -154,13 +164,6 @@
             },
             "state": "Dynamic",
             "type": "BoxCollider"
-        },
-        {
-            "enable": 1,
-            "path": "",
-            "pitch": 1.0,
-            "type": "AudioSource",
-            "volume": 1.0
         }
     ],
     "guid": "3370b7634a7c461296955cfc29c981c6",

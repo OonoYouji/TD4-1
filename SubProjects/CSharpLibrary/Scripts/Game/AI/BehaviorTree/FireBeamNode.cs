@@ -44,12 +44,8 @@ public class FireBeamNode : BehaviorNode {
 			// --- 音声の再生 (持続音) ---
 			var audio = owner.GetComponent<AudioSource>();
 			if (audio == null) audio = owner.AddComponent<AudioSource>();
-			
 			if (audio != null) {
-				
-				audio.path = "./Assets/Sounds/MainGameSounds/se/boss/beam.mp3";
-				audio.volume = 0.8f;
-				audio.Play();
+				audio.OneShotPlay(0.5f, 1.0f, "./Assets/Sounds/MainGameSounds/se/boss/beam.mp3");
 			}
 
 			// --- 予測線の削除 ---
@@ -160,7 +156,7 @@ public class FireBeamNode : BehaviorNode {
 			Vector3 targetPos = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
 			// 修正：水平方向のみを考慮（Y軸の変化を無視）
 			Vector3 diff = targetPos - emissionPos;
-			diff.y = 0.0f; 
+			diff.y = 0.0f;
 			if (diff.sqrMagnitude > 0.001f) direction = diff.Normalized();
 		}
 
@@ -192,7 +188,7 @@ public class FireBeamNode : BehaviorNode {
 			if (child != null && child.name.Contains("out")) {
 				var t = child.GetComponent<Transform>();
 				if (t != null) {
-					t.position = new Vector3(0, -1.0f, 0); 
+					t.position = new Vector3(0, -1.0f, 0);
 					if (child.name == "out_1") t.scale = new Vector3(1.4f, 1.0f, 1.4f);
 					else t.scale = new Vector3(1.22f, 1.0f, 1.22f);
 				}

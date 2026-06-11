@@ -113,7 +113,7 @@ void RenderingPipelineCollection::PreDrawEntities(CameraComponent* _3dCamera, Ca
 			renderer->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 		}
 		if (particleRenderer_) particleRenderer_->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
-		if (gizmoRenderer_)     gizmoRenderer_->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
+		//if (gizmoRenderer_)     gizmoRenderer_->PreDraw(ecsGroup, _3dCamera, pDxManager_->GetDxCommand());
 	} else {
 		// Console::LogError("RenderingPipelineCollection::DrawEntities: 3D Camera is null");
 	}

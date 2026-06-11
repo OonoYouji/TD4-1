@@ -50,6 +50,7 @@ public partial class Reinforcement : MonoScript
 
     private Vector3 direction_ = Vector3.forward;
     public Vector3 direction { get => direction_; set => direction_ = value; }
+
     // FieldFallとの当たり判定フラグ
     public bool isCollisionEnabled = false;
 
@@ -106,10 +107,13 @@ public partial class Reinforcement : MonoScript
         supportBuffApplied_ = false;
         colorSaved = false;
 
+        // 初期スケールを2に設定
+      
         // 状態の初期化
         state_ = ReinforcementState.Normal;
 
         // スケールの初期化
+        transform.position.y = 0.0f;
         transform.scale = new Vector3(normalScale, normalScale, normalScale);
         // スポーン直後の衝突を防ぐフレームカウンターの初期化
         spawnDelayFrames = 2;
@@ -191,7 +195,9 @@ public partial class Reinforcement : MonoScript
         UpdateFrustumVisibility();
         //  移動更新
         UpdateMovement();
-    }
+        ApplyColliderSize();
+
+	}
 
     // =========================================================
     // Update サブルーチン
@@ -211,12 +217,22 @@ public partial class Reinforcement : MonoScript
         transform.position = startPosition;
 
         // spawnDelayFrames が残っている間は毎フレーム上書きし続ける
-        // (ReceiveAllBatches が C++ の古い位置で毎フレーム上書きする可能性への対策)
+     
         if (spawnDelayFrames <= 0)
         {
             positionApplied = true;
         }
     }
+
+    private void ApplyColliderSize() {
+        // コライダーサイズの適用
+        SphereCollider collider = entity.GetComponent<SphereCollider>();
+        if (collider != null)
+        {
+            float radius = transform.scale.x + 1.0f;
+            collider.radius = radius;
+		}
+	}
 
 }
 

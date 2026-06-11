@@ -3,11 +3,17 @@
     "components": [
         {
             "position": {
-                "x": -52.10063552856445,
-                "y": 6.041254043579102,
-                "z": -27.41135025024414
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "type": "Transform"
+        },
+        {
+            "FallingRock": {
+                "impactRadius": 8.0
+            },
+            "type": "Variables"
         },
         {
             "meshPath": "./Packages/Models/BackgroundObjects/Rock3.obj",
