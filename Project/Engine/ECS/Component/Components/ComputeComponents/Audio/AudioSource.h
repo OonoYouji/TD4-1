@@ -51,6 +51,7 @@ public:
 
 	/// 再生
 	void Play();
+	void Stop();
 	void PlayOneShot(float _volume, float _pitch, const std::string& _path);
 
 	/// 追加
@@ -68,6 +69,7 @@ private:
 
 	int state_;
 	bool isPlayingRequest_;
+	bool isStopRequest_ = false;
 	bool isLoop_ = false;
 
 	/// 再生中の音声ソースリスト
@@ -105,6 +107,8 @@ void AudioSourceDebug(AudioSource* _as);
 namespace MonoInternalMethods {
 void InternalGetParams(uint64_t _nativeHandle, float* _volume, float* _pitch);
 void InternalSetParams(uint64_t _nativeHandle, float _volume, float _pitch);
+void InternalPlay(uint64_t _nativeHandle);
+void InternalStop(uint64_t _nativeHandle);
 void InternalPlayOneShot(uint64_t _nativeHandle, float _volume, float _pitch, MonoString* _path);
 }
 

@@ -41,6 +41,17 @@ public class FireBeamNode : BehaviorNode {
 		if (!blackboard.HasKey(startTimeKey)) {
 			blackboard.SetFloat(startTimeKey, currentTime);
 
+			// --- 音声の再生 (持続音) ---
+			var audio = owner.GetComponent<AudioSource>();
+			if (audio == null) audio = owner.AddComponent<AudioSource>();
+			
+			if (audio != null) {
+				Debug.Log($"[FireBeamNode] Playing beam sound. Path: ./Assets/Sounds/MainGameSounds/se/boss/beam.mp3, Vol: 0.8");
+				audio.path = "./Assets/Sounds/MainGameSounds/se/boss/beam.mp3";
+				audio.volume = 0.8f;
+				audio.Play();
+			}
+
 			// --- 予測線の削除 ---
 			uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
 			if (blackboard.HasKey(telegraphKey)) {
@@ -85,6 +96,10 @@ public class FireBeamNode : BehaviorNode {
 		float elapsed = currentTime - startTime;
 
 		if (elapsed >= duration) {
+			// --- 音声の停止 ---
+			var audio = owner.GetComponent<AudioSource>();
+			if (audio != null) audio.Stop();
+
 			// --- ビームメッシュの削除 ---
 			uint beamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
 			if (blackboard.HasKey(beamKey)) {
@@ -152,7 +167,8 @@ public class FireBeamNode : BehaviorNode {
 		// ボスの向きを更新（水平方向）
 		var intent = owner.GetComponent<AgentIntentComponent>();
 		if (intent != null) {
-			intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up).Conjugate();
+			Vector3 horizontalDir = new Vector3(direction.x, 0, direction.z).Normalized();
+			intent.desiredRotation = Quaternion.LookRotation(horizontalDir, Vector3.up).Conjugate();
 			intent.rotationSpeed = trackingRotationSpeed;
 			intent.useDesiredRotation = true;
 		}
@@ -217,6 +233,11 @@ public class FireBeamNode : BehaviorNode {
 
 	public override void OnAbort(Blackboard blackboard, Entity owner) {
 		blackboard.Remove(BehaviorTreeLoader.HashString("BeamStart_" + NodeIdHash));
+
+		// --- 音声の停止 ---
+		var audio = owner.GetComponent<AudioSource>();
+		if (audio != null) audio.Stop();
+
 		uint beamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
 		if (blackboard.HasKey(beamKey)) {
 			int beamId = blackboard.GetInt(beamKey);

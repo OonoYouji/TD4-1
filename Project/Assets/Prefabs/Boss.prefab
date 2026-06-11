@@ -5,14 +5,14 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -77.94999694824219,
+                "x": -86.1153335571289,
                 "y": 0.0,
-                "z": -58.619998931884766
+                "z": -58.63443374633789
             },
             "rotate": {
-                "w": 1.0,
+                "w": 0.7711140513420105,
                 "x": 0.0,
-                "y": 0.0,
+                "y": 0.6366971135139465,
                 "z": 0.0
             },
             "scale": {
@@ -34,18 +34,49 @@
         },
         {
             "BossAI": {
-                "treePath": "./Assets/AITrees/Test/TestBeamOnly.json"
+                "treePath": "Assets/AITrees/BossMain.json"
             },
-            "BossBeamAttack": {},
-            "BossBombBarrage": {},
-            "BossClogAttack": {},
-            "BossMovement": {},
+            "BossBeamAttack": {
+                "beamHeight": 17.0,
+                "beamThickness": 37.0,
+                "beamVisualWidth": 47.20000076293945,
+                "beamWidthCount": 5,
+                "damagePerSecond": 432.0,
+                "firingDuration": 3.0,
+                "scanRadius": 500.0,
+                "targetTag": "Reinforcement",
+                "waitTime": 2.0
+            },
+            "BossBombBarrage": {
+                "bombPrefabName": "BossBomb",
+                "explosionRange": 7.0,
+                "fallTime": 1.5,
+                "launchDistance1": 500.0,
+                "launchDistance2": 800.0,
+                "rotationCountToFinish": 1.0,
+                "rotationSpeed": 90.0,
+                "throwInterval": 0.5
+            },
+            "BossClogAttack": {
+                "duration": 5.0,
+                "preparationTime": 1.0,
+                "radius": 500.0,
+                "scaleMultiplier": 2.5,
+                "targetTag": "Reinforcement"
+            },
+            "BossMovement": {
+                "pushRadius": 200.0,
+                "rockTag": "Rock",
+                "speed": 300.0,
+                "waitTimeAtWaypoint": 2.0,
+                "waypoints": []
+            },
             "BossPerformanceDirector": {
                 "deathPerformancePrefabPath": "BossDeadEffect.prefab",
                 "deathWaitDuration": 4.0,
                 "performances": [
                     {
-                        "__type": "",
+                        "__type": "PhasePerformance",
                         "hpThreshold": 1.100000023841858,
                         "isIntro": true,
                         "name": "Opening Intro",
@@ -53,7 +84,7 @@
                         "waitDuration": 3.0
                     },
                     {
-                        "__type": "",
+                        "__type": "PhasePerformance",
                         "hpThreshold": 0.699999988079071,
                         "isIntro": false,
                         "name": "To Phase 2",
@@ -61,7 +92,7 @@
                         "waitDuration": 2.0
                     },
                     {
-                        "__type": "",
+                        "__type": "PhasePerformance",
                         "hpThreshold": 0.4000000059604645,
                         "isIntro": false,
                         "name": "To Phase 3",
@@ -70,16 +101,32 @@
                     }
                 ]
             },
-            "BossPillarAttack": {},
-            "BossRockAttack": {},
+            "BossPillarAttack": {
+                "angleStep": 15.0,
+                "dropIntervalTime": 0.30000001192092896,
+                "pillarCount": 5,
+                "pillarPrefabName": "BossPillar",
+                "spawnRadius": 700.0
+            },
+            "BossRockAttack": {
+                "aimTime": 1.0,
+                "attackCount": 3,
+                "dropTime": 0.5,
+                "liftTime": 1.0,
+                "rockTag": "Rock",
+                "targetTag": "Reinforcement"
+            },
             "HP": {
                 "MAX_HP": 1200,
                 "currentHp": 1200,
-                "disableAutoDestruction": true
+                "disableAutoDestruction": true,
+                "isInvincible": false,
+                "regenPerSecond": 0.0
             },
             "type": "Variables"
         },
         {
+            "defaultClipId": 0,
             "enable": 1,
             "layers": [
                 {
@@ -89,11 +136,11 @@
                             "clipId": 3271675795,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
-                            "time": 0.0,
+                            "time": 0.5467296838760376,
                             "weight": 1.0
                         },
                         {
-                            "clipId": 0,
+                            "clipId": 89534040,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
                             "time": 0.0,
@@ -167,6 +214,13 @@
         },
         {
             "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
+        },
+        {
+            "enable": 1,
             "scripts": [
                 {
                     "enable": true,
@@ -179,30 +233,6 @@
                 {
                     "enable": true,
                     "name": "BossPerformanceDirector"
-                },
-                {
-                    "enable": true,
-                    "name": "BossMovement"
-                },
-                {
-                    "enable": true,
-                    "name": "BossBeamAttack"
-                },
-                {
-                    "enable": true,
-                    "name": "BossBombBarrage"
-                },
-                {
-                    "enable": true,
-                    "name": "BossRockAttack"
-                },
-                {
-                    "enable": true,
-                    "name": "BossPillarAttack"
-                },
-                {
-                    "enable": true,
-                    "name": "BossClogAttack"
                 }
             ],
             "type": "Script"
@@ -211,6 +241,7 @@
             "categoryBits": 8,
             "enable": 1,
             "freezeY": true,
+            "isTrigger": false,
             "maskBits": 4,
             "mass": 1.0,
             "radius": 5.0,
@@ -224,15 +255,15 @@
                 "z": 0.0
             },
             "desiredRotation": {
-                "w": 1.0,
+                "w": 0.7711120843887329,
                 "x": 0.0,
-                "y": 0.0,
+                "y": 0.6366994380950928,
                 "z": 0.0
             },
             "enable": 1,
             "isAttacking": false,
             "maxSpeed": 8.0,
-            "rotationSpeed": 5.0,
+            "rotationSpeed": 1.0,
             "targetEntityId": 0,
             "type": "AgentIntentComponent",
             "useDesiredRotation": true

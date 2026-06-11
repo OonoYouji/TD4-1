@@ -18,25 +18,21 @@ public class AudioSource : Component {
 	///////////////////////////////////////////////////////////////////////////////////////////
 	/// method
 	///////////////////////////////////////////////////////////////////////////////////////////
-	//public override void Begin() {
-	//	InternalSetParams(nativeHandle, volume, pitch);
-	//}
-
-	//public override void End() {
-	//	InternalSetParams(nativeHandle, volume, pitch);
-		
-	//	if (isPlayRequest_) {
-	//		isPlayRequest_ = false;
-	//		InternalPlayOneShot(nativeHandle, volume, pitch, path);
-	//	}
-	//}
 
 	public void Play() {
+		Debug.Log($"[AudioSource.Play] Path: {path}, Vol: {volume}, Pitch: {pitch}");
 		isPlayRequest_ = true;
+		InternalSetParams(nativeHandle, volume, pitch);
+		InternalPlay(nativeHandle);
+	}
+
+	public void Stop() {
+		Debug.Log($"[AudioSource.Stop] Requested for entity ID: {nativeHandle}");
+		InternalStop(nativeHandle);
 	}
 
 	public void OneShotPlay(float _volume, float _pitch, string _path) {
-// 		Debug.Log("AudioSource.OneShotPlay - Playing " + _path);
+		Debug.Log($"[AudioSource.OneShotPlay] Path: {_path}, Vol: {_volume}, Pitch: {_pitch}");
 		InternalPlayOneShot(nativeHandle, _volume, _pitch, _path);
 	}
 
@@ -48,6 +44,12 @@ public class AudioSource : Component {
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static private extern void InternalSetParams(ulong _nativeHandle, float volume, float pitch);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	static private extern void InternalPlay(ulong _nativeHandle);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	static private extern void InternalStop(ulong _nativeHandle);
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static private extern void InternalPlayOneShot(ulong _nativeHandle, float _volume, float _pitch, string _path);

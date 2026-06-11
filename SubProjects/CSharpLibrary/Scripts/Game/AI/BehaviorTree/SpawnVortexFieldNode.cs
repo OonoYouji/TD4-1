@@ -137,7 +137,16 @@ public class SpawnVortexFieldNode : BehaviorNode {
 				float power = (suctionForce * (1.0f - (dist / finalSuctionRadius))) / mass;
 
 				Vector3 pullDir = (center - e.transform.position).Normalized();
+				
+				// デバッグ：吸引前のスケールを記録
+				// Vector3 oldScale = e.transform.scale;
+				
 				e.transform.position += pullDir * power * Time.deltaTime;
+
+				// デバッグ：もしスケールが変わっていたら警告を出す
+				// if (e.transform.scale != oldScale) {
+				//     Debug.LogWarning($"[VortexScaleBug] Entity {e.name} scale CHANGED from {oldScale} to {e.transform.scale} during position update!");
+				// }
 
 				// 中心部ダメージ
 				if (applyDamage && dist <= centerDamageRadius) {

@@ -27,6 +27,10 @@ void AudioSource::Play() {
 	isPlayingRequest_ = true;
 }
 
+void AudioSource::Stop() {
+	isStopRequest_ = true;
+}
+
 void AudioSource::PlayOneShot(float _volume, float _pitch, const std::string& _path) {
 	oneShotAudioRequests_.push_back({ _path, _volume, _pitch });
 }
@@ -150,28 +154,46 @@ void MonoInternalMethods::InternalGetParams(uint64_t _nativeHandle, float* _volu
 
 }
 
-void MonoInternalMethods::InternalSetParams(uint64_t _nativeHandle, float _volume, float _pitch) {
+void ONEngine::MonoInternalMethods::InternalSetParams(uint64_t _nativeHandle, float _volume, float _pitch) {
 	AudioSource* audioSource = reinterpret_cast<AudioSource*>(_nativeHandle);
 	if (!audioSource) {
-		Console::LogError("AudioSource pointer is null");
+		Console::LogError("AudioSource pointer is null in InternalSetParams");
 		return;
 	}
 
+	Console::Log(std::format("[CPP Audio] SetParams - Vol: {}, Pitch: {}", _volume, _pitch));
 	audioSource->SetVolume(_volume);
 	audioSource->SetPitch(_pitch);
 }
 
-void MonoInternalMethods::InternalPlayOneShot(uint64_t _nativeHandle, float _volume, float _pitch, MonoString* _path) {
+void ONEngine::MonoInternalMethods::InternalPlay(uint64_t _nativeHandle) {
+	AudioSource* audioSource = reinterpret_cast<AudioSource*>(_nativeHandle);
+	if (audioSource) {
+		Console::Log("[CPP Audio] Play Requested");
+		audioSource->Play();
+	}
+}
+
+void ONEngine::MonoInternalMethods::InternalStop(uint64_t _nativeHandle) {
+	AudioSource* audioSource = reinterpret_cast<AudioSource*>(_nativeHandle);
+	if (audioSource) {
+		Console::Log("[CPP Audio] Stop Requested");
+		audioSource->Stop();
+	}
+}
+
+void ONEngine::MonoInternalMethods::InternalPlayOneShot(uint64_t _nativeHandle, float _volume, float _pitch, MonoString* _path) {
 	/// 音の再生
 	AudioSource* audioSource = reinterpret_cast<AudioSource*>(_nativeHandle);
 	if (!audioSource) {
-		Console::LogError("AudioSource pointer is null");
+		Console::LogError("AudioSource pointer is null in InternalPlayOneShot");
 		return;
 	}
 
 	/// pathの変換
 	char* path = mono_string_to_utf8(_path);
 
+	Console::Log(std::format("[CPP Audio] OneShot Requested - Path: {}, Vol: {}, Pitch: {}", path, _volume, _pitch));
 	audioSource->PlayOneShot(_volume, _pitch, std::string(path));
 
 	mono_free(path);
