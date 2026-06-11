@@ -233,6 +233,7 @@
     <Compile Include="Scripts\Game\Reinforcement\Component\Fall\ReinforcementFieldFall.cs" />
     <Compile Include="Scripts\Game\StageObject\GoalPoint.cs" />
     <Compile Include="Scripts\Game\StageObject\StartPoint.cs" />
+    <Compile Include="Scripts\Game\StageObject\TargetRock.cs" />
     <Compile Include="Scripts\Game\UI\BossHPFragment.cs" />
     <Compile Include="Scripts\Game\UI\BossHPGauge.cs" />
     <Compile Include="Scripts\Game\UI\BossHPPhaseBar.cs" />

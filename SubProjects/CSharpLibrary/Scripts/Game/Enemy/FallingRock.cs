@@ -37,6 +37,12 @@ public class FallingRock : MonoScript
         // 距離に応じて到達時間を計算 (秒速40m程度)
         float horizontalDist = Vector3.Distance(new Vector3(_startPos.x, 0, _startPos.z), new Vector3(_targetPos.x, 0, _targetPos.z));
         _throwDuration = Math.Max(0.5f, horizontalDist / 40.0f);
+
+        // 飛行中はトリガーにする（プレイヤーなどに引っかかって空中に止まるのを防ぐ）
+        var box = entity.GetComponent<BoxCollider>();
+        if (box != null) box.isTrigger = true;
+        var sphere = entity.GetComponent<SphereCollider>();
+        if (sphere != null) sphere.isTrigger = true;
     }
 
     public override void Update()
@@ -98,20 +104,23 @@ public class FallingRock : MonoScript
             }
 
             // 範囲内のプレイヤーや援軍にダメージとスタンを与える
-            var entities = entity.Group.GetEntities();
-            foreach (var e in entities)
+            if (entity.Group != null)
             {
-                if (e == null || e.Id == 0) continue;
-                
-                // 直接当たった対象は二重適用を避ける
-                if (primaryTarget != null && e.Id == primaryTarget.Id) continue;
-
-                if (e.name.Contains("Player") || e.name.Contains("Reinforcement"))
+                var entities = entity.Group.GetEntities();
+                foreach (var e in entities)
                 {
-                    float dist = Vector3.Distance(transform.position, e.transform.position);
-                    if (dist <= impactRadius)
+                    if (e == null || e.Id == 0) continue;
+
+                    // 直接当たった対象は二重適用を避ける
+                    if (primaryTarget != null && e.Id == primaryTarget.Id) continue;
+
+                    if (e.name.Contains("Player") || e.name.Contains("Reinforcement"))
                     {
-                        ApplyImpact(e);
+                        float dist = Vector3.Distance(transform.position, e.transform.position);
+                        if (dist <= impactRadius)
+                        {
+                            ApplyImpact(e);
+                        }
                     }
                 }
             }
@@ -120,10 +129,16 @@ public class FallingRock : MonoScript
             FrameEvent.EnqueueNamedEvent("Effect_RockImpact", entity.Id);
         }
 
-        // 地面着弾時のみフラグを最終確定（必要ならここでエフェクト分岐なども可能）
+        // 地面着弾時のみフラグを最終確定
         if (isFinalImpact)
         {
             _hasImpacted = true;
+
+            // 地面に着いたらトリガーを解除して物理的に残るようにする
+            var box = entity.GetComponent<BoxCollider>();
+            if (box != null) box.isTrigger = false;
+            var sphere = entity.GetComponent<SphereCollider>();
+            if (sphere != null) sphere.isTrigger = false;
         }
 
         //         Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
