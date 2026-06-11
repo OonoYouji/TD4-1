@@ -5,7 +5,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": -16.200000762939453,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -16,14 +16,11 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 25.858592987060547,
-                "z": 1.0
+                "x": 12.800000190734863,
+                "y": 12.799999237060547,
+                "z": 12.799999237060547
             },
             "type": "Transform"
-        },
-        {
-            "type": "Variables"
         },
         {
             "enable": 1,
@@ -34,7 +31,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "4779cce380e0d9e214eca916636d611b",
+                "baseTextureGuid": "5bd3eb65e14f8eab97561c29044292bf",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -53,8 +50,8 @@
             "type": "SpriteRenderer"
         }
     ],
-    "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
-    "name": "BG",
-    "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
+    "guid": "762c0c489d28f12cc2427813a62d7af2",
+    "name": "KBM",
+    "parentGuid": "d69c1e02bbe305fec277c356f11fa10a",
     "prefabName": ""
 }

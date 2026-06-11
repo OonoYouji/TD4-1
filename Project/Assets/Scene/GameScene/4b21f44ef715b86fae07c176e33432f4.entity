@@ -1,5 +1,5 @@
 {
-    "active": false,
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "a860c73f54106dc5c12653bf2a814800",
+                "baseTextureGuid": "90a5fc6983abff8200c15e9f843640f6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,

@@ -194,6 +194,26 @@
             "guid": "edcd7bf77a0306d89dc9298585490d3e",
             "parentGuid": "ec4d71c48a3d8fe01a7eb5f4a3ab940f",
             "path": "./GameScene/edcd7bf77a0306d89dc9298585490d3e.entity"
+        },
+        {
+            "guid": "d69c1e02bbe305fec277c356f11fa10a",
+            "parentGuid": "5eb149f35d365cfbb797f9ff8b14ec18",
+            "path": "./GameScene/d69c1e02bbe305fec277c356f11fa10a.entity"
+        },
+        {
+            "guid": "36a3861df47ae84839cddea7ab82b81c",
+            "parentGuid": "d69c1e02bbe305fec277c356f11fa10a",
+            "path": "./GameScene/36a3861df47ae84839cddea7ab82b81c.entity"
+        },
+        {
+            "guid": "762c0c489d28f12cc2427813a62d7af2",
+            "parentGuid": "d69c1e02bbe305fec277c356f11fa10a",
+            "path": "./GameScene/762c0c489d28f12cc2427813a62d7af2.entity"
+        },
+        {
+            "guid": "6cd36203587a820ccb6ff8c1fbbb453c",
+            "parentGuid": "d69c1e02bbe305fec277c356f11fa10a",
+            "path": "./GameScene/6cd36203587a820ccb6ff8c1fbbb453c.entity"
         }
     ]
 }

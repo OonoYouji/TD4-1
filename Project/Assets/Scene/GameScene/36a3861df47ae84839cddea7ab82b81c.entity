@@ -5,7 +5,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": -16.200000762939453,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 25.858592987060547,
-                "z": 1.0
+                "x": 12.800000190734863,
+                "y": 12.800010681152344,
+                "z": 12.800010681152344
             },
             "type": "Transform"
         },
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "4779cce380e0d9e214eca916636d611b",
+                "baseTextureGuid": "c084bb3b6c73e8a73dffc85517fff06f",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -53,8 +53,8 @@
             "type": "SpriteRenderer"
         }
     ],
-    "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
-    "name": "BG",
-    "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
+    "guid": "36a3861df47ae84839cddea7ab82b81c",
+    "name": "Gamepad",
+    "parentGuid": "d69c1e02bbe305fec277c356f11fa10a",
     "prefabName": ""
 }
