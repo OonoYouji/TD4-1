@@ -62,7 +62,7 @@ public class SceneTransition : MonoScript {
             timer += dt;
             float alpha = Math.Min(1.0f, timer / fadeDuration);
             UpdateAlpha(alpha);
-            
+
             if (timer >= fadeDuration) {
                 isFadingOut = false;
                 SceneManager.LoadScene(nextScene);

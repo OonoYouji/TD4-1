@@ -19,6 +19,7 @@ public class EndSceneController : MonoScript
             {
                 // TODO: ここにゲーム終了を書く
                 Debug.LogInfo("EndSceneController: No next scene specified. Exiting game.");
+                audioFadeoutAll?.StopForce();
             }
             else if (SceneTransition.Instance != null)
             {
@@ -31,6 +32,7 @@ public class EndSceneController : MonoScript
             else
             {
                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " immediately.");
+                audioFadeoutAll?.StopForce();
                 SceneManager.LoadScene(nextSceneName);
             }
         }

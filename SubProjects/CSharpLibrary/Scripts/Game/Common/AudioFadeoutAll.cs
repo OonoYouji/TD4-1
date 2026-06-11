@@ -51,19 +51,15 @@ class AudioFadeoutAll : MonoScript
         if (timer >= FADE_OUT_TIME)
         {
             // フェードアウト完了後、すべてのAudioSourceを停止する
-            foreach (AudioSourceInfo audioSourceInfo in audioSources)
-            {
-                //audioSourceInfo.audioSource.Stop(); <- まだない？
-                audioSourceInfo.audioSource?.SetParams(0.0f, 1.0f);
-            }
-            isFadingOut = false;
+            StopForce();
         }
         else
         {
             // フェードアウト中、すべてのAudioSourceのボリュームを徐々に下げる
+            float param = Mathf.Clamp01(timer / FADE_OUT_TIME);
             foreach (AudioSourceInfo audioSourceInfo in audioSources)
             {
-                audioSourceInfo.audioSource?.SetParams(Mathf.Lerp(audioSourceInfo.initialVolume, 0.0f, timer / FADE_OUT_TIME), 1.0f);
+                audioSourceInfo.audioSource?.SetParams(Mathf.Lerp(audioSourceInfo.initialVolume, 0.0f, param), 1.0f);
             }
         }
     }
@@ -75,5 +71,15 @@ class AudioFadeoutAll : MonoScript
             isFadingOut = true;
             timer = 0.0f;
         }
+    }
+
+    public void StopForce()
+    {
+        // フェードアウト完了後、すべてのAudioSourceを停止する
+        foreach (AudioSourceInfo audioSourceInfo in audioSources)
+        {
+            audioSourceInfo.audioSource?.SetParams(0.0f, 1.0f);
+        }
+        isFadingOut = false;
     }
 }

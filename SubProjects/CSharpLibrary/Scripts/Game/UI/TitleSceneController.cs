@@ -8,17 +8,17 @@ public class TitleSceneController : MonoScript {
     }
 
     public override void Update() {
-        bool spaceTriggered = Input.TriggerKey(KeyCode.Space);
-        bool gamepadTriggered = Input.TriggerGamepad(Gamepad.A);
+        //bool spaceTriggered = Input.TriggerKey(KeyCode.Space);
+        //bool gamepadTriggered = Input.TriggerGamepad(Gamepad.A);
 
-        if (spaceTriggered || gamepadTriggered) {
+        //if (spaceTriggered || gamepadTriggered) {
             
-            if (SceneTransition.Instance != null) {
-                SceneTransition.Instance.TransitionTo(nextSceneName);
-            } else {
-                SceneManager.LoadScene(nextSceneName);
-            }
-        }
+        //    if (SceneTransition.Instance != null) {
+        //        SceneTransition.Instance.TransitionTo(nextSceneName);
+        //    } else {
+        //        SceneManager.LoadScene(nextSceneName);
+        //    }
+        //}
     }
 }
 

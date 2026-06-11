@@ -30,12 +30,7 @@
         },
         {
             "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "TitleSceneController"
-                }
-            ],
+            "scripts": null,
             "type": "Script"
         }
     ],
