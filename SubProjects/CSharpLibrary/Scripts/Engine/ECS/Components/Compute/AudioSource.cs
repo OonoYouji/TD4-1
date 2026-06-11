@@ -20,19 +20,25 @@ public class AudioSource : Component {
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	public void Play() {
-		
+
 		isPlayRequest_ = true;
 		InternalSetParams(nativeHandle, volume, pitch);
 		InternalPlay(nativeHandle);
 	}
 
 	public void Stop() {
-		
+
 		InternalStop(nativeHandle);
 	}
 
+	public void SetParams(float _volume, float _pitch) {
+		volume = _volume;
+		pitch = _pitch;
+		InternalSetParams(nativeHandle, volume, pitch);
+	}
+
 	public void OneShotPlay(float _volume, float _pitch, string _path) {
-		
+
 		InternalPlayOneShot(nativeHandle, _volume, _pitch, _path);
 	}
 
