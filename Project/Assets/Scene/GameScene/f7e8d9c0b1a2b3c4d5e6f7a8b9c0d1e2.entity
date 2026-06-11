@@ -3,23 +3,15 @@
     "components": [
         {
             "position": {
-                "x": -264.4410400390625,
+                "x": -136.73353576660156,
                 "y": 4.524888038635254,
-                "z": -130.7352752685547
+                "z": -71.33894348144531
             },
             "type": "Transform"
         },
         {
-            "renderQueue": 2,
+            "meshPath": "./Packages/Models/BackgroundObjects/Rock1.obj",
             "type": "MeshRenderer"
-        },
-        {
-            "isTrigger": false,
-            "type": "SphereCollider"
-        },
-        {
-            "isTrigger": false,
-            "type": "BoxCollider"
         }
     ],
     "guid": "f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2",

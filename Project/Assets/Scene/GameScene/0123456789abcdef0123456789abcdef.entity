@@ -2,6 +2,23 @@
     "active": true,
     "components": [
         {
+            "cameraType": 1,
+            "enable": 1,
+            "farClip": 1000.0,
+            "fogColor": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "fogEnd": 1000000.0,
+            "fogStart": 0.0,
+            "fovY": 1.149999976158142,
+            "isDrawFrustum": false,
+            "isMainCamera": false,
+            "nearClip": 0.10000000149011612,
+            "type": "CameraComponent"
+        },
+        {
             "color": {
                 "w": 1.0,
                 "x": 1.0,
@@ -21,13 +38,13 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -0.07356169819831848,
-                "y": 0.025045663118362427,
-                "z": -0.035200588405132294
+                "x": -36.80635070800781,
+                "y": 366.18914794921875,
+                "z": -74.78421020507813
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
+                "w": 0.7071067690849304,
+                "x": 0.7071067690849304,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -40,6 +57,28 @@
         },
         {
             "type": "Variables"
+        },
+        {
+            "baseLightPos": {
+                "x": 45.0,
+                "y": 0.0,
+                "z": 115.0
+            },
+            "enable": 1,
+            "lightLength": 300.0,
+            "orthographicSize": {
+                "x": 1920.0,
+                "y": 1080.0
+            },
+            "pcfRadius": 2,
+            "scaleFactor": 0.38999998569488525,
+            "shadowBias": 0.004999999888241291,
+            "shadowDarkness": 0.699999988079071,
+            "texelSizeShadow": {
+                "x": 0.0005208333604969084,
+                "y": 0.0009259259095415473
+            },
+            "type": "ShadowCaster"
         }
     ],
     "guid": "0123456789abcdef0123456789abcdef",

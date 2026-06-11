@@ -36,27 +36,28 @@ public class ReinforcementDensitySensingService : BehaviorService
         // 最も密集している地点を特定するロジック
         Vector3 bestPos = Vector3.zero;
         int maxNeighbors = -1;
+        bool reinforcementFound = false;
 
-        // 全エンティティを走査してターゲット候補を探す
+        // 1. まず援軍（Reinforcement）のみを対象に密集地を探す
         foreach (var target in entities)
         {
-            if (target.Id == owner.Id) continue;
+            if (target == null || target.Id == owner.Id) continue;
             
-            // フィルタリング (大文字小文字を区別せず、スクリプトの有無もチェック)
-            bool isTarget = target.name.ToLower().Contains("reinforcement") || target.name.ToLower().Contains("player") || target.GetScript<Reinforcement>() != null;
-            if (!isTarget) continue;
+            // 援軍判定（名前またはスクリプト）
+            bool isReinforcement = target.name.ToLower().Contains("reinforcement") || target.GetScript<Reinforcement>() != null;
+            if (!isReinforcement) continue;
 
+            reinforcementFound = true;
             Vector3 pos = target.transform.position;
             int neighbors = 0;
 
-            // 各候補について、周囲の他ユニット数を数える
+            // 周囲の「援軍」の数を数える
             foreach (var other in entities)
             {
-                if (target.Id == other.Id) continue;
+                if (other == null || target.Id == other.Id) continue;
                 
-                // neighbors判定時もフィルタリングが必要
-                bool isOtherTarget = other.name.ToLower().Contains("reinforcement") || other.name.ToLower().Contains("player") || other.GetScript<Reinforcement>() != null;
-                if (!isOtherTarget) continue;
+                bool isOtherReinforcement = other.name.ToLower().Contains("reinforcement") || other.GetScript<Reinforcement>() != null;
+                if (!isOtherReinforcement) continue;
 
                 if (Vector3.Distance(pos, other.transform.position) <= searchRadius)
                 {
@@ -71,22 +72,34 @@ public class ReinforcementDensitySensingService : BehaviorService
             }
         }
 
-        if (maxNeighbors != -1)
+        // 2. 援軍が見つかった場合はその密集地をターゲットにする
+        if (reinforcementFound)
         {
             blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), bestPos);
-//             Debug.Log($"<color=green>[TargetSensing]</color> Target updated to {Vector3.ToSimpleString(bestPos)} (Cluster size: {maxNeighbors + 1} entities)");
         }
         else
         {
-            // ターゲットが見つからない場合、プレイヤーを検索してその位置をセットする
-            foreach (var target in entities)
+            // 3. 援軍が一人もいない場合のみ、プレイヤーをターゲットにする
+            var player = FindPlayer(owner);
+            if (player != null)
             {
-                if (target.name.ToLower().Contains("player"))
-                {
-                    blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), target.transform.position);
-                    break;
-                }
+                blackboard.SetVector3(BehaviorTreeLoader.HashString(targetPosKey), player.transform.position);
             }
         }
+    }
+
+    private Entity FindPlayer(Entity owner)
+    {
+        // まず自グループ内を探す
+        var p = owner.Group.FindEntity("Player");
+        if (p != null) return p;
+
+        // いなければ全グループを検索（フォールバック）
+        foreach (var g in EntityComponentSystem.GetAllGroups())
+        {
+            p = g.FindEntity("Player");
+            if (p != null) return p;
+        }
+        return null;
     }
 }

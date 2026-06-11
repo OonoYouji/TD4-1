@@ -5,8 +5,8 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 28.500015258789063,
-                "y": 0.0,
+                "x": 0.0,
+                "y": -3.0,
                 "z": 0.0
             },
             "rotate": {

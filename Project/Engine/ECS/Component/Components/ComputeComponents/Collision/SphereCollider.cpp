@@ -159,3 +159,13 @@ void ONEngine::InternalSetTriggerSphere(uint64_t _nativeHandle, bool _trigger) {
 	if(c) c->SetTrigger(_trigger);
 }
 
+float ONEngine::InternalGetMass(uint64_t _nativeHandle) {
+	SphereCollider* c = reinterpret_cast<SphereCollider*>(_nativeHandle);
+	return c ? c->GetMass() : 1.0f;
+}
+
+void ONEngine::InternalSetMass(uint64_t _nativeHandle, float _mass) {
+	SphereCollider* c = reinterpret_cast<SphereCollider*>(_nativeHandle);
+	if(c) c->SetMass(_mass);
+}
+

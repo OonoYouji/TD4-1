@@ -12,6 +12,45 @@
                 0.0,
                 0.0
             ]
+        },
+        {
+            "bVal": false,
+            "fVal": 100.0,
+            "iVal": 0,
+            "key": "BeamLength",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 8.0,
+            "iVal": 0,
+            "key": "BeamSize",
+            "sVal": "",
+            "type": 1,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bVal": false,
+            "fVal": 0.0,
+            "iVal": 0,
+            "key": "FireDirection",
+            "sVal": "",
+            "type": 3,
+            "vVal": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     ],
     "comments": [],
@@ -149,6 +188,7 @@
             ],
             "properties": {
                 "duration": "1.5",
+                "durationKey": "",
                 "rotationSpeed": "2.0",
                 "startEventName": "Effect_BossCharge",
                 "targetPosKey": "",
@@ -176,16 +216,20 @@
             ],
             "properties": {
                 "centerType": "Boss",
-                "color": "0.907735,1,0.046594977,0.5",
+                "color": "0.8996416,0.06126589,0.06126589,0.5",
                 "duration": "1.5",
                 "durationKey": "",
+                "expandDuration": "",
+                "expandDurationKey": "",
+                "fireDirectionKey": "FireDirection",
                 "length": "20.000000",
+                "lengthKey": "BeamLength",
                 "lockPosition": "false",
                 "offsetForward": "0.800000",
                 "offsetHeight": "",
                 "shape": "Line",
                 "size": "8.000000",
-                "sizeKey": "",
+                "sizeKey": "BeamSize",
                 "targetPosKey": "TargetPosition"
             },
             "services": []
@@ -211,10 +255,13 @@
             "properties": {
                 "beamHeight": "17.000000",
                 "beamLength": "100.000000",
-                "beamOffsetForward": "",
+                "beamLengthKey": "BeamLength",
+                "beamOffsetForward": "5.000000",
                 "beamRadius": "7.000000",
+                "beamRadiusKey": "BeamSize",
                 "damage": "50",
                 "duration": "2.0",
+                "fireDirectionKey": "FireDirection",
                 "slowDuration": "",
                 "slowMultiplier": "",
                 "targetPosKey": "",

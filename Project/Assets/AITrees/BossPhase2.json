@@ -29,7 +29,7 @@
         {
             "id": 100, "className": "Parallel", "name": "P2: Core Systems", "pos": [50.0, 0.0],
             "inputs": [{ "id": 100, "name": "In" }], "outputs": [{ "id": 101, "name": "Out" }],
-            "properties": { "failurePolicy": "0", "successPolicy": "1" },
+            "properties": { "failurePolicy": "0", "successPolicy": "0" },
             "decorators": [], "services": []
         },
         {

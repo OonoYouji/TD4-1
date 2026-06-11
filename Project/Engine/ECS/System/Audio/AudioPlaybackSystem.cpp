@@ -53,6 +53,19 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 			}
 		}
 
+		/// 音の停止リクエストチェック
+		if(as->isStopRequest_) {
+			as->isStopRequest_ = false;
+			for(auto& voice : as->sourceVoices_) {
+				if(voice) {
+					voice->Stop();
+					voice->FlushSourceBuffers();
+				}
+			}
+			as->sourceVoices_.clear();
+			as->state_ = static_cast<int>(AudioState::Stopped);
+		}
+
 		/// 音の状態を取得
 		int state = GetAudioState(as);
 		if(state != as->state_) {
@@ -76,13 +89,24 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 }
 
 void AudioPlaybackSystem::SetAudioClip(AudioSource* _audioSource) {
+	if (_audioSource->path_.empty()) return;
+
 	Asset::AudioClip* clip = pAssetCollection_->GetAudioClip(_audioSource->path_);
 	if(clip) {
 		_audioSource->pAudioClip_ = clip;
+	} else {
+		Console::LogError(std::format("[CPP Audio] Failed to load clip from path: {}", _audioSource->path_));
 	}
 }
 
 void AudioPlaybackSystem::PlayAudio(AudioSource* _audioSource) {
+	if (!_audioSource->pAudioClip_) {
+		Console::LogError("[CPP Audio] Cannot play - AudioClip is null");
+		return;
+	}
+
+	Console::Log(std::format("[CPP Audio] Playing Sustained Sound: {}", _audioSource->path_));
+
 	/// stateをPlayingに変更
 	_audioSource->state_ = static_cast<int>(AudioState::Playing);
 	_audioSource->isPlayingRequest_ = false;

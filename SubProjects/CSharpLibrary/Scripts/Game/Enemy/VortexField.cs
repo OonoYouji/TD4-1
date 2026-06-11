@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class VortexField : MonoScript
 {
     public float suctionRadius = 15.0f;
-    public float suctionForce = 20.0f;
+    public float suctionForce = 100.0f; // 大幅に強化
     public float duration = 5.0f;
     public float centerDamageRadius = 3.0f;
     public int centerDamage = 10;
@@ -51,19 +51,36 @@ public class VortexField : MonoScript
         foreach (var e in ecsGroup.GetEntities())
         {
             if (e == null || e.Id == entity.Id) continue;
-            // プレイヤーや援軍、岩などを対象とする
+
+            // --- 修正：吸引対象をホワイトリスト形式で厳格に制限する ---
+            string ename = e.name;
+            bool isValidTarget = ename.Contains("Player") || ename.Contains("Reinforcement") || 
+                                 ename.Contains("Rock") || ename.Contains("Pillar") ||
+                                 ename.Contains("TargetRock");
             
+            if (!isValidTarget) continue;
+
+            // 吸引対象かどうかを距離で判定
             float dist = Vector3.Distance(center, e.transform.position);
             if (dist <= suctionRadius && dist > 0.1f)
             {
-                // 距離の2乗に反比例する吸引力
-                float power = suctionForce / (dist * dist + 1.0f);
-                
-                // 岩や柱の場合は吸引力を強める
-                if (e.name.Contains("Rock") || e.name.Contains("Pillar")) power *= 1.5f;
+                // 質量（Mass）を取得して吸引力に反映させる (a = F / m)
+                float mass = 1.0f;
+                var sphere = e.GetComponent<SphereCollider>();
+                if (sphere != null) mass = sphere.mass;
+                else {
+                    var box = e.GetComponent<BoxCollider>();
+                    if (box != null) mass = box.mass;
+                }
+                mass = Math.Max(0.1f, mass); // 0除算防止
+
+                // 距離に応じて減衰する吸引力（線形減衰に近づけて範囲内での効きを良くする）
+                float power = (suctionForce * (1.0f - (dist / suctionRadius))) / mass;
 
                 Vector3 pullDir = (center - e.transform.position).Normalized();
-                e.transform.position += pullDir * power * Time.deltaTime;
+                Vector3 moveAmount = pullDir * power * Time.deltaTime;
+                
+                e.transform.position += moveAmount;
 
                 // 中心部ダメージ
                 if (applyDamage && dist <= centerDamageRadius)

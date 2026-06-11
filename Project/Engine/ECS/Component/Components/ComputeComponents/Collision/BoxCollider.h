@@ -55,5 +55,7 @@ Vector3 InternalGetSize(uint64_t _nativeHandle);
 void InternalSetSize(uint64_t _nativeHandle, Vector3 _size);
 bool InternalIsTriggerBox(uint64_t _nativeHandle);
 void InternalSetTriggerBox(uint64_t _nativeHandle, bool _trigger);
+float InternalGetMassBox(uint64_t _nativeHandle);
+void InternalSetMassBox(uint64_t _nativeHandle, float _mass);
 
 } /// ONEngine

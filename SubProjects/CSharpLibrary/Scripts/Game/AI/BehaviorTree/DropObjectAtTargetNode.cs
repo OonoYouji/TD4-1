@@ -10,8 +10,12 @@ public class DropObjectAtTargetNode : BehaviorNode
     [BlackboardKey]
     public string targetPosKey = "TargetPosition";
 
-    public float liftHeight = 5.0f;
-    public float liftDuration = 1.0f;
+    public float liftHeight = 10.0f;
+    public float liftDuration = 2.0f;
+
+    [BlackboardKey]
+    public string liftDurationKey = "";
+
     public float throwSpeed = 20.0f;
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
@@ -19,6 +23,20 @@ public class DropObjectAtTargetNode : BehaviorNode
         uint stateKey = BehaviorTreeLoader.HashString("RockAttackState_" + NodeIdHash);
         uint startTimeKey = BehaviorTreeLoader.HashString("RockStartTime_" + NodeIdHash);
         float currentTime = Time.time;
+
+        float finalLiftDuration = liftDuration;
+        if (!string.IsNullOrEmpty(liftDurationKey))
+        {
+            uint keyHash = BehaviorTreeLoader.HashString(liftDurationKey);
+            if (blackboard.HasKey(keyHash))
+            {
+                finalLiftDuration = blackboard.GetFloat(keyHash, liftDuration);
+                if (finalLiftDuration == liftDuration)
+                {
+                    finalLiftDuration = (float)blackboard.GetInt(keyHash, (int)liftDuration);
+                }
+            }
+        }
 
         Entity rock = blackboard.GetEntity(BehaviorTreeLoader.HashString(objectKey));
         
@@ -54,15 +72,12 @@ public class DropObjectAtTargetNode : BehaviorNode
         {
             // 岩をボスの頭上に移動させる
             Vector3 targetUpPos = owner.transform.position + Vector3.up * liftHeight;
-            rock.transform.position = Vector3.Lerp(rock.transform.position, targetUpPos, Math.Min(elapsed / liftDuration, 1.0f));
+            rock.transform.position = Vector3.Lerp(rock.transform.position, targetUpPos, Math.Min(elapsed / finalLiftDuration, 1.0f));
 
-            if (elapsed >= liftDuration)
+            if (elapsed >= finalLiftDuration)
             {
                 blackboard.SetInt(stateKey, 1);
 //                 Debug.Log("[DropRock] Rock lifted. Ready to throw.");
-                
-                // 次のフレームですぐに投げるように startTime を更新せず、そのまま state 1 に遷移させる
-                // もしくはここでそのまま処理を続行させることも可能だが、一旦 Running を返す
             }
             return NodeStatus.Running;
         }

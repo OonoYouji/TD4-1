@@ -16,7 +16,8 @@ public class TelegraphCircle : MonoScript
         // 円は指定された centerPosition の足元に配置
         transform.position = new Vector3(centerPosition.x, offsetHeight, centerPosition.z);
         // Z方向に引き延ばされるのを防ぐため、XZに同じサイズを適用し、Y(高さ)は極めて薄くする
-        transform.scale = new Vector3(size, 0.01f, size);
+        float safeSize = Math.Max(0.001f, size);
+        transform.scale = new Vector3(safeSize, 0.01f, safeSize);
 
         // レイヤーと色の適用
         var renderer = entity.GetComponent<MeshRenderer>();
