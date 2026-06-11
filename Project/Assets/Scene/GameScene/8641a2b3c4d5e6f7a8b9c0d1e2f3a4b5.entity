@@ -14,10 +14,6 @@
             "type": "Transform"
         },
         {
-            "isPlaying": false,
-            "type": "SkinMeshRenderer"
-        },
-        {
             "HP": {
                 "currentHp": 840
             },

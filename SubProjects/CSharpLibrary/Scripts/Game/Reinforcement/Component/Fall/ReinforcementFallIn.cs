@@ -35,7 +35,7 @@ public class ReinforcementFallIn : MonoScript
     private float targetZ_    = 0f;
 
     // Reinforcement.cs が参照するプロパティ
-    public bool IsActive   => currentPhase_ == PhaseFallingIn || currentPhase_ == PhaseShaking;
+    public bool IsActive   => currentPhase_ == PhaseShaking;
     public bool IsLaunched => currentPhase_ == PhaseLaunching;
 
     // =========================================================
@@ -97,14 +97,7 @@ public class ReinforcementFallIn : MonoScript
 
     private void PhaseShaking()
     {
-
-        //タイマー更新
-        shakeTimer_ += Time.deltaTime;
-
-        // 挟まり位置を中心に上下に動かす
-        Vector3 pos = transform.position;
-        pos.y = targetY_ + Mathf.Sin(shakeTimer_ * shakeFrequency) * shakeAmplitude;
-        transform.position = pos;
+        // 移動なし：GLTFアニメーションのみ再生（ReinforcementGltfAnimatorが担当）
     }
 
     private void PhaseLaunching()
@@ -121,12 +114,17 @@ public class ReinforcementFallIn : MonoScript
     // FieldFallのTrapReinforcementから呼ばれる、はまり開始
     public void StartFallIn(float stuckY, float cellCenterX, float cellCenterZ)
     {
-        lerpTimer_ = 0f;
-        startY_    = transform.position.y;
-        targetY_   = stuckY;
-        targetX_   = cellCenterX;
-        targetZ_   = cellCenterZ;
-        currentPhase_ = PhaseFallingIn;
+        targetY_ = stuckY;
+        targetX_ = cellCenterX;
+        targetZ_ = cellCenterZ;
+
+        Vector3 pos = transform.position;
+        pos.y = stuckY;
+        pos.x = cellCenterX;
+        pos.z = cellCenterZ;
+        transform.position = pos;
+
+        currentPhase_ = PhaseShaking;
     }
 
     // FieldFallのWaitingフェーズ終了時に呼ばれる、床が戻るタイミングで打ち上げ
