@@ -97,11 +97,7 @@ public class ReinforcementFallIn : MonoScript
 
     private void PhaseShaking()
     {
-
-        //タイマー更新
         shakeTimer_ += Time.deltaTime;
-
-        // 挟まり位置を中心に上下に動かす
         Vector3 pos = transform.position;
         pos.y = targetY_ + Mathf.Sin(shakeTimer_ * shakeFrequency) * shakeAmplitude;
         transform.position = pos;
@@ -121,11 +117,13 @@ public class ReinforcementFallIn : MonoScript
     // FieldFallのTrapReinforcementから呼ばれる、はまり開始
     public void StartFallIn(float stuckY, float cellCenterX, float cellCenterZ)
     {
-        lerpTimer_ = 0f;
+        targetY_ = stuckY;
+        targetX_ = cellCenterX;
+        targetZ_ = cellCenterZ;
+
         startY_    = transform.position.y;
-        targetY_   = stuckY;
-        targetX_   = cellCenterX;
-        targetZ_   = cellCenterZ;
+        lerpTimer_ = 0f;
+
         currentPhase_ = PhaseFallingIn;
     }
 

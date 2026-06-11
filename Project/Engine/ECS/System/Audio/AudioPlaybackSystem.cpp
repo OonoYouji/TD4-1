@@ -74,8 +74,8 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 		}
 
 		/// 再生中のボイスのパラメータを更新
-		for (auto& voice : as->sourceVoices_) {
-			if (voice) {
+		for(auto& voice : as->sourceVoices_) {
+			if(voice) {
 				voice->SetVolume(as->volume_);
 				voice->SetFrequencyRatio(as->pitch_);
 			}
@@ -86,7 +86,9 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 		for(auto& req : as->oneShotAudioRequests_) {
 			/// ワンショット再生
 			Asset::AudioClip* clip = pAssetCollection_->GetAudioClip(req.path);
-			PlayOneShot(clip, req.volume, req.pitch, req.path);
+			if(clip) {
+				PlayOneShot(clip, req.volume, req.pitch, req.path);
+			}
 		}
 
 		/// ワンショット再生が終わった音声ソースを削除
@@ -97,7 +99,7 @@ void AudioPlaybackSystem::RuntimeUpdate(ECSGroup* _ecs) {
 }
 
 void AudioPlaybackSystem::SetAudioClip(AudioSource* _audioSource) {
-	if (_audioSource->path_.empty()) return;
+	if(_audioSource->path_.empty()) return;
 
 	Asset::AudioClip* clip = pAssetCollection_->GetAudioClip(_audioSource->path_);
 	if(clip) {
@@ -108,13 +110,13 @@ void AudioPlaybackSystem::SetAudioClip(AudioSource* _audioSource) {
 }
 
 void AudioPlaybackSystem::PlayAudio(AudioSource* _audioSource) {
-	if (!_audioSource->pAudioClip_) {
+	if(!_audioSource->pAudioClip_) {
 		Console::LogError("[CPP Audio] Cannot play - AudioClip is null");
 		return;
 	}
 
 	Console::Log(std::format("[CPP Audio] Playing Sustained Sound: {}", _audioSource->path_));
-	if (_audioSource->path_ == "") {
+	if(_audioSource->path_ == "") {
 		return;
 	}
 
