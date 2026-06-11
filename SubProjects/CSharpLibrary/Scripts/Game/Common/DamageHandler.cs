@@ -84,7 +84,7 @@ public class DamageHandler : MonoScript {
 			//if (reinforcement.isCollisionEnabled) {
 
 			Transform reinTransform = reinforcement.entity.transform;
-			float damage = reinTransform.scale.x * 10.0f;
+			float damage = reinTransform.scale.x * 5.0f;
 
 			// ダメージ適用
 			ApplyDamage((int)damage, other.transform.position);

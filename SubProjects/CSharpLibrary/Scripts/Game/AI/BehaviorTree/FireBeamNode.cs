@@ -181,6 +181,11 @@ public class FireBeamNode : BehaviorNode {
 		// 太さと長さを適用 (Y軸が長さ)
 		beamEntity.transform.scale = new Vector3(finalRadius * 2.0f, finalLength * 0.5f, finalRadius * 2.0f);
 
+		BoxCollider collider = beamEntity.GetComponent<BoxCollider>();
+		if (collider != null) {
+			collider.size = beamEntity.transform.scale;
+		}
+
 		// 子オブジェクトの補正
 		uint childCount = beamEntity.GetChildCount();
 		for (uint i = 0; i < childCount; i++) {
