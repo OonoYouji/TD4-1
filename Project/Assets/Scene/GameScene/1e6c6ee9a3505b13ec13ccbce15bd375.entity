@@ -16,8 +16,8 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 2.0,
-                "y": 0.11999999731779099,
+                "x": 128.0,
+                "y": 25.858592987060547,
                 "z": 1.0
             },
             "type": "Transform"
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "baseTextureGuid": "4779cce380e0d9e214eca916636d611b",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,

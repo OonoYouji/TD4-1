@@ -1,5 +1,5 @@
 {
-    "active": false,
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -16,13 +16,16 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 10.0,
-                "y": 10.0,
-                "z": 10.0
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "type": "Transform"
         },
         {
+            "CheckInputCall": {
+                "UNCONTROLED_THRESHOLD": 5.0
+            },
             "UiController": {
                 "gamepadSpriteEntityName": "Gamepad",
                 "kbmSpriteEntityName": "KBM"
@@ -35,6 +38,10 @@
                 {
                     "enable": true,
                     "name": "UiController"
+                },
+                {
+                    "enable": true,
+                    "name": "CheckInputCall"
                 }
             ],
             "type": "Script"

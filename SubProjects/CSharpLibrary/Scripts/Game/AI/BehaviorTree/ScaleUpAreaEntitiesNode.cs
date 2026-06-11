@@ -12,7 +12,7 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode {
 	[BlackboardKey]
 	public string effectRadiusKey = "";
 
-	public float scaleMultiplier = 3.0f;
+	public float scaleMultiplier = 1.2f;
 	public float duration = 5.0f;
 
 	public float delay = 0.0f;
@@ -80,7 +80,8 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode {
 				if (dist <= finalRadius) {
 					// 巨大化処理 (一時的なスケール変更など)
 					// ここでは簡易的に Transform を直接操作するか、バフスクリプトを付与する
-					e.transform.scale *= scaleMultiplier;
+					//e.transform.scale *= scaleMultiplier;
+					e.transform.scale = new Vector3(1.4f, 1.4f, 1.4f);
 
 					// エフェクト
 					FrameEvent.EnqueueNamedEvent("Effect_GiantScale", e.Id);
