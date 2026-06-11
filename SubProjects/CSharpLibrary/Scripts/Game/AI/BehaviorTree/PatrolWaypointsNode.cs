@@ -105,13 +105,11 @@ public class PatrolWaypointsNode : BehaviorNode
             GizmoBatch.DrawWireCircle(targetWorldPos + Vector3.up * 5.0f, 50.0f, new Vector4(1, 1, 0, 1), 16, 12.0f);
             
             if (Tree != null && Tree.TickCount % 60 == 10) {
-//                  Debug.Log($"[GizmoDebug] Green(Fwd):{Vector3.ToSimpleString(forward)} | Magenta(Intent):{Vector3.ToSimpleString(desiredDir)} | Yellow(ToTarget):{Vector3.ToSimpleString(toTarget)}");
             }
         }
 
         // デバッグ：プロパティのロード状況を確認
         if (Tree != null && Tree.TickCount % 100 == 1) {
-//             Debug.Log($"[PatrolWaypoints] Property Check - Start: '{startAnim}', Loop: '{loopAnim}', End: '{endAnim}'");
         }
 
         uint stateKey = BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash);
@@ -125,7 +123,6 @@ public class PatrolWaypointsNode : BehaviorNode
         // デバッグ：現在の状態を定期的に出力
         if (Tree != null && Tree.TickCount % 100 == 5) {
             bool hasTimer = blackboard.HasKey(timerKey);
-//             Debug.Log($"[PatrolWaypoints] ID:{NodeId} State:{state} HasTimer:{hasTimer} StartAnim:'{startAnim}'");
         }
 
         var animator = owner.GetComponent<Animator>();
@@ -133,7 +130,7 @@ public class PatrolWaypointsNode : BehaviorNode
 
         if (animator == null && animPlayer == null)
         {
-//             if (Tree != null && Tree.TickCount % 100 == 0) Debug.LogError($"[PatrolWaypoints] No animation component found on '{owner.name}'!");
+//             if (Tree != null && Tree.TickCount % 100 == 0) 
         }
 
         // 1. 開始演出フェーズ
@@ -146,20 +143,16 @@ public class PatrolWaypointsNode : BehaviorNode
                 {
                     if (animator != null) {
                         uint clipHash = StringHash.Get(startAnim);
-//                         Debug.Log($"[PatrolWaypoints] '{owner.name}' triggering StartAnim: '{startAnim}' (Hash:{clipHash}) via Animator");
                         animator.CrossFade(startAnim, 0.1f);
                         animator.SetLoop(false); // 開始演出はループさせない
                         if (useClipDuration) {
                             waitTime = animator.GetAnimationDuration(startAnim);
-//                             Debug.Log($"[PatrolWaypoints] Clip duration for '{startAnim}': {waitTime}s");
                         }
                     } else if (animPlayer != null) {
-//                         Debug.Log($"[PatrolWaypoints] '{owner.name}' playing StartAnim via AnimationPlayer (Fallback)");
                         animPlayer.Play();
                     }
                 }
                 else {
-//                     Debug.LogWarning($"[PatrolWaypoints] StartAnim is EMPTY on node '{name}'");
                 }
                 blackboard.SetFloat(timerKey, currentTime);
                 blackboard.SetFloat(durationKey, waitTime);
@@ -170,7 +163,6 @@ public class PatrolWaypointsNode : BehaviorNode
 
             if (currentTime - startTime >= waitDur)
             {
-//                 Debug.Log($"[PatrolWaypoints] Start animation finished ({waitDur}s). Moving.");
                 blackboard.Remove(timerKey);
                 blackboard.Remove(durationKey);
                 blackboard.SetInt(stateKey, (int)MoveState.Moving);
@@ -179,7 +171,6 @@ public class PatrolWaypointsNode : BehaviorNode
                 if (!string.IsNullOrEmpty(loopAnim))
                 {
                     if (animator != null) {
-//                         Debug.Log($"[PatrolWaypoints] '{owner.name}' triggering LoopAnim: '{loopAnim}'");
                         animator.CrossFade(loopAnim, 0.2f);
                         animator.SetLoop(true); // ループ移動はループさせる
                     }
@@ -288,3 +279,4 @@ public class PatrolWaypointsNode : BehaviorNode
         }
     }
 }
+

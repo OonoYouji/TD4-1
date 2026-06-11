@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -205,16 +205,12 @@ static class ComponentBatchManager {
 
 	// 一括送信
 	public static void SendAllBatches(ComponentCollection _collection, string _ecsGroupName) {
-		// Debug.LogInfo("ComponentBatchManager.SendAllBatches: Start sending all batches.");
-		// Debug.LogInfo($"ComponentBatchManager.SendAllBatches: Total converters registered: {converters.Count}.");
 
 		foreach (var kv in converters) {
 			if (!_collection.TryGetArray(kv.Key, out IComponentArray array)) {
-				// Debug.LogWarning($"ComponentBatchManager.SendAllBatches: ComponentArray for {kv.Key} not found.");
 				continue;
 			}
 
-			// Debug.LogInfo($"ComponentBatchManager.SendAllBatches: Sending batch for {kv.Key}.");
 			Array batch = kv.Value(array);
 			InternalSetBatch(kv.Key, batch, batch.Length, _ecsGroupName);
 		}
@@ -224,20 +220,17 @@ static class ComponentBatchManager {
 	public static void ReceiveAllBatches(ComponentCollection _collection, string _ecsGroupName) {
 		foreach (var kv in allocators) {
 			if (!_collection.TryGetArray(kv.Key, out IComponentArray array)) {
-				// Debug.LogWarning($"ComponentBatchManager.ReceiveAllBatches: ComponentArray for {kv.Key} not found.");
 				continue;
 			}
 
 			int count = array.Count;
 			if (count == 0) {
-				// Debug.LogWarning($"ComponentBatchManager.ReceiveAllBatches: No components to receive for {kv.Key}.");
 				continue;
 			}
 
 			// 変更点: 配列そのもの(array)を渡して、ID設定済みのBatch配列を受け取る
 			Array batch = kv.Value(array);
 
-			// Debug.LogInfo($"ComponentBatchManager.ReceiveAllBatches: Receiving batch for {kv.Key} with count {count}.");
 
 			// batch内には既に compId/nativeHandle が入っているので、C++側で正しく処理可能
 			InternalGetBatch(kv.Key, batch, count, _ecsGroupName);
@@ -257,7 +250,6 @@ static class ComponentBatchManager {
 			for (int i = 0; i < batch.Length; i++) {
 				var comp = array.Get(i);
 
-				// Debug.LogInfo($"--- RECEIVE BATCH for Transform[{comp.compId}]: pos={batch[i].position}");
 
 				// 念のためIDの一致を確認することも可能だが、
 				// Allocatorで順番通りに作成しているため、ここではそのまま適用する
@@ -342,3 +334,4 @@ static class ComponentBatchManager {
 	[MethodImpl(MethodImplOptions.InternalCall)]
 	static extern void InternalGetBatch(Type _componentType, Array batch_, int _count, string _ecsGroupName);
 }
+

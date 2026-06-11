@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System;
 using System.Runtime.InteropServices;
 using System.IO;
@@ -46,7 +46,6 @@ public class Player : MonoScript {
 	public override void Initialize() {
 		camera = ecsGroup.FindEntity("Camera"); // カメラエンティティを取得
 		if (camera == null) {
-// 			Debug.LogError("Camera entity not found. Please ensure the camera is initialized before the player.");
 			return;
 		}
 	}
@@ -54,9 +53,6 @@ public class Player : MonoScript {
 	public override void Update() {
 		/// ----- プレイヤーの移動 ----- ///
 
-// 		Debug.Log("-----");
-// 		Debug.Log("----- player update.");
-// 		Debug.Log("-----");
 
 		Move();
 		if(isMove_) {
@@ -90,7 +86,6 @@ public class Player : MonoScript {
 			isDushing = !isDushing; // ダッシュのトグル
 		}
 
-// 		Debug.Log("velocity :" + velocity.ToString());
 
 		/// 移動速度
 		float speed = isDushing ? dushSpeed : moveSpeed;
@@ -248,3 +243,4 @@ public class Player : MonoScript {
 	}
 
 }
+

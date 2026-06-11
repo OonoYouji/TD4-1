@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -53,10 +53,8 @@ public class Entity {
 
 	public string name {
 		get {
-			//Debug.LogInfo("Getting name for Entity ID: " + entityId_ + ", EcsGroupName: " + ecsGroupName_);
 			IntPtr namePtr = InternalGetName(entityId_, ecsGroupName_);
 			if (namePtr == IntPtr.Zero) {
-				// Debug.Log("[error] Entity name is null for ID: " + entityId_);
 				return "UnnamedEntity";
 			}
 			string name = Marshal.PtrToStringAnsi(namePtr);
@@ -120,7 +118,6 @@ public class Entity {
 		for (uint i = 0; i < GetChildCount(); i++) {
 			Entity child = GetChild(i);
 			if (child) {
-// 				Debug.LogInfo("Entity.Destroy - Destroying child entity ID: " + child.Id + " of parent entity ID: " + entityId_);
 				child.Destroy();
 			}
 		}
@@ -161,12 +158,8 @@ public class Entity {
 		components_[typeName] = comp;
 
 		if (comp == null) {
-// 			Debug.LogError("Failed to create component: " + typeName + " (Entity ID: " + entityId_ + ")");
 		}
 
-// 		Debug.Log("---");
-// 		Debug.Log("--- add component: \n     - component id: " + components_[typeName].compId);
-// 		Debug.Log("---");
 
 		ecsGroup_.componentCollection.AddComponent(comp);
 		return comp;
@@ -270,11 +263,13 @@ public class Entity {
 	public void FetchInitialData() {
 		// 主要なコンポーネントを一度GetComponentしておくことで、C#側にインスタンスが作られ、
 		// その後の ReceiveAllBatches でデータが同期されるようになる。
-		// ★注意：ここでGetComponent<Transform>()を呼ぶと、C#側の初期値(0,0,0)が
-		// 次のSendAllBatchesでC++側を上書きしてしまう問題があるため、
-		// Transform等のバッチ処理されるコンポーネントの初期化は慎重に行う必要がある。
-		
-		// アニメーションプレイヤーはバッチ処理で上書きされないので安全に取得可能
+		GetComponent<Transform>();
+		GetComponent<MeshRenderer>();
+		GetComponent<DissolveMeshRenderer>();
+		GetComponent<SkinMeshRenderer>();
+		GetComponent<AudioSource>();
+		GetComponent<AgentIntentComponent>();
+		GetComponent<CameraComponent>();
 		GetComponent<ONEngine.AnimationPlayer>();
 	}
 
@@ -325,3 +320,4 @@ public class Entity {
 	static extern void InternalSetEnable(int _entityId, bool _enable, string _groupName);
 
 }
+

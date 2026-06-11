@@ -89,8 +89,7 @@ void ComponentApplyFuncs::ApplyTransform(void* _element, ECSGroup* _ecsGroup) {
 		t->SetPosition(data->position);
 		t->SetRotate(data->rotate);
 		t->SetScale(data->scale);
-		t->matWorld = data->matWorld;
-		// t->Update(); // 行列を直接同期するので Update() は不要
+		// matWorldはC++側で再計算されるためC#からの値で上書きしない
 	}
 }
 

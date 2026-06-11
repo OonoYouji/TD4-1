@@ -1,4 +1,4 @@
-﻿public enum KeyCode : int {
+public enum KeyCode : int {
 	// Top row
 	Escape = 0x01,
 	Digit1 = 0x02,

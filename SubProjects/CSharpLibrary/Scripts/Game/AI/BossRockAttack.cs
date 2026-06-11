@@ -35,7 +35,6 @@ public class BossRockAttack : MonoScript
     private void PlayAnimation(string clipName)
     {
         if (animator == null || currentAnim == clipName) return;
-//         Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
         animator.CrossFade(clipName, 0.15f);
         currentAnim = clipName;
     }
@@ -58,12 +57,10 @@ public class BossRockAttack : MonoScript
                     currentState = State.Lifting;
                     stateTimer = liftTime;
                     rockStartPos = targetRock.transform.position;
-//                     Debug.Log($"[BossRockAttack] Lifting rock: {targetRock.name}");
                 }
                 else
                 {
                     currentState = State.Idle;
-//                     Debug.Log("[BossRockAttack] No rocks found to pick.");
                 }
                 break;
 
@@ -145,7 +142,6 @@ public class BossRockAttack : MonoScript
         if (currentState != State.Idle) return;
         currentAttackRemaining = attackCount;
         currentState = State.Picking;
-//         Debug.Log("[BossRockAttack] Sequence started.");
     }
 
     private void RotateToTarget()
@@ -204,7 +200,7 @@ public class BossRockAttack : MonoScript
 
     private void OnRockImpact()
     {
-//         Debug.Log("[BossRockAttack] Impact!");
         // 衝撃波エフェクトやダメージ処理
     }
 }
+

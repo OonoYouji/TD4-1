@@ -17,19 +17,15 @@ class EnemyCollisionHandler : MonoScript
 
     public override void Initialize()
     {
-//         Debug.LogInfo("EnemyCollisionHandler Initializing");
         hitpoints = MAX_HITPOINTS;
         uiHandler = entity.GetScript<EnemyUIHandler>();
         if (uiHandler == null)
         {
-//             Debug.LogError("Failed to find EnemyUIHandler script");
         }
         knockback = entity.GetScript<Knockback>();
         if (knockback == null)
         {
-//             Debug.LogError("Failed to find Knockback script");
         }
-//         Debug.LogInfo("EnemyCollisionHandler initialized");
     }
 
     public override void Update()
@@ -54,7 +50,6 @@ class EnemyCollisionHandler : MonoScript
             // 画面外等で当たり判定が切られている場合は無視
             if (!reinforcement.isCollisionEnabled) return;
 
-//             Debug.Log("Enemy hit by reinforcement!");
             int dmg = (int)reinforcement.damage;
             TakeDamage(dmg);
             if (uiHandler != null)
@@ -89,7 +84,6 @@ class EnemyCollisionHandler : MonoScript
         //PlayerBullet bullet = collider.GetScript<PlayerBullet>();
         if (true)
         {
-//             Debug.Log("Enemy hit by bullet!");
             //int damage = bullet.damage;
             int damage = 100; // 仮
             TakeDamage(damage);
@@ -125,14 +119,13 @@ class EnemyCollisionHandler : MonoScript
 
     public void TakeDamage(int damage)
     {
-//         Debug.Log($"Enemy takes {damage} damage!");
         hitpoints -= damage;
         if (hitpoints <= 0)
         {
-//             Debug.Log("Enemy destroyed!");
             // HOTIFX: OnCollisiton内でDestoryを呼ぶとクラッシュするので、現在はフラグを立ててUpdate内でDestroyするようにしている
             // Update内でなら大丈夫とのこと
             isDestroy = true;
         }
     }
 }
+

@@ -22,7 +22,6 @@ public static class AIUpdater {
 
         // デバッグ用：どのグループが更新されているかログに出す（頻度を抑える）
         if ((int)(Time.time * 5) % 100 == 0) {
-//             Debug.Log($"AIUpdater: Updating intents for group '{groupName}' with {entityCount} entities.");
         }
 
         // キャッシュを更新
@@ -52,7 +51,6 @@ public static class AIUpdater {
                 // ビヘイビアツリーを実行
                 if (component.behaviorTree != null) {
                     // 調査用ログ: どのAIが動いているか
-                    // Debug.Log($"[AI_TICK] {component.entity.name} (ID:{component.entity.Id}) - Path:{component.behaviorTree.SourcePath}");
                     
                     // 実行前にIntentをリセット（ツリー内で上書きされなければ停止する）
                     component.desiredMoveDirection = Vector3.zero;
@@ -61,7 +59,6 @@ public static class AIUpdater {
 
                     // デバッグ用：毎フレームは多すぎるので定期的にログを出す
                     if ((int)(Time.time * 5) % 100 == 0) {
-//                         Debug.Log($"AIUpdater: Ticking BT for {component.entity.name} (Root:{(component.behaviorTree.RootNode != null ? component.behaviorTree.RootNode.name : "null")}, Path:{component.behaviorTree.SourcePath})");
                     }
 
                     component.behaviorTree.Tick();
@@ -137,3 +134,4 @@ public static class AIUpdater {
         }
     }
 }
+

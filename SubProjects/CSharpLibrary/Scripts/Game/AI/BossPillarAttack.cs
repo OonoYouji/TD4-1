@@ -29,7 +29,6 @@ public class BossPillarAttack : MonoScript
     private void PlayAnimation(string clipName)
     {
         if (animator == null || currentAnim == clipName) return;
-//         Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
         animator.CrossFade(clipName, 0.15f);
         currentAnim = clipName;
     }
@@ -82,7 +81,6 @@ public class BossPillarAttack : MonoScript
         spawnedCount = 0;
         timer = 0.0f;
         PlayAnimation("pillar_start");
-//         Debug.Log($"[BossPillarAttack] Starting sequential drop toward player.");
     }
 
     private void RotateToPlayer()
@@ -134,7 +132,7 @@ public class BossPillarAttack : MonoScript
         {
             isActive_ = false;
             PlayAnimation("pillar_end");
-//             Debug.Log("[BossPillarAttack] All pillars spawned.");
         }
     }
 }
+

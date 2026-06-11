@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 
@@ -34,7 +34,7 @@ public struct Vector3 {
 
 	public Vector3 Normalized() {
 		float length = this.Length();
-		if (length == 0.0f) return zero;
+		if (length < 1e-6f) return zero;
 		return new Vector3(x / length, y / length, z / length);
 	}
 

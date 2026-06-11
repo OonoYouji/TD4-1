@@ -36,10 +36,10 @@ public class SpawnGiantExpansionNode : BehaviorNode
                 expansion.damage = damage;
             }
 
-//             Debug.Log($"<color=magenta>[GiantAttack]</color> Spawned expansion area at {Vector3.ToSimpleString(owner.transform.position)}");
             return NodeStatus.Success;
         }
 
         return NodeStatus.Failure;
     }
 }
+

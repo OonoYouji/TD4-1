@@ -22,11 +22,9 @@ class SceneTransitionController : MonoScript
 
         if (transitionIn == null)
         {
-//             Debug.LogError("TransitionIn script is missing.");
         }
         if (transitionOut == null)
         {
-//             Debug.LogError("TransitionOut script is missing.");
         }
     }
 
@@ -44,23 +42,21 @@ class SceneTransitionController : MonoScript
                 transitionIn.enable = false;
                 transitionOut.enable = true;
                 transitionOut.Reset();
-//                 Debug.LogInfo("Transition out");
             }
             else if (transitionState == TransitionState.TransitionIn)
             {
                 transitionIn.enable = true;
                 transitionOut.enable = false;
                 transitionIn.Reset();
-//                 Debug.LogInfo("Transition in");
             }
             else
             {
                 transitionIn.enable = false;
                 transitionOut.enable = false;
-//                 Debug.LogInfo("Transition none");
             }
             prevState = transitionState;
         }
     }
 
 }
+

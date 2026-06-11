@@ -16,7 +16,7 @@ public class LogNode : BehaviorNode
 
     protected override NodeStatus Execute(Blackboard blackboard, Entity owner)
     {
-//         Debug.Log($"[BT Log] {owner.name}: {message}");
         return NodeStatus.Success;
     }
 }
+

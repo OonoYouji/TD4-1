@@ -28,7 +28,6 @@ public class PlayerArm : MonoScript
         Entity playerEntity = ecsGroup.FindEntity("Player");
         if (playerEntity == null)
         {
-//             Debug.LogError("PlayerArm: Playerエンティティが見つかりません");
             return;
         }
         entity.parent = playerEntity;
@@ -37,7 +36,6 @@ public class PlayerArm : MonoScript
         player = playerEntity.GetScript<Player>();
         if (player == null)
         {
-//             Debug.LogError("PlayerArm: PlayerスクリプトがPlayerエンティティに見つかりません");
         }
     }
 
@@ -52,3 +50,4 @@ public class PlayerArm : MonoScript
     }
 
 }
+

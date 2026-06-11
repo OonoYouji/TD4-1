@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 public class Enemy : MonoScript {
 
@@ -14,7 +14,6 @@ public class Enemy : MonoScript {
 
 		if (hp <= 0f) {
 			isAlive = false;
-// 			Debug.Log("Enemy defeated." + entity.Id);
 			return;
 		}
 	}
@@ -27,3 +26,4 @@ public class Enemy : MonoScript {
 	}
 
 }
+

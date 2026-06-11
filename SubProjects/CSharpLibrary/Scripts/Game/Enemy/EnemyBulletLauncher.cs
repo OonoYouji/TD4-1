@@ -11,7 +11,6 @@ public class EnemyBulletLauncher : MonoScript {
 	Entity target;
 
 	public override void Initialize() {
-// 		Debug.LogInfo("EnemyBulletLauncher Initializing on entity: " + entity.Id);
 		target = ecsGroup.FindEntity("PlayerCore");
 	}
 
@@ -34,3 +33,4 @@ public class EnemyBulletLauncher : MonoScript {
 		}
 	}
 }
+

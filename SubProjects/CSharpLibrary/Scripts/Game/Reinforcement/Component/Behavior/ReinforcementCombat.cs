@@ -36,7 +36,6 @@ public partial class Reinforcement
         {
             return;
         }
-//         Debug.Log($"<color=red>[Reinforcement:Hit]</color> {entity.name} (ID:{entity.Id}) was DESTROYED by an attack.");
         isDestroyReserved = true;
     }
 
@@ -46,3 +45,4 @@ public partial class Reinforcement
         Retreat();
     }
 }
+

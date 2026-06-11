@@ -24,29 +24,23 @@ public class TestEnemy : MonoScript
 
     public override void Initialize()
     {
-//         Debug.Log("TestEnemy Initializing - ID: " + entity.Id);
         targetEntity = ecsGroup.FindEntity(ENTITY_NAME);
         if (targetEntity == null)
         {
-//             Debug.LogWarning("Failed to find target entity: " + ENTITY_NAME);
         }
         meshRenderer = entity.GetComponent<MeshRenderer>();
         if (meshRenderer == null)
         {
-//             Debug.LogWarning("Failed to find MeshRenderer component");
         }
         launcher = entity.GetScript<EnemyBulletLauncher>();
         if (launcher == null)
         {
-//             Debug.LogWarning("Failed to find EnemyBulletLauncher script on entity: " + entity.Id);
         }
 
-//         Debug.Log("TestEnemy Initialized");
     }
 
     public override void Update()
     {
-        // Debug.Log("TestEnemy Update - ID: " + entity.Id);
 
         if (targetEntity == null)
         {
@@ -80,12 +74,10 @@ public class TestEnemy : MonoScript
                 fireTimer = 0.0f;
                 if (launcher != null)
                 {
-//                     Debug.Log("TestEnemy Firing Bullet! - ID: " + entity.Id);
                     launcher.Fire();
                 }
                 else
                 {
-//                     Debug.LogError("TestEnemy cannot fire: launcher is null! - ID: " + entity.Id);
                 }
             }
         }
@@ -96,3 +88,4 @@ public class TestEnemy : MonoScript
         }
     }
 }
+
