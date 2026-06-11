@@ -1,5 +1,21 @@
 {
     "active": true,
+    "components": [
+        {
+            "material": {
+                "uvTransform": {
+                    "position": {
+                        "x": 0.5946547985076904
+                    }
+                }
+            },
+            "type": "MeshRenderer"
+        },
+        {
+            "currentTime": 0.5946547985076904,
+            "type": "AnimationPlayer"
+        }
+    ],
     "guid": "f40df8ad605746aa850b184497fd012d",
     "name": "BossBeam",
     "parentGuid": null,

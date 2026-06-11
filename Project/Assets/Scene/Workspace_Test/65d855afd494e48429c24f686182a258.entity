@@ -47,9 +47,9 @@
                 "z": 0.0
             },
             "rotate": {
-                "w": -0.9228119254112244,
+                "w": -0.8726041316986084,
                 "x": 0.0,
-                "y": 0.3852508068084717,
+                "y": 0.4884280860424042,
                 "z": -0.0
             },
             "scale": {
@@ -65,7 +65,7 @@
         {
             "autoPlay": true,
             "clipPath": "./Assets/Anims/BeamDissolve1.anim",
-            "currentTime": 1.748229742050171,
+            "currentTime": 1.6751408576965332,
             "isLooping": true,
             "isPlaying": true,
             "speed": 3.0,

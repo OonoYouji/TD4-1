@@ -212,8 +212,6 @@
     <Compile Include="Scripts\Game\Enemy\TelegraphLine.cs" />
     <Compile Include="Scripts\Game\Enemy\SampleBossComponent.cs" />
     <Compile Include="Scripts\Game\Enemy\TelegraphCircle.cs" />
-    <Compile Include="Scripts\Game\Enemy\TelegraphLine.cs" />
-    <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
     <Compile Include="Scripts\Game\Enemy\VortexField.cs" />
     <Compile Include="Scripts\Game\Field\BossBlockConfig.cs" />
     <Compile Include="Scripts\Game\Field\BossMovementBlock.cs" />
@@ -259,6 +257,7 @@
     <Compile Include="Scripts\Game\UI\TitleSceneController.cs" />
     <Compile Include="Scripts\Game\UI\UiController.cs" />
     <Compile Include="Scripts\Game\UI\UiControlManager.cs" />
+    <Compile Include="Scripts\Test\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Engine\Collision\" />
