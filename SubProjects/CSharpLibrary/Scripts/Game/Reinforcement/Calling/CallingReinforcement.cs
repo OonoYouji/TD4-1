@@ -23,6 +23,9 @@ public class CallingReinforcement : MonoScript
     // 最後に援軍を呼んでからの経過時間
     public float spawnTimer { get; private set; } = 0.0f;
 
+    // 1フレーム遅らせるスポーン
+    private System.Action pendingSpawn_ = null;
+
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -42,6 +45,8 @@ public class CallingReinforcement : MonoScript
     {
         spawnTimer += Time.deltaTime;
         activeReinforcements.RemoveAll(e => e == null || e.Id == 0 || !e.enable);
+        pendingSpawn_?.Invoke();
+        pendingSpawn_ = null;
         HandleFiring();
         HandleRetreat();
     }
@@ -89,6 +94,8 @@ public class CallingReinforcement : MonoScript
 
         if (!wantRetreat) return;
 
+        pendingSpawn_ = null;
+
         foreach (Entity reinforcementEntity in activeReinforcements)
         {
             if (reinforcementEntity == null) continue;
@@ -110,8 +117,10 @@ public class CallingReinforcement : MonoScript
         Vector3 right = Matrix4x4.Transform(Vector3.right, rotMat);
         Vector3 spawnBase = player.transform.position - forward * spawnBehindDistance;
         spawnBase.y = 0.0f;
-        SpawnOne(spawnBase - right * xOffset, forward);
-        SpawnOne(spawnBase + right * xOffset, forward);
+        Vector3 pos1 = spawnBase - right * xOffset;
+        Vector3 pos2 = spawnBase + right * xOffset;
+        SpawnOne(pos1, forward);
+        pendingSpawn_ = () => SpawnOne(pos2, forward);
     }
 
     private void SpawnOne(Vector3 spawnPos, Vector3 dir)
