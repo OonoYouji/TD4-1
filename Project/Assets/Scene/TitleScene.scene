@@ -149,6 +149,21 @@
             "guid": "13627b7ea70743ee62db815f062257f0",
             "parentGuid": "0ee3a6629af617b162fb89e780a52a74",
             "path": "./TitleScene/13627b7ea70743ee62db815f062257f0.entity"
+        },
+        {
+            "guid": "14932c9c351d42b12d89ad04aa4c4d6e",
+            "parentGuid": null,
+            "path": "./TitleScene/14932c9c351d42b12d89ad04aa4c4d6e.entity"
+        },
+        {
+            "guid": "539ce2b8f937cabb180d6a88d3f89faf",
+            "parentGuid": "14932c9c351d42b12d89ad04aa4c4d6e",
+            "path": "./TitleScene/539ce2b8f937cabb180d6a88d3f89faf.entity"
+        },
+        {
+            "guid": "268d83ec1d0d20f88a02b69ad1db835e",
+            "parentGuid": "14932c9c351d42b12d89ad04aa4c4d6e",
+            "path": "./TitleScene/268d83ec1d0d20f88a02b69ad1db835e.entity"
         }
     ]
 }

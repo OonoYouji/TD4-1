@@ -1,9 +1,13 @@
 public class EndSceneController : MonoScript
 {
     [SerializeField] public string nextSceneName = "TitleScene";
+    [SerializeField] public string playSoundPath = "";
+
+    AudioFadeoutAll audioFadeoutAll;
 
     public override void Initialize()
     {
+        audioFadeoutAll = ecsGroup.FindEntity("AudioManager")?.GetScript<AudioFadeoutAll>();
     }
 
     public override void Update()
@@ -20,6 +24,9 @@ public class EndSceneController : MonoScript
             {
                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
                 SceneTransition.Instance.TransitionTo(nextSceneName);
+                AudioSource audioSource = entity.GetComponent<AudioSource>();
+                audioSource?.OneShotPlay(0.6f, 1.0f, playSoundPath);
+                audioFadeoutAll?.StartFadeOut();
             }
             else
             {
@@ -29,8 +36,9 @@ public class EndSceneController : MonoScript
         }
     }
 
-    public void SetNextSceneName(string nextSceneName_)
+    public void SetNextSceneName(string nextSceneName_, string playSoundPath_)
     {
         nextSceneName = nextSceneName_;
+        playSoundPath = playSoundPath_ ?? "";
     }
 }

@@ -137,8 +137,11 @@
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
     <Compile Include="Scripts\Game\Common\AnimationAutoPlay.cs" />
     <Compile Include="Scripts\Game\Common\AutoY.cs" />
+    <Compile Include="Scripts\Game\Common\BGMAutoPlay.cs" />
     <Compile Include="Scripts\Game\Common\BlinkSprite.cs" />
     <Compile Include="Scripts\Game\Common\Bound.cs" />
+    <Compile Include="Scripts\Game\Common\AudioFadeoutAll.cs" />
+    <Compile Include="Scripts\Game\Common\DummyStringData.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\BossDamageUtil.cs" />
     <Compile Include="Scripts\Game\Common\DamageHandler.cs" />

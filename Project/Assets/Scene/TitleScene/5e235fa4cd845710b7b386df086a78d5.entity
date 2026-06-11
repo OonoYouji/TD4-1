@@ -23,6 +23,9 @@
             "type": "Transform"
         },
         {
+            "DummyStringData": {
+                "value": "./Assets/Sounds/MainGameSounds/se/outGame/select.mp3"
+            },
             "type": "Variables"
         },
         {
@@ -51,6 +54,16 @@
                 }
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "DummyStringData"
+                }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "5e235fa4cd845710b7b386df086a78d5",
