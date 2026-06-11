@@ -81,7 +81,7 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode {
 					// 巨大化処理 (一時的なスケール変更など)
 					// ここでは簡易的に Transform を直接操作するか、バフスクリプトを付与する
 					//e.transform.scale *= scaleMultiplier;
-					e.transform.scale = new Vector3(1.4f, 1.4f, 1.4f);
+					e.transform.scale *= 1.2f;
 
 					// エフェクト
 					FrameEvent.EnqueueNamedEvent("Effect_GiantScale", e.Id);
