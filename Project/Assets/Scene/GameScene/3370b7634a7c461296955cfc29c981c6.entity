@@ -5,20 +5,20 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -81.91801452636719,
+                "x": -107.30145263671875,
                 "y": 11.121682167053223,
-                "z": -127.19758605957031
+                "z": -105.95301055908203
             },
             "rotate": {
-                "w": 1.0,
+                "w": -0.915581226348877,
                 "x": 0.0,
-                "y": -0.0,
-                "z": 0.0
+                "y": 0.40213310718536377,
+                "z": -0.0
             },
             "scale": {
-                "x": 3.000000476837158,
-                "y": 3.000000476837158,
-                "z": 3.000000476837158
+                "x": 4.08121395111084,
+                "y": 4.081213474273682,
+                "z": 4.081213474273682
             },
             "type": "Transform"
         },
@@ -29,10 +29,8 @@
             "CallingReinforcement": {
                 "callCollTime": 0.5,
                 "reinforcementSpeed": 79.0,
-                "retreatCooldown": 0.30000001192092896,
                 "smashInterval": 1.0,
                 "spawnBehindDistance": 37.0,
-                "spawnCooldown": 1.0,
                 "spawnInterval": 1.0,
                 "spawnTimer": 0.4618699252605438,
                 "xOffset": 8.0
@@ -57,7 +55,7 @@
                     "x": 66.0,
                     "y": 73.0
                 },
-                "maxMoveSpeed": 20.0,
+                "maxMoveSpeed": 10.0,
                 "mouseIsMovePixel": 0.0,
                 "rotationSpeed": 8.0,
                 "startFreezeDuration": 0.0
@@ -156,7 +154,7 @@
             "freezeY": true,
             "isTrigger": false,
             "maskBits": 32,
-            "mass": 3.0,
+            "mass": 1.0,
             "size": {
                 "x": 5.200000762939453,
                 "y": 30.000003814697266,
