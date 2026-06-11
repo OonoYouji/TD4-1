@@ -59,6 +59,7 @@
                 "rotationSpeed": 8.0,
                 "startFreezeDuration": 5.0
             },
+            "PlayerAudio": {},
             "PlayerCallMotion": {
                 "expandDuration": 0.10000000149011612,
                 "loopCount": 3,
@@ -129,6 +130,10 @@
                 {
                     "enable": true,
                     "name": "BoundsConstraint"
+                },
+                {
+                    "enable": true,
+                    "name": "PlayerAudio"
                 }
             ],
             "type": "Script"
@@ -143,6 +148,13 @@
             "radius": 3.200000047683716,
             "state": "Dynamic",
             "type": "SphereCollider"
+        },
+        {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
         }
     ],
     "guid": "3370b7634a7c461296955cfc29c981c6",

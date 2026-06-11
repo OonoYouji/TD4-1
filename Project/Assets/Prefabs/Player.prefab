@@ -107,9 +107,20 @@
                 {
                     "enable": true,
                     "name": "PlayerSmashUp"
+                },
+                {
+                    "enable": true,
+                    "name": "PlayerAudio"
                 }
             ],
             "type": "Script"
+        },
+        {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
         },
         {
             "categoryBits": 2,
