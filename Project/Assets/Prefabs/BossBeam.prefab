@@ -76,7 +76,7 @@
             "enable": 1,
             "freezeY": false,
             "isTrigger": true,
-            "maskBits": 2,
+            "maskBits": 6,
             "mass": 1.0,
             "size": {
                 "x": 1.0,

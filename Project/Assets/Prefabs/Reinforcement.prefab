@@ -47,7 +47,7 @@
                 "damage": 10.0,
                 "lifeTime": 10.0,
                 "mass": 1.0,
-                "moveSpeed": 8.0,
+                "moveSpeed": 20.0,
                 "normalScale": 3.0,
                 "retreatSpeed": 20.0,
                 "sinkDepth": 5.0,

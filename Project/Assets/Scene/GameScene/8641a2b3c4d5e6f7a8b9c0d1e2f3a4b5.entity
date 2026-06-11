@@ -8,8 +8,8 @@
                 "z": -115.90499877929688
             },
             "rotate": {
-                "w": 0.9919159412384033,
-                "y": -0.1268974393606186
+                "w": 0.9998570680618286,
+                "y": -0.016909414902329445
             },
             "type": "Transform"
         },
@@ -26,18 +26,18 @@
                     "boneMaskHash": 0,
                     "states": [
                         {
-                            "clipId": 3886528159,
+                            "clipId": 1209400024,
                             "isLoop": false,
-                            "playbackSpeed": 0.3333333432674408,
-                            "time": 0.01827939972281456,
-                            "weight": 0.5483819842338562
+                            "playbackSpeed": 0.4166666567325592,
+                            "time": 1.0063201189041138,
+                            "weight": 1.0
                         },
                         {
-                            "clipId": 3271675795,
+                            "clipId": 0,
                             "isLoop": false,
                             "playbackSpeed": 0.3333333432674408,
-                            "time": 0.5833333134651184,
-                            "weight": 0.4516180157661438
+                            "time": 0.6666666865348816,
+                            "weight": 0.0
                         }
                     ],
                     "weight": 1.0
@@ -106,30 +106,9 @@
             "type": "Animator"
         },
         {
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "BossAI"
-                },
-                {
-                    "enable": true,
-                    "name": "HP"
-                },
-                {
-                    "enable": true,
-                    "name": "BossPerformanceDirector"
-                },
-                {
-                    "enable": true,
-                    "name": "DamageHandler"
-                }
-            ],
-            "type": "Script"
-        },
-        {
             "desiredRotation": {
-                "w": 0.9919158220291138,
-                "y": -0.12689784169197083
+                "w": 0.9998570680618286,
+                "y": -0.016906287521123886
             },
             "type": "AgentIntentComponent"
         }
