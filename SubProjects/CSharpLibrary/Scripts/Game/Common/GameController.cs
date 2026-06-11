@@ -103,6 +103,7 @@ public class GameController : MonoScript {
     }
 
     private void Transition(string sceneName) {
+        ecsGroup.FindEntity("AudioManager")?.GetScript<AudioFadeoutAll>()?.StartFadeOut();
         if (SceneTransition.Instance != null) {
             SceneTransition.Instance.TransitionTo(sceneName);
         } else {
