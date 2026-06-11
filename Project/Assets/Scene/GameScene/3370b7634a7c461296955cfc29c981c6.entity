@@ -142,13 +142,6 @@
             "type": "Script"
         },
         {
-            "enable": 1,
-            "path": "",
-            "pitch": 1.0,
-            "type": "AudioSource",
-            "volume": 1.0
-        },
-        {
             "categoryBits": 2,
             "enable": 1,
             "freezeY": true,
@@ -162,6 +155,13 @@
             },
             "state": "Dynamic",
             "type": "BoxCollider"
+        },
+        {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
         }
     ],
     "guid": "3370b7634a7c461296955cfc29c981c6",

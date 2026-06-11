@@ -1,5 +1,6 @@
 using ONEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 class GameOverAnimController : MonoScript
 {
@@ -52,11 +53,12 @@ class GameOverAnimController : MonoScript
                 human.transform.rotation = Quaternion.MakeFromAxis(Vector3.up, Mathf.PI) * baseRotate;
             }
 
-            SkinMeshRenderer renderer= boss.GetComponent<SkinMeshRenderer>();
-            if (renderer != null)
+            Animator animator= boss.GetComponent<Animator>();
+            if (animator != null)
             {
                 // アニメーション変更
-                // TODO: アニメーションの切り替えに対応したら、ここも変更する
+                animator.CrossFadeWithDuration("rock", 0.5f, 0.1f);
+                animator.SetLoop(true, 0);
             }
         }
 

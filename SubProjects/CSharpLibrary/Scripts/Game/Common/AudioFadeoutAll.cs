@@ -54,7 +54,7 @@ class AudioFadeoutAll : MonoScript
             foreach (AudioSourceInfo audioSourceInfo in audioSources)
             {
                 //audioSourceInfo.audioSource.Stop(); <- まだない？
-                audioSourceInfo.audioSource.volume = 0.0f; // ボリュームを完全に下げる
+                audioSourceInfo.audioSource?.SetParams(0.0f, 1.0f);
             }
             isFadingOut = false;
         }
