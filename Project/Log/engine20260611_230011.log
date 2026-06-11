@@ -1,0 +1,2057 @@
+[23:00:11.817] [info] Logger initialized.
+[23:00:11.846] [info] Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
+[23:00:12.138] [info] FeatureLevel : 12.2
+[23:00:12.138] [info] dx device create success!!
+[23:00:12.195] [info] dx command create success!!
+[23:00:12.195] [info] dx descriptor heap rtv create success!!
+[23:00:12.196] [info] dx descriptor heap cbv,srv,uav create success!!
+[23:00:12.196] [info] dx descriptor heap dsv create success!!
+[23:00:12.440] [info] dx swap chain create success!!
+[23:00:12.441] [info] Mono version: 6.12.0 (Visual Studio built mono)
+[23:00:12.441] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\config'.
+[23:00:12.443] [info] [Mono][info] Assembly Loader probing location: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll'.
+[23:00:12.444] [info] [Mono][info] Image addref mscorlib[000002A477F7C5A0] (asmctx DEFAULT) -> C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll[000002A4780CBD50]: 2
+[23:00:12.444] [info] [Mono][info] Prepared to set up assembly 'mscorlib' (C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll)
+[23:00:12.445] [info] [Mono][info] AOT: image 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll.dll' not found: 指定されたファイルが見つかりません。
+
+[23:00:12.446] [info] [Mono][info] AOT: image './Packages/Scripts/lib/mono/aot-cache/amd64/mscorlib.dll.dll' not found: 指定されたパスが見つかりません。
+
+[23:00:12.446] [info] [Mono][info] Assembly Loader loaded assembly from location: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll'.
+[23:00:12.446] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll.config'.
+[23:00:12.446] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\assemblies\mscorlib\mscorlib.config'.
+[23:00:12.447] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\.mono\assemblies\mscorlib\mscorlib.config'.
+[23:00:12.457] [info] [Mono][info] Assembly mscorlib[000002A477F7C5A0] added to domain MyDomain, ref_count=1
+[23:00:12.457] [info] Latest DLL found: ./Packages/Scripts\CSharpLibrary.dll
+[23:00:12.457] [info] [Mono][info] Assembly Loader probing location: './Packages/Scripts\CSharpLibrary.dll'.
+[23:00:12.458] [info] [Mono][info] Image addref CSharpLibrary[000002A400207D50] (asmctx DEFAULT) -> C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll[000002A4780CC4A0]: 2
+[23:00:12.458] [info] [Mono][info] Prepared to set up assembly 'CSharpLibrary' (C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll)
+[23:00:12.458] [info] [Mono][info] Assembly CSharpLibrary[000002A400207D50] added to domain MyDomain, ref_count=1
+[23:00:12.458] [info] [Mono][info] AOT: image 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll.dll' not found: 指定されたファイルが見つかりません。
+
+[23:00:12.459] [info] [Mono][info] AOT: image './Packages/Scripts/lib/mono/aot-cache/amd64/CSharpLibrary.dll.dll' not found: 指定されたパスが見つかりません。
+
+[23:00:12.459] [info] [Mono][info] Assembly Loader loaded assembly from location: './Packages/Scripts\CSharpLibrary.dll'.
+[23:00:12.459] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll.config'.
+[23:00:12.459] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\assemblies\CSharpLibrary\CSharpLibrary.config'.
+[23:00:12.459] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\.mono\assemblies\CSharpLibrary\CSharpLibrary.config'.
+[23:00:12.460] [info] [Mono][info] Requesting loading reference 0 (of 4) of C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll
+[23:00:12.460] [info] [Mono][info] Loading reference 0 of C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll asmctx DEFAULT, looking for mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+[23:00:12.460] [info] [Mono][info] Assembly Ref addref CSharpLibrary[000002A400207D50] -> mscorlib[000002A477F7C5A0]: 2
+[23:00:12.491] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line2D.vs.hlsl", profile:"vs_6_0"
+[23:00:12.496] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line2D.ps.hlsl", profile:"ps_6_0"
+[23:00:12.510] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Sprite/Sprite.vs.hlsl", profile:"vs_6_0"
+[23:00:12.525] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Sprite/Sprite.ps.hlsl", profile:"ps_6_0"
+[23:00:12.537] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line3D.vs.hlsl", profile:"vs_6_0"
+[23:00:12.543] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line3D.ps.hlsl", profile:"ps_6_0"
+[23:00:12.557] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Skybox/Skybox.vs.hlsl", profile:"vs_6_0"
+[23:00:12.566] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Skybox/Skybox.ps.hlsl", profile:"ps_6_0"
+[23:00:12.583] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/Mesh.vs.hlsl", profile:"vs_6_0"
+[23:00:12.597] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/Mesh.ps.hlsl", profile:"ps_6_0"
+[23:00:12.618] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/DissolveMesh.vs.hlsl", profile:"vs_6_0"
+[23:00:12.635] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/DissolveMesh.ps.hlsl", profile:"ps_6_0"
+[23:00:12.665] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/SkinMesh.vs.hlsl", profile:"vs_6_0"
+[23:00:12.683] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/SkinMesh.ps.hlsl", profile:"ps_6_0"
+[23:00:12.701] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Effect/Effect.vs.hlsl", profile:"vs_6_0"
+[23:00:12.713] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Effect/Effect.ps.hlsl", profile:"ps_6_0"
+[23:00:12.755] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/ParticleSystem/ParticleSystem.vs.hlsl", profile:"vs_6_0"
+[23:00:12.767] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/ParticleSystem/ParticleSystem.ps.hlsl", profile:"ps_6_0"
+[23:00:12.800] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Grass/Grass.as.hlsl", profile:"as_6_5"
+[23:00:12.841] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Grass/Grass.ms.hlsl", profile:"ms_6_5"
+[23:00:12.854] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Grass/Grass.ps.hlsl", profile:"ps_6_0"
+[23:00:12.868] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Gizmo3D.vs.hlsl", profile:"vs_6_0"
+[23:00:12.873] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Gizmo3D.ps.hlsl", profile:"ps_6_0"
+[23:00:12.894] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/Lighting/Lighting.cs.hlsl", profile:"cs_6_6"
+[23:00:12.904] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/Grayscale/Grayscale.cs.hlsl", profile:"cs_6_6"
+[23:00:12.915] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/TerrainBrush/TerrainBrush.cs.hlsl", profile:"cs_6_6"
+[23:00:12.927] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/VoxelTerrainBrush/VoxelTerrainBrush.cs.hlsl", profile:"cs_6_6"
+[23:00:12.937] [info] [Load Resource] type:Shader, path:"./Packages/Shader/PostProcess/PerObject/GaussianBlur/GaussianBlur.cs.hlsl", profile:"cs_6_6"
+[23:00:12.947] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/Screen/Grayscale/Grayscale.cs.hlsl", profile:"cs_6_6"
+[23:00:12.957] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/Screen/RadialBlur/RadialBlur.cs.hlsl", profile:"cs_6_6"
+[23:00:12.978] [info] [Load Resource] type:Shader, path:"./Packages/Shader/PostProcess/Screen/ShadowMap/ShadowMap.cs.hlsl", profile:"cs_6_6"
+[23:00:12.996] [info] [Load Resource] type:Shader, path:"./Packages/Shader/PostProcess/Screen/Fog/Fog.cs.hlsl", profile:"cs_6_6"
+[23:00:13.010] [info] [Success Texture Info] Path: "./Packages/Textures/white.png"
+[23:00:13.010] [info]  - DescriptorIndex: 0
+[23:00:13.011] [info] AssetCollection: Scanning directory: ./Packages/
+[23:00:13.015] [info] AssetCollection: Found 112 assets in ./Packages/
+[23:00:13.015] [info] AssetCollection: Scanning directory: ./Assets/
+[23:00:13.015] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Bush3.obj" (ext: ".obj")
+[23:00:13.015] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Bush2.obj" (ext: ".obj")
+[23:00:13.015] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Bush1.obj" (ext: ".obj")
+[23:00:13.015] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Grass1.obj" (ext: ".obj")
+[23:00:13.019] [info] AssetCollection: Found 139 assets in ./Assets/
+[23:00:13.024] [info]   Mesh[0]: "Grass1_Cube", Vertices: 152, Bones: 0
+[23:00:13.024] [info]   Mesh[0]: "Bush1_Icosphere", Vertices: 113, Bones: 0
+[23:00:13.024] [info]   Mesh[0]: "Bush3_Icosphere.004", Vertices: 72, Bones: 0
+[23:00:13.024] [info]   Mesh[0]: "Bush2_Icosphere.002", Vertices: 172, Bones: 0
+[23:00:13.025] [info]   Mesh[1]: "Tree", Vertices: 83, Bones: 0
+[23:00:13.025] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Grass1.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.025] [info]   Mesh[1]: "Tree.002", Vertices: 138, Bones: 0
+[23:00:13.025] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Bush1.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.025] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Grass2.obj" (ext: ".obj")
+[23:00:13.026] [info]   Mesh[1]: "Tree.001", Vertices: 222, Bones: 0
+[23:00:13.026] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Grass3.obj" (ext: ".obj")
+[23:00:13.026] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Bush3.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.026] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Rock1.obj" (ext: ".obj")
+[23:00:13.026] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Bush2.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.027] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Rock2.obj" (ext: ".obj")
+[23:00:13.033] [info]   Mesh[0]: "Grass2_Cube.003", Vertices: 366, Bones: 0
+[23:00:13.034] [info]   Mesh[0]: "Rock_Icosphere.001", Vertices: 98, Bones: 0
+[23:00:13.034] [info]   Mesh[0]: "Grass3_Cube.003", Vertices: 364, Bones: 0
+[23:00:13.034] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Grass2.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.034] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Rock1.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.035] [info]   Mesh[0]: "Icosphere_Icosphere.002", Vertices: 102, Bones: 0
+[23:00:13.035] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree1.obj" (ext: ".obj")
+[23:00:13.035] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Rock3.obj" (ext: ".obj")
+[23:00:13.035] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Grass3.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.036] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Rock2.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.036] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree2.obj" (ext: ".obj")
+[23:00:13.036] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree3.obj" (ext: ".obj")
+[23:00:13.042] [info]   Mesh[0]: "Rock3_Icosphere", Vertices: 84, Bones: 0
+[23:00:13.043] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Rock3.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.043] [info]   Mesh[0]: "Tree1_Icosphere.002", Vertices: 518, Bones: 0
+[23:00:13.043] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree4.obj" (ext: ".obj")
+[23:00:13.044] [info]   Mesh[1]: "Tree.003", Vertices: 356, Bones: 0
+[23:00:13.045] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree1.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.045] [info] [Load] [Model] - Starting load: "./Packages/Models/Human/sneakWalk.gltf" (ext: ".gltf")
+[23:00:13.045] [info]   Mesh[0]: "Tree3_Icosphere.001", Vertices: 598, Bones: 0
+[23:00:13.046] [info]   Mesh[1]: "Leaves.008", Vertices: 118, Bones: 0
+[23:00:13.046] [info]   Mesh[0]: "Tree2_Icosphere.001", Vertices: 536, Bones: 0
+[23:00:13.047] [info]   Mesh[1]: "Tree.004", Vertices: 550, Bones: 0
+[23:00:13.047] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree3.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.047] [info] [Load] [Model] - Starting load: "./Packages/Models/Human/walk.gltf" (ext: ".gltf")
+[23:00:13.048] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree2.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.048] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/cube.obj" (ext: ".obj")
+[23:00:13.053] [info]   Mesh[0]: "Tree4_Cylinder.003", Vertices: 665, Bones: 0
+[23:00:13.054] [info]   Mesh[0]: "Cube", Vertices: 24, Bones: 0
+[23:00:13.055] [info]   Mesh[1]: "Leaves.009", Vertices: 1035, Bones: 0
+[23:00:13.055] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/cube.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.055] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree4.obj", Total Meshes: 2, Total Clips: 0
+[23:00:13.055] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/cylinder.obj" (ext: ".obj")
+[23:00:13.056] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/frontToPlane.obj" (ext: ".obj")
+[23:00:13.063] [info]   Mesh[0]: "frontToPlane", Vertices: 4, Bones: 0
+[23:00:13.063] [info]   Mesh[0]: "円柱", Vertices: 130, Bones: 0
+[23:00:13.065] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/frontToPlane.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.065] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/cylinder.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.066] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/sphere.obj" (ext: ".obj")
+[23:00:13.066] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/plane.obj" (ext: ".obj")
+[23:00:13.067] [info]   Mesh[0]: "Retopology_hp_Plane.002", Vertices: 13538, Bones: 55
+[23:00:13.069] [info] [Load] [AnimationClip] - name:"Armature|mixamo.com|Layer0", hash: 95722531, duration: 0.90s
+[23:00:13.070] [info]   Mesh[0]: "Retopology_hp_Plane.002", Vertices: 13538, Bones: 55
+[23:00:13.071] [info] [Load] [Model] - Finished: "./Packages/Models/Human/sneakWalk.gltf", Total Meshes: 1, Total Clips: 1
+[23:00:13.073] [info] [Load] [AnimationClip] - name:"Armature|mixamo.com|Layer0", hash: 95722531, duration: 1.03s
+[23:00:13.073] [info]   Mesh[0]: "平面", Vertices: 4, Bones: 0
+[23:00:13.074] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/plane.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.074] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/tube.obj" (ext: ".obj")
+[23:00:13.075] [info] [Load] [Model] - Finished: "./Packages/Models/Human/walk.gltf", Total Meshes: 1, Total Clips: 1
+[23:00:13.077] [info]   Mesh[0]: "球", Vertices: 559, Bones: 0
+[23:00:13.077] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/sphere.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.081] [info]   Mesh[0]: "円柱", Vertices: 66, Bones: 0
+[23:00:13.082] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/tube.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.087] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/FileIcon.png"
+[23:00:13.087] [info]  - DescriptorIndex: 1
+[23:00:13.088] [info] [Success Texture Info] Path: "./Packages/Textures/Grass.jpg"
+[23:00:13.088] [info]  - DescriptorIndex: 2
+[23:00:13.088] [info] [Success Texture Info] Path: "./Packages/Textures/Dirt.jpg"
+[23:00:13.088] [info]  - DescriptorIndex: 3
+[23:00:13.091] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/FolderIcon.png"
+[23:00:13.091] [info]  - DescriptorIndex: 4
+[23:00:13.093] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/pause.png"
+[23:00:13.093] [info]  - DescriptorIndex: 5
+[23:00:13.095] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/lets-icons-sound-none-256.png"
+[23:00:13.095] [info]  - DescriptorIndex: 6
+[23:00:13.095] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/play.png"
+[23:00:13.095] [info]  - DescriptorIndex: 7
+[23:00:13.097] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/ph-file-c-sharp-none-256.png"
+[23:00:13.097] [info]  - DescriptorIndex: 8
+[23:00:13.098] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/reload.png"
+[23:00:13.098] [info]  - DescriptorIndex: 9
+[23:00:13.100] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/TerrainEditTextures/BrushModeIcon.png"
+[23:00:13.100] [info]  - DescriptorIndex: 10
+[23:00:13.103] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/skip.png"
+[23:00:13.103] [info]  - DescriptorIndex: 11
+[23:00:13.107] [error] [Load Failed] File is not a Texture3D DDS: "./Packages/Textures/kloofendal_48d_partly_cloudy_puresky_2k.dds"
+[23:00:13.108] [error] [Load Failed] File is not a Texture3D DDS: "./Packages/Textures/rostock_laage_airport_4k.dds"
+[23:00:13.114] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/ObjIcon.png"
+[23:00:13.114] [info]  - DescriptorIndex: 12
+[23:00:13.115] [warning] [GenerateMipMaps Failed] Using original image: "./Packages/Textures/Sample3DTexture.dds"
+[23:00:13.116] [warning] [GenerateMipMaps Failed] Using original image: "./Packages/Textures/Sample3DTexture.dds"
+[23:00:13.117] [info] [Texture DDS Info] Path: "./Packages/Textures/Sample3DTexture.dds"
+[23:00:13.118] [info] [Success Texture Info] Path: "./Packages/Textures/rostock_laage_airport_4k.dds"
+[23:00:13.118] [info]  - DescriptorIndex: 14
+[23:00:13.119] [info] [Success Texture Info] Path: "./Packages/Textures/Snow.jpg"
+[23:00:13.119] [info]  - DescriptorIndex: 15
+[23:00:13.144] [info] [Success Texture Info] Path: "./Packages/Textures/uvChecker.png"
+[23:00:13.144] [info]  - DescriptorIndex: 16
+[23:00:13.214] [info] [Success Texture Info] Path: "./Packages/Textures/Rock.png"
+[23:00:13.214] [info]  - DescriptorIndex: 17
+[23:00:13.215] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/bomb.obj" (ext: ".obj")
+[23:00:13.224] [info]   Mesh[0]: "円柱", Vertices: 2520, Bones: 0
+[23:00:13.226] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/bomb.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.226] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/boss.obj" (ext: ".obj")
+[23:00:13.236] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/bg/bonfire.png"
+[23:00:13.236] [info]  - DescriptorIndex: 18
+[23:00:13.246] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/bg/bonfire_uv.png"
+[23:00:13.246] [info]  - DescriptorIndex: 19
+[23:00:13.247] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/boss_animation.gltf" (ext: ".gltf")
+[23:00:13.248] [info]   Mesh[0]: "円錐.007", Vertices: 4375, Bones: 0
+[23:00:13.250] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/boss.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.251] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/hand.gltf" (ext: ".gltf")
+[23:00:13.257] [info]   Mesh[0]: "立方体.001", Vertices: 740, Bones: 16
+[23:00:13.257] [info] [Load] [AnimationClip] - name:"call", hash: 3018949801, duration: 0.52s
+[23:00:13.258] [info] [Load] [AnimationClip] - name:"call_end", hash: 30818415, duration: 0.17s
+[23:00:13.258] [info] [Load] [AnimationClip] - name:"call_start", hash: 1011410650, duration: 0.17s
+[23:00:13.258] [info] [Load] [AnimationClip] - name:"hit", hash: 47364266, duration: 0.83s
+[23:00:13.258] [info] [Load] [AnimationClip] - name:"leave", hash: 1416872128, duration: 0.83s
+[23:00:13.258] [info] [Load] [AnimationClip] - name:"move", hash: 407568404, duration: 0.67s
+[23:00:13.258] [info] [Load] [AnimationClip] - name:"push", hash: 2272264157, duration: 0.00s
+[23:00:13.259] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/hand.gltf", Total Meshes: 1, Total Clips: 7
+[23:00:13.259] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/hand.obj" (ext: ".obj")
+[23:00:13.261] [info]   Mesh[0]: "円錐.009", Vertices: 3978, Bones: 11
+[23:00:13.261] [info] [Load] [AnimationClip] - name:"beam", hash: 2807200250, duration: 0.88s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"beam_end", hash: 323421996, duration: 0.33s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"beam_start", hash: 2964336117, duration: 0.33s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"bomb", hash: 3399030161, duration: 1.05s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"bomb_end", hash: 2224290679, duration: 0.33s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"bomb_start", hash: 2111881458, duration: 0.67s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"clog", hash: 1209400024, duration: 1.25s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"clog_end", hash: 2244242026, duration: 0.67s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"clog_start", hash: 3886528159, duration: 0.67s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"idle", hash: 3271675795, duration: 0.58s
+[23:00:13.262] [info] [Load] [AnimationClip] - name:"movement", hash: 89534040, duration: 1.33s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"movement_end", hash: 3182712298, duration: 0.50s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"movement_start", hash: 105532959, duration: 0.23s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"pillar", hash: 1229402897, duration: 1.00s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"pillar_end", hash: 3647369463, duration: 0.33s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"pillar_start", hash: 2133979762, duration: 0.75s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"rock", hash: 974867124, duration: 0.83s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"rock_end", hash: 684573750, duration: 0.25s
+[23:00:13.263] [info] [Load] [AnimationClip] - name:"rock_start", hash: 3756376387, duration: 0.47s
+[23:00:13.264] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/boss_animation.gltf", Total Meshes: 1, Total Clips: 19
+[23:00:13.267] [info]   Mesh[0]: "立方体", Vertices: 732, Bones: 0
+[23:00:13.268] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/hand.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.269] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/pillar.obj" (ext: ".obj")
+[23:00:13.275] [info]   Mesh[0]: "立方体.003", Vertices: 504, Bones: 0
+[23:00:13.276] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/pillar.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.276] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/rock.obj" (ext: ".obj")
+[23:00:13.281] [info]   Mesh[0]: "立方体.017", Vertices: 90, Bones: 0
+[23:00:13.283] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/rock.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.283] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/ruins_big.obj" (ext: ".obj")
+[23:00:13.289] [info] [Success Texture Info] Path: "./Packages/Textures/kloofendal_48d_partly_cloudy_puresky_2k.dds"
+[23:00:13.289] [info]  - DescriptorIndex: 20
+[23:00:13.291] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/ruins_block1.obj" (ext: ".obj")
+[23:00:13.293] [info]   Mesh[0]: "Cube", Vertices: 1776, Bones: 0
+[23:00:13.294] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/ruins_big.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.294] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/ruins_block2.obj" (ext: ".obj")
+[23:00:13.297] [info]   Mesh[0]: "立方体.002", Vertices: 96, Bones: 0
+[23:00:13.298] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/ruins_block1.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.299] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/ruins_block3.obj" (ext: ".obj")
+[23:00:13.302] [info]   Mesh[0]: "立方体.001", Vertices: 488, Bones: 0
+[23:00:13.303] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/ruins_block2.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.304] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/ruins_block4.obj" (ext: ".obj")
+[23:00:13.306] [info]   Mesh[0]: "立方体", Vertices: 578, Bones: 0
+[23:00:13.307] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/ruins_block3.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.307] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/soldier.obj" (ext: ".obj")
+[23:00:13.310] [info]   Mesh[0]: "Cube", Vertices: 394, Bones: 0
+[23:00:13.311] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/ruins_block4.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.311] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/soldier_support.gltf" (ext: ".gltf")
+[23:00:13.314] [info]   Mesh[0]: "立方体.001", Vertices: 1017, Bones: 9
+[23:00:13.315] [info] [Load] [AnimationClip] - name:"beating", hash: 4182670843, duration: 0.67s
+[23:00:13.315] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/soldier_support.gltf", Total Meshes: 1, Total Clips: 1
+[23:00:13.319] [info]   Mesh[0]: "円柱", Vertices: 1634, Bones: 0
+[23:00:13.320] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/soldier.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.320] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/terrian.obj" (ext: ".obj")
+[23:00:13.326] [info]   Mesh[0]: "立方体", Vertices: 48, Bones: 0
+[23:00:13.326] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/terrian.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.328] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/terrian.png"
+[23:00:13.328] [info]  - DescriptorIndex: 21
+[23:00:13.329] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models_prot/enemy_main.obj" (ext: ".obj")
+[23:00:13.338] [info]   Mesh[0]: "球", Vertices: 594, Bones: 0
+[23:00:13.339] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models_prot/enemy_main.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.339] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models_prot/player_arm.obj" (ext: ".obj")
+[23:00:13.339] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/boss.png"
+[23:00:13.339] [info]  - DescriptorIndex: 22
+[23:00:13.340] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models_prot/player_bullet.obj" (ext: ".obj")
+[23:00:13.347] [info]   Mesh[0]: "球", Vertices: 151, Bones: 0
+[23:00:13.348] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models_prot/player_arm.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.348] [info]   Mesh[0]: "円柱.002", Vertices: 112, Bones: 0
+[23:00:13.349] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models_prot/player_core.obj" (ext: ".obj")
+[23:00:13.349] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models_prot/player_bullet.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.349] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models_prot/player_gun.obj" (ext: ".obj")
+[23:00:13.356] [info]   Mesh[0]: "ICO球", Vertices: 60, Bones: 0
+[23:00:13.356] [info]   Mesh[0]: "円柱.001", Vertices: 240, Bones: 0
+[23:00:13.356] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/hand.png"
+[23:00:13.357] [info]  - DescriptorIndex: 23
+[23:00:13.357] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models_prot/player_core.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.357] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models_prot/player_gun.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.358] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models_prot/player_main.obj" (ext: ".obj")
+[23:00:13.370] [info]   Mesh[0]: "円錐", Vertices: 17, Bones: 0
+[23:00:13.371] [info]   Mesh[1]: "Material", Vertices: 98, Bones: 0
+[23:00:13.373] [info]   Mesh[2]: "Material.001", Vertices: 98, Bones: 0
+[23:00:13.374] [info]   Mesh[3]: "球", Vertices: 151, Bones: 0
+[23:00:13.374] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models_prot/player_main.obj", Total Meshes: 4, Total Clips: 0
+[23:00:13.387] [info] [Load] [AudioClip] - path:"./Assets/AssetsWorkspace/sounds/enemy_shot.mp3"
+[23:00:13.391] [info] [Load] [AudioClip] - path:"./Assets/AssetsWorkspace/sounds/playerBullet_explosion.mp3"
+[23:00:13.392] [info] [Load] [AudioClip] - path:"./Assets/AssetsWorkspace/sounds/player_damage.mp3"
+[23:00:13.393] [info] [Load] [Model] - Starting load: "./Assets/Models/Block/ruins_big.obj" (ext: ".obj")
+[23:00:13.400] [info] [Load] [AudioClip] - path:"./Assets/AssetsWorkspace/sounds/player_shot.mp3"
+[23:00:13.400] [info] [Load] [Model] - Starting load: "./Assets/Models/Block/ruins_block1.obj" (ext: ".obj")
+[23:00:13.403] [info]   Mesh[0]: "Cube", Vertices: 1776, Bones: 0
+[23:00:13.404] [info] [Load] [Model] - Finished: "./Assets/Models/Block/ruins_big.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.405] [info] [Load] [Model] - Starting load: "./Assets/Models/Block/ruins_block2.obj" (ext: ".obj")
+[23:00:13.407] [info]   Mesh[0]: "立方体.002", Vertices: 96, Bones: 0
+[23:00:13.408] [info] [Load] [Model] - Finished: "./Assets/Models/Block/ruins_block1.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.408] [info] [Load] [Model] - Starting load: "./Assets/Models/Block/ruins_block3.obj" (ext: ".obj")
+[23:00:13.413] [info]   Mesh[0]: "立方体.001", Vertices: 488, Bones: 0
+[23:00:13.414] [info] [Load] [Model] - Finished: "./Assets/Models/Block/ruins_block2.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.414] [info] [Load] [Model] - Starting load: "./Assets/Models/Block/ruins_block4.obj" (ext: ".obj")
+[23:00:13.416] [info]   Mesh[0]: "立方体", Vertices: 578, Bones: 0
+[23:00:13.417] [info] [Load] [Model] - Finished: "./Assets/Models/Block/ruins_block3.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.417] [info] [Load] [Model] - Starting load: "./Assets/Models/Block/terrian.obj" (ext: ".obj")
+[23:00:13.423] [info]   Mesh[0]: "Cube", Vertices: 394, Bones: 0
+[23:00:13.423] [info] [Load] [Model] - Finished: "./Assets/Models/Block/ruins_block4.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.424] [info]   Mesh[0]: "立方体", Vertices: 48, Bones: 0
+[23:00:13.425] [info] [Load] [Model] - Finished: "./Assets/Models/Block/terrian.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.425] [info] [Success Texture Info] Path: "./Assets/Models/Block/terrian.png"
+[23:00:13.425] [info]  - DescriptorIndex: 24
+[23:00:13.425] [info] [Load] [Model] - Starting load: "./Assets/Models/Bomb/bomb.obj" (ext: ".obj")
+[23:00:13.433] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/soldier_support.png"
+[23:00:13.433] [info]  - DescriptorIndex: 25
+[23:00:13.435] [info] [Load] [Model] - Starting load: "./Assets/Models/Boss/boss.obj" (ext: ".obj")
+[23:00:13.435] [info]   Mesh[0]: "円柱.001", Vertices: 2520, Bones: 0
+[23:00:13.436] [info] [Load] [Model] - Finished: "./Assets/Models/Bomb/bomb.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.443] [info]   Mesh[0]: "立方体.027", Vertices: 2175, Bones: 0
+[23:00:13.444] [info] [Load] [Model] - Finished: "./Assets/Models/Boss/boss.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.445] [info] [Load] [Model] - Starting load: "./Assets/Models/Boss/boss_animation.gltf" (ext: ".gltf")
+[23:00:13.450] [error] AssetLoader<Model>::ValidateModel: aiScene is null.
+[23:00:13.450] [error] [Load] [Model] - Assimp Error: "GLTF: Invalid byteLength exceeds size of actual data.", path: "./Assets/Models/Boss/boss_animation.gltf"
+[23:00:13.451] [info] [Load] [Model] - Starting load: "./Assets/Models/objects/FieldCell/FieldCell.obj" (ext: ".obj")
+[23:00:13.457] [info]   Mesh[0]: "Cube", Vertices: 24, Bones: 0
+[23:00:13.458] [info] [Load] [Model] - Finished: "./Assets/Models/objects/FieldCell/FieldCell.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.458] [info] [Load] [Model] - Starting load: "./Assets/Models/objects/Outscene/boss_head.gltf" (ext: ".gltf")
+[23:00:13.460] [info]   Mesh[0]: "立方体.002", Vertices: 436, Bones: 0
+[23:00:13.460] [info] [Load] [Model] - Finished: "./Assets/Models/objects/Outscene/boss_head.gltf", Total Meshes: 1, Total Clips: 0
+[23:00:13.461] [info] [Load] [Model] - Starting load: "./Assets/Models/objects/PlayerLeftHand/PlayerLeftHand.obj" (ext: ".obj")
+[23:00:13.467] [info]   Mesh[0]: "Cube", Vertices: 24, Bones: 0
+[23:00:13.468] [info] [Load] [Model] - Finished: "./Assets/Models/objects/PlayerLeftHand/PlayerLeftHand.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.468] [info] [Load] [Model] - Starting load: "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj" (ext: ".obj")
+[23:00:13.474] [info]   Mesh[0]: "Cube", Vertices: 24, Bones: 0
+[23:00:13.474] [info] [Load] [Model] - Finished: "./Assets/Models/objects/PlayerRightHand/PlayerRightHand.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.475] [info] [Load] [Model] - Starting load: "./Assets/Models/Outgame/bg/bonfire.gltf" (ext: ".gltf")
+[23:00:13.476] [info]   Mesh[0]: "円柱.001", Vertices: 624, Bones: 0
+[23:00:13.477] [info] [Load] [Model] - Finished: "./Assets/Models/Outgame/bg/bonfire.gltf", Total Meshes: 1, Total Clips: 0
+[23:00:13.482] [info] [Success Texture Info] Path: "./Assets/Models/Block/ruins.png"
+[23:00:13.482] [info]  - DescriptorIndex: 26
+[23:00:13.484] [info] [Load] [Model] - Starting load: "./Assets/Models/Outgame/bg/ground.gltf" (ext: ".gltf")
+[23:00:13.491] [info]   Mesh[0]: "平面.002", Vertices: 10201, Bones: 0
+[23:00:13.494] [info] [Load] [Model] - Finished: "./Assets/Models/Outgame/bg/ground.gltf", Total Meshes: 1, Total Clips: 0
+[23:00:13.520] [info] [Success Texture Info] Path: "./Assets/Models/Bomb/bomb.png"
+[23:00:13.520] [info]  - DescriptorIndex: 27
+[23:00:13.521] [info] [Load] [Model] - Starting load: "./Assets/Models/Outgame/boss_head.gltf" (ext: ".gltf")
+[23:00:13.523] [info]   Mesh[0]: "円錐.009", Vertices: 1208, Bones: 0
+[23:00:13.524] [info] [Load] [Model] - Finished: "./Assets/Models/Outgame/boss_head.gltf", Total Meshes: 1, Total Clips: 0
+[23:00:13.524] [info] [Load] [Model] - Starting load: "./Assets/Models/pillar.obj" (ext: ".obj")
+[23:00:13.532] [info]   Mesh[0]: "立方体.003", Vertices: 734, Bones: 0
+[23:00:13.533] [info] [Load] [Model] - Finished: "./Assets/Models/pillar.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.535] [info] [Success Texture Info] Path: "./Assets/Models/Boss/boss.png"
+[23:00:13.536] [info]  - DescriptorIndex: 28
+[23:00:13.537] [info] [Load] [Model] - Starting load: "./Assets/Models/Player/hand.gltf" (ext: ".gltf")
+[23:00:13.541] [error] AssetLoader<Model>::ValidateModel: aiScene is null.
+[23:00:13.541] [error] [Load] [Model] - Assimp Error: "GLTF: could not open referenced file "hand.bin"", path: "./Assets/Models/Player/hand.gltf"
+[23:00:13.541] [info] [Load] [Model] - Starting load: "./Assets/Models/Player/hand.obj" (ext: ".obj")
+[23:00:13.548] [info]   Mesh[0]: "立方体", Vertices: 732, Bones: 0
+[23:00:13.549] [info] [Load] [Model] - Finished: "./Assets/Models/Player/hand.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.583] [info] [Success Texture Info] Path: "./Assets/Models/Outgame/bg/bonfire.png"
+[23:00:13.583] [info]  - DescriptorIndex: 29
+[23:00:13.584] [info] [Load] [Model] - Starting load: "./Assets/Models/primitive/front_cube.obj" (ext: ".obj")
+[23:00:13.590] [info]   Mesh[0]: "Cube", Vertices: 24, Bones: 0
+[23:00:13.591] [info] [Load] [Model] - Finished: "./Assets/Models/primitive/front_cube.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.592] [info] [Load] [Model] - Starting load: "./Assets/Models/Soldier/soldier.gltf" (ext: ".gltf")
+[23:00:13.596] [info]   Mesh[0]: "円柱", Vertices: 1243, Bones: 9
+[23:00:13.596] [info] [Success Texture Info] Path: "./Assets/Models/Outgame/boss.png"
+[23:00:13.596] [info]  - DescriptorIndex: 30
+[23:00:13.596] [info] [Load] [AnimationClip] - name:"appear", hash: 4138087844, duration: 0.33s
+[23:00:13.596] [info] [Load] [AnimationClip] - name:"dance", hash: 4162136220, duration: 1.33s
+[23:00:13.597] [info] [Load] [AnimationClip] - name:"leaving", hash: 17007323, duration: 0.33s
+[23:00:13.597] [info] [Load] [AnimationClip] - name:"move", hash: 407568404, duration: 0.33s
+[23:00:13.597] [info] [Load] [Model] - Starting load: "./Assets/Models/Soldier/soldier.obj" (ext: ".obj")
+[23:00:13.598] [info] [Load] [Model] - Finished: "./Assets/Models/Soldier/soldier.gltf", Total Meshes: 1, Total Clips: 4
+[23:00:13.606] [info]   Mesh[0]: "立方体", Vertices: 2206, Bones: 0
+[23:00:13.607] [info] [Load] [Model] - Finished: "./Assets/Models/Soldier/soldier.obj", Total Meshes: 1, Total Clips: 0
+[23:00:13.608] [info] [Load] [Model] - Starting load: "./Assets/Models/Soldier/soldier_support.gltf" (ext: ".gltf")
+[23:00:13.610] [info]   Mesh[0]: "立方体.001", Vertices: 1017, Bones: 9
+[23:00:13.611] [info] [Load] [AnimationClip] - name:"beating", hash: 4182670843, duration: 0.67s
+[23:00:13.612] [info] [Load] [Model] - Finished: "./Assets/Models/Soldier/soldier_support.gltf", Total Meshes: 1, Total Clips: 1
+[23:00:13.632] [info] [Success Texture Info] Path: "./Assets/Models/pillar.png"
+[23:00:13.632] [info]  - DescriptorIndex: 31
+[23:00:13.641] [info] [Success Texture Info] Path: "./Assets/Models/Player/hand.png"
+[23:00:13.641] [info]  - DescriptorIndex: 32
+[23:00:13.712] [info] [Success Texture Info] Path: "./Assets/Models/Soldier/soldier_support.png"
+[23:00:13.712] [info]  - DescriptorIndex: 33
+[23:00:13.721] [info] [Success Texture Info] Path: "./Assets/Models/Soldier/soldier.png"
+[23:00:13.721] [info]  - DescriptorIndex: 34
+[23:00:13.742] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/bgm/clear.mp3"
+[23:00:13.820] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/bgm/title1.mp3"
+[23:00:13.832] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/beam.mp3"
+[23:00:13.839] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/bomb.mp3"
+[23:00:13.844] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/boss_damage.mp3"
+[23:00:13.885] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/clog.mp3"
+[23:00:13.900] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/movement.mp3"
+[23:00:13.910] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/rock_pillar_fall.mp3"
+[23:00:13.924] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/rock_up.mp3"
+[23:00:13.933] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/boss/send.mp3"
+[23:00:13.939] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/outGame/cursor_cantmove.mp3"
+[23:00:13.943] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/outGame/cursor_move.mp3"
+[23:00:13.956] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/outGame/movement.mp3"
+[23:00:13.963] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/outGame/screenchange_close.mp3"
+[23:00:13.970] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/outGame/select.mp3"
+[23:00:13.996] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/outGame/start.mp3"
+[23:00:14.000] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/player/call.mp3"
+[23:00:14.009] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/player/hit.mp3"
+[23:00:14.012] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/player/leave.mp3"
+[23:00:14.017] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/soldier/attack.mp3"
+[23:00:14.070] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/soldier/drum.mp3"
+[23:00:14.083] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/se/soldier/soldier_dead.mp3"
+[23:00:14.100] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/bgm/title2.mp3"
+[23:00:14.102] [info] [Success Texture Info] Path: "./Assets/Textures/AButton.png"
+[23:00:14.102] [info]  - DescriptorIndex: 35
+[23:00:14.126] [info] [Success Texture Info] Path: "./Assets/Textures/circle.png"
+[23:00:14.127] [info]  - DescriptorIndex: 36
+[23:00:14.140] [info] [Success Texture Info] Path: "./Assets/Textures/Game/UI_bossHPBar.png"
+[23:00:14.140] [info]  - DescriptorIndex: 37
+[23:00:14.153] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/bgm/game.mp3"
+[23:00:14.182] [info] [Success Texture Info] Path: "./Assets/Textures/clear-sprite.png"
+[23:00:14.182] [info]  - DescriptorIndex: 38
+[23:00:14.193] [info] [Success Texture Info] Path: "./Assets/Textures/Game/UI_bossHPBarLine.png"
+[23:00:14.193] [info]  - DescriptorIndex: 39
+[23:00:14.197] [info] [Success Texture Info] Path: "./Assets/Textures/Game/UI_bossHPBarBG.png"
+[23:00:14.197] [info]  - DescriptorIndex: 40
+[23:00:14.205] [info] [Success Texture Info] Path: "./Assets/Textures/gradation.png"
+[23:00:14.205] [info]  - DescriptorIndex: 41
+[23:00:14.206] [info] [Success Texture Info] Path: "./Assets/Textures/mask/dissolve_mask_liner.png"
+[23:00:14.206] [info]  - DescriptorIndex: 42
+[23:00:14.219] [info] [Success Texture Info] Path: "./Assets/Textures/gradationLine.png"
+[23:00:14.219] [info]  - DescriptorIndex: 43
+[23:00:14.229] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/clear.png"
+[23:00:14.229] [info]  - DescriptorIndex: 44
+[23:00:14.230] [info] [Success Texture Info] Path: "./Assets/Textures/noise.png"
+[23:00:14.230] [info]  - DescriptorIndex: 45
+[23:00:14.231] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/end.png"
+[23:00:14.231] [info]  - DescriptorIndex: 46
+[23:00:14.233] [error] [Load Failed] File is not a Texture3D DDS: "./Assets/Textures/Outscene/rogland_clear_night_2k.dds"
+[23:00:14.236] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/rogland_clear_night_2k.dds"
+[23:00:14.236] [info]  - DescriptorIndex: 47
+[23:00:14.242] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/retry.png"
+[23:00:14.242] [info]  - DescriptorIndex: 48
+[23:00:14.248] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/start.png"
+[23:00:14.248] [info]  - DescriptorIndex: 49
+[23:00:14.251] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/gameover.png"
+[23:00:14.251] [info]  - DescriptorIndex: 50
+[23:00:14.254] [info] [Success Texture Info] Path: "./Assets/Textures/Outscene/title.png"
+[23:00:14.254] [info]  - DescriptorIndex: 51
+[23:00:14.273] [info] [Success Texture Info] Path: "./Assets/Textures/ring.png"
+[23:00:14.274] [info]  - DescriptorIndex: 52
+[23:00:14.279] [info] [Success Texture Info] Path: "./Assets/Textures/smoke.png"
+[23:00:14.279] [info]  - DescriptorIndex: 53
+[23:00:14.281] [info] [Success Texture Info] Path: "./Assets/Textures/ui/mouse_left.png"
+[23:00:14.282] [info]  - DescriptorIndex: 54
+[23:00:14.284] [info] [Success Texture Info] Path: "./Assets/Textures/ui/shoot-ui.png"
+[23:00:14.284] [info]  - DescriptorIndex: 55
+[23:00:14.290] [info] [Success Texture Info] Path: "./Assets/Textures/ui/spread-ui.png"
+[23:00:14.290] [info]  - DescriptorIndex: 56
+[23:00:14.316] [info] [Success Texture Info] Path: "./Assets/Textures/over-sprite.png"
+[23:00:14.316] [info]  - DescriptorIndex: 57
+[23:00:14.323] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_Button.png"
+[23:00:14.324] [info]  - DescriptorIndex: 58
+[23:00:14.351] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_LB.png"
+[23:00:14.351] [info]  - DescriptorIndex: 59
+[23:00:14.359] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_mouseL.png"
+[23:00:14.359] [info]  - DescriptorIndex: 60
+[23:00:14.385] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_mouseR.png"
+[23:00:14.385] [info]  - DescriptorIndex: 61
+[23:00:14.414] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_playerHPBar.png"
+[23:00:14.414] [info]  - DescriptorIndex: 62
+[23:00:14.450] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_playerHPBarBG.png"
+[23:00:14.450] [info]  - DescriptorIndex: 63
+[23:00:14.450] [info] [Success Texture Info] Path: "./Assets/Textures/title.png"
+[23:00:14.451] [info]  - DescriptorIndex: 64
+[23:00:14.451] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_RB.png"
+[23:00:14.451] [info]  - DescriptorIndex: 65
+[23:00:14.485] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_taisan.png"
+[23:00:14.485] [info]  - DescriptorIndex: 66
+[23:00:14.485] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_tataku.png"
+[23:00:14.485] [info]  - DescriptorIndex: 67
+[23:00:14.486] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_space.png"
+[23:00:14.486] [info]  - DescriptorIndex: 68
+[23:00:14.490] [info] [Success Texture Info] Path: "./Assets/Textures/ui/xbox_rb.png"
+[23:00:14.490] [info]  - DescriptorIndex: 69
+[23:00:14.490] [info] [Success Texture Info] Path: "./Assets/Textures/ui/xbox_rb_outline.png"
+[23:00:14.490] [info]  - DescriptorIndex: 70
+[23:00:14.494] [info] [Success Texture Info] Path: "./Assets/Textures/Vignette.png"
+[23:00:14.494] [info]  - DescriptorIndex: 71
+[23:00:14.520] [info] [Success Texture Info] Path: "./Assets/Textures/ui/UI_yobu.png"
+[23:00:14.520] [info]  - DescriptorIndex: 72
+[23:00:14.715] [info] [Load] [AudioClip] - path:"./Assets/Sounds/MainGameSounds/bgm/gameover.mp3"
+[23:00:14.751] [info] dx depth stencil create success!!
+[23:00:14.758] [info] dx depth stencil create success!!
+[23:00:14.765] [info] dx depth stencil create success!!
+[23:00:14.771] [info] dx depth stencil create success!!
+[23:00:14.782] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/CopyImage/CopyImage.vs.hlsl", profile:"vs_6_0"
+[23:00:14.786] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/CopyImage/CopyImage.ps.hlsl", profile:"ps_6_0"
+[23:00:14.820] [info] dx swap chain create success!!
+[23:00:15.087] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.087] [info] [CPP ECS] FromJson - Adding component 'CameraComponent' to entity 'Camera'
+[23:00:15.087] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Camera'
+[23:00:15.088] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Camera'
+[23:00:15.088] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.088] [info] [CPP ECS] FromJson - Adding component 'DirectionalLight' to entity 'Light'
+[23:00:15.088] [info] [CPP ECS] FromJson - Adding component 'CameraComponent' to entity 'Light'
+[23:00:15.088] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Light'
+[23:00:15.088] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Light'
+[23:00:15.088] [info] [CPP ECS] FromJson - Adding component 'ShadowCaster' to entity 'Light'
+[23:00:15.088] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.089] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Title'
+[23:00:15.089] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Title'
+[23:00:15.089] [info] [CPP ECS] FromJson - Adding component 'SpriteRenderer' to entity 'Title'
+[23:00:15.089] [info] [CPP ECS] FromJson - Adding component 'AnimationPlayer' to entity 'Title'
+[23:00:15.089] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.089] [info] [CPP ECS] FromJson - Adding component 'CameraComponent' to entity '2DCamera'
+[23:00:15.089] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity '2DCamera'
+[23:00:15.090] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity '2DCamera'
+[23:00:15.090] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.090] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'TitleSprites'
+[23:00:15.090] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'TitleSprites'
+[23:00:15.090] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'TitleSprites'
+[23:00:15.090] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.090] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'PushButton'
+[23:00:15.090] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'PushButton'
+[23:00:15.091] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'PushButton'
+[23:00:15.091] [info] [CPP ECS] FromJson - Adding component 'SpriteRenderer' to entity 'PushButton'
+[23:00:15.091] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.091] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Fader'
+[23:00:15.091] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Fader'
+[23:00:15.091] [info] [CPP ECS] FromJson - Adding component 'SpriteRenderer' to entity 'Fader'
+[23:00:15.091] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'Fader'
+[23:00:15.091] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.092] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Selection'
+[23:00:15.092] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Selection'
+[23:00:15.092] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'Selection'
+[23:00:15.092] [info] [CPP ECS] FromJson - Adding component 'AudioSource' to entity 'Selection'
+[23:00:15.092] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.092] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'GameScene'
+[23:00:15.092] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'GameScene'
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'SpriteRenderer' to entity 'GameScene'
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'GameScene'
+[23:00:15.093] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Null'
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Null'
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'SpriteRenderer' to entity 'Null'
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'Null'
+[23:00:15.093] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.093] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'HumanBeat'
+[23:00:15.094] [info] [CPP ECS] FromJson - Adding component 'SkinMeshRenderer' to entity 'HumanBeat'
+[23:00:15.094] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'HumanBeat'
+[23:00:15.094] [info] [CPP ECS] FromJson - Adding component 'Animator' to entity 'HumanBeat'
+[23:00:15.094] [info] Animator: Component created.
+[23:00:15.094] [info] Animator: Component created.
+[23:00:15.094] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.094] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'BG'
+[23:00:15.095] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'BG'
+[23:00:15.095] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.095] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Ground'
+[23:00:15.095] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Ground'
+[23:00:15.095] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Ground'
+[23:00:15.095] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.095] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Humans'
+[23:00:15.095] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Humans'
+[23:00:15.096] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'Humans'
+[23:00:15.096] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.096] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human'
+[23:00:15.096] [info] [CPP ECS] FromJson - Adding component 'SkinMeshRenderer' to entity 'Human'
+[23:00:15.096] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Human'
+[23:00:15.096] [info] [CPP ECS] FromJson - Adding component 'Animator' to entity 'Human'
+[23:00:15.096] [info] Animator: Component created.
+[23:00:15.096] [info] Animator: Component created.
+[23:00:15.097] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human1'
+[23:00:15.097] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.097] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human'
+[23:00:15.097] [info] [CPP ECS] FromJson - Adding component 'SkinMeshRenderer' to entity 'Human'
+[23:00:15.097] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Human'
+[23:00:15.097] [info] [CPP ECS] FromJson - Adding component 'Animator' to entity 'Human'
+[23:00:15.097] [info] Animator: Component created.
+[23:00:15.097] [info] Animator: Component created.
+[23:00:15.098] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human2'
+[23:00:15.098] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.098] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human'
+[23:00:15.098] [info] [CPP ECS] FromJson - Adding component 'SkinMeshRenderer' to entity 'Human'
+[23:00:15.098] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Human'
+[23:00:15.098] [info] [CPP ECS] FromJson - Adding component 'Animator' to entity 'Human'
+[23:00:15.098] [info] Animator: Component created.
+[23:00:15.098] [info] Animator: Component created.
+[23:00:15.098] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human3'
+[23:00:15.099] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.099] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human'
+[23:00:15.099] [info] [CPP ECS] FromJson - Adding component 'SkinMeshRenderer' to entity 'Human'
+[23:00:15.099] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Human'
+[23:00:15.099] [info] [CPP ECS] FromJson - Adding component 'Animator' to entity 'Human'
+[23:00:15.099] [info] Animator: Component created.
+[23:00:15.099] [info] Animator: Component created.
+[23:00:15.099] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Human4'
+[23:00:15.099] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Trees'
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Trees'
+[23:00:15.100] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.100] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.101] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.101] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.101] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.101] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.101] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree2'
+[23:00:15.101] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree2'
+[23:00:15.101] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.101] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree3'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree3'
+[23:00:15.102] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.102] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree4'
+[23:00:15.103] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree4'
+[23:00:15.103] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.103] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.103] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.103] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.103] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree5'
+[23:00:15.103] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree5'
+[23:00:15.103] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree6'
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree6'
+[23:00:15.104] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree'
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Tree'
+[23:00:15.104] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree'
+[23:00:15.105] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Tree7'
+[23:00:15.105] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Tree7'
+[23:00:15.105] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.105] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Bonfire'
+[23:00:15.105] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Bonfire'
+[23:00:15.105] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.105] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Fire1'
+[23:00:15.105] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Fire1'
+[23:00:15.106] [info] [CPP ECS] FromJson - Adding component 'ParticleSystem' to entity 'Fire1'
+[23:00:15.106] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.106] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Wood'
+[23:00:15.106] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Wood'
+[23:00:15.106] [info] [CPP ECS] FromJson - Adding component 'MeshRenderer' to entity 'Wood'
+[23:00:15.106] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.106] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Sky'
+[23:00:15.107] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Sky'
+[23:00:15.107] [info] [CPP ECS] FromJson - Adding component 'Skybox' to entity 'Sky'
+[23:00:15.107] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.107] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'AudioManager'
+[23:00:15.107] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'AudioManager'
+[23:00:15.107] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'AudioManager'
+[23:00:15.107] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.107] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'BGM1'
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'BGM1'
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'AudioSource' to entity 'BGM1'
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'BGM1'
+[23:00:15.108] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'BGM2'
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'BGM2'
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'AudioSource' to entity 'BGM2'
+[23:00:15.108] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'BGM2'
+[23:00:15.120] [info] Successfully synced initial components to C# for group: TitleScene
+[23:00:15.120] [info] [SOURCE_DETECTOR] Engine creating Entity (Internal)
+[23:00:15.120] [info] [CPP ECS] FromJson - Adding component 'CameraComponent' to entity 'Camera'
+[23:00:15.120] [info] [CPP ECS] FromJson - Adding component 'Transform' to entity 'Camera'
+[23:00:15.121] [info] [CPP ECS] FromJson - Adding component 'Variables' to entity 'Camera'
+[23:00:15.121] [info] [CPP ECS] FromJson - Adding component 'Script' to entity 'Camera'
+[23:00:15.121] [info] Successfully synced initial components to C# for group: Debug
+[23:00:15.127] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Editor/GameEntityPicking.cs.hlsl", profile:"cs_6_6"
+[23:00:15.130] [warning] ECSGroup with name 'GameScene' not found.
+[23:00:15.130] [info] ################################################################################
+[23:00:15.130] [info] #
+[23:00:15.130] [info] # Initialization completed in 3315 ms
+[23:00:15.130] [info] #
+[23:00:15.130] [info] ################################################################################
+[23:00:15.155] [info] [Mono][info] Requesting loading reference 2 (of 4) of C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll
+[23:00:15.155] [info] [Mono][info] Loading reference 2 of C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll asmctx DEFAULT, looking for System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+[23:00:15.156] [info] [Mono][info] Assembly Loader probing location: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll'.
+[23:00:15.156] [info] [Mono][info] Image addref System[000002A42A0D45A0] (asmctx DEFAULT) -> C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll[000002A4780D0670]: 2
+[23:00:15.156] [info] [Mono][info] Prepared to set up assembly 'System' (C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll)
+[23:00:15.156] [info] [Mono][info] Assembly System[000002A42A0D45A0] added to domain MyDomain, ref_count=1
+[23:00:15.157] [info] [Mono][info] AOT: image 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll.dll' not found: 指定されたファイルが見つかりません。
+
+[23:00:15.157] [info] [Mono][info] AOT: image './Packages/Scripts/lib/mono/aot-cache/amd64/System.dll.dll' not found: 指定されたパスが見つかりません。
+
+[23:00:15.157] [info] [Mono][info] Assembly Loader loaded assembly from location: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll'.
+[23:00:15.157] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll.config'.
+[23:00:15.157] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\assemblies\System\System.config'.
+[23:00:15.158] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\.mono\assemblies\System\System.config'.
+[23:00:15.158] [info] [Mono][info] Assembly Ref addref CSharpLibrary[000002A400207D50] -> System[000002A42A0D45A0]: 2
+[23:00:15.158] [info] [Mono][info] Requesting loading reference 0 (of 6) of C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll
+[23:00:15.158] [info] [Mono][info] Loading reference 0 of C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll asmctx DEFAULT, looking for mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+[23:00:15.159] [info] [Mono][info] Assembly Ref addref System[000002A42A0D45A0] -> mscorlib[000002A477F7C5A0]: 3
+[23:00:15.169] [warning] AnimatorUpdateSystem: Skeleton is empty on entity 'HumanBeat'. Waiting for initialization...
+[23:00:15.169] [warning] AnimatorUpdateSystem: Skeleton is empty on entity 'Human1'. Waiting for initialization...
+[23:00:15.169] [warning] AnimatorUpdateSystem: Skeleton is empty on entity 'Human2'. Waiting for initialization...
+[23:00:15.169] [warning] AnimatorUpdateSystem: Skeleton is empty on entity 'Human3'. Waiting for initialization...
+[23:00:15.169] [warning] AnimatorUpdateSystem: Skeleton is empty on entity 'Human4'. Waiting for initialization...
+[23:00:15.169] [info] SkinMeshUpdateSystem: Changing mesh for entity 'HumanBeat' to path: './Assets/Models/Soldier/soldier_support.gltf'
+[23:00:15.169] [info] SkinMeshUpdateSystem: Found model './Assets/Models/Soldier/soldier_support.gltf'. Creating Skeleton and SkinCluster...
+[23:00:15.169] [info] ANIME_MATH::CreateSkeleton: Starting skeleton creation.
+[23:00:15.170] [info] ANIME_MATH::CreateSkeleton: Created 11 joints.
+[23:00:15.170] [info] ANIME_MATH::CreateSkinCluster: Starting (Joints: 11, Meshes: 1)
+[23:00:15.171] [info] ANIME_MATH::CreateSkinCluster: Finished.
+[23:00:15.171] [info] SkinMeshUpdateSystem: Skeleton created with 11 joints.
+[23:00:15.171] [info] SkinMeshUpdateSystem: Initialized with clip 'beating' (duration: 0.67s). Total clips available: 1
+[23:00:15.171] [info]   Available Clip: 'beating' (hash: 4182670843)
+[23:00:15.172] [info] SkinMeshUpdateSystem: Initialization complete.
+[23:00:15.172] [info] SkinMeshUpdateSystem: Changing mesh for entity 'Human1' to path: './Assets/Models/Soldier/soldier.gltf'
+[23:00:15.172] [info] SkinMeshUpdateSystem: Found model './Assets/Models/Soldier/soldier.gltf'. Creating Skeleton and SkinCluster...
+[23:00:15.172] [info] ANIME_MATH::CreateSkeleton: Starting skeleton creation.
+[23:00:15.172] [info] ANIME_MATH::CreateSkeleton: Created 11 joints.
+[23:00:15.172] [info] ANIME_MATH::CreateSkinCluster: Starting (Joints: 11, Meshes: 1)
+[23:00:15.173] [info] ANIME_MATH::CreateSkinCluster: Finished.
+[23:00:15.174] [info] SkinMeshUpdateSystem: Skeleton created with 11 joints.
+[23:00:15.174] [info] SkinMeshUpdateSystem: Initialized with clip 'appear' (duration: 0.33s). Total clips available: 4
+[23:00:15.174] [info]   Available Clip: 'appear' (hash: 4138087844)
+[23:00:15.174] [info]   Available Clip: 'dance' (hash: 4162136220)
+[23:00:15.174] [info]   Available Clip: 'leaving' (hash: 17007323)
+[23:00:15.174] [info]   Available Clip: 'move' (hash: 407568404)
+[23:00:15.174] [info] SkinMeshUpdateSystem: Initialization complete.
+[23:00:15.174] [info] SkinMeshUpdateSystem: Changing mesh for entity 'Human2' to path: './Assets/Models/Soldier/soldier.gltf'
+[23:00:15.175] [info] SkinMeshUpdateSystem: Found model './Assets/Models/Soldier/soldier.gltf'. Creating Skeleton and SkinCluster...
+[23:00:15.175] [info] ANIME_MATH::CreateSkeleton: Starting skeleton creation.
+[23:00:15.175] [info] ANIME_MATH::CreateSkeleton: Created 11 joints.
+[23:00:15.175] [info] ANIME_MATH::CreateSkinCluster: Starting (Joints: 11, Meshes: 1)
+[23:00:15.176] [info] ANIME_MATH::CreateSkinCluster: Finished.
+[23:00:15.176] [info] SkinMeshUpdateSystem: Skeleton created with 11 joints.
+[23:00:15.176] [info] SkinMeshUpdateSystem: Initialized with clip 'appear' (duration: 0.33s). Total clips available: 4
+[23:00:15.177] [info]   Available Clip: 'appear' (hash: 4138087844)
+[23:00:15.177] [info]   Available Clip: 'dance' (hash: 4162136220)
+[23:00:15.177] [info]   Available Clip: 'leaving' (hash: 17007323)
+[23:00:15.177] [info]   Available Clip: 'move' (hash: 407568404)
+[23:00:15.177] [info] SkinMeshUpdateSystem: Initialization complete.
+[23:00:15.177] [info] SkinMeshUpdateSystem: Changing mesh for entity 'Human3' to path: './Assets/Models/Soldier/soldier.gltf'
+[23:00:15.177] [info] SkinMeshUpdateSystem: Found model './Assets/Models/Soldier/soldier.gltf'. Creating Skeleton and SkinCluster...
+[23:00:15.177] [info] ANIME_MATH::CreateSkeleton: Starting skeleton creation.
+[23:00:15.178] [info] ANIME_MATH::CreateSkeleton: Created 11 joints.
+[23:00:15.178] [info] ANIME_MATH::CreateSkinCluster: Starting (Joints: 11, Meshes: 1)
+[23:00:15.179] [info] ANIME_MATH::CreateSkinCluster: Finished.
+[23:00:15.179] [info] SkinMeshUpdateSystem: Skeleton created with 11 joints.
+[23:00:15.179] [info] SkinMeshUpdateSystem: Initialized with clip 'appear' (duration: 0.33s). Total clips available: 4
+[23:00:15.179] [info]   Available Clip: 'appear' (hash: 4138087844)
+[23:00:15.180] [info]   Available Clip: 'dance' (hash: 4162136220)
+[23:00:15.180] [info]   Available Clip: 'leaving' (hash: 17007323)
+[23:00:15.180] [info]   Available Clip: 'move' (hash: 407568404)
+[23:00:15.180] [info] SkinMeshUpdateSystem: Initialization complete.
+[23:00:15.180] [info] SkinMeshUpdateSystem: Changing mesh for entity 'Human4' to path: './Assets/Models/Soldier/soldier.gltf'
+[23:00:15.180] [info] SkinMeshUpdateSystem: Found model './Assets/Models/Soldier/soldier.gltf'. Creating Skeleton and SkinCluster...
+[23:00:15.180] [info] ANIME_MATH::CreateSkeleton: Starting skeleton creation.
+[23:00:15.180] [info] ANIME_MATH::CreateSkeleton: Created 11 joints.
+[23:00:15.180] [info] ANIME_MATH::CreateSkinCluster: Starting (Joints: 11, Meshes: 1)
+[23:00:15.182] [info] ANIME_MATH::CreateSkinCluster: Finished.
+[23:00:15.182] [info] SkinMeshUpdateSystem: Skeleton created with 11 joints.
+[23:00:15.182] [info] SkinMeshUpdateSystem: Initialized with clip 'appear' (duration: 0.33s). Total clips available: 4
+[23:00:15.182] [info]   Available Clip: 'appear' (hash: 4138087844)
+[23:00:15.182] [info]   Available Clip: 'dance' (hash: 4162136220)
+[23:00:15.182] [info]   Available Clip: 'leaving' (hash: 17007323)
+[23:00:15.182] [info]   Available Clip: 'move' (hash: 407568404)
+[23:00:15.183] [info] SkinMeshUpdateSystem: Initialization complete.
+[23:00:15.191] [info] [CPP Audio] SetParams - Vol: 0.0863058, Pitch: 1
+[23:00:15.191] [info] [CPP Audio] SetParams - Vol: 0.0863058, Pitch: 1
+[23:00:15.191] [info] [CPP Audio] Play Requested
+[23:00:15.191] [info] [CPP Audio] SetParams - Vol: 0.0863058, Pitch: 1
+[23:00:15.191] [info] [CPP Audio] SetParams - Vol: 0.0863058, Pitch: 1
+[23:00:15.191] [info] [CPP Audio] Play Requested
+[23:00:15.192] [info] [CPP Audio] Playing Sustained Sound: ./Assets/Sounds/MainGameSounds/bgm/title1.mp3
+[23:00:15.192] [info] [CPP Audio] Playing Sustained Sound: ./Assets/Sounds/MainGameSounds/bgm/title2.mp3
+[23:00:15.193] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.194] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.194] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.194] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.194] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.194] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.195] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.195] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.195] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.258] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.258] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.258] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.258] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.258] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.258] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.258] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.258] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.259] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.259] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.259] [info] [CPP Audio] SetParams - Vol: 0.16877203, Pitch: 1
+[23:00:15.259] [info] [CPP Audio] SetParams - Vol: 0.16877203, Pitch: 1
+[23:00:15.260] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.260] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.260] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.260] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.260] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.260] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.261] [info] [Engine] CopyResource: Copying to resource at 2903401063696
+[23:00:15.261] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.261] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.289] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.289] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.289] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.289] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.289] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.289] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.289] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.289] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.290] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.290] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.290] [info] [CPP Audio] SetParams - Vol: 0.19344808, Pitch: 1
+[23:00:15.290] [info] [CPP Audio] SetParams - Vol: 0.19344808, Pitch: 1
+[23:00:15.290] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.291] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.291] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.291] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.313] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.313] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.314] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.314] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.314] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.314] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.314] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.314] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.314] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.315] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.315] [info] [CPP Audio] SetParams - Vol: 0.21073732, Pitch: 1
+[23:00:15.315] [info] [CPP Audio] SetParams - Vol: 0.21073732, Pitch: 1
+[23:00:15.315] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.315] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.316] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.316] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.338] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.339] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.339] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.339] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.339] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.339] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.339] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.339] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.339] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.340] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.340] [info] [CPP Audio] SetParams - Vol: 0.22831698, Pitch: 1
+[23:00:15.340] [info] [CPP Audio] SetParams - Vol: 0.22831698, Pitch: 1
+[23:00:15.340] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.341] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.341] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.341] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.364] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.365] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.365] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.365] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.365] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.365] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.365] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.366] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.366] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.366] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.366] [info] [CPP Audio] SetParams - Vol: 0.2461489, Pitch: 1
+[23:00:15.366] [info] [CPP Audio] SetParams - Vol: 0.2461489, Pitch: 1
+[23:00:15.367] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.367] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.367] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.367] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.389] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.389] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.389] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.389] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.389] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.389] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.390] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.390] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.390] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.390] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.390] [info] [CPP Audio] SetParams - Vol: 0.26322114, Pitch: 1
+[23:00:15.391] [info] [CPP Audio] SetParams - Vol: 0.26322114, Pitch: 1
+[23:00:15.391] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.391] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.391] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.392] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.413] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.413] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.414] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.414] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.414] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.414] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.414] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.415] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.415] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.415] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.415] [info] [CPP Audio] SetParams - Vol: 0.28018767, Pitch: 1
+[23:00:15.415] [info] [CPP Audio] SetParams - Vol: 0.28018767, Pitch: 1
+[23:00:15.416] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.416] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.416] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.416] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.438] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.438] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.438] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.438] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.439] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.439] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.439] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.439] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.439] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.439] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.439] [info] [CPP Audio] SetParams - Vol: 0.29772156, Pitch: 1
+[23:00:15.439] [info] [CPP Audio] SetParams - Vol: 0.29772156, Pitch: 1
+[23:00:15.440] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.440] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.440] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.440] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.463] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.463] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.463] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.463] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.463] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.463] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.464] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.464] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.464] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.464] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.464] [info] [CPP Audio] SetParams - Vol: 0.31506404, Pitch: 1
+[23:00:15.464] [info] [CPP Audio] SetParams - Vol: 0.31506404, Pitch: 1
+[23:00:15.465] [info] [RenderingFramework] DrawScene started successfully
+[23:00:15.465] [info] [RenderingCollection] ExecutePostProcess for scene: ./Assets/Scene/RenderTexture/scene
+[23:00:15.465] [info] [RenderingCollection] DrawEntities2D executing. Group: TitleScene Camera: 2904098223008
+[23:00:15.465] [info] [SpritePipeline] Drawing 5 sorted sprites.
+[23:00:15.488] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.488] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.488] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.489] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.489] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.489] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.489] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.489] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.489] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.489] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.490] [info] [CPP Audio] SetParams - Vol: 0.33297208, Pitch: 1
+[23:00:15.490] [info] [CPP Audio] SetParams - Vol: 0.33297208, Pitch: 1
+[23:00:15.511] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.511] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.512] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.512] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.512] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.512] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.512] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.512] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.512] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.513] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.513] [info] [CPP Audio] SetParams - Vol: 0.3490351, Pitch: 1
+[23:00:15.513] [info] [CPP Audio] SetParams - Vol: 0.3490351, Pitch: 1
+[23:00:15.528] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.528] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.528] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.529] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.529] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.529] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.529] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.529] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.529] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.529] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.530] [info] [CPP Audio] SetParams - Vol: 0.3611927, Pitch: 1
+[23:00:15.530] [info] [CPP Audio] SetParams - Vol: 0.3611927, Pitch: 1
+[23:00:15.538] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.538] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.538] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.538] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.538] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.539] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.539] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.539] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.539] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.539] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.539] [info] [CPP Audio] SetParams - Vol: 0.368064, Pitch: 1
+[23:00:15.540] [info] [CPP Audio] SetParams - Vol: 0.368064, Pitch: 1
+[23:00:15.548] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.548] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.548] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.548] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.548] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.548] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.549] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.549] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.549] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.549] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.549] [info] [CPP Audio] SetParams - Vol: 0.3748038, Pitch: 1
+[23:00:15.549] [info] [CPP Audio] SetParams - Vol: 0.3748038, Pitch: 1
+[23:00:15.557] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.557] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.558] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.558] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.558] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.558] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.558] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.558] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.558] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.558] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.559] [info] [CPP Audio] SetParams - Vol: 0.3814522, Pitch: 1
+[23:00:15.559] [info] [CPP Audio] SetParams - Vol: 0.3814522, Pitch: 1
+[23:00:15.568] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.568] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.568] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.568] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.568] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.569] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.569] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.569] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.569] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.569] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.569] [info] [CPP Audio] SetParams - Vol: 0.3890728, Pitch: 1
+[23:00:15.570] [info] [CPP Audio] SetParams - Vol: 0.3890728, Pitch: 1
+[23:00:15.586] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.586] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.586] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.586] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.586] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.586] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.586] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.587] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.587] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.587] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.587] [info] [CPP Audio] SetParams - Vol: 0.4015186, Pitch: 1
+[23:00:15.587] [info] [CPP Audio] SetParams - Vol: 0.4015186, Pitch: 1
+[23:00:15.602] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.602] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.602] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.602] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.602] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.602] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.602] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.603] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.603] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.603] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.603] [info] [CPP Audio] SetParams - Vol: 0.41262734, Pitch: 1
+[23:00:15.603] [info] [CPP Audio] SetParams - Vol: 0.41262734, Pitch: 1
+[23:00:15.619] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.619] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.619] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.620] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.620] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.620] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.620] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.620] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.620] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.620] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.621] [info] [CPP Audio] SetParams - Vol: 0.4248198, Pitch: 1
+[23:00:15.621] [info] [CPP Audio] SetParams - Vol: 0.4248198, Pitch: 1
+[23:00:15.635] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.636] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.636] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.636] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.636] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.636] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.636] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.636] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.637] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.637] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.637] [info] [CPP Audio] SetParams - Vol: 0.4360634, Pitch: 1
+[23:00:15.637] [info] [CPP Audio] SetParams - Vol: 0.4360634, Pitch: 1
+[23:00:15.653] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.653] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.653] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.653] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.654] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.654] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.654] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.654] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.654] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.654] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.655] [info] [CPP Audio] SetParams - Vol: 0.4481919, Pitch: 1
+[23:00:15.655] [info] [CPP Audio] SetParams - Vol: 0.4481919, Pitch: 1
+[23:00:15.668] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.668] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.668] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.668] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.669] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.669] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.669] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.669] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.669] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.669] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.670] [info] [CPP Audio] SetParams - Vol: 0.45901114, Pitch: 1
+[23:00:15.670] [info] [CPP Audio] SetParams - Vol: 0.45901114, Pitch: 1
+[23:00:15.685] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.686] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.686] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.686] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.686] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.687] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.687] [info] [CPP Audio] SetParams - Vol: 0.47138503, Pitch: 1
+[23:00:15.687] [info] [CPP Audio] SetParams - Vol: 0.47138503, Pitch: 1
+[23:00:15.701] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.701] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.702] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.702] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.702] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.702] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.703] [info] [CPP Audio] SetParams - Vol: 0.48250812, Pitch: 1
+[23:00:15.703] [info] [CPP Audio] SetParams - Vol: 0.48250812, Pitch: 1
+[23:00:15.718] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.719] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.719] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.719] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.719] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.719] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.719] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.719] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.719] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.720] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.720] [info] [CPP Audio] SetParams - Vol: 0.4943402, Pitch: 1
+[23:00:15.720] [info] [CPP Audio] SetParams - Vol: 0.4943402, Pitch: 1
+[23:00:15.734] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.734] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.734] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.735] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.735] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.735] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.736] [info] [CPP Audio] SetParams - Vol: 0.5054822, Pitch: 1
+[23:00:15.736] [info] [CPP Audio] SetParams - Vol: 0.5054822, Pitch: 1
+[23:00:15.752] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.752] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.752] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.752] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.752] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.753] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.753] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.753] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.753] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.753] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.753] [info] [CPP Audio] SetParams - Vol: 0.5178314, Pitch: 1
+[23:00:15.753] [info] [CPP Audio] SetParams - Vol: 0.5178314, Pitch: 1
+[23:00:15.768] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.768] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.768] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.768] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.768] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.769] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.769] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.769] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.769] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.769] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.769] [info] [CPP Audio] SetParams - Vol: 0.52895844, Pitch: 1
+[23:00:15.769] [info] [CPP Audio] SetParams - Vol: 0.52895844, Pitch: 1
+[23:00:15.785] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.785] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.785] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.786] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.786] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.786] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.786] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.786] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.786] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.786] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.786] [info] [CPP Audio] SetParams - Vol: 0.54112685, Pitch: 1
+[23:00:15.787] [info] [CPP Audio] SetParams - Vol: 0.54112685, Pitch: 1
+[23:00:15.801] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.801] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.801] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.802] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.802] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.802] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.803] [info] [CPP Audio] SetParams - Vol: 0.55218947, Pitch: 1
+[23:00:15.803] [info] [CPP Audio] SetParams - Vol: 0.55218947, Pitch: 1
+[23:00:15.818] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.819] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.819] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.819] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.819] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.820] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.820] [info] [CPP Audio] SetParams - Vol: 0.5644093, Pitch: 1
+[23:00:15.820] [info] [CPP Audio] SetParams - Vol: 0.5644093, Pitch: 1
+[23:00:15.834] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.834] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.834] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.835] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.835] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.835] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.836] [info] [CPP Audio] SetParams - Vol: 0.5755026, Pitch: 1
+[23:00:15.836] [info] [CPP Audio] SetParams - Vol: 0.5755026, Pitch: 1
+[23:00:15.852] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.852] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.852] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.852] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.852] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.852] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.853] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.853] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.853] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.853] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.853] [info] [CPP Audio] SetParams - Vol: 0.5877501, Pitch: 1
+[23:00:15.853] [info] [CPP Audio] SetParams - Vol: 0.5877501, Pitch: 1
+[23:00:15.868] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.868] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.868] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.868] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.868] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.869] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.869] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.869] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.869] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.869] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.869] [info] [CPP Audio] SetParams - Vol: 0.5989626, Pitch: 1
+[23:00:15.869] [info] [CPP Audio] SetParams - Vol: 0.5989626, Pitch: 1
+[23:00:15.885] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.885] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.885] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.885] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.886] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.886] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.886] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.886] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.886] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.886] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.886] [info] [CPP Audio] SetParams - Vol: 0.61102426, Pitch: 1
+[23:00:15.887] [info] [CPP Audio] SetParams - Vol: 0.61102426, Pitch: 1
+[23:00:15.901] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.902] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.902] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.902] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.902] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.902] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.902] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.902] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.902] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.903] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.903] [info] [CPP Audio] SetParams - Vol: 0.6222392, Pitch: 1
+[23:00:15.903] [info] [CPP Audio] SetParams - Vol: 0.6222392, Pitch: 1
+[23:00:15.918] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.918] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.919] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.919] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.919] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.919] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.919] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.919] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.920] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.920] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.920] [info] [CPP Audio] SetParams - Vol: 0.63440406, Pitch: 1
+[23:00:15.920] [info] [CPP Audio] SetParams - Vol: 0.63440406, Pitch: 1
+[23:00:15.934] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.935] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.935] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.935] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.936] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.936] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.936] [info] [CPP Audio] SetParams - Vol: 0.64559203, Pitch: 1
+[23:00:15.936] [info] [CPP Audio] SetParams - Vol: 0.64559203, Pitch: 1
+[23:00:15.952] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.952] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.952] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.952] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.953] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.953] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.953] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.953] [info] [CPP Audio] SetParams - Vol: 0.65776145, Pitch: 1
+[23:00:15.953] [info] [CPP Audio] SetParams - Vol: 0.65776145, Pitch: 1
+[23:00:15.968] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.968] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.968] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.968] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.968] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.968] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.968] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.969] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.969] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.969] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.969] [info] [CPP Audio] SetParams - Vol: 0.6688994, Pitch: 1
+[23:00:15.969] [info] [CPP Audio] SetParams - Vol: 0.6688994, Pitch: 1
+[23:00:15.985] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:15.985] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.986] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:15.986] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.986] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:15.986] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.986] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:15.986] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.986] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:15.986] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:15.987] [info] [CPP Audio] SetParams - Vol: 0.6811015, Pitch: 1
+[23:00:15.987] [info] [CPP Audio] SetParams - Vol: 0.6811015, Pitch: 1
+[23:00:16.001] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.001] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.001] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.001] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.002] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.002] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.002] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.002] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.002] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.002] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.003] [info] [CPP Audio] SetParams - Vol: 0.69222283, Pitch: 1
+[23:00:16.003] [info] [CPP Audio] SetParams - Vol: 0.69222283, Pitch: 1
+[23:00:16.018] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.018] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.019] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.019] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.019] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.019] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.019] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.019] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.019] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.020] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.020] [info] [CPP Audio] SetParams - Vol: 0.7, Pitch: 1
+[23:00:16.020] [info] [CPP Audio] SetParams - Vol: 0.7, Pitch: 1
+[23:00:16.034] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.034] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.034] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.035] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.035] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.035] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.052] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.052] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.052] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.052] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.052] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.053] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.053] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.053] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.053] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.053] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.068] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.068] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.068] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.068] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.069] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.069] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.069] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.085] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.085] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.085] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.085] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.086] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.086] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.086] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.086] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.086] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.086] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.101] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.101] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.101] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.101] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.101] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.101] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.102] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.102] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.102] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.102] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.119] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.119] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.119] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.119] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.120] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.120] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.120] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.134] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.135] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.135] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.135] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.136] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.136] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.152] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.152] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.152] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.152] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.152] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.152] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.153] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.153] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.153] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.153] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.168] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.169] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.169] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.169] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.169] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.169] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.169] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.169] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.170] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.170] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.186] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.186] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.186] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.186] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.187] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.187] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.187] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.187] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.187] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.187] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.203] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.203] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.203] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.203] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.203] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.203] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.203] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.204] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.204] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.204] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.219] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.219] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.219] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.219] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.220] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.220] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.220] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.220] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.220] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.220] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.235] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.235] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.235] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.235] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.235] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.236] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.236] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.236] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.236] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.236] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.252] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.252] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.253] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.253] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.253] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.253] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.253] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.253] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.253] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.254] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.268] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.269] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.269] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.269] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.269] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.269] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.269] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.269] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.270] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.270] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.285] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.286] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.286] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.286] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.286] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.286] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.286] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.286] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.287] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.287] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.301] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.301] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.302] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.302] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.302] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.302] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.302] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.302] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.302] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.303] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.320] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.320] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.320] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.321] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.321] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.321] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.321] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.321] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.321] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.321] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.337] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.338] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.338] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.338] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.338] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.338] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.339] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.339] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.339] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.339] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.353] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.353] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.353] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.354] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.354] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.354] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.354] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.354] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.354] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.355] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.369] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.369] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.370] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.370] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.370] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.370] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.370] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.370] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.371] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.371] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.386] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.387] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.387] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.387] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.387] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.387] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.388] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.388] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.388] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.388] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.402] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.403] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.403] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.403] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.403] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.403] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.403] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.404] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.404] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.404] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.421] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.421] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.421] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.421] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.421] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.421] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.422] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.422] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.422] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.422] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.436] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.436] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.436] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.436] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.436] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.436] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.437] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.437] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.437] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.437] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.452] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.453] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.453] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.453] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.453] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.453] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.453] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.454] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.454] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.454] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.468] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.468] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.469] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.469] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.469] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.469] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.469] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.469] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.469] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.469] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.485] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.486] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.486] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.486] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.486] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.486] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.486] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.487] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.487] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.487] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.501] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.501] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.501] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.501] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.501] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.501] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.502] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.502] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.502] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.502] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.518] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.518] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.519] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.519] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.519] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.519] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.519] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.519] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.519] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.519] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.534] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.534] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.534] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.534] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.535] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.535] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.535] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.535] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.535] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.535] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.552] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.552] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.552] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.552] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.552] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.552] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.552] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.553] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.553] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.553] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.568] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.568] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.568] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.568] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.568] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.568] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.569] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.569] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.569] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.569] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.585] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.585] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.585] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.585] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.585] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.585] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.586] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.586] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.586] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.586] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.601] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.601] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.601] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.601] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.601] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.601] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.602] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.602] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.602] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.602] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.618] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.619] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.619] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.619] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.619] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.619] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.619] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.619] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.620] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.620] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.634] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.634] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.635] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.635] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.635] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.635] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.635] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.635] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.635] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.636] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.652] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.652] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.652] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.652] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.653] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.653] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.653] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.653] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.653] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.653] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.667] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.668] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.668] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.668] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.668] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.668] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.668] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.669] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.669] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.669] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.685] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.685] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.685] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.685] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.685] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.686] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.686] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.686] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.701] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.701] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.701] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.701] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.702] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.702] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.702] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.702] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.717] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.717] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.717] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.718] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.718] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.718] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.718] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.718] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.718] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.718] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.734] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.734] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.734] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.734] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.735] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.735] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.735] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.735] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.752] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.752] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.752] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.752] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.752] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.752] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.753] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.753] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.753] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.753] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.768] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.768] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.768] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.768] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.768] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.768] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.768] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.768] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.769] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.769] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.784] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.785] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.785] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.785] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.785] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.785] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.785] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.785] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.785] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.786] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.801] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.801] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.801] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.801] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.801] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.802] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.802] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.802] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.818] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.818] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.818] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.819] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.819] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.819] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.819] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.820] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.834] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.834] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.834] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.835] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.835] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.835] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.835] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.852] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.852] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.852] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.853] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.853] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.853] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.853] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.853] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.853] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.853] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.868] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.868] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.868] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.868] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.868] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.868] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.868] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.869] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.869] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.869] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.885] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.885] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.885] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.885] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.885] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.886] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.886] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.886] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.886] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.886] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.901] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.901] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.901] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.901] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.901] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.901] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.902] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.902] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.902] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.902] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.919] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.919] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.919] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.919] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.919] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.919] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.920] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.920] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.920] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.920] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.934] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.934] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.934] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.934] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.935] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.935] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.935] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.935] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.951] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.951] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.952] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.952] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.952] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.952] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.952] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.967] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.967] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.968] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.968] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.968] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.968] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.968] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.968] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.968] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.969] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.985] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:16.985] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.985] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:16.985] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.985] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:16.985] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.985] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:16.986] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:16.986] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:16.986] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.001] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.001] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.001] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.001] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.001] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.001] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.002] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.002] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.002] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.002] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.018] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.018] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.018] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.018] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.019] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.019] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.019] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.019] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.019] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.019] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.034] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.034] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.034] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.035] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.035] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.035] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.035] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.051] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.052] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.052] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.052] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.052] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.052] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.052] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.052] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.052] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.053] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.067] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.067] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.068] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.068] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.068] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.068] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.068] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.085] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.085] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.085] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.085] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.085] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.085] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.085] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.086] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.086] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.086] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.101] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.101] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.101] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.101] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.101] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.101] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.102] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.102] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.102] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.102] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.118] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.118] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.118] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.119] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.119] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.119] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.119] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.134] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.134] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.134] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.134] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.135] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.135] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.135] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.135] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.152] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.152] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.152] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.152] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.152] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.153] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.153] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.153] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.153] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.153] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.256] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.256] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.257] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.257] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.257] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.257] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.257] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.257] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.257] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.258] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.265] [info] Animator updating entity: HumanBeat (ID: 11)
+[23:00:17.265] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.265] [info] Animator updating entity: Human1 (ID: 15)
+[23:00:17.265] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.265] [info] Animator updating entity: Human2 (ID: 16)
+[23:00:17.266] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.266] [info] Animator updating entity: Human3 (ID: 17)
+[23:00:17.266] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.266] [info] Animator updating entity: Human4 (ID: 18)
+[23:00:17.266] [info] Joint 0 (Root) Update: weight=1.00, pos=(0.00,0.00,0.00), rot=(0.00,0.00,0.00,1.00)
+[23:00:17.272] [info] [Mono][info] GC_MAJOR: (user request) time 0.48ms, stw 0.51ms los size: 0K in use: 0K
+[23:00:17.273] [info] [Mono][info] GC_MAJOR_SWEEP: major size: 624K in use: 46K
+[23:00:17.276] [info] [Mono][info] Unloading domain MyDomain[000002A4780C6620], assembly mscorlib[000002A477F7C5A0], ref_count=3
+[23:00:17.276] [info] [Mono][info] Unloading domain MyDomain[000002A4780C6620], assembly CSharpLibrary[000002A400207D50], ref_count=1
+[23:00:17.276] [info] [Mono][info] Unloading assembly CSharpLibrary [000002A400207D50].
+[23:00:17.276] [info] [Mono][info] Unloading image C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll [000002A4780CC4A0].
+[23:00:17.277] [info] [Mono][info] Unloading domain MyDomain[000002A4780C6620], assembly System[000002A42A0D45A0], ref_count=1
+[23:00:17.277] [info] [Mono][info] Unloading assembly System [000002A42A0D45A0].
+[23:00:17.277] [info] [Mono][info] Unloading image C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\System.dll [000002A4780D0670].
+[23:00:17.277] [info] [Mono][info] Unloading assembly mscorlib [000002A477F7C5A0].
+[23:00:17.277] [info] [Mono][info] Unloading image C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll [000002A4780CBD50].
+[23:00:17.279] [info] Logger finalized.

@@ -219,6 +219,7 @@
     <Compile Include="Scripts\Game\Field\FieldCell.cs" />
     <Compile Include="Scripts\Game\Field\FieldCellType.cs" />
     <Compile Include="Scripts\Game\Field\FieldFall.cs" />
+    <Compile Include="Scripts\Game\Field\FieldGridLine.cs" />
     <Compile Include="Scripts\Game\Field\FieldManager.cs" />
     <Compile Include="Scripts\Game\Player\Player.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Scripts\Game\Reinforcement\Component\Behavior\Reinforcement.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Component\Behavior\ReinforcementCombat.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Component\Behavior\ReinforcementMovement.cs" />
+    <Compile Include="Scripts\Game\Reinforcement\Component\Behavior\ReinforcementBoundsCheck.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Component\Behavior\ReinforcementGltfAnimator.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Component\Behavior\ReinforcementView.cs" />
     <Compile Include="Scripts\Game\Reinforcement\Component\Buff\ReinforcementAnimation.cs" />

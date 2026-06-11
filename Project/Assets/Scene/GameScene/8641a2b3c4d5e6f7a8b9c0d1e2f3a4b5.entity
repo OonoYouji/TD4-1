@@ -14,13 +14,10 @@
             "type": "Transform"
         },
         {
+            "DamageHandler": {},
             "HP": {
                 "currentHp": 840
             },
-            "type": "Variables"
-        },
-        {
-            "DamageHandler": {},
             "type": "Variables"
         },
         {
