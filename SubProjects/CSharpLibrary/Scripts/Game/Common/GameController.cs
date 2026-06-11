@@ -110,5 +110,10 @@ public class GameController : MonoScript {
             SceneManager.LoadScene(sceneName);
         }
     }
+
+    public bool IsP2or3()
+    {
+        return currentPhase == "Phase 2" || currentPhase == "Phase 3";
+    }
 }
 

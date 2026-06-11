@@ -16,17 +16,17 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 10.0,
-                "y": 10.000008583068848,
-                "z": 10.0
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "type": "Transform"
         },
         {
-            "ConvertTo2D": {},
-            "UiControlManager": {
-                "UNCONTROLED_THRESHOLD": 5.0,
-                "isGamepadMode": false
+            "CheckInputsRetreat": {},
+            "UiController": {
+                "gamepadSpriteEntityName": "Gamepad",
+                "kbmSpriteEntityName": "KBM"
             },
             "type": "Variables"
         },
@@ -35,14 +35,18 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "UiControlManager"
+                    "name": "UiController"
+                },
+                {
+                    "enable": true,
+                    "name": "CheckInputsRetreat"
                 }
             ],
             "type": "Script"
         }
     ],
-    "guid": "5eb149f35d365cfbb797f9ff8b14ec18",
-    "name": "Player2DRoot",
-    "parentGuid": null,
+    "guid": "d69c1e02bbe305fec277c356f11fa10a",
+    "name": "SmashControl",
+    "parentGuid": "5eb149f35d365cfbb797f9ff8b14ec18",
     "prefabName": ""
 }

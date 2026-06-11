@@ -5,8 +5,8 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
-                "y": 0.0,
+                "x": 76.0,
+                "y": -34.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 25.858592987060547,
-                "z": 1.0
+                "x": 24.00000762939453,
+                "y": 23.9999942779541,
+                "z": 23.9999942779541
             },
             "type": "Transform"
         },
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "4779cce380e0d9e214eca916636d611b",
+                "baseTextureGuid": "810b4036584e6cc516a0ab8910040369",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -53,8 +53,8 @@
             "type": "SpriteRenderer"
         }
     ],
-    "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
-    "name": "BG",
-    "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
+    "guid": "c9bef37bd9a7c0062d272f5de9095223",
+    "name": "TextSprite",
+    "parentGuid": "fa4487d4d487ec2f3c7ed6f6582a5a8c",
     "prefabName": ""
 }

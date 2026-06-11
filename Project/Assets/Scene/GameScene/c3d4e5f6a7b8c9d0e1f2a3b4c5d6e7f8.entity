@@ -10,12 +10,6 @@
             "type": "Transform"
         },
         {
-            "FallingRock": {
-                "impactRadius": 8.0
-            },
-            "type": "Variables"
-        },
-        {
             "meshPath": "./Packages/Models/BackgroundObjects/Rock2.obj",
             "type": "MeshRenderer"
         }

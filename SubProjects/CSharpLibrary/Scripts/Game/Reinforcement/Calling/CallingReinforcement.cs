@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 public class CallingReinforcement : MonoScript
@@ -18,7 +17,7 @@ public class CallingReinforcement : MonoScript
     private Player player = null;
     private PlayerCallMotion callMotion = null;
     private PlayerAudio playerAudio_ = null;
-    private List<Entity> activeReinforcements = new List<Entity>();
+    private readonly List<Entity> activeReinforcements = new List<Entity>();
 
     // 最後に援軍を呼んでからの経過時間
     public float spawnTimer { get; private set; } = 0.0f;
@@ -36,6 +35,8 @@ public class CallingReinforcement : MonoScript
             callMotion = playerEntity.GetScript<PlayerCallMotion>();
         }
         playerAudio_ = entity.GetScript<PlayerAudio>();
+
+        spawnTimer = 0.0f;
     }
 
     public override void Update()
