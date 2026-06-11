@@ -35,7 +35,7 @@ public class ReinforcementFallIn : MonoScript
     private float targetZ_    = 0f;
 
     // Reinforcement.cs が参照するプロパティ
-    public bool IsActive   => currentPhase_ == PhaseShaking;
+    public bool IsActive   => currentPhase_ == PhaseFallingIn || currentPhase_ == PhaseShaking;
     public bool IsLaunched => currentPhase_ == PhaseLaunching;
 
     // =========================================================
