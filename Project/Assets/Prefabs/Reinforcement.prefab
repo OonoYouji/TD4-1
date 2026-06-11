@@ -53,7 +53,7 @@
                 "sinkDepth": 5.0,
                 "supportBuffRadius": 29.0,
                 "supportedDamage": 15.0,
-                "supportedScale": 1.399999976158142,
+                "supportedScale": 4.0,
                 "viewAngle": 60.0
             },
             "ReinforcementAnimation": {
@@ -214,7 +214,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "12c0b7e6cacd73ee728ce697fef0df6f",
+    "guid": "63b223e40a794572e67369f21f263246",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"
