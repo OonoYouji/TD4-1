@@ -7,10 +7,14 @@
                 "z": -39.49600601196289
             },
             "rotate": {
-                "w": 0.9297077059745789,
-                "y": 0.368298202753067
+                "w": 0.9919159412384033,
+                "y": -0.1268974393606186
             },
             "type": "Transform"
+        },
+        {
+            "DamageHandler": {},
+            "type": "Variables"
         },
         {
             "layers": [
@@ -18,18 +22,18 @@
                     "boneMaskHash": 0,
                     "states": [
                         {
+                            "clipId": 3886528159,
+                            "isLoop": false,
+                            "playbackSpeed": 0.3333333432674408,
+                            "time": 0.01827939972281456,
+                            "weight": 0.5483819842338562
+                        },
+                        {
                             "clipId": 3271675795,
                             "isLoop": false,
                             "playbackSpeed": 0.3333333432674408,
-                            "time": 0.3380257189273834,
-                            "weight": 1.0
-                        },
-                        {
-                            "clipId": 0,
-                            "isLoop": false,
-                            "playbackSpeed": 0.3333333432674408,
-                            "time": 0.233195498585701,
-                            "weight": 0.0
+                            "time": 0.5833333134651184,
+                            "weight": 0.4516180157661438
                         }
                     ],
                     "weight": 1.0
@@ -98,11 +102,31 @@
             "type": "Animator"
         },
         {
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BossAI"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "BossPerformanceDirector"
+                },
+                {
+                    "enable": true,
+                    "name": "DamageHandler"
+                }
+            ],
+            "type": "Script"
+        },
+        {
             "desiredRotation": {
-                "w": 0.9297077059745789,
-                "y": 0.368298202753067
+                "w": 0.9919158220291138,
+                "y": -0.12689784169197083
             },
-            "rotationSpeed": 5.0,
             "type": "AgentIntentComponent"
         }
     ],
