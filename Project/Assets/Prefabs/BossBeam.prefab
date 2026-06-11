@@ -5,25 +5,31 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": -146.9951934814453,
+                "y": 17.0,
+                "z": -46.902320861816406
             },
             "rotate": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "w": 0.5452585816383362,
+                "x": 0.5452585816383362,
+                "y": -0.4502144753932953,
+                "z": 0.4502144753932953
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 8.0,
+                "y": 50.0,
+                "z": 8.0
             },
             "type": "Transform"
         },
         {
-            "DamageTrigger": {},
+            "DamageTrigger": {
+                "damage": 50,
+                "interval": 0.10000000149011612,
+                "slowDuration": 1.0,
+                "slowMultiplier": 0.800000011920929,
+                "targetTag": "Player"
+            },
             "type": "Variables"
         },
         {
@@ -40,10 +46,10 @@
             "enable": 1,
             "material": {
                 "baseColor": {
-                    "w": 1.0,
+                    "w": 0.20000000298023224,
                     "x": 1.0,
-                    "y": 0.20000000298023224,
-                    "z": 0.20000000298023224
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
                 "guid": "00000000000000000000000000000000",
@@ -51,7 +57,7 @@
                 "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
-                        "x": 0.0,
+                        "x": 0.14123617112636566,
                         "y": 0.0
                     },
                     "rotate": 0.0,
@@ -61,7 +67,7 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cylinder.obj",
+            "meshPath": "./Packages/Models/primitive/tube.obj",
             "renderQueue": 2,
             "type": "MeshRenderer"
         },
@@ -79,9 +85,18 @@
             },
             "state": "Dynamic",
             "type": "BoxCollider"
+        },
+        {
+            "autoPlay": true,
+            "clipPath": "./Assets/Anims/UVTransformAnimation.anim",
+            "currentTime": 0.14123617112636566,
+            "isLooping": true,
+            "isPlaying": true,
+            "speed": 3.0,
+            "type": "AnimationPlayer"
         }
     ],
-    "guid": "580b495b7c1f9d900a07947952a3cf2f",
+    "guid": "e056217e5aecd5513ab4b3b2400924bc",
     "name": "BossBeam",
     "parentGuid": null,
     "prefabName": "BossBeam"

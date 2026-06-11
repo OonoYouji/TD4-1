@@ -1,4 +1,5 @@
 using System;
+using ONEngine;
 
 /// <summary>
 /// ターゲット座標（Blackboard）に向かってダメージ判定のあるビームを照射するノード。
@@ -39,7 +40,6 @@ public class FireBeamNode : BehaviorNode {
 
 		if (!blackboard.HasKey(startTimeKey)) {
 			blackboard.SetFloat(startTimeKey, currentTime);
-			//             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} started FIRING beam!");
 
 			// --- 予測線の削除 ---
 			uint telegraphKey = BehaviorTreeLoader.HashString("TelegraphEntityID_" + NodeIdHash);
@@ -56,6 +56,9 @@ public class FireBeamNode : BehaviorNode {
 			if (beamEntity != null) {
 				beamEntity.parent = null; // 独立させる
 				blackboard.SetInt(BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash), beamEntity.Id);
+
+				// --- 子オブジェクトを含めた初期化の強制 ---
+				FetchAllChildren(beamEntity);
 
 				// DamageTriggerのパラメータをノードの設定で上書き
 				var trigger = beamEntity.GetScript<DamageTrigger>();
@@ -91,12 +94,10 @@ public class FireBeamNode : BehaviorNode {
 			}
 
 			blackboard.Remove(startTimeKey);
-			//             Debug.Log($"<color=red>[FireBeam]</color> {owner.name} finished FIRING beam.");
-
 			return NodeStatus.Success;
 		}
 
-		// 毎フレームTransformを更新
+		// 毎フレーム更新
 		uint currentBeamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
 		if (blackboard.HasKey(currentBeamKey)) {
 			Entity beamEntity = owner.Group.GetEntity(blackboard.GetInt(currentBeamKey));
@@ -122,73 +123,100 @@ public class FireBeamNode : BehaviorNode {
 		if (!string.IsNullOrEmpty(beamRadiusKey)) {
 			uint keyHash = BehaviorTreeLoader.HashString(beamRadiusKey);
 			if (blackboard.HasKey(keyHash)) {
-				// Blackboardの値が「全幅（直径）」を想定している場合があるため、
-				// ここでは「ShowIndicatorNode.size」と同じ値を共有することを考慮し、
-				// 半径として扱うために 0.5 倍する調整が必要かもしれません。
-				// とりあえずはそのまま読み込みます。
 				finalRadius = blackboard.GetFloat(keyHash, beamRadius);
 				if (finalRadius == beamRadius) finalRadius = (float)blackboard.GetInt(keyHash, (int)beamRadius) * 0.5f;
 				else finalRadius *= 0.5f; // size(直径)からradius(半径)への変換
 			}
 		}
 
+		Vector3 bossPosition = owner.transform.position;
+		Vector3 emissionPos = new Vector3(bossPosition.x, bossPosition.y + beamHeight, bossPosition.z);
+
 		Vector3 direction = owner.transform.forward;
 		if (!string.IsNullOrEmpty(fireDirectionKey)) {
 			uint keyHash = BehaviorTreeLoader.HashString(fireDirectionKey);
 			if (blackboard.HasKey(keyHash)) {
 				direction = blackboard.GetVector3(keyHash);
+				// 修正：念のため、ブラックボードから取得した方向も水平に補正
+				direction.y = 0.0f;
+				if (direction.sqrMagnitude > 0.001f) direction = direction.Normalized();
 			}
 		} else {
 			Vector3 targetPos = blackboard.GetVector3(BehaviorTreeLoader.HashString(targetPosKey));
-			Vector3 bossPos = owner.transform.position;
-			Vector3 diff = targetPos - bossPos;
-			diff.y = 0.0f;
+			// 修正：水平方向のみを考慮（Y軸の変化を無視）
+			Vector3 diff = targetPos - emissionPos;
+			diff.y = 0.0f; 
 			if (diff.sqrMagnitude > 0.001f) direction = diff.Normalized();
 		}
 
-		Vector3 bossPosition = owner.transform.position;
-		// ボス自身もターゲットの方向を向く
+		// ボスの向きを更新（水平方向）
 		var intent = owner.GetComponent<AgentIntentComponent>();
 		if (intent != null) {
-			intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up);
+			intent.desiredRotation = Quaternion.LookRotation(direction, Vector3.up).Conjugate();
 			intent.rotationSpeed = trackingRotationSpeed;
 			intent.useDesiredRotation = true;
 		}
 
-		// 高さとオフセットをプロパティから適用
-		Vector3 emissionPos = new Vector3(bossPosition.x, bossPosition.y + beamHeight, bossPosition.z);
 		Vector3 visualStartPos = emissionPos + direction * beamOffsetForward;
-
 		beamEntity.transform.position = visualStartPos + direction * (finalLength * 0.5f);
 
-		Quaternion baseRot = Quaternion.LookRotation(direction).Conjugate();
+		// 修正：LookRotation(ワールド回転) + X90補正。
+		// Y-upのメッシュを水平方向に寝かせて正面（Z方向）へ向ける
+		Quaternion baseRot = Quaternion.LookRotation(direction, Vector3.up).Conjugate();
 		Quaternion x90 = Quaternion.MakeFromAxis(new Vector3(1, 0, 0), 90.0f * Mathf.Deg2Rad);
 		beamEntity.transform.rotation = baseRot * x90;
 
-		// 太さと長さを適用
+		// 太さと長さを適用 (Y軸が長さ)
 		beamEntity.transform.scale = new Vector3(finalRadius * 2.0f, finalLength * 0.5f, finalRadius * 2.0f);
 
-		// --- コライダー（当たり判定）の可視化 ---
-		// 実際のコライダー（BoxCollider）の形状に合わせて、回転を考慮した箱を表示
-		Vector3 beamMidPos = visualStartPos + direction * (finalLength * 0.5f);
-		Vector4 attackColor = new Vector4(1, 0, 1, 1);
+		// 子オブジェクトの補正
+		uint childCount = beamEntity.GetChildCount();
+		for (uint i = 0; i < childCount; i++) {
+			Entity child = beamEntity.GetChild(i);
+			if (child != null && child.name.Contains("out")) {
+				var t = child.GetComponent<Transform>();
+				if (t != null) {
+					t.position = new Vector3(0, -1.0f, 0); 
+					if (child.name == "out_1") t.scale = new Vector3(1.4f, 1.0f, 1.4f);
+					else t.scale = new Vector3(1.22f, 1.0f, 1.22f);
+				}
+			}
+		}
 
-		// BoxColliderと同じサイズ・回転で描画
-		Vector3 boxSize = new Vector3(finalRadius * 2.0f, finalRadius * 2.0f, finalLength);
-		Quaternion boxRotation = Quaternion.LookRotation(direction, Vector3.up);
+		// コライダー調整
+		var boxCollider = beamEntity.GetComponent<BoxCollider>();
+		if (boxCollider != null) boxCollider.size = new Vector3(1.0f, 1.0f, 1.0f);
 
-		GizmoBatch.DrawWireCube(beamMidPos, boxSize, boxRotation, attackColor, 16.0f);
-
-		// デバッグ表示 (着弾点の地面マーカー)
-		uint targetPosKeyHash = BehaviorTreeLoader.HashString(targetPosKey);
-		Vector3 currentTarget = blackboard.HasKey(targetPosKeyHash) ? blackboard.GetVector3(targetPosKeyHash) : owner.transform.position;
-		GizmoBatch.DrawWireCircle(currentTarget + Vector3.up * 0.1f, finalRadius * 2.0f, new Vector4(1, 0.5f, 0, 1), 16, 12.0f);
+		// 可視化デバッグ
+		GizmoBatch.DrawWireCube(beamEntity.transform.position, new Vector3(finalRadius * 2, finalRadius * 2, finalLength), Quaternion.LookRotation(direction, Vector3.up).Conjugate(), new Vector4(1, 0, 1, 1), 16.0f);
 	}
 
+	private Quaternion CalcFromToRotation(Vector3 from, Vector3 to) {
+		from = from.Normalized();
+		to = to.Normalized();
+		float dot = Vector3.Dot(from, to);
+		if (dot > 0.999999f) return Quaternion.identity;
+		if (dot < -0.999999f) {
+			Vector3 axis = Vector3.Cross(Vector3.right, from);
+			if (axis.sqrMagnitude < 0.0001f) axis = Vector3.Cross(Vector3.up, from);
+			return Quaternion.MakeFromAxis(axis.Normalized(), (float)Math.PI);
+		}
+		Vector3 cross = Vector3.Cross(from, to);
+		float s = (float)Math.Sqrt((1.0f + dot) * 2.0f);
+		float invS = 1.0f / s;
+		return new Quaternion(cross.x * invS, cross.y * invS, cross.z * invS, s * 0.5f);
+	}
+
+	private void FetchAllChildren(Entity entity) {
+		if (entity == null) return;
+		var anim = entity.GetComponent<ONEngine.AnimationPlayer>();
+		if (anim != null) anim.Play();
+		uint childCount = entity.GetChildCount();
+		for (uint i = 0; i < childCount; i++) FetchAllChildren(entity.GetChild(i));
+	}
 
 	public override void OnAbort(Blackboard blackboard, Entity owner) {
 		blackboard.Remove(BehaviorTreeLoader.HashString("BeamStart_" + NodeIdHash));
-
 		uint beamKey = BehaviorTreeLoader.HashString("BeamEntityID_" + NodeIdHash);
 		if (blackboard.HasKey(beamKey)) {
 			int beamId = blackboard.GetInt(beamKey);

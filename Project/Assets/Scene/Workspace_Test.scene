@@ -29,6 +29,16 @@
             "guid": "c8be6872226176a1c4cd0b70695201c6",
             "parentGuid": null,
             "path": "./Workspace_Test/c8be6872226176a1c4cd0b70695201c6.entity"
+        },
+        {
+            "guid": "b7b2db0cde763573e206d30faa636a33",
+            "parentGuid": "f40df8ad605746aa850b184497fd012d",
+            "path": "./Workspace_Test/b7b2db0cde763573e206d30faa636a33.entity"
+        },
+        {
+            "guid": "65d855afd494e48429c24f686182a258",
+            "parentGuid": "f40df8ad605746aa850b184497fd012d",
+            "path": "./Workspace_Test/65d855afd494e48429c24f686182a258.entity"
         }
     ]
 }

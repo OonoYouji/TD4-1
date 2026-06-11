@@ -218,7 +218,10 @@ public class ShowIndicatorNode : BehaviorNode {
 				UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, currentSize, currentLength);
 
 				if (!string.IsNullOrEmpty(fireDirectionKey)) {
-					Vector3 diff = new Vector3(currentTarget.x - owner.transform.position.x, 0.0f, currentTarget.z - owner.transform.position.z);
+					Vector3 origin = new Vector3(owner.transform.position.x, owner.transform.position.y + offsetHeight, owner.transform.position.z);
+					// 修正：水平方向のみを考慮（Y軸の変化を無視）
+					Vector3 diff = currentTarget - origin;
+					diff.y = 0.0f;
 					Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : owner.transform.forward;
 					blackboard.SetVector3(BehaviorTreeLoader.HashString(fireDirectionKey), direction);
 				}
@@ -249,7 +252,10 @@ public class ShowIndicatorNode : BehaviorNode {
 						UpdateTelegraphTransform(telegraph, owner.transform.position, originPos, currentTarget, currentSize, currentLength);
 
 						if (!string.IsNullOrEmpty(fireDirectionKey)) {
-							Vector3 diff = new Vector3(currentTarget.x - owner.transform.position.x, 0.0f, currentTarget.z - owner.transform.position.z);
+							Vector3 origin = new Vector3(owner.transform.position.x, owner.transform.position.y + offsetHeight, owner.transform.position.z);
+							// 修正：水平方向のみを考慮（Y軸の変化を無視）
+							Vector3 diff = currentTarget - origin;
+							diff.y = 0.0f;
 							Vector3 direction = (diff.sqrMagnitude > 0.001f) ? diff.Normalized() : owner.transform.forward;
 							blackboard.SetVector3(BehaviorTreeLoader.HashString(fireDirectionKey), direction);
 						}

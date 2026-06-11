@@ -200,7 +200,7 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 			} else {
 
 				/// collisionPairs_からペアを削除
-				auto collisionPairItr = std::remove_if(collidedPairs_.begin(), collidedPairs_.end(), [&pair](const CollisionPair& _p) {
+				auto collisionPairItr = std::find_if(collidedPairs_.begin(), collidedPairs_.end(), [&pair](const CollisionPair& _p) {
 					return (_p.first == pair.first && _p.second == pair.second)
 						|| (_p.first == pair.second && _p.second == pair.first);
 				});
@@ -208,9 +208,8 @@ void CollisionSystem::RuntimeUpdate(ECSGroup* _ecs) {
 				/// 削除するペアがあった場合は exitPairs_ に追加
 				if(collisionPairItr != collidedPairs_.end()) {
 					exitPairs_.emplace_back(pair);
+					collidedPairs_.erase(collisionPairItr);
 				}
-
-				collidedPairs_.erase(collisionPairItr, collidedPairs_.end());
 			}
 
 		}

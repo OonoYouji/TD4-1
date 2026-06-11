@@ -7,18 +7,14 @@
                 "z": -58.63443374633789
             },
             "rotate": {
-                "w": 0.8947216272354126,
-                "y": -0.4466242790222168
+                "w": 0.7711140513420105,
+                "y": 0.6366971135139465
             },
             "type": "Transform"
         },
         {
-            "isPlaying": false,
-            "type": "SkinMeshRenderer"
-        },
-        {
             "BossAI": {
-                "treePath": "Assets/AITrees/BossAttacks/Attack_Vortex.json"
+                "treePath": "Assets/AITrees/BossAttacks/Attack_Beam.json"
             },
             "BossBeamAttack": {
                 "beamHeight": 17.0,
@@ -114,7 +110,7 @@
                             "clipId": 3271675795,
                             "isLoop": true,
                             "playbackSpeed": 1.0,
-                            "time": 0.376666396856308,
+                            "time": 0.5467296838760376,
                             "weight": 1.0
                         },
                         {
@@ -213,8 +209,8 @@
         },
         {
             "desiredRotation": {
-                "w": 0.8947159051895142,
-                "y": -0.44663578271865845
+                "w": 0.7711120843887329,
+                "y": 0.6366994380950928
             },
             "rotationSpeed": 1.0,
             "type": "AgentIntentComponent"

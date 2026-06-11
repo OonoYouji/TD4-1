@@ -2,22 +2,6 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.0,
-                "y": -1.0,
-                "z": 0.0
-            },
-            "enable": 1,
-            "intensity": 1.0,
-            "type": "DirectionalLight"
-        },
-        {
             "cameraType": 1,
             "enable": 1,
             "farClip": 1000.0,
@@ -35,12 +19,28 @@
             "type": "CameraComponent"
         },
         {
+            "color": {
+                "w": 1.0,
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "direction": {
+                "x": 0.0,
+                "y": -1.0,
+                "z": 0.0
+            },
+            "enable": 1,
+            "intensity": 1.0,
+            "type": "DirectionalLight"
+        },
+        {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -51.75867462158203,
+                "x": -36.80635070800781,
                 "y": 366.18914794921875,
-                "z": -75.54193115234375
+                "z": -74.78421020507813
             },
             "rotate": {
                 "w": 0.7071067690849304,
