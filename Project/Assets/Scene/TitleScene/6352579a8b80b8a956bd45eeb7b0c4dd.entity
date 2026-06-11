@@ -6,7 +6,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 24.960830688476563,
+                "y": 30.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,8 +16,8 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 41.000057220458984,
+                "x": 85.2999267578125,
+                "y": 46.535892486572266,
                 "z": 1.0
             },
             "type": "Transform"
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "709bbcd322d82c21b6e9dc74ad30ab60",
+                "baseTextureGuid": "98833aef331aafb2bfce860b634d7f4a",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
