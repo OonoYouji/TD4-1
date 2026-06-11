@@ -24,6 +24,7 @@
         },
         {
             "CheckInputsRetreat": {},
+            "CheckInputsSmashUp": {},
             "UiController": {
                 "gamepadSpriteEntityName": "Gamepad",
                 "kbmSpriteEntityName": "KBM"
@@ -39,7 +40,7 @@
                 },
                 {
                     "enable": true,
-                    "name": "CheckInputsRetreat"
+                    "name": "CheckInputsSmashUp"
                 }
             ],
             "type": "Script"
