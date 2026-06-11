@@ -6,8 +6,6 @@ class BGMAutoPlay : MonoScript
     public float DELAY = 0.0f;
     [SerializeField]
     public float PHADE_IN_TIME = 0.0f;
-    [SerializeField]
-    public float BGM_LOOP_TIME = 0.0f;
 
     float volume;
     float timer = 0.0f;
@@ -19,11 +17,11 @@ class BGMAutoPlay : MonoScript
         audioSource = entity.GetComponent<AudioSource>();
         if (audioSource != null)
         {
-            audioSource?.OneShotPlay(0.7f, 1.0f, BGM_PATH); // 多分ループしない
-            volume = audioSource.volume;
+            volume = 0.7f;
             audioSource.volume = 0.0f;
+            audioSource.path = BGM_PATH;
         }
-        timer = 0.0f;
+        timer = -DELAY;
     }
 
     public override void Update()
@@ -33,27 +31,21 @@ class BGMAutoPlay : MonoScript
             return;
         }
         timer += Time.deltaTime;
-        if (timer < DELAY)
+        if (timer < PHADE_IN_TIME)
         {
-            audioSource.volume = 0.0f;
-        }
-        else if (timer < DELAY + PHADE_IN_TIME)
-        {
-            audioSource.volume = volume * (timer - DELAY) / PHADE_IN_TIME;
+            float param = timer / PHADE_IN_TIME;
+            audioSource?.SetParams(Mathf.Lerp(0.0f, volume, param), 1.0f);
         }
         else
         {
-            audioSource.volume = volume;
+            audioSource?.SetParams(0.7f, 1.0f);
+            audioSource = null;
         }
 
         // ループ再生
-        if (BGM_LOOP_TIME > 0.0f && timer >= BGM_LOOP_TIME)
+        if (timer >= 0.0f && timer <= Time.deltaTime)
         {
-            float progress = timer % BGM_LOOP_TIME;
-            if (progress < Time.deltaTime)
-            {
-                audioSource?.OneShotPlay(0.7f, 1.0f, BGM_PATH); // 多分ループしない
-            }
+            audioSource?.Play();
         }
     }
 }

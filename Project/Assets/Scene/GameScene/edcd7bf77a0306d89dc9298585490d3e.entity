@@ -24,16 +24,15 @@
         },
         {
             "BGMAutoPlay": {
-                "BGM_LOOP_TIME": 24.0,
-                "BGM_PATH": "./Assets/Sounds/MainGameSounds/bgm/clear.mp3",
-                "DELAY": 0.5,
-                "PHADE_IN_TIME": 1.0
+                "BGM_PATH": "./Assets/Sounds/MainGameSounds/bgm/game.mp3",
+                "DELAY": 1.0,
+                "PHADE_IN_TIME": 0.0
             },
             "type": "Variables"
         },
         {
             "enable": 1,
-            "path": "./Assets/Sounds/MainGameSounds/bgm/clear.mp3",
+            "path": "./Assets/Sounds/MainGameSounds/bgm/game.mp3",
             "pitch": 1.0,
             "type": "AudioSource",
             "volume": 0.699999988079071
@@ -49,8 +48,8 @@
             "type": "Script"
         }
     ],
-    "guid": "e3dc2d7d21258cc600320522fec7dff1",
+    "guid": "edcd7bf77a0306d89dc9298585490d3e",
     "name": "BGM",
-    "parentGuid": "6b07a7422885c37c78e575355dc8caa3",
+    "parentGuid": "ec4d71c48a3d8fe01a7eb5f4a3ab940f",
     "prefabName": ""
 }
