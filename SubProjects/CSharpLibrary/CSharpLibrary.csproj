@@ -170,6 +170,14 @@
     <Compile Include="Scripts\Game\AI\BehaviorTree\SpawnVortexFieldNode.cs" />
     <Compile Include="Scripts\Game\AI\BehaviorTree\UpdateTargetTrackerNode.cs" />
     <Compile Include="Scripts\Game\Camera\CameraShake.cs" />
+    <Compile Include="Scripts\Game\Common\AnimationAutoPlay.cs" />
+    <Compile Include="Scripts\Game\Common\AutoY.cs" />
+    <Compile Include="Scripts\Game\Common\BGMAutoPlay.cs" />
+    <Compile Include="Scripts\Game\Common\BlinkSprite.cs" />
+    <Compile Include="Scripts\Game\Common\Bound.cs" />
+    <Compile Include="Scripts\Game\Common\AudioFadeoutAll.cs" />
+    <Compile Include="Scripts\Game\Common\DummyStringData.cs" />
+    <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Camera\FollowCamera.cs" />
     <Compile Include="Scripts\Game\Common\BossDamageUtil.cs" />
     <Compile Include="Scripts\Game\Common\BoundsConstraint.cs" />
@@ -179,6 +187,8 @@
     <Compile Include="Scripts\Game\Common\DelayedAction.cs" />
     <Compile Include="Scripts\Game\Common\GameController.cs" />
     <Compile Include="Scripts\Game\Common\HP.cs" />
+    <Compile Include="Scripts\Game\Common\RandomUtil.cs" />
+    <Compile Include="Scripts\Game\Common\SceneSelector.cs" />
     <Compile Include="Scripts\Game\Common\Knockback.cs" />
     <Compile Include="Scripts\Game\Common\MovementBounds.cs" />
     <Compile Include="Scripts\Game\Common\RandomUtil.cs" />
@@ -197,6 +207,9 @@
     <Compile Include="Scripts\Game\Enemy\FallingPillar.cs" />
     <Compile Include="Scripts\Game\Enemy\FallingRock.cs" />
     <Compile Include="Scripts\Game\Enemy\GiantExpansion.cs" />
+    <Compile Include="Scripts\Game\Enemy\TestEnemy.cs" />
+    <Compile Include="Scripts\Game\OutScene\GameOverAnimController.cs" />
+    <Compile Include="Scripts\Game\Enemy\TelegraphLine.cs" />
     <Compile Include="Scripts\Game\Enemy\SampleBossComponent.cs" />
     <Compile Include="Scripts\Game\Enemy\TelegraphCircle.cs" />
     <Compile Include="Scripts\Game\Enemy\TelegraphLine.cs" />

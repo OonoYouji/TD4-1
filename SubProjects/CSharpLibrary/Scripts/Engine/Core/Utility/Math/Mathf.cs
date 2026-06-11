@@ -123,12 +123,20 @@ struct Mathf {
 		}
 	}
 
+	static public float Gravity
+    {
+        get
+        {
+            return -9.81f;
+        }
+    }
 
-	/// --------------------------------------------
-	/// ファイル探索
-	/// --------------------------------------------
 
-	[MethodImpl(MethodImplOptions.InternalCall)]
+    /// --------------------------------------------
+    /// ファイル探索
+    /// --------------------------------------------
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
 	static public extern string LoadFile(string _path);
 
 
