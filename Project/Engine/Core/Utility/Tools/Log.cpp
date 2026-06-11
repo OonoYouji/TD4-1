@@ -1,4 +1,4 @@
-#include "Log.h"
+﻿#include "Log.h"
 
 #include <comdef.h>
 #include <Windows.h>
@@ -85,7 +85,11 @@ void Console::Initialize() {
 	spdlog::init_thread_pool(8192, 1);
 
 	/// ログ出力先(日付入り)
+#ifdef DEBUG_MODE
 	const std::string logDir = "../Generated/Log/";
+#else 
+	const std::string logDir = "./Log/";
+#endif
 	const std::string fileName = "engine" + GetCurrentDateTimeString() + ".log";
 	auto sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
 		logDir + fileName, 10 * 1024 * 1024, 3);
