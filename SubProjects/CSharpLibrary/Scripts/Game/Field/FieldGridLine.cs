@@ -16,6 +16,10 @@ public class FieldGridLine : MonoScript
     [SerializeField] public float thickness  = 0.2f; // 細い方の辺のスケール
     [SerializeField] public float yScale     = 0.05f;
 
+    // ランタイムからスポーナーが上書きするインデックス（-1 = 未設定）
+    private int lineIndexOverride_ = -1;
+    public int runtimeLineIndex { set { lineIndexOverride_ = value; } }
+
     // =========================================================
     // ライフサイクル
     // =========================================================
@@ -37,17 +41,19 @@ public class FieldGridLine : MonoScript
         float xCenter = origin.x - (cols - 1) * cellSize * 0.5f;
         float zCenter = origin.z - (rows - 1) * cellSize * 0.5f;
 
+        int idx = lineIndexOverride_ >= 0 ? lineIndexOverride_ : lineIndex;
+
         if (lineType == (int)LineType.Row)
         {
-            // Z方向に全行分を伸ばす。lineIndex は列インデックス
-            float posX = origin.x + lineIndex * cellSize - (cols - 1) * cellSize;
+            // Z方向に全行分を伸ばす。idx は列インデックス
+            float posX = origin.x + idx * cellSize - (cols - 1) * cellSize;
             transform.position = new Vector3(posX, yPosition, zCenter);
             transform.scale    = new Vector3(thickness, yScale, rows * cellSize);
         }
         else
         {
-            // X方向に全列分を伸ばす。lineIndex は行インデックス
-            float posZ = origin.z + lineIndex * cellSize - (rows - 1) * cellSize;
+            // X方向に全列分を伸ばす。idx は行インデックス
+            float posZ = origin.z + idx * cellSize - (rows - 1) * cellSize;
             transform.position = new Vector3(xCenter, yPosition, posZ);
             transform.scale    = new Vector3(cols * cellSize, yScale, thickness);
         }

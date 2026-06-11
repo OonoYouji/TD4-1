@@ -220,6 +220,7 @@
     <Compile Include="Scripts\Game\Field\FieldCellType.cs" />
     <Compile Include="Scripts\Game\Field\FieldFall.cs" />
     <Compile Include="Scripts\Game\Field\FieldGridLine.cs" />
+    <Compile Include="Scripts\Game\Field\FieldGridLineSpawner.cs" />
     <Compile Include="Scripts\Game\Field\FieldManager.cs" />
     <Compile Include="Scripts\Game\Player\Player.cs" />
     <Compile Include="Scripts\Game\Player\PlayerInputHandler.cs" />
