@@ -20,7 +20,6 @@ class ConvertTo2D : MonoScript
     //    }
     //    else
     //    {
-    //        Debug.LogError("Camera3D entity not found: " + camera3dName);
     //    }
 
     //    Entity camera2dEntity = ecsGroup.FindEntity(camera2dName);
@@ -30,12 +29,10 @@ class ConvertTo2D : MonoScript
     //    }
     //    else
     //    {
-    //        Debug.LogError("Camera2D entity not found: " + camera2dName);
     //    }
     //    refEntity = ecsGroup.FindEntity(refEntityName);
     //    if(refEntity == null)
     //    {
-    //        Debug.LogError("Reference entity not found: " + refEntityName);
     //    }
     //}
 
@@ -48,3 +45,4 @@ class ConvertTo2D : MonoScript
     //    transform.position = worldPosition * mat;
     //}
 }
+

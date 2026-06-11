@@ -16,7 +16,6 @@ public class SampleBossComponent : MonoScript
 
     public override void Initialize()
     {
-//         Debug.Log($"[SampleBoss] Initialized on {entity.name}(ID:{entity.Id})");
         currentHp = maxHp;
     }
 
@@ -33,13 +32,11 @@ public class SampleBossComponent : MonoScript
             _isAngerTriggered = true;
             bb.SetInt(BehaviorTreeLoader.HashString("CombatPhase"), Phase_Anger);
             bb.SetBool(BehaviorTreeLoader.HashString("IsAnger"), true);
-//             Debug.Log($"<color=red>[Boss]</color> HP Half! Transition to ANGER PHASE.");
         }
 
         // デバッグ用：Kキーでダメージを受ける
         if (Input.TriggerKey(KeyCode.K) || Input.TriggerKey(KeyCode.H))
         {
-//             Debug.Log("[SampleBoss] H/K key TRIGGERED!");
             float damageAmount = 50.0f;
             currentHp -= damageAmount;
             
@@ -48,10 +45,9 @@ public class SampleBossComponent : MonoScript
             if (hpComp != null)
             {
                 hpComp.TakeDamage((int)damageAmount);
-//                 Debug.Log($"[SampleBoss] HP.TakeDamage called. New HP: {hpComp.currentHp}");
             }
 
-//             Debug.Log($"[Boss] Damaged by Debug Key! HP: {currentHp}/{maxHp}");
         }
     }
 }
+

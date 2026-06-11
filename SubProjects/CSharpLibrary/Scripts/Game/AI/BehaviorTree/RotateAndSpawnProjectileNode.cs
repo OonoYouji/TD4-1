@@ -36,7 +36,7 @@ public class RotateAndSpawnProjectileNode : BehaviorNode
 
             if (audio != null)
             {
-                Debug.Log($"[RotateAndSpawnProjectileNode] Playing bomb sound. Path: ./Assets/Sounds/MainGameSounds/se/boss/bomb.mp3, Vol: 0.7");
+                
                 audio.path = "./Assets/Sounds/MainGameSounds/se/boss/bomb.mp3";
                 audio.volume = 0.7f;
                 audio.Play();

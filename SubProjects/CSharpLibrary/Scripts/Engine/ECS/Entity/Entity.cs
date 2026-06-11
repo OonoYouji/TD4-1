@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -53,10 +53,8 @@ public class Entity {
 
 	public string name {
 		get {
-			//Debug.LogInfo("Getting name for Entity ID: " + entityId_ + ", EcsGroupName: " + ecsGroupName_);
 			IntPtr namePtr = InternalGetName(entityId_, ecsGroupName_);
 			if (namePtr == IntPtr.Zero) {
-				// Debug.Log("[error] Entity name is null for ID: " + entityId_);
 				return "UnnamedEntity";
 			}
 			string name = Marshal.PtrToStringAnsi(namePtr);
@@ -120,7 +118,6 @@ public class Entity {
 		for (uint i = 0; i < GetChildCount(); i++) {
 			Entity child = GetChild(i);
 			if (child) {
-// 				Debug.LogInfo("Entity.Destroy - Destroying child entity ID: " + child.Id + " of parent entity ID: " + entityId_);
 				child.Destroy();
 			}
 		}
@@ -161,12 +158,8 @@ public class Entity {
 		components_[typeName] = comp;
 
 		if (comp == null) {
-// 			Debug.LogError("Failed to create component: " + typeName + " (Entity ID: " + entityId_ + ")");
 		}
 
-// 		Debug.Log("---");
-// 		Debug.Log("--- add component: \n     - component id: " + components_[typeName].compId);
-// 		Debug.Log("---");
 
 		ecsGroup_.componentCollection.AddComponent(comp);
 		return comp;
@@ -325,3 +318,4 @@ public class Entity {
 	static extern void InternalSetEnable(int _entityId, bool _enable, string _groupName);
 
 }
+

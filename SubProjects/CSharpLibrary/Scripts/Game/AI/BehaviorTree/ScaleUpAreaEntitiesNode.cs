@@ -62,7 +62,7 @@ public class ScaleUpAreaEntitiesNode : BehaviorNode
 
             if (audio != null)
             {
-                Debug.Log($"[ScaleUpAreaEntitiesNode] Playing clog sound. Path: ./Assets/Sounds/MainGameSounds/se/boss/clog.mp3, Vol: 0.9");
+                
                 audio.OneShotPlay(0.9f, 1.0f, "./Assets/Sounds/MainGameSounds/se/boss/clog.mp3");
             }
 

@@ -30,8 +30,8 @@ public class SpawnEffectNode : BehaviorNode
         // C++側のエフェクトシステムへ通知
         FrameEvent.EnqueueEffectEvent(effectName, owner.Id, scale, duration);
         
-//         Debug.Log($"[SpawnEffect] '{effectName}' spawned at {Vector3.ToSimpleString(spawnPos)}");
 
         return NodeStatus.Success;
     }
 }
+

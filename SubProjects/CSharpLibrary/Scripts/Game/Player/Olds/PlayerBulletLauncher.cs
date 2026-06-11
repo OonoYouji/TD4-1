@@ -47,7 +47,6 @@ public class PlayerBulletLauncher : MonoScript {
         // プレイヤーエンティティを親に設定
         Entity playerEntity = ecsGroup.FindEntity("Player");
 		if (playerEntity == null) {
-// 			Debug.LogError("PlayerBulletLauncher: Playerエンティティが見つかりません");
 			return;
 		}
 		entity.parent = playerEntity;
@@ -55,7 +54,6 @@ public class PlayerBulletLauncher : MonoScript {
         // Playerスクリプトを取得
         player = playerEntity.GetScript<Player>();
 		if (player == null) {
-// 			Debug.LogError("PlayerBulletLauncher: PlayerスクリプトがPlayerエンティティに見つかりません");
 		}
 	}
 
@@ -99,3 +97,4 @@ public class PlayerBulletLauncher : MonoScript {
 		bs.uTurnType = type;
 	}
 }
+

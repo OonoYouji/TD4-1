@@ -20,19 +20,19 @@ public class AudioSource : Component {
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	public void Play() {
-		Debug.Log($"[AudioSource.Play] Path: {path}, Vol: {volume}, Pitch: {pitch}");
+		
 		isPlayRequest_ = true;
 		InternalSetParams(nativeHandle, volume, pitch);
 		InternalPlay(nativeHandle);
 	}
 
 	public void Stop() {
-		Debug.Log($"[AudioSource.Stop] Requested for entity ID: {nativeHandle}");
+		
 		InternalStop(nativeHandle);
 	}
 
 	public void OneShotPlay(float _volume, float _pitch, string _path) {
-		Debug.Log($"[AudioSource.OneShotPlay] Path: {_path}, Vol: {_volume}, Pitch: {_pitch}");
+		
 		InternalPlayOneShot(nativeHandle, _volume, _pitch, _path);
 	}
 

@@ -36,7 +36,6 @@ public class SimpleEQSService : BehaviorService
         
         Entity target = rawVal as Entity;
         if (target == null) {
-//             Debug.Log($"[SimpleEQS] Target '{targetKey}' is not an Entity (Value: {rawVal ?? "null"}).");
             return;
         }
 
@@ -57,9 +56,9 @@ public class SimpleEQSService : BehaviorService
         Vector3 goalPos = targetPos + offsetDir * preferredDistance;
         
         if ((int)(Time.time * 2) % 10 == 0) {
-//             Debug.Log($"[SimpleEQS] Goal updated for {owner.name}: {goalPos} (Target: {target.name})");
         }
 
         blackboard.SetVector3(BehaviorTreeLoader.HashString(resultPosKey), goalPos);
     }
 }
+

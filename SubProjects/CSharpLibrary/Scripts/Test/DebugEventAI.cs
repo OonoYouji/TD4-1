@@ -21,6 +21,6 @@ public class DebugEventAI : MonoScript {
 
 		_intent.InitBehaviorTree(root);
 
-// 		Debug.Log($"[DebugEventAI] Initialized on {entity.name}. BT is ready.");
 	}
 }
+

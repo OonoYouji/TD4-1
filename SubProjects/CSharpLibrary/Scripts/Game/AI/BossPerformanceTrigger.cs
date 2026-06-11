@@ -31,6 +31,6 @@ public class BossPerformanceTrigger : MonoScript {
             FrameEvent.EnqueueEffectEvent(effectName, entity.Id, 1.0f, 2.0f);
         }
 
-//         Debug.Log($"<color=gold>[BossPerformance]</color> Performance Triggered: {entity.name}");
     }
 }
+

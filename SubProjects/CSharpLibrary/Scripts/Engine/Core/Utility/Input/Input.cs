@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 static public class Input {
 
@@ -36,7 +36,6 @@ static public class Input {
 
 	static public Vector2 GamepadThumb(GamepadAxis axis) {
 		int axisIndex = (int)axis;
-// 		Debug.Log("GamepadThumb: " + axisIndex);
 		Vector2 output;
 		InternalGetGamepadThumb(axisIndex, out output.x, out output.y);
 		return output;
@@ -143,3 +142,4 @@ static public class Input {
 	static extern void InternalGetMousePosition(out float _x, out float _y);
 
 }
+

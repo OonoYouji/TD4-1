@@ -43,7 +43,6 @@ public class MoveToPlayerNode : BehaviorNode
     {
         // デバッグ：プロパティのロード状況を確認
         if (Tree != null && Tree.TickCount % 100 == 1) {
-//             Debug.Log($"[MoveToPlayer] Property Check - Start: '{startAnim}', Loop: '{loopAnim}', End: '{endAnim}'");
         }
 
         uint stateKey = BehaviorTreeLoader.HashString("MoveState_" + NodeIdHash);
@@ -60,7 +59,7 @@ public class MoveToPlayerNode : BehaviorNode
 
         if (animator == null && animPlayer == null)
         {
-//             if (Tree != null && Tree.TickCount % 100 == 0) Debug.LogError($"[MoveToPlayer] No animation component found on '{owner.name}'!");
+//             if (Tree != null && Tree.TickCount % 100 == 0) 
         }
 
         // 1. 開始演出フェーズ
@@ -72,11 +71,9 @@ public class MoveToPlayerNode : BehaviorNode
                 if (!string.IsNullOrEmpty(startAnim))
                 {
                     if (animator != null) {
-//                         Debug.Log($"[MoveToPlayer] '{owner.name}' playing StartAnim: '{startAnim}' via Animator");
                         animator.CrossFade(startAnim, 0.1f);
                         if (useClipDuration) waitTime = animator.GetAnimationDuration(startAnim);
                     } else if (animPlayer != null) {
-//                         Debug.Log($"[MoveToPlayer] '{owner.name}' playing StartAnim via AnimationPlayer (Fallback)");
                         animPlayer.Play();
                     }
                 }
@@ -86,7 +83,6 @@ public class MoveToPlayerNode : BehaviorNode
 
             if (currentTime - blackboard.GetFloat(timerKey) >= blackboard.GetFloat(durationKey))
             {
-//                 Debug.Log($"[MoveToPlayer] Start animation finished. Moving.");
                 blackboard.Remove(timerKey);
                 blackboard.Remove(durationKey);
                 blackboard.SetInt(stateKey, (int)MoveState.Moving);
@@ -121,9 +117,7 @@ public class MoveToPlayerNode : BehaviorNode
             if (distance <= stopDistance || chaseTime >= timeout)
             {
                 if (chaseTime >= timeout) {
-//                     Debug.Log($"[MoveToPlayer] Chase TIMEOUT after {chaseTime:F1}s. Giving up and stopping.");
                 } else {
-//                     Debug.Log($"[MoveToPlayer] Arrived at target distance: {distance:F2}");
                 }
 
                 blackboard.Remove(chaseStartTimeKey);
@@ -213,3 +207,4 @@ public class MoveToPlayerNode : BehaviorNode
         }
     }
 }
+

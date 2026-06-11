@@ -6,28 +6,23 @@ class EnemyUIHandler : MonoScript
 
     public override void Initialize()
     {
-//         Debug.LogInfo("EnemyUIHandler Initializing");
         // 再帰関数で子オブジェクトを探索して、HP_UI_NAMEと一致するオブジェクトを見つける
         Entity hpEntity = FindEntity(entity, HP_UI_NAME);
         if (hpEntity == null)
         {
-//             Debug.LogError($"Failed to find entity with name {HP_UI_NAME}");
             return;
         }
 
         renderer = hpEntity.GetComponent<DissolveMeshRenderer>();
         if (renderer == null)
         {
-//             Debug.LogError("Failed to find DissolveMeshRenderer component on " + HP_UI_NAME);
             return;
         }
-//         Debug.LogInfo("EnemyUIHandler initialized");
     }
 
     public void OnDamaged(float currentHpPercent)
     {
         if (renderer == null) return;
-//         Debug.LogInfo($"EnemyUIHandler OnDamaged called with currentHpPercent: {currentHpPercent}");
         renderer.threshold = Mathf.Clamp01(currentHpPercent);
     }
 
@@ -49,3 +44,4 @@ class EnemyUIHandler : MonoScript
         return null;
     }
 }
+

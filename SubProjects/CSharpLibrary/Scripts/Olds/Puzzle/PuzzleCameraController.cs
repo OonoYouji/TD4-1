@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,6 @@ public class PuzzleCameraController : MonoScript {
 
 		cameraEntity = ecsGroup.FindEntity("Camera");
 		if (!cameraEntity) {
-// 			Debug.LogError("PuzzleCameraController.Initialize - Camera entity not found.");
 		}
 	}
 
@@ -36,3 +35,4 @@ public class PuzzleCameraController : MonoScript {
 	}
 
 }
+
