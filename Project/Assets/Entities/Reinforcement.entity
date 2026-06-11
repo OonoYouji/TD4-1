@@ -2,44 +2,21 @@
     "active": true,
     "components": [
         {
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "Reinforcement"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementFallIn"
-                },
-                {
-                    "enable": true,
-                    "name": "HP"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementDamageHandler"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementAnimation"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementGltfAnimator"
-                },
-                {
-                    "enable": true,
-                    "name": "BoundsConstraint"
-                }
-            ],
-            "type": "Script"
+            "scale": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            },
+            "type": "Transform"
         },
         {
-            "isTrigger": false,
-            "type": "SphereCollider"
+            "Reinforcement": {
+                "supportedScale": 1.399999976158142
+            },
+            "type": "Variables"
         }
     ],
-    "guid": "df4e3ae0c07e0efed9fdf8b81391d9b0",
+    "guid": "3cc2c4cfac51d5778e653a9e5624c468",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

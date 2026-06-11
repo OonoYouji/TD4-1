@@ -14,6 +14,8 @@ public partial class Reinforcement {
 		if (moveDir.sqrMagnitude < 0.001f) moveDir = Vector3.forward;
 
 		transform.position += moveDir.Normalized() * moveSpeed * Time.deltaTime;
+		float angle = Mathf.Atan2(moveDir.x, moveDir.z) + Mathf.PI;
+		transform.rotation = Quaternion.MakeFromAxis(Vector3.up, angle);
 		Debug.Log($"Reinforcement {entity.Id} movedir {Vector3.ToSimpleString(moveDir)} position {Vector3.ToSimpleString(transform.position)}", "Reinforcement");
 	}
 
