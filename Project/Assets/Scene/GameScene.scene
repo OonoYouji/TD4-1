@@ -224,6 +224,11 @@
             "guid": "aa4b9e229fb14bb47f585dc1b45ee225",
             "parentGuid": null,
             "path": "./GameScene/aa4b9e229fb14bb47f585dc1b45ee225.entity"
+        },
+        {
+            "guid": "8469d52b493883b7f076d20557c9aedf",
+            "parentGuid": null,
+            "path": "./GameScene/8469d52b493883b7f076d20557c9aedf.entity"
         }
     ]
 }

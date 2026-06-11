@@ -1,10 +1,12 @@
 public partial class Reinforcement
 {
     private Entity boundsEntity_ = null;
+    private bool hasEnteredBounds_ = false;
 
     private void InitBoundsCheck()
     {
         boundsEntity_ = ecsGroup.FindEntity("MovementBounds");
+        hasEnteredBounds_ = false;
     }
 
     private void CheckBoundsRetreat()
@@ -21,10 +23,15 @@ public partial class Reinforcement
         if (bounds == null) return;
 
         Vector3 pos = transform.position;
-        if (pos.x < bounds.MinX || pos.x > bounds.MaxX ||
-            pos.z < bounds.MinZ || pos.z > bounds.MaxZ)
+        bool inside = pos.x >= bounds.MinX && pos.x <= bounds.MaxX
+                   && pos.z >= bounds.MinZ && pos.z <= bounds.MaxZ;
+
+        if (!hasEnteredBounds_)
         {
-            Retreat();
+            if (inside) hasEnteredBounds_ = true;
+            return;
         }
+
+        if (!inside) Retreat();
     }
 }
