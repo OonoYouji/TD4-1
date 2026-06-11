@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.4.56",
+		"generator":"Khronos glTF Blender I/O v5.0.21",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -411,12 +411,22 @@
 				{
 					"input":7,
 					"interpolation":"STEP",
+					"output":10
+				},
+				{
+					"input":7,
+					"interpolation":"STEP",
 					"output":17
 				},
 				{
 					"input":7,
 					"interpolation":"STEP",
 					"output":18
+				},
+				{
+					"input":7,
+					"interpolation":"STEP",
+					"output":10
 				},
 				{
 					"input":7,
@@ -439,9 +449,14 @@
 					"output":22
 				},
 				{
+					"input":13,
+					"interpolation":"LINEAR",
+					"output":23
+				},
+				{
 					"input":7,
 					"interpolation":"STEP",
-					"output":23
+					"output":10
 				},
 				{
 					"input":7,
@@ -449,8 +464,8 @@
 					"output":24
 				},
 				{
-					"input":13,
-					"interpolation":"LINEAR",
+					"input":7,
+					"interpolation":"STEP",
 					"output":25
 				},
 				{
@@ -464,8 +479,8 @@
 					"output":27
 				},
 				{
-					"input":7,
-					"interpolation":"STEP",
+					"input":13,
+					"interpolation":"LINEAR",
 					"output":28
 				},
 				{
@@ -479,29 +494,14 @@
 					"output":30
 				},
 				{
-					"input":13,
-					"interpolation":"LINEAR",
-					"output":31
-				},
-				{
 					"input":7,
 					"interpolation":"STEP",
-					"output":32
-				},
-				{
-					"input":7,
-					"interpolation":"STEP",
-					"output":33
-				},
-				{
-					"input":7,
-					"interpolation":"STEP",
-					"output":34
+					"output":9
 				},
 				{
 					"input":13,
 					"interpolation":"LINEAR",
-					"output":35
+					"output":31
 				}
 			]
 		}
@@ -702,19 +702,19 @@
 			"bufferView":18,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":19,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":20,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":21,
@@ -726,13 +726,13 @@
 			"bufferView":22,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":23,
 			"componentType":5126,
-			"count":2,
-			"type":"VEC3"
+			"count":41,
+			"type":"VEC4"
 		},
 		{
 			"bufferView":24,
@@ -743,7 +743,7 @@
 		{
 			"bufferView":25,
 			"componentType":5126,
-			"count":41,
+			"count":2,
 			"type":"VEC4"
 		},
 		{
@@ -761,7 +761,7 @@
 		{
 			"bufferView":28,
 			"componentType":5126,
-			"count":2,
+			"count":41,
 			"type":"VEC4"
 		},
 		{
@@ -778,30 +778,6 @@
 		},
 		{
 			"bufferView":31,
-			"componentType":5126,
-			"count":41,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":32,
-			"componentType":5126,
-			"count":2,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":33,
-			"componentType":5126,
-			"count":2,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":34,
-			"componentType":5126,
-			"count":2,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":35,
 			"componentType":5126,
 			"count":41,
 			"type":"VEC3"
@@ -906,93 +882,73 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":24,
+			"byteLength":32,
 			"byteOffset":64216
 		},
 		{
 			"buffer":0,
-			"byteLength":32,
-			"byteOffset":64240
+			"byteLength":24,
+			"byteOffset":64248
 		},
 		{
 			"buffer":0,
-			"byteLength":24,
+			"byteLength":32,
 			"byteOffset":64272
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":64296
-		},
-		{
-			"buffer":0,
-			"byteLength":32,
-			"byteOffset":64320
+			"byteOffset":64304
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
+			"byteOffset":64328
+		},
+		{
+			"buffer":0,
+			"byteLength":656,
 			"byteOffset":64352
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":64376
-		},
-		{
-			"buffer":0,
-			"byteLength":656,
-			"byteOffset":64400
-		},
-		{
-			"buffer":0,
-			"byteLength":24,
-			"byteOffset":65056
-		},
-		{
-			"buffer":0,
-			"byteLength":24,
-			"byteOffset":65080
+			"byteOffset":65008
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":65104
+			"byteOffset":65032
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":65136
+			"byteOffset":65064
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":65160
+			"byteOffset":65088
 		},
 		{
 			"buffer":0,
 			"byteLength":656,
-			"byteOffset":65184
+			"byteOffset":65112
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":65840
+			"byteOffset":65768
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":65864
-		},
-		{
-			"buffer":0,
-			"byteLength":32,
-			"byteOffset":65888
+			"byteOffset":65792
 		},
 		{
 			"buffer":0,
 			"byteLength":492,
-			"byteOffset":65920
+			"byteOffset":65816
 		}
 	],
 	"samplers":[
@@ -1003,7 +959,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":66412,
+			"byteLength":66308,
 			"uri":"soldier_support.bin"
 		}
 	]

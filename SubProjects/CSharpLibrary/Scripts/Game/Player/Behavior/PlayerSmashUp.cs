@@ -87,8 +87,9 @@ public class PlayerSmashUp : MonoScript
 
         // 右クリックとXボタンの入力をチェック
         bool wantSmash =
-            Input.PressMouse(Mouse.Right) ||
-            Input.PressGamepad(Gamepad.X);
+            Input.TriggerKey(KeyCode.Space) ||
+            Input.PressGamepad(Gamepad.LeftThumb)||
+            Input.PressGamepad(Gamepad.LeftShoulder);
 
         // クールタイム後に叩きつけ
         if (smashTimer_ <= 0.0f && wantSmash)

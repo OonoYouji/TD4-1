@@ -23,6 +23,16 @@
             "type": "Transform"
         },
         {
+            "animationScale": 1.0,
+            "debugJointSize": 0.18000000715255737,
+            "debugRectSize": 0.009999999776482582,
+            "enable": 1,
+            "isPlaying": true,
+            "meshPath": "./Assets/Models/Soldier/soldier.gltf",
+            "texturePath": "./Assets/Models/Soldier/soldier.png",
+            "type": "SkinMeshRenderer"
+        },
+        {
             "BoundsConstraint": {
                 "waitForEntry": true
             },
@@ -59,6 +69,14 @@
                 "shakeAmplitude": 1.5,
                 "shakeFrequency": 50.20000076293945
             },
+            "ReinforcementGltfAnimator": {
+                "normalClipName": "move",
+                "normalMeshPath": "./Assets/Models/Soldier/soldier.gltf",
+                "normalTexturePath": "./Assets/Models/Soldier/soldier.png",
+                "supportClipName": "beating",
+                "supportMeshPath": "./Assets/Models/Soldier/soldier_support.gltf",
+                "supportTexturePath": "./Assets/Models/Soldier/soldier_support.png"
+            },
             "type": "Variables"
         },
         {
@@ -86,43 +104,107 @@
                 },
                 {
                     "enable": true,
+                    "name": "ReinforcementGltfAnimator"
+                },
+                {
+                    "enable": true,
                     "name": "BoundsConstraint"
                 }
             ],
             "type": "Script"
         },
         {
+            "defaultClipId": 407568404,
             "enable": 1,
-            "material": {
-                "baseColor": {
-                    "w": 1.0,
-                    "x": 0.20000000298023224,
-                    "y": 0.6000000238418579,
-                    "z": 1.0
+            "layers": [
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 407568404,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 1.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
                 },
-                "baseTextureGuid": "bf41deabb8d3b499fda8edb63ccb7c7d",
-                "guid": "00000000000000000000000000000000",
-                "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
-                "uvTransform": {
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "rotate": 0.0,
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    }
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
+                },
+                {
+                    "boneMaskHash": 0,
+                    "states": [
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "clipId": 0,
+                            "isLoop": true,
+                            "playbackSpeed": 1.0,
+                            "time": 0.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "weight": 1.0
                 }
-            },
-            "meshPath": "./Assets/Models/Soldier/soldier.obj",
-            "type": "MeshRenderer"
+            ],
+            "type": "Animator"
         },
         {
             "categoryBits": 4,
             "enable": 1,
             "freezeY": true,
+            "isTrigger": false,
             "maskBits": 60,
             "mass": 1.0,
             "radius": 1.0,
@@ -130,7 +212,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "f4efdc7168fa741b9ee53b0d2acb9c31",
+    "guid": "df4e3ae0c07e0efed9fdf8b81391d9b0",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

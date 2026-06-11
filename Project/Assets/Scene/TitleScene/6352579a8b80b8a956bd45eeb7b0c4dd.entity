@@ -6,7 +6,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 0.06085754185914993,
+                "y": 30.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,8 +16,8 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 128.0,
-                "y": 72.0,
+                "x": 85.2999267578125,
+                "y": 46.535892486572266,
                 "z": 1.0
             },
             "type": "Transform"
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "63aedd28a39f0ed6c3d057a49699c5e4",
+                "baseTextureGuid": "98833aef331aafb2bfce860b634d7f4a",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -51,6 +51,15 @@
                 }
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "autoPlay": true,
+            "clipPath": "",
+            "currentTime": 0.0,
+            "isLooping": true,
+            "isPlaying": false,
+            "speed": 1.0,
+            "type": "AnimationPlayer"
         }
     ],
     "guid": "6352579a8b80b8a956bd45eeb7b0c4dd",
