@@ -11,12 +11,11 @@ class SceneSelector : MonoScript
     private readonly List<SceneInfo> nextSceneInfos = new List<SceneInfo>();
     private int nextSceneIndex = 0;
 
-    string selectMoveSEPath = "./Assets/Sounds/MainGameSounds/se/outGame/cursor_move.mp3";
-    string selectMoveFailedSEPath = "./Assets/Sounds/MainGameSounds/se/outGame/cursor_cantmove.mp3";
+    readonly string selectMoveSEPath = "./Assets/Sounds/MainGameSounds/se/outGame/cursor_move.mp3";
+    readonly string selectMoveFailedSEPath = "./Assets/Sounds/MainGameSounds/se/outGame/cursor_cantmove.mp3";
 
     private float timer = 0f;
     private readonly float inputDelay = 0.5f; // 入力を受け付けるまでの遅延時間
-    private bool isPrevInputUp = false;
 
     AudioSource audioSource;
 
@@ -56,13 +55,13 @@ class SceneSelector : MonoScript
         }
 
         if (
-            Input.ReleaseKey(KeyCode.UpArrow) &&
-            Input.ReleaseKey(KeyCode.W) &&
-            Input.ReleaseGamepad(Gamepad.DPadUp) &&
+            !Input.PressKey(KeyCode.UpArrow) &&
+            !Input.PressKey(KeyCode.W) &&
+            !Input.PressGamepad(Gamepad.DPadUp) &&
 
-            Input.ReleaseKey(KeyCode.DownArrow) &&
-            Input.ReleaseKey(KeyCode.S) &&
-            Input.ReleaseGamepad(Gamepad.DPadDown) &&
+            !Input.PressKey(KeyCode.DownArrow) &&
+            !Input.PressKey(KeyCode.S) &&
+            !Input.PressGamepad(Gamepad.DPadDown) &&
 
             Mathf.Abs(Input.GamepadThumb(GamepadAxis.LeftThumb).y) < 0.5f
             )
@@ -70,18 +69,28 @@ class SceneSelector : MonoScript
             timer = 0.0f;
         }
         timer -= Time.deltaTime;
-        Debug.LogInfo($"Timer: {timer}, isPrevInputUp: {isPrevInputUp}");
 
-        // カーソル移動
-        if (
-            (!isPrevInputUp || timer <= 0) &&
-            (Input.PressKey(KeyCode.UpArrow) ||
+        int cursorDelta = 0;
+        if (Input.PressKey(KeyCode.UpArrow) ||
             Input.PressKey(KeyCode.W) ||
             Input.PressGamepad(Gamepad.DPadUp) ||
             Input.GamepadThumb(GamepadAxis.LeftThumb).y > 0.5f)
-            )
         {
-            isPrevInputUp = true;
+            cursorDelta += -1;
+        }
+
+        if (Input.PressKey(KeyCode.DownArrow) ||
+                 Input.PressKey(KeyCode.S) ||
+                 Input.PressGamepad(Gamepad.DPadDown) ||
+                 Input.GamepadThumb(GamepadAxis.LeftThumb).y < -0.5f)
+        {
+            cursorDelta += 1;
+        }
+
+        // カーソル移動
+        // 上方向への入力があった場合
+        if (timer <= 0 && cursorDelta == -1)
+        {
             timer = inputDelay; // 入力遅延をリセット
             if (nextSceneIndex != 0)
             {
@@ -94,15 +103,9 @@ class SceneSelector : MonoScript
             }
         }
 
-        if (
-            (isPrevInputUp || timer <= 0) &&
-            (Input.PressKey(KeyCode.DownArrow) ||
-             Input.PressGamepad(Gamepad.DPadDown) ||
-             Input.PressKey(KeyCode.S) ||
-             Input.GamepadThumb(GamepadAxis.LeftThumb).y < -0.5f)
-            )
+        // 下方向への入力があった場合
+        if (timer <= 0 && cursorDelta == 1)
         {
-            isPrevInputUp = false;
             timer = inputDelay; // 入力遅延をリセット
             if (nextSceneIndex != nextSceneInfos.Count - 1)
             {

@@ -24,7 +24,8 @@
         },
         {
             "EndSceneController": {
-                "nextSceneName": "TitleScene"
+                "nextSceneName": "TitleScene",
+                "playSoundPath": "./Assets/Sounds/MainGameSounds/se/outGame/select.mp3"
             },
             "type": "Variables"
         },
@@ -37,6 +38,13 @@
                 }
             ],
             "type": "Script"
+        },
+        {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
         }
     ],
     "guid": "f059d18c3aa6d0577e148c0870d37d32",

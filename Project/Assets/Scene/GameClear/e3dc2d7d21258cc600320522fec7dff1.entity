@@ -23,26 +23,13 @@
             "type": "Transform"
         },
         {
-            "EndSceneController": {
-                "nextSceneName": "GameScene",
-                "playSoundPath": ""
+            "BGMAutoPlay": {
+                "BGM_LOOP_TIME": 24.0,
+                "BGM_PATH": "./Assets/Sounds/MainGameSounds/bgm/clear.mp3",
+                "DELAY": 0.5,
+                "PHADE_IN_TIME": 1.0
             },
-            "SceneSelector": {},
             "type": "Variables"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "EndSceneController"
-                },
-                {
-                    "enable": true,
-                    "name": "SceneSelector"
-                }
-            ],
-            "type": "Script"
         },
         {
             "enable": 1,
@@ -50,10 +37,20 @@
             "pitch": 1.0,
             "type": "AudioSource",
             "volume": 1.0
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "BGMAutoPlay"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "77018edbe9d920438d7558b1d61226ff",
-    "name": "Selection",
-    "parentGuid": "e059d18c3aa6d0577e148c0870d37d34",
+    "guid": "e3dc2d7d21258cc600320522fec7dff1",
+    "name": "BGM",
+    "parentGuid": "6b07a7422885c37c78e575355dc8caa3",
     "prefabName": ""
 }

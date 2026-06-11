@@ -144,6 +144,16 @@
             "guid": "16b38c2e2922d0eb5300634515eb6f09",
             "parentGuid": "efba6cd221b57f838cc99318ddfbaa89",
             "path": "./GameClear/16b38c2e2922d0eb5300634515eb6f09.entity"
+        },
+        {
+            "guid": "6b07a7422885c37c78e575355dc8caa3",
+            "parentGuid": null,
+            "path": "./GameClear/6b07a7422885c37c78e575355dc8caa3.entity"
+        },
+        {
+            "guid": "e3dc2d7d21258cc600320522fec7dff1",
+            "parentGuid": "6b07a7422885c37c78e575355dc8caa3",
+            "path": "./GameClear/e3dc2d7d21258cc600320522fec7dff1.entity"
         }
     ]
 }

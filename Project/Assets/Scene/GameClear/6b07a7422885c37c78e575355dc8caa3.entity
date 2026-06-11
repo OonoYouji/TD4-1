@@ -23,11 +23,9 @@
             "type": "Transform"
         },
         {
-            "EndSceneController": {
-                "nextSceneName": "GameScene",
-                "playSoundPath": ""
+            "AudioFadeoutAll": {
+                "FADE_OUT_TIME": 0.20000000298023224
             },
-            "SceneSelector": {},
             "type": "Variables"
         },
         {
@@ -35,25 +33,14 @@
             "scripts": [
                 {
                     "enable": true,
-                    "name": "EndSceneController"
-                },
-                {
-                    "enable": true,
-                    "name": "SceneSelector"
+                    "name": "AudioFadeoutAll"
                 }
             ],
             "type": "Script"
-        },
-        {
-            "enable": 1,
-            "path": "",
-            "pitch": 1.0,
-            "type": "AudioSource",
-            "volume": 1.0
         }
     ],
-    "guid": "77018edbe9d920438d7558b1d61226ff",
-    "name": "Selection",
-    "parentGuid": "e059d18c3aa6d0577e148c0870d37d34",
+    "guid": "6b07a7422885c37c78e575355dc8caa3",
+    "name": "AudioManager",
+    "parentGuid": null,
     "prefabName": ""
 }

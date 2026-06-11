@@ -25,7 +25,7 @@ public class EndSceneController : MonoScript
                 Debug.Log("EndSceneController: Transitioning to " + nextSceneName + " via transition.");
                 SceneTransition.Instance.TransitionTo(nextSceneName);
                 AudioSource audioSource = entity.GetComponent<AudioSource>();
-                audioSource?.OneShotPlay(0.6f, 1.0f, playSoundPath);
+                audioSource?.OneShotPlay(0.8f, 1.0f, playSoundPath);
                 audioFadeoutAll?.StartFadeOut();
             }
             else
