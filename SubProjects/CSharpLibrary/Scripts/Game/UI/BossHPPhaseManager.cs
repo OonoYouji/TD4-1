@@ -16,13 +16,11 @@ public class BossHPPhaseManager : MonoScript
 
     public override void Initialize()
     {
-//         Debug.Log("[BossHPPhaseManager] Initializing Multi-Phase HP UI...");
         FindTarget();
 
         // 子エンティティからBarスクリプトを収集 (名前で判定)
         phaseBars.Clear();
         uint childCount = entity.GetChildCount();
-//         Debug.Log($"[BossHPPhaseManager] Parent: {entity.name}, Child Count: {childCount}");
 
         List<Entity> children = new List<Entity>();
         for (uint i = 0; i < childCount; i++)
@@ -30,12 +28,10 @@ public class BossHPPhaseManager : MonoScript
             Entity child = entity.GetChild(i);
             if (child != null) 
             {
-//                 Debug.Log($"[BossHPPhaseManager] Found Child[{i}]: {child.name} (ID: {child.Id})");
                 children.Add(child);
             }
             else
             {
-//                 Debug.Log($"[BossHPPhaseManager] Child[{i}] is null!");
             }
         }
 
@@ -49,11 +45,9 @@ public class BossHPPhaseManager : MonoScript
             {
                 phaseBars.Add(bar);
                 bar.SetManager(this);
-//                 Debug.Log($"[BossHPPhaseManager] Successfully attached BossHPPhaseBar from child: {child.name}");
             }
             else
             {
-//                 Debug.Log($"[BossHPPhaseManager] Child {child.name} does NOT have BossHPPhaseBar script!");
             }
         }
 
@@ -66,12 +60,10 @@ public class BossHPPhaseManager : MonoScript
             {
                 phaseBars[i].minRatio = (count - 1 - i) * step;
                 phaseBars[i].maxRatio = (count - i) * step;
-//                 Debug.Log($"[BossHPPhaseManager] Bar '{phaseBars[i].entity.name}' assigned range: {phaseBars[i].minRatio:F2} - {phaseBars[i].maxRatio:F2}");
             }
         }
         else
         {
-//             Debug.Log("[BossHPPhaseManager] WARNING: No PhaseBars found!");
         }
     }
 
@@ -83,7 +75,6 @@ public class BossHPPhaseManager : MonoScript
             targetHP = target.GetScript<HP>();
             if (targetHP != null)
             {
-//                 Debug.Log($"[BossHPPhaseManager] Linked to target '{targetEntityName}'.");
             }
         }
     }
@@ -113,3 +104,4 @@ public class BossHPPhaseManager : MonoScript
         }
     }
 }
+

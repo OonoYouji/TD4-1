@@ -48,7 +48,6 @@ public class PlayerCore : MonoScript
         Entity playerEntity = ecsGroup.FindEntity("Player");
         if (playerEntity == null)
         {
-//             Debug.LogError("PlayerCore: Playerエンティティが見つかりません");
             return;
         }
         playerTransform = playerEntity.transform;
@@ -131,3 +130,4 @@ public class PlayerCore : MonoScript
         }
     }
 }
+

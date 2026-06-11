@@ -10,20 +10,16 @@ public class BossAI : MonoScript {
 	private AgentIntentComponent _intent;
 
 	public override void Initialize() {
-// 		Debug.Log($"BossAI: Initializing for entity {entity.name} (ID:{entity.Id})");
 		_intent = entity.GetComponent<AgentIntentComponent>();
 		if (_intent == null) {
 			_intent = entity.AddComponent<AgentIntentComponent>();
 		}
 
 		// エディタで作成したツリーをロード
-// 		Debug.Log($"BossAI: Loading tree from {treePath} for {entity.name}");
 		_intent.LoadBehaviorTree(treePath);
 
 		if (_intent.behaviorTree != null && _intent.behaviorTree.RootNode != null) {
-// 			Debug.Log($"BossAI: Successfully loaded tree. Root Node: {_intent.behaviorTree.RootNode.name}");
 		} else {
-// 			Debug.LogError($"BossAI: Failed to load tree or RootNode is null! Path: {treePath}");
 		}
 	}
 
@@ -33,7 +29,6 @@ public class BossAI : MonoScript {
 			var hp = entity.GetScript<HP>();
 			if (hp != null) {
 				hp.TakeDamage(120); // 1200の10%
-// 				Debug.Log($"<color=orange>[Debug]</color> Boss HP reduced. Current: {hp.currentHp}/{hp.MAX_HP} ({hp.CurrentHpRatio() * 100:F1}%)");
 			}
 		}
 
@@ -44,3 +39,4 @@ public class BossAI : MonoScript {
 		GizmoBatch.DrawRay(transform.position + Vector3.up * 2.0f, transform.forward * 5.0f, new Vector4(0, 1, 0, 1));
 	}
 }
+

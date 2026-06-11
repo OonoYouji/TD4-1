@@ -40,8 +40,8 @@ public class SetBBValueNode : BehaviorNode
         }
         catch
         {
-//             Debug.LogError($"SetBBValueNode: Failed to parse value '{value}' for type {type}");
             return NodeStatus.Failure;
         }
     }
 }
+

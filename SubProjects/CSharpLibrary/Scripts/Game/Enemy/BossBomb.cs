@@ -131,6 +131,6 @@ public class BossBomb : MonoScript
 
         // 爆発イベント
         FrameEvent.EnqueueNamedEvent("Effect_Explosion", entity.Id);
-//         Debug.Log($"[BossBomb] Exploding at {Vector3.ToSimpleString(transform.position)}");
     }
 }
+

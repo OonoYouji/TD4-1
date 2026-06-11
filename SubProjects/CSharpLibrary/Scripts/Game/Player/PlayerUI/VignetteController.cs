@@ -56,7 +56,6 @@ public class VignetteController : MonoScript
         if (playerHp.currentHp < lastHp)
         {
             flickerTimer = fadeDuration;
-            // Debug.Log($"[Vignette] Damage! {lastHp} -> {playerHp.currentHp}");
         }
         lastHp = playerHp.currentHp;
 
@@ -90,3 +89,4 @@ public class VignetteController : MonoScript
         }
     }
 }
+

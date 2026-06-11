@@ -15,7 +15,6 @@ class UiController : MonoScript
         gamepadEntity = TryFindChild(gamepadSpriteEntityName);
         if (gamepadEntity == null)
         {
-//             Debug.LogError("Gamepad sprite entity not found: " + gamepadSpriteEntityName);
         }
 
         kbmEntity = TryFindChild(kbmSpriteEntityName);
@@ -25,7 +24,6 @@ class UiController : MonoScript
         }
         else
         {
-//             Debug.LogError("KBM sprite entity not found: " + kbmSpriteEntityName);
         }
     }
 
@@ -57,3 +55,4 @@ class UiController : MonoScript
         return null;
     }
 }
+

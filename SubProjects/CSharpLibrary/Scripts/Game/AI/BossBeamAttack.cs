@@ -36,7 +36,6 @@ public class BossBeamAttack : MonoScript
     private void PlayAnimation(string clipName)
     {
         if (animator == null || currentAnim == clipName) return;
-//         Debug.Log($"[BossAnimation] Changing to: {clipName} (from: {currentAnim})");
         animator.CrossFade(clipName, 0.15f);
         currentAnim = clipName;
     }
@@ -71,7 +70,6 @@ public class BossBeamAttack : MonoScript
                 {
                     currentState = State.Firing;
                     stateTimer = firingDuration;
-//                     Debug.Log("[BossBeamAttack] Firing Beam!");
                 }
                 break;
 
@@ -96,7 +94,6 @@ public class BossBeamAttack : MonoScript
                 {
                     PlayAnimation("beam_end");
                     currentState = State.Idle;
-//                     Debug.Log("[BossBeamAttack] Attack Finished.");
                 }
                 break;
         }
@@ -109,7 +106,6 @@ public class BossBeamAttack : MonoScript
         currentState = State.Waiting;
         stateTimer = waitTime;
         UpdateTarget();
-//         Debug.Log("[BossBeamAttack] Starting Attack Sequence (Waiting...)");
     }
 
     private void RotateToTarget()
@@ -249,3 +245,4 @@ public class BossBeamAttack : MonoScript
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 [Flags]
 public enum Gamepad {

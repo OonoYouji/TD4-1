@@ -135,7 +135,6 @@ public static class GizmoBatch
     {
         if (_lineBuffer.Count == 0) return;
 
-        // Debug.Log($"[GizmoBatch] Submitting {_lineBuffer.Count} lines to engine.");
 
         try
         {
@@ -151,3 +150,4 @@ public static class GizmoBatch
     [MethodImpl(MethodImplOptions.InternalCall)]
     private static extern void Internal_SubmitLineBatch(GizmoBatchLineData[] batch, int count);
 }
+

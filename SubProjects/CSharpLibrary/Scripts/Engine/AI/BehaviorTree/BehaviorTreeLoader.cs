@@ -19,7 +19,6 @@ public static class BehaviorTreeLoader {
 		// 1. ファイルの読み込みとパース
 		string jsonText = Mathf.LoadFile(path);
 		if (string.IsNullOrEmpty(jsonText)) {
-			//             Debug.LogError($"BTLoader: File not found or empty: {path}");
 			return null;
 		}
 
@@ -27,7 +26,6 @@ public static class BehaviorTreeLoader {
 		BehaviorTree tree = new BehaviorTree(owner);
 		tree.SourcePath = path; // Normalized in property setter
 
-		//         Debug.Log($"BTLoader: Loading tree for {owner.name} from {tree.SourcePath}");
 
 		// 2. Blackboard（共有変数）のロード
 		if (root["blackboard"] != null) {
@@ -50,7 +48,6 @@ public static class BehaviorTreeLoader {
 					var va = v["vVal"];
 					Vector3 v3 = new Vector3((float)va[0], (float)va[1], (float)va[2]);
 					tree.Blackboard.SetVector3(keyHash, v3);
-					// Debug.Log($"BTLoader: BB SetVector3 {key} = {v3}");
 					break;
 				case 4: // String
 					tree.Blackboard.SetString(keyHash, (string)v["sVal"]);
@@ -127,7 +124,6 @@ public static class BehaviorTreeLoader {
 				if (n["inputs"] != null) foreach (var pin in n["inputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
 				if (n["outputs"] != null) foreach (var pin in n["outputs"]) pinToNodeMap[(ulong)pin["id"]] = id;
 			} else {
-				//                 Debug.LogError($"BTLoader: Could not find type {className} for node {n["name"]} (ID:{id})");
 			}
 		}
 
@@ -142,17 +138,14 @@ public static class BehaviorTreeLoader {
 			ulong linkId = (ulong)l["id"];
 
 			if (!pinToNodeMap.ContainsKey(startPin)) {
-				//                 Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID startPin {startPin}. (Orphaned Link)");
 				linkErrorCount++;
 			}
 			if (!pinToNodeMap.ContainsKey(endPin)) {
-				//                 Debug.LogError($"[BT_VALIDATION] Link {linkId} in '{path}' has INVALID endPin {endPin}. (Broken Connection)");
 				linkErrorCount++;
 			}
 		}
 
 		if (linkErrorCount > 0) {
-			//             Debug.LogError($"[BT_LOADER] Total {linkErrorCount} structural errors detected in '{path}'. Behavior may be corrupted.");
 		}
 
 		links.Sort((a, b) => {
@@ -178,7 +171,6 @@ public static class BehaviorTreeLoader {
 					if (nodeInstances.TryGetValue(childId, out var rootNode)) {
 						tree.RootNode = rootNode;
 					} else {
-						//                         Debug.LogError($"[BT_VALIDATION] Entry is connected to ID {childId}, but that node failed to instantiate.");
 					}
 				} else if (nodeInstances.TryGetValue(parentId, out var parentNode) &&
 						   nodeInstances.TryGetValue(childId, out var childNode)) {
@@ -186,21 +178,17 @@ public static class BehaviorTreeLoader {
 						composite.AddChild(childNode);
 						childNode.Parent = parentNode;
 					} else {
-						//                         Debug.LogWarning($"[BT_VALIDATION] Node '{parentNode.name}' is NOT a Composite (Sequence/Selector), but has a child connection. Link will be ignored.");
 					}
 				} else {
 					if (!nodeInstances.ContainsKey(parentId) && parentId != entryNodeId) {
-						// Debug.LogError($"[BT_VALIDATION] Link points to non-existent parent node ID:{parentId}");
 					}
 					if (!nodeInstances.ContainsKey(childId)) {
-						// Debug.LogError($"[BT_VALIDATION] Link points to non-existent child node ID:{childId}");
 					}
 				}
 			}
 		}
 
 		if (tree.RootNode == null) {
-			//             Debug.LogError($"[BT_FATAL] Loaded tree from '{path}' has NO ROOT connected to the Entry point! AI execution will be skipped.");
 		}
 
 		tree.InitializeMonitoring();
@@ -215,9 +203,7 @@ public static class BehaviorTreeLoader {
 				try {
 					object val = ConvertValue(field.FieldType, p.Value.ToString());
 					field.SetValue(instance, val);
-					// Debug.Log($"BTLoader: Set field {p.Name} = {val} on {instance.GetType().Name}");
 				} catch (Exception e) {
-					//                     Debug.LogWarning($"BTLoader: Failed to set field {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
 				}
 			} else {
 				PropertyInfo prop = type.GetProperty(p.Name, BindingFlags.Public | BindingFlags.Instance);
@@ -225,12 +211,9 @@ public static class BehaviorTreeLoader {
 					try {
 						object val = ConvertValue(prop.PropertyType, p.Value.ToString());
 						prop.SetValue(instance, val);
-						// Debug.Log($"BTLoader: Set property {p.Name} = {val} on {instance.GetType().Name}");
 					} catch (Exception e) {
-						//                         Debug.LogWarning($"BTLoader: Failed to set property {p.Name} on {type.Name} (Value: {p.Value}). {e.Message}");
 					}
 				} else {
-					// Debug.LogWarning($"BTLoader: Field or property {p.Name} not found on {type.Name}");
 				}
 			}
 		}
@@ -256,7 +239,6 @@ public static class BehaviorTreeLoader {
 		if (type.IsEnum) {
 			if (int.TryParse(value, out int intVal)) {
 				object result = Enum.ToObject(type, intVal);
-				// Debug.Log($"BTLoader: Enum Convert {value} -> {intVal} -> {result} (Type: {type.Name})");
 				return result;
 			}
 			return Enum.Parse(type, value, true);
@@ -273,3 +255,4 @@ public static class BehaviorTreeLoader {
 		return hash;
 	}
 }
+

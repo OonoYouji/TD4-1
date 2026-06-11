@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -12,7 +12,6 @@ public class MonoScript {
     /// Behaviorの生成
     public void CreateBehavior(int _entityId, string _name, ECSGroup _ecsGroup) {
         if (!_ecsGroup) {
-//             Debug.LogError("MonoBehavior.CreateBehavior - ECSGroup is null. Cannot create MonoBehavior for Entity ID: " + _entityId);
             return;
         }
 
@@ -20,7 +19,6 @@ public class MonoScript {
         ecsGroup = _ecsGroup;
         entity = ecsGroup.GetEntity(_entityId);
 
-//         Debug.Log("MonoBehavior created for Entity ID: " + _entityId + ", Script Name: " + _name + ", Group Name: " + _ecsGroup.groupName);
     }
 
 
@@ -39,12 +37,10 @@ public class MonoScript {
     public Transform transform {
         get {
             if (entity == null) {
-//                 Debug.LogError("MonoBehavior.transform - Entity is not initialized. Please call InternalInitialize first.");
                 return null;
             }
 
             if (entity.transform == null) {
-//                 Debug.LogError("MonoBehavior.transform - Transform component is not initialized for Entity ID: " + entity.Id);
                 return null;
             }
 
@@ -75,3 +71,4 @@ public class MonoScript {
     }
 
 }
+

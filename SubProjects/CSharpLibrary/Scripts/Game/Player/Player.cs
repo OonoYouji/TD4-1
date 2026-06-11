@@ -69,7 +69,6 @@ public class Player : MonoScript
             if (_debuffTimer <= 0)
             {
                 _speedMultiplier = 1.0f;
-//                 Debug.Log("[Player] Speed debuff cleared.");
             }
         }
 
@@ -89,7 +88,6 @@ public class Player : MonoScript
             HP hp = entity.GetScript<HP>();
             if (hp != null)
             {
-//                 Debug.Log($"<color=orange>[Player:Debug]</color> Manual HP Reduction: {hp.currentHp} -> {hp.currentHp - 5}");
                 hp.TakeDamage(5);
             }
         }
@@ -251,6 +249,6 @@ public class Player : MonoScript
         // 既にスロウ中の場合は、より強い方、あるいは時間を上書き
         _speedMultiplier = multiplier;
         _debuffTimer = duration;
-//         Debug.Log($"[Player] Slowed! Multiplier: {multiplier}, Duration: {duration}s");
     }
 }
+

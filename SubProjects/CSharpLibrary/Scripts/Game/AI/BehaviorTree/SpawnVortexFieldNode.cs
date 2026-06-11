@@ -145,7 +145,6 @@ public class SpawnVortexFieldNode : BehaviorNode {
 
 				// デバッグ：もしスケールが変わっていたら警告を出す
 				// if (e.transform.scale != oldScale) {
-				//     Debug.LogWarning($"[VortexScaleBug] Entity {e.name} scale CHANGED from {oldScale} to {e.transform.scale} during position update!");
 				// }
 
 				// 中心部ダメージ
@@ -155,7 +154,6 @@ public class SpawnVortexFieldNode : BehaviorNode {
 					BossDamageUtil.ApplySlow(e, 0.5f, damageInterval); // 吸引中は移動速度を50%低下
 
 					if (e.name.Contains("Player")) {
-						//                         Debug.Log("<color=red>[Vortex]</color> Player caught in center!");
 					}
 
 					// 吸い込まれた物体の爆発（後で一括処理）
@@ -169,7 +167,6 @@ public class SpawnVortexFieldNode : BehaviorNode {
 		// 破壊・爆発処理を一括実行
 		foreach (var obj in objectsToExplode) {
 			if (obj == null || obj.Id == 0) continue;
-			//             Debug.Log($"<color=orange>[Vortex]</color> {obj.name} sucked in and exploded!");
 			FrameEvent.EnqueueNamedEvent("Effect_Explosion", obj.Id);
 			owner.Group.DestroyEntity(obj.Id);
 
@@ -190,3 +187,4 @@ public class SpawnVortexFieldNode : BehaviorNode {
 		blackboard.Remove(BehaviorTreeLoader.HashString("VortexDamageTimer_" + NodeIdHash));
 	}
 }
+

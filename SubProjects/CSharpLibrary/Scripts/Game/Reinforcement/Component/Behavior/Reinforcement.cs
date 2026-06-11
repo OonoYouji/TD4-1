@@ -1,11 +1,11 @@
 using System;
 
 // 援軍の現在の状態
-public enum ReinforcementState
-{
-    Normal,     // 通常
-    Supported,  // 援護バフ適用中
+public enum ReinforcementState {
+	Normal,     // 通常
+	Supported,  // 援護バフ適用中
 }
+
 
 public partial class Reinforcement : MonoScript
 {
@@ -219,3 +219,4 @@ public partial class Reinforcement : MonoScript
     }
 
 }
+

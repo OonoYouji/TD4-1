@@ -1,4 +1,4 @@
-﻿enum BlockType {
+enum BlockType {
 	White = 0, // 白ブロック
 	Black = 1, // 黒ブロック
 }

@@ -15,7 +15,6 @@ public class SceneTransition : MonoScript {
                 // 【重要】現在のアクティブなシーンのグループに所属しているかチェック
                 // これを行わないと、古いシーンのインスタンスを操作してしまい遷移が止まる
                 if (SceneManager.sceneName_ != instance.ecsGroup.groupName) {
-                    // Debug.LogWarning(string.Format("SceneTransition: Current scene '{0}' does not match instance group '{1}'. Clearing stale instance.", SceneManager.sceneName_, instance.ecsGroup.groupName));
                     instance = null;
                 }
             }
@@ -35,13 +34,11 @@ public class SceneTransition : MonoScript {
     public override void Initialize() {
         // もし古いインスタンスが残っていたら警告
         if (instance != null && instance != this) {
-//             Debug.LogWarning("SceneTransition: Overwriting existing instance. This usually happens during scene load.");
         }
         instance = this;
         faderSprite = entity.GetComponent<SpriteRenderer>();
         
         if (faderSprite == null) {
-//             Debug.LogError("SceneTransition: SpriteRenderer not found on Fader entity!");
         }
 
         if (fadeDuration <= 0) fadeDuration = 0.5f;
@@ -68,7 +65,6 @@ public class SceneTransition : MonoScript {
             
             if (timer >= fadeDuration) {
                 isFadingOut = false;
-//                 Debug.Log("SceneTransition: Fade out finished. Loading: " + nextScene);
                 SceneManager.LoadScene(nextScene);
             }
         } else if (isFadingIn) {
@@ -85,7 +81,6 @@ public class SceneTransition : MonoScript {
     public override void OnDestroy() {
         if (instance == this) {
             instance = null;
-//             Debug.Log("SceneTransition instance cleared on destroy.");
         }
     }
 
@@ -101,7 +96,6 @@ public class SceneTransition : MonoScript {
         timer = 0.0f;
         UpdateAlpha(0.0f);
         
-//         Debug.Log("SceneTransition: Transition started to: " + sceneName);
     }
 
     private void UpdateAlpha(float alpha) {
@@ -112,3 +106,4 @@ public class SceneTransition : MonoScript {
         }
     }
 }
+

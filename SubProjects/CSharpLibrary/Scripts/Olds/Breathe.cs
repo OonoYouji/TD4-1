@@ -1,4 +1,4 @@
-﻿
+
 public class Breathe : MonoScript {
 
 	[SerializeField] public Vector3 defaultScale = Vector3.one; // デフォルトのスケール
@@ -9,12 +9,10 @@ public class Breathe : MonoScript {
 	}
 
 	public override void Initialize() {
-// 		Debug.Log("Breathe initialized.");
 		//defaultScale = transform.scale; // 初期スケールを保存
 	}
 
 	public override void Update() {
-// 		Debug.Log("Breathe Update called.  EntityId:" + entity.Id);
 
 		Transform t = transform;
 		scale = defaultScale * Mathf.Clamp(Mathf.Sin(Time.time) * 0.5f + 0.5f, 0.2f, 1f);
@@ -22,3 +20,4 @@ public class Breathe : MonoScript {
 	}
 
 }
+

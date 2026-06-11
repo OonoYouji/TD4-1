@@ -1,4 +1,4 @@
-﻿
+
 using System.Runtime.CompilerServices;
 
 public struct Matrix4x4 {

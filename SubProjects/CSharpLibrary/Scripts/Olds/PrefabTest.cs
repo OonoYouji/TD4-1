@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 public class PrefabTest : MonoScript {
 	private float time = 0f;

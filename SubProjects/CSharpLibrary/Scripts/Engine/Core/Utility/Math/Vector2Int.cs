@@ -1,4 +1,4 @@
-﻿public struct Vector2Int {
+public struct Vector2Int {
 	public int x, y;
 
 	public Vector2Int(int _x, int _y) {

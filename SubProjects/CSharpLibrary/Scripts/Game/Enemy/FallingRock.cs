@@ -141,7 +141,6 @@ public class FallingRock : MonoScript
             if (sphere != null) sphere.isTrigger = false;
         }
 
-        //         Debug.Log($"<color=brown>[FallingRock]</color> IMPACT at {Vector3.ToSimpleString(transform.position)}");
     }
 
     private void ApplyImpact(Entity e)
@@ -150,6 +149,6 @@ public class FallingRock : MonoScript
         BossDamageUtil.ApplyDamage(e, damage, transform.position);
         BossDamageUtil.ApplySlow(e, 0.5f, stunDuration); // 岩の場合は50%スロウ（スタン扱い）
 
-//         Debug.Log($"[FallingRock] Impact applied to {e.name}");
     }
 }
+

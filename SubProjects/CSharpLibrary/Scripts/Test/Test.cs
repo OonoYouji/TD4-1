@@ -25,7 +25,6 @@ public class Test : MonoScript {
     [SerializeField] List<Vector3> testVectorList = new List<Vector3>();
 
     public override void Initialize() {
-//         Debug.Log("Test script initialized.");
     }
 
     public override void Update() {
@@ -44,18 +43,10 @@ public class Test : MonoScript {
         // BUG-002: Window Size access
         if (Input.TriggerKey(KeyCode.Space)) {
             Vector2 size = Window.Size;
-//             Debug.Log("========================================");
-//             Debug.Log("WINDOW SIZE CHECK");
-//             Debug.Log("Width: " + size.x);
-//             Debug.Log("Height: " + size.y);
-//             Debug.Log("Aspect Ratio: " + (size.x / size.y));
-//             Debug.Log("========================================");
         }
 
         if (Input.TriggerKey(KeyCode.Return)) {
-//             Debug.Log("Current Enum: " + testEnum);
-//             Debug.Log("Int List Count: " + testIntList.Count);
-//             foreach (var i in testIntList) Debug.Log(" - " + i);
+//             foreach (var i in testIntList) 
 
             // 効果音のテスト再生
             AudioSource audio = entity.GetComponent<AudioSource>();
@@ -63,9 +54,9 @@ public class Test : MonoScript {
                 // Assetパスを指定して再生 (存在するファイルを指定)
                 audio.OneShotPlay(1.0f, 1.0f, "./Assets/AssetsWorkspace/sounds/player_shot.mp3");
             } else {
-//                 Debug.LogWarning("AudioSource component not found on this entity. Add it in the inspector to test sound.");
             }
         }
     }
 }
+
 

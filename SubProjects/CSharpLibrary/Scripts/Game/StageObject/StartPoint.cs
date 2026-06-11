@@ -11,11 +11,10 @@ public class StartPoint : MonoScript {
 			if (playerEntity != null) {
 				// 自身のpositionに配置
 				playerEntity.transform.position = transform.position;
-// 				Debug.Log("StartPoint: Player positioned at " + transform.position.ToString());
 			} else {
-// 				Debug.LogWarning("StartPoint: Player entity not found in scene.");
 			}
 			isStarted = true;
 		}
 	}
 }
+

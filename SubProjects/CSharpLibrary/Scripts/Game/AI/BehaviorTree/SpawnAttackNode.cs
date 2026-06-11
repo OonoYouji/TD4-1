@@ -19,7 +19,6 @@ public class SpawnAttackNode : BehaviorNode
             ? $"Damage={damage}, Radius={radius}" 
             : $"Preset={attackName}";
 
-//         Debug.Log($"<color=red>[SpawnAttack]</color> {owner.name} spawning attack: <b>{logMsg}</b>");
         
         FrameEvent.EnqueueAttackEvent(
             attackName,
@@ -34,3 +33,4 @@ public class SpawnAttackNode : BehaviorNode
         return NodeStatus.Success;
     }
 }
+

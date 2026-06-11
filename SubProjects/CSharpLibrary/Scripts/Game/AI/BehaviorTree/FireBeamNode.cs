@@ -46,7 +46,7 @@ public class FireBeamNode : BehaviorNode {
 			if (audio == null) audio = owner.AddComponent<AudioSource>();
 			
 			if (audio != null) {
-				Debug.Log($"[FireBeamNode] Playing beam sound. Path: ./Assets/Sounds/MainGameSounds/se/boss/beam.mp3, Vol: 0.8");
+				
 				audio.path = "./Assets/Sounds/MainGameSounds/se/boss/beam.mp3";
 				audio.volume = 0.8f;
 				audio.Play();

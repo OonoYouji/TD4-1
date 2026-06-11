@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,8 +32,6 @@ public class PuzzleStage : MonoScript {
 
 	public override void Initialize() {
 		initCallCount_++;
-// 		Debug.Log("====================================================================");
-// 		Debug.Log("PuzzleStage Initialize called. Call count: " + initCallCount_);
 
 		commandStacker_ = new PuzzleCommandStacker();
 
@@ -49,14 +47,12 @@ public class PuzzleStage : MonoScript {
 		}
 
 		blockData_.blockSpace = 0.22f; // ブロックのアドレスを初期化
-// 		Debug.Log("created mapchip");
 
 		CreateBlockParent();
 		BlockDeploy(); // ブロック配置
 		PlayerDeploy(); // プレイヤー配置
 		DeployMagatama(); /// 勾玉配置
 		UpdateEntityPosition();
-// 		Debug.Log("====================================================================");
 	}
 
 
@@ -86,7 +82,6 @@ public class PuzzleStage : MonoScript {
 	}
 
 	private void PlayerDeploy() {
-// 		Debug.Log("----- PlayerDeploy. -----");
 		/* ----- プレイヤーの配置 ----- */
 
 		Mapchip mapchipScript = mapChip_.GetScript<Mapchip>();
@@ -114,9 +109,7 @@ public class PuzzleStage : MonoScript {
 
 			player.parent = blockParent_;
 			if (player.parent != null) {
-// 				Debug.LogInfo("player parent setting");
 			} else {
-// 				Debug.Log("player parent not set");
 			}
 
 			Vector2Int playerAddress = playerAddresses[i];
@@ -142,20 +135,17 @@ public class PuzzleStage : MonoScript {
 		/// アクティブなプレイヤーは最初のプレイヤーで
 		activePlayer_ = players_[0];
 
-// 		Debug.Log("----- PlayerDeploy. ended -----");
 	}
 
 	private void BlockDeploy() {
 		/* ----- ブロックの配置を行う ----- */
 
-// 		Debug.Log("----- BlockDeployed. -----");
 
 
 		blocks_ = new List<Entity>();
 
 		for (int r = 0; r < mapData_.Count; r++) {
 			for (int c = 0; c < mapData_[r].Count; c++) {
-// 				Debug.Log("map[" + r + "][" + c + "] = " + mapData_[r][c]);
 
 				/// マップデータがブロックでは無ければ配置しない
 				Entity block = null;
@@ -199,7 +189,6 @@ public class PuzzleStage : MonoScript {
 			}
 		}
 
-// 		Debug.Log("----- BlockDeployed. ended -----");
 	}
 
 
@@ -251,7 +240,6 @@ public class PuzzleStage : MonoScript {
 		/* ----- プレイヤーの移動を行う ----- */
 		PuzzlePlayer puzzlePlayer = activePlayer_.GetScript<PuzzlePlayer>();
 		if (!puzzlePlayer) {
-// 			Debug.LogError("PuzzleStage UpdatePlayer: puzzlePlayer is null");
 			return;
 		}
 
@@ -550,3 +538,4 @@ public class PuzzleStage : MonoScript {
 	}
 
 }
+

@@ -96,7 +96,6 @@ public class SpawnPillarNode : BehaviorNode
             }
         }
 
-//         Debug.Log($"[SpawnPillar] Sequential drop {index+1}/{dropCount} at {finalTargetPos}");
     }
 
     public override void OnAbort(Blackboard blackboard, Entity owner)
@@ -106,3 +105,4 @@ public class SpawnPillarNode : BehaviorNode
         blackboard.Remove(BehaviorTreeLoader.HashString("DropIndex_" + NodeIdHash));
     }
 }
+
