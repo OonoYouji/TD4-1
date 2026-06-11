@@ -151,7 +151,7 @@ void GameFramework::Run() {
 
 		/// ウィンドウの終了リクエストを確認（非デバッグ時は即終了、デバッグ時はEditor側で処理）
 #ifndef DEBUG_MODE
-		if (windowManager_->IsCloseRequested()) {
+		if(windowManager_->IsCloseRequested()) {
 			PostQuitMessage(0);
 		}
 #endif

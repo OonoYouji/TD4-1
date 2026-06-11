@@ -263,11 +263,13 @@ public class Entity {
 	public void FetchInitialData() {
 		// 主要なコンポーネントを一度GetComponentしておくことで、C#側にインスタンスが作られ、
 		// その後の ReceiveAllBatches でデータが同期されるようになる。
-		// ★注意：ここでGetComponent<Transform>()を呼ぶと、C#側の初期値(0,0,0)が
-		// 次のSendAllBatchesでC++側を上書きしてしまう問題があるため、
-		// Transform等のバッチ処理されるコンポーネントの初期化は慎重に行う必要がある。
-		
-		// アニメーションプレイヤーはバッチ処理で上書きされないので安全に取得可能
+		GetComponent<Transform>();
+		GetComponent<MeshRenderer>();
+		GetComponent<DissolveMeshRenderer>();
+		GetComponent<SkinMeshRenderer>();
+		GetComponent<AudioSource>();
+		GetComponent<AgentIntentComponent>();
+		GetComponent<CameraComponent>();
 		GetComponent<ONEngine.AnimationPlayer>();
 	}
 

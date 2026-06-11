@@ -98,6 +98,7 @@ public class ECSGroup {
 		entities_.Add(entity);
 
 		// 誰が生成しているかログを出す
+		Debug.Log($"Entity created: ID={id}, Prefab={_prefabName}");
 
 
 		awakeList_.Add(entity); //!< 生成されたエンティティを生成リストに追加
@@ -204,14 +205,6 @@ public class ECSGroup {
 			return;
 		}
 
-/*
-#if DEBUG
-		Debug.InternalLog("");
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.InternalLog("ECSGroup.CallAwake - Awakening entities in group: " + groupName + ", Count: " + awakeList_.Count);
-#endif
-*/
-
 		List<Entity> entitiesToAwake = new List<Entity>(awakeList_);
 		awakeList_.Clear(); // 生成リストをクリア
 		foreach (Entity entity in entitiesToAwake) {
@@ -220,12 +213,6 @@ public class ECSGroup {
 			}
 		}
 
-/*
-#if DEBUG
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.InternalLog("");
-#endif
-*/
 	}
 
 
@@ -237,15 +224,6 @@ public class ECSGroup {
 			return;
 		}
 
-/*
-#if DEBUG
-		Debug.InternalLog("");
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.InternalLog("ECSGroup.CallInitialize - Initializing entities in group: " + groupName + ", Count: "
-				  + initList_.Count);
-#endif
-*/
-
 		List<Entity> entitiesToInitialize = new List<Entity>(initList_);
 		initList_.Clear();
 		foreach (Entity entity in entitiesToInitialize) {
@@ -254,12 +232,6 @@ public class ECSGroup {
 			}
 		}
 
-/*
-#if DEBUG
-		Debug.InternalLog("//////////////////////////////////////////////////////////////////////////////////////////////////");
-		Debug.InternalLog("");
-#endif
-*/
 	}
 
 	/// <summary>
@@ -267,13 +239,9 @@ public class ECSGroup {
 	/// </summary>
 	public Entity GetEntity(int _id) {
 		if (entityMap_.TryGetValue(_id, out Entity entity)) {
-#if DEBUG
-#endif
 			return entity;
 		}
 
-#if DEBUG
-#endif
 		return null;
 	}
 
@@ -285,9 +253,6 @@ public class ECSGroup {
 			entityMap_.Remove(_id);
 			entities_.Remove(entity);
 			InternalDestroyEntity(groupName, _id);
-#if DEBUG
-		} else {
-#endif
 		}
 	}
 
@@ -295,10 +260,6 @@ public class ECSGroup {
 	/// すべてのエンティティを削除
 	/// </summary>
 	public void DeleteEntityAll() {
-#if DEBUG
-// 				  + entities_.Count);
-#endif
-
 		var entitiesToDestroy = new List<Entity>(entities_);
 		foreach (var entity in entitiesToDestroy) {
 			entity.Destroy();
@@ -309,9 +270,6 @@ public class ECSGroup {
 	/// シーン遷移時のクリア処理（C++側のエンティティは削除しない）
 	/// </summary>
 	public void ClearForSceneTransition() {
-#if DEBUG
-// 				  + entities_.Count);
-#endif
 		// スクリプトの破棄イベントを呼ぶ
 		foreach (var entity in entities_) {
 			foreach (var script in entity.GetScripts()) {
@@ -343,9 +301,6 @@ public class ECSGroup {
 				return entity;
 			}
 		}
-
-#if DEBUG
-#endif
 		return null;
 	}
 

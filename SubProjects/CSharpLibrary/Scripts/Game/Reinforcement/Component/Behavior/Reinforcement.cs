@@ -1,215 +1,211 @@
 using System;
 
 // 援軍の現在の状態
-public enum ReinforcementState
-{
-    Normal,     // 通常
-    Supported,  // 援護バフ適用中
+public enum ReinforcementState {
+	Normal,     // 通常
+	Supported,  // 援護バフ適用中
 }
 
-public partial class Reinforcement : MonoScript
-{
-    // =========================================================
-    // 通常状態パラメーター
-    // =========================================================
+public partial class Reinforcement : MonoScript {
+	// =========================================================
+	// 通常状態パラメーター
+	// =========================================================
 
-    // 通常状態のスケール
-    [SerializeField] public float normalScale = 1.0f;
-    // 移動速度
-    [SerializeField] public float moveSpeed = 8.0f;
-    // 質量
-    [SerializeField] public float mass = 1.0f;
-    // ボスへのダメージ量
-    [SerializeField] public float damage = 10.0f;
-    // 退散時の速度
-    [SerializeField] public float retreatSpeed = 20.0f;
-    // 画面内判定に使う視野角
-    [SerializeField] public float viewAngle = 60.0f;
+	// 通常状態のスケール
+	[SerializeField] public float normalScale = 1.0f;
+	// 移動速度
+	[SerializeField] public float moveSpeed = 8.0f;
+	// 質量
+	[SerializeField] public float mass = 1.0f;
+	// ボスへのダメージ量
+	[SerializeField] public float damage = 10.0f;
+	// 退散時の速度
+	[SerializeField] public float retreatSpeed = 20.0f;
+	// 画面内判定に使う視野角
+	[SerializeField] public float viewAngle = 60.0f;
 
-    // =========================================================
-    // 援護バフ設定
-    // =========================================================
+	// =========================================================
+	// 援護バフ設定
+	// =========================================================
 
-    // 穴にはまった時に周囲を強化する範囲
-    [SerializeField] public float supportBuffRadius;
-    // 床の元位置より何単位下にはまるか
-    [SerializeField] public float sinkDepth;
-    // 援護バフを受けた時のスケール
-    [SerializeField] public float supportedScale;
-    // 援護バフを受けた時の攻撃力
-    [SerializeField] public float supportedDamage;
+	// 穴にはまった時に周囲を強化する範囲
+	[SerializeField] public float supportBuffRadius;
+	// 床の元位置より何単位下にはまるか
+	[SerializeField] public float sinkDepth;
+	// 援護バフを受けた時のスケール
+	[SerializeField] public float supportedScale;
+	// 援護バフを受けた時の攻撃力
+	[SerializeField] public float supportedDamage;
 
-    // =========================================================
-    // 外部から設定
-    // =========================================================
+	// =========================================================
+	// 外部から設定
+	// =========================================================
 
-    // スポーン位置と進行方向はCallingReinforcementがセットする
-    // privateバッキングフィールドにすることでSetScriptVariablesによる零化を防ぐ
-    private Vector3 startPosition_ = Vector3.zero;
-    public Vector3 startPosition { get => startPosition_; set => startPosition_ = value; }
+	// スポーン位置と進行方向はCallingReinforcementがセットする
+	// privateバッキングフィールドにすることでSetScriptVariablesによる零化を防ぐ
+	private Vector3 startPosition_ = Vector3.zero;
+	//public Vector3 startPosition { get => startPosition_; set => startPosition_ = value; }
+	public Vector3 startPosition = Vector3.zero;
 
-    private Vector3 direction_ = Vector3.forward;
-    public Vector3 direction { get => direction_; set => direction_ = value; }
-    // FieldFallとの当たり判定フラグ
-    public bool isCollisionEnabled = false;
+	private Vector3 direction_ = Vector3.forward;
+	public Vector3 direction { get => direction_; set => direction_ = value; }
+	// FieldFallとの当たり判定フラグ
+	public bool isCollisionEnabled = false;
 
-    // =========================================================
-    // コールバック
-    // =========================================================
+	// =========================================================
+	// コールバック
+	// =========================================================
 
-    // 退散でなく倒された時に呼ばれる
-    public Action<Reinforcement> onDied = null;
-    // ボスに攻撃が当たった時に呼ばれる
-    public Action<int, Vector3> onAttackBoss = null;
+	// 退散でなく倒された時に呼ばれる
+	public Action<Reinforcement> onDied = null;
+	// ボスに攻撃が当たった時に呼ばれる
+	public Action<int, Vector3> onAttackBoss = null;
 
-    // =========================================================
-    // 内部状態
-    // =========================================================
+	// =========================================================
+	// 内部状態
+	// =========================================================
 
-    // 現在の状態（Normal / Supported）
-    private ReinforcementState state_ = ReinforcementState.Normal;
-    public ReinforcementState State => state_;
+	// 現在の状態（Normal / Supported）
+	private ReinforcementState state_ = ReinforcementState.Normal;
+	public ReinforcementState State => state_;
 
-    // 初期位置の適用が済んでいるか
-    private bool positionApplied = false;
-    // 退散中かどうか
-    private bool isRetreating = false;
-    // 退散時の移動ベクトル
-    private Vector3 retreatVelocity = Vector3.zero;
-    // スポーン直後の衝突を防ぐフレームカウンター
-    private int spawnDelayFrames = 5;
-    // バフ前の色を保持しておく
-    private Vector4 originalColor = Vector4.one;
-    private bool colorSaved = false;
-    // バフを一度だけ発動するためのフラグ
-    private bool supportBuffApplied_ = false;
+	// 初期位置の適用が済んでいるか
+	private bool positionApplied = false;
+	// 退散中かどうか
+	private bool isRetreating = false;
+	// 退散時の移動ベクトル
+	private Vector3 retreatVelocity = Vector3.zero;
+	// スポーン直後の衝突を防ぐフレームカウンター
+	private int spawnDelayFrames = 5;
+	// バフ前の色を保持しておく
+	private Vector4 originalColor = Vector4.one;
+	private bool colorSaved = false;
+	// バフを一度だけ発動するためのフラグ
+	private bool supportBuffApplied_ = false;
 
-    // 各種参照
-    private Entity cameraEntity = null;
-    private Entity playerEntity = null;
-    private FieldManager fieldManager_ = null;
+	// 各種参照
+	private Entity cameraEntity = null;
+	private Entity playerEntity = null;
+	private FieldManager fieldManager_ = null;
 
-    public bool IsRetreating => isRetreating;
+	public bool IsRetreating => isRetreating;
 
-    // =========================================================
-    // ライフサイクル
-    // =========================================================
+	// =========================================================
+	// ライフサイクル
+	// =========================================================
 
-    public override void Initialize()
-    {
+	public override void Initialize() {
 
-        // 各フラグの初期化
-        positionApplied = false;
-        isRetreating = false;
-        isCollisionEnabled = false;
-        isDestroyReserved = false;
-        supportBuffApplied_ = false;
-        colorSaved = false;
+		// 各フラグの初期化
+		positionApplied = false;
+		isRetreating = false;
+		isCollisionEnabled = false;
+		isDestroyReserved = false;
+		supportBuffApplied_ = false;
+		colorSaved = false;
 
-        // 状態の初期化
-        state_ = ReinforcementState.Normal;
+		// 状態の初期化
+		state_ = ReinforcementState.Normal;
 
-        // スケールの初期化
-        transform.scale = new Vector3(normalScale, normalScale, normalScale);
-        // スポーン直後の衝突を防ぐフレームカウンターの初期化
-        spawnDelayFrames = 2;
+		// スケールの初期化
+		if (normalScale < 0.1f) normalScale = 1.0f; // 零化対策
+		transform.scale = new Vector3(normalScale, normalScale, normalScale);
 
-        // エンティティの取得
-        cameraEntity = ecsGroup.FindEntity("Camera");
-        playerEntity = ecsGroup.FindEntity("Player");
+		// 移動速度の零化対策
+		if (moveSpeed < 1.0f) moveSpeed = 8.0f;
+		if (retreatSpeed < 1.0f) retreatSpeed = 20.0f;
 
-        // FieldManagerの取得
-        Entity fmEntity = ecsGroup.FindEntity("FieldManager");
-        if (fmEntity != null)
-        {
-            fieldManager_ = fmEntity.GetScript<FieldManager>();
-        }
+		// 方向ベクトルの初期化（未設定なら前方を向く）
+		if (direction_.sqrMagnitude < 0.001f) direction_ = Vector3.forward;
+		// スポーン直後の衝突を防ぐフレームカウンターの初期化
+		spawnDelayFrames = 2;
 
-        // ReinforcementFallInの取得
-        fallIn_ = entity.GetScript<ReinforcementFallIn>();
+		// エンティティの取得
+		cameraEntity = ecsGroup.FindEntity("Camera");
+		playerEntity = ecsGroup.FindEntity("Player");
 
-        // HPの初期化
-        HP hp = entity.GetScript<HP>();
-        if (hp != null)
-        {
-            hp.MAX_HP = 10;
-            hp.currentHp = 10;
-        }
-    }
+		// FieldManagerの取得
+		Entity fmEntity = ecsGroup.FindEntity("FieldManager");
+		if (fmEntity != null) {
+			fieldManager_ = fmEntity.GetScript<FieldManager>();
+		}
 
-    public override void Update()
-    {
+		// ReinforcementFallInの取得
+		fallIn_ = entity.GetScript<ReinforcementFallIn>();
 
-        if (entity.Id == 0)
-        {
-            return;
-        }
-        if (CheckDestroyReserved())
-        {
-            return;
-        }
+		// HPの初期化
+		HP hp = entity.GetScript<HP>();
+		if (hp != null) {
+			hp.MAX_HP = 10;
+			hp.currentHp = 10;
+		}
+	}
 
-        // Entityの再取得
-        ReacquireEntities();
-        // 初期位置の適応
-        ApplyInitialPosition();
+	public override void Update() {
 
-        if (spawnDelayFrames > 0)
-        {
-            spawnDelayFrames--;
-            isCollisionEnabled = false;
-            return;
-        }
+		//if (entity.Id == 0)
+		//{
+		//    return;
+		//}
+		if (CheckDestroyReserved()) {
+			return;
+		}
 
-        if (!isRetreating && !isCollisionEnabled)
-        {
-            isCollisionEnabled = true;
-        }
+		// Entityの再取得
+		ReacquireEntities();
+		// 初期位置の適応
+		ApplyInitialPosition();
 
-        // 打ち上げ中なら早期リターン
-        if (CheckLaunchExit())
-        {
-            return;
-        }
+		if (spawnDelayFrames > 0) {
+			spawnDelayFrames--;
+			isCollisionEnabled = false;
+			return;
+		}
 
-        // 床に挟まってたら早期りたーん
-        if (CheckTrappedActive())
-        {
-            return;
-        }
+		if (!isRetreating && !isCollisionEnabled) {
+			isCollisionEnabled = true;
+		}
 
-        // 乗ってるフィールド床が落ちてるかチェック
-        CheckFieldFall();
-        // カメラの視野内にいるか判定して色を変える
-        UpdateFrustumVisibility();
-        //  移動更新
-        UpdateMovement();
-    }
+		// 打ち上げ中なら早期リターン
+		if (CheckLaunchExit()) {
+			return;
+		}
 
-    // =========================================================
-    // Update サブルーチン
-    // =========================================================
+		// 床に挟まってたら早期りたーん
+		if (CheckTrappedActive()) {
+			return;
+		}
 
-    private void ReacquireEntities()
-    {
-        if (cameraEntity == null) { cameraEntity = ecsGroup.FindEntity("Camera"); }
-        if (playerEntity == null) { playerEntity = ecsGroup.FindEntity("Player"); }
-    }
+		// 乗ってるフィールド床が落ちてるかチェック
+		CheckFieldFall();
+		// カメラの視野内にいるか判定して色を変える
+		UpdateFrustumVisibility();
+		//  移動更新
+		UpdateMovement();
+	}
 
-    private void ApplyInitialPosition()
-    {
-        if (positionApplied) return;
-        if (startPosition.Length() < 0.001f) return;
+	// =========================================================
+	// Update サブルーチン
+	// =========================================================
 
-        transform.position = startPosition;
+	private void ReacquireEntities() {
+		if (cameraEntity == null) { cameraEntity = ecsGroup.FindEntity("Camera"); }
+		if (playerEntity == null) { playerEntity = ecsGroup.FindEntity("Player"); }
+	}
 
-        // spawnDelayFrames が残っている間は毎フレーム上書きし続ける
-        // (ReceiveAllBatches が C++ の古い位置で毎フレーム上書きする可能性への対策)
-        if (spawnDelayFrames <= 0)
-        {
-            positionApplied = true;
-        }
-    }
+	private void ApplyInitialPosition() {
+		if (positionApplied) return;
+		if (startPosition.Length() < 0.001f) return;
+
+		transform.position = startPosition;
+		Debug.Log($"Reinforcement {entity.Id} applied initial position {Vector3.ToSimpleString(startPosition)}", "Reinforcement");
+
+		// spawnDelayFrames が残っている間は毎フレーム上書きし続ける
+		// (ReceiveAllBatches が C++ の古い位置で毎フレーム上書きする可能性への対策)
+		if (spawnDelayFrames <= 0) {
+			positionApplied = true;
+		}
+	}
 
 }
 

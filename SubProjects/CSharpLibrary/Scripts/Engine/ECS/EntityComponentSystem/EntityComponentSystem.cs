@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 
 static public class EntityComponentSystem {
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////
 	// objects
 	///////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	static private Dictionary<string, ECSGroup> groups = new Dictionary<string, ECSGroup>();
 
 	/// <summary>
@@ -16,7 +16,7 @@ static public class EntityComponentSystem {
 	static public IEnumerable<ECSGroup> GetAllGroups() {
 		return groups.Values;
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////
 	// methods
 	///////////////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +51,6 @@ static public class EntityComponentSystem {
 	/// </summary>
 	static public ECSGroup GetECSGroup(string _name) {
 		string trimmedName = _name.Trim();
-#if DEBUG
-#endif
-
 		if (groups.TryGetValue(trimmedName, out ECSGroup group)) {
 			return group;
 		} else {
@@ -64,61 +61,38 @@ static public class EntityComponentSystem {
 				}
 			}
 
-#if DEBUG
-			foreach (var ecsGroup in groups) {
-			}
-#endif
 			return null;
 		}
 	}
 
-	
+
 	/// <summary>
 	/// すべてのGroupのエンティティを削除する
 	/// </summary>
 	static public void DeleteEntityAll() {
-#if DEBUG
-#endif
-
 		foreach (var group in groups.Values) {
 			group.DeleteEntityAll();
 		}
 	}
-	
+
 
 	static public Entity GetEntity(string _groupName, int _id) {
-	#if DEBUG
-		// foreach (var g in groups) {
-		// }
-	#endif
-
-
 		if (groups.TryGetValue(_groupName, out ECSGroup group)) {
-	#if DEBUG
-	#endif
 			return group.GetEntity(_id);
 		} else {
-	#if DEBUG
-	#endif
 			return null;
 		}
 	}
 
 	static public MonoScript GetMonoBehavior(string _groupName, int _entityId, string _scriptName) {
-	#if DEBUG
-	#endif
-
-		if (groups.TryGetValue(_groupName, out ECSGroup group)) {			Entity entity = group.GetEntity(_entityId);
+		if (groups.TryGetValue(_groupName, out ECSGroup group)) {
+			Entity entity = group.GetEntity(_entityId);
 			if (entity != null) {
 				return entity.GetScript(_scriptName);
 			} else {
-#if DEBUG
-#endif
 				return null;
 			}
 		} else {
-#if DEBUG
-#endif
 			return null;
 		}
 	}
