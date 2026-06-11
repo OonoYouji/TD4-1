@@ -25,9 +25,9 @@
         {
             "BossHPPhaseBar": {
                 "barHeight": 30.0,
-                "fullWidth": 4.199996471405029,
-                "maxRatio": 1.0,
-                "minRatio": 0.6666666865348816
+                "fullWidth": 4.799995422363281,
+                "maxRatio": 0.6666666865348816,
+                "minRatio": 0.3333333432674408
             },
             "type": "Variables"
         },

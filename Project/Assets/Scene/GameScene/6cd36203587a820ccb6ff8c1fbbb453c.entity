@@ -5,7 +5,7 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -28.799999237060547,
+                "x": -33.80000686645508,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -34,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "810b4036584e6cc516a0ab8910040369",
+                "baseTextureGuid": "7f1f98e707886b77b0d4675ad80aef63",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,

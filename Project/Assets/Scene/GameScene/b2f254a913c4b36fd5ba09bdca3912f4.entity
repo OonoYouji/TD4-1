@@ -27,8 +27,8 @@
                 "bgHeight": 0.11999999731779099,
                 "bgMaxX": 2.0,
                 "bgMinX": 2.0,
-                "gaugeHeight": 25.860000610351563,
-                "gaugeMaxX": 110.0,
+                "gaugeHeight": 0.10000000149011612,
+                "gaugeMaxX": 1.899999976158142,
                 "gaugeMinX": 0.0,
                 "targetEntityName": "Player"
             },

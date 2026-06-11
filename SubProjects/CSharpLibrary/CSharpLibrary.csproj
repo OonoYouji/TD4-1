@@ -251,6 +251,8 @@
     <Compile Include="Scripts\Game\UI\BossHPGauge.cs" />
     <Compile Include="Scripts\Game\UI\BossHPPhaseBar.cs" />
     <Compile Include="Scripts\Game\UI\BossHPPhaseManager.cs" />
+    <Compile Include="Scripts\Game\UI\CheckInputCall.cs" />
+    <Compile Include="Scripts\Game\UI\CheckInputsRetreat.cs" />
     <Compile Include="Scripts\Game\UI\ConvertTo2D.cs" />
     <Compile Include="Scripts\Game\UI\EndSceneController.cs" />
     <Compile Include="Scripts\Game\UI\SceneTransition.cs" />

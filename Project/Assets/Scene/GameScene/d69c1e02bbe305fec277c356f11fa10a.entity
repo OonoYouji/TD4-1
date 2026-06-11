@@ -23,6 +23,7 @@
             "type": "Transform"
         },
         {
+            "CheckInputsRetreat": {},
             "UiController": {
                 "gamepadSpriteEntityName": "Gamepad",
                 "kbmSpriteEntityName": "KBM"
@@ -35,6 +36,10 @@
                 {
                     "enable": true,
                     "name": "UiController"
+                },
+                {
+                    "enable": true,
+                    "name": "CheckInputsRetreat"
                 }
             ],
             "type": "Script"

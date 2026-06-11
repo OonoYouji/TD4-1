@@ -5,8 +5,8 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 749.999755859375,
-                "y": -330.0001525878906,
+                "x": 76.0,
+                "y": -44.899986267089844,
                 "z": 0.0
             },
             "rotate": {
@@ -16,20 +16,13 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 400.0,
-                "y": 400.0000305175781,
-                "z": 400.0000305175781
+                "x": 16.89999771118164,
+                "y": 16.899995803833008,
+                "z": 16.899995803833008
             },
             "type": "Transform"
         },
         {
-            "GameController": {
-                "clearSceneName": "GameClear",
-                "currentPhase": "Phase 1",
-                "currentStatus": "Playing",
-                "isGameFinished": false,
-                "overSceneName": "GameOver"
-            },
             "type": "Variables"
         },
         {
@@ -41,7 +34,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "6bea29fbbc8606c56006ac7d65dbe6e4",
+                "baseTextureGuid": "5bd3eb65e14f8eab97561c29044292bf",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -60,8 +53,8 @@
             "type": "SpriteRenderer"
         }
     ],
-    "guid": "4b21f44ef715b86fae07c176e33432f7",
-    "name": "SpreadUi",
-    "parentGuid": "1bfe2134e5bc44573be595efe7705c27",
+    "guid": "a0311593b02f3dc143e06d2a784ba9e6",
+    "name": "KBM",
+    "parentGuid": "fa4487d4d487ec2f3c7ed6f6582a5a8c",
     "prefabName": ""
 }

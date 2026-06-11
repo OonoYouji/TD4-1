@@ -23,6 +23,9 @@
             "type": "Transform"
         },
         {
+            "CheckInputCall": {
+                "UNCONTROLED_THRESHOLD": 5.0
+            },
             "UiController": {
                 "gamepadSpriteEntityName": "Gamepad",
                 "kbmSpriteEntityName": "KBM"
@@ -35,6 +38,10 @@
                 {
                     "enable": true,
                     "name": "UiController"
+                },
+                {
+                    "enable": true,
+                    "name": "CheckInputCall"
                 }
             ],
             "type": "Script"

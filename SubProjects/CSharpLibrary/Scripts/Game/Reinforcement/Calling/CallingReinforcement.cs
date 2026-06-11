@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 public class CallingReinforcement : MonoScript
@@ -9,6 +8,8 @@ public class CallingReinforcement : MonoScript
 
     [SerializeField] public float xOffset = 2.0f;
     [SerializeField] public float spawnBehindDistance = 5.0f;
+    [SerializeField] public float spawnCooldown = 1.0f;
+    [SerializeField] public float retreatCooldown = 0.3f;
 
     // =========================================================
     // 内部状態
@@ -17,10 +18,12 @@ public class CallingReinforcement : MonoScript
     private Player player = null;
     private PlayerCallMotion callMotion = null;
     private PlayerAudio playerAudio_ = null;
-    private List<Entity> activeReinforcements = new List<Entity>();
+    private readonly List<Entity> activeReinforcements = new List<Entity>();
 
     // 最後に援軍を呼んでからの経過時間
     public float spawnTimer { get; private set; } = 0.0f;
+
+    public float retreatTimer { get; private set; } = 0.0f;
 
     // =========================================================
     // ライフサイクル
@@ -40,6 +43,7 @@ public class CallingReinforcement : MonoScript
     public override void Update()
     {
         spawnTimer += Time.deltaTime;
+        retreatTimer += Time.deltaTime;
         activeReinforcements.RemoveAll(e => e == null || e.Id == 0 || !e.enable);
         HandleFiring();
         HandleRetreat();
@@ -52,6 +56,8 @@ public class CallingReinforcement : MonoScript
     private void HandleFiring()
     {
         if (player == null || player.IsFrozen) { return; }
+
+        if (spawnTimer < spawnCooldown) { return; }
 
         bool wantFire =
             Input.TriggerMouse(Mouse.Left) ||
@@ -72,6 +78,8 @@ public class CallingReinforcement : MonoScript
 
     private void HandleRetreat()
     {
+        if (retreatTimer < retreatCooldown) { return; }
+
         bool wantRetreat =
             Input.TriggerMouse(Mouse.Right) ||
             Input.TriggerGamepad(Gamepad.B) ||

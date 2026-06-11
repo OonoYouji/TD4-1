@@ -5,8 +5,8 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 39.872188568115234,
-                "y": -0.07674127072095871,
+                "x": 76.0,
+                "y": -34.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,19 +16,13 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 4.799995422363281,
-                "y": 30.0,
-                "z": 1.0
+                "x": 24.00000762939453,
+                "y": 23.9999942779541,
+                "z": 23.9999942779541
             },
             "type": "Transform"
         },
         {
-            "BossHPPhaseBar": {
-                "barHeight": 30.0,
-                "fullWidth": 320.0,
-                "maxRatio": 0.3333333432674408,
-                "minRatio": 0.0
-            },
             "type": "Variables"
         },
         {
@@ -36,11 +30,11 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.20000000298023224,
-                    "y": 0.800000011920929,
-                    "z": 0.20000000298023224
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
-                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
+                "baseTextureGuid": "810b4036584e6cc516a0ab8910040369",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 0,
@@ -57,20 +51,10 @@
                 }
             },
             "type": "SpriteRenderer"
-        },
-        {
-            "enable": 1,
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "BossHPPhaseBar"
-                }
-            ],
-            "type": "Script"
         }
     ],
-    "guid": "6a336a1c4c047b8834f2bcc978bc7deb",
-    "name": "Phase2Bar",
-    "parentGuid": "aa9300c52ceba056a463aacd7d690204",
+    "guid": "c9bef37bd9a7c0062d272f5de9095223",
+    "name": "TextSprite",
+    "parentGuid": "fa4487d4d487ec2f3c7ed6f6582a5a8c",
     "prefabName": ""
 }
