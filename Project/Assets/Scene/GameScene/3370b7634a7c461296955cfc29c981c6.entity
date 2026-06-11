@@ -57,7 +57,7 @@
                 "maxMoveSpeed": 10.0,
                 "mouseIsMovePixel": 0.0,
                 "rotationSpeed": 8.0,
-                "startFreezeDuration": 5.0
+                "startFreezeDuration": 0.0
             },
             "PlayerAudio": {},
             "PlayerCallMotion": {
@@ -139,13 +139,6 @@
             "type": "Script"
         },
         {
-            "enable": 1,
-            "path": "",
-            "pitch": 1.0,
-            "type": "AudioSource",
-            "volume": 1.0
-        },
-        {
             "categoryBits": 2,
             "enable": 1,
             "freezeY": true,
@@ -159,6 +152,13 @@
             },
             "state": "Dynamic",
             "type": "BoxCollider"
+        },
+        {
+            "enable": 1,
+            "path": "",
+            "pitch": 1.0,
+            "type": "AudioSource",
+            "volume": 1.0
         }
     ],
     "guid": "3370b7634a7c461296955cfc29c981c6",

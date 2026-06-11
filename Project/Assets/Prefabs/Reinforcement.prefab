@@ -6,7 +6,7 @@
             "matrixCalcFlags": 7,
             "position": {
                 "x": 0.0,
-                "y": 1000.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "rotate": {
@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 3.0,
-                "y": 3.0,
-                "z": 3.0
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
             },
             "type": "Transform"
         },
@@ -39,7 +39,9 @@
             "HP": {
                 "MAX_HP": 10,
                 "currentHp": 10,
-                "disableAutoDestruction": true
+                "disableAutoDestruction": true,
+                "isInvincible": false,
+                "regenPerSecond": 0.0
             },
             "Reinforcement": {
                 "damage": 10.0,
@@ -51,7 +53,7 @@
                 "sinkDepth": 5.0,
                 "supportBuffRadius": 29.0,
                 "supportedDamage": 15.0,
-                "supportedScale": 5.0,
+                "supportedScale": 1.399999976158142,
                 "viewAngle": 60.0
             },
             "ReinforcementAnimation": {
@@ -212,7 +214,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "df4e3ae0c07e0efed9fdf8b81391d9b0",
+    "guid": "3cc2c4cfac51d5778e653a9e5624c468",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

@@ -5,20 +5,20 @@
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": -95.8822021484375,
+                "x": -81.10124206542969,
                 "y": 11.189128875732422,
-                "z": -129.1013641357422
+                "z": -110.99087524414063
             },
             "rotate": {
-                "w": 0.8524641990661621,
+                "w": 0.9827673435211182,
                 "x": 0.0,
-                "y": -0.5227855443954468,
+                "y": -0.18484680354595184,
                 "z": 0.0
             },
             "scale": {
-                "x": 2.8104147911071777,
-                "y": 2.8104147911071777,
-                "z": 2.8104147911071777
+                "x": 4.199999809265137,
+                "y": 4.199999809265137,
+                "z": 4.199999809265137
             },
             "type": "Transform"
         },
@@ -57,7 +57,7 @@
                 "maxMoveSpeed": 10.0,
                 "mouseIsMovePixel": 0.0,
                 "rotationSpeed": 8.0,
-                "startFreezeDuration": 5.0
+                "startFreezeDuration": 0.0
             },
             "PlayerAudio": {},
             "PlayerCallMotion": {
@@ -80,11 +80,11 @@
             "material": {
                 "baseColor": {
                     "w": 1.0,
-                    "x": 0.9354838728904724,
-                    "y": 0.46271246671676636,
-                    "z": 0.46271246671676636
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "aa2aa9252b93122bb06ea5b69b33497b",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -145,9 +145,13 @@
             "isTrigger": false,
             "maskBits": 32,
             "mass": 1.0,
-            "radius": 3.200000047683716,
+            "size": {
+                "x": 5.200000762939453,
+                "y": 30.000003814697266,
+                "z": 5.200001239776611
+            },
             "state": "Dynamic",
-            "type": "SphereCollider"
+            "type": "BoxCollider"
         },
         {
             "enable": 1,

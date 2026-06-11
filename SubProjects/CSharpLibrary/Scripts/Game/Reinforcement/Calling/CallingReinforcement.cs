@@ -101,7 +101,7 @@ public class CallingReinforcement : MonoScript
         Vector3 forward = Matrix4x4.Transform(Vector3.forward, rotMat);
         Vector3 right = Matrix4x4.Transform(Vector3.right, rotMat);
         Vector3 spawnBase = player.transform.position - forward * spawnBehindDistance;
-
+        spawnBase.y = 0.0f;
         SpawnOne(spawnBase - right * xOffset, forward);
         SpawnOne(spawnBase + right * xOffset, forward);
     }
