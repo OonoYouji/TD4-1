@@ -16,9 +16,9 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 2.0,
-                "y": 2.0,
-                "z": 2.0
+                "x": 3.0,
+                "y": 3.0,
+                "z": 3.0
             },
             "type": "Transform"
         },
@@ -48,7 +48,7 @@
                 "lifeTime": 10.0,
                 "mass": 1.0,
                 "moveSpeed": 8.0,
-                "normalScale": 4.0,
+                "normalScale": 3.0,
                 "retreatSpeed": 20.0,
                 "sinkDepth": 5.0,
                 "supportBuffRadius": 29.0,
@@ -214,7 +214,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "3cc2c4cfac51d5778e653a9e5624c468",
+    "guid": "affa3545305d35ae4d0f0ef3f7784e88",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

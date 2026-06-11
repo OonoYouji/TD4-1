@@ -62,9 +62,9 @@ public class CallingReinforcement : MonoScript
         }
 
         bool wantFire =
-            Input.TriggerMouse(Mouse.Left) ||
-            Input.TriggerGamepad(Gamepad.RightShoulder) ||
-            Input.TriggerGamepad(Gamepad.RightThumb);
+            Input.PressMouse(Mouse.Left) ||
+            Input.PressGamepad(Gamepad.RightShoulder) ||
+            Input.PressGamepad(Gamepad.RightThumb);
 
         if (!wantFire) { return; }
 
