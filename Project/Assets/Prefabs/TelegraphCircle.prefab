@@ -1,4 +1,5 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
@@ -30,10 +31,10 @@
                 "baseColor": {
                     "w": 0.5,
                     "x": 1.0,
-                    "y": 0.5,
-                    "z": 0.0
+                    "y": 0.24014335870742798,
+                    "z": 0.24014335870742798
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
@@ -50,12 +51,12 @@
                 }
             },
             "meshPath": "./Packages/Models/primitive/cylinder.obj",
+            "renderQueue": 2,
             "type": "MeshRenderer"
         }
     ],
-    "guid": "8b86468b4ad270c5432055e1b30ecc12",
-    "id": 2,
+    "guid": "11e238db2242fcc767b7c0ed2a729cfa",
     "name": "TelegraphCircle",
-    "parent": null,
+    "parentGuid": null,
     "prefabName": "TelegraphCircle"
 }

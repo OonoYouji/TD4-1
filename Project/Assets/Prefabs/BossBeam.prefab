@@ -47,17 +47,17 @@
             "material": {
                 "baseColor": {
                     "w": 0.20000000298023224,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 0.939068078994751,
+                    "y": 0.6464574933052063,
+                    "z": 0.11443838477134705
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
                 "postEffectFlags": 1,
                 "uvTransform": {
                     "position": {
-                        "x": 0.14123617112636566,
+                        "x": 0.6677436828613281,
                         "y": 0.0
                     },
                     "rotate": 0.0,
@@ -89,14 +89,14 @@
         {
             "autoPlay": true,
             "clipPath": "./Assets/Anims/UVTransformAnimation.anim",
-            "currentTime": 0.14123617112636566,
+            "currentTime": 0.6677436828613281,
             "isLooping": true,
             "isPlaying": true,
             "speed": 3.0,
             "type": "AnimationPlayer"
         }
     ],
-    "guid": "e056217e5aecd5513ab4b3b2400924bc",
+    "guid": "35b3ebb528abc2b4c57be072c43d309b",
     "name": "BossBeam",
     "parentGuid": null,
     "prefabName": "BossBeam"
