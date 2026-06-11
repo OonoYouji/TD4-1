@@ -2,21 +2,36 @@
     "active": true,
     "components": [
         {
-            "scale": {
-                "x": 3.0,
-                "y": 3.0,
-                "z": 3.0
-            },
-            "type": "Transform"
-        },
-        {
-            "Reinforcement": {
-                "normalScale": 3.0
-            },
-            "type": "Variables"
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "Reinforcement"
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementFallIn"
+                },
+                {
+                    "enable": true,
+                    "name": "HP"
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementDamageHandler"
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementAnimation"
+                },
+                {
+                    "enable": true,
+                    "name": "ReinforcementGltfAnimator"
+                }
+            ],
+            "type": "Script"
         }
     ],
-    "guid": "affa3545305d35ae4d0f0ef3f7784e88",
+    "guid": "12c0b7e6cacd73ee728ce697fef0df6f",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

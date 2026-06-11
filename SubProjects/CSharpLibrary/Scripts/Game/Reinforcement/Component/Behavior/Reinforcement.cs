@@ -132,6 +132,9 @@ public partial class Reinforcement : MonoScript
         // ReinforcementFallInの取得
         fallIn_ = entity.GetScript<ReinforcementFallIn>();
 
+        // MovementBoundsの取得
+        InitBoundsCheck();
+
         // HPの初期化
         HP hp = entity.GetScript<HP>();
         if (hp != null)
@@ -191,6 +194,8 @@ public partial class Reinforcement : MonoScript
 
         // 乗ってるフィールド床が落ちてるかチェック
         CheckFieldFall();
+        // MovementBounds外に出たら退散
+        CheckBoundsRetreat();
         // カメラの視野内にいるか判定して色を変える
         UpdateFrustumVisibility();
         //  移動更新

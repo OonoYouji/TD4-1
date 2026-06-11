@@ -14,6 +14,7 @@
             "type": "Transform"
         },
         {
+            "DamageHandler": {},
             "HP": {
                 "currentHp": 840
             },
