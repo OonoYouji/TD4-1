@@ -1,0 +1,201 @@
+[23:55:18.566] [info] Logger initialized.
+[23:55:18.588] [info] Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
+[23:55:18.922] [info] FeatureLevel : 12.2
+[23:55:18.922] [info] dx device create success!!
+[23:55:18.974] [info] dx command create success!!
+[23:55:18.974] [info] dx descriptor heap rtv create success!!
+[23:55:18.974] [info] dx descriptor heap cbv,srv,uav create success!!
+[23:55:18.975] [info] dx descriptor heap dsv create success!!
+[23:55:19.246] [info] dx swap chain create success!!
+[23:55:19.246] [info] Mono version: 6.12.0 (Visual Studio built mono)
+[23:55:19.246] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\config'.
+[23:55:19.250] [info] [Mono][info] Assembly Loader probing location: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll'.
+[23:55:19.250] [info] [Mono][info] Image addref mscorlib[000002F37B68E9E0] (asmctx DEFAULT) -> C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll[000002F373B55F60]: 2
+[23:55:19.251] [info] [Mono][info] Prepared to set up assembly 'mscorlib' (C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll)
+[23:55:19.251] [info] [Mono][info] AOT: image 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll.dll' not found: 指定されたファイルが見つかりません。
+
+[23:55:19.252] [info] [Mono][info] AOT: image './Packages/Scripts/lib/mono/aot-cache/amd64/mscorlib.dll.dll' not found: 指定されたパスが見つかりません。
+
+[23:55:19.252] [info] [Mono][info] Assembly Loader loaded assembly from location: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll'.
+[23:55:19.252] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\mono\lib\4.5\mscorlib.dll.config'.
+[23:55:19.252] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\assemblies\mscorlib\mscorlib.config'.
+[23:55:19.253] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\.mono\assemblies\mscorlib\mscorlib.config'.
+[23:55:19.267] [info] [Mono][info] Assembly mscorlib[000002F37B68E9E0] added to domain MyDomain, ref_count=1
+[23:55:19.268] [info] Latest DLL found: ./Packages/Scripts\CSharpLibrary.dll
+[23:55:19.268] [info] [Mono][info] Assembly Loader probing location: './Packages/Scripts\CSharpLibrary.dll'.
+[23:55:19.514] [info] [Mono][info] Image addref CSharpLibrary[000002F37B68F0A0] (asmctx DEFAULT) -> C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll[000002F373B52C30]: 2
+[23:55:19.514] [info] [Mono][info] Prepared to set up assembly 'CSharpLibrary' (C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll)
+[23:55:19.515] [info] [Mono][info] Assembly CSharpLibrary[000002F37B68F0A0] added to domain MyDomain, ref_count=1
+[23:55:19.515] [info] [Mono][info] AOT: image 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll.dll' not found: 指定されたファイルが見つかりません。
+
+[23:55:19.516] [info] [Mono][info] AOT: image './Packages/Scripts/lib/mono/aot-cache/amd64/CSharpLibrary.dll.dll' not found: 指定されたパスが見つかりません。
+
+[23:55:19.516] [info] [Mono][info] Assembly Loader loaded assembly from location: './Packages/Scripts\CSharpLibrary.dll'.
+[23:55:19.516] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll.config'.
+[23:55:19.516] [info] [Mono][info] Config attempting to parse: './Externals/mono/etc\mono\assemblies\CSharpLibrary\CSharpLibrary.config'.
+[23:55:19.516] [info] [Mono][info] Config attempting to parse: 'C:\Users\k023g\.mono\assemblies\CSharpLibrary\CSharpLibrary.config'.
+[23:55:19.517] [info] [Mono][info] Requesting loading reference 0 (of 4) of C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll
+[23:55:19.517] [info] [Mono][info] Loading reference 0 of C:\Users\k023g\Desktop\TD4-1\Project\Packages\Scripts\CSharpLibrary.dll asmctx DEFAULT, looking for mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+[23:55:19.517] [info] [Mono][info] Assembly Ref addref CSharpLibrary[000002F37B68F0A0] -> mscorlib[000002F37B68E9E0]: 2
+[23:55:19.549] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line2D.vs.hlsl", profile:"vs_6_0"
+[23:55:19.555] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line2D.ps.hlsl", profile:"ps_6_0"
+[23:55:19.573] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Sprite/Sprite.vs.hlsl", profile:"vs_6_0"
+[23:55:19.589] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Sprite/Sprite.ps.hlsl", profile:"ps_6_0"
+[23:55:19.605] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line3D.vs.hlsl", profile:"vs_6_0"
+[23:55:19.612] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Line3D.ps.hlsl", profile:"ps_6_0"
+[23:55:19.628] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Skybox/Skybox.vs.hlsl", profile:"vs_6_0"
+[23:55:19.638] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Skybox/Skybox.ps.hlsl", profile:"ps_6_0"
+[23:55:19.657] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/Mesh.vs.hlsl", profile:"vs_6_0"
+[23:55:19.674] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/Mesh.ps.hlsl", profile:"ps_6_0"
+[23:55:19.694] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/DissolveMesh.vs.hlsl", profile:"vs_6_0"
+[23:55:19.711] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/DissolveMesh.ps.hlsl", profile:"ps_6_0"
+[23:55:19.745] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/SkinMesh.vs.hlsl", profile:"vs_6_0"
+[23:55:19.762] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Mesh/SkinMesh.ps.hlsl", profile:"ps_6_0"
+[23:55:19.782] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Effect/Effect.vs.hlsl", profile:"vs_6_0"
+[23:55:19.795] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/Effect/Effect.ps.hlsl", profile:"ps_6_0"
+[23:55:19.847] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/ParticleSystem/ParticleSystem.vs.hlsl", profile:"vs_6_0"
+[23:55:19.862] [info] [Load Resource] type:Shader, path:"Packages/Shader/Render/ParticleSystem/ParticleSystem.ps.hlsl", profile:"ps_6_0"
+[23:55:19.909] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Grass/Grass.as.hlsl", profile:"as_6_5"
+[23:55:19.957] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Grass/Grass.ms.hlsl", profile:"ms_6_5"
+[23:55:19.970] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Grass/Grass.ps.hlsl", profile:"ps_6_0"
+[23:55:19.990] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Gizmo3D.vs.hlsl", profile:"vs_6_0"
+[23:55:19.998] [info] [Load Resource] type:Shader, path:"./Packages/Shader/Render/Line/Gizmo3D.ps.hlsl", profile:"ps_6_0"
+[23:55:20.028] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/Lighting/Lighting.cs.hlsl", profile:"cs_6_6"
+[23:55:20.040] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/Grayscale/Grayscale.cs.hlsl", profile:"cs_6_6"
+[23:55:20.057] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/TerrainBrush/TerrainBrush.cs.hlsl", profile:"cs_6_6"
+[23:55:20.070] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/PerObject/VoxelTerrainBrush/VoxelTerrainBrush.cs.hlsl", profile:"cs_6_6"
+[23:55:20.083] [info] [Load Resource] type:Shader, path:"./Packages/Shader/PostProcess/PerObject/GaussianBlur/GaussianBlur.cs.hlsl", profile:"cs_6_6"
+[23:55:20.093] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/Screen/Grayscale/Grayscale.cs.hlsl", profile:"cs_6_6"
+[23:55:20.103] [info] [Load Resource] type:Shader, path:"Packages/Shader/PostProcess/Screen/RadialBlur/RadialBlur.cs.hlsl", profile:"cs_6_6"
+[23:55:20.131] [info] [Load Resource] type:Shader, path:"./Packages/Shader/PostProcess/Screen/ShadowMap/ShadowMap.cs.hlsl", profile:"cs_6_6"
+[23:55:20.147] [info] [Load Resource] type:Shader, path:"./Packages/Shader/PostProcess/Screen/Fog/Fog.cs.hlsl", profile:"cs_6_6"
+[23:55:20.168] [info] [Success Texture Info] Path: "./Packages/Textures/white.png"
+[23:55:20.168] [info]  - DescriptorIndex: 0
+[23:55:20.168] [info] AssetCollection: Scanning directory: ./Packages/
+[23:55:20.173] [info] AssetCollection: Found 112 assets in ./Packages/
+[23:55:20.174] [info] AssetCollection: Scanning directory: ./Assets/
+[23:55:20.174] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Bush2.obj" (ext: ".obj")
+[23:55:20.174] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Bush3.obj" (ext: ".obj")
+[23:55:20.174] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Grass1.obj" (ext: ".obj")
+[23:55:20.174] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Bush1.obj" (ext: ".obj")
+[23:55:20.178] [info] AssetCollection: Found 139 assets in ./Assets/
+[23:55:20.184] [info]   Mesh[0]: "Bush1_Icosphere", Vertices: 113, Bones: 0
+[23:55:20.185] [info]   Mesh[0]: "Bush3_Icosphere.004", Vertices: 72, Bones: 0
+[23:55:20.185] [info]   Mesh[0]: "Bush2_Icosphere.002", Vertices: 172, Bones: 0
+[23:55:20.185] [info]   Mesh[1]: "Tree", Vertices: 83, Bones: 0
+[23:55:20.185] [info]   Mesh[0]: "Grass1_Cube", Vertices: 152, Bones: 0
+[23:55:20.186] [info]   Mesh[1]: "Tree.002", Vertices: 138, Bones: 0
+[23:55:20.186] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Bush1.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.186] [info]   Mesh[1]: "Tree.001", Vertices: 222, Bones: 0
+[23:55:20.186] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Grass1.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.187] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Grass2.obj" (ext: ".obj")
+[23:55:20.187] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Bush3.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.187] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Bush2.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.187] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Grass3.obj" (ext: ".obj")
+[23:55:20.187] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Rock1.obj" (ext: ".obj")
+[23:55:20.187] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Rock2.obj" (ext: ".obj")
+[23:55:20.196] [info]   Mesh[0]: "Icosphere_Icosphere.002", Vertices: 102, Bones: 0
+[23:55:20.197] [info]   Mesh[0]: "Rock_Icosphere.001", Vertices: 98, Bones: 0
+[23:55:20.197] [info]   Mesh[0]: "Grass3_Cube.003", Vertices: 364, Bones: 0
+[23:55:20.198] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Rock2.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.198] [info]   Mesh[0]: "Grass2_Cube.003", Vertices: 366, Bones: 0
+[23:55:20.198] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Rock1.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.199] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Rock3.obj" (ext: ".obj")
+[23:55:20.199] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Grass3.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.199] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree1.obj" (ext: ".obj")
+[23:55:20.199] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Grass2.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.199] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree2.obj" (ext: ".obj")
+[23:55:20.200] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree3.obj" (ext: ".obj")
+[23:55:20.206] [info]   Mesh[0]: "Rock3_Icosphere", Vertices: 84, Bones: 0
+[23:55:20.208] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Rock3.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.208] [info] [Load] [Model] - Starting load: "./Packages/Models/BackgroundObjects/Tree4.obj" (ext: ".obj")
+[23:55:20.210] [info]   Mesh[0]: "Tree3_Icosphere.001", Vertices: 598, Bones: 0
+[23:55:20.211] [info]   Mesh[0]: "Tree2_Icosphere.001", Vertices: 536, Bones: 0
+[23:55:20.211] [info]   Mesh[0]: "Tree1_Icosphere.002", Vertices: 518, Bones: 0
+[23:55:20.211] [info]   Mesh[1]: "Leaves.008", Vertices: 118, Bones: 0
+[23:55:20.212] [info]   Mesh[1]: "Tree.004", Vertices: 550, Bones: 0
+[23:55:20.212] [info]   Mesh[1]: "Tree.003", Vertices: 356, Bones: 0
+[23:55:20.213] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree3.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.213] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree2.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.213] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree1.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.214] [info] [Load] [Model] - Starting load: "./Packages/Models/Human/sneakWalk.gltf" (ext: ".gltf")
+[23:55:20.214] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/cube.obj" (ext: ".obj")
+[23:55:20.214] [info] [Load] [Model] - Starting load: "./Packages/Models/Human/walk.gltf" (ext: ".gltf")
+[23:55:20.220] [info]   Mesh[0]: "Tree4_Cylinder.003", Vertices: 665, Bones: 0
+[23:55:20.221] [info]   Mesh[0]: "Cube", Vertices: 24, Bones: 0
+[23:55:20.221] [info]   Mesh[1]: "Leaves.009", Vertices: 1035, Bones: 0
+[23:55:20.222] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/cube.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.222] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/cylinder.obj" (ext: ".obj")
+[23:55:20.223] [info] [Load] [Model] - Finished: "./Packages/Models/BackgroundObjects/Tree4.obj", Total Meshes: 2, Total Clips: 0
+[23:55:20.223] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/frontToPlane.obj" (ext: ".obj")
+[23:55:20.231] [info]   Mesh[0]: "frontToPlane", Vertices: 4, Bones: 0
+[23:55:20.231] [info]   Mesh[0]: "円柱", Vertices: 130, Bones: 0
+[23:55:20.232] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/frontToPlane.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.232] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/cylinder.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.233] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/sphere.obj" (ext: ".obj")
+[23:55:20.233] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/plane.obj" (ext: ".obj")
+[23:55:20.238] [info]   Mesh[0]: "Retopology_hp_Plane.002", Vertices: 13538, Bones: 55
+[23:55:20.240] [info]   Mesh[0]: "平面", Vertices: 4, Bones: 0
+[23:55:20.241] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/plane.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.242] [info] [Load] [Model] - Starting load: "./Packages/Models/primitive/tube.obj" (ext: ".obj")
+[23:55:20.242] [info]   Mesh[0]: "Retopology_hp_Plane.002", Vertices: 13538, Bones: 55
+[23:55:20.242] [info] [Load] [AnimationClip] - name:"Armature|mixamo.com|Layer0", hash: 95722531, duration: 0.90s
+[23:55:20.244] [info] [Load] [Model] - Finished: "./Packages/Models/Human/sneakWalk.gltf", Total Meshes: 1, Total Clips: 1
+[23:55:20.245] [info]   Mesh[0]: "球", Vertices: 559, Bones: 0
+[23:55:20.246] [info] [Load] [AnimationClip] - name:"Armature|mixamo.com|Layer0", hash: 95722531, duration: 1.03s
+[23:55:20.246] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/sphere.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.248] [info] [Load] [Model] - Finished: "./Packages/Models/Human/walk.gltf", Total Meshes: 1, Total Clips: 1
+[23:55:20.251] [info]   Mesh[0]: "円柱", Vertices: 66, Bones: 0
+[23:55:20.251] [info] [Load] [Model] - Finished: "./Packages/Models/primitive/tube.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.261] [info] [Success Texture Info] Path: "./Packages/Textures/Dirt.jpg"
+[23:55:20.261] [info]  - DescriptorIndex: 1
+[23:55:20.262] [info] [Success Texture Info] Path: "./Packages/Textures/Grass.jpg"
+[23:55:20.262] [info]  - DescriptorIndex: 2
+[23:55:20.262] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/FileIcon.png"
+[23:55:20.262] [info]  - DescriptorIndex: 3
+[23:55:20.266] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/FolderIcon.png"
+[23:55:20.266] [info]  - DescriptorIndex: 4
+[23:55:20.269] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/lets-icons-sound-none-256.png"
+[23:55:20.270] [info]  - DescriptorIndex: 5
+[23:55:20.270] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/pause.png"
+[23:55:20.270] [info]  - DescriptorIndex: 6
+[23:55:20.271] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/ph-file-c-sharp-none-256.png"
+[23:55:20.271] [info]  - DescriptorIndex: 7
+[23:55:20.272] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/play.png"
+[23:55:20.272] [info]  - DescriptorIndex: 8
+[23:55:20.273] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/reload.png"
+[23:55:20.273] [info]  - DescriptorIndex: 9
+[23:55:20.276] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/TerrainEditTextures/BrushModeIcon.png"
+[23:55:20.276] [info]  - DescriptorIndex: 10
+[23:55:20.282] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/skip.png"
+[23:55:20.282] [info]  - DescriptorIndex: 11
+[23:55:20.285] [error] [Load Failed] File is not a Texture3D DDS: "./Packages/Textures/kloofendal_48d_partly_cloudy_puresky_2k.dds"
+[23:55:20.288] [error] [Load Failed] File is not a Texture3D DDS: "./Packages/Textures/rostock_laage_airport_4k.dds"
+[23:55:20.292] [info] [Success Texture Info] Path: "./Packages/Textures/ImGui/FileIcons/ObjIcon.png"
+[23:55:20.292] [info]  - DescriptorIndex: 12
+[23:55:20.294] [warning] [GenerateMipMaps Failed] Using original image: "./Packages/Textures/Sample3DTexture.dds"
+[23:55:20.294] [warning] [GenerateMipMaps Failed] Using original image: "./Packages/Textures/Sample3DTexture.dds"
+[23:55:20.295] [info] [Texture DDS Info] Path: "./Packages/Textures/Sample3DTexture.dds"
+[23:55:20.299] [info] [Success Texture Info] Path: "./Packages/Textures/Snow.jpg"
+[23:55:20.299] [info]  - DescriptorIndex: 14
+[23:55:20.300] [info] [Success Texture Info] Path: "./Packages/Textures/rostock_laage_airport_4k.dds"
+[23:55:20.300] [info]  - DescriptorIndex: 15
+[23:55:20.332] [info] [Success Texture Info] Path: "./Packages/Textures/uvChecker.png"
+[23:55:20.332] [info]  - DescriptorIndex: 16
+[23:55:20.423] [info] [Success Texture Info] Path: "./Packages/Textures/Rock.png"
+[23:55:20.423] [info]  - DescriptorIndex: 17
+[23:55:20.425] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/bomb.obj" (ext: ".obj")
+[23:55:20.433] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/bg/bonfire_uv.png"
+[23:55:20.433] [info]  - DescriptorIndex: 18
+[23:55:20.435] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/boss.obj" (ext: ".obj")
+[23:55:20.438] [info]   Mesh[0]: "円柱", Vertices: 2520, Bones: 0
+[23:55:20.439] [info] [Success Texture Info] Path: "./Assets/AssetsWorkspace/models/bg/bonfire.png"
+[23:55:20.439] [info]  - DescriptorIndex: 19
+[23:55:20.440] [info] [Load] [Model] - Finished: "./Assets/AssetsWorkspace/models/bomb.obj", Total Meshes: 1, Total Clips: 0
+[23:55:20.441] [info] [Load] [Model] - Starting load: "./Assets/AssetsWorkspace/models/boss_animation.gltf" (ext: ".gltf")
+[23:55:20.455] [info]   Mesh[0]: "円錐.009", Vertices: 3978, Bones: 11
+[23:55:20.456] [info] [Load] [AnimationClip] - name:"beam", hash: 2807200250, duration: 0.88s
+[23:55:20.456] [info] [Load] [AnimationClip] - name:"beam_end", hash: 323421996, duration: 0.33s
+[23:55:20.456] [info] [Load] [AnimationClip] - name:"beam_start", hash: 2964336117, duration: 0.33s
+[23:55:20.456] [info] [Load] [AnimationClip] - name:"bomb", hash: 3399030161, duration: 1.05s
+[23:55:20.457] [info] [Load] [AnimationClip] - name:"bomb_end", hash: 22242906

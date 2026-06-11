@@ -2,36 +2,13 @@
     "active": true,
     "components": [
         {
-            "scripts": [
-                {
-                    "enable": true,
-                    "name": "Reinforcement"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementFallIn"
-                },
-                {
-                    "enable": true,
-                    "name": "HP"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementDamageHandler"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementAnimation"
-                },
-                {
-                    "enable": true,
-                    "name": "ReinforcementGltfAnimator"
-                }
-            ],
-            "type": "Script"
+            "Reinforcement": {
+                "supportedScale": 4.0
+            },
+            "type": "Variables"
         }
     ],
-    "guid": "12c0b7e6cacd73ee728ce697fef0df6f",
+    "guid": "63b223e40a794572e67369f21f263246",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"
