@@ -1,17 +1,18 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": -56.04945755004883,
                 "y": 0.0,
-                "z": 0.0
+                "z": -41.90308380126953
             },
             "rotate": {
                 "w": 1.0,
                 "x": 0.0,
-                "y": 0.0,
+                "y": -0.0,
                 "z": 0.0
             },
             "scale": {
@@ -25,9 +26,8 @@
             "type": "Variables"
         }
     ],
-    "guid": "4b2170a76e7d0236367c96751813e016",
-    "id": 4,
-    "name": "Background",
-    "parent": null,
+    "guid": "ababcdcd12123434565678789090efef",
+    "name": "Phase0_WP_1",
+    "parentGuid": "b68ad31e79ba3b2d205105be9fefb4cd",
     "prefabName": ""
 }

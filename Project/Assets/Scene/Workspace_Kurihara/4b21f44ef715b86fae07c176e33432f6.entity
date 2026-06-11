@@ -1,10 +1,11 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.0,
+                "x": 28.500015258789063,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -15,13 +16,21 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1000.0,
-                "y": 1000.0,
-                "z": 1000.0
+                "x": 9.399998664855957,
+                "y": 9.399989128112793,
+                "z": 9.399989128112793
             },
             "type": "Transform"
         },
         {
+            "SceneTransition": {
+                "fadeDuration": 0.5,
+                "fadeInOnStart": true,
+                "isFadingIn": false,
+                "isFadingOut": false,
+                "nextScene": "",
+                "timer": -0.011685118079185486
+            },
             "type": "Variables"
         },
         {
@@ -33,10 +42,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0",
+                "baseTextureGuid": "ff8a1b135f63dc117d4a16c08c20dc1e",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
+                "postEffectFlags": 0,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -44,18 +53,16 @@
                     },
                     "rotate": 0.0,
                     "scale": {
-                        "x": 10.0,
-                        "y": 10.0
+                        "x": 1.0,
+                        "y": 1.0
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/plane.obj",
-            "type": "MeshRenderer"
+            "type": "SpriteRenderer"
         }
     ],
-    "guid": "aa7af0136ac79da640be7510c63c00f0",
-    "id": 5,
-    "name": "Field",
-    "parent": 4,
+    "guid": "4b21f44ef715b86fae07c176e33432f6",
+    "name": "TextSprite",
+    "parentGuid": "acd3e3950d763de2cf669421024046b6",
     "prefabName": ""
 }

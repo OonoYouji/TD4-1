@@ -44,8 +44,12 @@ public partial class Reinforcement : MonoScript
     // =========================================================
 
     // スポーン位置と進行方向はCallingReinforcementがセットする
-    public Vector3 startPosition = Vector3.zero;
-    public Vector3 direction = Vector3.forward;
+    // privateバッキングフィールドにすることでSetScriptVariablesによる零化を防ぐ
+    private Vector3 startPosition_ = Vector3.zero;
+    public Vector3 startPosition { get => startPosition_; set => startPosition_ = value; }
+
+    private Vector3 direction_ = Vector3.forward;
+    public Vector3 direction { get => direction_; set => direction_ = value; }
     // FieldFallとの当たり判定フラグ
     public bool isCollisionEnabled = false;
 
@@ -195,12 +199,17 @@ public partial class Reinforcement : MonoScript
 
     private void ApplyInitialPosition()
     {
-        if (positionApplied || startPosition.Length() < 0.001f)
-        {
-            return;
-        }
+        if (positionApplied) return;
+        if (startPosition.Length() < 0.001f) return;
+
         transform.position = startPosition;
-        positionApplied = true;
+
+        // spawnDelayFrames が残っている間は毎フレーム上書きし続ける
+        // (ReceiveAllBatches が C++ の古い位置で毎フレーム上書きする可能性への対策)
+        if (spawnDelayFrames <= 0)
+        {
+            positionApplied = true;
+        }
     }
 
 }

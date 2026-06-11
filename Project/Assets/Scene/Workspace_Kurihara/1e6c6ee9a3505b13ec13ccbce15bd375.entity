@@ -1,23 +1,24 @@
 {
+    "active": true,
     "components": [
         {
             "enable": 1,
             "matrixCalcFlags": 7,
             "position": {
-                "x": 0.795562744140625,
+                "x": 0.0,
                 "y": 0.0,
-                "z": -21.717073440551758
+                "z": 0.0
             },
             "rotate": {
                 "w": 1.0,
                 "x": 0.0,
-                "y": -0.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "scale": {
-                "x": 14.0,
-                "y": 4.0,
-                "z": 2.0
+                "x": 2.0,
+                "y": 0.11999999731779099,
+                "z": 1.0
             },
             "type": "Transform"
         },
@@ -33,10 +34,10 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "baseTextureGuid": "960ec2345ab1ab75a1c74ef79b962c75",
+                "baseTextureGuid": "14196fa931d9b8c11196cdd7eca20cf6",
                 "guid": "00000000000000000000000000000000",
                 "normalTextureGuid": "00000000000000000000000000000000",
-                "postEffectFlags": 1,
+                "postEffectFlags": 0,
                 "uvTransform": {
                     "position": {
                         "x": 0.0,
@@ -49,25 +50,11 @@
                     }
                 }
             },
-            "meshPath": "./Packages/Models/primitive/cube.obj",
-            "type": "MeshRenderer"
-        },
-        {
-            "categoryBits": 1,
-            "enable": 1,
-            "maskBits": 4294967295,
-            "size": {
-                "x": 2.0,
-                "y": 2.0,
-                "z": 2.0
-            },
-            "state": "Static",
-            "type": "BoxCollider"
+            "type": "SpriteRenderer"
         }
     ],
-    "guid": "ab79d4e46a1851dc68d2d0060f5a5c81",
-    "id": 7,
-    "name": "Wall_1",
-    "parent": 4,
+    "guid": "1e6c6ee9a3505b13ec13ccbce15bd375",
+    "name": "BG",
+    "parentGuid": "b2f254a913c4b36fd5ba09bdca3912f4",
     "prefabName": ""
 }
