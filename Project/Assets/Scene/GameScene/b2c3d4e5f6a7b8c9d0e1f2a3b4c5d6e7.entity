@@ -3,13 +3,21 @@
     "components": [
         {
             "position": {
-                "x": 0.0,
+                "x": -40.27607727050781,
                 "y": 0.0,
-                "z": 0.0
+                "z": -72.308349609375
+            },
+            "scale": {
+                "x": 5.0,
+                "y": 5.0,
+                "z": 5.0
             },
             "type": "Transform"
         },
         {
+            "material": {
+                "baseTextureGuid": "79bc7e017f4bd125db93f4ebdf1e53d0"
+            },
             "meshPath": "./Packages/Models/BackgroundObjects/Rock3.obj",
             "type": "MeshRenderer"
         }
