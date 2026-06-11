@@ -38,7 +38,7 @@ public class PlayerSmashUp : MonoScript
     // 叩きつけの間隔（クールタイム）
     [SerializeField] public float smashInterval = 1.0f;
 
-    private float smashTimer_ = 0.0f;
+    public float smashTimer_ { get; private set; } = 0.0f;
     private Player player_;
 
     public override void Initialize()
@@ -53,13 +53,13 @@ public class PlayerSmashUp : MonoScript
 
         // プレイヤーの取得
         player_ = entity.GetScript<Player>();
-        smashTimer_ = smashInterval;
+        smashTimer_ = 0.0f;
         playerAudio_ = entity.GetScript<PlayerAudio>();
     }
 
     public override void Update()
     {
-        smashTimer_ -= Time.deltaTime;
+        smashTimer_ += Time.deltaTime;
         HandleSmash();
 
         if (!isPlaying_)
@@ -92,9 +92,9 @@ public class PlayerSmashUp : MonoScript
             Input.PressGamepad(Gamepad.LeftShoulder);
 
         // クールタイム後に叩きつけ
-        if (smashTimer_ <= 0.0f && wantSmash)
+        if (smashTimer_ >= smashInterval && wantSmash)
         {
-            smashTimer_ = smashInterval;
+            smashTimer_ = 0.0f;
             Play();
         }
     }

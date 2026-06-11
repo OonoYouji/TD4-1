@@ -9,7 +9,6 @@ public class CallingReinforcement : MonoScript
     [SerializeField] public float xOffset = 2.0f;
     [SerializeField] public float spawnBehindDistance = 5.0f;
     [SerializeField] public float spawnCooldown = 1.0f;
-    [SerializeField] public float retreatCooldown = 0.3f;
 
     // =========================================================
     // 内部状態
@@ -22,8 +21,6 @@ public class CallingReinforcement : MonoScript
 
     // 最後に援軍を呼んでからの経過時間
     public float spawnTimer { get; private set; } = 0.0f;
-
-    public float retreatTimer { get; private set; } = 0.0f;
 
     // =========================================================
     // ライフサイクル
@@ -38,12 +35,13 @@ public class CallingReinforcement : MonoScript
             callMotion = playerEntity.GetScript<PlayerCallMotion>();
         }
         playerAudio_ = entity.GetScript<PlayerAudio>();
+
+        spawnTimer = 0.0f;
     }
 
     public override void Update()
     {
         spawnTimer += Time.deltaTime;
-        retreatTimer += Time.deltaTime;
         activeReinforcements.RemoveAll(e => e == null || e.Id == 0 || !e.enable);
         HandleFiring();
         HandleRetreat();
@@ -78,8 +76,6 @@ public class CallingReinforcement : MonoScript
 
     private void HandleRetreat()
     {
-        if (retreatTimer < retreatCooldown) { return; }
-
         bool wantRetreat =
             Input.TriggerMouse(Mouse.Right) ||
             Input.TriggerGamepad(Gamepad.B) ||

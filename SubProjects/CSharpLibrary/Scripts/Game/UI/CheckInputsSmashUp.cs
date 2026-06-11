@@ -1,9 +1,11 @@
-class CheckInputCall : MonoScript
+class CheckInputsSmashUp : MonoScript
 {
     [SerializeField]
     readonly float UNCONTROLED_THRESHOLD = 5.0f;
 
-    CallingReinforcement callingReinforcement;
+    GameController controller;
+    PlayerSmashUp smashUp;
+
     public override void Initialize()
     {
         Entity player = ecsGroup.FindEntity("Player");
@@ -12,8 +14,20 @@ class CheckInputCall : MonoScript
         }
         else
         {
-            callingReinforcement = player.GetScript<CallingReinforcement>();
-            if (callingReinforcement == null)
+            smashUp = player.GetScript<PlayerSmashUp>();
+            if (smashUp == null)
+            {
+            }
+        }
+
+        Entity controllerEntity = ecsGroup.FindEntity("GameController");
+        if (controllerEntity == null)
+        {
+        }
+        else
+        {
+            controller = controllerEntity.GetScript<GameController>();
+            if (controller == null)
             {
             }
         }
@@ -23,7 +37,8 @@ class CheckInputCall : MonoScript
     {
         // UIの描画をするかどうか
         // プレイヤーが一定時間操作していない場合はUIを表示する
-        bool isPlayerUncontrolled = callingReinforcement.spawnTimer >= UNCONTROLED_THRESHOLD;
+        bool isPlayerUncontrolled =
+            smashUp.smashTimer_ >= UNCONTROLED_THRESHOLD && controller.IsP2or3();
 
         for (uint i = 0; i < entity.GetChildCount(); i++)
         {
