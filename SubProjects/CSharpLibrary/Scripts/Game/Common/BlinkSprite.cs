@@ -34,7 +34,6 @@ class BlinkSprite : MonoScript
         // 0から1の範囲で点滅
         timer %= BLINK_CYCLE;
         color.z = Mathf.Cos(-Mathf.PI * 2 * timer) * 0.5f + 0.5f;
-        Debug.LogInfo($"BlinkSprite: Timer={timer}, Alpha={color.z}");
         renderer.color = color; // TODO: C#のreadbackが動いてない可能性
     }
 }

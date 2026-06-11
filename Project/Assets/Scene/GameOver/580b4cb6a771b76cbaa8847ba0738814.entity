@@ -33,10 +33,10 @@
         },
         {
             "enable": 1,
-            "path": "",
+            "path": "./Assets/Sounds/MainGameSounds/bgm/gameover.mp3",
             "pitch": 1.0,
             "type": "AudioSource",
-            "volume": 1.0
+            "volume": 0.699999988079071
         },
         {
             "enable": 1,

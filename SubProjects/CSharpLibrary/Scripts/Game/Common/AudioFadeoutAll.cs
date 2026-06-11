@@ -33,7 +33,7 @@ class AudioFadeoutAll : MonoScript
                 audioSources.Add(new AudioSourceInfo
                 {
                     audioSource = audioSource,
-                    initialVolume = audioSource.volume // 初期ボリュームを保存しておく
+                    initialVolume = 0.7f // 初期ボリュームを保存しておく
                 });
             }
         }
@@ -63,7 +63,7 @@ class AudioFadeoutAll : MonoScript
             // フェードアウト中、すべてのAudioSourceのボリュームを徐々に下げる
             foreach (AudioSourceInfo audioSourceInfo in audioSources)
             {
-                audioSourceInfo.audioSource.volume = Mathf.Lerp(audioSourceInfo.initialVolume, 0.0f, timer / FADE_OUT_TIME);
+                audioSourceInfo.audioSource?.SetParams(Mathf.Lerp(audioSourceInfo.initialVolume, 0.0f, timer / FADE_OUT_TIME), 1.0f);
             }
         }
     }

@@ -23,7 +23,20 @@
             "type": "Transform"
         },
         {
+            "AudioFadeoutAll": {
+                "FADE_OUT_TIME": 0.20000000298023224
+            },
             "type": "Variables"
+        },
+        {
+            "enable": 1,
+            "scripts": [
+                {
+                    "enable": true,
+                    "name": "AudioFadeoutAll"
+                }
+            ],
+            "type": "Script"
         }
     ],
     "guid": "ec4d71c48a3d8fe01a7eb5f4a3ab940f",
