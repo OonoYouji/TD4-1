@@ -2,22 +2,6 @@
     "active": true,
     "components": [
         {
-            "color": {
-                "w": 1.0,
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "direction": {
-                "x": 0.0,
-                "y": -0.699999988079071,
-                "z": -0.699999988079071
-            },
-            "enable": 1,
-            "intensity": 0.699999988079071,
-            "type": "DirectionalLight"
-        },
-        {
             "cameraType": 1,
             "enable": 1,
             "farClip": 1000.0,
@@ -33,6 +17,22 @@
             "isMainCamera": false,
             "nearClip": 0.10000000149011612,
             "type": "CameraComponent"
+        },
+        {
+            "color": {
+                "w": 1.0,
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "direction": {
+                "x": 0.0,
+                "y": -0.699999988079071,
+                "z": -0.699999988079071
+            },
+            "enable": 1,
+            "intensity": 0.699999988079071,
+            "type": "DirectionalLight"
         },
         {
             "enable": 1,
