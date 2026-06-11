@@ -147,9 +147,9 @@ void RenderingPipelineCollection::DrawParticles(CameraComponent* _3dCamera) {
 }
 
 void RenderingPipelineCollection::DrawGizmos(CameraComponent* _3dCamera) {
-	//if (gizmoRenderer_ && IsEnableCamera(_3dCamera)) {
-	//	gizmoRenderer_->Draw(pEntityComponentSystem_->GetCurrentGroup(), _3dCamera, pDxManager_->GetDxCommand());
-	//}
+	if (gizmoRenderer_ && IsEnableCamera(_3dCamera)) {
+		gizmoRenderer_->Draw(pEntityComponentSystem_->GetCurrentGroup(), _3dCamera, pDxManager_->GetDxCommand());
+	}
 }
 
 void RenderingPipelineCollection::DrawEntities2D(CameraComponent* _2dCamera, const std::string& _groupName) {

@@ -47,7 +47,7 @@
                 "damage": 10.0,
                 "lifeTime": 10.0,
                 "mass": 1.0,
-                "moveSpeed": 8.0,
+                "moveSpeed": 20.0,
                 "normalScale": 3.0,
                 "retreatSpeed": 20.0,
                 "sinkDepth": 5.0,
@@ -214,7 +214,7 @@
             "type": "SphereCollider"
         }
     ],
-    "guid": "affa3545305d35ae4d0f0ef3f7784e88",
+    "guid": "03364fb265acea968b4d370d8340f9dc",
     "name": "Reinforcement",
     "parentGuid": null,
     "prefabName": "Reinforcement"

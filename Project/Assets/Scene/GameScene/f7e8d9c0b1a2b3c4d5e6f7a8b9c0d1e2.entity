@@ -8,9 +8,9 @@
                 "z": -79.53466796875
             },
             "scale": {
-                "x": 5.0,
-                "y": 5.0,
-                "z": 5.0
+                "x": 10.0,
+                "y": 10.0,
+                "z": 10.0
             },
             "type": "Transform"
         },
@@ -20,6 +20,10 @@
             },
             "meshPath": "./Packages/Models/BackgroundObjects/Rock1.obj",
             "type": "MeshRenderer"
+        },
+        {
+            "radius": 8.699999809265137,
+            "type": "SphereCollider"
         }
     ],
     "guid": "f7e8d9c0b1a2b3c4d5e6f7a8b9c0d1e2",

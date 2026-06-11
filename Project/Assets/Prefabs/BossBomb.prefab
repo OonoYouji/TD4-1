@@ -70,7 +70,7 @@
             "categoryBits": 16,
             "enable": 1,
             "freezeY": false,
-            "maskBits": 2,
+            "maskBits": 6,
             "radius": 1.0,
             "state": "Static",
             "type": "SphereCollider"
