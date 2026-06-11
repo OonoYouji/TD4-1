@@ -51,8 +51,11 @@ public partial class Reinforcement {
 		}
 		isRetreating = true;
 		retreatVelocity = ComputeRetreatVelocity();
+		float retreatAngle = Mathf.Atan2(retreatVelocity.x, retreatVelocity.z) + Mathf.PI;
+		transform.rotation = Quaternion.MakeFromAxis(Vector3.up, retreatAngle);
+		retreatVelocity.y = 0.0f;
 
-		BoundsConstraint bc = entity.GetScript<BoundsConstraint>();
+           BoundsConstraint bc = entity.GetScript<BoundsConstraint>();
 		if (bc != null) bc.enable = false;
 	}
 
