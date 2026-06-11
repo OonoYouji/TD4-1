@@ -9,6 +9,7 @@ public class CallingReinforcement : MonoScript
 
     [SerializeField] public float xOffset = 2.0f;
     [SerializeField] public float spawnBehindDistance = 5.0f;
+    [SerializeField] public float callCollTime = 0.5f;
 
     // =========================================================
     // 内部状態
@@ -51,7 +52,14 @@ public class CallingReinforcement : MonoScript
 
     private void HandleFiring()
     {
-        if (player == null || player.IsFrozen) { return; }
+        if (player == null || player.IsFrozen) { 
+            return; 
+        }
+
+        if(spawnTimer < callCollTime)
+        {
+            return;
+        }
 
         bool wantFire =
             Input.TriggerMouse(Mouse.Left) ||
@@ -111,6 +119,7 @@ public class CallingReinforcement : MonoScript
         Entity reinforcementEntity = ecsGroup.CreateEntity("Reinforcement");
         if (reinforcementEntity == null) return;
 
+        // 位置をセット
         reinforcementEntity.transform.position = spawnPos;
 
         Reinforcement reinforcement = reinforcementEntity.GetScript<Reinforcement>();
